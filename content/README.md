@@ -1,0 +1,42 @@
+# content/ — コンテンツ設計
+
+## サマリ
+
+- TENZU の記事コンテンツ（Pillar / Cluster / FAQ / LLMO）を扱う設計領域
+- **大原則（2026-06-03・[clusters.md §1.5](clusters.md)）**: 記事は**情報意図のクエリだけ**を拾う。取引意図（プリント／無料／簡単／難しい／立体／年齢）は記事化せず**商品タグ・カテゴリページ・おためし点描写メーカー**へ（仕様 [pack-design.md §25](../product/pack-design.md)）
+- これにより**実際に書く記事は 16 ページ**: 正規ハブ P1 ＋ 確定 8 記事 ＋ 学術土台 C3-4 ＋ LLMO 2 ＋ FAQ 3。降格・削除は [clusters.md](clusters.md) 各表の「種別」参照
+- 構造: **正規ハブ P1 ＋ 用途ハブ P2/P3/P4/P5**（5 Pillar）。Pillar 構造 SSOT は [decisions.md §3.32](../decisions.md)、本縮減は [decisions.md §3.42](../decisions.md)
+- 主要 IA: 3 階層フラット URL（全記事 `/{slug}/`）
+- **ペルソナ SSOT は [personas.md](personas.md)**
+- 旧ドラフトは `archive/retired-drafts/` 退避済（人格刷新前提で再利用）
+- 詳細な分割は下表
+
+## ファイル一覧
+
+| ファイル | 責務 |
+|---|---|
+| [personas.md](personas.md) | **ペルソナ P0-P7 の SSOT**（読者ペルソナ・ターゲット層・キャラクター属性） |
+| [pillars.md](pillars.md) | Pillar 5本（P1-P5）の H2構成・引用論文マッピング・共通運用ルール |
+| [clusters.md](clusters.md) | **記事/非記事の振り分け原則（§1.5）**・確定 16 ページの種別表・降格/削除判断・内部リンク・GTM 配分 |
+| [urls.md](urls.md) | URL命名規則・パンくず・タグ・内部リンクルール・記事スラッグ一覧 |
+| [faq.md](faq.md) | FAQ 運用設計（C+案・長短ハイブリッド）・MDXフロントマター・段階別公開計画 |
+| [templates.md](templates.md) | MDX フロントマター標準・11セクションテンプレ・3 フェーズ CTA（2026-05-28 統合）・ガードレール |
+| [research.md](research.md) | B-2 リサーチ Phase 0（**本ファイル独自のリサーチフェーズ名・ローンチ Phase とは別概念**）・著者/読者ペルソナ・Voice・KW 候補・競合トピック構造 |
+| [references-map.md](references-map.md) | 5系譜文献マップ・引用論文の正確な帰属・教育系メディアソース |
+
+## 読む順序
+
+1. **personas.md** でペルソナ定義をつかむ
+2. **pillars.md** で 5 本柱の H2 構成と引用論文マッピングを見る
+3. **clusters.md** で §1.5 振り分け原則と確定 16 ページの種別を確認
+4. 個別記事の URL・スラッグ → **urls.md**
+5. 執筆ルール → **templates.md**
+6. FAQ 設計 → **faq.md**
+
+## 重要な状態
+
+**記事リスト確定（2026-06-03）**: 検索意図ベースで記事を 16 ページに縮減（[clusters.md §1.5](clusters.md)・[decisions.md §3.42](../decisions.md)）。取引意図クエリは商品タグ/カテゴリ/メーカー側（[pack-design.md §25](../product/pack-design.md)）。執筆は確定 8 記事＋P1 から着手可能。
+
+## 附録
+
+- 変遷: 直近の主要セッション履歴 → [../archive/sessions/](../archive/README.md)
