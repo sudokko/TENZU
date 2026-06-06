@@ -1092,6 +1092,12 @@ Stripe Link＋MailerLiteで代替。
 広告予算の30〜40%をリマケに配分。
 → [acquisition/channels.md §5](./acquisition/channels.md)
 
+### 5.5 画面遷移・サイトマップの正本＝テキスト系（Mermaid＋単独HTML）（2026-06-05 / 2026-06-06 更新）
+
+画面遷移図の**正本は [design/navigation/screen-flow.md](./design/navigation/screen-flow.md)**（Mermaid 遷移マップ）、全ページの俯瞰ワイヤーは [design/navigation/pages-overview.html](./design/navigation/pages-overview.html)（単独HTML）。編集はプロンプト経由前提でテキスト系に統一（座標計算なし・`preview` でレンダリング検証可）。確定事項①〜⑤は screen-flow.md §2 に集約。要点のみ：**TOP が玄関兼カタログ**（商品一覧 /products を吸収・メーカーCTAはHero非掲載）／広告は独立LPを持たず **/maker?from=ad モード**で着地／**購入フロー（/cart→Stripe→/thanks）は現状ゼロ＝最優先P0**。
+
+**2026-06-06 変更**：旧正本 draw.io（`screen-flow.drawio`）はプロンプト編集に不向き（絶対座標 XML）のため Mermaid＋単独HTML へ移行。退避記録 [archive/retired-structures/2026-06-06-screen-flow-drawio.md](./archive/retired-structures/2026-06-06-screen-flow-drawio.md)。
+
 ---
 
 ## §6. 計測・KPI

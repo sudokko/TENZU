@@ -1,3 +1,7 @@
 .claude/
 __pycache__/
 *.pyc
+
+# HTML build tooling
+tools/build-html/node_modules/
+tools/build-html/package-lock.json
