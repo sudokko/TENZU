@@ -1,0 +1,313 @@
+/* =========================================================================
+   TENZU — Article Page (rev.5)
+   Ported from design/handoff/maker-import/.../mockups/article.html
+
+   wrap (1080px) は landing.css 既定。記事本文用の narrow container は
+   .wrap-article (760px) を新設。
+   ========================================================================= */
+
+.wrap-article {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 64px;
+}
+@media (max-width: 600px) {
+  .wrap-article { padding: 0 24px; }
+}
+
+/* breadcrumb */
+.crumb-article {
+  max-width: 1080px;
+  margin: 18px auto 0;
+  padding: 0 64px;
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+@media (max-width: 600px) { .crumb-article { padding: 0 24px; } }
+.crumb-article a { color: var(--fg-2); text-decoration: none; }
+.crumb-article a:hover { color: var(--accent); }
+.crumb-article .sep { color: var(--fg-4); padding: 0 8px; }
+.crumb-article .cur { color: var(--fg); }
+
+/* article meta */
+.article-meta { padding: 32px 0 24px; }
+.article-meta .kicker {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  color: var(--fg-3);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.article-meta .pillar-bar {
+  display: flex; gap: 12px; align-items: baseline;
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+  color: var(--fg-2);
+  letter-spacing: 0.04em;
+}
+.article-meta .pillar-bar .pdate { color: var(--fg-3); }
+.article-meta h1 {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  margin: 18px 0 18px;
+}
+.article-meta .lead {
+  font-family: var(--font-tier2-pencil);
+  font-size: 19px;
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  margin: 0;
+  max-width: 38ch;
+}
+.article-meta .author {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line-thin);
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  color: var(--fg-2);
+  letter-spacing: 0.04em;
+}
+.article-meta .author .by { color: var(--fg-3); }
+
+/* article body */
+article.article-body { padding-bottom: 80px; }
+article.article-body h2 {
+  display: inline-block;
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent);
+  margin: 56px 0 24px;
+}
+article.article-body h3 {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+  margin: 36px 0 14px;
+}
+article.article-body p {
+  font-family: var(--font-tier3-sans);
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--fg);
+  margin: 0 0 20px;
+}
+article.article-body p.lead-graf {
+  font-family: var(--font-tier2-pencil);
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--fg-2);
+}
+article.article-body ul {
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+article.article-body ul li {
+  font-family: var(--font-tier3-sans);
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--fg);
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--line-thin);
+}
+article.article-body ul li::before { content: "—  "; color: var(--fg-3); }
+
+/* TENZU 訳ブロック */
+.tenzu-translate {
+  background: var(--bg-3);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+  padding: 22px 26px;
+  margin: 28px 0;
+}
+.tenzu-translate .src {
+  font-family: var(--font-tier3-sans);
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--fg);
+  margin: 0 0 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--line-mid);
+}
+.tenzu-translate .cite {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.tenzu-translate .label {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+  margin: 0 0 6px;
+}
+.tenzu-translate .trans {
+  font-family: var(--font-tier2-pencil);
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--fg);
+  margin: 0;
+}
+
+/* article quote (TENZU statement) */
+.article-quote {
+  border-left: 2px solid var(--fg-2);
+  padding: 6px 22px;
+  margin: 28px 0;
+}
+.article-quote .q {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  margin: 0;
+}
+.article-quote .a {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+  margin-top: 10px;
+}
+
+/* inline diagram */
+.diagram {
+  background: #FFFFFF;
+  border: 1px dashed var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 24px;
+  margin: 28px 0;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 24px;
+  align-items: center;
+}
+.diagram svg { width: 120px; height: 120px; }
+.diagram .dcap {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--fg-2);
+}
+.diagram .dcap b {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fg);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* DEV NOTE sidenote (T5) */
+.article-sidenote {
+  background: var(--bg-3);
+  border-left: 2px solid var(--fg-2);
+  border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+  padding: 22px 26px;
+  margin: 40px 0;
+}
+.article-sidenote .sn-label {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  color: var(--fg-3);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.article-sidenote .sn-body {
+  font-family: var(--font-tier3-sans);
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--fg);
+  margin: 0;
+}
+
+/* related articles section */
+section.s-article {
+  padding: 56px 0;
+  border-top: 1px dashed var(--line-thin);
+}
+section.s-article h2.outer {
+  display: inline-block;
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 22px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent);
+  margin: 0 0 22px;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+}
+.related-articles {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 720px) { .related-articles { grid-template-columns: 1fr; } }
+.ra {
+  padding: 16px 0;
+  border-top: 1px dashed var(--line-thin);
+  border-bottom: 1px dashed var(--line-thin);
+  display: block;
+  text-decoration: none;
+  color: var(--fg);
+}
+.ra .ra-meta {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.ra .ra-title {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--fg);
+  margin: 8px 0;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+}
+.ra .ra-lead {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--fg-2);
+}
+.ra:hover .ra-title { color: var(--accent); }
+
+/* article mini footer */
+footer.site.footer-article {
+  background: var(--bg-3);
+  padding: 36px 0;
+  border-top: 1px dashed var(--line-thin);
+  background-image: none;
+}
+footer.site.footer-article .wrap {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
