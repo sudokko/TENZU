@@ -3,7 +3,7 @@
 ## サマリ
 
 - TENZU の記事コンテンツ（Pillar / Cluster / FAQ / LLMO）を扱う設計領域
-- **大原則（2026-06-03・[clusters.md §1.5](clusters.md)）**: 記事は**情報意図のクエリだけ**を拾う。取引意図（プリント／無料／簡単／難しい／立体／年齢）は記事化せず**商品タグ・カテゴリページ・おためし点描写メーカー**へ（仕様 [pack-design.md §25](../product/pack-design.md)）
+- **大原則（2026-06-03・[clusters.md §1.5](clusters.md)／受け皿改定 2026-06-08 [decisions.md §5.6](../decisions.md)）**: 記事は**情報意図のクエリだけ**を拾う。取引意図（プリント／無料／簡単／難しい／立体／年齢）は記事化せず**専用ファセットLP・商品タグ・カテゴリページ**へ（**メーカーは受け皿から除外**＝取引LPは有償一本／無料意図は無料LPの絵柄サンプル・仕様 [pack-design.md §25.6](../product/pack-design.md)）
 - これにより**実際に書く記事は 16 ページ**: 正規ハブ P1 ＋ 確定 8 記事 ＋ 学術土台 C3-4 ＋ LLMO 2 ＋ FAQ 3。降格・削除は [clusters.md](clusters.md) 各表の「種別」参照
 - 構造: **正規ハブ P1 ＋ 用途ハブ P2/P3/P4/P5**（5 Pillar）。Pillar 構造 SSOT は [decisions.md §3.32](../decisions.md)、本縮減は [decisions.md §3.42](../decisions.md)
 - 主要 IA: 3 階層フラット URL（全記事 `/{slug}/`）
@@ -35,7 +35,7 @@
 
 ## 重要な状態
 
-**記事リスト確定（2026-06-03）**: 検索意図ベースで記事を 16 ページに縮減（[clusters.md §1.5](clusters.md)・[decisions.md §3.42](../decisions.md)）。取引意図クエリは商品タグ/カテゴリ/メーカー側（[pack-design.md §25](../product/pack-design.md)）。執筆は確定 8 記事＋P1 から着手可能。
+**記事リスト確定（2026-06-03）**: 検索意図ベースで記事を 16 ページに縮減（[clusters.md §1.5](clusters.md)・[decisions.md §3.42](../decisions.md)）。取引意図クエリは専用ファセットLP・商品タグ/カテゴリ側（メーカー除外・[pack-design.md §25.6](../product/pack-design.md)・[decisions.md §5.6](../decisions.md)）。執筆は確定 8 記事＋P1 から着手可能。
 
 ## 附録
 

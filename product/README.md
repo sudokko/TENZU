@@ -8,7 +8,7 @@ TENZU の商品（問題パック）の設計と、購入〜配布〜利用〜�
 
 | ファイル | 責務 |
 |---|---|
-| [pack-design.md](pack-design.md) | 問題パック設計・**9タスク仕様の SSOT**・SKU 構成・価格設計・モチーフカテゴリ・各タスクラダー・**§25 検索意図対応の商品タグ/ファセット**（取引意図クエリを記事でなく商品側で拾う・[content/clusters.md §1.5](../content/clusters.md) と対） |
+| [pack-design.md](pack-design.md) | 問題パック設計・**9タスク仕様の SSOT**・SKU 構成・価格設計・モチーフカテゴリ・各タスクラダー・**§25 検索意図対応の商品タグ/ファセット＋§25.6 SEO取引LP**（取引意図クエリを記事でなく専用ファセットLP・商品側で拾う＝有償一本・メーカー非訴求／無料LPは絵柄サンプル・[content/clusters.md §1.5](../content/clusters.md)・[decisions.md §5.6](../decisions.md) と対） |
 | [pack-tasks.md](pack-tasks.md) | 9タスクの個別仕様・出題ルール・難易度ドライバー |
 | [service-blueprint.md](service-blueprint.md) | サービスブループリント（7フェーズ × 4レイヤー）・配布・認証・補填フロー |
 

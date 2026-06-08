@@ -6,7 +6,7 @@
 - 形式は **Mermaid**（テキスト＝プロンプト編集前提・座標計算なし）。GitHub・VS Code・Claude アーティファクト・`tools/build-html` すべてで描画される。
 - 全ページの**俯瞰ワイヤー**は [pages-overview.html](./pages-overview.html)（同ディレクトリ・単独HTML）。
 - 凡例：🟢実装済 / 🔴未実装P0 / 🟡未実装後続 / ★最重要 / 破線＝ナビ・後続導線。
-- 確定事項：①流入は「直接・ブランド/SEO情報/SEO取引・広告・ブロガーDM/紹介波及」（MailerLite リピーターは当面スコープ外）②**TOP が玄関兼カタログ**（商品一覧 /products を吸収・メーカーCTAは Hero 非掲載でナビ/フッター経由）③広告は独立LPを持たず **/maker?from=ad モード**で一発着地 ④購入フロー（/cart→Stripe→/thanks）は現状ゼロ＝**最優先P0** ⑤サンプルPDFプレビュー・レベル選びガイド・メーカー完了画面・サンクスが未実装の鍵画面。
+- 確定事項：①流入は「直接・ブランド/SEO情報/SEO取引・広告・ブロガーDM/紹介波及」（MailerLite リピーターは当面スコープ外）②**TOP が玄関兼カタログ**（商品一覧 /products を吸収）。**SEO取引意図は TOP でなく専用ファセットLPが受ける**（無料/プリント本丸/むずかしい/やさしい/年齢/立体・**有償一本・メーカー非訴求**／無料LPのみ絵柄サンプル印刷可）③広告は独立LPを持たず **/maker?from=ad モード**で一発着地（メーカーは広告/SNS入口に限定・取引LPの流し先にはしない）④購入フロー（/cart→Stripe→/thanks）は現状ゼロ＝**最優先P0** ⑤サンプルPDFプレビュー・レベル選びガイド・メーカー完了画面・サンクス・**SEO取引ファセットLP群**が未実装の鍵画面。
 - 変遷：旧正本は draw.io（`screen-flow.drawio`）。プロンプト編集に不向きなため 2026-06-06 にテキスト系へ移行（→ 附録）。
 
 ## 詳細
@@ -37,6 +37,13 @@ flowchart LR
     G_article["記事<br/>Pillar/Cluster<br/>🟢1/16"]
   end
 
+  subgraph SEOLP[SEO取引LP（有償一本・メーカー非訴求）]
+    direction TB
+    L_free["★ 無料LP<br/>絵柄サンプル印刷可<br/>4Lv×3問=12問<br/>🔴"]
+    L_print["プリント本丸LP<br/>点描写プリント1,600<br/>🔴"]
+    L_facet["ファセットLP群<br/>むずかしい/やさしい<br/>年齢/立体<br/>🔴"]
+  end
+
   subgraph MID[中間（体験・選定）]
     direction TB
     M_sample["サンプルPDF<br/>プレビュー(modal)<br/>🔴"]
@@ -59,11 +66,20 @@ flowchart LR
   end
 
   F_direct --> G_top
-  F_seotrans --> G_top
+  F_seotrans --> L_free
+  F_seotrans --> L_print
+  F_seotrans --> L_facet
   F_seoinfo --> G_article
   F_ad -->|?from=ad| M_maker
   F_blogdm -->|全員メーカーへ| M_maker
   F_blogref --> M_maker
+
+  L_free -->|有償へ・絵柄続き＋図形| P_detail
+  L_print --> P_detail
+  L_facet --> P_detail
+  L_free -.->|ぜんぶ見る| G_top
+  L_print -.-> G_top
+  L_facet -.-> G_top
 
   G_top -->|品ぞろえ→個別| P_detail
   G_top -.->|ナビ/フッター| M_maker
@@ -81,15 +97,16 @@ flowchart LR
 
   class F_direct,F_seotrans,F_seoinfo,F_ad,F_blogdm,F_blogref inflow;
   class G_top,G_article,M_maker,P_detail done;
-  class M_sample,M_guide,C_cart,C_stripe p0;
-  class M_makerdone,C_thanks key;
+  class M_sample,M_guide,C_cart,C_stripe,L_print,L_facet p0;
+  class M_makerdone,C_thanks,L_free key;
   class P_bundle later;
 ```
 
 ### §2. 確定事項
 
 1. **流入チャネル**：直接・ブランド検索・ナビ／SEO情報意図（点描写・公文・入学準備）／SEO取引意図（プリント無料・年長・立体）／Meta・X広告／ブロガーDM／ブロガー紹介の波及。MailerLite リピーター導線は当面スコープ外。
-2. **TOP が玄関兼カタログ**：商品一覧 `/products` を TOP に吸収。SEO取引意図も TOP で受ける。メーカーCTAは Hero 非掲載＝ナビ/フッター経由で到達（オーナー判断）。
+2. **TOP が玄関兼カタログ**：商品一覧 `/products` を TOP に吸収。ただし**SEO取引意図は TOP で受けない**——専用ファセットLP群（無料／プリント本丸／むずかしい／やさしい／年齢／立体）に直接着地させる（「TOP で SEO 取引を吸収」案は無理が出たため撤回・[decisions.md §5.6](../../decisions.md)）。メーカーCTAは Hero 非掲載＝ナビ/フッター経由で到達（オーナー判断）。
+2.5. **SEO取引ファセットLPは有償一本・メーカー非訴求**：FV に実問題サンプル（クエリ即応）→ 有償商品紹介、が共通テンプレ。無料完結を避けるためメーカーへは流さない。**無料LP のみ「絵柄（模写）のレベル別サンプル PDF（入門〜発展の4Lv×各3問＝12問）を印刷可」**で無料意図に応え、続きは図形ライン中心の有償へ橋渡し（[pack-design.md §25](../../product/pack-design.md)・[§14.6](../../product/pack-design.md)）。メーカーは広告/SNS 入口に役割限定。
 3. **広告は独立LPを持たない**：`/maker?from=ad` の同一URL・モード出し分けで一発着地。冷たい Meta 流入の補助。X・ブロガーは素の `/maker` で十分。
 4. **購入フロー（/cart → Stripe → /thanks）は現状ゼロ**。`purchase` を取る線が1画面も無く、**最優先P0**。
 5. **未実装の鍵画面**：サンプルPDFプレビュー（modal）／レベル選びガイド／★メーカー完了画面／★サンクス。
