@@ -75,42 +75,37 @@
 }
 .sig-draw { display: block; width: 100%; height: auto; }
 /* polyline を 1 本ずつ「引いていく」: dashoffset を 0 へ */
+/* 線・点・鉛筆の動きは SMIL（page.tsx 内の animate / animateMotion）で駆動。
+   単一 SVG クロックに乗るため、線（dashoffset）と鉛筆（motion）がデバイス上でも
+   フレーム同期する（CSS の paint 系×compositor 系の別クロック問題を回避）。
+   ここはアニメではなく「初期状態＋見た目」のみを定義。*/
 .sig-path {
   fill: none;
-  stroke: var(--accent);
-  stroke-width: 2.4;
+  stroke: #3A424E; /* グラファイト（teal は「到達＝点」専用に戻す） */
+  stroke-width: 2.7;
   stroke-linejoin: round;
-  stroke-linecap: round;
+  stroke-linecap: butt; /* 端をフラットにし、描画先端を鉛筆の芯にピタリ合わせる */
   stroke-dasharray: 360;
-  stroke-dashoffset: 360;
-  animation: sigDraw 5.2s ease-in-out infinite;
+  stroke-dashoffset: 360; /* 初期＝未描画。SMIL が driving */
+}
+/* 筆圧のにじみ層：太く・薄く・本体の背後で同じ描画 */
+.sig-bloom {
+  stroke-width: 6;
+  opacity: 0.12;
 }
 .sig-dot {
   fill: var(--accent);
-  opacity: 0;
-  animation: sigDot 5.2s ease-in-out infinite;
+  opacity: 0; /* 初期＝消灯。SMIL が点灯 */
 }
-.sig-dot-2 { animation-delay: 0.18s; }
-.sig-dot-3 { animation-delay: 0.36s; }
-.sig-dot-4 { animation-delay: 0.54s; }
-.sig-dot-5 { animation-delay: 0.72s; }
+.sig-pencil {
+  opacity: 0; /* 初期＝非表示。SMIL が animateMotion ＋ fade */
+}
 .sig-caption {
   font-family: var(--font-tier2-pencil);
   font-size: 13px;
   color: var(--fg-3);
   text-align: center;
   margin: 10px 0 0;
-}
-@keyframes sigDraw {
-  0%   { stroke-dashoffset: 360; }
-  46%  { stroke-dashoffset: 0; }
-  84%  { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: 360; }
-}
-@keyframes sigDot {
-  0%, 8%   { opacity: 0; }
-  18%, 84% { opacity: 1; }
-  100%     { opacity: 0; }
 }
 
 /* ---- セクション見出し（共通・静か） ---- */
@@ -487,6 +482,7 @@
 @media (prefers-reduced-motion: reduce) {
   .sig-path { animation: none; stroke-dashoffset: 0; }
   .sig-dot { animation: none; opacity: 1; }
+  .sig-pencil { animation: none; opacity: 0; }
   #cov-0:checked ~ .cov-panels .cov-panel:nth-child(1),
   #cov-1:checked ~ .cov-panels .cov-panel:nth-child(2),
   #cov-2:checked ~ .cov-panels .cov-panel:nth-child(3),

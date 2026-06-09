@@ -21,31 +21,153 @@ const TEAL = "#2C6E7F";
 const INK = "#1A1F2A";
 const FAINT = "#C5C9CF";
 
-/* ---- 署名アニメ: 5×5 ドットの上を、五角形の線が引かれていく ---- */
+/* ---- 署名アニメ: 5×5 ドットの上を、図形がひと筆書きされ、描き終えたら次の図形へ ---- */
 const SX0 = 24, SSTEP = 44;
 const sc = (n: number) => SX0 + n * SSTEP; // 24,68,112,156,200
-const VERTS: [number, number, string][] = [
-  [sc(1), sc(0), "sig-dot"],
-  [sc(3), sc(0), "sig-dot sig-dot-2"],
-  [sc(4), sc(2), "sig-dot sig-dot-3"],
-  [sc(2), sc(4), "sig-dot sig-dot-4"],
-  [sc(0), sc(2), "sig-dot sig-dot-5"],
+const SLOT = "12s"; // 1 図形あたりの尺
+
+/* ローテーションする図形（閉じたひと筆書き）。verts = [列, 行]（0..4）の描画順。
+   家 → ヨット → 三角＋四角 → 星。点数は図形ごとに可変（buildFig が自動対応）。 */
+const FIGURES: { name: string; verts: number[][] }[] = [
+  // 家：四角＋屋根
+  { name: "house", verts: [[1, 3], [1, 1], [2, 0], [3, 1], [3, 3]] },
+  // ヨット：マスト(縦)→三角の帆→船体（6点）
+  { name: "yacht", verts: [[2, 3], [2, 0], [4, 3], [3, 4], [1, 4], [0, 3]] },
+  // 三角＋四角：四角の右辺に三角がくっついた図（5点）
+  { name: "boxtri", verts: [[0, 1], [2, 1], [4, 2], [2, 3], [0, 3]] },
+  // 星：交差しない 5 角星の輪郭（外5＋内5＝10点・凹みあり）
+  {
+    name: "star",
+    verts: [
+      [2, 0], [2.53, 1.27], [3.9, 1.38], [2.86, 2.28], [3.18, 3.62],
+      [2, 2.9], [0.82, 3.62], [1.14, 2.28], [0.1, 1.38], [1.47, 1.27],
+    ],
+  },
 ];
+
+/* 図形の頂点列から SMIL 駆動データを自動生成。
+   各辺は「描く(0.72)→止まる(0.28)」の二拍、最後に完成保持→消去。
+   線(dashoffset) と 鉛筆(keyPoints) は同じ keyTimes を共有し、同一クロックで完全同期。 */
+function buildFig(verts: number[][]) {
+  const pts = verts.map(([c, r]) => [sc(c), sc(r)]);
+  const n = pts.length;
+  let total = 0;
+  const seg: number[] = [];
+  for (let k = 0; k < n; k++) {
+    const a = pts[k], b = pts[(k + 1) % n];
+    const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    seg.push(L); total += L;
+  }
+  const cum: number[] = []; let acc = 0;
+  for (let k = 0; k < n; k++) { acc += seg[k]; cum.push(acc / total); }
+  const SEGT = 0.85 / n; // draw+pause の各辺持ち時間
+  const kt: number[] = [0], dash: number[] = [360], kp: number[] = [0];
+  for (let k = 0; k < n; k++) {
+    const f = cum[k];
+    const ds = k * SEGT, de = ds + SEGT * 0.72, se = ds + SEGT;
+    const off = +(360 * (1 - f)).toFixed(2), ff = +f.toFixed(5);
+    kt.push(+de.toFixed(4)); dash.push(off); kp.push(ff);       // 頂点へ描く
+    kt.push(+se.toFixed(4)); dash.push(off); kp.push(ff);       // 一拍止まる
+  }
+  kt.push(0.96); dash.push(0); kp.push(1);  // 完成を保持
+  kt.push(1); dash.push(360); kp.push(1);   // 消去（次へ）
+  const lit = pts.map((_, j) => (j === 0 ? 0.02 : +(((j - 1) * SEGT) + 0.72 * SEGT).toFixed(4)));
+  const d = "M" + pts.map((p) => p.join(" ")).join(" L") + " Z";
+  return { d, pts, lit, keyTimes: kt.join(";"), dash: dash.join(";"), keyPoints: kp.join(";") };
+}
+
+function PencilShape() {
+  return (
+    <g transform="rotate(-40)">
+      {/* 芯（黒鉛の尖り） */}
+      <polygon points="0,0 5.5,-1.7 5.5,1.7" fill="#232730" />
+      {/* 削った木部（テーパー・上下で陰影） */}
+      <polygon points="5.5,-1.7 15,-3.6 15,0 5.5,0" fill="#EAD3A2" />
+      <polygon points="5.5,1.7 15,3.6 15,0 5.5,0" fill="#D6AE68" />
+      {/* 六角軸（上ハイライト／中／下シャドウの3帯で立体に） */}
+      <rect x={15} y={-3.6} width={54} height={2.2} fill="#F2C45E" />
+      <rect x={15} y={-1.4} width={54} height={2.8} fill="#E0A23A" />
+      <rect x={15} y={1.4} width={54} height={2.2} fill="#C6871F" />
+      <rect x={15} y={-3.6} width={54} height={7.2} fill="none" stroke="#9C6E1A" strokeWidth={0.5} />
+      {/* 軸の切り口（フラットエンド・色鉛筆風） */}
+      <rect x={67.5} y={-3.6} width={1.5} height={7.2} fill="#C6871F" />
+    </g>
+  );
+}
+
+/* 1 図形ぶんの描画。begin チェーンで前の図形の終了に連結し、最後→最初でループ。
+   非アクティブ時は線=未描画・点=消灯・鉛筆=非表示（fill=remove で基底へ戻る）。 */
+function FigureGroup({ fig, i, n }: { fig: { name: string; verts: number[][] }; i: number; n: number }) {
+  const g = buildFig(fig.verts);
+  const begin = i === 0 ? `0s;sigClk${n - 1}.end` : `sigClk${i - 1}.end`;
+  const clkId = `sigClk${i}`, pathId = `sigPath${i}`;
+  return (
+    <g aria-hidden="true">
+      <path className="sig-path sig-bloom" d={g.d} pathLength={360} filter="url(#sig-press)">
+        <animate attributeName="stroke-dashoffset" values={g.dash} keyTimes={g.keyTimes}
+          begin={begin} dur={SLOT} calcMode="linear" />
+      </path>
+      <path id={pathId} className="sig-path" d={g.d} pathLength={360} filter="url(#sig-graphite)">
+        <animate id={clkId} attributeName="stroke-dashoffset" values={g.dash} keyTimes={g.keyTimes}
+          begin={begin} dur={SLOT} calcMode="linear" />
+      </path>
+      {g.pts.map((p, j) => (
+        <circle key={j} className="sig-dot" cx={p[0]} cy={p[1]} r={3.4} fill={TEAL}>
+          <animate attributeName="opacity" values="0;1;0;0"
+            keyTimes={`0;${g.lit[j]};0.97;1`} begin={begin} dur={SLOT} calcMode="discrete" />
+        </circle>
+      ))}
+      <g className="sig-pencil">
+        <animateMotion begin={begin} dur={SLOT} keyPoints={g.keyPoints} keyTimes={g.keyTimes}
+          calcMode="linear" rotate="0">
+          <mpath href={`#${pathId}`} />
+        </animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0;0"
+          keyTimes="0;0.03;0.85;0.93;1" begin={begin} dur={SLOT} calcMode="linear" />
+        <PencilShape />
+      </g>
+    </g>
+  );
+}
 
 function SignatureDraw() {
   const grid: React.ReactNode[] = [];
   for (let r = 0; r < 5; r++)
     for (let c = 0; c < 5; c++)
       grid.push(<circle key={`${r}-${c}`} cx={sc(c)} cy={sc(r)} r={1.7} fill={INK} opacity={0.32} />);
-  const poly = VERTS.map(([x, y]) => `${x},${y}`).join(" ");
   return (
     <div className="sig-wrap">
       <svg className="sig-draw" viewBox="0 0 224 224" role="img"
-        aria-label="点と点を線でつないで、形ができていくアニメーション">
+        aria-label="点と点を線でつないで、いろいろな形ができていくアニメーション">
+        <defs>
+          {/* グラファイト：擦れ（変位）＋ 紙の目に乗る粒状カスレ */}
+          <filter id="sig-graphite" x="-30%" y="-30%" width="160%" height="160%"
+            colorInterpolationFilters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04"
+              numOctaves={3} seed={7} result="warp" />
+            <feDisplacementMap in="SourceGraphic" in2="warp" scale={2.4}
+              xChannelSelector="R" yChannelSelector="G" result="rough" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.85"
+              numOctaves={2} seed={11} result="grain" />
+            <feColorMatrix in="grain" type="matrix" result="mask"
+              values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.1 0 0 0 0.32" />
+            <feComposite in="rough" in2="mask" operator="in" result="speckled" />
+            <feColorMatrix in="rough" type="matrix" result="base"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.38 0" />
+            <feMerge result="ink">
+              <feMergeNode in="base" />
+              <feMergeNode in="speckled" />
+            </feMerge>
+            <feGaussianBlur in="ink" stdDeviation={0.22} />
+          </filter>
+          {/* 筆圧のにじみ＝太く薄くボカした下地 */}
+          <filter id="sig-press" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation={1.7} />
+          </filter>
+        </defs>
         {grid}
-        <polygon className="sig-path" points={poly} pathLength={360} />
-        {VERTS.map(([x, y, cls], i) => (
-          <circle key={i} className={cls} cx={x} cy={y} r={3.4} fill={TEAL} />
+        {FIGURES.map((fig, i) => (
+          <FigureGroup key={fig.name} fig={fig} i={i} n={FIGURES.length} />
         ))}
       </svg>
       <p className="sig-caption">点と点を、線でつなぐ。</p>
@@ -269,7 +391,7 @@ export default function Home() {
                 </p>
                 <div className="tr-cta-row">
                   <a className="tr-btn-primary" href="#">サンプルを見る</a>
-                  <a className="tr-btn-ghost" href="#">レベル選びガイドへ</a>
+                  <a className="tr-btn-ghost" href="/level-guide">レベル選びガイドへ</a>
                 </div>
               </div>
               <div>
@@ -369,7 +491,7 @@ export default function Home() {
             </p>
             <div className="tr-cta-row">
               <a className="tr-btn-primary" href="#">サンプル PDF を見る</a>
-              <a className="tr-btn-ghost" href="#">レベル選びガイドへ</a>
+              <a className="tr-btn-ghost" href="/level-guide">レベル選びガイドへ</a>
             </div>
           </div>
         </section>

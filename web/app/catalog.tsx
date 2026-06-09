@@ -307,7 +307,9 @@ const LEVEL_GRAPH = [
 const AGE_MIN = 4, AGE_MAX = 10, GX0 = 130, GX1 = 504, NAMEX = 118;
 const gxa = (a: number) => GX0 + ((a - AGE_MIN) / (AGE_MAX - AGE_MIN)) * (GX1 - GX0);
 
-export function LevelGraph() {
+const ACCENT_INK = "#1F5260";
+
+export function LevelGraph({ highlight }: { highlight?: string } = {}) {
   return (
     <svg className="lvgraph" viewBox="0 0 528 278" role="img"
       aria-label="レベル 5 段階と対象年齢のめやす（年齢の帯グラフ）">
@@ -320,10 +322,17 @@ export function LevelGraph() {
         const cy = 30 + i * 46;
         const x = gxa(l.from);
         const w = gxa(l.to) - x;
+        const isHi = highlight === l.name;
+        const baseOp = 1 - i * 0.055;
+        const fillOp = highlight ? (isHi ? 1 : baseOp * 0.32) : baseOp;
         return (
           <g key={l.name}>
-            <text x={NAMEX} y={cy + 6} textAnchor="end" className="lvg-name">{l.name}</text>
-            <rect x={x} y={cy - 15} width={w} height={30} rx={7} fill={TEAL} fillOpacity={1 - i * 0.055} />
+            <text x={NAMEX} y={cy + 6} textAnchor="end" className="lvg-name"
+              fontWeight={isHi ? 700 : undefined} fill={isHi ? ACCENT_INK : undefined}>{l.name}</text>
+            <rect x={x} y={cy - 15} width={w} height={30} rx={7} fill={TEAL} fillOpacity={fillOp}
+              stroke={isHi ? ACCENT_INK : "none"} strokeWidth={isHi ? 2 : 0} />
+            {isHi && <text x={x - 6} y={cy + 6} textAnchor="end" className="lvg-age"
+              fill={ACCENT_INK} fontSize={16}>▶</text>}
             <text x={x + 13} y={cy + 6} className="lvg-age">{l.label}</text>
           </g>
         );
@@ -359,7 +368,7 @@ export function CatalogSection() {
           <p className="level-guide-note">
             どのレベルも年齢のはばを広めにとっています。学年ではなく「いまの手ごたえ」で選んでください。
           </p>
-          <a className="level-guide-cta" href="#">
+          <a className="level-guide-cta" href="/level-guide">
             <span className="level-guide-cta-main">どこから始めるか迷ったら、<b>レベル選びガイド</b>へ。</span>
             <span className="level-guide-cta-sub">5〜7 問の質問に答えると、はじめる位置の目安とおすすめの一冊が出ます →</span>
           </a>
@@ -487,7 +496,7 @@ export function SiteFooter() {
             <h5>SHOP</h5>
             <ul>
               <li><a href="#">商品一覧</a></li>
-              <li><a href="#">レベル選びガイド</a></li>
+              <li><a href="/level-guide">レベル選びガイド</a></li>
               <li><a href="#">サンプル PDF</a></li>
             </ul>
           </div>

@@ -23,6 +23,39 @@
 
 > 一次ソース: [pack-design.md](./product/pack-design.md)
 
+### 3.46 レベル選びガイドを Next.js 自前ページ `/level-guide` で実装（2 軸出力）（2026-06-09）
+
+§3.44 で TOP 帯グラフ下に置いた「レベル選びガイド」CTA の遷移先本体を実装。一次ソース [funnel.md §3](./acquisition/funnel.md)。
+
+- **実装手段＝ Next.js 自前ページに確定**（MailerLite サーベイ案を不採用）。理由: メアド非取得ゆえ外部ツールの利点ゼロ／catalog（`GROUPS`/`LevelGraph`/`notes`/設問 SVG）と rev.5 デザイントークンを再利用でき、TOP と同一 SSOT・同一温度で結果を出せる。`"use client"` 単一コンポーネント・状態のみ・バックエンドなし
+- **結果は 2 軸**: 軸A はじめる位置（Lv 1-5・年齢はめやす／手ごたえ 3 問が優先・やさしい側が勝つ床天井）＋軸B どの種類から（目的 1 問 → ★最初の一冊＝具体 SKU）。歯抜け Lv は近い存在 Lv にスナップし注記（絵柄=入門編から 等）
+- **診断語彙ゼロ・提案トーン**（[voice-tone.md §1](./foundation/voice-tone.md)）。年齢で傷つけない設計（「遅れ」非示唆・「迷ったらやさしい巻から」逃げ道必須）
+- **配線**: TOP 帯グラフ下 CTA／Hero・Close ゴースト CTA／ヘッダーナビ「レベル選び」／フッターを `/level-guide` に接続。catalog `LevelGraph()` に `highlight` prop 追加（TOP の無引数呼び出しは不変）
+- **残**: 結果内の商品/サンプル/「全部見る」リンクは未配線（href="#"・商品ページ実装待ち）
+
+### 3.45 TOP を top-rich ストアフロントに確定（A 案を退避・§3.44 を改定）（2026-06-09）
+
+TOP（`/`）を §3.44 の A 基調カタログから **top-rich（Brilliant 寄せ「1.5」）ストアフロント**へ確定。旧 A 案は [archive/retired-designs/2026-06-09-top-a-storefront-superseded.tsx](./archive/retired-designs/2026-06-09-top-a-storefront-superseded.tsx) へ退避。
+
+- **構成**: Hero（署名アニメ）→ なぜ点描写か（5 Pillar）→ 品ぞろえ → 「大切にした 3 つ」→ 家庭での続け方 → クロージング → 記事。
+- **品ぞろえ＝看板「3 つの力 × 5 段階」を構造で見せる**: ①「3 つの力 ― 何を練習するか」＝ 3 群タブ（純CSS）／②「5 段階 ― どこから始めるか」＝レベル帯グラフ。各パートにサブ見出し（Klee・青磁・下線）。§3.44 の A/B 統合（チップ＋行アコーディオン）は top-rich では不採用＝この coverage 方式に置換。
+- **「大切にした 3 つ」（図解カード）**: ①ちょうどいいレベルから、つまずかずに（旧「適レベル」＋「いきなり難しくしない」を**統合**）／②模写だけで、終わらせない／③家庭の印刷機に、合わせられる。各カードに線画アイコン（①階段＋旗 ②模写→多様 ③プリンター）。3 案比較（塗り／点格子／比喩ピクト）を検討し ①比喩 ②現行 ③比喩を採用。比較用スクラッチ（/icon-compare・/step-compare・/top-rich）は破棄。
+- **③印刷の自由はメーカー名を伏せ「機能として言い切る」**（用紙 A4〜A3・たて/よこ・問題数）。「TOP でメーカー非訴求」方針（[funnel.md](./acquisition/funnel.md)）を**値の文脈に限り緩和**＝オーナー判断。
+- **家庭での続け方＝縦タイムライン（案B）**: 番号ドット＋アイコン＋短文（サンプル→レベル選ぶ→印刷→次の一枚）。フロー 3 案（横ステッパー／縦タイムライン／カード＋ループ）から案B採用。
+- **年齢帯グラフ（外向け表示）更新**: 「歳」→「**才**」・上限「おとな」を廃止し **10 才打ち止め**・発展編ラベルを「**8 才〜**」。X 軸数字 18px。§12.7 の内部基準表（先取り/標準層・キャッチコピー）は不変で、TOP の外向け表示のみ。
+- **catalog.tsx を共有 SSOT 化**（GROUPS・LevelGraph・ArticlesSection・SiteFooter）。A 案由来の CatalogSection は同ファイルに残置（`/` では未使用）。`top-rich.css` は `web/app/` 直下へ。
+→ 正本 [web/app/page.tsx](./web/app/page.tsx)・[web/app/top-rich.css](./web/app/top-rich.css)／年齢表示 [pack-design.md §12.7](./product/pack-design.md)。※リンク先 URL は未配線（href="#"）。
+
+### 3.44 TOP レベル表示を A 基調に一本化・B 内容解説は行アコーディオン詳細へ格下げ（2026-06-08）
+
+TOP（`/`）のレベル表示で併存していた **A 案（チップ横並び）／B 案（各レベル横に内容解説）** の二重ルートを一本化。ChatGPT の少SKU専門店カタログUI実態調査（ABRSM／Busuu／Headspace／HackerRank 等）の結論「**入口で導く → 一覧で圧縮する → 詳細はあとで見る**」の三層を採用し、A/B 択一ではなく統合で解いた：
+- **②一覧で圧縮 = A 案**を主一覧に採用（チップ横並び・巻数・歯抜けは淡色 `is-off`）。
+- **③詳細 = B 案を格下げ**。各行を `<details>` 純CSSアコーディオン化し、開くと各編の内容解説（notes）＋ **★最初の1冊**（= 各タスク最初の非ゼロ Lv・コード算出）を表示。B の中身は捨てず詳細層へ移設。
+- **①入口で導く = リンクout**。帯グラフ直下に「レベル選びガイド」への誘導CTAのみ設置。Q1/Q2/Q3 のガイド本体は **TOP に内蔵しない**（既存独立ページSSOT [funnel.md §3](./acquisition/funnel.md) の二重化回避＋「診断」語彙の Anti-Brand 化 [voice-tone.md §1](./foundation/voice-tone.md) に抵触させない）。
+- **俯瞰ミニマップ（種類×レベルの大表）は見送り**。3群一覧と重複し、取引意図をファセットLPへ別出し済（§3.42）で TOP 流入が少ない以上、解説ページに重装備は過剰。
+- `/top-b` ルートは削除し [archive/retired-designs/2026-06-08-top-b-level-notes-superseded.tsx](./archive/retired-designs/2026-06-08-top-b-level-notes-superseded.tsx) へ退避（二重ルート解消）。
+→ 正本 [web/app/page.tsx](./web/app/page.tsx)／★最初の1冊ルール [pack-design.md §12](./product/pack-design.md)
+
 ### 3.43 絵柄1シリーズ化＋幾何Lv.1復活（2026-06-07）
 
 モチーフ戦略を「具象6カテゴリ」から**絵柄1シリーズ（模写のみ・モチーフ混在・良品掲載）**へ転換（§3.13 を改定）。これにより：
