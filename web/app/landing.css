@@ -18,13 +18,15 @@ body {
 }
 
 .wrap {
-  max-width: 1080px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 64px;
 }
 @media (max-width: 600px) {
   .wrap { padding: 0 24px; }
 }
+/* 読み物セクション（記事リスト等）は読みやすい幅に絞る */
+.wrap.wrap-narrow { max-width: 860px; }
 
 /* ====================================================
    HEADER
@@ -99,7 +101,7 @@ header.site {
   letter-spacing: 0.01em;
   color: var(--fg);
   margin: 0 0 24px;
-  max-width: 16ch;
+  max-width: none;
 }
 .hero .menu {
   display: flex; flex-direction: column;
@@ -222,7 +224,24 @@ header.site {
   line-height: 1.9;
   color: var(--fg);
   margin: 20px 0 0;
-  max-width: 38ch;
+  max-width: 46ch;
+  /* 日本語を文節（ぶんせつ）境界で折り返し、行長も均す */
+  word-break: auto-phrase;
+  text-wrap: pretty;
+}
+.hero-draw {
+  width: 100%;
+  max-width: 360px;
+  margin-inline: auto;
+}
+.hero-draw svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+@media (max-width: 860px) {
+  .hero-draw { max-width: 300px; }
 }
 .hero-breadth {
   font-family: var(--font-tier3-sans);
@@ -235,30 +254,58 @@ header.site {
 
 /* 9 種類カタログ（設問サンプル図 × レベル名・全リンク） */
 .catalog { margin-top: 8px; }
-.cat-group + .cat-group { margin-top: 16px; }
-.cat-group-label {
+/* ---- 3 分類の見出し（強調） ---- */
+.cat-group { margin-top: 56px; }
+.cat-group:first-child { margin-top: 24px; }
+.cat-group-head {
+  padding: 22px 28px;
+  background: var(--accent-mute, rgba(44,110,127,0.06));
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-soft);
+  margin-bottom: 8px;
+}
+.cat-group-no {
   font-family: var(--font-tier3-mono);
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--fg-3);
-  margin: 28px 0 4px;
-  padding-top: 20px;
-  border-top: 1px dashed var(--line-thin);
+  color: var(--accent);
+  margin: 0 0 6px;
 }
+.cat-group-title {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.25;
+  color: var(--fg);
+  margin: 0;
+}
+.cat-group-sub {
+  font-family: var(--font-tier2-pencil);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--fg-2);
+  margin: 6px 0 0;
+}
+/* ---- タスク行（デスクトップ＝テキスト左 / 設問図右） ---- */
+.cat-rows { display: flex; flex-direction: column; }
 .cat-row {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 28px 0;
+  display: grid;
+  grid-template-columns: 1fr minmax(380px, 480px);
+  gap: 40px;
+  align-items: center;
+  padding: 32px 8px;
   border-bottom: 1px dashed var(--line-thin);
+}
+.cat-main { display: flex; flex-direction: column; gap: 14px; }
+@media (max-width: 860px) {
+  .cat-row { grid-template-columns: 1fr; gap: 18px; }
 }
 .cat-fig {
   background: #FFFFFF;
   border: 1px solid var(--line-thin);
   border-radius: var(--radius-soft);
   padding: 14px 16px;
-  max-width: 440px;
   width: 100%;
 }
 .cat-fig svg { display: block; width: 100%; height: auto; }
@@ -310,6 +357,124 @@ header.site {
   border-color: var(--accent);
   background: var(--accent-mute);
   color: var(--accent-ink);
+}
+.cat-level-vol {
+  font-family: var(--font-tier3-mono);
+  font-size: 10px;
+  color: var(--fg-3);
+  margin-left: 6px;
+  letter-spacing: 0;
+}
+/* 歯抜け（このタスクに存在しないレベル）: 非クリック・淡色 */
+.cat-level.is-off {
+  color: var(--fg-3);
+  border-style: dashed;
+  border-color: var(--line-thin);
+  opacity: 0.5;
+  cursor: default;
+  text-decoration: line-through;
+  text-decoration-color: var(--line-thin);
+}
+
+/* ==== レベル詳細アコーディオン（チップは上に据置／トグルで各編の内容を開く） ==== */
+.cat-detail { margin-top: 10px; }
+/* summary 自身がトグル（.cat-detail-toggle）。チップは summary の外＝従属させない */
+.cat-detail-toggle {
+  list-style: none;
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  border-bottom: 1px solid var(--line-thin);
+  padding-bottom: 1px;
+  transition: color var(--dur-fast) var(--ease-line), border-color var(--dur-fast) var(--ease-line);
+}
+.cat-detail-toggle::-webkit-details-marker { display: none; }
+.cat-detail-toggle::before { content: "＋ "; }
+.cat-detail[open] .cat-detail-toggle::before { content: "− "; }
+.cat-detail[open] .cat-detail-toggle { color: var(--fg-3); border-color: transparent; }
+.cat-detail-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.cat-detail-body { margin-top: 12px; }
+.cat-firststar {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+/* ==== レベル詳細リスト（各レベル横に内容解説） ==== */
+.lvlist-b { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.lvrow-b { display: grid; grid-template-columns: 128px 1fr; gap: 14px; align-items: baseline; }
+@media (max-width: 420px) { .lvrow-b { grid-template-columns: 104px 1fr; gap: 10px; } }
+.lvchip-b {
+  font-family: var(--font-tier3-sans); font-size: 13px; text-align: center;
+  color: var(--accent); text-decoration: none;
+  border: 1px solid var(--line-thin); border-radius: var(--radius-soft);
+  padding: 6px 8px;
+  transition: border-color var(--dur-fast) var(--ease-line), background var(--dur-fast) var(--ease-line);
+}
+.lvchip-b:hover { border-color: var(--accent); background: var(--accent-mute); color: var(--accent-ink); }
+/* 本文左カラムは「ラベル」。実リンクは上のチップ一覧側にあるため、ここは非リンクの静的表示 */
+.lvchip-b-static { color: var(--fg-2); cursor: default; }
+.lvchip-b-vol { font-family: var(--font-tier3-mono); font-size: 10px; color: var(--fg-3); margin-left: 5px; }
+.lvnote-b { font-family: var(--font-tier2-pencil); font-size: 14px; line-height: 1.55; color: var(--fg-2); }
+
+/* ---- レベル 5 段階の簡単な解説（カタログ冒頭） ---- */
+.level-guide {
+  border: 1px dashed var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 16px 22px 18px;
+  margin-bottom: 8px;
+}
+.level-guide-label {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--fg);
+  margin: 0 0 6px;
+}
+.lvgraph-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.lvgraph { display: block; width: 100%; height: auto; max-width: 560px; }
+.lvg-name { font-family: var(--font-tier3-sans); font-size: 17px; fill: var(--fg); }
+.lvg-age { font-family: var(--font-tier3-mono); font-size: 15px; fill: #FFFFFF; letter-spacing: 0.02em; }
+.lvg-tick { font-family: var(--font-tier3-mono); font-size: 18px; fill: var(--fg-3); }
+.lvg-axis { font-family: var(--font-tier3-mono); font-size: 12px; fill: var(--fg-3); letter-spacing: 0.04em; }
+.level-guide-note {
+  font-family: var(--font-tier2-pencil);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--fg-2);
+  margin: 12px 0 0;
+}
+/* レベル選びガイドへの誘導（本体フローはガイド別ページに任せる・診断語彙は使わない） */
+.level-guide-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 14px;
+  padding: 13px 16px;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  background: var(--accent-mute, rgba(44,110,127,0.06));
+  text-decoration: none;
+  transition: border-color var(--dur-fast) var(--ease-line);
+}
+.level-guide-cta:hover { border-color: var(--accent); }
+.level-guide-cta-main {
+  font-family: var(--font-tier3-sans);
+  font-size: 15px;
+  color: var(--fg);
+}
+.level-guide-cta-main b { font-family: var(--font-tier1-klee); font-weight: 600; color: var(--accent-ink); }
+.level-guide-cta-sub {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--fg-2);
 }
 
 /* 代表問題を図で見せる「練習の種類」カード */
