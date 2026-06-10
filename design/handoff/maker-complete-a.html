@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TENZU — メーカー完了画面 案A（動的レコメンド版）</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Klee+One:wght@600&family=Zen+Kurenaido&display=swap");
+
+:root{
+  color-scheme: light;
+  --fg:#1A1F2A; --fg-2:#424955; --fg-3:#767D89; --fg-4:#B0B5BD;
+  --bg:#FFFFFF; --bg-2:#F4F2ED; --bg-3:#FAF8F3;
+  --accent:#2C6E7F; --accent-mute:#D5E1E4; --accent-ink:#1F5260;
+  --line-thin:#E5E3DC; --line-mid:#BFBDB5;
+  --t1:"Klee One","Yu Mincho",serif;
+  --t2:"Zen Kurenaido","Klee One",serif;
+  --t3:"IBM Plex Sans JP","Hiragino Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --radius-soft:4px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--fg); font-family:var(--t3);
+  font-size:15px; line-height:1.8;
+  background-image:radial-gradient(circle, rgba(26,31,42,.16) 1px, transparent 1px);
+  background-size:24px 24px;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+
+/* ---- シミュレータ（デモ用 chrome・実装対象外） ---- */
+.simbar{background:var(--fg);color:#fff;padding:14px 0;position:sticky;top:0;z-index:10}
+.simbar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.simbar .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent-mute)}
+.simbar .note{font-size:11px;color:#B0B5BD;flex-basis:100%;margin-top:2px}
+.chipset{display:flex;gap:6px}
+.chip{
+  font-family:var(--mono);font-size:12px;padding:5px 12px;border-radius:var(--radius-soft);
+  border:1px solid #555C68;background:transparent;color:#D7DAE0;cursor:pointer;
+}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip:disabled{opacity:.35;cursor:not-allowed}
+
+/* ---- 完了画面本体 ---- */
+section.cand{padding:48px 0 64px}
+section.cand .inner{background:var(--bg);border:1px solid var(--line-thin);border-radius:var(--radius-soft);padding:48px 40px 56px}
+@media(max-width:640px){section.cand .inner{padding:32px 20px 40px}}
+
+.check{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--accent)}
+h1.done{font-family:var(--t1);font-weight:600;font-size:30px;line-height:1.5;letter-spacing:.02em;margin-top:6px}
+.lead{font-family:var(--t2);font-size:16px;line-height:1.85;color:var(--fg-2);margin-top:12px}
+.dashed{border:none;border-top:1px dashed var(--line-thin);margin:36px 0}
+.memo{
+  border-left:2px solid var(--accent);padding:4px 0 4px 16px;margin:28px 0;
+  font-family:var(--t2);font-size:15px;line-height:1.85;color:var(--fg-2);
+}
+.memo .who{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--fg-3);display:block;margin-bottom:4px}
+
+.next h3{font-family:var(--t1);font-weight:600;font-size:20px;margin-bottom:4px}
+.next .sub{font-size:13px;color:var(--fg-3)}
+.next .basis{
+  display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  color:var(--accent-ink);background:var(--accent-mute);border-radius:var(--radius-soft);
+  padding:3px 10px;margin-bottom:10px;
+}
+
+.sku-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+@media(max-width:640px){.sku-row{grid-template-columns:1fr}}
+.sku{
+  border:1px solid var(--line-thin);border-radius:var(--radius-soft);
+  padding:16px;background:var(--bg);text-decoration:none;color:var(--fg);display:block;
+}
+.sku:hover{border-color:var(--accent)}
+.sku .thumb{
+  aspect-ratio:1/1.1;background:var(--bg);border:1px dashed var(--line-thin);
+  border-radius:2px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;
+}
+.sku .tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--fg-3)}
+.sku .name{font-weight:600;font-size:14px;margin:2px 0 2px;line-height:1.5}
+.sku .desc{font-size:12px;color:var(--fg-2);margin-bottom:6px}
+.sku .meta{font-family:var(--mono);font-size:11px;color:var(--fg-3)}
+.sku .star{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:4px}
+.price{font-family:var(--mono)}
+
+.btn{
+  display:inline-block;font-weight:500;font-size:14px;padding:11px 22px;
+  border-radius:var(--radius-soft);text-decoration:none;border:1.5px solid var(--line-mid);color:var(--fg-2);
+}
+.a-mail{
+  margin-top:40px;border:1px dashed var(--line-mid);border-radius:var(--radius-soft);
+  padding:20px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--bg-3);
+}
+.a-mail p{font-size:13px;color:var(--fg-2);flex:1 1 320px}
+.a-mail .form{display:flex;gap:8px}
+.a-mail input{font-size:13px;padding:9px 12px;border:1px solid var(--line-mid);border-radius:var(--radius-soft);width:200px;background:#fff;font-family:var(--t3)}
+.a-mail button{font-size:13px;padding:9px 16px;border:1.5px solid var(--fg);background:transparent;border-radius:var(--radius-soft);cursor:pointer;font-family:var(--t3)}
+</style>
+</head>
+<body>
+
+<div class="simbar">
+  <div class="wrap">
+    <span class="lbl">DEMO — ユーザが作った問題</span>
+    <span class="lbl">最大グリッド</span>
+    <div class="chipset" id="simGrid">
+      <button class="chip" data-g="3">3×3</button>
+      <button class="chip" data-g="4">4×4</button>
+      <button class="chip" data-g="5" aria-pressed="true">5×5</button>
+    </div>
+    <span class="lbl">ななめ線</span>
+    <div class="chipset" id="simDiag">
+      <button class="chip" data-d="0">なし</button>
+      <button class="chip" data-d="1" aria-pressed="true">あり</button>
+    </div>
+    <span class="note">※このバーはデモ用。実装ではメーカーの保存問題（gridSize と辺データ）から自動判定し、画面には出さない。</span>
+  </div>
+</div>
+
+<section class="cand"><div class="wrap"><div class="inner">
+
+  <span class="check">
+    <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#2C6E7F" stroke-width="1.5"/><path d="M4.8 8.2 7 10.4 11.2 5.8" fill="none" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round"/></svg>
+    PDF を書き出しました
+  </span>
+  <h1 class="done">きょうの一枚、できあがり。</h1>
+  <p class="lead">あとは印刷して、紙と鉛筆で。画面はもう閉じて大丈夫です。</p>
+
+  <div class="memo">
+    <span class="who">— 店主から</span>
+    <span id="memoText"></span>
+  </div>
+
+  <hr class="dashed">
+
+  <div class="next">
+    <span class="basis" id="basisChip"></span>
+    <h3>この細かさなら、ここから。</h3>
+    <p class="sub">いま作った問題と同じ細かさから、一段ずつ。1冊 = 12問 / A4 / PDF。中身はぜんぶ見られます。</p>
+    <div class="sku-row" id="skuRow"></div>
+    <p style="margin-top:18px"><a class="btn" href="#">どのレベルが合うか迷ったら — レベル選びガイドへ</a></p>
+  </div>
+
+  <div class="a-mail">
+    <p>作った問題をあとで見返したい方へ。PDF のリンクと、レベルのめやす表をメールでお送りできます（任意）。</p>
+    <div class="form">
+      <input type="email" placeholder="メールアドレス">
+      <button>送ってもらう</button>
+    </div>
+  </div>
+
+</div></div></section>
+
+<script>
+// =====================================================================
+// レコメンドロジック（実装移植対象）
+// SSOT: product/pack-design.md §12.7 模写・図形ライン 8段ラダー
+// 入力: maxGrid = 保存問題の gridSize 最大値（メーカーは 3..5）
+//       usedDiag = 辺のうち dx!==0 && dy!==0 のものが1本でもあるか
+// 規則: 「同じグリッド数」の最初の Vol を起点に連続3冊。
+//       3×3 のみ斜め有無で起点が分岐（#1 直線のみ / #2 斜め導入）。
+// =====================================================================
+const LADDER = [
+  { vol: 1, lv: "Lv.1", name: "はじめの一歩 Vol.1", grid: 3, desc: "3×3・まっすぐの線だけ",        shape: "M12 12 60 12 60 60 12 60 Z" },
+  { vol: 2, lv: "Lv.2", name: "入門編 Vol.1",       grid: 3, desc: "同じ3×3で、ななめ線が加わる",   shape: "M12 60 36 12 60 60 Z" },
+  { vol: 3, lv: "Lv.2", name: "入門編 Vol.2",       grid: 4, desc: "マスが4×4に広がる",            shape: "M12 36 36 12 60 36 60 60 12 60 Z" },
+  { vol: 4, lv: "Lv.3", name: "基礎編 Vol.1",       grid: 4, desc: "同じ4×4で、交差する線が増える", shape: "M12 12 60 60 M60 12 12 60 M12 12 60 12 60 60 12 60 Z" },
+  { vol: 5, lv: "Lv.3", name: "基礎編 Vol.2",       grid: 5, desc: "マスが5×5に広がる",            shape: "M12 12 60 12 60 60 36 36 12 60 Z" },
+  { vol: 6, lv: "Lv.4", name: "応用編 Vol.1",       grid: 5, desc: "同じ5×5で、自由な角度の線へ",   shape: "M12 50 30 12 60 24 44 60 Z" },
+  { vol: 7, lv: "Lv.4", name: "応用編 Vol.2",       grid: 6, desc: "マスが6×6に広がる",            shape: "M12 36 28 12 60 18 52 48 24 60 Z" },
+  { vol: 8, lv: "Lv.5", name: "発展編 Vol.1",       grid: 7, desc: "最大の7×7。おとなでも手ごたえ", shape: "M14 30 30 12 52 16 60 38 44 58 20 56 Z" },
+];
+
+function recommend(maxGrid, usedDiag) {
+  // 同じグリッド数の最初の Vol。3×3 だけ斜め有無で分岐
+  let start = LADDER.findIndex((v) => v.grid === maxGrid);
+  if (maxGrid === 3 && usedDiag) start = 1; // 斜めの壁は越えている → #2 から
+  start = Math.min(start, LADDER.length - 3); // 末尾クランプ（将来 grid>5 対応の保険）
+  return LADDER.slice(start, start + 3);
+}
+
+const MEMOS = {
+  low:  "まっすぐの線がすらすら書けていたら、つぎは「ななめ」が壁になります。同じ3×3のまま、ななめ線だけが加わる一冊を下に置いておきますね。",
+  mid:  "いま作った問題が「ちょうどいい」と感じたら、その手ごたえがいちばんの目安です。同じ細かさから始められる一冊を、下に置いておきますね。",
+  high: "5×5がちょうどよければ、もう点描写の標準サイズです。ここから先は、角度が自由になったり、マスが6×6に広がったり。メーカーでは作れない世界が続きます。",
+};
+
+const STARS = ["★ 同じ細かさで", "つぎの一歩", "そのさき"];
+
+function dotsSvg(item) {
+  // 3×3 相当の簡易図示（サムネは概念表現・実SKUサムネに差し替え前提）
+  let c = "";
+  for (const x of [12, 36, 60]) for (const y of [12, 36, 60])
+    c += `<circle cx="${x}" cy="${y}" r="2" fill="#1A1F2A"/>`;
+  return `<svg width="72" height="72" viewBox="0 0 72 72">${c}<path d="${item.shape}" fill="none" stroke="#1A1F2A" stroke-width="1.6"/></svg>`;
+}
+
+function render(maxGrid, usedDiag) {
+  const recs = recommend(maxGrid, usedDiag);
+  document.getElementById("skuRow").innerHTML = recs.map((item, i) => `
+    <a class="sku" href="#">
+      <div class="thumb">${dotsSvg(item)}</div>
+      <span class="star">${STARS[i]}</span>
+      <div class="tag">模写・図形 / ${item.grid}×${item.grid}</div>
+      <div class="name">${item.lv} ${item.name}</div>
+      <div class="desc">${item.desc}</div>
+      <div class="meta">12問 · <span class="price">¥200</span></div>
+    </a>`).join("");
+  document.getElementById("basisChip").textContent =
+    `あなたが作った問題: 最大 ${maxGrid}×${maxGrid} · ななめ線${usedDiag ? "あり" : "なし"}`;
+  document.getElementById("memoText").textContent =
+    maxGrid === 3 && !usedDiag ? MEMOS.low : maxGrid >= 5 ? MEMOS.high : MEMOS.mid;
+}
+
+// ---- デモ用シミュレータ配線（実装対象外） ----
+let simG = 5, simD = true;
+document.getElementById("simGrid").addEventListener("click", (e) => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  simG = +b.dataset.g;
+  document.querySelectorAll("#simGrid .chip").forEach((c) => c.setAttribute("aria-pressed", c === b));
+  render(simG, simD);
+});
+document.getElementById("simDiag").addEventListener("click", (e) => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  simD = b.dataset.d === "1";
+  document.querySelectorAll("#simDiag .chip").forEach((c) => c.setAttribute("aria-pressed", c === b));
+  render(simG, simD);
+});
+render(simG, simD);
+</script>
+
+</body>
+</html>

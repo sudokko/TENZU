@@ -1,20 +1,22 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  taskBySlug, volHref, LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL, type Vol,
+} from "../products/data";
+import {
+  PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor, blockArrowPoints,
+  KGAP, type PaperKey, type LayoutPerPage, type PairLayout,
+} from "../products/print";
 
 // =========================================================================
 // Types & constants
+// レイアウトエンジン（PAPER/gridFor/paneSize 等）は products/print.ts（SSOT）から import
 // =========================================================================
 type Point = { c: number; r: number };
 type Edge = { a: Point; b: Point };
 
 type GridSize = 3 | 4 | 5;
-type PaperKey =
-  | "A4-P" | "A4-L"
-  | "B4-P" | "B4-L"
-  | "A3-P" | "A3-L";
-type LayoutPerPage = 1 | 2 | 3 | 4 | 6 | 8 | 10 | 12;
-type PairLayout = "horizontal" | "vertical";
 
 type Problem = {
   id: string;
@@ -24,86 +26,10 @@ type Problem = {
   selected: boolean;
 };
 
-const PAPER: Record<PaperKey, { label: string; w: number; h: number; landscape: boolean; cssSize: string }> = {
-  "A4-P": { label: "A4 縦", w: 210, h: 297, landscape: false, cssSize: "A4 portrait" },
-  "A4-L": { label: "A4 横", w: 297, h: 210, landscape: true,  cssSize: "A4 landscape" },
-  "B4-P": { label: "B4 縦", w: 257, h: 364, landscape: false, cssSize: "257mm 364mm" },
-  "B4-L": { label: "B4 横", w: 364, h: 257, landscape: true,  cssSize: "364mm 257mm" },
-  "A3-P": { label: "A3 縦", w: 297, h: 420, landscape: false, cssSize: "A3 portrait" },
-  "A3-L": { label: "A3 横", w: 420, h: 297, landscape: true,  cssSize: "A3 landscape" },
-};
-
-const PAPER_KEYS: PaperKey[] = ["A4-P", "A4-L", "B4-P", "B4-L", "A3-P", "A3-L"];
-
-const COUNT_OPTIONS: LayoutPerPage[] = [1, 2, 3, 4, 6, 8, 10, 12];
-
-// Max problems per page by paper family — larger paper fits more pairs legibly.
-function paperMax(key: PaperKey): LayoutPerPage {
-  if (key.startsWith("A4")) return 6;
-  if (key.startsWith("B4")) return 10;
-  return 12; // A3
-}
-
-// Pane geometry constants — arrow gap & label band as fractions of the pane.
-// Shared by the optimizer and the layout code so both agree on how a pair fits.
-const KGAP = 0.18; // arrow gap
-const KPAD = 0.08; // breathing pad around the pair (no もんだい/かいとう labels)
-
-// Largest square pane that fits a pair-cell of the given size, for the orientation.
-// Horizontal pair: 2 panes + gap wide, 1 pane + pad tall.
-// Vertical pair:   1 pane wide, 2 panes + gap + 2 pads tall.
-function paneSize(cellW: number, cellH: number, pair: PairLayout): number {
-  if (pair === "horizontal") {
-    return Math.min(cellW / (2 + KGAP), cellH / (1 + KPAD));
-  }
-  return Math.min(cellW, cellH / (2 + KGAP + 2 * KPAD));
-}
-
-// Pick cols×rows for `count` pair-cells on a W×H page (mm) maximizing pane size.
-// Dynamic: adapts to paper, pair orientation and count automatically. A light blank-cell
-// penalty breaks near-ties toward a fuller grid. Replaces the old hardcoded table —
-// "横並び→縦積み／縦並び→横並べ" now falls out of the pane-size search rather than a rule.
-function gridFor(
-  count: number, pair: PairLayout, W: number, H: number, margin: number,
-): { cols: number; rows: number } {
-  const usableW = W - margin * 2;
-  const usableH = H - margin * 2;
-  let best = { cols: 1, rows: count, score: -1 };
-  for (let cols = 1; cols <= count; cols++) {
-    const rows = Math.ceil(count / cols);
-    const pane = paneSize(usableW / cols, usableH / rows, pair);
-    const blanks = cols * rows - count;
-    const score = pane * (1 - 0.04 * (blanks / count));
-    if (score > best.score) best = { cols, rows, score };
-  }
-  return { cols: best.cols, rows: best.rows };
-}
-
 const VIEW = 200;
 // Soft ink color — used for all drawn dots/lines/labels in panes (printable side).
 // UI chrome (toolbar buttons, etc.) stays at the original --fg.
 const INK = "#3A424E";
-
-// Block-arrow silhouette points (white fill + thin outline) within a w×h box.
-function blockArrowPoints(w: number, h: number, dir: "right" | "down"): string {
-  let pts: [number, number][];
-  if (dir === "right") {
-    const top = h * 0.32, bot = h * 0.68, hb = w * 0.55;
-    pts = [
-      [0, top], [hb, top], [hb, h * 0.10],
-      [w, h * 0.5],
-      [hb, h * 0.90], [hb, bot], [0, bot],
-    ];
-  } else {
-    const lef = w * 0.32, rig = w * 0.68, hb = h * 0.55;
-    pts = [
-      [lef, 0], [lef, hb], [w * 0.10, hb],
-      [w * 0.5, h],
-      [w * 0.90, hb], [rig, hb], [rig, 0],
-    ];
-  }
-  return pts.map(([px, py]) => `${px},${py}`).join(" ");
-}
 
 // Outlined block arrow — used between もんだい / かいとう
 function ArrowSVG({ x, y, size, dir, color }: {
@@ -138,6 +64,172 @@ function dotPos(c: number, r: number, dots: number) {
 }
 function uid() {
   return `p_${Math.random().toString(36).slice(2, 9)}`;
+}
+
+// =========================================================================
+// 完了画面レコメンド — 模写（図形）8段ラダー（products/data.ts SSOT）から
+// 「作った問題と同じグリッドの最初の Vol」を起点に連続3冊を引く。
+// 3×3 のみ斜め有無で起点が分岐（#1 直線のみ / #2 ななめ導入）。
+// =========================================================================
+const COPY_TASK = taskBySlug("copy")!;
+
+function recommendVols(maxGrid: GridSize, usedDiag: boolean): Vol[] {
+  const vols = COPY_TASK.vols; // data.ts の並び＝ラダー順
+  let start = vols.findIndex((x) => x.grid === `${maxGrid}×${maxGrid}`);
+  if (start < 0) start = 0;
+  if (maxGrid === 3 && usedDiag) start = 1;
+  start = Math.min(start, vols.length - 3);
+  return vols.slice(start, start + 3);
+}
+
+function hasDiagonal(problems: Problem[]): boolean {
+  return problems.some((p) =>
+    p.edges.some((e) => e.a.c !== e.b.c && e.a.r !== e.b.r));
+}
+
+// =========================================================================
+// PDF 生成 — jsPDF ＋ ページ SVG → 300dpi PNG 焼き込み。
+// window.print() はスマホで使いものにならないため、ファイルとして
+// ダウンロードさせる（コンビニ印刷・プリンタアプリにもそのまま渡せる）。
+// レイアウトは印刷系と同じ gridFor / paneSize / KGAP を共有。
+// =========================================================================
+const PX_PER_MM = 300 / 25.4; // 300dpi
+
+function escapeXml(s: string): string {
+  return s.replace(/[<>&"']/g, (c) =>
+    ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;" }[c] as string));
+}
+
+// 1ペイン（盤面）を mm 座標の SVG 断片で描く。比率は PaperSVG（r=1.6/VIEW200）準拠。
+function paneSvgString(
+  x: number, y: number, pane: number, gridSize: GridSize, edges: Edge[], showLines: boolean,
+): string {
+  const inset = pane * 0.10;
+  const step = (pane - inset * 2) / (gridSize - 1);
+  const P = (c: number, r: number) => ({ x: x + inset + c * step, y: y + inset + r * step });
+  const dotR = Math.max(0.45, pane * 0.008);
+  const lineW = Math.max(0.4, pane * 0.008);
+  let s = `<rect x="${x}" y="${y}" width="${pane}" height="${pane}" fill="#FFFFFF" stroke="#999999" stroke-width="0.2"/>`;
+  if (showLines) {
+    for (const e of edges) {
+      const a = P(e.a.c, e.a.r), b = P(e.b.c, e.b.r);
+      s += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${INK}" stroke-width="${lineW}" stroke-linecap="round" stroke-linejoin="round"/>`;
+    }
+  }
+  for (let r = 0; r < gridSize; r++) {
+    for (let c = 0; c < gridSize; c++) {
+      const p = P(c, r);
+      s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${INK}"/>`;
+    }
+  }
+  return s;
+}
+
+type LogoInfo = { url: string; w: number; h: number };
+
+function buildPageSvg(opts: {
+  paper: typeof PAPER[PaperKey];
+  problems: Problem[];
+  startIndex: number;
+  pageNo: number;
+  pageCount: number;
+  marginMm: number;
+  problemsPerPage: LayoutPerPage;
+  pairLayout: PairLayout;
+  logo: LogoInfo | null;
+}): string {
+  const { paper, problems, startIndex, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, logo } = opts;
+  const W = paper.w, H = paper.h;
+  const footerH = 12;   // フッター帯（ロゴ＋ページ番号）
+  const headerBand = 7; // 各問題の見出し行
+  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - footerH, marginMm);
+  const cellW = (W - marginMm * 2) / cols;
+  const cellH = (H - marginMm * 2 - footerH) / rows;
+  const pane = paneSize(cellW, cellH - headerBand, pairLayout);
+  const gap = pane * KGAP;
+  const jpFont = "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif";
+
+  let body = "";
+  problems.forEach((p, idx) => {
+    const col = idx % cols;
+    const row = Math.floor(idx / cols);
+    const cx = marginMm + col * cellW;
+    const cy = marginMm + row * cellH;
+    const num = (startIndex + idx + 1).toString().padStart(2, "0");
+    body += `<text x="${cx + 1}" y="${cy + 4.6}" font-family="${jpFont}" font-size="3.6" fill="${INK}">${num} · ${escapeXml(p.name)}<tspan dx="3" font-size="2.6" fill="#777777">${p.gridSize}×${p.gridSize}</tspan></text>`;
+
+    const areaY = cy + headerBand;
+    const areaH = cellH - headerBand;
+    const aSize = gap * 0.9;
+    if (pairLayout === "horizontal") {
+      const pairW = pane * 2 + gap;
+      const sx = cx + (cellW - pairW) / 2;
+      const sy = areaY + (areaH - pane) / 2;
+      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true);
+      body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, [], false);
+      const ah = aSize * 0.55;
+      body += `<g transform="translate(${sx + pane + (gap - aSize) / 2},${sy + pane / 2 - ah / 2})"><polygon points="${blockArrowPoints(aSize, ah, "right")}" fill="#FFFFFF" stroke="${INK}" stroke-width="0.25" stroke-linejoin="round" stroke-linecap="round"/></g>`;
+    } else {
+      const pairH = pane * 2 + gap;
+      const sx = cx + (cellW - pane) / 2;
+      const sy = areaY + (areaH - pairH) / 2;
+      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true);
+      body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, [], false);
+      const aw = aSize * 0.55;
+      body += `<g transform="translate(${sx + pane / 2 - aw / 2},${sy + pane + (gap - aSize) / 2})"><polygon points="${blockArrowPoints(aw, aSize, "down")}" fill="#FFFFFF" stroke="${INK}" stroke-width="0.25" stroke-linejoin="round" stroke-linecap="round"/></g>`;
+    }
+  });
+
+  // フッター: ロゴ（左）＋ ページ番号（右）
+  const fy = H - marginMm - 6.5;
+  let footer = "";
+  if (logo) {
+    const lw = 6.5 * (logo.w / logo.h);
+    footer += `<image href="${logo.url}" x="${marginMm}" y="${fy}" width="${lw}" height="6.5"/>`;
+  }
+  footer += `<text x="${W - marginMm}" y="${fy + 5}" text-anchor="end" font-family="${jpFont}" font-size="2.8" fill="#888888" letter-spacing="0.3">P ${pageNo} / ${pageCount}</text>`;
+
+  const pxW = Math.round(W * PX_PER_MM);
+  const pxH = Math.round(H * PX_PER_MM);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${pxW}" height="${pxH}"><rect width="${W}" height="${H}" fill="#FFFFFF"/>${body}${footer}</svg>`;
+}
+
+function svgToPng(svg: string, wMm: number, hMm: number): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(wMm * PX_PER_MM);
+      canvas.height = Math.round(hMm * PX_PER_MM);
+      const ctx = canvas.getContext("2d")!;
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL("image/png"));
+    };
+    img.onerror = (e) => { URL.revokeObjectURL(url); reject(e); };
+    img.src = url;
+  });
+}
+
+async function loadLogo(): Promise<LogoInfo | null> {
+  try {
+    const res = await fetch("/assets/logo-horizontal.png");
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    const url = await new Promise<string>((ok) => {
+      const fr = new FileReader();
+      fr.onload = () => ok(fr.result as string);
+      fr.readAsDataURL(blob);
+    });
+    const img = new Image();
+    await new Promise((ok, err) => { img.onload = ok; img.onerror = err; img.src = url; });
+    return { url, w: img.naturalWidth, h: img.naturalHeight };
+  } catch {
+    return null; // ロゴが読めなくても PDF 生成は続行
+  }
 }
 
 // =========================================================================
@@ -355,11 +447,45 @@ export default function MakerApp() {
     return ps;
   }, [selectedSaved, problemsPerPage]);
 
-  // ---- Print ----
-  function doPrint() {
-    if (selectedSaved.length === 0) return;
-    if (typeof window !== "undefined") window.print();
+  // ---- PDF ダウンロード → 完了画面 ----
+  const [done, setDone] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  async function doExport() {
+    if (selectedSaved.length === 0 || exporting) return;
+    setExporting(true);
+    try {
+      const { jsPDF } = await import("jspdf");
+      const logo = await loadLogo();
+      const orientation = paper.landscape ? "landscape" : "portrait";
+      const format: [number, number] = [Math.min(paper.w, paper.h), Math.max(paper.w, paper.h)];
+      const doc = new jsPDF({ orientation, unit: "mm", format });
+      for (let pi = 0; pi < pages.length; pi++) {
+        if (pi > 0) doc.addPage(format, orientation);
+        const svg = buildPageSvg({
+          paper, problems: pages[pi], startIndex: pi * problemsPerPage,
+          pageNo: pi + 1, pageCount: pages.length,
+          marginMm, problemsPerPage, pairLayout, logo,
+        });
+        const png = await svgToPng(svg, paper.w, paper.h);
+        doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
+      }
+      doc.save("tenzu-otameshi-tenbyosha.pdf");
+      setDone(true);
+    } catch (err) {
+      console.error("PDF export failed:", err);
+      window.alert("PDF の作成に失敗しました。もう一度お試しください。");
+    } finally {
+      setExporting(false);
+    }
   }
+
+  // 書き出した問題から「最大グリッド」と「斜め線の使用」を判定
+  const reco = useMemo(() => {
+    if (selectedSaved.length === 0) return null;
+    const maxGrid = Math.max(...selectedSaved.map((p) => p.gridSize)) as GridSize;
+    const usedDiag = hasDiagonal(selectedSaved);
+    return { maxGrid, usedDiag, vols: recommendVols(maxGrid, usedDiag) };
+  }, [selectedSaved]);
 
   const edgeCountLabel = `線 ${edges.length} 本`;
   const editingTitle = `問題 #${(saved.length + 1).toString().padStart(2, "0")} を作る`;
@@ -383,6 +509,11 @@ export default function MakerApp() {
         </div>
       </header>
 
+      {/* ============ DONE SCREEN ============ */}
+      {done && reco ? (
+        <DoneScreen reco={reco} count={selectedSaved.length} onBack={() => setDone(false)} />
+      ) : (
+      <>
       {/* ============ APP SHELL ============ */}
       <div className="app-shell">
 
@@ -620,9 +751,9 @@ export default function MakerApp() {
               )}
             </div>
             <button className="btn-export" type="button"
-              onClick={doPrint} disabled={selectedSaved.length === 0}>
-              PDF を書き出す
-              {selectedSaved.length > 0 && (
+              onClick={doExport} disabled={selectedSaved.length === 0 || exporting}>
+              {exporting ? "PDF を作成中…" : "PDF をダウンロード"}
+              {!exporting && selectedSaved.length > 0 && (
                 <span className="x">{selectedSaved.length} 問 / {pages.length} ページ</span>
               )}
             </button>
@@ -635,6 +766,8 @@ export default function MakerApp() {
 
         </aside>
       </div>
+      </>
+      )}
 
       {/* ============ PRINT-ONLY SHEETS ============ */}
       <div className="print-only" aria-hidden="true">
@@ -651,6 +784,107 @@ export default function MakerApp() {
         ))}
       </div>
     </>
+  );
+}
+
+// =========================================================================
+// DoneScreen — PDF 書き出し後の完了画面（案A・動的レコメンド）
+// funnel §14: サンクスページが広告回収の勝負所。「次の3冊」へつなぐ。
+// =========================================================================
+function DotThumb({ grid }: { grid: string }) {
+  const n = parseInt(grid, 10) || 3;
+  const inset = 10;
+  const step = (72 - inset * 2) / (n - 1);
+  const dots: React.ReactNode[] = [];
+  for (let r = 0; r < n; r++) {
+    for (let c = 0; c < n; c++) {
+      dots.push(
+        <circle key={`${c}-${r}`}
+          cx={inset + c * step} cy={inset + r * step}
+          r={n <= 4 ? 2.4 : 2} fill={INK} />,
+      );
+    }
+  }
+  return (
+    <svg viewBox="0 0 72 72" role="img" aria-label={`${grid} の点のならび`}>
+      {dots}
+    </svg>
+  );
+}
+
+const DONE_STARS = ["★ 同じ細かさで", "つぎの一歩", "そのさき"];
+
+function doneMemo(maxGrid: GridSize, usedDiag: boolean): string {
+  if (maxGrid === 3 && !usedDiag) {
+    return "まっすぐの線がすらすら書けていたら、つぎは「ななめ」が壁になります。同じ3×3のまま、ななめ線だけが加わる一冊を下に置いておきますね。";
+  }
+  if (maxGrid >= 5) {
+    return "5×5がちょうどよければ、もう点描写の標準サイズです。ここから先は、角度が自由になったり、マスが6×6に広がったり。このメーカーでは作れない世界が続きます。";
+  }
+  return "いま作った問題が「ちょうどいい」と感じたら、その手ごたえがいちばんの目安です。同じ細かさから始められる一冊を、下に置いておきますね。";
+}
+
+function DoneScreen({
+  reco, count, onBack,
+}: {
+  reco: { maxGrid: GridSize; usedDiag: boolean; vols: Vol[] };
+  count: number;
+  onBack: () => void;
+}) {
+  return (
+    <main className="maker-done">
+      <div className="done-inner">
+
+        <span className="done-check">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+            <circle cx="8" cy="8" r="7" fill="none" stroke="#2C6E7F" strokeWidth="1.5" />
+            <path d="M4.8 8.2 7 10.4 11.2 5.8" fill="none" stroke="#2C6E7F"
+              strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+          PDF をダウンロードしました · {count} 問
+        </span>
+        <h1 className="done-h1">きょうの一枚、できあがり。</h1>
+        <p className="done-lead">あとはダウンロードした PDF を印刷して、紙と鉛筆で。おうちのプリンタでも、コンビニ印刷でも。</p>
+
+        <div className="done-memo">
+          <span className="who">— 店主から</span>
+          {doneMemo(reco.maxGrid, reco.usedDiag)}
+        </div>
+
+        <hr className="done-dashed" />
+
+        <div className="done-next">
+          <span className="done-basis">
+            あなたが作った問題: 最大 {reco.maxGrid}×{reco.maxGrid} · ななめ線{reco.usedDiag ? "あり" : "なし"}
+          </span>
+          <h3>この細かさなら、ここから。</h3>
+          <p className="sub">
+            いま作った問題と同じ細かさから、一段ずつ。1冊 = {QUESTIONS_PER_VOL}問 / A4 / PDF。中身はぜんぶ見られます。
+          </p>
+          <div className="done-sku-row">
+            {reco.vols.map((vol, i) => (
+              <a className="done-sku" key={vol.sku} href={volHref(COPY_TASK, vol)}>
+                <div className="thumb"><DotThumb grid={vol.grid} /></div>
+                <span className="star">{DONE_STARS[i]}</span>
+                <div className="tag">{COPY_TASK.name} / {vol.grid}</div>
+                <div className="name">Lv.{vol.lv} {LEVEL_NAMES[vol.lv - 1]} Vol.{vol.volNo}</div>
+                <div className="desc">{vol.blurb}</div>
+                <div className="meta">{vol.ageLabel} · {QUESTIONS_PER_VOL} 問 · ¥{PRICE}</div>
+              </a>
+            ))}
+          </div>
+          <div className="done-links">
+            <a className="done-ghost" href="/level-guide">どのレベルが合うか迷ったら — レベル選びガイドへ</a>
+          </div>
+        </div>
+
+        <div className="done-actions">
+          <button type="button" className="done-back" onClick={onBack}>← つづきを作る</button>
+          <a className="done-home" href="/">お店をみる →</a>
+        </div>
+
+      </div>
+    </main>
   );
 }
 
