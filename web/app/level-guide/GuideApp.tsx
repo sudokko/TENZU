@@ -7,11 +7,13 @@
      軸B どの種類から（群/タスク）… 目的 1 問 → ★最初の一冊（具体 SKU）
    データは catalog.tsx の GROUPS/LEVELS/LevelGraph を再利用（SSOT・新規データなし）。
    診断語彙は使わない。提案トーン。メアド取得なし・外部依存なし。
-   ※サンプル/商品/記事リンクは未配線（href="#"）。
+   商品リンクは products/data.ts へ配線済（live=詳細・scaffold=一覧の Lv アンカー）。
+   ※サンプル PDF リンクのみ未配線（href="#"・PDF 整備待ち）。
    ========================================================================= */
 
 import { useState } from "react";
 import { GROUPS, LEVELS, LevelGraph, volOf, type Task } from "../catalog";
+import { taskBySlug } from "../products/data";
 
 /* ---- タスク横断ルックアップ（GROUPS から名前で引く） ---- */
 const ALL_TASKS: { task: Task; group: string }[] = GROUPS.flatMap((g) =>
@@ -36,20 +38,11 @@ const QUESTIONS: Question[] = [
     q: "お子さんの年齢は？",
     help: "答えはレベルの「めやす」にだけ使います。最後は、いまの手ごたえで決めます。",
     opts: [
-      { v: "pre", label: "〜4才ごろ" },
-      { v: "nenchu", label: "年中（4〜5才）" },
-      { v: "nencho", label: "年長（5〜6才）" },
-      { v: "g12", label: "小1〜2" },
-      { v: "g3", label: "小3以上" },
-    ],
-  },
-  {
-    key: "unten",
-    q: "点と点を、まっすぐな線でつなげますか？",
-    opts: [
-      { v: "sui", label: "線でつなぐのは得意" },
-      { v: "mada", label: "まだ練習中" },
-      { v: "wakaranai", label: "わからない" },
+      { v: "4", label: "4才以下" },
+      { v: "5", label: "5才" },
+      { v: "6", label: "6才" },
+      { v: "7", label: "7才" },
+      { v: "8", label: "8才以上" },
     ],
   },
   {
@@ -63,11 +56,11 @@ const QUESTIONS: Question[] = [
   },
   {
     key: "komaka",
-    q: "5×5くらいの細かいマスや、線の交差はどうですか？",
+    q: "細かいマス目（5×5 以上）や、線が交差する形は？",
     opts: [
       { v: "fun", label: "楽しめそう" },
-      { v: "ok", label: "少し難しいかも" },
-      { v: "mada", label: "まだ早いかも" },
+      { v: "futsu", label: "ふつうかな" },
+      { v: "mada", label: "まだ難しそう" },
     ],
   },
   {
@@ -81,17 +74,6 @@ const QUESTIONS: Question[] = [
       { v: "draw", label: "絵を描くのが好き。楽しく続けたい" },
       { v: "harder", label: "もっと頭を使う問題を" },
       { v: "solid", label: "立体・空間の感覚を育てたい" },
-    ],
-  },
-  {
-    key: "kyomi",
-    q: "「写す」以外で、興味のあるものは？",
-    help: "なくても大丈夫。おすすめの幅をひろげるだけです。",
-    optional: true,
-    opts: [
-      { v: "move", label: "向きを変える・動かす" },
-      { v: "overlay", label: "重ねる・分ける" },
-      { v: "skip", label: "とくにない / まだわからない" },
     ],
   },
 ];
@@ -108,16 +90,16 @@ const MOKUTEKI_MAP: Record<string, { primary: string; related: string[] }> = {
 
 /* ---- 軸A：年齢で初期推定 → 手ごたえ 3 問で確定（手ごたえ優先・やさしい方が勝つ） ---- */
 function computeLevelIndex(a: Record<string, string>): number {
-  const anchor: Record<string, number> = { pre: 0, nenchu: 0, nencho: 1, g12: 2, g3: 3 };
+  const anchor: Record<string, number> = { "4": 0, "5": 0, "6": 1, "7": 2, "8": 3 };
   let lv = anchor[a.age] ?? 1;
-  const { unten, naname, komaka } = a;
+  const { naname, komaka } = a;
   // 手ごたえが年齢を上回るなら引き上げ
-  if (naname === "sui" && komaka === "fun") lv = Math.max(lv, 3);
-  if (unten === "sui" && naname === "sui") lv = Math.max(lv, 2);
+  // 斜め・細かさとも最強かつ 8 才以上のときだけ発展編(Lv.5)を許可
+  if (naname === "sui" && komaka === "fun") lv = Math.max(lv, a.age === "8" ? 4 : 3);
+  else if (naname === "sui" || komaka === "fun") lv = Math.max(lv, 2);
   // 床/天井（やさしい側が勝つ）
   if (komaka === "mada") lv = Math.min(lv, 2);
   if (naname === "mada") lv = Math.min(lv, 1);
-  if (unten === "mada") lv = 0;
   return Math.max(0, Math.min(4, lv));
 }
 
@@ -174,7 +156,7 @@ export default function GuideApp() {
           <p className="lg-kicker">レベル選びガイド</p>
           <h1 className="lg-h1">どこから始めるか、いっしょに決めましょう。</h1>
           <p className="lg-lead">
-            6 つの質問（最後の 1 つは任意）に答えると、はじめる位置の目安と、おすすめの一冊が出ます。
+            4 つの質問に答えると、はじめる位置の目安と、おすすめの一冊が出ます。
             正解さがしではありません。迷ったら、ひとつやさしい巻からで大丈夫です。
           </p>
         </header>
@@ -269,11 +251,8 @@ function Result({
   const primary = findTask(map.primary);
   const { idx: skuIdx, snapped } = resolveSku(primary.task, lvIndex);
 
-  // 関連 2-3（Q6 の興味で広げる・primary 除外・重複除外）
-  let relatedNames = [...map.related];
-  if (answers.kyomi === "move") relatedNames = ["回転", "線対称", ...relatedNames];
-  else if (answers.kyomi === "overlay") relatedNames = ["かさね", "分解", ...relatedNames];
-  relatedNames = [...new Set(relatedNames.filter((n) => n !== map.primary))].slice(0, 3);
+  // 関連 2-3（primary 除外・重複除外）
+  const relatedNames = [...new Set(map.related.filter((n) => n !== map.primary))].slice(0, 3);
   const related = relatedNames.map(findTask);
 
   const snapNote = snapped
@@ -281,6 +260,14 @@ function Result({
     : null;
 
   const Fig = primary.task.Fig;
+
+  /* ★一冊のリンク先: 推奨 Lv の Vol.1 が live なら詳細、そうでなければ一覧の該当 Lv へ */
+  const dataTask = taskBySlug(primary.task.slug);
+  const pickVol = dataTask?.vols.find((x) => x.lv === skuIdx + 1 && x.volNo === 1);
+  const pickHref =
+    pickVol && pickVol.status === "live"
+      ? `/products/${pickVol.sku}`
+      : `/products/${primary.task.slug}#lv${skuIdx + 1}`;
 
   return (
     <section className="lg-result">
@@ -321,7 +308,7 @@ function Result({
             <p className="lg-pick-note">{primary.task.notes[skuIdx]}</p>
             {snapNote && <p className="lg-pick-snap">{snapNote}</p>}
             <div className="lg-pick-cta">
-              <a className="btn-medium" href="#">
+              <a className="btn-medium" href={pickHref}>
                 この一冊を見る →
               </a>
               <a className="btn-weak" href="#">
@@ -339,7 +326,7 @@ function Result({
           <ul className="lg-related-list">
             {related.map((r) => (
               <li key={r.task.name}>
-                <a className="lg-related-item" href="#">
+                <a className="lg-related-item" href={`/products/${r.task.slug}`}>
                   <span className="lg-related-name">{r.task.name}</span>
                   <span className="lg-related-vol">全 {volOf(r.task.lv)} 巻</span>
                 </a>
@@ -355,7 +342,7 @@ function Result({
           このおすすめは、選びの目安です。中身を見て、お子さんに合いそうな一冊を選んでください。
         </p>
         <div className="lg-foot-actions">
-          <a className="btn-weak" href="#">
+          <a className="btn-weak" href="/products">
             ガイドを使わず、全部見る →
           </a>
           <button type="button" className="lg-redo" onClick={onReset}>

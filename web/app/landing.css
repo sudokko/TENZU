@@ -405,6 +405,8 @@ header.site {
   margin-left: 6px;
   white-space: nowrap;
 }
+a.cat-firststar { text-decoration: none; }
+a.cat-firststar:hover { text-decoration: underline; }
 
 /* ==== レベル詳細リスト（各レベル横に内容解説） ==== */
 .lvlist-b { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }

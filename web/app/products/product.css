@@ -92,7 +92,7 @@
 }
 .sku-promise {
   font-family: var(--font-tier2-pencil);
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.85;
   letter-spacing: 0.01em;
   color: var(--fg);
@@ -155,14 +155,14 @@
 .memo-label {
   font-family: var(--font-tier1-klee);
   font-weight: 600;
-  font-size: 17px;
+  font-size: 18px;
   color: var(--fg);
   margin-bottom: 10px;
   letter-spacing: 0.01em;
 }
 .memo-body {
   font-family: var(--font-tier2-pencil);
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.85;
   letter-spacing: 0.01em;
   color: var(--fg);
@@ -196,7 +196,7 @@ section.s h2.h2-product {
 }
 section.s .lead {
   font-family: var(--font-tier2-pencil);
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.85;
   color: var(--fg);
   margin: 0 0 28px;
@@ -351,10 +351,274 @@ section.s .lead {
 }
 .related-card .rc-promise {
   font-family: var(--font-tier2-pencil);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--fg-2);
   line-height: 1.7;
 }
+
+/* sku-visual 内のタスク代表 Fig（みほん→うつす SVG を A4 紙面の中央に） */
+.sku-visual .sku-fig {
+  position: absolute;
+  inset: 56px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sku-visual .sku-fig svg { width: 100%; height: auto; max-height: 100%; }
+
+/* =========================================================================
+   spv- : 紙面プレビュー＋PDF 生成（SkuPrintPreview・decisions §3.48）
+   ========================================================================= */
+.sku-preview-col { display: flex; flex-direction: column; gap: 14px; }
+.spv-head { display: flex; align-items: baseline; gap: 12px; }
+.spv-head-stamp {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fg);
+}
+.spv-head-sub {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--fg-3);
+}
+.spv { display: flex; flex-direction: column; gap: 16px; }
+.spv-controls { display: flex; flex-direction: column; gap: 12px; }
+.spv-label {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+  margin: 0 0 6px;
+}
+.spv-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.spv-chip {
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  padding: 6px 10px;
+  background: #FFFFFF;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  cursor: pointer;
+  font: inherit;
+  transition: border-color var(--dur-fast) var(--ease-line);
+}
+.spv-chip:hover { border-color: var(--accent); }
+.spv-chip.is-sel {
+  border-color: var(--accent);
+  background: var(--accent-mute);
+}
+.spv-chip-main {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  color: var(--fg);
+}
+.spv-chip.is-sel .spv-chip-main { color: var(--accent-ink); }
+.spv-chip-sub {
+  font-family: var(--font-tier3-mono);
+  font-size: 10px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.spv-pages {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  padding: 18px 12px;
+  background: var(--bg-3);
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  max-height: 560px;
+  overflow-y: auto;
+}
+.spv-page { position: relative; min-width: 180px; }
+.spv-page svg {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--line-thin);
+  box-shadow: 0 1px 2px rgba(26, 31, 42, 0.04);
+  background: #FFFFFF;
+}
+.spv-page-badge {
+  position: absolute; top: 6px; left: 6px;
+  font-family: var(--font-tier3-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+.spv-dl { text-align: center; }
+.spv-dl[disabled] { opacity: 0.55; cursor: default; }
+.spv-note {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--fg-2);
+  margin: 0;
+}
+.spv-note b { color: var(--accent-ink); }
+
+/* =========================================================================
+   plp- : タスク別一覧ページ（TaskListPage）＋ /products ハブ
+   ========================================================================= */
+
+/* hub head */
+.plp-hub-head { padding: 36px 0 0; }
+
+/* task head */
+.plp-head {
+  padding: 36px 0 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 420px) 1fr;
+  gap: 48px;
+  align-items: center;
+}
+@media (max-width: 800px) { .plp-head { grid-template-columns: 1fr; gap: 20px; } }
+.plp-head-fig {
+  background: #FFFFFF;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 14px;
+}
+.plp-head-fig svg { width: 100%; height: auto; display: block; }
+.plp-kicker {
+  font-family: var(--font-tier3-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--fg-3);
+  margin: 0 0 10px;
+}
+.plp-h1 {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  margin: 0 0 12px;
+}
+.plp-desc {
+  font-family: var(--font-tier2-pencil);
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--fg);
+  margin: 0 0 14px;
+  max-width: 44ch;
+}
+.plp-stat {
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--fg-2);
+  margin: 0;
+}
+
+/* Lv セクション内の Vol カード */
+.plp-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: 18px;
+  margin-top: 8px;
+  max-width: 920px;
+}
+.plp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+  background: #FFFFFF;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  text-decoration: none;
+  transition: border-color var(--dur-fast) var(--ease-line);
+}
+a.plp-card:hover { border-color: var(--accent); }
+a.plp-card:hover .plp-card-go { color: var(--accent); }
+.plp-card.is-soon { background: var(--bg-3); }
+.plp-card.is-soon .plp-card-blurb,
+.plp-card.is-soon .plp-card-grid { color: var(--fg-3); }
+.plp-card-top {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.plp-card-vol {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--fg-3);
+  text-transform: uppercase;
+}
+.plp-card-grid {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+}
+.plp-card-variant {
+  font-family: var(--font-tier3-sans);
+  font-size: 11px;
+  color: var(--fg-2);
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 2px 7px;
+}
+.plp-card-star {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.plp-card-soon {
+  font-family: var(--font-tier3-sans);
+  font-size: 11px;
+  color: var(--fg-3);
+  border: 1px dashed var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 2px 7px;
+}
+.plp-card-blurb {
+  font-family: var(--font-tier2-pencil);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--fg-2);
+  margin: 0;
+  flex: 1;
+}
+.plp-card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px dashed var(--line-thin);
+  padding-top: 10px;
+}
+.plp-card-age {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.plp-card-price {
+  font-family: var(--font-tier3-mono);
+  font-size: 12px;
+  color: var(--fg-2);
+  letter-spacing: 0.04em;
+}
+.plp-card-go { color: var(--fg-3); }
+
+/* フッタ導線 */
+.plp-foot { display: flex; flex-direction: column; gap: 18px; }
+.plp-foot-note {
+  font-family: var(--font-tier2-pencil);
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--fg);
+  margin: 0;
+  max-width: 48ch;
+}
+.plp-foot-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: baseline; }
 
 /* product page mini footer (overrides landing.css footer.site grid) */
 footer.site.footer-mini {

@@ -13,7 +13,8 @@ import { GROUPS, volOf, LevelGraph, ArticlesSection, SiteFooter } from "./catalo
    - 「大切にした 3 つ」＝図解カード（①適レベル ②模写だけにしない ③印刷の自由）。
    - 「家庭での続け方」＝縦タイムライン（案B）。
    動き・タブとも自前 CSS（client JS なし・Server Component 維持）。
-   ※リンク先 URL は未配線（href="#"）。SSOT 反映は別途。
+   商品系リンクは配線済（種類→/products/{slug}・すべて見る→/products）。
+   ※サンプル PDF 系リンクのみ未配線（href="#"・PDF 整備待ち）。
    変遷: 旧 A 案 → archive/retired-designs/2026-06-09-top-a-storefront-superseded.tsx
    ========================================================================= */
 
@@ -31,18 +32,12 @@ const SLOT = "12s"; // 1 図形あたりの尺
 const FIGURES: { name: string; verts: number[][] }[] = [
   // 家：四角＋屋根
   { name: "house", verts: [[1, 3], [1, 1], [2, 0], [3, 1], [3, 3]] },
-  // ヨット：マスト(縦)→三角の帆→船体（6点）
-  { name: "yacht", verts: [[2, 3], [2, 0], [4, 3], [3, 4], [1, 4], [0, 3]] },
+  // ヨット：デッキ左→マスト(縦)→帆(斜め)→デッキ右→台形の船体（7点・全てグリッド点）
+  { name: "yacht", verts: [[0, 3], [1, 3], [1, 0], [3, 3], [4, 3], [3, 4], [1, 4]] },
   // 三角＋四角：四角の右辺に三角がくっついた図（5点）
   { name: "boxtri", verts: [[0, 1], [2, 1], [4, 2], [2, 3], [0, 3]] },
-  // 星：交差しない 5 角星の輪郭（外5＋内5＝10点・凹みあり）
-  {
-    name: "star",
-    verts: [
-      [2, 0], [2.53, 1.27], [3.9, 1.38], [2.86, 2.28], [3.18, 3.62],
-      [2, 2.9], [0.82, 3.62], [1.14, 2.28], [0.1, 1.38], [1.47, 1.27],
-    ],
-  },
+  // 星：格子点だけで作れる 4 方向の星（外＝上下左右の辺中央／内＝対角の格子点・8点）
+  { name: "star", verts: [[2, 0], [3, 1], [4, 2], [3, 3], [2, 4], [1, 3], [0, 2], [1, 1]] },
 ];
 
 /* 図形の頂点列から SMIL 駆動データを自動生成。
@@ -338,7 +333,7 @@ function CoverageSection() {
                     ))}
                   </div>
                   <p className="cov-sub">{g.sub}</p>
-                  <a className="cov-more" href="#">10 種類 × 5 段階を、すべて見る →</a>
+                  <a className="cov-more" href="/products">10 種類 × 5 段階を、すべて見る →</a>
                 </div>
 
                 <div className="cov-demo">
@@ -348,6 +343,9 @@ function CoverageSection() {
                       <div className="cov-demo-fig" key={t.name}>
                         <div className="cov-demo-card"><Fig /></div>
                         <p className="cov-demo-cap">{t.name}・みほん → うつす</p>
+                        <a className="cov-demo-link" href={`/products/${t.slug}`}>
+                          「{t.name}」全 {volOf(t.lv)} 巻を見る →
+                        </a>
                       </div>
                     );
                   })}

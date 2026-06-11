@@ -1,7 +1,7 @@
 type NavKey = "商品" | "記事" | "レベル選び" | "About";
 
 const NAV_LINKS: { href: string; label: NavKey }[] = [
-  { href: "#",       label: "商品" },
+  { href: "/products", label: "商品" },
   { href: "#",       label: "記事" },
   { href: "/level-guide", label: "レベル選び" },
   { href: "#",       label: "About" },

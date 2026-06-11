@@ -1,10 +1,11 @@
 /* =========================================================================
-   共有カタログモジュール（SSOT・DRY 化）
-   `/`（page.tsx）と `/top-rich`（リッチ版）が同一のカタログ／記事／フッターを
-   描画するための単一ソース。データ重複を作らない（旧 top-b 二重管理の反省）。
-   出典: pack-design §0.2/§11.6/§12-22/§13.7・pack-tasks §15-22。
-   ※リンク先 URL は未配線（href="#" scaffold）。
+   共有カタログモジュール（表示コピー・Fig・帯グラフの単一ソース）
+   `/`（page.tsx）・`/products`（商品一覧ハブ）・`/level-guide` が共用。
+   巻数（lv 配列）は products/data.ts（Vol レベル SSOT）から lvCounts() で導出
+   ＝数値の二重定義なし。出典: pack-design §0.2/§11.6/§12-22/§13.7。
    ========================================================================= */
+
+import { lvCounts, firstVol, taskBySlug, volHref, LEVEL_NAMES } from "./products/data";
 
 const TEAL = "#2C6E7F";
 const FAINT = "#B0B5BD";
@@ -171,9 +172,10 @@ function FigSolid() {
   return <SampleFrame>{cube(LX)}{cube(RX, true)}</SampleFrame>;
 }
 
-/* lv = Lv.1〜5 の各 Vol 数（0＝歯抜け）。vol 合計は lv から算出。出典 pack-design §11.6 / §12-22
+/* slug = products/data.ts のタスク slug（突合キー・/products/{slug} へ配線）
+   lv = Lv.1〜5 の各 Vol 数（0＝歯抜け）。data.ts の lvCounts() から導出（手書き禁止）
    notes = 同 index のレベル内容解説（歯抜けは ""）。詳細アコーディオンで表示。出典 pack-tasks §15-22 / §12.2 */
-export type Task = { name: string; desc: string; lv: number[]; notes: string[]; Fig: () => React.ReactElement };
+export type Task = { slug: string; name: string; desc: string; lv: number[]; notes: string[]; Fig: () => React.ReactElement };
 export type Group = { label: string; sub: string; tasks: Task[] };
 
 export const GROUPS: Group[] = [
@@ -182,7 +184,7 @@ export const GROUPS: Group[] = [
     sub: "形をそのまま読み取る、いちばんの基礎。立体に起こすところまで。",
     tasks: [
       {
-        name: "模写（図形）", desc: "見本のとおりに、点をつないで写す。", lv: [1, 2, 2, 2, 1], Fig: FigCopy,
+        slug: "copy", name: "模写（図形）", desc: "見本のとおりに、点をつないで写す。", lv: lvCounts("copy"), Fig: FigCopy,
         notes: [
           "3×3・まっすぐの線だけ",
           "ななめ（45°）が登場。3×3〜4×4",
@@ -192,7 +194,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        name: "模写（絵柄）", desc: "いきもの・乗りもの…絵を、点で写す。", lv: [0, 2, 2, 2, 1], Fig: FigMotif,
+        slug: "motif", name: "模写（絵柄）", desc: "いきもの・乗りもの…絵を、点で写す。", lv: lvCounts("motif"), Fig: FigMotif,
         notes: [
           "",
           "絵柄でななめに挑戦。3×3〜4×4",
@@ -202,7 +204,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        name: "模写（立体）", desc: "平面の点から、立体を起こして写す。", lv: [0, 0, 1, 2, 2], Fig: FigSolid,
+        slug: "solid", name: "模写（立体）", desc: "平面の点から、立体を起こして写す。", lv: lvCounts("solid"), Fig: FigSolid,
         notes: [
           "", "",
           "立方体を組んだ形・少数ブロック",
@@ -211,7 +213,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        name: "欠け補完", desc: "足りない辺を補って、形を閉じる。", lv: [1, 1, 2, 2, 2], Fig: FigFill,
+        slug: "fill", name: "欠け補完", desc: "足りない辺を補って、形を閉じる。", lv: lvCounts("fill"), Fig: FigFill,
         notes: [
           "3×3・足りない線を描き足す",
           "ななめ線入りの欠け。3×3",
@@ -227,7 +229,7 @@ export const GROUPS: Group[] = [
     sub: "向きを変える、動かす、大きさを変える。頭の中で形を操る力。",
     tasks: [
       {
-        name: "線対称", desc: "軸で折り返した形を描く。", lv: [0, 1, 1, 2, 2], Fig: FigMirror,
+        slug: "mirror", name: "線対称", desc: "軸で折り返した形を描く。", lv: lvCounts("mirror"), Fig: FigMirror,
         notes: [
           "",
           "縦軸（左右の鏡うつし）。3×3",
@@ -237,7 +239,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        name: "回転", desc: "回しても同じ形だととらえる。", lv: [0, 1, 2, 2, 0], Fig: FigRotate,
+        slug: "rotate", name: "回転", desc: "回しても同じ形だととらえる。", lv: lvCounts("rotate"), Fig: FigRotate,
         notes: [
           "",
           "90°右回り。3×3",
@@ -247,7 +249,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        name: "平行移動", desc: "形を変えずに、ずらして写す。", lv: [0, 2, 1, 1, 0], Fig: FigTranslate,
+        slug: "translate", name: "平行移動", desc: "形を変えずに、ずらして写す。", lv: lvCounts("translate"), Fig: FigTranslate,
         notes: [
           "",
           "横→縦にずらす。3×3",
@@ -257,7 +259,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        name: "拡大・縮小", desc: "大きく・小さく、比をそろえて写す。", lv: [0, 0, 0, 3, 3], Fig: FigScale,
+        slug: "scale", name: "拡大・縮小", desc: "大きく・小さく、比をそろえて写す。", lv: lvCounts("scale"), Fig: FigScale,
         notes: [
           "", "", "",
           "2倍に拡大（3×3→5×5）",
@@ -271,7 +273,7 @@ export const GROUPS: Group[] = [
     sub: "複数の形を組み立てたり、分けたりして読みとく力。",
     tasks: [
       {
-        name: "かさね", desc: "2 つの形を重ねたところを描く。", lv: [0, 1, 2, 2, 2], Fig: FigOverlay,
+        slug: "overlay", name: "かさね", desc: "2 つの形を重ねたところを描く。", lv: lvCounts("overlay"), Fig: FigOverlay,
         notes: [
           "",
           "2つの形を重ねる。3×3",
@@ -281,7 +283,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        name: "分解", desc: "1 つの形を、パーツに分ける。", lv: [0, 1, 2, 2, 2], Fig: FigDecompose,
+        slug: "decompose", name: "分解", desc: "1 つの形を、パーツに分ける。", lv: lvCounts("decompose"), Fig: FigDecompose,
         notes: [
           "",
           "重なりから1つ取り出す。3×3",
@@ -294,7 +296,7 @@ export const GROUPS: Group[] = [
   },
 ];
 
-export const LEVELS = ["はじめの一歩", "入門編", "基礎編", "応用編", "発展編"];
+export const LEVELS = LEVEL_NAMES;
 
 /* レベル＝発達段階インデックス。年齢はめやす（§12.7 基準尺）。 */
 const LEVEL_GRAPH = [
@@ -346,6 +348,15 @@ export function LevelGraph({ highlight }: { highlight?: string } = {}) {
 }
 
 export const volOf = (lv: number[]) => lv.reduce((a, b) => a + b, 0);
+
+/* slug → 表示コピー側 Task（Fig・notes・desc）と群ラベルのルックアップ */
+export function catalogTaskBySlug(slug: string): { task: Task; group: Group; groupIdx: number } | undefined {
+  for (let gi = 0; gi < GROUPS.length; gi++) {
+    const task = GROUPS[gi].tasks.find((t) => t.slug === slug);
+    if (task) return { task, group: GROUPS[gi], groupIdx: gi };
+  }
+  return undefined;
+}
 export const TOTAL_VOL = GROUPS.reduce((s, g) => s + g.tasks.reduce((t, k) => t + volOf(k.lv), 0), 0);
 export const TOTAL_KINDS = GROUPS.reduce((s, g) => s + g.tasks.length, 0);
 
@@ -400,7 +411,7 @@ export function CatalogSection() {
                         <div className="cat-levels">
                           {LEVELS.map((lv, i) =>
                             t.lv[i] > 0 ? (
-                              <a className="cat-level" href="#" key={lv}>
+                              <a className="cat-level" href={`/products/${t.slug}#lv${i + 1}`} key={lv}>
                                 {lv}<span className="cat-level-vol">{t.lv[i]}巻</span>
                               </a>
                             ) : (
@@ -422,7 +433,15 @@ export function CatalogSection() {
                                 </span>
                                 <span className="lvnote-b">
                                   {t.notes[i]}
-                                  {i === firstIdx && <span className="cat-firststar"> ★ 最初の1冊</span>}
+                                  {i === firstIdx && (() => {
+                                    const task = taskBySlug(t.slug);
+                                    const fv = task && firstVol(task);
+                                    return task && fv ? (
+                                      <a className="cat-firststar" href={volHref(task, fv)}> ★ 最初の1冊 →</a>
+                                    ) : (
+                                      <span className="cat-firststar"> ★ 最初の1冊</span>
+                                    );
+                                  })()}
                                 </span>
                               </li>
                             ) : null
@@ -445,7 +464,6 @@ export function CatalogSection() {
           <div className="shelf-band-stat">
             {TOTAL_KINDS} 種類 ・ 計 {TOTAL_VOL} 巻 <span className="sep">／</span> ¥200 一律・サブスクなし
           </div>
-          <a className="btn-medium" href="#">商品一覧をすべて見る →</a>
         </div>
       </div>
     </section>
@@ -495,7 +513,7 @@ export function SiteFooter() {
           <div className="foot-col">
             <h5>SHOP</h5>
             <ul>
-              <li><a href="#">商品一覧</a></li>
+              <li><a href="/products">商品一覧</a></li>
               <li><a href="/level-guide">レベル選びガイド</a></li>
               <li><a href="#">サンプル PDF</a></li>
             </ul>
