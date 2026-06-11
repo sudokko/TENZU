@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>点描写の手前にあるもの — 視覚空間認知の足場 · TENZU</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; background: var(--bg);
+    background-image: radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px; }
+  @media (max-width: 600px) { body { background-size: 28px 28px; } }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 64px; }
+  @media (max-width: 600px) { .wrap { padding: 0 24px; } }
+  .wrap-wide { max-width: 1080px; margin: 0 auto; padding: 0 64px; }
+  @media (max-width: 600px) { .wrap-wide { padding: 0 24px; } }
+
+  /* header (compact) */
+  header.site { border-bottom: 1px dashed var(--line-thin); padding: 18px 0 14px; }
+  .header-inner { max-width: 1080px; margin: 0 auto; padding: 0 64px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+  @media (max-width: 600px) { .header-inner { padding: 0 24px; } }
+  .logo-cluster { display: flex; align-items: center; gap: 14px; }
+  .logo-cluster .logo-img { height: 36px; }
+  .logo-cluster .ident { font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-3); letter-spacing: 0.04em; margin: 0; padding-left: 12px; border-left: 1px dashed var(--line-thin); line-height: 1.4; }
+  .nav-main { display: flex; gap: 28px; }
+  .nav-main a { font-family: var(--font-tier3-sans); font-size: 14px; color: var(--fg); text-decoration: none; padding-bottom: 6px; border-bottom: 1.5px solid transparent; }
+  .nav-main a[aria-current] { border-color: var(--fg); }
+  .nav-main a:hover { border-color: var(--accent); }
+  .cart-button { font-family: var(--font-tier3-mono); font-size: 13px; color: var(--fg); text-decoration: none; }
+
+  /* breadcrumb */
+  .crumb {
+    max-width: 1080px;
+    margin: 18px auto 0;
+    padding: 0 64px;
+    font-family: var(--font-tier3-sans);
+    font-size: 12px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 600px) { .crumb { padding: 0 24px; } }
+  .crumb a { color: var(--fg-2); text-decoration: none; }
+  .crumb .sep { color: var(--fg-4); padding: 0 8px; }
+  .crumb .cur { color: var(--fg); }
+
+  /* article meta */
+  .article-meta {
+    padding: 32px 0 24px;
+  }
+  .article-meta .kicker {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .article-meta .pillar-bar {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    font-family: var(--font-tier3-mono);
+    font-size: 13px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+  }
+  .article-meta .pillar-bar .pdate {
+    color: var(--fg-3);
+  }
+  .article-meta h1 {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    margin: 18px 0 18px;
+  }
+  .article-meta .lead {
+    font-family: var(--font-tier2-pencil);
+    font-size: 19px;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    margin: 0;
+    max-width: 38ch;
+  }
+  .article-meta .author {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line-thin);
+    font-family: var(--font-tier3-sans);
+    font-size: 13px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+  }
+  .article-meta .author .by { color: var(--fg-3); }
+
+  /* article body */
+  article.body { padding-bottom: 80px; }
+  article.body h2 {
+    display: inline-block;
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid var(--accent);
+    margin: 56px 0 24px;
+  }
+  article.body h3 {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--fg);
+    letter-spacing: 0.01em;
+    margin: 36px 0 14px;
+  }
+  article.body p {
+    font-family: var(--font-tier3-sans);
+    font-size: 16px;
+    line-height: 1.9;
+    color: var(--fg);
+    margin: 0 0 20px;
+  }
+  article.body p.lead-graf {
+    font-family: var(--font-tier2-pencil);
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--fg-2);
+  }
+  article.body ul {
+    margin: 0 0 24px;
+    padding: 0;
+    list-style: none;
+  }
+  article.body ul li {
+    font-family: var(--font-tier3-sans);
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--fg);
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--line-thin);
+  }
+  article.body ul li::before { content: "—  "; color: var(--fg-3); }
+
+  /* TENZU 訳 block */
+  .tenzu-translate {
+    background: var(--bg-3);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    padding: 22px 26px;
+    margin: 28px 0;
+  }
+  .tenzu-translate .src {
+    font-family: var(--font-tier3-sans);
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--fg);
+    margin: 0 0 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--line-mid);
+  }
+  .tenzu-translate .cite {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  .tenzu-translate .label {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--fg);
+    letter-spacing: 0.01em;
+    margin: 0 0 6px;
+  }
+  .tenzu-translate .trans {
+    font-family: var(--font-tier2-pencil);
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  /* article quote (TENZU statement) */
+  .article-quote {
+    border-left: 2px solid var(--fg-2);
+    padding: 6px 22px;
+    margin: 28px 0;
+  }
+  .article-quote .q {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    margin: 0;
+  }
+  .article-quote .a {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+    margin-top: 10px;
+  }
+
+  /* article inline diagram */
+  .diagram {
+    background: #FFFFFF;
+    border: 1px dashed var(--line-thin);
+    border-radius: var(--radius-soft);
+    padding: 24px;
+    margin: 28px 0;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .diagram svg { width: 120px; height: 120px; }
+  .diagram .dcap {
+    font-family: var(--font-tier3-sans);
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--fg-2);
+  }
+  .diagram .dcap b {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--fg);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* sidebar / dev note */
+  .article-sidenote {
+    background: var(--bg-3);
+    border-left: 2px solid var(--fg-2);
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    padding: 22px 26px;
+    margin: 40px 0;
+  }
+  .article-sidenote .sn-label {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .article-sidenote .sn-body {
+    font-family: var(--font-tier3-sans);
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  /* related articles */
+  section.s { padding: 56px 0; border-top: 1px dashed var(--line-thin); }
+  section.s h2.outer { display: inline-block; font-family: var(--font-tier1-klee); font-weight: 600; font-size: 22px; padding-bottom: 6px; border-bottom: 1.5px solid var(--accent); margin: 0 0 22px; letter-spacing: 0.01em; }
+  .related-articles {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 720px) { .related-articles { grid-template-columns: 1fr; } }
+  .ra {
+    padding: 16px 0;
+    border-top: 1px dashed var(--line-thin);
+    border-bottom: 1px dashed var(--line-thin);
+    display: block;
+    text-decoration: none;
+    color: var(--fg);
+  }
+  .ra .ra-meta { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.04em; }
+  .ra .ra-title { font-family: var(--font-tier1-klee); font-weight: 600; font-size: 17px; color: var(--fg); margin: 8px 0; letter-spacing: 0.01em; line-height: 1.5; }
+  .ra .ra-lead { font-family: var(--font-tier2-pencil); font-size: 13px; line-height: 1.85; color: var(--fg-2); }
+  .ra:hover .ra-title { color: var(--accent); }
+
+  footer.site { background: var(--bg-3); padding: 36px 0; border-top: 1px dashed var(--line-thin); }
+  footer.site .wrap { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.04em; }
+</style>
+</head>
+<body data-screen-label="03 記事ページ">
+
+<header class="site">
+  <div class="header-inner">
+    <div class="logo-cluster">
+      <img class="logo-img" src="../assets/tenzu-logo-horizontal.png" alt="TENZU">
+      <p class="ident">点描写プリント<br>の専門店</p>
+    </div>
+    <nav class="nav-main">
+      <a href="../mockups/landing.html">商品</a>
+      <a href="#" aria-current="page">記事</a>
+      <a href="#">レベル選び</a>
+      <a href="#">おためし</a>
+      <a href="#">About</a>
+    </nav>
+    <a class="cart-button" href="#">カート (0)</a>
+  </div>
+</header>
+
+<nav class="crumb">
+  <a href="#">記事</a><span class="sep">/</span>
+  <a href="#">Pillar 1 · 図形の手前</a><span class="sep">/</span>
+  <span class="cur">点描写の手前にあるもの</span>
+</nav>
+
+<div class="wrap">
+  <header class="article-meta">
+    <div class="kicker">PILLAR 1 · 図形の手前</div>
+    <div class="pillar-bar">
+      <span>第 1 回 / 全 6 回</span>
+      <span class="pdate">· 2026-05-20</span>
+      <span class="pdate">· 読了 8 分</span>
+    </div>
+    <h1>点描写の手前にあるもの<br>— 視覚空間認知の足場</h1>
+    <p class="lead">「写す」前に何が起きているか。点描写を始めるその数秒の間に、目はもう動いている。</p>
+    <div class="author"><span class="by">執筆 ・ </span>店主 · 2026-05-20</div>
+  </header>
+
+  <article class="body">
+    <p class="lead-graf">図形が苦手なお子さんを、と聞かれて気付くのは、「図形が苦手」より先に「写す前に何を見ているか」が育っていないことが多い、ということです。点描写は、その手前の練習として置かれます。</p>
+
+    <h2>視覚空間認知とは</h2>
+
+    <p>視覚空間認知 (visual-spatial cognition) は、ものの向き・位置・大きさを目で捉えて、頭の中で再構成する力です。算数の図形問題で扱うのは、その力が育った後の話です。手前にあるのは、「点の位置を見る」「線の方向を見る」「全体を一度見てから細部に降りる」という、もっと地味な動作の集まりです。</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="visual-spatial cognition diagram">
+        <g fill="#1A1F2A" opacity="0.16">
+          <circle cx="20" cy="20" r="1.5"/><circle cx="40" cy="20" r="1.5"/><circle cx="60" cy="20" r="1.5"/><circle cx="80" cy="20" r="1.5"/><circle cx="100" cy="20" r="1.5"/>
+          <circle cx="20" cy="40" r="1.5"/><circle cx="40" cy="40" r="1.5"/><circle cx="60" cy="40" r="1.5"/><circle cx="80" cy="40" r="1.5"/><circle cx="100" cy="40" r="1.5"/>
+          <circle cx="20" cy="60" r="1.5"/><circle cx="40" cy="60" r="1.5"/><circle cx="60" cy="60" r="1.5"/><circle cx="80" cy="60" r="1.5"/><circle cx="100" cy="60" r="1.5"/>
+          <circle cx="20" cy="80" r="1.5"/><circle cx="40" cy="80" r="1.5"/><circle cx="60" cy="80" r="1.5"/><circle cx="80" cy="80" r="1.5"/><circle cx="100" cy="80" r="1.5"/>
+          <circle cx="20" cy="100" r="1.5"/><circle cx="40" cy="100" r="1.5"/><circle cx="60" cy="100" r="1.5"/><circle cx="80" cy="100" r="1.5"/><circle cx="100" cy="100" r="1.5"/>
+        </g>
+        <polyline points="40,40 80,40 80,80 40,80 40,40" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="60" cy="60" r="3" fill="#2C6E7F"/>
+      </svg>
+      <div class="dcap">
+        <b>「写す」の手前にある 3 段階</b>
+        ① 全体を見る ／ ② 起点を決める ／ ③ 距離と方向を確認する。<br>点描写は、この 3 段階を毎回繰り返す練習として設計されています。
+      </div>
+    </div>
+
+    <p>4–9 歳でこの段階を経験しておくと、その後の図形問題・漢字書字・地図読みで「どこから見るか」が安定する、という観察があります。TENZU は受験対策ではなく、この段階を「家庭で短時間、繰り返し置ける形」に整えています。</p>
+
+    <h2>研究の引用と TENZU の訳</h2>
+
+    <p>視覚空間処理が学業達成と関連する、という主張は複数の論文で言われています。TENZU はその根拠を、親が読める言葉に翻訳して提示します。</p>
+
+    <div class="tenzu-translate">
+      <p class="src">"Visual-spatial processing skills uniquely predict mathematics achievement above and beyond verbal abilities, and contribute to handwriting fluency in early elementary years."
+        <span class="cite">— Mix &amp; Cheng (2012), Cognitive Development · 1 例として</span></p>
+      <p class="label">TENZU 訳</p>
+      <p class="trans">図形を見て写し取る力は、ことばの力とは別に、算数の力につながります。<br>同じ力は、早い時期の手書きの滑らかさにも関係しています。</p>
+    </div>
+
+    <p>この訳は、論文の主張を弱めずに、しかし親の生活語彙に寄せて書き直しています。元の主張に同意できない方は、原典のリンクから論文に当たってください。TENZU は「研究によると」という権威的な使い方を避け、根拠の所在を毎回明示します。</p>
+
+    <h2>点描写は「写す」だけの練習ではない</h2>
+
+    <div class="article-quote">
+      <p class="q">「写す前に、どこを見るか」<br>が、図形の手前にある力です。</p>
+      <p class="a">— TENZU · 9 タスク設計ノート</p>
+    </div>
+
+    <p>点描写は、見本の図を写すだけの作業に見えます。実際には次の動作が連続します:</p>
+
+    <ul>
+      <li>手本の全体形を一度見る（数秒）</li>
+      <li>写し始める起点を決める（左上か中央か）</li>
+      <li>起点から次の点までの距離を測る</li>
+      <li>線を引く方向を決める</li>
+      <li>1 つの辺を引き終えたら、次の起点を決め直す</li>
+      <li>全体が閉じたか、最後に確認する</li>
+    </ul>
+
+    <p>このうちのどれかが抜けていると、写し終えても線が歪んだり、閉じなかったりします。「うまく写せない」のではなく、「写す前の段階で目が動いていない」ことが多い、というのが TENZU の観察です。</p>
+
+    <aside class="article-sidenote">
+      <div class="sn-label">DEV NOTE · 2026-05-20</div>
+      <p class="sn-body">この記事は「視覚空間認知」という言葉を最初に出す Pillar 1 の入口として書かれました。次の記事「点と点の距離を測る目」で、Lv.1 と Lv.2 の差を実例で扱います。記事は順に読まなくても独立に意味が通る設計にしています。</p>
+    </aside>
+
+    <h3>次の 1 枚をどう選ぶか</h3>
+
+    <p>もし「写す前に、どこを見るか」が育っていないと感じたら、Lv.1 から始めることをおすすめします。Lv.2 以降に飛ばすのは可能ですが、Lv.1 の数枚で「全体を見る」癖を作っておくと、Lv.2 の体験が変わります。</p>
+
+    <p>逆に Lv.1 が物足りない様子なら、Lv.2 を試して、戻る判断は親の側で残しておけば大丈夫です。同じレベルを 2 度買う必要はありません（PDF は印刷自由）。レベルを行き来する設計です。</p>
+  </article>
+</div>
+
+<!-- related -->
+<section class="s">
+  <div class="wrap-wide">
+    <h2 class="outer">Pillar 1 の続き</h2>
+    <div class="related-articles">
+      <a class="ra" href="#">
+        <div class="ra-meta">PILLAR 1 · 第 2 回</div>
+        <div class="ra-title">点と点の距離を測る目</div>
+        <div class="ra-lead">Lv.1 と Lv.2 の差を、実例で。「数えて写す」から「測って写す」への切り替え。</div>
+      </a>
+      <a class="ra" href="#">
+        <div class="ra-meta">PILLAR 1 · 第 3 回</div>
+        <div class="ra-title">「全体を先に見る」とは何か</div>
+        <div class="ra-lead">手本に視線を 1 度走らせる数秒の中で、何が起きているか。</div>
+      </a>
+      <a class="ra" href="#">
+        <div class="ra-meta">PILLAR 2 · 第 1 回</div>
+        <div class="ra-title">変換タスクとは</div>
+        <div class="ra-lead">線対称・回転・平行移動・拡大縮小。9 タスクの第二段。</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap-wide">
+    <span style="font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.04em;">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
+  </div>
+</footer>
+
+</body>
+</html>

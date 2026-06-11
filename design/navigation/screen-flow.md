@@ -6,7 +6,7 @@
 - 形式は **Mermaid**（テキスト＝プロンプト編集前提・座標計算なし）。GitHub・VS Code・Claude アーティファクト・`tools/build-html` すべてで描画される。
 - 全ページの**俯瞰ワイヤー**は [pages-overview.html](./pages-overview.html)（同ディレクトリ・単独HTML）。
 - 凡例：🟢実装済 / 🔴未実装P0 / 🟡未実装後続 / ★最重要 / 破線＝ナビ・後続導線。
-- 確定事項：①流入は「直接・ブランド/SEO情報/SEO取引・広告・ブロガーDM/紹介波及」（MailerLite リピーターは当面スコープ外）②**TOP が玄関兼カタログ**（商品一覧 /products を吸収）。**SEO取引意図は TOP でなく専用ファセットLPが受ける**（無料/プリント本丸/むずかしい/やさしい/年齢/立体・**有償一本・メーカー非訴求**／無料LPのみ絵柄サンプル印刷可）③広告は独立LPを持たず **/maker?from=ad モード**で一発着地（メーカーは広告/SNS入口に限定・取引LPの流し先にはしない）④購入フロー（/cart→Stripe→/thanks）は現状ゼロ＝**最優先P0** ⑤サンプルPDFプレビュー・レベル選びガイド・メーカー完了画面・サンクス・**SEO取引ファセットLP群**が未実装の鍵画面。
+- 確定事項：①流入は「直接・ブランド/SEO情報/SEO取引・広告・ブロガーDM/紹介波及」（MailerLite リピーターは当面スコープ外）②**TOP が玄関兼カタログ**（商品一覧 /products を吸収）。**SEO取引意図は TOP でなく専用ファセットLPが受ける**（無料/プリント本丸/むずかしい/やさしい/年齢/立体・**有償一本・メーカー非訴求**／無料LPのみ絵柄サンプル印刷可）③広告は独立LPを持たず **/maker?from=ad モード**で一発着地（メーカーは広告/SNS入口に限定・取引LPの流し先にはしない）④購入フロー（/cart→Stripe→/thanks）は現状ゼロ＝**最優先P0** ⑤**レベル選びガイド `/level-guide` は実装済**（6問・2軸出力＝はじめる位置＋最初の一冊。TOP帯CTA・ヘッダー・フッター等5箇所から到達。結果内の商品リンクは商品ページ待ちで未配線）⑥サンプルPDFプレビュー・メーカー完了画面・サンクス・**SEO取引ファセットLP群**が未実装の鍵画面。
 - 変遷：旧正本は draw.io（`screen-flow.drawio`）。プロンプト編集に不向きなため 2026-06-06 にテキスト系へ移行（→ 附録）。
 
 ## 詳細
@@ -47,7 +47,7 @@ flowchart LR
   subgraph MID[中間（体験・選定）]
     direction TB
     M_sample["サンプルPDF<br/>プレビュー(modal)<br/>🔴"]
-    M_guide["レベル選びガイド<br/>5-7問 🔴"]
+    M_guide["レベル選びガイド<br/>/level-guide 6問<br/>🟢結果リンク未配線"]
     M_maker["おためしメーカー<br/>/maker 🟢"]
     M_makerdone["★ メーカー完了画面<br/>（サンクス相当）<br/>🔴"]
   end
@@ -82,11 +82,12 @@ flowchart LR
   L_facet -.-> G_top
 
   G_top -->|品ぞろえ→個別| P_detail
+  G_top -->|帯CTA/ヘッダー/フッター| M_guide
   G_top -.->|ナビ/フッター| M_maker
   G_article --> M_sample
   G_article --> M_guide
   M_sample --> P_detail
-  M_guide --> P_detail
+  M_guide -.->|★最初の一冊・未配線| P_detail
   M_maker -->|tool_start→generated_pdf| M_makerdone
   M_makerdone -->|次はこの3枚| P_detail
   M_makerdone --> P_bundle
@@ -96,8 +97,8 @@ flowchart LR
   C_stripe -->|purchase| C_thanks
 
   class F_direct,F_seotrans,F_seoinfo,F_ad,F_blogdm,F_blogref inflow;
-  class G_top,G_article,M_maker,P_detail done;
-  class M_sample,M_guide,C_cart,C_stripe,L_print,L_facet p0;
+  class G_top,G_article,M_guide,M_maker,P_detail done;
+  class M_sample,C_cart,C_stripe,L_print,L_facet p0;
   class M_makerdone,C_thanks,L_free key;
   class P_bundle later;
 ```
@@ -109,7 +110,8 @@ flowchart LR
 2.5. **SEO取引ファセットLPは有償一本・メーカー非訴求**：FV に実問題サンプル（クエリ即応）→ 有償商品紹介、が共通テンプレ。無料完結を避けるためメーカーへは流さない。**無料LP のみ「絵柄（模写）のレベル別サンプル PDF（入門〜発展の4Lv×各3問＝12問）を印刷可」**で無料意図に応え、続きは図形ライン中心の有償へ橋渡し（[pack-design.md §25](../../product/pack-design.md)・[§14.6](../../product/pack-design.md)）。メーカーは広告/SNS 入口に役割限定。
 3. **広告は独立LPを持たない**：`/maker?from=ad` の同一URL・モード出し分けで一発着地。冷たい Meta 流入の補助。X・ブロガーは素の `/maker` で十分。
 4. **購入フロー（/cart → Stripe → /thanks）は現状ゼロ**。`purchase` を取る線が1画面も無く、**最優先P0**。
-5. **未実装の鍵画面**：サンプルPDFプレビュー（modal）／レベル選びガイド／★メーカー完了画面／★サンクス。
+5. **レベル選びガイドは実装済**：`/level-guide`（Next.js 自前ページ・6問＝最後任意・2軸出力＝軸A「はじめる位置」Lv1-5＋軸B「最初の一冊」具体SKU）。TOP帯グラフ下CTA・Hero/Close ゴースト・ヘッダー・フッターの5箇所から到達。**結果内の商品/サンプル/「全部見る」リンクは商品ページ待ちで未配線**。設計詳細は [funnel.md §3](../../acquisition/funnel.md)。
+6. **未実装の鍵画面**：サンプルPDFプレビュー（modal）／★メーカー完了画面／★サンクス。
 
 ### §3. CV イベントと導線の対応
 
@@ -122,4 +124,5 @@ flowchart LR
 ## 附録
 
 - 全ページ俯瞰ワイヤー: [pages-overview.html](./pages-overview.html)
+- レベル選びガイドの質問・分岐パターン詳細: [level-guide-flow.html](./level-guide-flow.html)
 - 変遷: [archive/retired-structures/2026-06-06-screen-flow-drawio.md](../../archive/retired-structures/2026-06-06-screen-flow-drawio.md)（旧 draw.io 正本の退避記録）

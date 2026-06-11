@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>おためし点描写メーカー · TENZU</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; background: var(--bg);
+    background-image: radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px;
+    min-height: 100vh;
+  }
+  @media (max-width: 600px) { body { background-size: 28px 28px; } }
+
+  /* header */
+  header.app {
+    border-bottom: 1px dashed var(--line-thin);
+    padding: 14px 24px;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: space-between; gap: 32px;
+  }
+  header.app .logo-cluster { display: flex; align-items: center; gap: 14px; }
+  header.app .logo-img { height: 32px; }
+  header.app .app-name {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 17px; color: var(--fg); letter-spacing: 0.01em;
+    padding-left: 16px;
+    border-left: 1px dashed var(--line-thin);
+  }
+  header.app .app-name .small {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px; color: var(--fg-3);
+    letter-spacing: 0.16em; text-transform: uppercase; margin-left: 8px;
+  }
+  header.app .actions { display: flex; gap: 12px; align-items: center; }
+  header.app .btn-weak { font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-3); text-decoration: none; }
+  header.app .btn-medium { display: inline-block; font-family: var(--font-tier3-sans); font-weight: 500; font-size: 13px; color: var(--fg); text-decoration: none; padding: 8px 14px; background: var(--bg-3); border: 1px solid var(--fg); border-radius: var(--radius-soft); letter-spacing: 0.02em; }
+  header.app .btn-max { display: inline-block; font-family: var(--font-tier3-sans); font-weight: 500; font-size: 13px; color: var(--bg); background: var(--accent); padding: 9px 16px; border-radius: var(--radius-soft); text-decoration: none; letter-spacing: 0.02em; }
+  header.app .save-state {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+
+  /* shell */
+  .app-shell {
+    display: grid;
+    grid-template-columns: 260px 1fr 480px;
+    min-height: calc(100vh - 64px);
+  }
+  @media (max-width: 1200px) { .app-shell { grid-template-columns: 1fr; } }
+
+  .sidebar {
+    padding: 24px 22px;
+    border-right: 1px dashed var(--line-thin);
+    background: var(--bg);
+    background-image: none;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .sidebar.right { border-right: none; border-left: 1px dashed var(--line-thin); }
+
+  .group { display: flex; flex-direction: column; gap: 10px; }
+  .group h3 {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg-3);
+    margin: 0; font-weight: 400;
+  }
+
+  .seg {
+    display: flex;
+    border: 1px solid var(--line-thin);
+    border-radius: var(--radius-soft);
+    overflow: hidden;
+  }
+  .seg button {
+    flex: 1; padding: 8px 0; background: transparent; border: none;
+    font-family: var(--font-tier3-mono);
+    font-size: 12px; color: var(--fg-2); cursor: pointer;
+    border-right: 1px dashed var(--line-thin);
+    letter-spacing: 0.02em;
+  }
+  .seg button:last-child { border-right: none; }
+  .seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+  .seg button[disabled] { color: var(--fg-4); cursor: not-allowed; }
+
+  /* paper picker — 3x2 grid */
+  .paper-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+  }
+  .paper-grid button {
+    padding: 8px 4px;
+    background: transparent;
+    border: 1px solid var(--line-thin);
+    border-radius: var(--radius-soft);
+    font-family: var(--font-tier3-mono);
+    font-size: 11px; color: var(--fg-2); cursor: pointer;
+    letter-spacing: 0.02em;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .paper-grid button .icon {
+    width: 18px; height: 18px;
+    border: 1px solid currentColor;
+    display: block;
+  }
+  .paper-grid button[aria-pressed="true"] {
+    background: var(--bg-3);
+    outline: 1.5px solid var(--accent);
+    outline-offset: -1.5px;
+    color: var(--fg);
+  }
+  .paper-grid button .icon.landscape { width: 22px; height: 16px; }
+
+  .field-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .field-row label { font-family: var(--font-tier3-sans); font-size: 13px; color: var(--fg-2); }
+  .field-row .val { font-family: var(--font-tier3-mono); font-size: 13px; color: var(--fg); }
+  .slider-row { display: flex; flex-direction: column; gap: 6px; }
+  .slider-row input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+  /* shopkeeper memo */
+  .onboarding-memo {
+    background: var(--bg-3);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    padding: 14px 16px;
+    margin-top: 8px;
+  }
+  .onboarding-memo .ml {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 13px; color: var(--fg); margin-bottom: 6px;
+    letter-spacing: 0.01em;
+  }
+  .onboarding-memo .mb {
+    font-family: var(--font-tier2-pencil);
+    font-size: 12px; line-height: 1.85; color: var(--fg); margin: 0;
+  }
+
+  /* canvas */
+  .canvas-area {
+    display: flex; flex-direction: column;
+    background: var(--bg);
+    background-image: radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .canvas-toolbar {
+    padding: 14px 28px;
+    border-bottom: 1px dashed var(--line-thin);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+    background-image: none;
+    gap: 16px;
+  }
+  .canvas-toolbar .title {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 17px; color: var(--fg); letter-spacing: 0.01em;
+  }
+  .canvas-toolbar .title .small {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px; color: var(--fg-3);
+    letter-spacing: 0.16em; text-transform: uppercase; margin-left: 10px;
+  }
+  .canvas-toolbar .right { display: flex; gap: 10px; align-items: center; }
+  .canvas-toolbar .iconbtn {
+    width: 32px; height: 32px;
+    display: grid; place-items: center;
+    border: 1px solid var(--line-thin);
+    background: var(--bg);
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .canvas-toolbar .iconbtn svg { width: 14px; height: 14px; }
+  .canvas-toolbar .pos-readout {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px; color: var(--fg-3); letter-spacing: 0.04em;
+    margin-right: 12px;
+  }
+  .canvas-toolbar .btn-save {
+    display: inline-block;
+    font-family: var(--font-tier3-sans);
+    font-weight: 500; font-size: 13px;
+    color: var(--bg); background: var(--fg);
+    text-decoration: none; padding: 8px 16px;
+    border: none; border-radius: var(--radius-soft);
+    letter-spacing: 0.02em; cursor: pointer;
+    margin-left: 8px;
+  }
+
+  .canvas-stage {
+    flex: 1;
+    padding: 32px 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+    background: var(--bg);
+    background-image: none;
+    overflow: auto;
+  }
+  .paper-pair-label {
+    width: 100%;
+    max-width: 440px;
+    color: var(--fg-3);
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: left;
+  }
+
+  .paper-pair {
+    width: 100%;
+    max-width: 440px;
+    display: block;
+  }
+  .paper-pane {
+    background: #FFFFFF;
+    border: 1px solid var(--line-thin);
+    aspect-ratio: 1;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(26, 31, 42, .04);
+  }
+  .paper-pane .pp-grid {
+    position: absolute;
+    inset: 32px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    place-items: center;
+  }
+  .paper-pane .pp-grid .d {
+    width: 6px; height: 6px;
+    background: #1A1F2A;
+    border-radius: 50%;
+  }
+  .paper-pane.problem .pp-grid .d.placed {
+    width: 10px; height: 10px;
+    background: #2C6E7F;
+    box-shadow: 0 0 0 4px rgba(44, 110, 127, 0.18);
+  }
+  .paper-pane svg.line-layer {
+    position: absolute;
+    inset: 32px;
+    width: calc(100% - 64px);
+    height: calc(100% - 64px);
+  }
+  .paper-pane .pp-tag {
+    position: absolute;
+    top: 10px; left: 14px;
+    font-family: var(--font-tier3-mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .paper-pane .pp-tag.right { left: auto; right: 14px; }
+  .paper-pane .pp-stamp {
+    position: absolute;
+    bottom: 8px; right: 12px;
+    font-family: var(--font-tier3-mono);
+    font-size: 9px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  .paper-pane.copy .copy-instructions {
+    position: absolute;
+    bottom: 8px; left: 12px;
+    font-family: var(--font-tier2-pencil);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.01em;
+  }
+
+  .canvas-help {
+    width: 100%;
+    max-width: 440px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--line-thin);
+    font-family: var(--font-tier2-pencil);
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--fg-2);
+  }
+
+  /* RIGHT sidebar: saved + layout + preview */
+  .saved-list { display: flex; flex-direction: column; gap: 0; }
+  .saved-row {
+    display: grid;
+    grid-template-columns: 14px 16px 22px 1fr 16px;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line-thin);
+    align-items: center;
+  }
+  .saved-row:last-child { border-bottom: none; }
+  .saved-row .drag {
+    cursor: grab;
+    width: 14px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.5;
+  }
+  .saved-row .drag svg { width: 8px; height: 14px; }
+  .saved-row:hover .drag { opacity: 1; }
+  .saved-row .chk {
+    width: 14px; height: 14px;
+    border: 1px solid var(--line-mid);
+    border-radius: 2px;
+    background: var(--bg);
+    display: grid; place-items: center;
+    cursor: pointer;
+  }
+  .saved-row .chk[aria-checked="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .saved-row .chk[aria-checked="true"]::after {
+    content: "";
+    width: 7px; height: 4px;
+    border-left: 1.5px solid #fff;
+    border-bottom: 1.5px solid #fff;
+    transform: rotate(-45deg) translate(0.5px, -1px);
+  }
+  .saved-row .num {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  .saved-row .name {
+    font-family: var(--font-tier3-sans);
+    font-size: 13px;
+    color: var(--fg);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .saved-row .name.placeholder { color: var(--fg-3); }
+  .saved-row .name small {
+    display: block;
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  .saved-row .name.current { color: var(--accent); }
+  .saved-row .name.current::before {
+    content: "● ";
+    color: var(--accent);
+    margin-right: 4px;
+  }
+  .saved-row .name.editing {
+    display: flex; flex-direction: column; gap: 4px;
+    white-space: normal;
+    overflow: visible;
+  }
+  .saved-row .name-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    font-family: var(--font-tier3-sans);
+    font-size: 13px;
+    color: var(--fg);
+    background: var(--bg-3);
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    outline: none;
+  }
+  .saved-row .menu {
+    font-family: var(--font-tier3-mono);
+    font-size: 14px;
+    color: var(--fg-3);
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .saved-count {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line-thin);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .saved-count .left {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .saved-count .left .chk-all {
+    width: 12px; height: 12px;
+    border: 1px solid var(--line-mid);
+    border-radius: 2px;
+    display: grid; place-items: center;
+    cursor: pointer;
+  }
+  .saved-count .left .chk-all[aria-checked="true"]::after {
+    content: "";
+    width: 6px; height: 3px;
+    border-left: 1.5px solid var(--fg);
+    border-bottom: 1.5px solid var(--fg);
+    transform: rotate(-45deg) translate(0.5px, -1px);
+  }
+  .saved-count .left .chk-all[aria-checked="mixed"]::after {
+    content: "";
+    width: 6px; height: 2px;
+    background: var(--fg);
+  }
+  .saved-count a {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-tier3-sans);
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  /* layout selector */
+  .layout-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .layout-grid button {
+    aspect-ratio: 1;
+    background: var(--bg);
+    border: 1px solid var(--line-thin);
+    border-radius: var(--radius-soft);
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px;
+  }
+  .layout-grid button[aria-pressed="true"] {
+    background: var(--bg-3);
+    outline: 1.5px solid var(--accent);
+    outline-offset: -1.5px;
+  }
+  .layout-grid button .ldiagram {
+    width: 22px; height: 16px;
+    display: grid;
+    gap: 1.5px;
+  }
+  .layout-grid button .ldiagram > span {
+    background: var(--fg-2);
+    border-radius: 0.5px;
+  }
+  .layout-grid button[aria-pressed="true"] .ldiagram > span { background: var(--accent); }
+  .layout-grid button .lnum {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+  }
+
+  /* PDF preview */
+  .pdf-preview {
+    background: var(--bg-3);
+    border: 1px solid var(--line-thin);
+    border-radius: var(--radius-soft);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .pdf-preview .pp-pages {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .pdf-preview .pp-page {
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid var(--line-thin);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(26, 31, 42, .04);
+  }
+  .pdf-preview .pp-page svg { width: 100%; height: 100%; display: block; }
+  .pdf-preview .pp-page .pageno {
+    position: absolute;
+    bottom: 6px; right: 10px;
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    color: var(--fg-3);
+    letter-spacing: 0.06em;
+  }
+  .pdf-preview .pp-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+    padding-top: 8px;
+    border-top: 1px dashed var(--line-thin);
+  }
+  .pdf-preview .pp-foot strong { color: var(--fg); font-weight: 400; }
+
+  .warning {
+    background: #FFF8EE;
+    border: 1px dashed #C46F1A;
+    border-radius: var(--radius-soft);
+    padding: 12px 14px;
+    margin-top: 4px;
+    font-family: var(--font-tier3-sans);
+    font-size: 12px;
+    line-height: 1.7;
+    color: #74450C;
+  }
+  .warning strong {
+    display: block;
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8B4D0E;
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body data-screen-label="04 Maker App">
+
+<header class="app">
+  <div class="logo-cluster">
+    <img class="logo-img" src="../assets/tenzu-logo-horizontal-ink.png" alt="TENZU">
+    <div class="app-name">おためし点描写メーカー<span class="small">PHASE 0</span></div>
+  </div>
+  <div class="actions">
+    <span class="save-state">下書き · 自動保存 2 秒前</span>
+    <a class="btn-weak" href="../mockups/landing.html">← LP に戻る</a>
+    <a class="btn-medium" href="#">プレビュー全画面</a>
+    <a class="btn-max" href="#">PDF を書き出す</a>
+  </div>
+</header>
+
+<div class="app-shell">
+
+  <!-- ============= LEFT: SETTINGS ============= -->
+  <aside class="sidebar">
+
+    <div class="group">
+      <h3>タスク</h3>
+      <div class="seg" role="group" aria-label="task">
+        <button aria-pressed="true">模写</button>
+      </div>
+      <div class="field-row" style="margin-top:-4px;">
+        <span style="font-family:var(--font-tier3-sans);font-size:11px;color:var(--fg-3);line-height:1.6;">Phase 0 は模写のみ。<br>線対称・回転・立体は商品 PDF。</span>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>グリッドサイズ</h3>
+      <div class="seg" role="group" aria-label="grid">
+        <button aria-pressed="false">3×3</button>
+        <button aria-pressed="false">4×4</button>
+        <button aria-pressed="true">5×5</button>
+      </div>
+      <div class="field-row"><label>点の間隔</label><span class="val">10 mm</span></div>
+      <div class="slider-row"><input type="range" min="5" max="15" value="10" step="1"></div>
+    </div>
+
+    <div class="group">
+      <h3>用紙</h3>
+      <div class="paper-grid" role="group" aria-label="paper size">
+        <button aria-pressed="false">
+          <span class="icon" style="aspect-ratio:210/297;"></span>
+          A4 縦
+        </button>
+        <button aria-pressed="false">
+          <span class="icon landscape"></span>
+          A4 横
+        </button>
+        <button aria-pressed="false">
+          <span class="icon" style="aspect-ratio:257/364;"></span>
+          B4 縦
+        </button>
+        <button aria-pressed="true">
+          <span class="icon landscape"></span>
+          B4 横
+        </button>
+        <button aria-pressed="false">
+          <span class="icon" style="aspect-ratio:297/420;"></span>
+          A3 縦
+        </button>
+        <button aria-pressed="false">
+          <span class="icon landscape"></span>
+          A3 横
+        </button>
+      </div>
+      <div class="field-row"><label>外側余白</label><span class="val">20 mm</span></div>
+    </div>
+
+    <aside class="onboarding-memo">
+      <div class="ml">店主から</div>
+      <p class="mb">メーカーは「親が今日 1 枚を作るための道具」です。5×5 までに収めてください。それ以上は商品 PDF で扱っています。</p>
+    </aside>
+  </aside>
+
+  <!-- ============= CENTER: EDITING CANVAS ============= -->
+  <main class="canvas-area">
+    <div class="canvas-toolbar">
+      <div class="title">問題 #4 を作る<span class="small">5 × 5 · B4 横</span></div>
+      <div class="right">
+        <span class="pos-readout">x: 3 · y: 2</span>
+        <button class="iconbtn" title="一つ戻る" aria-label="undo">
+          <svg viewBox="0 0 16 16"><path d="M 4 8 L 8 4 L 8 6 Q 12 6 12 10 Q 12 12 11 12" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </button>
+        <button class="iconbtn" title="一つ進める" aria-label="redo">
+          <svg viewBox="0 0 16 16"><path d="M 12 8 L 8 4 L 8 6 Q 4 6 4 10 Q 4 12 5 12" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </button>
+        <button class="iconbtn" title="全消去" aria-label="clear">
+          <svg viewBox="0 0 16 16"><path d="M 4 6 L 12 6 M 5 6 L 6 13 L 10 13 L 11 6" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </button>
+        <button class="btn-save">この問題を保存 →</button>
+      </div>
+    </div>
+
+    <div class="canvas-stage">
+      <div class="paper-pair-label">PROBLEM · 設問</div>
+
+      <div class="paper-pair">
+        <div class="paper-pane problem" aria-label="problem">
+          <svg class="line-layer" viewBox="0 0 200 200" preserveAspectRatio="none">
+            <polyline points="50,30 150,30 150,100 100,170 50,100 50,30"
+              fill="none" stroke="#2C6E7F" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="pp-grid">
+            <div class="d"></div><div class="d placed"></div><div class="d"></div><div class="d placed"></div><div class="d"></div>
+            <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+            <div class="d placed"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d placed"></div>
+            <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+            <div class="d"></div><div class="d"></div><div class="d placed"></div><div class="d"></div><div class="d"></div>
+          </div>
+          <div class="pp-stamp">5×5 · 10mm</div>
+        </div>
+      </div>
+
+      <div class="canvas-help">
+        点をクリックして線をつないでください。印刷時には、同じ大きさの「写し用」枠が右側に並びます（右のプレビューで確認できます）。
+      </div>
+    </div>
+  </main>
+
+  <!-- ============= RIGHT: SAVED / LAYOUT / PDF PREVIEW ============= -->
+  <aside class="sidebar right">
+
+    <div class="group">
+      <h3>保存済みの問題</h3>
+      <div class="saved-list">
+        <div class="saved-row">
+          <span class="drag" aria-label="drag to reorder" title="ドラッグして並び替え">
+            <svg viewBox="0 0 8 14"><g fill="#767D89"><circle cx="2" cy="2" r="1"/><circle cx="6" cy="2" r="1"/><circle cx="2" cy="7" r="1"/><circle cx="6" cy="7" r="1"/><circle cx="2" cy="12" r="1"/><circle cx="6" cy="12" r="1"/></g></svg>
+          </span>
+          <span class="chk" role="checkbox" aria-checked="true" aria-label="PDF に含める"></span>
+          <span class="num">01</span>
+          <span class="name">家のかたち<small>5×5 · 6 本</small></span>
+          <span class="menu" aria-label="options">⋯</span>
+        </div>
+        <div class="saved-row">
+          <span class="drag" aria-label="drag to reorder">
+            <svg viewBox="0 0 8 14"><g fill="#767D89"><circle cx="2" cy="2" r="1"/><circle cx="6" cy="2" r="1"/><circle cx="2" cy="7" r="1"/><circle cx="6" cy="7" r="1"/><circle cx="2" cy="12" r="1"/><circle cx="6" cy="12" r="1"/></g></svg>
+          </span>
+          <span class="chk" role="checkbox" aria-checked="true" aria-label="PDF に含める"></span>
+          <span class="num">02</span>
+          <span class="name editing">
+            <input class="name-input" type="text" value="階段">
+            <small>4×4 · 4 本 · 名前変更中</small>
+          </span>
+          <span class="menu" aria-label="options">⋯</span>
+        </div>
+        <div class="saved-row">
+          <span class="drag" aria-label="drag to reorder">
+            <svg viewBox="0 0 8 14"><g fill="#767D89"><circle cx="2" cy="2" r="1"/><circle cx="6" cy="2" r="1"/><circle cx="2" cy="7" r="1"/><circle cx="6" cy="7" r="1"/><circle cx="2" cy="12" r="1"/><circle cx="6" cy="12" r="1"/></g></svg>
+          </span>
+          <span class="chk" role="checkbox" aria-checked="false" aria-label="PDF に含める"></span>
+          <span class="num">03</span>
+          <span class="name placeholder">無題<small>5×5 · 8 本</small></span>
+          <span class="menu" aria-label="options">⋯</span>
+        </div>
+        <div class="saved-row">
+          <span class="drag" aria-label="drag to reorder">
+            <svg viewBox="0 0 8 14"><g fill="#767D89"><circle cx="2" cy="2" r="1"/><circle cx="6" cy="2" r="1"/><circle cx="2" cy="7" r="1"/><circle cx="6" cy="7" r="1"/><circle cx="2" cy="12" r="1"/><circle cx="6" cy="12" r="1"/></g></svg>
+          </span>
+          <span class="chk" role="checkbox" aria-checked="true" aria-label="PDF に含める"></span>
+          <span class="num">04</span>
+          <span class="name current">無題<small>5×5 · 5 本 · 編集中</small></span>
+          <span class="menu" aria-label="options">⋯</span>
+        </div>
+      </div>
+      <div class="saved-count">
+        <div class="left">
+          <span class="chk-all" role="checkbox" aria-checked="mixed" aria-label="すべて選択"></span>
+          <span>選択中 3 / 4 問</span>
+        </div>
+        <a href="#">3 問を PDF に →</a>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>PDF レイアウト · 1 ページに何問</h3>
+      <div class="layout-grid" role="group" aria-label="problems per page">
+        <button aria-pressed="false">
+          <span class="ldiagram" style="grid-template-columns:1fr;grid-template-rows:1fr;"><span></span></span>
+          <span class="lnum">1 問</span>
+        </button>
+        <button aria-pressed="true">
+          <span class="ldiagram" style="grid-template-columns:1fr;grid-template-rows:1fr 1fr;"><span></span><span></span></span>
+          <span class="lnum">2 問</span>
+        </button>
+        <button aria-pressed="false">
+          <span class="ldiagram" style="grid-template-columns:1fr;grid-template-rows:1fr 1fr 1fr;"><span></span><span></span><span></span></span>
+          <span class="lnum">3 問</span>
+        </button>
+        <button aria-pressed="false">
+          <span class="ldiagram" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;"><span></span><span></span><span></span><span></span></span>
+          <span class="lnum">4 問</span>
+        </button>
+        <button aria-pressed="false">
+          <span class="ldiagram" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr 1fr;"><span></span><span></span><span></span><span></span><span></span><span></span></span>
+          <span class="lnum">6 問</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>出力プレビュー</h3>
+      <div class="pdf-preview">
+        <div class="pp-pages">
+          <!-- page 1: problems 01-02 -->
+          <div class="pp-page">
+            <svg viewBox="0 0 297 210" xmlns="http://www.w3.org/2000/svg">
+              <!-- header strip -->
+              <text x="14" y="14" font-family="Klee One" font-weight="600" font-size="6" fill="#1A1F2A">第 1 ページ</text>
+              <text x="14" y="20" font-family="IBM Plex Mono" font-size="3.5" fill="#767D89" letter-spacing="0.2">2 問 / B4 横 · 5×5 · 10mm</text>
+
+              <!-- Q1: top half — problem + copy -->
+              <g transform="translate(0,26)">
+                <text x="14" y="8" font-family="Klee One" font-weight="600" font-size="5" fill="#1A1F2A">01 · 家のかたち</text>
+                <!-- problem frame -->
+                <rect x="14" y="12" width="60" height="60" fill="none" stroke="#E5E3DC" stroke-width="0.3"/>
+                <g fill="#1A1F2A">
+                  <circle cx="22" cy="20" r="0.6"/><circle cx="34" cy="20" r="0.6"/><circle cx="46" cy="20" r="0.6"/><circle cx="58" cy="20" r="0.6"/><circle cx="70" cy="20" r="0.6"/>
+                  <circle cx="22" cy="32" r="0.6"/><circle cx="34" cy="32" r="0.6"/><circle cx="46" cy="32" r="0.6"/><circle cx="58" cy="32" r="0.6"/><circle cx="70" cy="32" r="0.6"/>
+                  <circle cx="22" cy="44" r="0.6"/><circle cx="34" cy="44" r="0.6"/><circle cx="46" cy="44" r="0.6"/><circle cx="58" cy="44" r="0.6"/><circle cx="70" cy="44" r="0.6"/>
+                  <circle cx="22" cy="56" r="0.6"/><circle cx="34" cy="56" r="0.6"/><circle cx="46" cy="56" r="0.6"/><circle cx="58" cy="56" r="0.6"/><circle cx="70" cy="56" r="0.6"/>
+                  <circle cx="22" cy="68" r="0.6"/><circle cx="34" cy="68" r="0.6"/><circle cx="46" cy="68" r="0.6"/><circle cx="58" cy="68" r="0.6"/><circle cx="70" cy="68" r="0.6"/>
+                </g>
+                <polyline points="34,32 58,32 70,56 46,68 22,56 34,32" fill="none" stroke="#1A1F2A" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="14" y="79" font-family="IBM Plex Mono" font-size="3" fill="#767D89" letter-spacing="0.2">設問</text>
+
+                <!-- arrow -->
+                <text x="84" y="42" font-family="IBM Plex Mono" font-size="6" fill="#B0B5BD">→</text>
+
+                <!-- copy frame -->
+                <rect x="92" y="12" width="60" height="60" fill="none" stroke="#E5E3DC" stroke-width="0.3"/>
+                <g fill="#1A1F2A">
+                  <circle cx="100" cy="20" r="0.6"/><circle cx="112" cy="20" r="0.6"/><circle cx="124" cy="20" r="0.6"/><circle cx="136" cy="20" r="0.6"/><circle cx="148" cy="20" r="0.6"/>
+                  <circle cx="100" cy="32" r="0.6"/><circle cx="112" cy="32" r="0.6"/><circle cx="124" cy="32" r="0.6"/><circle cx="136" cy="32" r="0.6"/><circle cx="148" cy="32" r="0.6"/>
+                  <circle cx="100" cy="44" r="0.6"/><circle cx="112" cy="44" r="0.6"/><circle cx="124" cy="44" r="0.6"/><circle cx="136" cy="44" r="0.6"/><circle cx="148" cy="44" r="0.6"/>
+                  <circle cx="100" cy="56" r="0.6"/><circle cx="112" cy="56" r="0.6"/><circle cx="124" cy="56" r="0.6"/><circle cx="136" cy="56" r="0.6"/><circle cx="148" cy="56" r="0.6"/>
+                  <circle cx="100" cy="68" r="0.6"/><circle cx="112" cy="68" r="0.6"/><circle cx="124" cy="68" r="0.6"/><circle cx="136" cy="68" r="0.6"/><circle cx="148" cy="68" r="0.6"/>
+                </g>
+                <text x="92" y="79" font-family="IBM Plex Mono" font-size="3" fill="#767D89" letter-spacing="0.2">写し用</text>
+              </g>
+
+              <!-- Q2: bottom half -->
+              <g transform="translate(0,116)">
+                <text x="14" y="8" font-family="Klee One" font-weight="600" font-size="5" fill="#1A1F2A">02 · 階段</text>
+                <rect x="14" y="12" width="48" height="48" fill="none" stroke="#E5E3DC" stroke-width="0.3"/>
+                <g fill="#1A1F2A">
+                  <circle cx="22" cy="20" r="0.6"/><circle cx="34" cy="20" r="0.6"/><circle cx="46" cy="20" r="0.6"/><circle cx="58" cy="20" r="0.6"/>
+                  <circle cx="22" cy="32" r="0.6"/><circle cx="34" cy="32" r="0.6"/><circle cx="46" cy="32" r="0.6"/><circle cx="58" cy="32" r="0.6"/>
+                  <circle cx="22" cy="44" r="0.6"/><circle cx="34" cy="44" r="0.6"/><circle cx="46" cy="44" r="0.6"/><circle cx="58" cy="44" r="0.6"/>
+                  <circle cx="22" cy="56" r="0.6"/><circle cx="34" cy="56" r="0.6"/><circle cx="46" cy="56" r="0.6"/><circle cx="58" cy="56" r="0.6"/>
+                </g>
+                <polyline points="22,44 34,44 34,32 46,32 46,20 58,20" fill="none" stroke="#1A1F2A" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="14" y="67" font-family="IBM Plex Mono" font-size="3" fill="#767D89" letter-spacing="0.2">設問</text>
+
+                <text x="72" y="38" font-family="IBM Plex Mono" font-size="6" fill="#B0B5BD">→</text>
+
+                <rect x="80" y="12" width="48" height="48" fill="none" stroke="#E5E3DC" stroke-width="0.3"/>
+                <g fill="#1A1F2A">
+                  <circle cx="88" cy="20" r="0.6"/><circle cx="100" cy="20" r="0.6"/><circle cx="112" cy="20" r="0.6"/><circle cx="124" cy="20" r="0.6"/>
+                  <circle cx="88" cy="32" r="0.6"/><circle cx="100" cy="32" r="0.6"/><circle cx="112" cy="32" r="0.6"/><circle cx="124" cy="32" r="0.6"/>
+                  <circle cx="88" cy="44" r="0.6"/><circle cx="100" cy="44" r="0.6"/><circle cx="112" cy="44" r="0.6"/><circle cx="124" cy="44" r="0.6"/>
+                  <circle cx="88" cy="56" r="0.6"/><circle cx="100" cy="56" r="0.6"/><circle cx="112" cy="56" r="0.6"/><circle cx="124" cy="56" r="0.6"/>
+                </g>
+                <text x="80" y="67" font-family="IBM Plex Mono" font-size="3" fill="#767D89" letter-spacing="0.2">写し用</text>
+              </g>
+
+              <!-- footer -->
+              <text x="14" y="204" font-family="IBM Plex Mono" font-size="2.6" fill="#B0B5BD" letter-spacing="0.3">TENZU MAKER · 練習は紙の上で</text>
+            </svg>
+            <div class="pageno">P 1 / 2</div>
+          </div>
+
+          <!-- page 2: problems 03-04 -->
+          <div class="pp-page">
+            <svg viewBox="0 0 297 210" xmlns="http://www.w3.org/2000/svg">
+              <text x="14" y="14" font-family="Klee One" font-weight="600" font-size="6" fill="#1A1F2A">第 2 ページ</text>
+              <text x="14" y="20" font-family="IBM Plex Mono" font-size="3.5" fill="#767D89" letter-spacing="0.2">2 問 / B4 横 · 5×5 · 10mm</text>
+
+              <g transform="translate(0,26)">
+                <text x="14" y="8" font-family="Klee One" font-weight="600" font-size="5" fill="#1A1F2A">03 · うずまき</text>
+                <rect x="14" y="12" width="60" height="60" fill="none" stroke="#E5E3DC" stroke-width="0.3"/>
+                <g fill="#1A1F2A">
+                  <circle cx="22" cy="20" r="0.6"/><circle cx="34" cy="20" r="0.6"/><circle cx="46" cy="20" r="0.6"/><circle cx="58" cy="20" r="0.6"/><circle cx="70" cy="20" r="0.6"/>
+                  <circle cx="22" cy="32" r="0.6"/><circle cx="34" cy="32" r="0.6"/><circle cx="46" cy="32" r="0.6"/><circle cx="58" cy="32" r="0.6"/><circle cx="70" cy="32" r="0.6"/>
+                  <circle cx="22" cy="44" r="0.6"/><circle cx="34" cy="44" r="0.6"/><circle cx="46" cy="44" r="0.6"/><circle cx="58" cy="44" r="0.6"/><circle cx="70" cy="44" r="0.6"/>
+                  <circle cx="22" cy="56" r="0.6"/><circle cx="34" cy="56" r="0.6"/><circle cx="46" cy="56" r="0.6"/><circle cx="58" cy="56" r="0.6"/><circle cx="70" cy="56" r="0.6"/>
+                  <circle cx="22" cy="68" r="0.6"/><circle cx="34" cy="68" r="0.6"/><circle cx="46" cy="68" r="0.6"/><circle cx="58" cy="68" r="0.6"/><circle cx="70" cy="68" r="0.6"/>
+                </g>
+                <polyline points="46,44 58,44 58,56 34,56 34,32 70,32 70,68 22,68 22,20 58,20" fill="none" stroke="#1A1F2A" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <text x="84" y="42" font-family="IBM Plex Mono" font-size="6" fill="#B0B5BD">→</text>
+
+                <rect x="92" y="12" width="60" height="60" fill="none" stroke="#E5E3DC" stroke-width="0.3"/>
+                <g fill="#1A1F2A">
+                  <circle cx="100" cy="20" r="0.6"/><circle cx="112" cy="20" r="0.6"/><circle cx="124" cy="20" r="0.6"/><circle cx="136" cy="20" r="0.6"/><circle cx="148" cy="20" r="0.6"/>
+                  <circle cx="100" cy="32" r="0.6"/><circle cx="112" cy="32" r="0.6"/><circle cx="124" cy="32" r="0.6"/><circle cx="136" cy="32" r="0.6"/><circle cx="148" cy="32" r="0.6"/>
+                  <circle cx="100" cy="44" r="0.6"/><circle cx="112" cy="44" r="0.6"/><circle cx="124" cy="44" r="0.6"/><circle cx="136" cy="44" r="0.6"/><circle cx="148" cy="44" r="0.6"/>
+                  <circle cx="100" cy="56" r="0.6"/><circle cx="112" cy="56" r="0.6"/><circle cx="124" cy="56" r="0.6"/><circle cx="136" cy="56" r="0.6"/><circle cx="148" cy="56" r="0.6"/>
+                  <circle cx="100" cy="68" r="0.6"/><circle cx="112" cy="68" r="0.6"/><circle cx="124" cy="68" r="0.6"/><circle cx="136" cy="68" r="0.6"/><circle cx="148" cy="68" r="0.6"/>
+                </g>
+              </g>
+
+              <g transform="translate(0,116)">
+                <text x="14" y="8" font-family="Klee One" font-weight="600" font-size="5" fill="#1A1F2A">04 · 無題</text>
+                <rect x="14" y="12" width="60" height="60" fill="none" stroke="#E5E3DC" stroke-width="0.3"/>
+                <g fill="#1A1F2A">
+                  <circle cx="22" cy="20" r="0.6"/><circle cx="34" cy="20" r="0.6"/><circle cx="46" cy="20" r="0.6"/><circle cx="58" cy="20" r="0.6"/><circle cx="70" cy="20" r="0.6"/>
+                  <circle cx="22" cy="32" r="0.6"/><circle cx="34" cy="32" r="0.6"/><circle cx="46" cy="32" r="0.6"/><circle cx="58" cy="32" r="0.6"/><circle cx="70" cy="32" r="0.6"/>
+                  <circle cx="22" cy="44" r="0.6"/><circle cx="34" cy="44" r="0.6"/><circle cx="46" cy="44" r="0.6"/><circle cx="58" cy="44" r="0.6"/><circle cx="70" cy="44" r="0.6"/>
+                  <circle cx="22" cy="56" r="0.6"/><circle cx="34" cy="56" r="0.6"/><circle cx="46" cy="56" r="0.6"/><circle cx="58" cy="56" r="0.6"/><circle cx="70" cy="56" r="0.6"/>
+                  <circle cx="22" cy="68" r="0.6"/><circle cx="34" cy="68" r="0.6"/><circle cx="46" cy="68" r="0.6"/><circle cx="58" cy="68" r="0.6"/><circle cx="70" cy="68" r="0.6"/>
+                </g>
+                <polyline points="34,32 70,32 46,44 22,68 70,68 34,32" fill="none" stroke="#1A1F2A" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+                <text x="84" y="42" font-family="IBM Plex Mono" font-size="6" fill="#B0B5BD">→</text>
+
+                <rect x="92" y="12" width="60" height="60" fill="none" stroke="#E5E3DC" stroke-width="0.3"/>
+                <g fill="#1A1F2A">
+                  <circle cx="100" cy="20" r="0.6"/><circle cx="112" cy="20" r="0.6"/><circle cx="124" cy="20" r="0.6"/><circle cx="136" cy="20" r="0.6"/><circle cx="148" cy="20" r="0.6"/>
+                  <circle cx="100" cy="32" r="0.6"/><circle cx="112" cy="32" r="0.6"/><circle cx="124" cy="32" r="0.6"/><circle cx="136" cy="32" r="0.6"/><circle cx="148" cy="32" r="0.6"/>
+                  <circle cx="100" cy="44" r="0.6"/><circle cx="112" cy="44" r="0.6"/><circle cx="124" cy="44" r="0.6"/><circle cx="136" cy="44" r="0.6"/><circle cx="148" cy="44" r="0.6"/>
+                  <circle cx="100" cy="56" r="0.6"/><circle cx="112" cy="56" r="0.6"/><circle cx="124" cy="56" r="0.6"/><circle cx="136" cy="56" r="0.6"/><circle cx="148" cy="56" r="0.6"/>
+                  <circle cx="100" cy="68" r="0.6"/><circle cx="112" cy="68" r="0.6"/><circle cx="124" cy="68" r="0.6"/><circle cx="136" cy="68" r="0.6"/><circle cx="148" cy="68" r="0.6"/>
+                </g>
+              </g>
+
+              <text x="14" y="204" font-family="IBM Plex Mono" font-size="2.6" fill="#B0B5BD" letter-spacing="0.3">TENZU MAKER · 練習は紙の上で</text>
+            </svg>
+            <div class="pageno">P 2 / 2</div>
+          </div>
+        </div>
+        <div class="pp-foot">
+          <span>合計 <strong>4 問 / 2 ページ</strong></span>
+          <span>B4 横 · 2 問 / ページ</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <strong>NOTE</strong>
+      画面で解かせる機能はありません。<br>必ず印刷して、紙の上で練習してください。
+    </div>
+
+  </aside>
+
+</div>
+
+</body>
+</html>

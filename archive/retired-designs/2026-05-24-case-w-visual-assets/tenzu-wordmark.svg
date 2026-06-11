@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 80" role="img" aria-label="TENZU wordmark">
+  <title>TENZU Wordmark</title>
+  <desc>Custom geometric sans-serif wordmark. Letter-spacing wide (+0.22em). Color: Calm Navy Gray #3F475F. NOTE: text rendered via web font fallback; replace with outlined &lt;path&gt; once final font is licensed.</desc>
+  <!-- Web font fallback stack: Outfit (light geometric sans, free on Google Fonts) as nearest match to the reference. -->
+  <style>
+    .wordmark {
+      font-family: "Outfit", "Sora", "Manrope", "Helvetica Neue", system-ui, sans-serif;
+      font-weight: 300;
+      font-size: 64px;
+      letter-spacing: 0.22em;
+      fill: #3F475F;
+    }
+  </style>
+  <text x="0" y="60" class="wordmark">TENZU</text>
+</svg>

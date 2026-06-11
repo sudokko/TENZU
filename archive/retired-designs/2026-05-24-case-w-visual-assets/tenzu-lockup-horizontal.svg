@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 100" role="img" aria-label="TENZU horizontal lockup">
+  <title>TENZU Horizontal Lockup</title>
+  <desc>Symbol left + wordmark right. Padding between symbol and wordmark = 1x symbol height. Aligned to optical center.</desc>
+  <style>
+    .wordmark {
+      font-family: "Outfit", "Sora", "Manrope", "Helvetica Neue", system-ui, sans-serif;
+      font-weight: 300;
+      font-size: 64px;
+      letter-spacing: 0.22em;
+      fill: #3F475F;
+    }
+  </style>
+  <!-- Symbol (scaled to 80x80, positioned left) -->
+  <g transform="translate(10, 10) scale(0.8)" fill="#3F475F" stroke="#3F475F">
+    <rect x="22" y="22" width="56" height="56" fill="none" stroke-width="2.5"/>
+    <circle cx="22" cy="22" r="6" stroke="none"/>
+    <circle cx="78" cy="22" r="6" stroke="none"/>
+    <circle cx="22" cy="78" r="6" stroke="none"/>
+    <circle cx="78" cy="78" r="6" stroke="none"/>
+  </g>
+  <!-- Wordmark (right of symbol, vertically centered) -->
+  <text x="120" y="70" class="wordmark">TENZU</text>
+</svg>

@@ -23,6 +23,48 @@
 
 > 一次ソース: [pack-design.md](./product/pack-design.md)
 
+### 3.50 「App」呼称を全廃し「Web ジェネレータ（おためし点描写メーカー）」へ表記統一（2026-06-11）
+
+2026-05-27 の acquisition ゼロベース見直しで「App＝ネイティブアプリ」誤解（DR 誤読・広告コピー NG）が確認されたため表記統一を決定していたが、設計書本文への徹底が未了だったものを全領域へ反映。一次ソース [foundation/brand.md §11.3.1](./foundation/brand.md)・[voice-tone.md §7](./foundation/voice-tone.md)。
+
+- **正式名「おためし点描写メーカー」／種別呼称「Web ジェネレータ」**。単独の「App」表記は設計書本文で使わない（変遷表・附録・本ログの過去エントリは史料として原文維持）
+- ネイティブアプリではない: ブラウザで動く・インストール不要・PDF 印刷専用
+- brand.md §11.3.1 の仕様記述も実装に同期: 「自動生成」ではなく**親が点格子上に線を描いて自作**する方式（実装詳細は [pack-design.md §23](./product/pack-design.md)）
+
+### 3.49 記事執筆の役割分担を再定義・craft 層を構成/本文化/推敲の 3 冊に新設（2026-06-11）
+
+AI 任せの記事生成が品質不足だったため、執筆体制を再定義。一次ソース [content/structure-craft.md](./content/structure-craft.md)（書く前＝構成）・[content/writing-craft.md](./content/writing-craft.md)（書いている間＝本文化）・[content/revision-craft.md](./content/revision-craft.md)（書いた後＝推敲）。
+
+- **執筆フロー 6 段**: ①オーナーが「表現したいこと」を書き散らし（`docs/drafts/dumps/<slug>.md`・自由形式）→ ② AI が構成・目次案を提案（structure-craft.md・構成メモのドラフトとして出力）→ ③**オーナーが採否・修正して構成メモ確定**（`docs/drafts/memos/<slug>.md`・**構成の決定権はオーナー**）→ ④ AI が本文化（writing-craft.md）→ ⑤ AI が推敲パス（revision-craft.md・表現レベルのみ・変更点リスト必須）→ ⑥ article-reviewer → オーナー仕上げ。リード・TLDR は AI 下書き→オーナー仕上げ
+- **構成メモ・dump の媒体はリポジトリ内 Markdown**（雛形 `docs/drafts/memos/_template.md`）。エクセル/スプシ不採用（階層構造が崩れる・AI 読込に変換層が挟まる）。専用入稿ツールはフォーマット安定後に再検討
+- **境界線が品質劣化の真因対策**: 構成提案は dump 内の素材だけで組み、足りない箇所は `【ギャップ】` で明示（structure-craft.md §2）。本文化はメモに無い主張・事実・数値・引用の追加禁止・不明点は `【要確認】` で返す（writing-craft.md §2）
+- article-reviewer エージェントに Craft 観点（L）＝メモ照合チェックを追加
+- ノウハウ学習源: Udemy ライター講座の Notta 文字起こし約30テーマ（`content/sources/udemy-writing/`）。抽出は 3 系統＝**構成・見出し系 → structure-craft**／**文章術系 → writing-craft**／**推敲系 → revision-craft**。**WordPress 等ツール操作系は不採用**（Next.js 自前実装のため）
+- SSOT 境界: structure-craft.md＝どう組み立てるか／writing-craft.md＝どう膨らませるか／revision-craft.md＝どう直すか／templates.md＝どの型で出すか（運用）／voice-tone.md＝どんな声で書くか（人格）。衝突時は voice-tone ＞ templates §7 ＞ craft 3 冊
+- **推敲の境界線**: 推敲で直せるのは表現レベルのみ。主張・事実・構成の変更は `【差し戻し】` でオーナーに返す（revision-craft.md §2）。推敲の実行装置（スキル化）は Phase B 抽出後に判断（知識=md・検出=article-reviewer・実行=スキルの 3 層方針）
+
+### 3.48 SKU＝問題データ・PDF は DL 時その場生成へ転換（事前生成 5 パターン廃止）（2026-06-11）
+
+「家庭の印刷機に合わせられる」（TOP 値カード③）を商品本体で実装する転換。一次ソース [service-blueprint.md §③④](./product/service-blueprint.md)。
+
+- **SKU ＝ 12 問の問題データ（座標 JSON）**。PDF は紙サイズ（A4/B4/A3・縦横）×1ページ問数のレイアウトを当てて生成する「ビュー」
+- **B案確定: カートは SKU のみ（¥200）・レイアウトはダウンロード時に自由・何度でも変更可**（購入時固定は「印刷自由・兄妹再利用可」と矛盾するため不採用）。商品ページのセレクタ＋連動プレビューは購入前の体験デモ
+- **PDF はクライアントサイド直接生成（pdf-lib）でファイル保存**。印刷ページ（window.print）方式は不採用（OS ダイアログ依存・スマホ弱・ファイル名制御不可）。ベクターのみ数十KB・出力決定的・Node でも動くため将来 Lambda 転用（メール添付等）可
+- **廃止**: 事前生成 5 パターン（約745ファイル・S3 PDF 保管）／DynamoDB `selected_layout`／一括 ZIP。配信の保護対象は「購入 SKU の問題データを返す認証付き API」に変わる。マジックリンク 4 経路の骨格は不変
+- レイアウトエンジン（紙×問数の総当たり最適化）は maker と共通化。日本語フォント埋め込みは紙面テキスト最小化（ロゴ画像＋欧文/数字）で初期回避
+- 無料 maker との線引きは不変: maker＝自作・模写のみ・5×5 まで／商品＝設計済み 12 問×63 巻
+
+### 3.47 商品導線を「タスク別一覧 10 ページ＋詳細テンプレ」で実装・SKU slug を Vol 番号方式に確定（2026-06-10）
+
+TOP/一覧のレベル単位チップ（1 チップ＝最大 3 Vol）と Vol 単位の実 SKU が 1:1 で繋がらない構造問題を、中間層「タスク別一覧」で解消。一次ソース: 実装 SSOT [web/app/products/data.ts](./web/app/products/data.ts)・[funnel.md §3](./acquisition/funnel.md)。
+
+- **タスク slug 10 本確定**: copy（模写図形）/ motif（絵柄）/ solid（立体）/ fill（欠け補完）/ mirror（線対称）/ rotate（回転）/ translate（平行移動）/ scale（拡大縮小）/ overlay（かさね）/ decompose（分解）
+- **SKU slug ＝ `{task}-lv{n}-vol{m}` 方式に確定**（例 `copy-lv2-vol2`）。グリッド表記方式（copy-lv2-4x4）は欠け補完・かさね・分解・回転・平行移動・拡大縮小・立体の 7 タスクで「同一 Lv ×同一グリッド 2 巻」が衝突するため不採用。旧 URL `copy-lv2-4x4` は permanentRedirect で温存
+- **ルーティング＝ `/products/[slug]` 単一ディスパッチャ**（slug がタスク→一覧／live SKU→詳細／scaffold SKU→404）。`generateStaticParams`＋`dynamicParams=false`
+- **`/products` ＝商品一覧ハブとして復活**（§3.43「TOP 吸収」を一部改定）。未使用だった CatalogSection（チップ付き 3 群×タスク行）を正本レンダリング。TOP（/）は coverage 圧縮版のまま＝棚の全量は /products が担う。チップ→ `/products/{task}#lv{n}` アンカー着地
+- **Vol レベル SSOT ＝ `web/app/products/data.ts`**（63 巻全件: sku/lv/volNo/grid/variant/blurb/ageLabel/status）。catalog.tsx の `lv` 配列は `lvCounts()` 導出に変更＝巻数の二重定義を排除。live＝copy 8/mirror 6/fill 8 の 22 巻（詳細ページあり）、残り 7 タスク 41 巻は scaffold（一覧に「準備中」陳列・棚の全体像は隠さない）
+- **配線解消**: TOP 種類リスト→各タスク一覧／「すべて見る」→/products／レベル選びガイド★最初の一冊→live は SKU 詳細・scaffold は一覧 Lv アンカー／ヘッダー「商品」・フッター「商品一覧」→/products。残未配線はサンプル PDF・カート・記事系のみ
+
 ### 3.46 レベル選びガイドを Next.js 自前ページ `/level-guide` で実装（2 軸出力）（2026-06-09）
 
 §3.44 で TOP 帯グラフ下に置いた「レベル選びガイド」CTA の遷移先本体を実装。一次ソース [funnel.md §3](./acquisition/funnel.md)。
@@ -31,7 +73,7 @@
 - **結果は 2 軸**: 軸A はじめる位置（Lv 1-5・年齢はめやす／手ごたえ 3 問が優先・やさしい側が勝つ床天井）＋軸B どの種類から（目的 1 問 → ★最初の一冊＝具体 SKU）。歯抜け Lv は近い存在 Lv にスナップし注記（絵柄=入門編から 等）
 - **診断語彙ゼロ・提案トーン**（[voice-tone.md §1](./foundation/voice-tone.md)）。年齢で傷つけない設計（「遅れ」非示唆・「迷ったらやさしい巻から」逃げ道必須）
 - **配線**: TOP 帯グラフ下 CTA／Hero・Close ゴースト CTA／ヘッダーナビ「レベル選び」／フッターを `/level-guide` に接続。catalog `LevelGraph()` に `highlight` prop 追加（TOP の無引数呼び出しは不変）
-- **残**: 結果内の商品/サンプル/「全部見る」リンクは未配線（href="#"・商品ページ実装待ち）
+- **残**: 結果内の商品/「全部見る」リンクは §3.47 で配線済。サンプル PDF リンクのみ未配線（PDF 整備待ち）
 
 ### 3.45 TOP を top-rich ストアフロントに確定（A 案を退避・§3.44 を改定）（2026-06-09）
 
@@ -151,12 +193,12 @@ Step 1完了。合計54 Vol.。
 ### 3.18 「先行SKU」概念の完全廃止（2026-05-09）
 
 「Phase 1 で先行SKU 4本を限定販売」構想を概念ごと廃止。**Phase 1 以降は全140 SKU を通常価格 ¥200 で公開・販売**（売上ゼロでも非目的・主動線はモニター無償フルアクセス）。`cta_mode: sku-preview` enum 値も削除。
-→ [archive/retired-designs/2026-05-09-presale-skus.md](./archive/retired-designs/2026-05-09-presale-skus.md) / [content-design-templates.md §2.3](./content/templates.md)
+→ [archive/retired-designs/2026-05-09-presale-skus.md](./archive/retired-designs/2026-05-09-presale-skus.md) / [content/templates.md §2.3](./content/templates.md)
 
 ### 3.19 MDX phase 4値モデル確定（2026-05-09）
 
 旧 `phase: pre-launch | post-launch` 2値モデルを廃止し、`phase: phase-0 | phase-1 | phase-2 | phase-3` 4値モデルへ。Phase 0 記事は `<SkuCards />` 非レンダリング、Phase 1+ は target_skus 指定通りに展開。
-→ [archive/retired-designs/2026-05-06-two-phase-cta-model.md](./archive/retired-designs/2026-05-06-two-phase-cta-model.md) / [content-design-templates.md §2.3](./content/templates.md)
+→ [archive/retired-designs/2026-05-06-two-phase-cta-model.md](./archive/retired-designs/2026-05-06-two-phase-cta-model.md) / [content/templates.md §2.3](./content/templates.md)
 
 ### 3.20 案F確定（2026-05-20）— 戦略大改修
 

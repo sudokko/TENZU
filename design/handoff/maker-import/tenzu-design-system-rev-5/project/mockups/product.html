@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>模写 Lv.2 — 4×4 まで · TENZU</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body {
+    margin: 0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  @media (max-width: 600px) { body { background-size: 28px 28px; } }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 64px; }
+  @media (max-width: 600px) { .wrap { padding: 0 24px; } }
+
+  /* header (shared with LP — keep duplicated for self-contained mockup) */
+  header.site { border-bottom: 1px dashed var(--line-thin); padding: 18px 0 14px; }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+  .logo-cluster { display: flex; align-items: center; gap: 14px; }
+  .logo-cluster .logo-img { height: 36px; }
+  .logo-cluster .ident { font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-3); letter-spacing: 0.04em; margin: 0; padding-left: 12px; border-left: 1px dashed var(--line-thin); line-height: 1.4; }
+  .nav-main { display: flex; gap: 28px; }
+  .nav-main a { font-family: var(--font-tier3-sans); font-size: 14px; color: var(--fg); text-decoration: none; padding-bottom: 6px; border-bottom: 1.5px solid transparent; }
+  .nav-main a:hover { border-color: var(--accent); }
+  .nav-main a[aria-current] { border-color: var(--fg); }
+  .cart-button { font-family: var(--font-tier3-mono); font-size: 13px; color: var(--fg); text-decoration: none; letter-spacing: 0.02em; }
+
+  /* breadcrumb */
+  .crumb {
+    padding: 18px 0 0;
+    font-family: var(--font-tier3-sans);
+    font-size: 12px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  .crumb a { color: var(--fg-2); text-decoration: none; }
+  .crumb a:hover { color: var(--accent); }
+  .crumb .sep { color: var(--fg-4); padding: 0 8px; }
+  .crumb .cur { color: var(--fg); }
+
+  /* SKU header — 2 column */
+  .sku-head {
+    padding: 36px 0 56px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 800px) { .sku-head { grid-template-columns: 1fr; gap: 32px; } }
+  .sku-visual {
+    background: #FFFFFF;
+    border: 1px solid var(--line-thin);
+    border-radius: var(--radius-soft);
+    aspect-ratio: 210/297;
+    position: relative;
+    overflow: hidden;
+    padding: 28px;
+  }
+  .sku-visual .puzzle-grid {
+    position: absolute;
+    inset: 28px;
+    background-image: radial-gradient(circle, #1A1F2A 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    background-position: 14px 14px;
+    opacity: 0.7;
+  }
+  .sku-visual .pdf-frame {
+    position: absolute;
+    inset: 28px;
+    border: 0.5px dashed rgba(26,31,42,0.2);
+  }
+  .sku-visual svg.sample {
+    position: absolute;
+    inset: 56px;
+    width: calc(100% - 112px);
+    height: calc(100% - 112px);
+  }
+  .sku-visual .corner-stamp {
+    position: absolute;
+    bottom: 36px;
+    left: 36px;
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .sku-visual .top-stamp {
+    position: absolute;
+    top: 36px;
+    left: 36px;
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--fg);
+    letter-spacing: 0.01em;
+  }
+
+  .sku-meta { display: flex; flex-direction: column; gap: 22px; }
+  .sku-tag-row {
+    font-family: var(--font-tier3-mono);
+    font-size: 13px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+  }
+  .sku-tag-row .dot { color: var(--fg-4); padding: 0 6px; }
+  .sku-name {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    margin: 0;
+  }
+  .sku-promise {
+    font-family: var(--font-tier2-pencil);
+    font-size: 18px;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    margin: 0;
+    max-width: 28ch;
+  }
+
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding-top: 8px;
+  }
+  .price-yen {
+    font-family: var(--font-tier3-mono);
+    font-size: 28px;
+    color: var(--fg);
+    font-feature-settings: "tnum" 1;
+  }
+  .price-meta {
+    font-family: var(--font-tier3-sans);
+    font-size: 13px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    flex-wrap: wrap;
+    padding-top: 6px;
+  }
+  .btn-strong { display: inline-block; font-family: var(--font-tier3-sans); font-weight: 500; font-size: 14px; color: var(--bg); background: var(--fg); text-decoration: none; padding: 12px 22px; border-radius: var(--radius-soft); letter-spacing: 0.02em; }
+  .btn-medium { display: inline-block; font-family: var(--font-tier3-sans); font-weight: 500; font-size: 14px; color: var(--fg); text-decoration: none; padding: 11px 22px; background: var(--bg-3); border: 1px solid var(--fg); border-radius: var(--radius-soft); letter-spacing: 0.02em; }
+  .btn-weak { font-family: var(--font-tier3-sans); font-weight: 500; font-size: 14px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; border-bottom: 1px solid transparent; padding-bottom: 2px; }
+  .btn-weak:hover { border-color: var(--accent); }
+
+  /* spec table */
+  .spec-table {
+    border-top: 1px dashed var(--line-thin);
+    margin-top: 8px;
+    padding-top: 18px;
+  }
+  .spec-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 24px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line-thin);
+    align-items: baseline;
+  }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-label { font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-3); letter-spacing: 0.04em; }
+  .spec-value { font-family: var(--font-tier3-sans); font-size: 14px; color: var(--fg); }
+  .spec-value.mono { font-family: var(--font-tier3-mono); }
+
+  /* memo */
+  .memo--observe, .memo--parents {
+    background: var(--bg-3);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    padding: 22px 26px;
+  }
+  .memo--rationale {
+    border-left: 2px solid var(--fg-2);
+    padding: 4px 22px;
+  }
+  .memo-label { font-family: var(--font-tier1-klee); font-weight: 600; font-size: 17px; color: var(--fg); margin-bottom: 10px; letter-spacing: 0.01em; }
+  .memo-body { font-family: var(--font-tier2-pencil); font-size: 16px; line-height: 1.85; letter-spacing: 0.01em; color: var(--fg); margin: 0; }
+  .memo-date { margin-top: 12px; font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.06em; }
+
+  /* section */
+  section.s { padding: 56px 0; border-top: 1px dashed var(--line-thin); }
+  section.s h2 {
+    display: inline-block;
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--fg);
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid var(--accent);
+    margin: 0 0 22px;
+    letter-spacing: 0.01em;
+  }
+  section.s .lead {
+    font-family: var(--font-tier2-pencil);
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--fg);
+    margin: 0 0 28px;
+    max-width: 56ch;
+  }
+
+  /* level ladder */
+  .ladder {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+  @media (max-width: 720px) { .ladder { grid-template-columns: repeat(2, 1fr); } }
+  .lv {
+    padding: 16px 14px;
+    border-top: 1px dashed var(--line-thin);
+    border-bottom: 1px dashed var(--line-thin);
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .lv .lv-num {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .lv .lv-grid-label {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--fg);
+    letter-spacing: 0.01em;
+  }
+  .lv .lv-desc {
+    font-family: var(--font-tier2-pencil);
+    font-size: 13px;
+    color: var(--fg-2);
+    line-height: 1.75;
+  }
+  .lv[data-state="current"] {
+    background: var(--bg-3);
+    outline: 1.5px solid var(--accent);
+    outline-offset: -1.5px;
+  }
+  .lv[data-state="current"] .lv-num { color: var(--accent); }
+
+  /* what's inside */
+  .inside-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 12px;
+  }
+  @media (max-width: 720px) { .inside-grid { grid-template-columns: 1fr; } }
+  .inside-cell {
+    padding: 16px 18px;
+    border-top: 1px dashed var(--line-thin);
+    border-bottom: 1px dashed var(--line-thin);
+  }
+  .inside-cell .ic-num {
+    font-family: var(--font-tier3-mono);
+    font-size: 32px;
+    color: var(--fg);
+    line-height: 1;
+  }
+  .inside-cell .ic-unit {
+    font-family: var(--font-tier3-mono);
+    font-size: 12px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+    margin-left: 4px;
+  }
+  .inside-cell .ic-label {
+    font-family: var(--font-tier3-sans);
+    font-size: 13px;
+    color: var(--fg-2);
+    margin-top: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  /* revision history */
+  .rev-list { margin: 0; padding: 0; }
+  .rev-row {
+    display: grid;
+    grid-template-columns: 64px 110px 1fr;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line-thin);
+    align-items: baseline;
+  }
+  .rev-row:last-child { border-bottom: none; }
+  .rev-row dt {
+    font-family: var(--font-tier3-mono);
+    font-size: 13px;
+    color: var(--fg);
+    letter-spacing: 0.02em;
+  }
+  .rev-row .rev-date {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    margin: 0;
+    letter-spacing: 0.04em;
+  }
+  .rev-row .rev-note {
+    font-family: var(--font-tier3-sans);
+    font-size: 14px;
+    color: var(--fg);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* related */
+  .related {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 8px;
+  }
+  @media (max-width: 720px) { .related { grid-template-columns: 1fr; } }
+  .related-card {
+    padding: 18px 0;
+    border-top: 1px dashed var(--line-thin);
+    border-bottom: 1px dashed var(--line-thin);
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 16px;
+    align-items: start;
+    text-decoration: none;
+  }
+  .related-card:hover .rc-name { color: var(--accent); }
+  .related-card img { width: 64px; height: 64px; border: 1px solid var(--line-thin); border-radius: 2px; }
+  .related-card .rc-row { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-2); letter-spacing: 0.04em; }
+  .related-card .rc-name { font-family: var(--font-tier1-klee); font-weight: 600; font-size: 16px; color: var(--fg); margin: 4px 0 4px; letter-spacing: 0.01em; }
+  .related-card .rc-promise { font-family: var(--font-tier2-pencil); font-size: 12px; color: var(--fg-2); line-height: 1.7; }
+
+  /* footer (mini) */
+  footer.site { background: var(--bg-3); margin-top: 56px; padding: 36px 0; border-top: 1px dashed var(--line-thin); }
+  footer.site .copyright { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.04em; }
+
+</style>
+</head>
+<body data-screen-label="02 商品ページ">
+
+<header class="site">
+  <div class="wrap header-inner">
+    <div class="logo-cluster">
+      <img class="logo-img" src="../assets/tenzu-logo-horizontal.png" alt="TENZU">
+      <p class="ident">点描写プリント<br>の専門店</p>
+    </div>
+    <nav class="nav-main">
+      <a href="../mockups/landing.html">商品</a>
+      <a href="#">記事</a>
+      <a href="#">レベル選び</a>
+      <a href="#">おためし</a>
+      <a href="#">About</a>
+    </nav>
+    <a class="cart-button" href="#">カート (1)</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="crumb">
+    <a href="../mockups/landing.html">商品</a><span class="sep">/</span>
+    <a href="#">A 見て写す</a><span class="sep">/</span>
+    <span class="cur">模写 Lv.2 — 4×4 まで</span>
+  </nav>
+</div>
+
+<!-- =================== SKU HEAD =================== -->
+<main>
+<div class="wrap">
+  <section class="sku-head">
+    <div class="sku-visual" aria-label="模写 Lv.2 sample PDF preview">
+      <div class="puzzle-grid"></div>
+      <svg class="sample" viewBox="0 0 100 140" preserveAspectRatio="xMidYMid meet">
+        <polyline points="14,42 42,28 70,42 56,84 28,84 14,42"
+          fill="none" stroke="#1A1F2A" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+      </svg>
+      <div class="top-stamp">模写 Lv.2</div>
+      <div class="corner-stamp">SAMPLE · A4 · 12 問</div>
+    </div>
+
+    <div class="sku-meta">
+      <div class="sku-tag-row">
+        <span>A</span><span class="dot">·</span>
+        <span>見て写す</span><span class="dot">·</span>
+        <span>Lv.2</span><span class="dot">·</span>
+        <span>Vol.03</span>
+      </div>
+      <h1 class="sku-name">模写 Lv.2<br>— 4×4 まで</h1>
+      <p class="sku-promise">点と点の距離を、<br>目で測れるように。</p>
+
+      <div class="price-row">
+        <div class="price-yen">¥200</div>
+        <div class="price-meta">税込 · 全 12 問 · PDF ダウンロード</div>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn-strong" href="#">カートへ →</a>
+        <a class="btn-medium" href="#">サンプル 1 枚を見る</a>
+      </div>
+
+      <div class="spec-table">
+        <div class="spec-row"><span class="spec-label">紙サイズ</span><span class="spec-value">A4 縦</span></div>
+        <div class="spec-row"><span class="spec-label">問題数</span><span class="spec-value mono">12 問</span></div>
+        <div class="spec-row"><span class="spec-label">グリッド</span><span class="spec-value mono">3×3 / 4×4 混在</span></div>
+        <div class="spec-row"><span class="spec-label">対象目安</span><span class="spec-value">5 — 7 歳</span></div>
+        <div class="spec-row"><span class="spec-label">所要時間</span><span class="spec-value">1 問 1 — 2 分</span></div>
+        <div class="spec-row"><span class="spec-label">最終改訂</span><span class="spec-value mono">v1.3 · 2026-05-12</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =================== LEVEL LADDER =================== -->
+<section class="s">
+  <div class="wrap">
+    <h2>このタスクのレベル</h2>
+    <p class="lead">同じ「模写」を Lv.1 から Lv.5 まで Vol 細刻みで進めます。各レベルは独立に始められます。</p>
+
+    <div class="ladder">
+      <article class="lv">
+        <span class="lv-num">LV.1</span>
+        <span class="lv-grid-label">3×3 まで</span>
+        <span class="lv-desc">点の位置を「数えて」写す段階。</span>
+      </article>
+      <article class="lv" data-state="current">
+        <span class="lv-num">LV.2 · NOW</span>
+        <span class="lv-grid-label">4×4 まで</span>
+        <span class="lv-desc">距離を「測って」写す段階。</span>
+      </article>
+      <article class="lv">
+        <span class="lv-num">LV.3</span>
+        <span class="lv-grid-label">5×5 まで</span>
+        <span class="lv-desc">構造を「掴んで」写す段階。</span>
+      </article>
+      <article class="lv">
+        <span class="lv-num">LV.4</span>
+        <span class="lv-grid-label">6×6 まで</span>
+        <span class="lv-desc">全体を「先に見て」から写す段階。</span>
+      </article>
+      <article class="lv">
+        <span class="lv-num">LV.5</span>
+        <span class="lv-grid-label">7×7 まで</span>
+        <span class="lv-desc">手本なしで「想起して」写す段階。</span>
+      </article>
+    </div>
+
+    <aside class="memo--observe" style="margin-top: 32px; max-width: 720px;">
+      <div class="memo-label">ここを見てください</div>
+      <p class="memo-body">このレベルの〈模写タスク〉は、鏡を渡すよりも軸を見つけてもらうほうが先です。手本を見るときの目の動きが、Lv.1 と Lv.2 で変わってきます。</p>
+      <div class="memo-date">2026-05-12</div>
+    </aside>
+  </div>
+</section>
+
+<!-- =================== INSIDE =================== -->
+<section class="s">
+  <div class="wrap">
+    <h2>この 1 枚に入っているもの</h2>
+    <p class="lead">12 問・A4 1 枚・親向け解説 + 改訂履歴。¥200 一律、サブスクなし。</p>
+
+    <div class="inside-grid">
+      <div class="inside-cell">
+        <div><span class="ic-num">12</span><span class="ic-unit">問</span></div>
+        <div class="ic-label">A4 1 枚に収まる出題密度</div>
+      </div>
+      <div class="inside-cell">
+        <div><span class="ic-num">2</span><span class="ic-unit">分 / 問</span></div>
+        <div class="ic-label">1 セッション 15 — 25 分</div>
+      </div>
+      <div class="inside-cell">
+        <div><span class="ic-num">¥200</span></div>
+        <div class="ic-label">買い切り · 印刷自由 · 兄妹再利用可</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== RATIONALE =================== -->
+<section class="s">
+  <div class="wrap">
+    <h2>なぜ Lv.2 にこの SKU が来るか</h2>
+    <aside class="memo--rationale" style="max-width: 720px;">
+      <div class="memo-label">店主から</div>
+      <p class="memo-body">点と点の距離を測る目を作るには、4×4 までの規則的な配置が必要です。3×3 では情報が足りず、5×5 では距離の比較対象が増えすぎる。Lv.2 は「距離を測ること」だけに集中できる範囲として置きました。</p>
+    </aside>
+  </div>
+</section>
+
+<!-- =================== PARENTS =================== -->
+<section class="s">
+  <div class="wrap">
+    <h2>続け方</h2>
+    <aside class="memo--parents" style="max-width: 720px;">
+      <div class="memo-label">親へのひとこと</div>
+      <p class="memo-body">このレベルは「写す前に、どこを見るか」を一緒に確認してみてください。<br>次は明日でも大丈夫です。同じ問題を 2 回やる日があってもいい設計です。</p>
+    </aside>
+  </div>
+</section>
+
+<!-- =================== REVISION HISTORY =================== -->
+<section class="s">
+  <div class="wrap">
+    <h2>改訂履歴</h2>
+    <dl class="rev-list" style="max-width: 720px;">
+      <div class="rev-row">
+        <dt>v1.3</dt>
+        <dd class="rev-date">2026-05-12</dd>
+        <dd class="rev-note">線太さを 0.5pt 増しました</dd>
+      </div>
+      <div class="rev-row">
+        <dt>v1.2</dt>
+        <dd class="rev-date">2026-04-30</dd>
+        <dd class="rev-note">第 3 問の dot 配置を 1 段下げました</dd>
+      </div>
+      <div class="rev-row">
+        <dt>v1.1</dt>
+        <dd class="rev-date">2026-04-12</dd>
+        <dd class="rev-note">親向け解説の段落を入れ替えました</dd>
+      </div>
+      <div class="rev-row">
+        <dt>v1.0</dt>
+        <dd class="rev-date">2026-04-01</dd>
+        <dd class="rev-note">初版</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- =================== RELATED =================== -->
+<section class="s">
+  <div class="wrap">
+    <h2>同じ群の他のレベル</h2>
+    <div class="related">
+      <a class="related-card" href="#">
+        <img src="../assets/icons/task-copy.svg" alt="">
+        <div>
+          <div class="rc-row">A · 見て写す · Lv.1</div>
+          <div class="rc-name">模写 Lv.1 — 3×3 まで</div>
+          <div class="rc-promise">点の位置を、まず数えて確認する。</div>
+        </div>
+      </a>
+      <a class="related-card" href="#">
+        <img src="../assets/icons/task-copy.svg" alt="">
+        <div>
+          <div class="rc-row">A · 見て写す · Lv.3</div>
+          <div class="rc-name">模写 Lv.3 — 5×5 まで</div>
+          <div class="rc-promise">構造を掴んでから、写し始める。</div>
+        </div>
+      </a>
+      <a class="related-card" href="#">
+        <img src="../assets/icons/task-mirror.svg" alt="">
+        <div>
+          <div class="rc-row">B · かたちを動かす · Lv.2</div>
+          <div class="rc-name">線対称 Lv.2</div>
+          <div class="rc-promise">軸を見つけて、向こう側を描き起こす。</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span class="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="color-scheme" content="light">
+<title>Decision tree</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-tier3-sans);
+  background: var(--bg);
+  color: var(--fg);
+  padding: 24px 28px;
+  box-sizing: border-box;
+}
+.row { display: flex; gap: 16px; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.mono { font-family: var(--font-tier3-mono); }
+.klee { font-family: var(--font-tier1-klee); font-weight: 600; letter-spacing: 0.01em; }
+.pencil { font-family: var(--font-tier2-pencil); letter-spacing: 0.01em; line-height: 1.85; }
+.tag-cap { font-family: var(--font-tier3-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-3); }
+.token { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-2); letter-spacing: 0.04em; }
+.label-sm { font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-2); }
+.value-sm { font-family: var(--font-tier3-mono); font-size: 12px; color: var(--fg); }
+</style></head><body>
+<div class="col" style="gap:10px;">
+  <div class="tag-cap">DECISION TREE — 迷ったらこの順</div>
+  
+    <div class="row" style="gap:14px;padding:7px 0;border-bottom:1px dashed var(--line-thin);align-items:baseline;">
+      <div style="font-family:var(--font-tier3-sans);font-size:13px;color:var(--fg);flex:1;">数値・記号・カウント・操作 UI？</div>
+      <div class="value-sm" style="color:var(--accent);font-size:12px;">→ Tier ③ Plex / Mono</div>
+    </div>
+    <div class="row" style="gap:14px;padding:7px 0;border-bottom:1px dashed var(--line-thin);align-items:baseline;">
+      <div style="font-family:var(--font-tier3-sans);font-size:13px;color:var(--fg);flex:1;">3 段落以上の連続本文？</div>
+      <div class="value-sm" style="color:var(--accent);font-size:12px;">→ Tier ③ Plex Sans JP</div>
+    </div>
+    <div class="row" style="gap:14px;padding:7px 0;border-bottom:1px dashed var(--line-thin);align-items:baseline;">
+      <div style="font-family:var(--font-tier3-sans);font-size:13px;color:var(--fg);flex:1;">警告・エラー・バリデーション？</div>
+      <div class="value-sm" style="color:var(--accent);font-size:12px;">→ Tier ③ Plex Sans JP</div>
+    </div>
+    <div class="row" style="gap:14px;padding:7px 0;border-bottom:1px dashed var(--line-thin);align-items:baseline;">
+      <div style="font-family:var(--font-tier3-sans);font-size:13px;color:var(--fg);flex:1;">人がそこにいる感を出す文？</div>
+      <div class="value-sm" style="color:var(--accent);font-size:12px;">→ Tier ② Zen Kurenaido</div>
+    </div>
+    <div class="row" style="gap:14px;padding:7px 0;border-bottom:1px dashed var(--line-thin);align-items:baseline;">
+      <div style="font-family:var(--font-tier3-sans);font-size:13px;color:var(--fg);flex:1;">読ませて理解させたい文？</div>
+      <div class="value-sm" style="color:var(--accent);font-size:12px;">→ Tier ① Klee One 600</div>
+    </div>
+    <div class="row" style="gap:14px;padding:7px 0;border-bottom:1px dashed var(--line-thin);align-items:baseline;">
+      <div style="font-family:var(--font-tier3-sans);font-size:13px;color:var(--fg);flex:1;">（既定）</div>
+      <div class="value-sm" style="color:var(--accent);font-size:12px;">→ Tier ③ Plex Sans JP</div>
+    </div>
+</div></body></html>

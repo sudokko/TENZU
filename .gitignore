@@ -5,3 +5,18 @@ __pycache__/
 # HTML build tooling
 tools/build-html/node_modules/
 tools/build-html/package-lock.json
+
+# Next.js build output
+.next/
+
+# build-html 生成物（.md から自動生成・ローカル閲覧用）は追跡しない
+*.html
+docs/html-index.html
+# 手作りのモック・設計物・デザインバンドル原本は追跡対象に残す
+!design/handoff/maker-complete-a.html
+!design/handoff/maker-complete-candidates.html
+!design/handoff/maker-import/tenzu-design-system-rev-5/project/mockups/*.html
+!design/handoff/maker-import/tenzu-design-system-rev-5/project/preview/*.html
+!design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/*.html
+!design/navigation/pages-overview.html
+!prototypes/tenbyo-preview.html

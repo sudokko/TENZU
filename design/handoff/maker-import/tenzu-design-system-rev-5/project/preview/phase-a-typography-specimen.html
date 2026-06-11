@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Phase A — Typography Specimen — TENZU rev.5</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body {
+    background: var(--bg);
+    padding: 56px 64px 96px;
+    max-width: 1080px;
+    margin: 0 auto;
+    background-image:
+      radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: 0 0;
+  }
+
+  .frame {
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 16px;
+    margin-bottom: 48px;
+    border-bottom: 1px dashed var(--line-thin);
+  }
+  .header-row .kicker {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .header-row .meta-right {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+
+  .doc-title {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    margin: 0 0 6px;
+  }
+  .doc-sub {
+    font-family: var(--font-tier2-pencil);
+    font-size: 17px;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    color: var(--fg-2);
+    margin: 0;
+  }
+  .doc-ident {
+    font-family: var(--font-tier3-sans);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--fg-3);
+    margin-top: 18px;
+  }
+
+  /* ---- section grid ---- */
+  section {
+    margin-top: 64px;
+  }
+  section > h2 {
+    display: inline-block;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid var(--accent);
+    margin-bottom: 28px;
+  }
+  section > .lead {
+    font-family: var(--font-tier2-pencil);
+    font-size: 16px;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    color: var(--fg-2);
+    margin-bottom: 32px;
+    max-width: 64ch;
+  }
+
+  /* ---- tier card ---- */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+  .tier {
+    padding-top: 16px;
+    border-top: 2px solid var(--fg);
+  }
+  .tier .tier-tag {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-2);
+    margin-bottom: 6px;
+  }
+  .tier .tier-name {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    margin-bottom: 4px;
+  }
+  .tier .tier-role {
+    font-family: var(--font-tier2-pencil);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--fg-2);
+    margin-bottom: 20px;
+  }
+  .tier .tier-sample {
+    padding: 16px 0;
+    border-top: 1px dashed var(--line-thin);
+    border-bottom: 1px dashed var(--line-thin);
+    margin-bottom: 14px;
+  }
+  .tier .uses,
+  .tier .nots {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-tier3-sans);
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--fg-2);
+  }
+  .tier .uses li::before { content: "○  "; color: var(--accent); font-family: var(--font-tier3-mono); }
+  .tier .nots li::before { content: "×  "; color: var(--fg-3); font-family: var(--font-tier3-mono); }
+  .tier .heading-uses {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    margin: 14px 0 4px;
+  }
+
+  /* ---- specimen sample blocks ---- */
+  .klee-sample-1 { font-family: var(--font-tier1-klee); font-weight: 600; font-size: 28px; line-height: 1.45; letter-spacing: 0.01em; color: var(--fg); }
+  .klee-sample-2 { font-family: var(--font-tier1-klee); font-weight: 600; font-size: 18px; line-height: 1.55; letter-spacing: 0.01em; color: var(--fg); margin-top: 8px; }
+
+  .pencil-sample-1 { font-family: var(--font-tier2-pencil); font-size: 17px; line-height: 1.85; letter-spacing: 0.01em; color: var(--fg); }
+  .pencil-sample-2 { font-family: var(--font-tier2-pencil); font-size: 15px; line-height: 1.85; letter-spacing: 0.01em; color: var(--fg-2); margin-top: 8px; }
+
+  .plex-sample-1 { font-family: var(--font-tier3-sans); font-size: 16px; line-height: 1.7; color: var(--fg); }
+  .plex-sample-mono { font-family: var(--font-tier3-mono); font-size: 14px; color: var(--fg); margin-top: 8px; letter-spacing: 0; }
+  .plex-sample-cta {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 9px 16px;
+    background: var(--fg);
+    color: var(--bg);
+    font-family: var(--font-tier3-sans);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    border-radius: var(--radius-soft);
+  }
+
+  /* ---- coexistence example (memo block) ---- */
+  .memo-block {
+    background: var(--bg-3);
+    border-left: var(--memo-marker);
+    padding: 20px 24px;
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    max-width: 540px;
+  }
+  .memo-label {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--fg);
+    margin-bottom: 10px;
+  }
+  .memo-body {
+    font-family: var(--font-tier2-pencil);
+    font-size: 16px;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    margin: 0;
+  }
+  .memo-date {
+    margin-top: 12px;
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--fg-3);
+  }
+
+  /* ---- product card example ---- */
+  .product-card {
+    border-top: 1px dashed var(--line-thin);
+    border-bottom: 1px dashed var(--line-thin);
+    padding: 20px 0;
+    max-width: 540px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px 24px;
+    align-items: end;
+  }
+  .product-card .pc-tag-row {
+    grid-column: 1 / -1;
+    font-family: var(--font-tier3-mono);
+    font-size: 12px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+  }
+  .product-card .pc-tag-row .dot { color: var(--fg-3); padding: 0 6px; }
+  .product-card .pc-title {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+  }
+  .product-card .pc-promise {
+    grid-column: 1 / -1;
+    font-family: var(--font-tier2-pencil);
+    font-size: 16px;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    color: var(--fg-2);
+  }
+  .product-card .pc-spec {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    font-family: var(--font-tier3-mono);
+    font-size: 13px;
+    color: var(--fg-2);
+  }
+  .product-card .pc-spec .price { color: var(--fg); }
+  .product-card .pc-spec .cta {
+    margin-left: auto;
+    font-family: var(--font-tier3-sans);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+
+  /* ---- forbidden examples ---- */
+  .forbidden-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 8px;
+  }
+  .forbidden {
+    padding: 16px 18px;
+    border: 1px dashed #C04040;
+    border-radius: var(--radius-soft);
+    background: #FFF4F2;
+  }
+  .forbidden .why {
+    margin-top: 8px;
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: #8A2D2D;
+    letter-spacing: 0.04em;
+  }
+  .forbidden-correct {
+    padding: 16px 18px;
+    border: 1px solid var(--line-thin);
+    border-radius: var(--radius-soft);
+    background: var(--bg-3);
+  }
+  .forbidden-correct .why {
+    margin-top: 8px;
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+
+  /* contrast strip */
+  .contrast-row {
+    display: grid;
+    grid-template-columns: 240px 80px 1fr;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line-thin);
+    align-items: center;
+    font-family: var(--font-tier3-mono);
+    font-size: 13px;
+    color: var(--fg-2);
+  }
+  .contrast-row .swatch {
+    height: 32px;
+    border-radius: var(--radius-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-tier3-sans);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+  .contrast-row .ratio { color: var(--fg); font-size: 14px; }
+  .contrast-row .verdict { font-family: var(--font-tier3-sans); font-size: 13px; color: var(--fg-2); }
+  .verdict-ok { color: var(--accent); }
+  .verdict-warn { color: #C46F1A; }
+  .verdict-no { color: #A03030; }
+</style>
+</head>
+<body>
+  <header class="header-row">
+    <div>
+      <div class="kicker">PHASE A · TYPOGRAPHY SPECIMEN</div>
+    </div>
+    <div class="meta-right">tenzu / design-system / rev.5 · 2026-05-26</div>
+  </header>
+
+  <h1 class="doc-title">3 階層フォントの実物</h1>
+  <p class="doc-sub">仕様だけでは温度が判断しづらいので、各 Tier の役割と組み合わせの実例を 1 枚にまとめました。背景の点格子（24px ピッチ・opacity 0.16）も同時に確認できます。</p>
+  <div class="doc-ident">specs/typography.md ／ specs/phase-a-decisions.md ／ colors_and_type.css</div>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>① ② ③ それぞれの素顔</h2>
+    <p class="lead">同じ「TENZU」「点描写」「図形」を 3 つの Tier で書き分けると、温度差はこれくらい出ます。</p>
+
+    <div class="tier-grid">
+
+      <!-- Tier 1 -->
+      <article class="tier">
+        <div class="tier-tag">TIER ①</div>
+        <div class="tier-name">Klee One 600</div>
+        <div class="tier-role">書写体ベース、教科書の手本のような線。読ませて頭に残したい文に。</div>
+
+        <div class="tier-sample">
+          <div class="klee-sample-1">図形の基礎は、<br>点描写から。</div>
+          <div class="klee-sample-2">B · 観察と模写</div>
+        </div>
+
+        <div class="heading-uses">使う</div>
+        <ul class="uses">
+          <li>H1 / H2 / H3</li>
+          <li>群名・タスク名・レベル名</li>
+          <li>一文プロミス</li>
+          <li>店主メモのラベル</li>
+        </ul>
+
+        <div class="heading-uses">使わない</div>
+        <ul class="nots">
+          <li>16px 未満</li>
+          <li>3 段落以上の本文</li>
+          <li>数値・¥・Vol・Lv 番号</li>
+          <li>タグ・ボタン・警告</li>
+        </ul>
+      </article>
+
+      <!-- Tier 2 -->
+      <article class="tier">
+        <div class="tier-tag">TIER ②</div>
+        <div class="tier-name">Zen Kurenaido</div>
+        <div class="tier-role">鉛筆筆致。誰かが手で書いた感を出したいときに。短い文に限る。</div>
+
+        <div class="tier-sample">
+          <div class="pencil-sample-1">点と点の距離を、<br>目で測れるように。</div>
+          <div class="pencil-sample-2">— 店主から、はじめての方へ</div>
+        </div>
+
+        <div class="heading-uses">使う</div>
+        <ul class="uses">
+          <li>群の一文プロミス</li>
+          <li>店主の一言メモ本文</li>
+          <li>レベル説明文</li>
+          <li>LP の lead・blurb</li>
+        </ul>
+
+        <div class="heading-uses">使わない</div>
+        <ul class="nots">
+          <li>15px 未満</li>
+          <li>5 段落以上の本文</li>
+          <li>見出し（→ Klee）</li>
+          <li>数値・タグ・ボタン・警告</li>
+        </ul>
+      </article>
+
+      <!-- Tier 3 -->
+      <article class="tier">
+        <div class="tier-tag">TIER ③</div>
+        <div class="tier-name">IBM Plex Sans JP / Mono</div>
+        <div class="tier-role">数えられる文・押せる文・速読する文。装飾せず、機能を運ぶ。</div>
+
+        <div class="tier-sample">
+          <div class="plex-sample-1">点描写は、点と点をつないで見本通りに図形を描く練習です。</div>
+          <div class="plex-sample-mono">Lv.2 · Vol.03 · 12 問 · ¥200</div>
+          <a class="plex-sample-cta">サンプル PDF を見る →</a>
+        </div>
+
+        <div class="heading-uses">使う</div>
+        <ul class="uses">
+          <li>長文本文（3 段落以上）</li>
+          <li>数値・Vol・Lv（Mono）</li>
+          <li>タグ・カテゴリラベル</li>
+          <li>CTA・ナビ・フォーム・警告</li>
+        </ul>
+
+        <div class="heading-uses">使わない</div>
+        <ul class="nots">
+          <li>一文プロミス（→ Klee）</li>
+          <li>店主メモ本文（→ Pencil）</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>3 階層が同居する例</h2>
+    <p class="lead">境界線が意味を持つので、1 ブロック内で混在しても破綻しません。実装は <code style="font-family:var(--font-tier3-mono);font-size:12px;color:var(--accent);">specs/typography.md §6</code>。</p>
+
+    <h3 style="margin-bottom: 14px;">店主メモブロック</h3>
+    <aside class="memo-block">
+      <div class="memo-label">ここを見てください</div>
+      <p class="memo-body">このレベルの〈線対称タスク〉は、鏡を渡すよりも軸を見つけてもらうほうが先です。手本を見るときの目の動きが変わります。</p>
+      <div class="memo-date">2026-05-12</div>
+    </aside>
+
+    <h3 style="margin: 36px 0 14px;">商品カード</h3>
+    <article class="product-card">
+      <div class="pc-tag-row">
+        <span>B</span><span class="dot">·</span><span>観察と模写</span><span class="dot">·</span><span>Lv.2</span>
+      </div>
+      <div class="pc-title">模写 Lv.2 — 4×4 まで</div>
+      <div class="pc-promise">点と点の距離を、目で測れるように。</div>
+      <div class="pc-spec">
+        <span>12 問</span>
+        <span class="price">¥200</span>
+        <a class="cta">カートへ →</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>禁則の前後</h2>
+    <p class="lead">よくやってしまう Tier 越境と、正しい運用の対比。</p>
+
+    <div class="forbidden-grid">
+      <div class="forbidden">
+        <div style="font-family: var(--font-tier1-klee); font-weight: 600; font-size: 13px;">12 問 / ¥200 / Lv.2</div>
+        <div class="why">× Klee で数値 — ストロークが潰れ、揃わない</div>
+      </div>
+      <div class="forbidden-correct">
+        <div style="font-family: var(--font-tier3-mono); font-size: 13px;">12 問 / ¥200 / Lv.2</div>
+        <div class="why">○ Plex Mono — tnum で揃う</div>
+      </div>
+
+      <div class="forbidden">
+        <div style="font-family: var(--font-tier2-pencil); font-size: 14px;">カートへ →</div>
+        <div class="why">× Pencil で CTA — 押せる感が消える</div>
+      </div>
+      <div class="forbidden-correct">
+        <div style="font-family: var(--font-tier3-sans); font-weight: 500; font-size: 14px; letter-spacing: 0.02em;">カートへ →</div>
+        <div class="why">○ Plex Sans 500 — 押せる感</div>
+      </div>
+
+      <div class="forbidden">
+        <div style="font-family: var(--font-tier1-klee); font-weight: 600; font-size: 14px; line-height: 1.7;">
+          点描写は等間隔の点を繋いで見本通りに図形を描く練習です。視覚空間の処理を…（続く 5 段落）
+        </div>
+        <div class="why">× Klee で長文 — 14px で潰れ、3 段落以上で疲労</div>
+      </div>
+      <div class="forbidden-correct">
+        <div style="font-family: var(--font-tier3-sans); font-size: 14px; line-height: 1.75;">
+          点描写は等間隔の点を繋いで見本通りに図形を描く練習です。視覚空間の処理を…（続く 5 段落）
+        </div>
+        <div class="why">○ Plex Sans 400 14px — 長文向き</div>
+      </div>
+
+      <div class="forbidden">
+        <div style="font-family: var(--font-tier1-klee); font-weight: 600; font-size: 13px; color: #A03030;">
+          ⚠ 5×5 以上は商品 PDF へ
+        </div>
+        <div class="why">× Klee で警告 — 書写体の温度が硬さに合わない</div>
+      </div>
+      <div class="forbidden-correct">
+        <div style="font-family: var(--font-tier3-sans); font-size: 13px; color: #A03030;">
+          ⚠ 5×5 以上は商品 PDF へ
+        </div>
+        <div class="why">○ Plex Sans 400 — 硬く速読できる</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>コントラスト早見</h2>
+    <p class="lead">数値上 OK でも、書写体・鉛筆体は体感コントラストが落ちます。Klee / Pencil は <code style="font-family:var(--font-tier3-mono);font-size:12px;color:var(--accent);">fg-2</code> 以下では使わない。</p>
+
+    <div class="contrast-row">
+      <div class="swatch" style="background: #FFFFFF; color: #1A1F2A; border: 1px solid var(--line-thin);">fg on bg</div>
+      <div class="ratio">16.93</div>
+      <div class="verdict verdict-ok">AA 通常 OK ／ AAA OK — 全 Tier 可</div>
+    </div>
+    <div class="contrast-row">
+      <div class="swatch" style="background: #FFFFFF; color: #424955; border: 1px solid var(--line-thin);">fg-2 on bg</div>
+      <div class="ratio">9.45</div>
+      <div class="verdict verdict-ok">AA 通常 OK — Klee/Pencil ともギリ可、見出し級推奨</div>
+    </div>
+    <div class="contrast-row">
+      <div class="swatch" style="background: #FFFFFF; color: #767D89; border: 1px solid var(--line-thin);">fg-3 on bg</div>
+      <div class="ratio">4.45</div>
+      <div class="verdict verdict-warn">AA 大文字のみ OK — Plex 18px+ または meta 用途。Klee/Pencil 不可</div>
+    </div>
+    <div class="contrast-row">
+      <div class="swatch" style="background: #FFFFFF; color: #B0B5BD; border: 1px solid var(--line-thin);">fg-4 on bg</div>
+      <div class="ratio">2.36</div>
+      <div class="verdict verdict-no">テキスト不可 — 罫線・絶対値ラインのみ</div>
+    </div>
+    <div class="contrast-row">
+      <div class="swatch" style="background: #FFFFFF; color: #2C6E7F; border: 1px solid var(--line-thin);">accent on bg</div>
+      <div class="ratio">5.42</div>
+      <div class="verdict verdict-ok">AA 通常 OK — CTA テキスト、達成・注目用</div>
+    </div>
+    <div class="contrast-row">
+      <div class="swatch" style="background: #2C6E7F; color: #FFFFFF;">bg on accent</div>
+      <div class="ratio">5.42</div>
+      <div class="verdict verdict-ok">AA 通常 OK — CTA 最強・購入確定のみ</div>
+    </div>
+    <div class="contrast-row">
+      <div class="swatch" style="background: #1A1F2A; color: #FFFFFF;">bg on fg</div>
+      <div class="ratio">16.93</div>
+      <div class="verdict verdict-ok">AA 通常 OK ／ AAA OK</div>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="TENZU symbol">
+  <title>TENZU 4-Dot Square Symbol</title>
+  <desc>Dot-grid square: 4 corner dots connected by thin square frame. Represents the dot-to-line drawing practice that defines TENZU.</desc>
+  <g fill="#3F475F" stroke="#3F475F">
+    <rect x="22" y="22" width="56" height="56" fill="none" stroke-width="2.5"/>
+    <circle cx="22" cy="22" r="6" stroke="none"/>
+    <circle cx="78" cy="22" r="6" stroke="none"/>
+    <circle cx="22" cy="78" r="6" stroke="none"/>
+    <circle cx="78" cy="78" r="6" stroke="none"/>
+  </g>
+</svg>

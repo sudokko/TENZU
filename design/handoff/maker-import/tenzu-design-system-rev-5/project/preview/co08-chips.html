@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="color-scheme" content="light">
+<title>Chips & tags</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-tier3-sans);
+  background: var(--bg);
+  color: var(--fg);
+  padding: 24px 28px;
+  box-sizing: border-box;
+}
+.col { display: flex; flex-direction: column; gap: 12px; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.tag-cap { font-family: var(--font-tier3-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-3); }
+.heading-sub { font-family: var(--font-tier3-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.04em; margin-top: 4px; }
+
+.lvchip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--line-thin);
+  border-radius: 9999px;
+  font-family: var(--font-tier3-sans);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--fg-2);
+  background: var(--bg-3);
+}
+.lvchip .num {
+  font-family: var(--font-tier3-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--fg-3);
+}
+.lvchip[data-state="reached"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.lvchip[data-state="reached"] .num { color: var(--accent); }
+
+.cat-pill {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  color: var(--fg-2);
+  padding: 3px 10px;
+  background: var(--bg-3);
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+}
+.cat-pill .code {
+  font-family: var(--font-tier3-mono);
+  color: var(--fg-3);
+  margin-right: 6px;
+}
+</style></head><body>
+
+<div class="col" style="gap: 12px;">
+  <div class="tag-cap">LEVEL CHIPS — 5 段の日本語表記</div>
+  <div class="row">
+    <span class="lvchip"><span class="num">01</span>はじめの一歩</span>
+    <span class="lvchip" data-state="reached"><span class="num">02</span>入門編 · NOW</span>
+    <span class="lvchip"><span class="num">03</span>基礎編</span>
+    <span class="lvchip"><span class="num">04</span>応用編</span>
+    <span class="lvchip"><span class="num">05</span>発展編</span>
+  </div>
+  <div class="heading-sub">はじめの一歩 → 入門 → 基礎 → 応用 → 発展 · 現在地は accent outline</div>
+
+  <div class="tag-cap" style="margin-top: 16px;">CATEGORY PILLS — 4 群</div>
+  <div class="row">
+    <span class="cat-pill"><span class="code">A</span>見て写す</span>
+    <span class="cat-pill"><span class="code">B</span>かたちを動かす</span>
+    <span class="cat-pill"><span class="code">C</span>重ねる・分ける</span>
+    <span class="cat-pill"><span class="code">D</span>立体でとらえる</span>
+  </div>
+  <div class="heading-sub">群コード (Mono) + 日本語名 (Plex Sans JP)</div>
+</div>
+
+</body></html>

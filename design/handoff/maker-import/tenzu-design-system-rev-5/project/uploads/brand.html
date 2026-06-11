@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>TENZU ブランド定義 — TENZU</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root {
+  --bg: #fafaf7;
+  --panel: #ffffff;
+  --text: #1f2328;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --accent: #6b5b3a;
+  --accent-soft: #f0ead7;
+  --code-bg: #f4f0e7;
+  --table-row-alt: #faf7ee;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--text); }
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.75;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px 96px;
+  font-size: 15.5px;
+}
+header.doc-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header.doc-header .path { color: var(--muted); font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+header.doc-header .back { color: var(--accent); text-decoration: none; font-size: 13px; }
+header.doc-header .back:hover { text-decoration: underline; }
+h1, h2, h3, h4 { color: var(--accent); line-height: 1.4; }
+h1 { font-size: 24px; margin: 0 0 8px; }
+h2 { font-size: 19px; margin: 32px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+h3 { font-size: 16.5px; margin: 24px 0 8px; }
+h4 { font-size: 15px; margin: 18px 0 6px; }
+h2 a.anchor, h3 a.anchor, h4 a.anchor {
+  opacity: 0;
+  text-decoration: none;
+  color: var(--muted);
+  margin-left: -16px;
+  padding-right: 6px;
+  font-weight: normal;
+}
+h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor { opacity: 1; }
+p { margin: 8px 0 14px; }
+a { color: #496f3f; }
+a:hover { text-decoration: underline; }
+ul, ol { padding-left: 1.5em; }
+li { margin: 3px 0; }
+strong { color: #3d3320; }
+blockquote {
+  border-left: 4px solid var(--accent-soft);
+  background: #fbf8ef;
+  margin: 12px 0;
+  padding: 8px 14px;
+  color: var(--muted);
+  border-radius: 0 6px 6px 0;
+}
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; }
+pre.mermaid {
+  background: transparent;
+  border: none;
+  padding: 0;
+  overflow-x: auto;
+  text-align: center;
+}
+pre.mermaid svg { max-width: none !important; height: auto; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 14px 0;
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+}
+table thead { background: var(--accent-soft); }
+table th, table td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+table tbody tr:nth-child(2n) { background: var(--table-row-alt); }
+hr { border: none; border-top: 1px dashed var(--border); margin: 28px 0; }
+nav.toc {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin: 0 0 28px;
+  font-size: 13.5px;
+}
+nav.toc h2 {
+  font-size: 14px;
+  margin: 0 0 6px;
+  border: none;
+  padding: 0;
+  color: var(--muted);
+}
+nav.toc ul { padding-left: 1.3em; margin: 4px 0; }
+nav.toc li { margin: 2px 0; }
+nav.toc a { color: var(--accent); text-decoration: none; }
+nav.toc a:hover { text-decoration: underline; }
+footer.doc-footer {
+  margin-top: 48px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+</style>
+</head>
+<body>
+<header class="doc-header">
+  <div>
+    <span class="path">design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/brand.md</span>
+  </div>
+  <a class="back" href="../../../../../../docs/html-index.html">← 一覧へ戻る</a>
+</header>
+<nav class="toc"><h2>目次</h2><ul><li><a href="#サマリ">サマリ</a></li><li><a href="#詳細">詳細</a></li><ul><li><a href="#1-mission">§1. MISSION</a></li><li><a href="#2-vision">§2. Vision</a></li><li><a href="#3-values">§3. Values</a></li><li><a href="#4-brand-story-origin">§4. Brand Story / Origin</a></li><li><a href="#5-顧客インサイト">§5. 顧客インサイト</a></li><li><a href="#6-brand-promise">§6. Brand Promise</a></li><li><a href="#7-brand-pillars">§7. Brand Pillars</a></li><li><a href="#8-rtb-reason-to-believe">§8. RTB（Reason To Believe）</a></li><li><a href="#9-brand-personality">§9. Brand Personality</a></li><li><a href="#10-positioning-statement">§10. Positioning Statement</a></li><li><a href="#11-anti-brand-tenzu-ではないもの">§11. Anti-Brand（TENZU ではないもの）</a></li><li><a href="#12-tagline-h-2026-05-25-夜確定・3-階層構造">§12. Tagline（H''' 2026-05-25 夜確定・3 階層構造）</a></li><li><a href="#13-啓蒙コンテンツ原則-新設">§13. 啓蒙コンテンツ原則（新設）</a></li><li><a href="#14-インフルエンサー連携方針-新設">§14. インフルエンサー連携方針（新設）</a></li><li><a href="#15-専門家監修との関係-新設">§15. 専門家監修との関係（新設）</a></li><li><a href="#16-点つなぎとの関係-新設">§16. 点つなぎとの関係（新設）</a></li></ul><li><a href="#附録">附録</a></li><ul><li><a href="#屋号語源-裏話">屋号語源（裏話）</a></li><li><a href="#田中洋-ブランディング-5フェーズ・ナラティブ-案h-版">田中洋『ブランディング』5フェーズ・ナラティブ（案H' 版）</a></li><li><a href="#変遷">変遷</a></li></ul></ul></nav>
+<main>
+<h1 id="tenzu-ブランド定義"><a class="anchor" href="#tenzu-ブランド定義">#</a>TENZU ブランド定義</h1>
+<h2 id="サマリ"><a class="anchor" href="#サマリ">#</a>サマリ</h2>
+<ul>
+<li><strong>MISSION</strong>: 点描写を家庭の当たり前にして、空間認知の土台を持つ子を増やす</li>
+<li><strong>Vision</strong>: 「点描写」が漢字ドリル・計算ドリルと並ぶ家庭の当たり前の練習として知られ、図形・空間認知の土台が静かに広がる。TENZU はその起点になる</li>
+<li><strong>Values（コア2同格）</strong>: V1. 煽らない・叫ばせない／V2. 顧客受け取り価値ファースト</li>
+<li><strong>Values（運営の流儀2）</strong>: V3. 広告で邪魔しない／V4. 個人運営の妥協を顧客に押し付けない</li>
+<li><strong>Brand Story</strong>: 「点描写の良さに先に気付いた親が、まだ気付いていない家庭に届ける場所」</li>
+<li><strong>Brand Promise（案H&#39;&#39;）</strong>: <strong>子供の&quot;空間認知の土台&quot;を、家庭で無理なく育てる点描写プリント</strong></li>
+<li><strong>Brand Pillars（5本・案H&#39;&#39;）</strong>: P1 体系／P2 解像度／P3 発見／P4 言語化（タスク × 能力対応へ再定義）／<strong>P5 継続（親が子に寄り添える設計・新設）</strong> ※外向けコピーは §7 参照</li>
+<li><strong>RTB</strong>: §8.1 公開時提示（R1-R5：体系性／¥200一律＋中身公開／広告ゼロ／<strong>書く学習は紙とペン</strong>／一次エビデンス公開）と §8.2 運営コミットメント（C1-C5）を分離。未実装は外向け表示しない</li>
+<li><strong>Brand Equity 5源泉</strong>: 体系化された段階設計／紙で続けられる安心／一枚から試せる低リスク／広告に邪魔されない端正な体験／一次資料に裏付けられた信頼</li>
+<li><strong>Brand Personality</strong>: 知的だが押し付けない／端正で静か／同じ親の目線／控えめだが本気</li>
+<li><strong>Positioning</strong>: 知育意識のある親層（<strong>年中〜小2 × 3 セグメント：先取り知育／紙とペン重視／図形・書字に不安</strong>・公文家庭はその代表例）へ届ける、<strong>体系・解像度・発見・言語化・継続</strong>の 5本柱を整えた点描写プリント専門店。タブレット教材とは使い分け前提・対立はしない</li>
+<li><strong>Tagline（H&#39;&#39;&#39; 2026-05-25 夜確定）</strong>: メイン「<strong>図形の基礎は、点描写から。</strong>」＋サブ「<strong>模写から対称・回転・立体まで。空間認知の土台を、家庭で着実に。</strong>」＋業態識別句「<strong>点図形（点描写）プリントの専門店 TENZU</strong>」必須併記。旧コア「点と点がつなげるようになったら、点描写を。」はオンボーディング・FAQ 降格運用（CEP1 拾い導線維持）</li>
+<li><strong>Anti-Brand</strong>: 処方箋・特効薬・弱点診断／道場・教室・塾／キャラクター押し／<strong>点つなぎを下に見る言説</strong>／<strong>点つなぎの代替を狙う構え</strong></li>
+<li>点つなぎとの関係は §16 参照</li>
+<li>Voice/Tone は <a href="voice-tone.html">voice-tone.md</a>、ビジュアル実装は <a href="../design/visual-identity.html">../design/visual-identity.md</a>、エビデンスは <a href="../content/evidence.html">../content/evidence.md</a> 参照</li>
+</ul>
+<h2 id="詳細"><a class="anchor" href="#詳細">#</a>詳細</h2>
+<h3 id="1-mission"><a class="anchor" href="#1-mission">#</a>§1. MISSION</h3>
+<blockquote>
+<p>点描写を家庭の当たり前にして、空間認知の土台を持つ子を増やす。</p>
+</blockquote>
+<p>「点描写」という、知育効果が確かにあるのに知られていない練習法を、<strong>家庭の当たり前の一枚</strong>にすることが TENZU の存在意義。空間認知の土台は、図形・算数・漢字書字・地図・科学など、子どもの基礎能力の広い範囲を支える（裏付け：<a href="../content/evidence.html">../content/evidence.md</a> §1-§3）。</p>
+<h3 id="2-vision"><a class="anchor" href="#2-vision">#</a>§2. Vision</h3>
+<blockquote>
+<p>「点描写」が漢字ドリル・計算ドリルと並ぶ家庭の当たり前の練習として知られ、図形・空間認知の土台が静かに広がる。TENZU はその起点になる。</p>
+</blockquote>
+<p>「TENZU が広まる」ではなく「<strong>点描写という練習法が広まる</strong>」を Vision の中心に置く。TENZU はそのカテゴリの起点として位置づく。点描写は受験準備のための一過性教材ではなく、<strong>家庭の日常に組み込まれる基礎練習</strong>として広がるべき、というのが TENZU の見ている景色。</p>
+<h3 id="3-values"><a class="anchor" href="#3-values">#</a>§3. Values</h3>
+<p>ブランドが譲らない 4つの原則。<strong>V1 と V2 は同格のコア</strong>、V3 と V4 は V1・V2 を実装するための運営流儀。</p>
+<h4 id="コア-values-同格・譲らない"><a class="anchor" href="#コア-values-同格・譲らない">#</a>コア Values（同格・譲らない）</h4>
+<p><strong>V1. 煽らない・叫ばせない</strong>
+中受の恐怖訴求・「処方箋」「弱点診断」語彙で家庭の不安を加速させない。子どもを叫ばせる教材にしない。<strong>啓蒙の立場でも「やらないと手遅れ」という形で恐怖訴求に転じない</strong>（啓蒙ブランドが陥りがちな罠）。</p>
+<p>意思決定例:</p>
+<ul>
+<li>CVR が上がっても「手遅れになる前に」型コピーは使わない</li>
+<li>啓蒙記事で「点描写をやらないと算数が伸びない」とは書かない（一次資料の引用範囲を超える）</li>
+<li>競合が煽っても煽り返さない</li>
+</ul>
+<p><strong>V2. 顧客受け取り価値ファースト</strong>
+¥200 一律・中身公開・1枚から買える設計。売り手の都合より、使う家庭が受け取る価値を上位に置く。</p>
+<p>意思決定例:</p>
+<ul>
+<li>単価が上がっても高難度だけ高くしない</li>
+<li>バンドル売りで割引してもサブスク縛りはしない</li>
+<li>「これだけ買えば安心」型の抱き合わせ販売はしない</li>
+</ul>
+<p><strong>V3. 広告で邪魔しない</strong>
+TENZU サイト内に他社広告・アフィリエイトリンクを一切置かない。読者の集中を奪わない。</p>
+<p><strong>V4. 個人運営の妥協を顧客に押し付けない</strong>
+個人運営だからといって品質・端正さ・専門性で妥協しない。AI を全面活用して企業並みの品質を出す。「個人の手作り感」を売りにしない。</p>
+<h3 id="4-brand-story-origin"><a class="anchor" href="#4-brand-story-origin">#</a>§4. Brand Story / Origin</h3>
+<p>TENZU は、ある父親が「もっと早く知っていれば、うちの娘にもやらせたかった」と気づいたところから始まった。</p>
+<p>点描写は、点と点をたどって図形を写すだけの練習。だが調べていくと、図形力だけでなく<strong>空間認知の土台</strong>を地味に確実に育てる教材だった。コグトレでは「写す」トレーニングとして正統に位置づけられ、視覚空間処理は漢字書字や算数達成の認知的予測因子であることが複数の研究で示されている（<a href="../content/evidence.html">evidence.md</a>）。</p>
+<p>それなのに、点描写は世間で「点つなぎ」の影に隠れたままだった。市販書籍は限られ、無料プリントは広告がうざく、塾の煽りでは子どもが叫びながら問題を解く。そのどれでもない場所を、<strong>個人運営だからこそ小さく、丁寧に作る</strong>。制作には AI も使うが、最後に見るのは人の目である。</p>
+<p><strong>点描写の良さに先に気付いた親が、まだ気付いていない家庭に届ける場所</strong>。それが TENZU。</p>
+<p>この立ち位置は Voice の根っこになる（「専門家が上から教える」ではなく「同じ親として先に気付いた立場で語る」）。詳細は <a href="voice-tone.html">voice-tone.md</a> §3 を参照。</p>
+<h3 id="5-顧客インサイト"><a class="anchor" href="#5-顧客インサイト">#</a>§5. 顧客インサイト</h3>
+<p>ブランド側に集約する<strong>親と子どもの感情の核</strong>。ペルソナごとの本音の差は <a href="../content/personas.html">../content/personas.md</a> で展開するが、ここでは TENZU が向き合う層を 3群（知育意識のある親層／書く学習志向層／対処層）で押さえる。</p>
+<h4 id="5-1-知育意識のある親層-中核"><a class="anchor" href="#5-1-知育意識のある親層-中核">#</a>§5.1 知育意識のある親層（中核）</h4>
+<p>家庭で学習習慣を作り、子どもの基礎能力に意識的に投資している親層。中受可否を問わず、<strong>年中〜小2</strong> あたりで「次に何をやらせるか」を能動的に探している親が中核。</p>
+<p>公文に通わせている家庭はこの層の<strong>代表的な入口セグメント</strong>だが、公文ユーザだけがターゲットではない。「知育意識のある親」という抽象だけでは LP・広告・SNS・SEO の判断基準にならないため、<strong>中核を 3 つの行動セグメントに分解</strong>して扱う（案H&#39;&#39; 新設）。</p>
+<h5 id="5-1-a-先取り知育セグメント"><a class="anchor" href="#5-1-a-先取り知育セグメント">#</a>§5.1.a 先取り知育セグメント</h5>
+<p>公文・モンテッソーリ・知育系インスタを能動的にフォローし、就学前から計算・読み書きを進めている親層。「計算と読み書きはやっている。でも図形は手薄」——この<strong>気づきと不安の谷間</strong>に TENZU は届く。点つなぎを楽しく取り組んでいる年中〜年長の子に「<strong>次の一手</strong>」を渡したい家庭がここ。公文ユーザはこのセグメントの代表例。</p>
+<p>本音例：</p>
+<ul>
+<li>「計算はできるけど、図形の問題になると手が止まる気がする」</li>
+<li>「点つなぎを楽しく取り組んでいる子に、次の練習を渡したい」</li>
+<li>「中受するか分からないが、図形の土台だけは作っておきたい」</li>
+</ul>
+<h5 id="5-1-b-紙とペン重視セグメント"><a class="anchor" href="#5-1-b-紙とペン重視セグメント">#</a>§5.1.b 紙とペン重視セグメント</h5>
+<p>タブレット教材・YouTube・ゲームの時間が増えるなかで、<strong>書く・線を引く・写し取る</strong>学習の時間を意識的に確保したい親層。スクリーンタイム過多への危機感が能動的な検索行動につながる。書く学習は紙とペンが圧倒的に強い、という前提に立つ層。</p>
+<p>本音例：</p>
+<ul>
+<li>「タブレット学習は便利だが、手を動かす学習の時間も確保したい」</li>
+<li>「画面から離れた知育の選択肢が意外に少ない」</li>
+<li>「紙と鉛筆で静かに座る時間を、1日 10 分でいいから作りたい」</li>
+</ul>
+<h5 id="5-1-c-図形・書字に不安が出始めたセグメント"><a class="anchor" href="#5-1-c-図形・書字に不安が出始めたセグメント">#</a>§5.1.c 図形・書字に不安が出始めたセグメント</h5>
+<p>小1〜小2 で図形の単元・漢字の書き取り・板書写しに違和感を感じ始めた親層。「対処層」ほど切迫はしていないが、<strong>早めに整えておきたい</strong>動機が立ち上がっている家庭。受動拾い対処層（§5.3）の手前にあたる予防セグメント。</p>
+<p>本音例：</p>
+<ul>
+<li>「漢字の字形が崩れがちで、視覚空間の練習を足したい」</li>
+<li>「学校の図形プリントで手が止まることがある」</li>
+<li>「中受の話はまだだが、図形の土台は今のうちに」</li>
+</ul>
+<h5 id="5-1-d-3-セグメント横断の共通項"><a class="anchor" href="#5-1-d-3-セグメント横断の共通項">#</a>§5.1.d 3 セグメント横断の共通項</h5>
+<p>この 3 セグメントは<strong>学習習慣がすでに家庭にある</strong>点で共通する。1 日数分の机に向かう時間が成立している。TENZU が刺さるのは「<strong>その数分のラインナップに、点描写を加える</strong>」という小さな提案。点描写は公文の競合ではなく補完で、タブレット教材とも使い分け前提（§F 競合観・<a href="../market/competitive.html">market/competitive.md</a>）。</p>
+<h4 id="5-2-書く学習志向層-サブ軸"><a class="anchor" href="#5-2-書く学習志向層-サブ軸">#</a>§5.2 書く学習志向層（サブ軸）</h4>
+<p>「タブレットを使う時間がもう十分多い」「ゲーム・テレビ・YouTube で目が疲れている」「<strong>画面から離れた時間に、何か知育になるものを</strong>」——スクリーンタイム過多の時代の確かな潮流。</p>
+<p>ただし TENZU の立ち位置は「ノースクリーン至上主義」ではなく「<strong>書く学習は紙とペン</strong>」という前提。タブレット教材を全否定するのではなく、書く・線を引く・写し取るという<strong>手を動かす学習</strong>は紙とペンが圧倒的に強いという立場に立つ層。</p>
+<p>この層の本音：</p>
+<ul>
+<li>「タブレット学習は便利だが、手を動かす学習の時間も確保したい」</li>
+<li>「紙と鉛筆で静かに座る時間を、1日 10 分でいいから作りたい」</li>
+<li>「画面から離れた知育の選択肢が意外に少ない」</li>
+</ul>
+<p>TENZU の<strong>紙であること</strong>は、この層にとって積極的価値。ダウンロード→印刷→机に向かう、というフローそのものが価値の一部。詳細は §8 RTB R4 参照。</p>
+<h4 id="5-3-対処層-残置・受動拾い"><a class="anchor" href="#5-3-対処層-残置・受動拾い">#</a>§5.3 対処層（残置・受動拾い）</h4>
+<p>中受でつまずいた P3-a、学校算数で手が止まる P2-b、療育文脈で空間認知を求める P4。</p>
+<p>これらは案F・案G の中核だったが、案H&#39; では<strong>主軸を知育意識のある親層へ移し、対処層は受動拾い</strong>へ。記事や FAQ で迎え入れる導線は残すが、ブランドトップ・主要 LP の主張はこちらに寄せない。</p>
+<p>対処層共通の本音は維持（教材選び疲れ・親子関係の摩耗・「今の子に合う一枚を失敗しにくく選べる」価値）。ただしブランド全体の語り口は「対処」より「<strong>家庭の当たり前の練習として広める</strong>」を主にする。</p>
+<h4 id="5-4-子ども本人の真実"><a class="anchor" href="#5-4-子ども本人の真実">#</a>§5.4 子ども本人の真実</h4>
+<p>子どもは**「図形が嫌い」なのではない**。どこを見ればよいか分からないまま急に難しい問題を渡されると、考える前に拒否反応が出る。「分からない」と言えない／怒られると思う／自分の頭が悪いと感じる——この 3つが連鎖して「もうやらない」になる。</p>
+<p>点描写は、<strong>点と点を結ぶだけ</strong>という最小単位から始められる練習。子どもにとっては「<strong>ここなら見えるところから始められる</strong>」という入口になる。TENZU が 9 タスク × 5 レベル × Vol 細刻みで設計しているのは、この入口を「失敗しにくく選べる」状態にするため。</p>
+<h3 id="6-brand-promise"><a class="anchor" href="#6-brand-promise">#</a>§6. Brand Promise</h3>
+<blockquote>
+<p><strong>子供の&quot;空間認知の土台&quot;を、家庭で無理なく育てる点描写プリント。</strong></p>
+</blockquote>
+<p>案H&#39;&#39; 改訂（2 AI 合議反映）。1 文に集約し、業態（点描写プリント）・対象（家庭）・約束（無理なく・空間認知の土台）を同時に提示する。</p>
+<ul>
+<li>「<strong>空間認知の土台</strong>」: 啓蒙の核（一次資料に裏付けられた価値の言語化）。MISSION § 1 と直結</li>
+<li>「<strong>家庭で無理なく</strong>」: 続けられる形（紙・¥200・1枚から・体系性）と Voice（煽らない・叫ばせない・P5 継続）を内包</li>
+<li>「<strong>点描写プリント</strong>」: 業態を 1 文内で明示。「3 秒で何の店か」問題を Promise レベルで解決</li>
+</ul>
+<p>旧 Brand Promise（「<strong>続けられる形に整え</strong>…<strong>場所であり続けます</strong>」の長文版）と「<strong>戻ってこられる場所</strong>」軸は、それぞれ案H&#39;&#39; で内側に吸収・対処層向け受動拾いとして温存（§12 バリアント）。退避: <a href="../archive/retired-designs/2026-05-22-brand-anh-prime-4pillars.html">archive/retired-designs/2026-05-22-brand-anh-prime-4pillars.md</a>。</p>
+<h3 id="7-brand-pillars"><a class="anchor" href="#7-brand-pillars">#</a>§7. Brand Pillars</h3>
+<p>TENZU を支える <strong>5本</strong>の柱（案H&#39;&#39;・1本追加＋1本再定義）。<strong>内部柱は構造設計と整合させ、外向けコピーは顧客語で表現する</strong>。順序は「体系から入り、解像度で開示し、発見で出会わせ、言語化で納得させ、継続で根付かせる」流れ。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>内部柱</th>
+<th>役割軸</th>
+<th>外向けコピー（顧客語）</th>
+<th>設計実装</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>P1</strong></td>
+<td><strong>体系</strong>（型を作る）</td>
+<td>Product 軸</td>
+<td>9タスク × 5レベルで点描写を整理／何を練習しているか言葉にできる</td>
+<td>140 SKU・タスク解説・空間認知ラベリング</td>
+</tr>
+<tr>
+<td><strong>P2</strong></td>
+<td><strong>解像度</strong>（中身を見せる）</td>
+<td>Product / Guide 軸</td>
+<td>買う前にサンプル・難易度・根拠が読める</td>
+<td>レベル選びガイド・サンプル PDF 公開・メタデータ厳選公開</td>
+</tr>
+<tr>
+<td><strong>P3</strong></td>
+<td><strong>発見</strong>（触れて出会う）</td>
+<td>App + Article + Sample PDF 軸（体験的）</td>
+<td>知っている人だけが得をしない／触って出会える</td>
+<td>親向け問題ジェネレータ App・無料サンプル PDF・CEP 起点記事</td>
+</tr>
+<tr>
+<td><strong>P4</strong></td>
+<td><strong>言語化</strong>（タスク × 能力の対応）★再定義</td>
+<td>Article 軸（知的）</td>
+<td>この問題は何の能力に効くかを言葉にする</td>
+<td>タスク × 空間認知能力マッピング・effects 記事・<a href="../content/evidence.html">evidence.md</a></td>
+</tr>
+<tr>
+<td><strong>P5</strong></td>
+<td><strong>継続</strong>（親が子に寄り添える設計）★新設</td>
+<td>Product / Guide 軸</td>
+<td>親が「次の一手」と「声かけ」に迷わない</td>
+<td>PDF 解説・親向け声かけガイド・PDF フッター情報・FAQ</td>
+</tr>
+</tbody></table>
+<h4 id="7-1-pillar-間の関係"><a class="anchor" href="#7-1-pillar-間の関係">#</a>§7.1 Pillar 間の関係</h4>
+<p><strong>P1 体系と P2 解像度の境界</strong></p>
+<ul>
+<li><strong>P1 体系</strong>: 作る側（タスク設計・SKU・難易度設計）</li>
+<li><strong>P2 解像度</strong>: 届ける側（メタデータ公開・サンプル・Guide）</li>
+</ul>
+<p><strong>P3 発見と P4 言語化の補完関係</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>発見（P3）</th>
+<th>言語化（P4）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>アプローチ</td>
+<td>体験的・触れて気付く</td>
+<td>知的・能力との対応を言葉に</td>
+</tr>
+<tr>
+<td>入口</td>
+<td>App / サンプル PDF で触れる</td>
+<td>記事を読んで納得</td>
+</tr>
+<tr>
+<td>完了状態</td>
+<td>「これ面白いじゃん」と体感</td>
+<td>「だから良いのか」と理解</td>
+</tr>
+<tr>
+<td>主体</td>
+<td>顧客が自分で気付く</td>
+<td>TENZU が言葉を渡す</td>
+</tr>
+</tbody></table>
+<p><strong>P4 言語化と P5 継続の補完関係</strong>（案H&#39;&#39; 新設）</p>
+<ul>
+<li><strong>P4 言語化</strong>: 「<strong>この練習は何の能力に効くか</strong>」を TENZU 側が言葉にする（タスク × 能力マッピング・effects 記事）。<strong>P2 解像度（中身を見せる）との被りを避けるため、能力対応の言語化にフォーカス</strong></li>
+<li><strong>P5 継続</strong>: 親が日々の練習で迷わないよう、PDF 解説・声かけ例・進め方の目安を渡す。Product 単体で P5 を体現できる（PDF フッターに親向け情報を載せる等）</li>
+</ul>
+<h4 id="7-2-5本のルール"><a class="anchor" href="#7-2-5本のルール">#</a>§7.2 5本のルール</h4>
+<ul>
+<li>5本それぞれが独立に検証可能（被らない）</li>
+<li>どの Pillar から派生したか追跡可能（記事・施策に Pillar タグ）</li>
+<li>複数 Pillar をまたぐ施策は明示（例：App は P1 体系 × P3 発見の交点／PDF フッター声かけは P4 言語化 × P5 継続の交点）</li>
+</ul>
+<h4 id="7-3-コピー使い分けルール"><a class="anchor" href="#7-3-コピー使い分けルール">#</a>§7.3 コピー使い分けルール</h4>
+<ul>
+<li>ブランドの内的構造を語る場所（About・設計書・運営ノート）→ 内部柱を使う</li>
+<li>顧客が読む場所（LP・記事 H2・商品ページ・FAQ）→ 外向けコピーを使う</li>
+</ul>
+<h4 id="7-4-ビジュアル言語化指針-d-1-ロゴ-d-2-ds-実装時のヒント"><a class="anchor" href="#7-4-ビジュアル言語化指針-d-1-ロゴ-d-2-ds-実装時のヒント">#</a>§7.4 ビジュアル言語化指針（D-1 ロゴ／D-2 DS 実装時のヒント）</h4>
+<ul>
+<li><strong>P1 体系</strong> → 9×5 グリッド・段階接続を示す幾何構造</li>
+<li><strong>P2 解像度</strong> → サンプル開示の UI・タスクメタデータの可視化・透明感</li>
+<li><strong>P3 発見</strong> → ドットの組み替えから新しい図形が生まれる動的モチーフ</li>
+<li><strong>P4 言語化</strong> → タスク × 能力対応表・図解と注釈の端正な共存</li>
+<li><strong>P5 継続</strong> → 親向け声かけ・進め方の目安・余白を残した PDF レイアウト</li>
+</ul>
+<h4 id="7-5-旧-4-本構成からの差分"><a class="anchor" href="#7-5-旧-4-本構成からの差分">#</a>§7.5 旧 4 本構成からの差分</h4>
+<p>案H&#39; 4 本構成（P1-P4）からの変更点：</p>
+<ul>
+<li><strong>P3 発見</strong>: 「隠れた価値を発掘」→「触れて出会う」へ実装軸変更。Sample PDF を加えて Product 単体でも体現可能に（Gemini 指摘の構造的矛盾解消）</li>
+<li><strong>P4 言語化</strong>: 「暗黙知を言葉に」→ 「<strong>タスク × 能力の対応を言語化</strong>」へフォーカス再定義。旧定義は P2 解像度と被りがあった</li>
+<li><strong>P5 継続</strong>: 新設。GPT-5・Gemini が独立に指摘した「家庭で続ける情緒的価値・親子で取り組む補助情報」欠落を埋める</li>
+</ul>
+<p>退避: <a href="../archive/retired-designs/2026-05-22-brand-anh-prime-4pillars.html">archive/retired-designs/2026-05-22-brand-anh-prime-4pillars.md</a></p>
+<h3 id="8-rtb-reason-to-believe"><a class="anchor" href="#8-rtb-reason-to-believe">#</a>§8. RTB（Reason To Believe）</h3>
+<h4 id="8-0-brand-equity-の源泉-前提"><a class="anchor" href="#8-0-brand-equity-の源泉-前提">#</a>§8.0 Brand Equity の源泉（前提）</h4>
+<p>TENZU のブランド資産は、次の 5つによって蓄積される。RTB 各項目はこの 5源泉のいずれかに帰着する。</p>
+<ol>
+<li><strong>体系化された段階設計</strong>（9タスク × 5レベル × Vol 細刻み・年中〜中学年まで段階接続）</li>
+<li><strong>紙で続けられる安心</strong>（書く学習は紙とペン）</li>
+<li><strong>一枚から試せる低リスク</strong>（¥200 一律・単品）</li>
+<li><strong>広告に邪魔されない端正な体験</strong>（広告ゼロ）</li>
+<li><strong>一次資料に裏付けられた信頼</strong>（<a href="../content/evidence.html">evidence.md</a> 公開・改訂履歴・人間レビュー）</li>
+</ol>
+<h4 id="8-1-公開時に顧客へ提示する-rtb-実装済の事実"><a class="anchor" href="#8-1-公開時に顧客へ提示する-rtb-実装済の事実">#</a>§8.1 公開時に顧客へ提示する RTB（実装済の事実）</h4>
+<p>V1・V2 の Brand Promise が「言うだけ」ではなく実装されていることを示す<strong>現時点で実証可能な</strong>事実。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>根拠</th>
+<th>証明する Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>R1</strong></td>
+<td>9タスク × 5レベル × Vol 細刻みで 140 SKU の体系。<strong>年中〜中学年図形まで段階接続</strong></td>
+<td>V2（体系性・続けられる）</td>
+</tr>
+<tr>
+<td><strong>R2</strong></td>
+<td>¥200 一律 ＋ 中身公開 ＋ 1テーマ完結。難易度や Vol で価格を差別化しない</td>
+<td>V2（顧客受け取り価値）</td>
+</tr>
+<tr>
+<td><strong>R3</strong></td>
+<td>広告ゼロ。サイト内に他社広告・アフィリエイトリンクを一切置かない</td>
+<td>V3（広告で邪魔しない）</td>
+</tr>
+<tr>
+<td><strong>R4</strong></td>
+<td><strong>書く学習は紙とペン</strong>前提の PDF プリント設計。書く・線を引く・写し取る学習は紙が強いという立場で、画面から離れて手を動かす時間を家庭に確保する。タブレットが強い領域（立体回転・展開図アニメ・選択式回答）とは<strong>使い分け前提</strong>で対立はしない</td>
+<td>V1・V2</td>
+</tr>
+<tr>
+<td><strong>R5</strong></td>
+<td><strong>一次エビデンスを <a href="../content/evidence.html">evidence.md</a> で公開</strong>。視覚空間と漢字書字・算数達成の関連を一次資料で開示し、誇張せず引用範囲を守る</td>
+<td>V1（煽らない裏付け）・V4（妥協しない）</td>
+</tr>
+</tbody></table>
+<h4 id="8-2-ローンチまでに実装必須の運営コミットメント-内部管理用"><a class="anchor" href="#8-2-ローンチまでに実装必須の運営コミットメント-内部管理用">#</a>§8.2 ローンチまでに実装必須の運営コミットメント（内部管理用）</h4>
+<p>公開<strong>前</strong>は外向け RTB として掲出しない。実装完了した順に §8.1 へ昇格させる。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>コミットメント</th>
+<th>証明する Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>C1</strong></td>
+<td><strong>認知負荷に配慮した設計</strong>。点密度・図形の複雑さ・Vol 刻みで負担を少しずつ上げる</td>
+<td>V4</td>
+</tr>
+<tr>
+<td><strong>C2</strong></td>
+<td><strong>タスク設計の基準を公開</strong>。各タスクが「何の力を育てるか」「空間認知のどの側面に対応するか」を <a href="../product/pack-design.html">product/pack-design.md</a> として明文化</td>
+<td>V4 / V1</td>
+</tr>
+<tr>
+<td><strong>C3</strong></td>
+<td><strong>サンプル公開</strong>。各 SKU から代表 1枚を無料公開</td>
+<td>V1 / V2</td>
+</tr>
+<tr>
+<td><strong>C4</strong></td>
+<td><strong>AI 利用時の人間レビュー方針</strong>。AI 生成物は必ず運営者が確認してから出す</td>
+<td>V4</td>
+</tr>
+<tr>
+<td><strong>C5</strong></td>
+<td><strong>改訂履歴・更新ポリシー</strong>。誤植・改善は版番号付きで履歴公開。購入者には差分通知し、再ダウンロード可</td>
+<td>V4 / V2</td>
+</tr>
+</tbody></table>
+<h4 id="8-3-未実装時の外向け表示禁止原則"><a class="anchor" href="#8-3-未実装時の外向け表示禁止原則">#</a>§8.3 未実装時の外向け表示禁止原則</h4>
+<ul>
+<li>C1-C5 は<strong>実装完了するまで顧客向け LP・商品ページ・FAQ で言及しない</strong></li>
+<li>「予定」「準備中」「順次対応」表記での先出しもしない</li>
+<li>実装完了後、人間チェック → §8.1 への昇格手続きを経て公開</li>
+</ul>
+<h3 id="9-brand-personality"><a class="anchor" href="#9-brand-personality">#</a>§9. Brand Personality</h3>
+<p>ブランドキャラクター（マスコット・擬人化視覚キャラ）は採用しない。代わりに作品（記事・UI・コピー）に滲ませる <strong>4軸の性格</strong> で TENZU の人格を規定する。</p>
+<table>
+<thead>
+<tr>
+<th>軸</th>
+<th>TENZU は</th>
+<th>TENZU は～ではない</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>P1. 知性</strong></td>
+<td>知的だが押し付けない（専門性を裏に持ち、表は静か）</td>
+<td>専門家ぶる／上から教える</td>
+</tr>
+<tr>
+<td><strong>P2. 佇まい</strong></td>
+<td>端正で静か（余白・整列・トーン抑制）</td>
+<td>派手・賑やか・カラフル子供キャラ</td>
+</tr>
+<tr>
+<td><strong>P3. 立ち位置</strong></td>
+<td>同じ親の目線で「先に気付いた」立場（謙虚）</td>
+<td>教育プロ・指導者・指南役</td>
+</tr>
+<tr>
+<td><strong>P4. 本気度</strong></td>
+<td>控えめだが本気（個人運営でも妥協しない）</td>
+<td>個人の素朴さ・手作り感の押し売り</td>
+</tr>
+</tbody></table>
+<h4 id="personality-の場所別配分"><a class="anchor" href="#personality-の場所別配分">#</a>Personality の場所別配分</h4>
+<ul>
+<li><strong>記事の語り口</strong>: P3 を強く（「同じ親として先に気付いた立場」）</li>
+<li><strong>商品ページ・FAQ</strong>: P1・P2 を強く（端正・知的・静か）</li>
+<li><strong>About</strong>: P3・P4（謙虚さと本気）</li>
+<li><strong>マイクロコピー・完了画面</strong>: P4（さりげない本気・凝ったディテール）</li>
+</ul>
+<p>Voice/Tone の場所別運用ルールは <a href="voice-tone.html">voice-tone.md</a> §2 を参照。</p>
+<h3 id="10-positioning-statement"><a class="anchor" href="#10-positioning-statement">#</a>§10. Positioning Statement</h3>
+<blockquote>
+<p><strong>For</strong> 家庭学習で図形の土台を作りたい知育意識のある親層（<strong>年中〜小2 × 3 セグメント：先取り知育／紙とペン重視／図形・書字に不安</strong>・公文家庭はその代表例）、
+<strong>TENZU is</strong> 9タスク × 5レベル × Vol 細刻みで「<strong>体系・解像度・発見・言語化・継続</strong>」の <strong>5本柱</strong> を整えた点描写の専門店、
+<strong>unlike</strong> 動画・アニメ・選択式回答に強いタブレット教材（紙の書く学習との<strong>使い分け前提</strong>）、煽る塾教材、広告まみれの無料プリントサイト、単発の市販ドリル、
+<strong>because</strong> 一次資料に裏付けられた価値を明示し、中身を事前公開し、価格を ¥200 一律にコミットし、紙のまま家庭で続けられる設計にし、<strong>親が次の一手と声かけに迷わない補助情報を載せている</strong>から。</p>
+</blockquote>
+<p>「個人 × AI 運営」は外向けの Because からは外し、About と内向き運営ノートに降格。</p>
+<p>ターゲット詳細は <a href="../content/personas.html">../content/personas.md</a>、競合詳細は <a href="../market/competitive.html">../market/competitive.md</a> を参照。</p>
+<h4 id="10-1-category-entry-points-cep"><a class="anchor" href="#10-1-category-entry-points-cep">#</a>§10.1 Category Entry Points（CEP）</h4>
+<p>顧客が TENZU を<strong>思い出すべき具体的な日常のトリガー</strong>。記事テーマ・LP ファーストビュー・SNS 短文の起点として活用する。</p>
+<ol>
+<li><strong>点つなぎを楽しく取り組んでいる子に、次の練習を渡したいとき</strong></li>
+<li><strong>公文に通わせているが、図形が手薄だと気づいたとき</strong></li>
+<li><strong>タブレット教材ばかりになり、紙と鉛筆の時間を増やしたいとき</strong></li>
+<li><strong>漢字の書き順や字形に苦戦している子に、視覚空間の練習を足したいとき</strong></li>
+<li><strong>市販ドリルを一冊買うほどではないが、今のレベルに合う図形練習を少し足したいとき</strong></li>
+<li><strong>「点描写」というワードに偶然出会い、どこで買えるか探しているとき</strong></li>
+<li><strong>中学受験の図形単元（展開図・立体・回転）でつまずき、対処したいとき</strong>（受動拾い）</li>
+<li><strong>無料プリントで試したあと、少しずつ難しくしたいとき</strong></li>
+<li><strong>市販ドリル周回中に「子供が答えの形を覚えてしまった」と感じたとき</strong></li>
+<li><strong>アプリやパズルでは楽しめるが、紙に写す時間も取りたいとき</strong></li>
+<li><strong>見取り図の前に、平面で形をとらえる練習を入れたいとき</strong></li>
+<li><strong>SNS で「空間認識能力が算数の土台」啓蒙投稿を見て、家で何をすればいいか分からないとき</strong></li>
+</ol>
+<p>CEP 8-12 は SEO/LLMO Pillar Page DR（2026-05-22）で追加。詳細: <a href="../decisions.html">decisions.md §3.32</a>。</p>
+<h3 id="11-anti-brand-tenzu-ではないもの"><a class="anchor" href="#11-anti-brand-tenzu-ではないもの">#</a>§11. Anti-Brand（TENZU ではないもの）</h3>
+<p>ビジュアルレベルの NG は <a href="../design/visual-identity.html">../design/visual-identity.md</a> に集約。ここでは<strong>概念レベルで「TENZU ではないもの」<strong>と</strong>ブランド拡張の境界</strong>を明示する。</p>
+<h4 id="11-1-コンセプト上のアンチ"><a class="anchor" href="#11-1-コンセプト上のアンチ">#</a>§11.1 コンセプト上のアンチ</h4>
+<ul>
+<li><strong>処方箋・特効薬・弱点診断・健康診断・自己診断ブランド</strong>: 不安を診断で煽り、解決を売る方向には行かない</li>
+<li><strong>道場・教室・塾</strong>: カリキュラム縛り・修行・昇級昇段の世界観は採用しない</li>
+<li><strong>総合学習プラットフォーム</strong>: 図形・空間認知以外の領域に手を広げない</li>
+<li><strong>指導者ブランド</strong>: 「先生が教える」「専門家が指南する」立場には立たない（P3「同じ親」立ち位置）</li>
+<li><strong>手作り個人ブランド</strong>: 「個人の温かさ・素朴さ」を売りにしない（V4 妥協しない）</li>
+<li><strong>🆕 点つなぎを下に見る言説</strong>: 点つなぎは TENZU の前段階であり、楽しさと運筆練習として独自の価値を持つ。「点つなぎではダメ」「点つなぎを卒業しよう」型の比較は使わない（§16）</li>
+<li><strong>🆕 点つなぎの代替を狙う構え</strong>: TENZU は点つなぎの市場を取りに行かない。<strong>点つなぎの次に来るカテゴリ</strong>として共存する</li>
+<li><strong>🆕 啓蒙者ぶり・「教えてあげる」立場</strong>: 啓蒙ブランドは「上から目線」に陥りやすい。TENZU は「同じ親として先に調べた立場」を超えない</li>
+</ul>
+<h4 id="11-2-表現上のアンチ-voice-ng"><a class="anchor" href="#11-2-表現上のアンチ-voice-ng">#</a>§11.2 表現上のアンチ（Voice NG）</h4>
+<ul>
+<li>「処方箋」「特効薬」「治療」「弱点診断」「健康診断」「自己診断」「穴を埋める」「ピンポイント治療」</li>
+<li>「○年生で差がつく」「手遅れになる前に」「もう間に合わない」型の時間軸煽り</li>
+<li>「鍛える」「修行」「叩き込む」系の語彙（修行感）</li>
+<li>「点つなぎでは物足りない」「点つなぎを卒業」型の比較表現（§16）</li>
+<li>「点描写をやらないと算数が伸びない」型の飛躍（一次資料の引用範囲を超える）</li>
+</ul>
+<p>詳細な置換ルールと SEO 文脈での例外運用は <a href="voice-tone.html">voice-tone.md</a> §1 を参照。</p>
+<h4 id="11-3-brand-architecture-拡張の境界"><a class="anchor" href="#11-3-brand-architecture-拡張の境界">#</a>§11.3 Brand Architecture（拡張の境界）</h4>
+<p>将来 TENZU が広がるとしても、以下の範囲を守る。</p>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>内容</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Core 1: Product</strong></td>
+<td>点描写 PDF プリント（140 SKU）</td>
+<td>Phase 1 から</td>
+</tr>
+<tr>
+<td><strong>Core 2 候補: App</strong></td>
+<td><strong>親向け点描写問題ジェネレータ → PDF 印刷</strong>（仕様確定：§11.3.1）。点描写を体験させる入口かつ Product 導線（P3 発見の主実装の一部）</td>
+<td>Phase 0 から（Core 2 昇格は実データ後判断）</td>
+</tr>
+<tr>
+<td><strong>Sub: Article（啓蒙）</strong></td>
+<td>点描写・空間認知・関連学習の記事ハブ。Product の集客と理解を支える（P4 言語化の主実装）</td>
+<td>Phase 1-3</td>
+</tr>
+<tr>
+<td><strong>Sub: Guide</strong></td>
+<td>レベル選びガイド・商品比較・サンプル閲覧（P2 解像度の主実装）</td>
+<td>Phase 1 から</td>
+</tr>
+<tr>
+<td><strong>NG（拡張しない領域）</strong></td>
+<td>算数全般・知育全般・中受総合対策・教室運営・指導者向けサービス</td>
+<td>永続的に手を出さない</td>
+</tr>
+</tbody></table>
+<p><strong>Article は Core 2 候補から外れ、Sub に位置づけ</strong>。個人運営で記事を Product と並列の二本柱にするのは工数・品質担保の両面でスケールしない、という現実判断（旧案H の「事業の二本柱」表現は撤回）。Article は Product を支える啓蒙ハブとして引き続き重要だが、Core ではない。</p>
+<p><strong>App は Phase 0 投入で Core 2 昇格候補</strong>。「<strong>親向け</strong>点描写問題ジェネレータ → PDF 印刷」という設計のため、<strong>書く学習は紙とペン</strong>軸（§8 R4）と矛盾せず、むしろ「App で点描写の構造を親が把握 → PDF 印刷で子と紙学習」という補強関係を作る。点描写の練習そのものを画面で完結させるプロダクトには進まない。</p>
+<h4 id="11-3-1-app-仕様-案h-確定"><a class="anchor" href="#11-3-1-app-仕様-案h-確定">#</a>§11.3.1 App 仕様（案H&#39;&#39; 確定）</h4>
+<p>GPT-5・Gemini 両者が独立に指摘した「Product 140 SKU との自己カニバリゼーション」を機能制限で回避する。</p>
+<ul>
+<li><strong>対象ユーザー</strong>: <strong>完全に親向けツール</strong>。子供 UI（アニメ・効果音・ゲーミフィケーション）は採用しない</li>
+<li><strong>生成可能タスク</strong>: <strong>模写のみ</strong>（9タスク中の 1 タスク。線対称・回転・平行移動・拡大縮小・かさね・分解・欠け補完・立体は生成しない）</li>
+<li><strong>最大グリッド</strong>: <strong>5×5 まで</strong>（6×6 以降・立体・複雑構造は商品 PDF へ誘導）</li>
+<li><strong>出力</strong>: 画面上で解かせる UI は持たず、<strong>生成 → PDF ダウンロード → 印刷</strong>の一直線導線</li>
+<li><strong>画面上で解かせる機能を作らない</strong>: 子が画面に張り付く設計を排除（書く学習は紙とペン軸との整合）</li>
+<li><strong>商品 PDF との切り分け</strong>:<ul>
+<li><strong>App</strong> = 模写のみ・5×5 まで・親が手元で「ちょっと作る」用途・<strong>入口体験</strong></li>
+<li><strong>商品 PDF</strong> = 9 タスク × Lv.1-5 × Vol 細刻み・体系設計・立体含む・親向け声かけ情報付き・<strong>本練習</strong></li>
+</ul>
+</li>
+<li><strong>ファーストビュー</strong>: 「<strong>作るのは画面、練習は紙</strong>」を明示</li>
+</ul>
+<p>これにより、App は P3「発見」の入口装置として機能しつつ、Product 140 SKU の購買理由（体系・難度幅・立体・親向け解説）を侵食しない。</p>
+<p>「自己診断ツール」というプロダクト名は廃止済（<strong>レベル選びガイド</strong>）。</p>
+<h3 id="12-tagline-h-2026-05-25-夜確定・3-階層構造"><a class="anchor" href="#12-tagline-h-2026-05-25-夜確定・3-階層構造">#</a>§12. Tagline（H&#39;&#39;&#39; 2026-05-25 夜確定・3 階層構造）</h3>
+<h4 id="コアタグライン-h-メイン"><a class="anchor" href="#コアタグライン-h-メイン">#</a>コアタグライン（H&#39;&#39;&#39; メイン）</h4>
+<blockquote>
+<p><strong>図形の基礎は、点描写から。</strong></p>
+</blockquote>
+<p>採用理由（GPT-5 提案・3-way DR 統合確定・<a href="../decisions.html">decisions.md §3.36</a>）:</p>
+<ul>
+<li><strong>学校語彙「図形」が親のペインポイント（算数・図形へのつまずき不安）に直撃</strong>。0.5 秒でベネフィットが伝わる認知負荷ゼロのコピー</li>
+<li>「<strong>基礎</strong>」は土台・着実・煽らない静かなトーン（<a href="voice-tone.html">voice-tone.md §1 拡張フレーム</a> と整合）</li>
+<li>「<strong>点描写から</strong>」が業態識別と「最初の一手」を兼ねる</li>
+<li>MISSION「点描写を家庭の当たり前にして…」と語感一致</li>
+</ul>
+<h4 id="サブタグライン-h-拡張"><a class="anchor" href="#サブタグライン-h-拡張">#</a>サブタグライン（H&#39;&#39;&#39; 拡張）</h4>
+<blockquote>
+<p><strong>模写から対称・回転・立体まで。空間認知の土台を、家庭で着実に。</strong></p>
+</blockquote>
+<p>採用理由:</p>
+<ul>
+<li>9 タスクの幾何学的体系（P1 体系）を「模写・対称・回転・立体」で要約</li>
+<li>学術 RTB「<strong>空間認知の土台</strong>」を本コピーで明示・サイトのバックエンド（PR・LLMO・記事）と接続</li>
+<li>「<strong>家庭で着実に</strong>」は拡張フレーム適合・煽り完全回避</li>
+</ul>
+<h4 id="業態識別句-必須併記"><a class="anchor" href="#業態識別句-必須併記">#</a>業態識別句（必須併記）</h4>
+<blockquote>
+<p><strong>点図形（点描写）プリントの専門店 TENZU</strong></p>
+</blockquote>
+<p>LP ファーストビュー・OG 画像・About 冒頭・ロゴ並置で必ず業態識別句を併記する。<strong>descriptor 必須セット運用</strong>：ロゴ・ヘッダーで「TENZU」単独表示は禁止、必ず日本語 descriptor とセット（GPT-5 推奨・<a href="../decisions.html">decisions.md §3.36</a>）。</p>
+<h4 id="tagline-3-層構造のレイヤー機能-h-新規"><a class="anchor" href="#tagline-3-層構造のレイヤー機能-h-新規">#</a>Tagline 3 層構造のレイヤー機能（H&#39;&#39;&#39; 新規）</h4>
+<table>
+<thead>
+<tr>
+<th>レイヤー</th>
+<th>採用語</th>
+<th>機能</th>
+<th>場所</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>コア（フロント）</strong></td>
+<td>図形の基礎は、点描写から。</td>
+<td>親の購買心理直撃・認知負荷ゼロで CV ドライブ</td>
+<td>LP Hero H1・広告・初回購入導線</td>
+</tr>
+<tr>
+<td><strong>サブ（拡張）</strong></td>
+<td>模写から対称・回転・立体まで。空間認知の土台を、家庭で着実に。</td>
+<td>体系（P1）と学術 RTB（空間認知）の両提示</td>
+<td>LP Hero 直下・OG 画像 2 行目</td>
+</tr>
+<tr>
+<td><strong>業態識別句</strong></td>
+<td>点図形（点描写）プリントの専門店 TENZU</td>
+<td>「何の店か」を 3 秒で伝える</td>
+<td>Hero 上部または直下・フッター</td>
+</tr>
+</tbody></table>
+<h4 id="旧-tagline-の降格活用-h-新規・-点と点がつなげるようになったら-点描写を"><a class="anchor" href="#旧-tagline-の降格活用-h-新規・-点と点がつなげるようになったら-点描写を">#</a>旧 Tagline の降格活用（H&#39;&#39;&#39; 新規・「点と点がつなげるようになったら、点描写を。」）</h4>
+<p>H&#39;&#39; で確定した旧コアコピー「<strong>点と点がつなげるようになったら、点描写を。</strong>」は廃棄せず、<strong>オンボーディング／FAQ 用に降格活用</strong>:</p>
+<ul>
+<li><strong>オンボーディング</strong>: 「初めての方へ」「点つなぎから始めた方へ」セクションの導入コピー</li>
+<li><strong>FAQ</strong>: 「Q. 何歳から？」「Q. 点つなぎとの違いは？」の冒頭フレーズ</li>
+<li><strong>目的</strong>: CEP1「点つなぎ 次」拾い導線維持・H&#39;&#39; 階段ストーリー（点つなぎ→点描写）の語り部として継続活用</li>
+<li><strong>禁止</strong>: LP Hero・OG・名刺など主要露出での使用（H&#39;&#39;&#39; コアと役割が競合するため）</li>
+</ul>
+<h4 id="バリアント-限定運用"><a class="anchor" href="#バリアント-限定運用">#</a>バリアント（限定運用）</h4>
+<ul>
+<li><strong>「先取り知育」セグメント向け LP</strong>（§5.1.a）: 「<strong>点つなぎの次に、空間認知を。</strong>」または「<strong>公文では取り扱わない図形を、点描写で。</strong>」（公文家庭向け補助）</li>
+<li><strong>「紙とペン重視」セグメント向け LP</strong>（§5.1.b）: 「<strong>画面のない時間に、点と点を。</strong>」</li>
+<li><strong>「図形・書字に不安」セグメント向け LP</strong>（§5.1.c）: 「<strong>漢字と図形の前に、写す力を。</strong>」</li>
+<li><strong>対処層向け（受動拾い）バリアント LP（1 本のみ）</strong>: 「<strong>図形に、戻り道を。</strong>」を温存運用。本体ブランド（トップ・主要記事）には出さず、受動拾い専用 LP・FAQ・対処系記事内でのみ使う</li>
+</ul>
+<h4 id="使用ルール-h-改訂"><a class="anchor" href="#使用ルール-h-改訂">#</a>使用ルール（H&#39;&#39;&#39; 改訂）</h4>
+<ul>
+<li><strong>必須併記（3 段）</strong>: LP ヒーロー・OG 画像・名刺・スライド表紙では <strong>コアタグライン ＋ サブタグライン ＋ 業態識別句</strong> の 3 点をセット運用</li>
+<li><strong>バリアント</strong>: 各セグメント向け LP・記事ハブに限定（SNS・OG・名刺では混ぜない）</li>
+<li><strong>記事本文では使わない</strong>: 読者が気付くもの。押し付けない</li>
+<li><strong>ロゴと並置</strong>: ロゴの下にコア + サブを置く。業態識別句はフッターまたはヘッダー側で別配置可・descriptor 単独表示は必須</li>
+</ul>
+<h4 id="バリアント-限定運用"><a class="anchor" href="#バリアント-限定運用">#</a>バリアント（限定運用）</h4>
+<ul>
+<li><strong>「先取り知育」セグメント向け LP</strong>（§5.1.a）: 「<strong>点つなぎの次に、空間認知を。</strong>」または「<strong>公文では取り扱わない図形を、点描写で。</strong>」（公文家庭向け補助）</li>
+<li><strong>「紙とペン重視」セグメント向け LP</strong>（§5.1.b）: 「<strong>画面のない時間に、点と点を。</strong>」</li>
+<li><strong>「図形・書字に不安」セグメント向け LP</strong>（§5.1.c）: 「<strong>漢字と図形の前に、写す力を。</strong>」</li>
+<li><strong>対処層向け（受動拾い）バリアント LP（1 本のみ）</strong>: 「<strong>図形に、戻り道を。</strong>」を温存運用。本体ブランド（トップ・主要記事）には出さず、受動拾い専用 LP・FAQ・対処系記事内でのみ使う</li>
+</ul>
+<h4 id="使用ルール"><a class="anchor" href="#使用ルール">#</a>使用ルール</h4>
+<ul>
+<li><strong>必須併記（3 段）</strong>: LP ヒーロー・OG 画像・名刺・スライド表紙では <strong>コアタグライン ＋ サブコピー ＋ 業態識別句</strong> の 3 点をセット運用（案H&#39;&#39; で 2 点→3 点へ拡張）</li>
+<li><strong>バリアント</strong>: 各セグメント向け LP・記事ハブに限定（SNS・OG・名刺では混ぜない）</li>
+<li><strong>記事本文では使わない</strong>: 読者が気付くもの。押し付けない</li>
+<li><strong>ロゴと並置</strong>: ロゴの下にコア + サブコピーを置く。業態識別句はフッターまたはヘッダー側で別配置可</li>
+</ul>
+<h3 id="13-啓蒙コンテンツ原則-新設"><a class="anchor" href="#13-啓蒙コンテンツ原則-新設">#</a>§13. 啓蒙コンテンツ原則（新設）</h3>
+<p>Article は Core ではなく Sub だが、啓蒙ブランドとして記事の品質はブランド資産そのもの（P4 言語化の主実装）。次の 5 原則を守る。</p>
+<ol>
+<li><strong>一次資料優先</strong>: <a href="../content/evidence.html">evidence.md</a> で管理する一次資料を引く。解説サイトの孫引きはしない</li>
+<li><strong>引用範囲を超えない</strong>: 各エビデンスの「引用可能範囲」を超える主張は書かない（<a href="../content/evidence.html">evidence.md §6</a>）</li>
+<li><strong>クッション表現</strong>: 「〜とされています」「〜が複数の研究で示されています」を使い、断定を避ける</li>
+<li><strong>TENZU 訳の併記</strong>: 「視覚空間処理 → 図形を見て写し取る力」のような平易な訳を併記</li>
+<li><strong>権威マウントしない</strong>: 「研究によると…」と振り回さない。「TENZU では…という根拠で…を選んでいます」のクールな引用に統一（<a href="voice-tone.html">voice-tone.md §3</a>）</li>
+</ol>
+<h3 id="14-インフルエンサー連携方針-新設"><a class="anchor" href="#14-インフルエンサー連携方針-新設">#</a>§14. インフルエンサー連携方針（新設）</h3>
+<p>啓蒙ブランドはインフル連携が中核チャネル。次のルールを守る。</p>
+<ul>
+<li><strong>対象</strong>: 知育系インスタ・モンテッソーリ系・公文経験ママ・療育系（コグトレ親和性）。中受系は副次</li>
+<li><strong>提供物</strong>: 記事原稿・サンプル PDF・引用許諾。<strong>現物の押し付け売り込みはしない</strong></li>
+<li><strong>PR 表記</strong>: ステマ規制を遵守。報酬発生時は #PR 等の明示を依頼</li>
+<li><strong>引用境界</strong>: TENZU からインフルへの言及は事実ベースのみ。インフル名を<strong>広告コピーに使わない</strong></li>
+<li><strong>公文・他社教材への言及境界</strong>: インフル発信でも、一般名詞「公文式」「公文に通っている家庭」までは可。<strong>教材名直接比較は避ける</strong></li>
+</ul>
+<h3 id="15-専門家監修との関係-新設"><a class="anchor" href="#15-専門家監修との関係-新設">#</a>§15. 専門家監修との関係（新設）</h3>
+<ul>
+<li>当面、外部専門家の監修は<strong>付けない</strong></li>
+<li>代替として：①<a href="../content/evidence.html">evidence.md</a> で一次資料を自前で引く ②改訂履歴を版番号付きで公開 ③AI 生成物は必ず人間レビュー</li>
+<li>将来、コグトレ系・発達支援系の専門家との連携が現実的になった場合は decisions.md に判断ログを残す</li>
+<li>監修なしで信頼を作る、というのが V4「個人運営の妥協を顧客に押し付けない」の現実装</li>
+</ul>
+<h3 id="16-点つなぎとの関係-新設"><a class="anchor" href="#16-点つなぎとの関係-新設">#</a>§16. 点つなぎとの関係（新設）</h3>
+<h4 id="16-1-点つなぎは前段階・競合ではない"><a class="anchor" href="#16-1-点つなぎは前段階・競合ではない">#</a>§16.1 点つなぎは前段階・競合ではない</h4>
+<p>点つなぎは数字や順序に従って点をつなぐ遊び。<strong>楽しさと運筆練習が主目的</strong>で、すでに保育園・幼稚園・家庭で標準化済。TENZU はこの市場を取りに行かない。</p>
+<h4 id="16-2-点描写は次段階"><a class="anchor" href="#16-2-点描写は次段階">#</a>§16.2 点描写は次段階</h4>
+<p>点描写は等間隔の点をつないで見本通りに図形を描く練習。<strong>能力向上が主目的</strong>で、認知的負荷は点つなぎより高い。難しさで点つなぎを楽しさを上回ることはない、というのが現実。</p>
+<h4 id="16-3-階段設計としての位置づけ"><a class="anchor" href="#16-3-階段設計としての位置づけ">#</a>§16.3 階段設計としての位置づけ</h4>
+<p>TENZU の主張は「<strong>点つなぎを否定するのではなく、その次に置く</strong>」。</p>
+<ul>
+<li>点つなぎを完走した子が次に渡されるべき練習として点描写を位置づける</li>
+<li>点つなぎを下に見ない・卒業させない（点つなぎを楽しんでいる時期はそのまま続けてよい）</li>
+<li>TENZU の Lv.1 は「<strong>点つなぎから点描写への橋渡し</strong>」の役割を持つ（Lv 設計の根拠：<a href="../product/pack-design.html">pack-design.md</a>）</li>
+</ul>
+<h4 id="16-4-表現上のルール"><a class="anchor" href="#16-4-表現上のルール">#</a>§16.4 表現上のルール</h4>
+<ul>
+<li>「点つなぎではダメ」「点つなぎを卒業」型の比較表現を使わない</li>
+<li>「点つなぎの次に」「点つなぎを楽しんだ後に」型の階段表現を使う</li>
+<li>記事タイトル例：「点つなぎの次に渡したい、点描写のはじめかた」○／「点つなぎを卒業した子へ」×</li>
+</ul>
+<h2 id="附録"><a class="anchor" href="#附録">#</a>附録</h2>
+<h3 id="屋号語源-裏話"><a class="anchor" href="#屋号語源-裏話">#</a>屋号語源（裏話）</h3>
+<p>屋号 TENZU は「点（てん）」を頭文字に置く一方、音韻として「せんず」とも読みうる。これは設計上の偶然だが、開発時の内部メモとして残す。記事・LP・コピー・ロゴ・ビジュアルいずれにも特定の固有名・作品参照は一切出さない（IP 配慮）。</p>
+<h3 id="田中洋-ブランディング-5フェーズ・ナラティブ-案h-版"><a class="anchor" href="#田中洋-ブランディング-5フェーズ・ナラティブ-案h-版">#</a>田中洋『ブランディング』5フェーズ・ナラティブ（案H&#39; 版）</h3>
+<p><strong>F1. 構想</strong>: 「個人 × AI で、点描写を家庭の当たり前にする啓蒙ブランド型 EC を作る」という構想に基づいて、「知育意識のある親層（公文家庭ライク・年中〜小2 中心）・書く学習志向層」を対象に、「点描写は知育効果が確かなのに知られておらず、市販書籍は限られ、無料は広告まみれ、タブレット教材ばかりが目立つ、そのギャップを埋める」という理由でブランドを構築する。</p>
+<p><strong>F2. 経営</strong>: 「<strong>家庭向け図形・空間認知プリント市場（受験準備・知育・補完学習）</strong>」の中で、点描写 × 専門特化 × 啓蒙ブランドというポジションに、「<strong>体系・解像度・発見・言語化・継続</strong> の 5 本を柱に、知育意識のある親層（年中〜小2 × 3 セグメント）へ届ける点描写専門店 TENZU」というブランドを構築する。</p>
+<p><strong>F3. マーケティング</strong>: 「知育意識のある親層（<strong>先取り知育／紙とペン重視／図形・書字に不安</strong>の 3 セグメント・年中〜小2 中心）、受動拾いに対処層」を対象顧客とし、「<strong>体系・解像度・発見・言語化・継続</strong>」というブランド価値を、「<strong>親向け問題ジェネレータ App（Phase 0・模写のみ 5×5 まで）＋啓蒙記事＋知育インフル連携＋検索／LLMO 流入＋レベル選びガイド＋PDF フッター親向け解説</strong>」という導線で届ける。</p>
+<p><strong>F4. コミュニケーション</strong>: メッセージを 3層に分けて伝える。</p>
+<ul>
+<li><strong>情緒メッセージ</strong>（H&#39;&#39;&#39; 2026-05-25）: 図形の基礎は、点描写から。</li>
+<li><strong>検索メッセージ</strong>: 点図形（点描写）プリントを、レベル別に1枚ずつ選べる専門店</li>
+<li><strong>行動メッセージ</strong>: 中身を見て、今のレベルから始める</li>
+</ul>
+<p><strong>F5. 実行と管理</strong>: 「個人運営 1名＋AI（Claude Code / Claude Design）＋外部ツール群（Next.js / AWS Amplify / Stripe / MailerLite）」という組織によって、「<a href="../launch/measurement.html">../launch/measurement.md</a> で定義するブランド健全性 KPI」で成果を測定する。</p>
+<h3 id="変遷"><a class="anchor" href="#変遷">#</a>変遷</h3>
+<ul>
+<li><strong>案H&#39;&#39;&#39; Tagline 3 階層化（2026-05-25 夜）</strong>: 3-way DR 統合（Gemini ＋ GPT-5 ＋ 実測）でブランドアーキテクチャ最終確定。<strong>Hero 看板能力を「空間認知」→「図形の基礎力」へ構造転換</strong>。コアタグラインを「点と点がつなげるようになったら、点描写を。」→「<strong>図形の基礎は、点描写から。</strong>」へ全置換（GPT-5 案・親の購買心理直撃＋認知負荷ゼロ）。サブタグライン「<strong>模写から対称・回転・立体まで。空間認知の土台を、家庭で着実に。</strong>」新設（9 タスク体系＋RTB 提示）。旧コアは降格活用（オンボーディング・FAQ「何歳から？」「点つなぎとの違い」CEP1 拾い導線維持）。descriptor 必須セット運用追加（GPT-5 推奨・TENBI 改名は天美 TENBI 衝突発見で完全棄却） → <a href="../decisions.html">decisions.md §3.36</a></li>
+<li><strong>案H&#39;&#39; への部分改訂（2026-05-22 セッション後半-3）</strong>。GPT-5 ＋ Gemini 2 AI 合議で独立に検出された構造的弱点 4 点に対応：①<strong>Brand Promise 1 文化</strong>（§6 を「子供の&quot;空間認知の土台&quot;を、家庭で無理なく育てる点描写プリント」へ全置換・Mission 直結＋業態明示）／②<strong>中核セグメントの行動ベース 3 分割</strong>（§5.1 に §5.1.a 先取り知育／§5.1.b 紙とペン重視／§5.1.c 図形・書字に不安 を新設）／③<strong>Pillar 5 本化</strong>（§7 に <strong>P5 継続</strong> 新設・P4 言語化を「タスク × 能力の対応」へフォーカス再定義・P3 発見の実装軸に Sample PDF 追加で構造的矛盾解消）／④<strong>App 仕様の確定</strong>（§11.3.1 新設：親向け × 模写のみ × 5×5 まで × 画面で解かせない設計で 140 SKU との自己カニバリ回避）／⑤<strong>Tagline サブコピー併記ルール</strong>（§12 にサブコピー「空間認知の土台をつくる。」を必須併記化・ベネフィット欠落を解消）／⑥**§10 Positioning** を 3 セグメント・5 本柱へ更新／⑦**§12 バリアント**を 3 セグメント別 LP ＋ 対処層バリアント 1 本に再整理。退避: <a href="../archive/retired-designs/2026-05-22-brand-anh-prime-4pillars.html">archive/retired-designs/2026-05-22-brand-anh-prime-4pillars.md</a>（旧 4 Pillar 構成・旧 P4 定義・旧 Promise 長文版）→ <a href="../decisions.html">decisions.md §3.31</a></li>
+<li>案H&#39; への部分改訂（2026-05-22 セッション後半）。案H からの修正点：①公文家庭を「中核・旗艦」→「理想顧客像の例示」に降格・対象年齢を年中〜へ／②§7 Pillars を 3本→**4本（P1 体系・P2 解像度・P3 発見・P4 言語化）**に刷新（旧 3本の処遇は <a href="../archive/retired-designs/2026-05-22-brand-pillars-old3.html">archive/retired-designs/2026-05-22-brand-pillars-old3.md</a> に退避）／③§11.3 で Article を Core 2 から Sub に降格・App を Phase 0 投入で Core 2 候補に昇格／④§12 Tagline コアを「<strong>点と点がつなげるようになったら、点描写を。</strong>」へ差し替え／⑤§16 ノースクリーン章を削除し「<strong>書く学習は紙とペン</strong>」軸として §8 R4・§10 unlike へ分解吸収／⑥旧 §17 点つなぎとの関係を §16 へリナンバー → <a href="../decisions.html">decisions.md §3.30</a>（記録予定）</li>
+<li>案H（点描写啓蒙ブランド軸）への全面書き換え（2026-05-22 前半）。中核ターゲットを公文家庭へ移動／§7 Pillars を「点つなぎの次／紙で続く／中身が見える」へ刷新／§12 Tagline を「点つなぎの次に、点描写を。」へ刷新／§13 啓蒙コンテンツ原則・§14 インフル連携方針・§15 専門家監修・§16 ノースクリーン・§17 点つなぎとの関係を新設（その後 §16 は H&#39; で削除・§17 は §16 へリナンバー）</li>
+<li>案G（小受 40+小1-2 予防 40+対処 20）改訂は実施せず案H へ直接移行 → <a href="../decisions.html">decisions.md §3.29</a></li>
+<li>旧 brand.md 案F版（中受 P3-a 起点）→ <a href="../archive/retired-designs/2026-05-22-brand-anf.html">archive/retired-designs/2026-05-22-brand-anf.md</a>（退避予定）</li>
+<li>旧 §1-§12 構成（2026-05-21 GPT 再レビュー反映版）の構造は踏襲しつつ、各 § の中身を案H で全面差し替え</li>
+<li>§13-§17 を新設（啓蒙ブランド固有の運用ルール。H&#39; で §16 削除・§17→§16 リナンバー）</li>
+</ul>
+
+</main>
+<footer class="doc-footer">
+  <span>design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/brand.md</span>
+  <span>Generated: 2026-06-11 09:25</span>
+</footer>
+
+</body>
+</html>

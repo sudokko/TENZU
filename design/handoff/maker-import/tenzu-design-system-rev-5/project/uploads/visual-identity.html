@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Visual Identity — ビジュアル実装ルール — TENZU</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root {
+  --bg: #fafaf7;
+  --panel: #ffffff;
+  --text: #1f2328;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --accent: #6b5b3a;
+  --accent-soft: #f0ead7;
+  --code-bg: #f4f0e7;
+  --table-row-alt: #faf7ee;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--text); }
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.75;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px 96px;
+  font-size: 15.5px;
+}
+header.doc-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header.doc-header .path { color: var(--muted); font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+header.doc-header .back { color: var(--accent); text-decoration: none; font-size: 13px; }
+header.doc-header .back:hover { text-decoration: underline; }
+h1, h2, h3, h4 { color: var(--accent); line-height: 1.4; }
+h1 { font-size: 24px; margin: 0 0 8px; }
+h2 { font-size: 19px; margin: 32px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+h3 { font-size: 16.5px; margin: 24px 0 8px; }
+h4 { font-size: 15px; margin: 18px 0 6px; }
+h2 a.anchor, h3 a.anchor, h4 a.anchor {
+  opacity: 0;
+  text-decoration: none;
+  color: var(--muted);
+  margin-left: -16px;
+  padding-right: 6px;
+  font-weight: normal;
+}
+h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor { opacity: 1; }
+p { margin: 8px 0 14px; }
+a { color: #496f3f; }
+a:hover { text-decoration: underline; }
+ul, ol { padding-left: 1.5em; }
+li { margin: 3px 0; }
+strong { color: #3d3320; }
+blockquote {
+  border-left: 4px solid var(--accent-soft);
+  background: #fbf8ef;
+  margin: 12px 0;
+  padding: 8px 14px;
+  color: var(--muted);
+  border-radius: 0 6px 6px 0;
+}
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 14px 0;
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+}
+table thead { background: var(--accent-soft); }
+table th, table td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+table tbody tr:nth-child(2n) { background: var(--table-row-alt); }
+hr { border: none; border-top: 1px dashed var(--border); margin: 28px 0; }
+nav.toc {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin: 0 0 28px;
+  font-size: 13.5px;
+}
+nav.toc h2 {
+  font-size: 14px;
+  margin: 0 0 6px;
+  border: none;
+  padding: 0;
+  color: var(--muted);
+}
+nav.toc ul { padding-left: 1.3em; margin: 4px 0; }
+nav.toc li { margin: 2px 0; }
+nav.toc a { color: var(--accent); text-decoration: none; }
+nav.toc a:hover { text-decoration: underline; }
+footer.doc-footer {
+  margin-top: 48px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+</style>
+</head>
+<body>
+<header class="doc-header">
+  <div>
+    <span class="path">design/visual-identity.md</span>
+  </div>
+  <a class="back" href="../docs/html-index.html">← 一覧へ戻る</a>
+</header>
+<nav class="toc"><h2>目次</h2><ul><li><a href="#サマリ">サマリ</a></li><li><a href="#詳細">詳細</a></li><ul><li><a href="#1-配色-locked-2026-05-24">§1. 配色（locked · 2026-05-24）</a></li><li><a href="#2-タイポグラフィ-locked-2026-05-24">§2. タイポグラフィ（locked · 2026-05-24）</a></li><li><a href="#3-主役グラフィック">§3. 主役グラフィック</a></li><li><a href="#4-ロゴ-locked-2026-05-24">§4. ロゴ（locked · 2026-05-24）</a></li><li><a href="#5-コンポーネント">§5. コンポーネント</a></li><li><a href="#6-3軸コンセプトの場所別配分">§6. 3軸コンセプトの場所別配分</a></li><li><a href="#7-マイクロコピー">§7. マイクロコピー</a></li><li><a href="#8-トランジション">§8. トランジション</a></li><li><a href="#9-ai-生成物の運用ルール">§9. AI 生成物の運用ルール</a></li><li><a href="#10-資産アップロード">§10. 資産アップロード</a></li></ul><li><a href="#附録">附録</a></li></ul></nav>
+<main>
+<h1 id="visual-identity-ビジュアル実装ルール"><a class="anchor" href="#visual-identity-ビジュアル実装ルール">#</a>Visual Identity — ビジュアル実装ルール</h1>
+<h2 id="サマリ"><a class="anchor" href="#サマリ">#</a>サマリ</h2>
+<ul>
+<li>本ファイルは「見せ方の実装ルール」担当。ブランド哲学・MISSION・Pillar 5 本柱は <a href="../foundation/brand.html">../foundation/brand.md</a> を参照</li>
+<li><strong>3軸コンセプト（案H&#39;&#39;）</strong>: <strong>書店</strong>（専門店としての端正さ＝P1 体系・P2 解像度）× <strong>研究室</strong>（知的解像度＝P4 言語化）× <strong>親の手元</strong>（家庭で続く温度＝P5 継続・P3 発見）。旧案W「ミニマルD2C × 図形ラボ × 親向けガイド」を 5 Pillar 対応へ拡張</li>
+<li><strong>配色（locked・2026-05-24）</strong>: 主色 ink <code>#1A1F2A</code> ／ 背景 paper <code>#F4F2ED</code> ／ アクセント petroleum teal <code>#2C6E7F</code>（「達成・注目」限定）。モノクロ完全機能。<code>Ink &amp; Slate · 墨と石板</code></li>
+<li><strong>タイポ（locked・2026-05-24）</strong>: Plex × Noto Hybrid。見出し・UI body は IBM Plex Sans JP（500 / 400）／ 長文本文（<code>/articles/</code> のみ）は Noto Sans JP 400 ／ 数字は IBM Plex Mono</li>
+<li><strong>ロゴ（locked・2026-05-24）</strong>: 4-dot square symbol（コーナードット浮き・stroke 2.2）＋ IBM Plex Sans JP weight 500・tracking +0.10em の wordmark（<strong>カスタム Ξ-form E</strong>：縦軸なし 3 横線）</li>
+<li><strong>主役グラフィック</strong>: 「点・直線・図形」の幾何要素（写真不使用・子どもイラスト不使用・キャラクター不採用）</li>
+<li><strong>CTA 強度4段階</strong>（弱／中／強／最強）で視覚差。モバイル7割想定</li>
+<li><strong>ディレクトリレベルで密度を変える</strong>: <code>/products/</code> ミニマル・密度高め／<code>/articles/</code> ゆとり／<code>/for-parents/</code> 余白多め（P5 親の手元軸）</li>
+<li><strong>AI 全面活用</strong>（<a href="../foundation/brand.html">brand.md §3 V4</a>）。画像生成 AI・SVG/Canvas コード生成・Claude Design でのロゴ叩き台量産すべて推奨。端正さの担保は<strong>人間レビュー</strong>（<a href="../foundation/brand.html">brand.md §8.2 C4</a>）</li>
+<li><strong>ロゴはフル刷新中</strong>: 旧 D0 案B&#39; および旧 4 ドット symbol（案W 残骸）は退避済。Claude Design 側で叩き台再生成 → 選定</li>
+<li><strong>Tagline 3 段セット必須併記</strong>: コアタグライン ＋ サブコピー ＋ 業態識別句（<a href="../foundation/brand.html">brand.md §12</a>）</li>
+</ul>
+<h2 id="詳細"><a class="anchor" href="#詳細">#</a>詳細</h2>
+<h3 id="1-配色-locked-2026-05-24"><a class="anchor" href="#1-配色-locked-2026-05-24">#</a>§1. 配色（locked · 2026-05-24）</h3>
+<p><code>Ink &amp; Slate · 墨と石板</code> パレット。Laboratory レジスター（書店軸でも親の手元軸でもブレない中庸）。</p>
+<h4 id="1-1-確定値"><a class="anchor" href="#1-1-確定値">#</a>§1.1 確定値</h4>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>HEX</th>
+<th>名称</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>主色（ink）</strong></td>
+<td><code>#1A1F2A</code></td>
+<td>墨 — near-black ink, cool undertone</td>
+<td>ロゴ・見出し・本文・線・主要 UI</td>
+</tr>
+<tr>
+<td><strong>背景（paper）</strong></td>
+<td><code>#F4F2ED</code></td>
+<td>紙 — cool paper-white</td>
+<td>サイト背景・PDF 背景・カード地色</td>
+</tr>
+<tr>
+<td><strong>アクセント（teal）</strong></td>
+<td><code>#2C6E7F</code></td>
+<td>青磁 — petroleum teal</td>
+<td><strong>「達成・注目」に限定</strong></td>
+</tr>
+<tr>
+<td>fg-2</td>
+<td><code>#424955</code></td>
+<td>—</td>
+<td>補助テキスト</td>
+</tr>
+<tr>
+<td>fg-3</td>
+<td><code>#767D89</code></td>
+<td>—</td>
+<td>弱いテキスト（kicker・meta）</td>
+</tr>
+<tr>
+<td>fg-4</td>
+<td><code>#B0B5BD</code></td>
+<td>—</td>
+<td>最弱テキスト（極小ラベル）</td>
+</tr>
+<tr>
+<td>bg-2</td>
+<td><code>#EBE8E1</code></td>
+<td>—</td>
+<td>sunken paper（matrix header・section divider）</td>
+</tr>
+<tr>
+<td>bg-3</td>
+<td><code>#FAF8F3</code></td>
+<td>—</td>
+<td>raised paper（カード・親向け声かけブロック）</td>
+</tr>
+<tr>
+<td>bg-pure</td>
+<td><code>#FFFFFF</code></td>
+<td>—</td>
+<td>PDF substrate（サンプル sheet 表示用）</td>
+</tr>
+<tr>
+<td>line-thin</td>
+<td><code>#D8D6CF</code></td>
+<td>—</td>
+<td>罫線（細）</td>
+</tr>
+<tr>
+<td>line-mid</td>
+<td><code>#A8A69E</code></td>
+<td>—</td>
+<td>罫線（中）</td>
+</tr>
+<tr>
+<td>line-strong</td>
+<td><code>#1A1F2A</code></td>
+<td>—</td>
+<td>罫線（強・主色と同値）</td>
+</tr>
+</tbody></table>
+<p><strong>Petroleum teal の許容用途</strong>：F3 公式訳カードの左罫線・サンプルカードの Lv チップ・Maker section の kicker bar・CTA 最強（達成完了画面・購入確定）。それ以外には使わない。</p>
+<h4 id="1-2-原則"><a class="anchor" href="#1-2-原則">#</a>§1.2 原則</h4>
+<ul>
+<li><strong>2 色基調 ＋ アクセント 1 色</strong>（4 色目は導入しない）</li>
+<li><strong>モノクロ完全機能</strong>：主色 <code>#1A1F2A</code> 単色だけで全 UI が成立すること（PDF 印刷適性・色覚配慮）</li>
+<li><strong>アクセントは「達成・注目」専用</strong>。「子の歓び」「楽しい・わくわく」表現には使わない（マスプリント寄り回避）</li>
+<li><strong>3 軸コンセプトと整合</strong>：書店（端正）／研究室（知的）／親の手元（温度）のいずれにも振り切らない中庸</li>
+<li><strong>Anti-Brand</strong>：ネオン・グラデーション・蛍光色・暖色装飾過多・キャラクター色 NG</li>
+<li><strong>PDF と画面の同一性</strong>：印刷時と画面表示で印象が大きく崩れない範囲（彩度抑えめ）</li>
+</ul>
+<h4 id="1-3-旧選定-案w・参照のみ"><a class="anchor" href="#1-3-旧選定-案w・参照のみ">#</a>§1.3 旧選定（案W・参照のみ）</h4>
+<p>退避先：<a href="../archive/retired-designs/2026-05-24-case-w-visual-assets/visual-identity.html">../archive/retired-designs/2026-05-24-case-w-visual-assets/visual-identity.md</a></p>
+<table>
+<thead>
+<tr>
+<th>旧役割</th>
+<th>旧 HEX</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主色（鉄紺）</td>
+<td><code>#2B3D5A</code></td>
+</tr>
+<tr>
+<td>アクセント（山吹）</td>
+<td><code>#D9A237</code></td>
+</tr>
+<tr>
+<td>背景（生成）</td>
+<td><code>#F7F2E7</code></td>
+</tr>
+</tbody></table>
+<p>参照のみ。現在のシステムでは使用しない。</p>
+<h3 id="2-タイポグラフィ-locked-2026-05-24"><a class="anchor" href="#2-タイポグラフィ-locked-2026-05-24">#</a>§2. タイポグラフィ（locked · 2026-05-24）</h3>
+<p><code>Plex × Noto Hybrid</code> 構成。Laboratory レジスター。</p>
+<h4 id="2-1-4-ロール構造-locked"><a class="anchor" href="#2-1-4-ロール構造-locked">#</a>§2.1 4 ロール構造（locked）</h4>
+<table>
+<thead>
+<tr>
+<th>ロール</th>
+<th>フォント</th>
+<th>ウェイト</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>見出し</strong></td>
+<td>IBM Plex Sans JP</td>
+<td>500</td>
+<td>全見出し（h1/h2/h3）・UI ラベル・ボタンテキスト</td>
+</tr>
+<tr>
+<td><strong>UI body</strong></td>
+<td>IBM Plex Sans JP</td>
+<td>400</td>
+<td>マーケ・商品ページ・アプリ本文・FAQ</td>
+</tr>
+<tr>
+<td><strong>Long-form body</strong></td>
+<td>Noto Sans JP</td>
+<td>400</td>
+<td><strong><code>/articles/</code> 配下のみ</strong>（長文 18-20 本の持続読書）</td>
+</tr>
+<tr>
+<td><strong>Numeric</strong></td>
+<td>IBM Plex Mono</td>
+<td>400</td>
+<td>Lv.1〜5・線本数・Vol.・¥ 表示・座標・データテーブル</td>
+</tr>
+</tbody></table>
+<p><strong>ハイブリッド設計の根拠</strong>: Plex 系で Lab 軸を heading/UI に効かせつつ、長文記事ハブだけ Noto Sans JP に切り替えて日本語 long-form の可読性を確保。マーケ／商品／アプリは Plex 統一でブランド一貫性。</p>
+<h4 id="2-2-wordmark-仕様"><a class="anchor" href="#2-2-wordmark-仕様">#</a>§2.2 Wordmark 仕様</h4>
+<ul>
+<li>フォント: IBM Plex Sans JP</li>
+<li>ウェイト: 500</li>
+<li>Letter-spacing: <strong>+0.10em</strong>（控えめ・confident specialty retail / antique-bookshop 回避）</li>
+<li><strong>「E」は カスタム Ξ-form</strong>（縦軸なし・3 横線スタック・SVG 手書きパスで実装）</li>
+<li>実装: <code>design/handoff/project/assets/logo-wordmark.png</code>（PNG）</li>
+</ul>
+<h4 id="2-3-タイポグラフィ原則"><a class="anchor" href="#2-3-タイポグラフィ原則">#</a>§2.3 タイポグラフィ原則</h4>
+<ul>
+<li><strong>ウェイト運用</strong>：太字訴求を避け、整列とサイズで階層を作る（見出し 500 / 本文 400 / 数字 400 を基本）</li>
+<li><strong>混植耐性</strong>：日本語＋数字＋欧文略号（PDF・OG・FAQ 等）の混在で破綻しないこと</li>
+<li><strong>Web フォント</strong>：Google Fonts 経由ロード（現状は SIL OFL 商用ライセンス確認後の正式ファイル差し替え保留）</li>
+<li><strong>Anti-Brand</strong>：丸ゴシック過多・教科書体・ポップ体・手書き風・装飾セリフ・明朝・筆文字 全 NG</li>
+</ul>
+<h4 id="2-4-旧選定-案w・参照のみ"><a class="anchor" href="#2-4-旧選定-案w・参照のみ">#</a>§2.4 旧選定（案W・参照のみ）</h4>
+<p>退避先：<a href="../archive/retired-designs/2026-05-24-case-w-visual-assets/visual-identity.html">../archive/retired-designs/2026-05-24-case-w-visual-assets/visual-identity.md</a></p>
+<table>
+<thead>
+<tr>
+<th>旧ロール</th>
+<th>旧フォント</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>見出し</td>
+<td>Zen Kaku Gothic New</td>
+</tr>
+<tr>
+<td>本文</td>
+<td>Noto Sans JP</td>
+</tr>
+<tr>
+<td>数字</td>
+<td>Schibsted Grotesk</td>
+</tr>
+</tbody></table>
+<p>参照のみ。現在のシステムでは使用しない（Noto Sans JP は新システムでも long-form 専用で残留）。</p>
+<h3 id="3-主役グラフィック"><a class="anchor" href="#3-主役グラフィック">#</a>§3. 主役グラフィック</h3>
+<p>「点」「直線」「図形」の幾何要素そのものを主役のグラフィック要素として扱う。ドットグリッド・直線・斜線・点の連なり・多角形・レベル別の幾何パターン。この視覚言語を一貫させる。</p>
+<p><strong>写真は使わない</strong>。図版・幾何グラフィックを主役に。手描きの揺らぎ・子どもイラスト・文房具・教室・黒板・木目・紙雑貨・暖色の装飾・キャラクターは不採用（<a href="../foundation/brand.html">brand.md §11.1</a> Anti-Brand）。</p>
+<h4 id="3-1-pillar-5-本柱の視覚翻訳"><a class="anchor" href="#3-1-pillar-5-本柱の視覚翻訳">#</a>§3.1 Pillar 5 本柱の視覚翻訳</h4>
+<p><a href="../foundation/brand.html">brand.md §7.4</a> の Pillar 視覚翻訳を実装ルールに落とし込む。</p>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>視覚翻訳</th>
+<th>主な実装場所</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>P1 体系</strong></td>
+<td>9×5 グリッド・段階接続を示す<strong>直交格子</strong>。ステップが線でつながる構造図</td>
+<td>商品一覧・レベル選びガイド・Pillar Page 階層図</td>
+</tr>
+<tr>
+<td><strong>P2 解像度</strong></td>
+<td>サンプル開示の透過レイヤー・<strong>メタデータの可視化</strong>（タスク名・難度根拠の図解）・薄いガイド線</td>
+<td>商品ページ・サンプル PDF プレビュー・記事内図解</td>
+</tr>
+<tr>
+<td><strong>P3 発見</strong></td>
+<td>ドットの組み替えから新しい図形が生まれる<strong>動的モチーフ</strong>（アニメーションは控えめ・ホバーで線が伸びる程度）</td>
+<td>App ファーストビュー・OG 画像・記事カードの shape glyph</td>
+</tr>
+<tr>
+<td><strong>P4 言語化</strong></td>
+<td><strong>タスク × 能力対応表</strong>・図と注釈の端正な共存。注釈は本文と同等の重みで配置（小さく逃がさない）</td>
+<td>記事内図表・evidence.md 引用ブロック・pack-design.md 図</td>
+</tr>
+<tr>
+<td><strong>P5 継続</strong></td>
+<td><strong>余白を残した PDF レイアウト</strong>・親向け声かけブロック（淡い枠線で本文と分離・脅さない温度）・進め方の目安アイコン</td>
+<td>PDF フッター・<code>/for-parents/</code> 配下・商品ページの「続け方」ブロック</td>
+</tr>
+</tbody></table>
+<h4 id="3-2-ディレクトリレベルの密度設計"><a class="anchor" href="#3-2-ディレクトリレベルの密度設計">#</a>§3.2 ディレクトリレベルの密度設計</h4>
+<table>
+<thead>
+<tr>
+<th>パス</th>
+<th>密度</th>
+<th>軸の主役</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/products/</code></td>
+<td>ミニマル・密度高め</td>
+<td>書店（端正な棚）</td>
+</tr>
+<tr>
+<td><code>/articles/</code></td>
+<td>ゆとり・余白多め</td>
+<td>研究室（知的解像度）</td>
+</tr>
+<tr>
+<td><code>/for-parents/</code></td>
+<td>余白最大・読み物体</td>
+<td>親の手元（P5 継続）</td>
+</tr>
+<tr>
+<td><code>/app/</code>（おためし点描写メーカー）</td>
+<td>機能的・装飾極小</td>
+<td>書店＋親の手元（「作るのは画面、練習は紙」明示）</td>
+</tr>
+</tbody></table>
+<h3 id="4-ロゴ-locked-2026-05-24"><a class="anchor" href="#4-ロゴ-locked-2026-05-24">#</a>§4. ロゴ（locked · 2026-05-24）</h3>
+<p><strong>4-dot square symbol</strong>（コーナードット浮き）＋ <strong>IBM Plex Sans JP wordmark with custom Ξ-form E</strong> で確定。Claude Design rev.4 で finalize。</p>
+<h4 id="4-1-シンボル仕様"><a class="anchor" href="#4-1-シンボル仕様">#</a>§4.1 シンボル仕様</h4>
+<ul>
+<li><strong>形状</strong>: 細い正方形フレーム（4 本の独立線）＋ 四隅の 4 ドット（線の外側に浮く・visible gap）</li>
+<li><strong>viewBox</strong>: 64 × 64</li>
+<li><strong>正方形 stroke</strong>: 2.2px（square cap）</li>
+<li><strong>正方形座標</strong>: 上辺 (18,12)→(46,12)・下辺 (18,52)→(46,52)・左辺 (12,18)→(12,46)・右辺 (52,18)→(52,46)</li>
+<li><strong>ドット</strong>: 半径 4・cx/cy = (12,12) (52,12) (12,52) (52,52)</li>
+<li><strong>fill / stroke</strong>: 主色 <code>#1A1F2A</code> モノクロ（モノクロ完全機能）</li>
+<li><strong>意味論</strong>: 4 ドット = 点描写の起点 ／ 正方形線 = 点と点を結ぶ直線 ／ visible gap = 「点」と「線」がまだつながっていない瞬間</li>
+<li><strong>格納先</strong>: <code>design/handoff/project/assets/logo-square.svg</code>（実プロジェクトの SSOT）</li>
+</ul>
+<h4 id="4-2-wordmark-仕様"><a class="anchor" href="#4-2-wordmark-仕様">#</a>§4.2 Wordmark 仕様</h4>
+<p>§2.2 参照。要点：</p>
+<ul>
+<li>IBM Plex Sans JP 500・letter-spacing +0.10em</li>
+<li><strong>カスタム Ξ-form E</strong>（縦軸なし・3 横線のみ・SVG path で手書き実装）</li>
+<li>格納先: <code>design/handoff/project/assets/logo-wordmark.png</code></li>
+</ul>
+<h4 id="4-3-既知の限界"><a class="anchor" href="#4-3-既知の限界">#</a>§4.3 既知の限界</h4>
+<p>現状のロゴ SVG は<strong>機能的プレースホルダー</strong>（agent-drawn・ジオメトリは厳密だが手仕上げの精度はデザイナー仕上げに劣る）。後で実デザイナーが描き起こした最終版に差し替える方針。意味論・ジオメトリ仕様は本節を SSOT として継承。</p>
+<h4 id="4-4-退避物"><a class="anchor" href="#4-4-退避物">#</a>§4.4 退避物</h4>
+<ul>
+<li>旧 D0 案B&#39;（正方形枠＋ドットグリッド＋斜線・TZ 風）: <a href="../archive/retired-designs/2026-05-11-logo-b-prime.html">../archive/retired-designs/2026-05-11-logo-b-prime.md</a></li>
+<li>旧 4 ドット symbol（案W 版・ギャップなし・stroke 2.5）: <a href="../archive/retired-designs/2026-05-24-case-w-visual-assets/tenzu-symbol.svg">../archive/retired-designs/2026-05-24-case-w-visual-assets/tenzu-symbol.svg</a></li>
+</ul>
+<h4 id="4-5-tagline-との並置ルール"><a class="anchor" href="#4-5-tagline-との並置ルール">#</a>§4.5 Tagline との並置ルール</h4>
+<p>ロゴ＋ Tagline 3 段セット（<a href="../foundation/brand.html">brand.md §12</a>）の標準配置：</p>
+<pre><code>[LOGO]
+点と点がつなげるようになったら、点描写を。
+空間認知の土台をつくる。
+─────────────────────
+点図形（点描写）プリントの専門店 TENZU
+</code></pre>
+<ul>
+<li>LP ヒーロー・OG 画像・名刺・スライド表紙では 3 段セット必須</li>
+<li>ロゴ単独運用（ファビコン・ヘッダー小サイズ）では Tagline 省略可</li>
+<li>業態識別句はフッターまたはヘッダー側で別配置も可</li>
+</ul>
+<h4 id="4-6-svg-格納先-locked"><a class="anchor" href="#4-6-svg-格納先-locked">#</a>§4.6 SVG 格納先（locked）</h4>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>パス</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Design SSOT</td>
+<td><code>design/handoff/project/assets/logo-square.svg</code>・<code>logo-wordmark.png</code></td>
+<td>デザイン側の正本</td>
+</tr>
+<tr>
+<td>Code 配信用</td>
+<td><code>web/public/assets/logo-square.svg</code>・<code>logo-wordmark.png</code></td>
+<td>Next.js 配信</td>
+</tr>
+<tr>
+<td>Watermark grid</td>
+<td><code>web/public/assets/watermark-grid.svg</code></td>
+<td>9×5 ドット透かし（hero 用）</td>
+</tr>
+</tbody></table>
+<p>将来 <code>design/brand-assets/</code> にデザイナー仕上げの最終版 SVG（symbol / wordmark / lockup horizontal / lockup vertical の 4 本セット）を配置予定。</p>
+<h3 id="5-コンポーネント"><a class="anchor" href="#5-コンポーネント">#</a>§5. コンポーネント</h3>
+<p>ボタン・カード・スライダー・トグル・<strong>親向け声かけブロック</strong>（P5 新設）が必須。</p>
+<h4 id="5-1-cta-強度-4-段階"><a class="anchor" href="#5-1-cta-強度-4-段階">#</a>§5.1 CTA 強度 4 段階</h4>
+<table>
+<thead>
+<tr>
+<th>強度</th>
+<th>スタイル</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>弱</td>
+<td>テキストリンク（下線・主色）</td>
+<td>関連記事・FAQ・本文中リンク</td>
+</tr>
+<tr>
+<td>中</td>
+<td>アウトライン（主色枠・背景色地）</td>
+<td>サブ CTA・「他のレベルを見る」等</td>
+</tr>
+<tr>
+<td>強</td>
+<td>ベタ主色・背景色文字</td>
+<td>主 CTA（「サンプル PDF を見る」「カートへ」等）</td>
+</tr>
+<tr>
+<td>最強</td>
+<td>ベタアクセント・主色文字</td>
+<td>購入確定・達成完了画面のみ。LP ヒーローでは使わない</td>
+</tr>
+</tbody></table>
+<p><strong>Hero CTA は装飾なし</strong>。グラデーション・アニメーション・矢印アイコンの動きは排除。</p>
+<h4 id="5-2-difficulty-badges"><a class="anchor" href="#5-2-difficulty-badges">#</a>§5.2 Difficulty Badges</h4>
+<p><strong>図形タイプ別</strong>（年齢非依存）。記事カードには shape glyph（三角・四角・五角形等）を識別子として配置。</p>
+<h4 id="5-3-親向け声かけブロック-p5-新設"><a class="anchor" href="#5-3-親向け声かけブロック-p5-新設">#</a>§5.3 親向け声かけブロック（P5 新設）</h4>
+<p><code>/for-parents/</code> 配下および商品ページの「続け方」セクションで使用。</p>
+<ul>
+<li>主色の細枠線（1px）＋背景色で本文から軽く分離</li>
+<li>見出しは「親へのひとこと」「次の一手の目安」等の落ち着いた表現</li>
+<li><strong>「〜してあげましょう」「〜が大切です」型の指導語彙は禁止</strong>（同じ親の目線・<a href="../foundation/voice-tone.html">voice-tone.md §3</a>）</li>
+<li>アクセントは使わない（達成・注目限定）</li>
+</ul>
+<h3 id="6-3軸コンセプトの場所別配分"><a class="anchor" href="#6-3軸コンセプトの場所別配分">#</a>§6. 3軸コンセプトの場所別配分</h3>
+<p>旧案W「ミニマルD2C × 図形ラボ × 親向けガイド」を案H&#39;&#39; で 3 軸に再整理。</p>
+<table>
+<thead>
+<tr>
+<th>軸</th>
+<th>場所</th>
+<th>表現</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>書店（専門店としての端正さ）</strong></td>
+<td><code>/products/</code>・トップヘッダー・OG 画像</td>
+<td>棚のような整列・余白・タイポ階層で「専門店」を語る。商品名の前に「TENZU」を冠さない（屋号は控えめに）</td>
+</tr>
+<tr>
+<td><strong>研究室（知的解像度）</strong></td>
+<td><code>/articles/</code>・Pillar Page・evidence.md 引用ブロック</td>
+<td>カテゴリ名「考察」、難易度を「分類」と表現。図表は注釈と等価で配置。論文引用は静かに置く</td>
+</tr>
+<tr>
+<td><strong>親の手元（家庭で続く温度）</strong></td>
+<td><code>/for-parents/</code>・PDF フッター・完了画面・マイクロコピー</td>
+<td>同じ親の目線。「親への配慮」を装飾でなく構造で出す。脅さない・指導しない</td>
+</tr>
+</tbody></table>
+<p>3軸はサイト全体で常時混在ではなく、<strong>ディレクトリ／コンポーネント単位で主役を切り替える</strong>。トップページは 3 軸を順に通過する情報設計（書店＝商品 → 研究室＝記事 → 親の手元＝続け方）。</p>
+<h3 id="7-マイクロコピー"><a class="anchor" href="#7-マイクロコピー">#</a>§7. マイクロコピー</h3>
+<p>構造で温度を出すため、ボタン周り・フォームのプレースホルダー・404・完了画面・エラーメッセージなどに専門家としての配慮と人間味を仕込む。</p>
+<p>P5 継続（親の手元軸）の追加で、温度を半段上げる：</p>
+<ul>
+<li>旧例：「PDF の準備ができました。」</li>
+<li>新例：「PDF の準備ができました。今日の 1 枚が、図形を見る目を少し育てますように。」</li>
+</ul>
+<p><strong>NG 表現</strong>：「がんばろう」「やりきろう」「できた！」型の達成煽り。「お疲れさまでした」「次は明日でも大丈夫です」型の落ち着いた声かけを採用。</p>
+<h3 id="8-トランジション"><a class="anchor" href="#8-トランジション">#</a>§8. トランジション</h3>
+<ul>
+<li>決済（硬）→ 完了画面（温）への移行時に唐突感が出ないよう、完了画面冒頭は事務的に入り、スクロールするにつれて「TENZU からのメッセージ」が現れる<strong>情報階層化</strong></li>
+<li>ページ間遷移はフェードのみ。スライドイン・パララックスは採用しない</li>
+<li>ホバーは線が伸びる・色が薄く乗る程度。バウンス・拡大は使わない</li>
+</ul>
+<h3 id="9-ai-生成物の運用ルール"><a class="anchor" href="#9-ai-生成物の運用ルール">#</a>§9. AI 生成物の運用ルール</h3>
+<p><a href="../foundation/brand.html">brand.md §3 V4</a>「AI を全面活用して企業並みの品質を出す」に基づき、<strong>画像生成 AI・SVG/Canvas コード生成・Claude Design でのロゴ叩き台量産すべて推奨</strong>。「個人の手作り感」を売りにせず、AI で企業並みの密度を出す。</p>
+<h4 id="9-1-担保メカニズム"><a class="anchor" href="#9-1-担保メカニズム">#</a>§9.1 担保メカニズム</h4>
+<p>端正さ・同一性の担保は使用ツールの制限ではなく、<strong>人間レビュー</strong>と<strong>パーツライブラリ化</strong>で行う：</p>
+<ul>
+<li><strong>人間レビュー必須</strong>（<a href="../foundation/brand.html">brand.md §8.2 C4</a>）：AI 生成物は運営者が確認してから公開</li>
+<li><strong>パーツライブラリ化</strong>：反復使用するグラフィックは都度生成せず、確定版を <code>design/brand-assets/</code> に格納してそこから参照<ul>
+<li>グリッド背景パターン／斜線パターン／レベル別多角形モチーフ</li>
+<li>404 用の崩れた点描写／完了画面用の完成図形</li>
+<li>OGP 固定テンプレート／記事カテゴリ別の抽象図版</li>
+<li><strong>P5 用：親向け声かけブロックの淡い装飾線</strong>（新規）</li>
+<li><strong>ロゴ系一式</strong>（symbol / wordmark / lockup×2）</li>
+</ul>
+</li>
+</ul>
+<h4 id="9-2-ツール使い分けの目安"><a class="anchor" href="#9-2-ツール使い分けの目安">#</a>§9.2 ツール使い分けの目安</h4>
+<p>担保が効く前提で、用途に応じて適材適所：</p>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>適性ツール</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ロゴ叩き台量産</td>
+<td>Claude Design・画像生成 AI</td>
+<td>案出しの幅を確保。確定版は SVG コード化して <code>brand-assets/</code> 格納</td>
+</tr>
+<tr>
+<td>商品サムネ・OGP の固定テンプレ</td>
+<td>画像生成 AI でビジュアル → SVG/コード化 or 高解像度書き出しで固定運用</td>
+<td>同一性は「確定版を使い回す」で担保</td>
+</tr>
+<tr>
+<td>ドットグリッド・直線・レベル別多角形（数値座標が必要）</td>
+<td>SVG/Canvas コード生成（AI に書かせる）</td>
+<td>ピクセル AI では座標精度が出ない</td>
+</tr>
+<tr>
+<td>記事内の抽象図版・背景パターン</td>
+<td>画像生成 AI 自由</td>
+<td>揺らぎが許容範囲</td>
+</tr>
+<tr>
+<td>親向け声かけブロックの装飾線</td>
+<td>どちらも可</td>
+<td>確定版をライブラリ化</td>
+</tr>
+</tbody></table>
+<p>「ピクセル画像での運用」と「SVG コードでの運用」は最終出力形式の違いとして区別する。ピクセル運用の場合は<strong>確定版を再生成しない</strong>（差し替え時は新版として履歴管理）。</p>
+<h3 id="10-資産アップロード"><a class="anchor" href="#10-資産アップロード">#</a>§10. 資産アップロード</h3>
+<table>
+<thead>
+<tr>
+<th>枠</th>
+<th>状態</th>
+<th>内容／後続予定</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Link code on GitHub</td>
+<td>⬜ 空欄</td>
+<td>D-5 Tokens 抽出 → コード化以降に連携</td>
+</tr>
+<tr>
+<td>Link code from your computer</td>
+<td>⬜ 空欄</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Upload .fig file</td>
+<td>⬜ 空欄</td>
+<td>Figma 資産を作る予定なし</td>
+</tr>
+<tr>
+<td>Add fonts, logos and assets</td>
+<td>🚧 刷新中</td>
+<td><strong>新ロゴ確定後にアップロード</strong>。フォントは §2 指定で十分</td>
+</tr>
+</tbody></table>
+<h2 id="附録"><a class="anchor" href="#附録">#</a>附録</h2>
+<ul>
+<li>変遷:<ul>
+<li>旧 <code>design/brand-brief.md</code> 一枚運用 → 本ファイル ＋ <a href="../foundation/brand.html">../foundation/brand.md</a> へ分離: <a href="../archive/retired-designs/2026-05-21-brand-brief-monolith.html">../archive/retired-designs/2026-05-21-brand-brief-monolith.md</a></li>
+<li>旧 D0 案B&#39; 破棄: <a href="../archive/retired-designs/2026-05-11-logo-b-prime.html">../archive/retired-designs/2026-05-11-logo-b-prime.md</a></li>
+<li>旧案W 視覚資産（旧 visual-identity.md ＋ 4 ドット symbol ＋ brand-spec.md）退避: <a href="../archive/retired-designs/2026-05-24-case-w-visual-assets.html">../archive/retired-designs/2026-05-24-case-w-visual-assets.md</a></li>
+</ul>
+</li>
+<li>関連 SSOT: <a href="../foundation/brand.html">../foundation/brand.md §7 Pillars</a>・<a href="../foundation/brand.html">§10.1 CEP</a>・<a href="../foundation/brand.html">§11.3 Brand Architecture</a>・<a href="../foundation/brand.html">§12 Tagline 3 段</a></li>
+</ul>
+
+</main>
+<footer class="doc-footer">
+  <span>design/visual-identity.md</span>
+  <span>Generated: 2026-05-24 14:47</span>
+</footer>
+</body>
+</html>

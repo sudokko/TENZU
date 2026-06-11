@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Design rev.5 セッション用ブリーフ — TENZU</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root {
+  --bg: #fafaf7;
+  --panel: #ffffff;
+  --text: #1f2328;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --accent: #6b5b3a;
+  --accent-soft: #f0ead7;
+  --code-bg: #f4f0e7;
+  --table-row-alt: #faf7ee;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--text); }
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.75;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px 96px;
+  font-size: 15.5px;
+}
+header.doc-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header.doc-header .path { color: var(--muted); font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+header.doc-header .back { color: var(--accent); text-decoration: none; font-size: 13px; }
+header.doc-header .back:hover { text-decoration: underline; }
+h1, h2, h3, h4 { color: var(--accent); line-height: 1.4; }
+h1 { font-size: 24px; margin: 0 0 8px; }
+h2 { font-size: 19px; margin: 32px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+h3 { font-size: 16.5px; margin: 24px 0 8px; }
+h4 { font-size: 15px; margin: 18px 0 6px; }
+h2 a.anchor, h3 a.anchor, h4 a.anchor {
+  opacity: 0;
+  text-decoration: none;
+  color: var(--muted);
+  margin-left: -16px;
+  padding-right: 6px;
+  font-weight: normal;
+}
+h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor { opacity: 1; }
+p { margin: 8px 0 14px; }
+a { color: #496f3f; }
+a:hover { text-decoration: underline; }
+ul, ol { padding-left: 1.5em; }
+li { margin: 3px 0; }
+strong { color: #3d3320; }
+blockquote {
+  border-left: 4px solid var(--accent-soft);
+  background: #fbf8ef;
+  margin: 12px 0;
+  padding: 8px 14px;
+  color: var(--muted);
+  border-radius: 0 6px 6px 0;
+}
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; }
+pre.mermaid {
+  background: transparent;
+  border: none;
+  padding: 0;
+  overflow-x: auto;
+  text-align: center;
+}
+pre.mermaid svg { max-width: none !important; height: auto; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 14px 0;
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+}
+table thead { background: var(--accent-soft); }
+table th, table td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+table tbody tr:nth-child(2n) { background: var(--table-row-alt); }
+hr { border: none; border-top: 1px dashed var(--border); margin: 28px 0; }
+nav.toc {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin: 0 0 28px;
+  font-size: 13.5px;
+}
+nav.toc h2 {
+  font-size: 14px;
+  margin: 0 0 6px;
+  border: none;
+  padding: 0;
+  color: var(--muted);
+}
+nav.toc ul { padding-left: 1.3em; margin: 4px 0; }
+nav.toc li { margin: 2px 0; }
+nav.toc a { color: var(--accent); text-decoration: none; }
+nav.toc a:hover { text-decoration: underline; }
+footer.doc-footer {
+  margin-top: 48px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+</style>
+</head>
+<body>
+<header class="doc-header">
+  <div>
+    <span class="path">design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/rev5-brief.md</span>
+  </div>
+  <a class="back" href="../../../../../../docs/html-index.html">← 一覧へ戻る</a>
+</header>
+<nav class="toc"><h2>目次</h2><ul><li><a href="#サマリ-読むのはこの-12-行で足りる">サマリ（読むのはこの 12 行で足りる）</a></li><li><a href="#1-なぜ-rev-5-が必要か-経緯">1. なぜ rev.5 が必要か（経緯）</a></li><ul><li><a href="#1-1-引き金">1.1 引き金</a></li><li><a href="#1-2-3-段の方向修正">1.2 3 段の方向修正</a></li><li><a href="#1-3-オーナー自身のルール直撃">1.3 オーナー自身のルール直撃</a></li></ul><li><a href="#2-rev-5-のスコープ-rev-4-rev-5-差分">2. rev.5 のスコープ（rev.4 → rev.5 差分）</a></li><li><a href="#3-3-階層フォント運用-rev-5-採用ルール">3. 3 階層フォント運用（rev.5 採用ルール）</a></li><ul><li><a href="#階層判定の基準-迷ったとき用">階層判定の基準（迷ったとき用）</a></li><li><a href="#サイズ・ウェイト微調整">サイズ・ウェイト微調整</a></li><li><a href="#klee-one-を使わない場所">Klee One を使わない場所</a></li></ul><li><a href="#4-入力素材-design-セッションで-claude-に見せる物">4. 入力素材（Design セッションで Claude に見せる物）</a></li><li><a href="#5-design-rev-5-セッションへの期待アウトプット">5. Design rev.5 セッションへの期待アウトプット</a></li><li><a href="#6-注意点・ガードレール-claude-design-が暴走しないように">6. 注意点・ガードレール（Claude Design が暴走しないように）</a></li><li><a href="#7-残課題・open-questions">7. 残課題・Open Questions</a></li><li><a href="#8-5-卒業計画と本セッションの位置">8. 5 卒業計画と本セッションの位置</a></li></ul></nav>
+<main>
+<h1 id="design-rev-5-セッション用ブリーフ"><a class="anchor" href="#design-rev-5-セッション用ブリーフ">#</a>Design rev.5 セッション用ブリーフ</h1>
+<p><strong>起票日</strong>: 2026-05-26
+<strong>起票者</strong>: 本リポジトリ Claude Code セッション
+<strong>目的</strong>: Claude Design rev.5 セッションへ入る前に、改訂理由・採用方向・rev.4 からのスコープ変更・注意点を事前共有する</p>
+<h2 id="サマリ-読むのはこの-12-行で足りる"><a class="anchor" href="#サマリ-読むのはこの-12-行で足りる">#</a>サマリ（読むのはこの 12 行で足りる）</h2>
+<ul>
+<li>rev.4（locked 済み）は「Plex × Noto・紙クリーム色・ボックス UI・直線 SVG」で、業務系の落ち着きはあるが<strong>親に対する温度が薄い</strong>。「分類した感が強い」と本日 LP §2 検証で判明</li>
+<li>rev.5 は <strong>デザインシステム全面再構築</strong>。ロゴ（4-dot square + Ξ-form E）もリジェネ対象。<strong>rev.4 の LOCKED 縛りはすべて解除</strong></li>
+<li>採用方向は Code 側 proof-of-concept で検証済み：<a href="../../web/app/preview/page.tsx">/preview</a> と <a href="../../web/app/wireframe/page.tsx">/wireframe</a></li>
+<li>鍵は <strong>3 階層フォント運用（Klee One ／ Zen Kurenaido ／ Plex）・点描写格子背景・ボックス削減・直線アンダーライン</strong></li>
+<li>ロゴは<strong>オーナーが Gemini 画像生成 AI で別途リジェネ</strong>。Design セッションには「rev.5 全体と整合するロゴ要件」までを定義してもらう</li>
+<li>経緯詳細: <a href="../../decisions.html">decisions.md §3.37</a></li>
+<li>5 卒業計画上の位置：①Design System を rev.5 でやり直し → ②LP・③商品・④記事・⑤Maker App を rev.5 で順次実装</li>
+</ul>
+<h2 id="1-なぜ-rev-5-が必要か-経緯"><a class="anchor" href="#1-なぜ-rev-5-が必要か-経緯">#</a>1. なぜ rev.5 が必要か（経緯）</h2>
+<h3 id="1-1-引き金"><a class="anchor" href="#1-1-引き金">#</a>1.1 引き金</h3>
+<ul>
+<li>2026-05-25 夜の LP §2 実装（5 段階の旅カード）に対しオーナー判定「練り直しはイマイチ」（<a href="../../decisions.html">decisions.md §3.34</a>）</li>
+<li>類似商材 LP/EC を Gemini ＋ GPT-5 に 3 本 DR 投入（異業種 15 件・少 SKU EC 10 件・国内教育 5 件）</li>
+<li>DR 結果から §2 を 3 段で反復したが、最終診断は <strong>「§2 構造の問題ではなく、デザインシステム自体の温度設計問題」</strong></li>
+</ul>
+<h3 id="1-2-3-段の方向修正"><a class="anchor" href="#1-2-3-段の方向修正">#</a>1.2 3 段の方向修正</h3>
+<table>
+<thead>
+<tr>
+<th>段</th>
+<th>仮説</th>
+<th>結論</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>第 1 段</strong></td>
+<td>「課題から選ぶ × レベルから選ぶ」二タブ＋ 4 群カード</td>
+<td>❌ オーナー判定「分類した感が強い」</td>
+</tr>
+<tr>
+<td><strong>第 2 段</strong></td>
+<td>キュレーション棚（はじめての／図形好き／店主おすすめ）を上層に被せる</td>
+<td>❌ オーナー判定「ターゲット 8 セル分散で curation 不可」</td>
+</tr>
+<tr>
+<td><strong>第 3 段</strong></td>
+<td>デザインシステム自体に手を入れる（フォント・背景・ボックス）</td>
+<td>✅ 方向確定</td>
+</tr>
+</tbody></table>
+<h3 id="1-3-オーナー自身のルール直撃"><a class="anchor" href="#1-3-オーナー自身のルール直撃">#</a>1.3 オーナー自身のルール直撃</h3>
+<p>CLAUDE.md 内ルール：<strong>「視覚言語の定義に原因があれば Design、それ以外は Code」</strong>。第 3 段で「視覚言語の定義」に原因があると判明したため、Design rev.5 へ移行するのが正規ルート。</p>
+<h2 id="2-rev-5-のスコープ-rev-4-rev-5-差分"><a class="anchor" href="#2-rev-5-のスコープ-rev-4-rev-5-差分">#</a>2. rev.5 のスコープ（rev.4 → rev.5 差分）</h2>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>rev.4（LOCKED）</th>
+<th>rev.5 スコープ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ロゴ</strong>（4-dot square + Ξ-form E）</td>
+<td>locked</td>
+<td><strong>🟡 差分アップデート</strong>（2026-05-26 方針確定）。骨格は完全維持・(b) ハイブリッド案で Wordmark の Ξ-form E 端点に鉛筆筆致風揺らぎ ＋ N・Z 角に 0.5px 微丸み ＋ 全体素材感を一段強化。詳細要件: <a href="logo-regenerate-brief.html">logo-regenerate-brief.md</a>。Gemini 画像生成 AI でリジェネ</td>
+</tr>
+<tr>
+<td><strong>カラー</strong>（Ink &amp; Slate）</td>
+<td>locked</td>
+<td>維持を基本としつつ、白基調シフトに伴う微調整可（teal accent <code>#2C6E7F</code> は維持）</td>
+</tr>
+<tr>
+<td><strong>タイポグラフィ</strong></td>
+<td>Plex × Noto Hybrid locked</td>
+<td><strong>🔴 3 階層運用へ全面改訂</strong>（§3 参照）</td>
+</tr>
+<tr>
+<td><strong>角丸</strong>（<code>--radius-soft 4px</code>）</td>
+<td>locked</td>
+<td>維持（ボックス削減と整合）</td>
+</tr>
+<tr>
+<td><strong>背景</strong></td>
+<td>紙クリーム <code>#F4F2ED</code></td>
+<td><strong>🔴 真っ白 <code>#FFFFFF</code> ＋点描写格子へ変更</strong></td>
+</tr>
+<tr>
+<td><strong>罫線・ボックス</strong></td>
+<td>1px solid・カード型</td>
+<td><strong>🔴 ボックス削減・dashed divider 主体</strong></td>
+</tr>
+<tr>
+<td><strong>アンダーライン</strong></td>
+<td>rev.4 まで無し</td>
+<td><strong>🔴 1.5px solid teal の直線アンダーライン</strong>を §セクション H2 に統一適用</td>
+</tr>
+<tr>
+<td><strong>イラスト・SVG 線質</strong></td>
+<td>規則的直線</td>
+<td>rev.5 で再検討（直線維持 or 手描き化）</td>
+</tr>
+</tbody></table>
+<h2 id="3-3-階層フォント運用-rev-5-採用ルール"><a class="anchor" href="#3-3-階層フォント運用-rev-5-採用ルール">#</a>3. 3 階層フォント運用（rev.5 採用ルール）</h2>
+<table>
+<thead>
+<tr>
+<th>階層</th>
+<th>フォント</th>
+<th>役割</th>
+<th>適用箇所</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>① 意味を運ぶ</strong></td>
+<td><strong>Klee One 600</strong>（書写体ベース）</td>
+<td>教材の声・読ませたい文</td>
+<td>大見出し（H1/H2/H3）／タブ名／群名／タスク名／レベル名／レベルの一文約束／店主メモのラベル</td>
+</tr>
+<tr>
+<td><strong>② 人の温度</strong></td>
+<td><strong>Zen Kurenaido</strong>（鉛筆筆致）</td>
+<td>「誰かが手で書いた」感を出したい説明</td>
+<td>群の一文約束／店主の一言メモ本文／レベル説明文／LP の lead・blurb</td>
+</tr>
+<tr>
+<td><strong>③ 構造・機能</strong></td>
+<td><strong>Plex Sans JP / Plex Mono</strong>（rev.4 維持）</td>
+<td>データ・記号・操作 UI</td>
+<td>群コード A/B/C/D／観察・基礎などの分類ラベル／Vol 数・問題数・Lv 数字・年齢めやす／タスク数／CTA リンク／全件導線テキスト</td>
+</tr>
+</tbody></table>
+<h3 id="階層判定の基準-迷ったとき用"><a class="anchor" href="#階層判定の基準-迷ったとき用">#</a>階層判定の基準（迷ったとき用）</h3>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>YES なら</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>「これは<strong>読ませたい</strong>文か（理解させたい）」</td>
+<td><strong>Klee One</strong>（①）</td>
+</tr>
+<tr>
+<td>「これは<strong>人がそこにいる</strong>感を出したい文か（観察・寄り添い）」</td>
+<td><strong>Zen Kurenaido</strong>（②）</td>
+</tr>
+<tr>
+<td>「これは<strong>機能・操作・カウント</strong>か（数えられる・押す・分類する）」</td>
+<td><strong>Plex</strong>（③ 維持）</td>
+</tr>
+</tbody></table>
+<h3 id="サイズ・ウェイト微調整"><a class="anchor" href="#サイズ・ウェイト微調整">#</a>サイズ・ウェイト微調整</h3>
+<p>Klee One・Zen Kurenaido は Plex より字面が小さく見えるため：</p>
+<ul>
+<li>Klee One：Plex 比で <strong>+2px〜+4px</strong>（H1: 28→30、H2: 32→34、H3: 18→20）</li>
+<li>Klee One：Weight <strong>500→600</strong>（書写体は線が細いため一段太く）</li>
+<li>Zen Kurenaido：行間 <strong>+0.15</strong>（1.7→1.85）</li>
+<li>letter-spacing: <strong>+0.01em</strong>（字間がやや窮屈なため）</li>
+</ul>
+<h3 id="klee-one-を使わない場所"><a class="anchor" href="#klee-one-を使わない場所">#</a>Klee One を使わない場所</h3>
+<ul>
+<li>数字・Lv 番号・Vol 数・年齢めやす → Plex Mono</li>
+<li>タグ・ラベル（観察・基礎／変換系／2 タスク／展開 ↓）→ Plex</li>
+<li>長文本文（3 段落以上）→ Plex（疲れ防止）</li>
+<li>CTA ボタン文言（「○○のページへ →」）→ Plex（押せる感）</li>
+</ul>
+<h2 id="4-入力素材-design-セッションで-claude-に見せる物"><a class="anchor" href="#4-入力素材-design-セッションで-claude-に見せる物">#</a>4. 入力素材（Design セッションで Claude に見せる物）</h2>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>場所</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>動作する v5 proof-of-concept</strong></td>
+<td><a href="http://localhost:3001/preview">http://localhost:3001/preview</a> ／ <a href="../../web/app/preview/page.tsx">web/app/preview/page.tsx</a></td>
+<td>rev.5 方向の最高解像度サンプル</td>
+</tr>
+<tr>
+<td><strong>§2 専用ワイヤー</strong></td>
+<td><a href="http://localhost:3001/wireframe">http://localhost:3001/wireframe</a> ／ <a href="../../web/app/wireframe/page.tsx">web/app/wireframe/page.tsx</a></td>
+<td>4 群グルーピングの構造検証</td>
+</tr>
+<tr>
+<td><strong>判断ログ</strong></td>
+<td><a href="../../decisions.html">decisions.md §3.37</a></td>
+<td>3 段反復の経緯・不採用案</td>
+</tr>
+<tr>
+<td><strong>本ブリーフ</strong></td>
+<td>このファイル</td>
+<td>rev.5 改訂方針</td>
+</tr>
+<tr>
+<td><strong>rev.4 ハンドオフ束</strong></td>
+<td><a href=".">design/handoff/</a></td>
+<td>rev.4 までの設計言語</td>
+</tr>
+<tr>
+<td><strong>brand SSOT</strong></td>
+<td><a href="../../foundation/brand.html">foundation/brand.md</a></td>
+<td>ブランド本体（Pillar 5・Tagline 等）</td>
+</tr>
+<tr>
+<td><strong>voice-tone SSOT</strong></td>
+<td><a href="../../foundation/voice-tone.html">foundation/voice-tone.md</a></td>
+<td>コピー Voice ルール</td>
+</tr>
+<tr>
+<td><strong>4 群グルーピング SSOT</strong></td>
+<td><a href="../../product/pack-design.html">product/pack-design.md §13.7</a></td>
+<td>9 タスク → 4 群の対応</td>
+</tr>
+</tbody></table>
+<h2 id="5-design-rev-5-セッションへの期待アウトプット"><a class="anchor" href="#5-design-rev-5-セッションへの期待アウトプット">#</a>5. Design rev.5 セッションへの期待アウトプット</h2>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>期待物</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>tokens</strong></td>
+<td>rev.5 カラー・タイポグラフィ・スペーシング・ラディウス・シャドウの token list（rev.4 tokens.css を上書きする形）</td>
+</tr>
+<tr>
+<td><strong>typography spec</strong></td>
+<td>3 階層運用ルールの decision tree／サイズ・ウェイト・行間の運用表</td>
+</tr>
+<tr>
+<td><strong>background spec</strong></td>
+<td>点描写格子の正式仕様（ピッチ・色・opacity・例外パターン）</td>
+</tr>
+<tr>
+<td><strong>divider / border spec</strong></td>
+<td>1.5px solid teal アンダーライン・dashed 区切り・メモ系左マーカー（2px teal）の使い分け</td>
+</tr>
+<tr>
+<td><strong>logo requirement</strong></td>
+<td>Gemini 画像生成 AI へ渡すロゴ要件書（rev.4 4-dot + Ξ-form E のどこを維持／どこを再構築）</td>
+</tr>
+<tr>
+<td><strong>illustration guideline</strong></td>
+<td>SVG 図形の線質ルール（直線・揺らぎ線・端点処理）／タスク図形・サンプル図形の描き方統一</td>
+</tr>
+<tr>
+<td><strong>component spec</strong></td>
+<td>主要 component（card / list-row / details / FAQ-item / sample-sheet / pillar-row）の rev.5 表現</td>
+</tr>
+<tr>
+<td><strong>page-level mockup</strong></td>
+<td>LP・商品ページ・記事ページ・Maker App UI の 4 種をそれぞれ rev.5 で叩く（5 卒業計画 ②③④⑤ の初稿）</td>
+</tr>
+</tbody></table>
+<h2 id="6-注意点・ガードレール-claude-design-が暴走しないように"><a class="anchor" href="#6-注意点・ガードレール-claude-design-が暴走しないように">#</a>6. 注意点・ガードレール（Claude Design が暴走しないように）</h2>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>守るべきこと</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ブランド本体は触らない</strong></td>
+<td>Pillar 5・Brand Promise・Tagline trio・MISSION は <a href="../../foundation/brand.html">brand.md</a> で確定済（<a href="../../decisions.html">decisions.md §3.36</a>）。視覚言語の話に閉じる</td>
+</tr>
+<tr>
+<td><strong>Voice ルールは触らない</strong></td>
+<td>NG 語彙・拡張語彙シフト・F3 公式訳併記ルールは <a href="../../foundation/voice-tone.html">voice-tone.md</a> で確定。視覚で煽らない／予防語彙化しない</td>
+</tr>
+<tr>
+<td><strong>「これは patch ではなく system 化」と明示</strong></td>
+<td>「LP §2 だけ」ではなく「全ページに波及する design system rev.5」が目的</td>
+</tr>
+<tr>
+<td><strong>rev.4 から維持する物を伝える</strong></td>
+<td>teal accent <code>#2C6E7F</code>・<code>--radius-soft 4px</code>・基本カラーパレット（Ink &amp; Slate）</td>
+</tr>
+<tr>
+<td><strong>rev.5 で却下されたものを再提案しない</strong></td>
+<td>波線アンダーライン・紙繊維ノイズ・紙クリーム色・キュレーション 3 本・Sensory タグ・想像のトビラ系コピー（詳細は <a href="../../decisions.html">decisions.md §3.37</a> 不採用案表）</td>
+</tr>
+<tr>
+<td><strong>Maker App UI も rev.5 で先決め</strong></td>
+<td>5 卒業計画 ⑤ は最後だが、Design rev.5 で先に Maker App の見え方も決めるのが効率的</td>
+</tr>
+<tr>
+<td><strong>教材文脈と親リテラシーのバランス</strong></td>
+<td>書写体＋鉛筆体で「学校教材っぽい子供向け」に振れすぎない／親が読める洗練度を保つ</td>
+</tr>
+</tbody></table>
+<h2 id="7-残課題・open-questions"><a class="anchor" href="#7-残課題・open-questions">#</a>7. 残課題・Open Questions</h2>
+<p>Design rev.5 セッションで判断してほしい論点：</p>
+<ol>
+<li><strong>イラスト・SVG 線質</strong>：直線維持か、手描き揺らぎ化か。タスク図形（模写・線対称・回転 etc）を rev.5 でどう描き直すか</li>
+<li><strong>ロゴ Gemini リジェネ要件</strong>：✅ 2026-05-26 確定 — (b) ハイブリッド案で骨格維持 ＋ Wordmark 微強化。既存 12 意味は完全踏襲し新規 2 意味（Symbol ⑦親と子の対話／Wordmark ⑦専門店の確かさ）追加。Lockup は 3 種 → 4 種（業態識別句同梱 Full Lockup 追加）。詳細: <a href="logo-regenerate-brief.html">logo-regenerate-brief.md</a></li>
+<li><strong>アクセシビリティ</strong>：Klee One・Zen Kurenaido のコントラスト比検証。長文本文・警告系で使わない運用ルールの正式化</li>
+<li><strong>モバイル時の点格子</strong>：24px ピッチがスマホで密に見えないか。28-32px へ広げるか</li>
+<li><strong>dark mode</strong>：rev.5 で dark mode 対応をスコープに入れるか（rev.4 では未対応）</li>
+<li><strong>印刷 PDF との一貫性</strong>：PDF substrate <code>#FFFFFF</code> と LP 背景白＋点格子の整合（PDF 上にも薄い点格子を載せるか）</li>
+<li><strong>「店主の痕跡」運用ルール</strong>：3 DR 共通指摘「全ページに痕跡を散らす」の具体ルール。観察メモ・改訂履歴・選定理由の置き場・頻度・トーン</li>
+<li><strong>§2 の最終構造</strong>：タブ廃止・curation 廃止・4 群縦展開＋メタ密度＋温度演出で「分類した感」が本当に消えるか、proof-of-concept で再検証</li>
+</ol>
+<h2 id="8-5-卒業計画と本セッションの位置"><a class="anchor" href="#8-5-卒業計画と本セッションの位置">#</a>8. 5 卒業計画と本セッションの位置</h2>
+<table>
+<thead>
+<tr>
+<th>段</th>
+<th>内容</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>① Design System rev.5</strong></td>
+<td>本ブリーフをインプットに Claude Design セッション</td>
+<td>🚧 本ブリーフが起票物</td>
+</tr>
+<tr>
+<td><strong>② LP rev.5 反映</strong></td>
+<td>本体 <code>web/app/page.tsx</code> を Design rev.5 結果で更新</td>
+<td>待機</td>
+</tr>
+<tr>
+<td><strong>③ 商品ページ rev.5</strong></td>
+<td>140 SKU の商品詳細ページ</td>
+<td>待機</td>
+</tr>
+<tr>
+<td><strong>④ 記事ページ rev.5</strong></td>
+<td>Pillar 5 本＋ Cluster 記事レイアウト</td>
+<td>待機</td>
+</tr>
+<tr>
+<td><strong>⑤ Maker App UI rev.5</strong></td>
+<td>おためし点描写メーカーの UI</td>
+<td>待機（Design rev.5 で先に見え方を決めると効率的）</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>関連リンク</strong>:</p>
+<ul>
+<li><a href="../../decisions.html">decisions.md §3.37</a> — 本日の判断ログ</li>
+<li><a href="../../decisions.html">decisions.md §3.36</a> — ブランドアーキテクチャ最終確定（同日 §3.36 と整合）</li>
+<li><a href="../../foundation/brand.html">foundation/brand.md</a> — ブランド本体 SSOT</li>
+<li><a href="../../foundation/voice-tone.html">foundation/voice-tone.md</a> — Voice ルール SSOT</li>
+<li><a href="../../product/pack-design.html">product/pack-design.md §13.7</a> — 4 群グルーピング</li>
+<li><a href="../visual-identity.html">design/visual-identity.md</a> — rev.4 SSOT（rev.5 で全面上書き対象）</li>
+</ul>
+
+</main>
+<footer class="doc-footer">
+  <span>design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/rev5-brief.md</span>
+  <span>Generated: 2026-06-11 09:25</span>
+</footer>
+
+</body>
+</html>

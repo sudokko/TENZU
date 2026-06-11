@@ -1,0 +1,12 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="平行移動">
+  <g fill="#1A1F2A" opacity="0.16">
+  <circle cx="12" cy="12" r="1"></circle><circle cx="22" cy="12" r="1"></circle><circle cx="32" cy="12" r="1"></circle><circle cx="42" cy="12" r="1"></circle><circle cx="52" cy="12" r="1"></circle>
+  <circle cx="12" cy="22" r="1"></circle><circle cx="22" cy="22" r="1"></circle><circle cx="32" cy="22" r="1"></circle><circle cx="42" cy="22" r="1"></circle><circle cx="52" cy="22" r="1"></circle>
+  <circle cx="12" cy="32" r="1"></circle><circle cx="22" cy="32" r="1"></circle><circle cx="32" cy="32" r="1"></circle><circle cx="42" cy="32" r="1"></circle><circle cx="52" cy="32" r="1"></circle>
+  <circle cx="12" cy="42" r="1"></circle><circle cx="22" cy="42" r="1"></circle><circle cx="32" cy="42" r="1"></circle><circle cx="42" cy="42" r="1"></circle><circle cx="52" cy="42" r="1"></circle>
+  <circle cx="12" cy="52" r="1"></circle><circle cx="22" cy="52" r="1"></circle><circle cx="32" cy="52" r="1"></circle><circle cx="42" cy="52" r="1"></circle><circle cx="52" cy="52" r="1"></circle>
+</g>
+  <polyline points="12,22 22,22 22,32 12,32 12,22" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  <polyline points="42,42 52,42 52,52 42,52 42,42" fill="none" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  <path d="M 24 27 L 40 47" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.5"></path>
+</svg>

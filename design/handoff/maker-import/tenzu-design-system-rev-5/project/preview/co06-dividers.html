@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="color-scheme" content="light">
+<title>Dividers · 4 only</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-tier3-sans);
+  background: var(--bg);
+  color: var(--fg);
+  padding: 24px 28px;
+  box-sizing: border-box;
+}
+.row { display: flex; gap: 16px; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.mono { font-family: var(--font-tier3-mono); }
+.klee { font-family: var(--font-tier1-klee); font-weight: 600; letter-spacing: 0.01em; }
+.pencil { font-family: var(--font-tier2-pencil); letter-spacing: 0.01em; line-height: 1.85; }
+.tag-cap { font-family: var(--font-tier3-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-3); }
+.token { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-2); letter-spacing: 0.04em; }
+.label-sm { font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-2); }
+.value-sm { font-family: var(--font-tier3-mono); font-size: 12px; color: var(--fg); }
+</style></head><body>
+<div class="col" style="gap:14px;">
+  <div class="tag-cap">DIVIDERS — 4 種類だけ</div>
+  <div class="row" style="gap:14px;align-items:flex-start;flex-wrap:wrap;">
+    <div class="col" style="gap:6px;flex:1;min-width:200px;">
+      <div style="padding:10px 0;"><span class="klee" style="font-size:18px;padding-bottom:5px;border-bottom:1.5px solid var(--accent);display:inline-block;">家庭での続け方</span></div>
+      <div class="value-sm">D1 · §H2 underline</div>
+      <div class="token">1.5px solid accent · inline幅</div>
+    </div>
+    <div class="col" style="gap:6px;flex:1;min-width:200px;">
+      <div style="padding:0;"><div style="padding:8px 0;border-bottom:1px dashed var(--line-thin);font-family:var(--font-tier3-sans);font-size:13px;">模写 Lv.2 — 4×4 まで</div><div style="padding:8px 0;border-bottom:1px dashed var(--line-thin);font-family:var(--font-tier3-sans);font-size:13px;">模写 Lv.3 — 5×5 まで</div></div>
+      <div class="value-sm">D2 · dashed</div>
+      <div class="token">1px dashed line-thin · 既定</div>
+    </div>
+    <div class="col" style="gap:6px;flex:1;min-width:200px;">
+      <div style="border-left:2px solid var(--accent);padding:8px 14px;background:var(--bg-3);border-radius:0 4px 4px 0;"><span class="pencil" style="font-size:14px;color:var(--fg);">点と点の距離を、目で測れるように。</span></div>
+      <div class="value-sm">D3 · memo (accent)</div>
+      <div class="token">2px solid accent · 観察 · 親への一言 · 引用</div>
+    </div>
+    <div class="col" style="gap:6px;flex:1;min-width:200px;">
+      <div style="border-left:2px solid var(--fg-2);padding:8px 14px;"><span class="pencil" style="font-size:14px;color:var(--fg);">論理的な根拠を述べる。</span></div>
+      <div class="value-sm">D4 · rationale (fg-2)</div>
+      <div class="token">2px solid fg-2 · 選定理由 · 開発ノート</div>
+    </div>
+  </div>
+</div></body></html>

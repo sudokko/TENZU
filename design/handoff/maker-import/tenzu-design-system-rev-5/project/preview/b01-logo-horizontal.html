@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="color-scheme" content="light">
+<title>Logo · horizontal — color variants</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-tier3-sans);
+  background: var(--bg);
+  color: var(--fg);
+  padding: 22px 24px;
+  box-sizing: border-box;
+}
+.col { display: flex; flex-direction: column; gap: 10px; }
+.row { display: flex; gap: 14px; flex-wrap: wrap; }
+.tag-cap { font-family: var(--font-tier3-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-3); }
+.value-sm { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg); letter-spacing: 0.02em; }
+.label-sm { font-family: var(--font-tier3-sans); font-size: 10px; color: var(--fg-2); line-height: 1.65; }
+
+.stage {
+  border-radius: 4px;
+  padding: 22px 28px;
+  display: grid;
+  place-items: center;
+  min-height: 92px;
+  flex: 1;
+}
+.stage img {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+.s-white  { background: #FFFFFF; border: 1px solid var(--line-thin); }
+.s-cream  { background: #FAF8F3; border: 1px solid var(--line-thin); }
+.s-fg     { background: #1A1F2A; border: 1px solid #1A1F2A; }
+.s-accent { background: #2C6E7F; border: 1px solid #2C6E7F; }
+
+.dot-bg {
+  background:
+    radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px) 0 0 / 24px 24px,
+    #FFFFFF;
+  border: 1px solid var(--line-thin);
+}
+</style></head><body>
+
+<div class="col" style="gap:16px;">
+  <div>
+    <div class="tag-cap">LOGO · HORIZONTAL — color variants</div>
+    <div class="label-sm" style="margin-top:6px;">背景に合わせて 4 トーン用意。ink (fg) · white · cream (bg-3) · teal (accent)。原版の鉛筆筆致は luminance-as-alpha で維持。</div>
+  </div>
+
+  <!-- ink on lights -->
+  <div class="row">
+    <div class="col" style="gap:6px;flex:1;">
+      <div class="stage s-white"><img src="../assets/tenzu-logo-horizontal-ink.png" alt="TENZU"></div>
+      <div class="value-sm">ink on white</div>
+      <div class="label-sm">既定 · web 全面</div>
+    </div>
+    <div class="col" style="gap:6px;flex:1;">
+      <div class="stage s-cream"><img src="../assets/tenzu-logo-horizontal-ink.png" alt="TENZU"></div>
+      <div class="value-sm">ink on cream</div>
+      <div class="label-sm">parents-warm · footer</div>
+    </div>
+    <div class="col" style="gap:6px;flex:1;">
+      <div class="stage dot-bg"><img src="../assets/tenzu-logo-horizontal-ink.png" alt="TENZU"></div>
+      <div class="value-sm">ink on dot grid</div>
+      <div class="label-sm">標準 web 背景</div>
+    </div>
+  </div>
+
+  <!-- reversed on darks -->
+  <div class="row">
+    <div class="col" style="gap:6px;flex:1;">
+      <div class="stage s-fg"><img src="../assets/tenzu-logo-horizontal-cream.png" alt="TENZU"></div>
+      <div class="value-sm">cream on fg</div>
+      <div class="label-sm">反転 · 紙の温度を残す</div>
+    </div>
+    <div class="col" style="gap:6px;flex:1;">
+      <div class="stage s-fg"><img src="../assets/tenzu-logo-horizontal-white.png" alt="TENZU"></div>
+      <div class="value-sm">white on fg</div>
+      <div class="label-sm">反転 · 最大コントラスト</div>
+    </div>
+    <div class="col" style="gap:6px;flex:1;">
+      <div class="stage s-accent"><img src="../assets/tenzu-logo-horizontal-white.png" alt="TENZU"></div>
+      <div class="value-sm">white on accent</div>
+      <div class="label-sm">CTA バナー · 達成面</div>
+    </div>
+  </div>
+
+  <!-- monochrome teal -->
+  <div class="row">
+    <div class="col" style="gap:6px;flex:1;">
+      <div class="stage s-white"><img src="../assets/tenzu-logo-horizontal-teal.png" alt="TENZU"></div>
+      <div class="value-sm">teal on white</div>
+      <div class="label-sm">特例 · 達成/到達訴求バナーのみ</div>
+    </div>
+    <div class="col" style="gap:6px;flex:1;">
+      <div class="stage s-cream"><img src="../assets/tenzu-logo-horizontal-teal.png" alt="TENZU"></div>
+      <div class="value-sm">teal on cream</div>
+      <div class="label-sm">特例 · 同上</div>
+    </div>
+    <div class="col" style="gap:6px;flex:1;opacity:0.5;">
+      <!-- spacer -->
+    </div>
+  </div>
+</div>
+
+</body></html>

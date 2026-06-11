@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="color-scheme" content="light">
+<title>Type scale</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-tier3-sans);
+  background: var(--bg);
+  color: var(--fg);
+  padding: 24px 28px;
+  box-sizing: border-box;
+}
+.row { display: flex; gap: 16px; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.mono { font-family: var(--font-tier3-mono); }
+.klee { font-family: var(--font-tier1-klee); font-weight: 600; letter-spacing: 0.01em; }
+.pencil { font-family: var(--font-tier2-pencil); letter-spacing: 0.01em; line-height: 1.85; }
+.tag-cap { font-family: var(--font-tier3-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-3); }
+.token { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-2); letter-spacing: 0.04em; }
+.label-sm { font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-2); }
+.value-sm { font-family: var(--font-tier3-mono); font-size: 12px; color: var(--fg); }
+</style></head><body>
+<div class="col" style="gap: 10px;">
+  <div class="tag-cap">TYPE SCALE — 6 sizes only</div>
+  
+    <div class="row" style="align-items:baseline;border-bottom:1px dashed var(--line-thin);padding:5px 0;gap:14px;">
+      <div class="value-sm" style="min-width:120px;font-size:11px;">H1 Klee 30</div>
+      <div style="flex:1;font-family:var(--font-tier1-klee);font-weight:600;font-size:30px;line-height:1.4;letter-spacing:0.01em;color:var(--fg);">図形の基礎は、点描写から。</div>
+    </div>
+    <div class="row" style="align-items:baseline;border-bottom:1px dashed var(--line-thin);padding:5px 0;gap:14px;">
+      <div class="value-sm" style="min-width:120px;font-size:11px;">H2 Klee 22</div>
+      <div style="flex:1;font-family:var(--font-tier1-klee);font-weight:600;font-size:22px;line-height:1.5;letter-spacing:0.01em;color:var(--fg);">家庭での続け方</div>
+    </div>
+    <div class="row" style="align-items:baseline;border-bottom:1px dashed var(--line-thin);padding:5px 0;gap:14px;">
+      <div class="value-sm" style="min-width:120px;font-size:11px;">H3 Klee 18</div>
+      <div style="flex:1;font-family:var(--font-tier1-klee);font-weight:600;font-size:18px;line-height:1.55;letter-spacing:0.01em;color:var(--fg);">模写 Lv.2</div>
+    </div>
+    <div class="row" style="align-items:baseline;border-bottom:1px dashed var(--line-thin);padding:5px 0;gap:14px;">
+      <div class="value-sm" style="min-width:120px;font-size:11px;">Body Plex 16</div>
+      <div style="flex:1;font-family:var(--font-tier3-sans);font-weight:400;font-size:16px;line-height:1.7;letter-spacing:0.01em;color:var(--fg);">本文用 Plex Sans JP 16px 行間 1.7</div>
+    </div>
+    <div class="row" style="align-items:baseline;border-bottom:1px dashed var(--line-thin);padding:5px 0;gap:14px;">
+      <div class="value-sm" style="min-width:120px;font-size:11px;">Pencil 16</div>
+      <div style="flex:1;font-family:var(--font-tier2-pencil);font-weight:400;font-size:16px;line-height:1.85;letter-spacing:0.01em;color:var(--fg);">鉛筆筆致 16px 行間 1.85</div>
+    </div>
+    <div class="row" style="align-items:baseline;border-bottom:1px dashed var(--line-thin);padding:5px 0;gap:14px;">
+      <div class="value-sm" style="min-width:120px;font-size:11px;">Meta Mono 12</div>
+      <div style="flex:1;font-family:var(--font-tier3-mono);font-weight:400;font-size:12px;line-height:1.6;letter-spacing:0.01em;color:var(--fg);">Lv.2 · Vol.03 · 12 問</div>
+    </div>
+</div></body></html>

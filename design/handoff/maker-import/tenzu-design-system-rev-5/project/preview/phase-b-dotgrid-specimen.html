@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Phase B — Dot Grid Specimen — TENZU rev.5</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body {
+    background: var(--bg);
+    padding: 56px 64px 96px;
+    max-width: 1240px;
+    margin: 0 auto;
+    background-image:
+      radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: 0 0;
+  }
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 16px;
+    margin-bottom: 40px;
+    border-bottom: 1px dashed var(--line-thin);
+  }
+  .kicker {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .meta-right {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+  }
+  .doc-title {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    margin: 0 0 6px;
+  }
+  .doc-sub {
+    font-family: var(--font-tier2-pencil);
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--fg-2);
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  section { margin-top: 56px; }
+  section > h2 {
+    display: inline-block;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid var(--accent);
+    margin-bottom: 24px;
+  }
+  section > .lead {
+    font-family: var(--font-tier2-pencil);
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--fg-2);
+    margin-bottom: 24px;
+    max-width: 64ch;
+  }
+
+  /* ---- pitch compare ---- */
+  .pitch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .pitch-panel {
+    background: #FFFFFF;
+    border: 1px solid var(--line-thin);
+    border-radius: var(--radius-soft);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .pitch-panel .head {
+    padding: 14px 18px;
+    border-bottom: 1px dashed var(--line-thin);
+  }
+  .pitch-panel .head .label {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .pitch-panel .head .value {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--fg);
+    margin-top: 2px;
+  }
+  .pitch-panel .head .note {
+    font-family: var(--font-tier3-sans);
+    font-size: 12px;
+    color: var(--fg-2);
+    margin-top: 6px;
+  }
+  .pitch-panel .swatch {
+    height: 280px;
+    background: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+  }
+  .pitch-panel .swatch::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-position: 0 0;
+  }
+  .pitch-panel.p20 .swatch::before { background-size: 20px 20px; }
+  .pitch-panel.p24 .swatch::before { background-size: 24px 24px; }
+  .pitch-panel.p28 .swatch::before { background-size: 28px 28px; }
+  .pitch-panel.p32 .swatch::before { background-size: 32px 32px; }
+
+  /* sample content over swatch */
+  .swatch .content {
+    position: absolute;
+    inset: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1;
+  }
+  .swatch .demo-h {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--fg);
+  }
+  .swatch .demo-p {
+    font-family: var(--font-tier3-sans);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--fg-2);
+    max-width: 30ch;
+  }
+  .swatch .demo-tag {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--fg-3);
+  }
+
+  .pitch-panel.recommend { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .pitch-panel.recommend .head { background: rgba(44, 110, 127, 0.06); }
+  .recommend-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 2px 8px;
+    background: var(--accent);
+    color: #FFF;
+    font-family: var(--font-tier3-sans);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    border-radius: var(--r-token);
+  }
+
+  /* mobile width simulation row */
+  .mobile-sim-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .mobile-sim {
+    width: 375px;
+    height: 360px;
+    border: 1px solid var(--line-thin);
+    border-radius: 18px;
+    background: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 375px;
+  }
+  .mobile-sim::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-position: 0 0;
+  }
+  .mobile-sim.p24::before { background-size: 24px 24px; }
+  .mobile-sim.p28::before { background-size: 28px 28px; }
+  .mobile-sim .label-cap {
+    position: absolute;
+    top: 14px; left: 18px; right: 18px;
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    display: flex;
+    justify-content: space-between;
+  }
+  .mobile-sim .stack {
+    position: absolute;
+    top: 50px; left: 18px; right: 18px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mobile-sim .ph-h {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--fg);
+  }
+  .mobile-sim .ph-lead {
+    font-family: var(--font-tier2-pencil);
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--fg-2);
+  }
+  .mobile-sim .ph-card {
+    background: #FFFFFF;
+    border-top: 1px dashed var(--line-thin);
+    border-bottom: 1px dashed var(--line-thin);
+    padding: 10px 0;
+  }
+  .mobile-sim .ph-card .row {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+  }
+  .mobile-sim .ph-card .name {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--fg);
+    margin-top: 4px;
+  }
+  .mobile-sim .ph-card .promise {
+    font-family: var(--font-tier2-pencil);
+    font-size: 13px;
+    color: var(--fg-2);
+    line-height: 1.85;
+    margin-top: 2px;
+  }
+
+  /* pdf layer diagram */
+  .pdf-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .pdf-page {
+    background: #FFFFFF;
+    border: 1px solid var(--line-thin);
+    border-radius: 4px;
+    aspect-ratio: 210/297;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .pdf-page .layer-tag {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .pdf-page .layer-title {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--fg);
+  }
+  .pdf-page .layer-note {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    color: var(--fg-3);
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+  }
+
+  /* L1 — pure white worksheet with puzzle dots */
+  .pdf-page.l1 .work-area {
+    flex: 1;
+    margin-top: 12px;
+    background: #FFFFFF;
+    border: 0.5px solid var(--line-thin);
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+  .pdf-page.l1 .work-area::before {
+    content: "";
+    position: absolute;
+    inset: 24px;
+    background-image:
+      radial-gradient(circle, #1A1F2A 1.5px, transparent 1.5px);
+    background-size: 18px 18px;
+    background-position: 0 0;
+  }
+  .pdf-page.l1 .work-area .puzzle-line {
+    position: absolute;
+    inset: 24px;
+    z-index: 1;
+  }
+
+  /* L2 — package surface with brand grid */
+  .pdf-page.l2 {
+    background-image:
+      radial-gradient(circle, rgba(26, 31, 42, 0.12) 0.7px, transparent 0.7px);
+    background-size: 14px 14px;
+  }
+  .pdf-page.l2 .package-content { margin-top: 12px; }
+  .pdf-page.l2 .package-content .title {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--fg);
+  }
+  .pdf-page.l2 .package-content .lead {
+    font-family: var(--font-tier2-pencil);
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--fg-2);
+    margin-top: 8px;
+  }
+  .pdf-page.l2 .package-content .stamp {
+    margin-top: 16px;
+    padding: 8px 12px;
+    background: var(--bg-3);
+    border-left: 2px solid var(--accent);
+    font-family: var(--font-tier3-sans);
+    font-size: 10px;
+    color: var(--fg-2);
+    line-height: 1.6;
+  }
+
+  /* L3 — sample area */
+  .pdf-page.l3 {
+    background: #FFFFFF;
+  }
+  .pdf-page.l3 .sample-area {
+    flex: 1;
+    margin-top: 12px;
+    background: #FFFFFF;
+    border: 0.5px solid var(--line-thin);
+    position: relative;
+    overflow: hidden;
+  }
+  .pdf-page.l3 .sample-area::before {
+    content: "";
+    position: absolute;
+    inset: 24px;
+    background-image:
+      radial-gradient(circle, #1A1F2A 1.5px, transparent 1.5px);
+    background-size: 18px 18px;
+  }
+
+  /* three-dots integrity table */
+  .dot-types-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+  .dot-types-table th, .dot-types-table td {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px dashed var(--line-thin);
+    font-family: var(--font-tier3-sans);
+    font-size: 14px;
+    color: var(--fg);
+    vertical-align: top;
+  }
+  .dot-types-table th {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-2);
+    font-weight: 400;
+    background: transparent;
+  }
+  .dot-types-table td.dot-name {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .dot-types-table td.dot-vis {
+    width: 80px;
+    text-align: center;
+  }
+  .dot-types-table .dot-swatch {
+    display: inline-block;
+    width: 64px;
+    height: 32px;
+    background: #FFFFFF;
+    border: 1px solid var(--line-thin);
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .dot-types-table .dot-swatch::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .dot-swatch.brand::before {
+    background-image: radial-gradient(circle, rgba(26,31,42,0.16) 1px, transparent 1px);
+    background-size: 12px 12px;
+  }
+  .dot-swatch.puzzle::before {
+    background-image: radial-gradient(circle, #1A1F2A 2px, transparent 2px);
+    background-size: 14px 14px;
+  }
+  .dot-swatch.user::before {
+    background-image: radial-gradient(circle, rgba(26,31,42,0.85) 1.5px, transparent 1.5px);
+    background-size: 14px 14px;
+    background-position: 2px 2px;
+  }
+
+  /* CSS pen note */
+  .codeblock {
+    font-family: var(--font-tier3-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    background: var(--bg-3);
+    border-left: 2px solid var(--accent);
+    padding: 14px 16px;
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    color: var(--fg);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+</style>
+</head>
+<body>
+  <header class="header-row">
+    <div class="kicker">PHASE B · DOT GRID SPECIMEN</div>
+    <div class="meta-right">tenzu / design-system / rev.5 · 2026-05-26</div>
+  </header>
+
+  <h1 class="doc-title">点描写格子の物理寸法</h1>
+  <p class="doc-sub">「TENZU の紙の上にいる」感を出す背景パターン。ピッチを変えるとどれくらい呼吸が変わるかを実物で比較します。</p>
+
+  <!-- =============================================== -->
+  <section>
+    <h2>ピッチ 4 段階の比較（desktop 想定 1024px+）</h2>
+    <p class="lead">同じ opacity・同じ dot radius のままピッチだけ変えた版。20 → 24 → 28 → 32px。コンテンツの密度を一定にして比べる。</p>
+
+    <div class="pitch-grid">
+      <div class="pitch-panel p20">
+        <div class="head">
+          <div class="label">20px PITCH</div>
+          <div class="value">きつい</div>
+          <div class="note">情報密度の高いダッシュボード等には合うが、TENZU のような読み物では下地が前に出る</div>
+        </div>
+        <div class="swatch">
+          <div class="content">
+            <div class="demo-tag">B · 観察と模写</div>
+            <div class="demo-h">模写 Lv.2</div>
+            <div class="demo-p">点と点の距離を、目で測れるように。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pitch-panel p24 recommend">
+        <div class="head">
+          <div class="label">24px PITCH</div>
+          <div class="value">desktop/tablet 採用</div>
+          <div class="note">rev.5 で検証済み。ブランド点格子としての規則感とコンテンツの呼吸が両立。<br><span class="recommend-badge">RECOMMENDED · ≥ 601px</span></div>
+        </div>
+        <div class="swatch">
+          <div class="content">
+            <div class="demo-tag">B · 観察と模写</div>
+            <div class="demo-h">模写 Lv.2</div>
+            <div class="demo-p">点と点の距離を、目で測れるように。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pitch-panel p28 recommend">
+        <div class="head">
+          <div class="label">28px PITCH</div>
+          <div class="value">mobile 採用</div>
+          <div class="note">375px 幅で 13 列。文字や icon との干渉が減り、下地に退く。<br><span class="recommend-badge">RECOMMENDED · ≤ 600px</span></div>
+        </div>
+        <div class="swatch">
+          <div class="content">
+            <div class="demo-tag">B · 観察と模写</div>
+            <div class="demo-h">模写 Lv.2</div>
+            <div class="demo-p">点と点の距離を、目で測れるように。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pitch-panel p32">
+        <div class="head">
+          <div class="label">32px PITCH</div>
+          <div class="value">ゆるい</div>
+          <div class="note">下地が薄くなりすぎ、「点描写の紙の上」感が弱まる。記事ハブで密度を下げたいときの選択肢</div>
+        </div>
+        <div class="swatch">
+          <div class="content">
+            <div class="demo-tag">B · 観察と模写</div>
+            <div class="demo-h">模写 Lv.2</div>
+            <div class="demo-p">点と点の距離を、目で測れるように。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== -->
+  <section>
+    <h2>スマホ実寸比較（375px ＝ iPhone 標準）</h2>
+    <p class="lead">同じ商品カードを 24px / 28px で並べた版。24px は dot が「画面のテクスチャ」として強く出る、28px は「下地」に落ち着く。</p>
+
+    <div class="mobile-sim-row">
+      <div class="mobile-sim p24">
+        <div class="label-cap">
+          <span>375 × 360 · PITCH 24</span>
+          <span>15 cols</span>
+        </div>
+        <div class="stack">
+          <div class="ph-h">図形の基礎は、<br>点描写から。</div>
+          <div class="ph-lead">模写から対称・回転・立体まで。空間認知の土台を、家庭で着実に。</div>
+          <div class="ph-card">
+            <div class="row">B · 観察と模写 · Lv.2</div>
+            <div class="name">模写 Lv.2 — 4×4 まで</div>
+            <div class="promise">点と点の距離を、目で測れるように。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mobile-sim p28">
+        <div class="label-cap">
+          <span>375 × 360 · PITCH 28</span>
+          <span>13 cols</span>
+        </div>
+        <div class="stack">
+          <div class="ph-h">図形の基礎は、<br>点描写から。</div>
+          <div class="ph-lead">模写から対称・回転・立体まで。空間認知の土台を、家庭で着実に。</div>
+          <div class="ph-card">
+            <div class="row">B · 観察と模写 · Lv.2</div>
+            <div class="name">模写 Lv.2 — 4×4 まで</div>
+            <div class="promise">点と点の距離を、目で測れるように。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== -->
+  <section>
+    <h2>PDF 内の 3 レイヤー</h2>
+    <p class="lead">L1 作業面・L2 パッケージ面・L3 サンプル領域で点格子の有無を分ける。商品の点と背景の点が同一面で重ならないこと。</p>
+
+    <div class="pdf-grid">
+      <!-- L1 -->
+      <div class="pdf-page l1">
+        <div class="layer-tag">L1 · 作業面</div>
+        <div class="layer-title">点描写 worksheet</div>
+        <div class="layer-note">substrate #FFFFFF · 背景点格子なし · 商品の puzzle dots のみ</div>
+        <div class="work-area">
+          <svg class="puzzle-line" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
+            <polyline points="36,36 108,36 108,108 36,108 36,36"
+                      fill="none" stroke="#1A1F2A" stroke-width="1.6"
+                      stroke-linecap="round" stroke-linejoin="round" opacity="0.18"
+                      stroke-dasharray="3,3"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <!-- L2 -->
+      <div class="pdf-page l2">
+        <div class="layer-tag">L2 · パッケージ面</div>
+        <div class="layer-title">表紙・親向け解説</div>
+        <div class="layer-note">5mm ピッチ · 12% opacity · ブランド一貫性</div>
+        <div class="package-content">
+          <div class="title">模写 Lv.2</div>
+          <div class="lead">点と点の距離を、目で測れるように。</div>
+          <div class="stamp">
+            親へのひとこと<br>
+            このレベルは「写す前にどこを見るか」を一緒に確認してみてください。
+          </div>
+        </div>
+      </div>
+
+      <!-- L3 -->
+      <div class="pdf-page l3">
+        <div class="layer-tag">L3 · サンプル領域</div>
+        <div class="layer-title">記入見本</div>
+        <div class="layer-note">substrate #FFFFFF · L1 と同じ扱い</div>
+        <div class="sample-area">
+          <svg style="position:absolute;inset:24px" viewBox="0 0 200 200">
+            <polyline points="36,36 108,36 108,108 36,108 36,36"
+                      fill="none" stroke="#2C6E7F" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"
+                      opacity="0.8"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== -->
+  <section>
+    <h2>TENZU に登場する 3 種の「点」</h2>
+    <p class="lead">混線を防ぐためレイヤーを分ける。3 つの点が同一面に重ならないことが rev.5 の骨。</p>
+
+    <table class="dot-types-table">
+      <thead>
+        <tr>
+          <th>種類</th>
+          <th>見え方</th>
+          <th>用途</th>
+          <th>仕様</th>
+          <th>場所</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dot-name">ブランド点格子</td>
+          <td class="dot-vis"><span class="dot-swatch brand"></span></td>
+          <td>「TENZU の紙の上にいる」演出</td>
+          <td>24/28px · opacity 0.16</td>
+          <td>Web 全面 · PDF L2</td>
+        </tr>
+        <tr>
+          <td class="dot-name">商品点 (puzzle)</td>
+          <td class="dot-vis"><span class="dot-swatch puzzle"></span></td>
+          <td>子の作業対象</td>
+          <td>5/7/10mm · ベタ #1A1F2A</td>
+          <td>PDF L1 のみ</td>
+        </tr>
+        <tr>
+          <td class="dot-name">記入点 (user)</td>
+          <td class="dot-vis"><span class="dot-swatch user"></span></td>
+          <td>子の出力</td>
+          <td>鉛筆任せ</td>
+          <td>PDF L1 の上</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =============================================== -->
+  <section>
+    <h2>CSS 実装</h2>
+    <p class="lead">tokens から駆動する形にして、全 component が共通参照する。</p>
+    <div class="codeblock">:root {
+  --dot-grid-pitch: 24px;
+  --dot-grid-color: #1A1F2A;
+  --dot-grid-opacity: 0.16;
+  --dot-grid-radius: 1px;
+}
+@media (max-width: 600px) {
+  :root { --dot-grid-pitch: 28px; }
+}
+
+body {
+  background: var(--bg);
+  background-image: radial-gradient(
+    circle,
+    rgba(26, 31, 42, 0.16) 1px,
+    transparent 1px
+  );
+  background-size: var(--dot-grid-pitch) var(--dot-grid-pitch);
+}
+
+.no-dot-grid { background-image: none !important; }</div>
+  </section>
+
+</body>
+</html>

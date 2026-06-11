@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="color-scheme" content="light">
+<title>Paper — Backgrounds</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-tier3-sans);
+  background: var(--bg);
+  color: var(--fg);
+  padding: 24px 28px;
+  box-sizing: border-box;
+}
+.row { display: flex; gap: 16px; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.mono { font-family: var(--font-tier3-mono); }
+.klee { font-family: var(--font-tier1-klee); font-weight: 600; letter-spacing: 0.01em; }
+.pencil { font-family: var(--font-tier2-pencil); letter-spacing: 0.01em; line-height: 1.85; }
+.tag-cap { font-family: var(--font-tier3-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-3); }
+.token { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-2); letter-spacing: 0.04em; }
+.label-sm { font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-2); }
+.value-sm { font-family: var(--font-tier3-mono); font-size: 12px; color: var(--fg); }
+</style></head><body>
+<div class="col" style="gap: 12px;">
+  <div class="tag-cap">PAPER — Backgrounds (rev.5 switched to pure white)</div>
+  <div class="row" style="gap: 12px;">
+    
+      <div class="col" style="gap:6px;flex:1;">
+        <div style="aspect-ratio:2/1;background:#FFFFFF;border:1px solid var(--line-thin);border-radius:2px;"></div>
+        <div class="value-sm">bg</div>
+        <div class="token">#FFFFFF</div>
+        <div class="label-sm" style="font-size:11px;">substrate · web 全面 · PDF L1</div>
+      </div>
+      <div class="col" style="gap:6px;flex:1;">
+        <div style="aspect-ratio:2/1;background:#FAF8F3;border:1px solid var(--line-thin);border-radius:2px;"></div>
+        <div class="value-sm">bg-3</div>
+        <div class="token">#FAF8F3</div>
+        <div class="label-sm" style="font-size:11px;">soft warm · parents-warm · footer</div>
+      </div>
+      <div class="col" style="gap:6px;flex:1;">
+        <div style="aspect-ratio:2/1;background:#F4F2ED;border:1px solid var(--line-thin);border-radius:2px;"></div>
+        <div class="value-sm">bg-2</div>
+        <div class="token">#F4F2ED</div>
+        <div class="label-sm" style="font-size:11px;">rev.4 paper · sunken callout (legacy)</div>
+      </div>
+  </div>
+</div></body></html>

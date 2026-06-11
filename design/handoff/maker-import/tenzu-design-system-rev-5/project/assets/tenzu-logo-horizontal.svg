@@ -1,0 +1,40 @@
+
+
+<svg viewBox="0 0 200 56" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TENZU">
+  
+  <g transform="translate(0, 0)">
+    
+    <line x1="13" y1="6" x2="41" y2="6" stroke="#1A1F2A" stroke-width="2.2" stroke-linecap="round"></line>
+    <line x1="13" y1="46" x2="41" y2="46" stroke="#1A1F2A" stroke-width="2.2" stroke-linecap="round"></line>
+    <line x1="6" y1="13" x2="6" y2="41" stroke="#1A1F2A" stroke-width="2.2" stroke-linecap="round"></line>
+    <line x1="46" y1="13" x2="46" y2="41" stroke="#1A1F2A" stroke-width="2.2" stroke-linecap="round"></line>
+    
+    <circle cx="6" cy="6" r="3.5" fill="#1A1F2A"></circle>
+    <circle cx="46" cy="6" r="3.5" fill="#1A1F2A"></circle>
+    <circle cx="6" cy="46" r="3.5" fill="#1A1F2A"></circle>
+    <circle cx="46" cy="46" r="3.5" fill="#1A1F2A"></circle>
+  </g>
+
+  
+  <g transform="translate(64, 0)" fill="#1A1F2A">
+    
+    <rect x="0" y="14" width="20" height="3"></rect>
+    <rect x="8.5" y="14" width="3" height="32"></rect>
+    
+    <rect x="24" y="14" width="18" height="3"></rect>
+    <rect x="24" y="28.5" width="14" height="3"></rect>
+    <rect x="24" y="43" width="18" height="3"></rect>
+    
+    <rect x="46" y="14" width="3" height="32"></rect>
+    <rect x="62" y="14" width="3" height="32"></rect>
+    <polygon points="46,14 49,14 65,46 62,46"></polygon>
+    
+    <rect x="69" y="14" width="20" height="3"></rect>
+    <rect x="69" y="43" width="20" height="3"></rect>
+    <polygon points="69,43 87,17 89,17 89,17 89,17 71,43"></polygon>
+    
+    <rect x="93" y="14" width="3" height="24"></rect>
+    <rect x="112" y="14" width="3" height="24"></rect>
+    <path d="M 93 38 Q 93 46 104 46 Q 115 46 115 38" fill="none" stroke="#1A1F2A" stroke-width="3"></path>
+  </g>
+</svg>

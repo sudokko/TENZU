@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="color-scheme" content="light">
+<title>Pillar row</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-tier3-sans);
+  background: var(--bg);
+  color: var(--fg);
+  padding: 24px 28px;
+  box-sizing: border-box;
+}
+.klee { font-family: var(--font-tier1-klee); font-weight: 600; letter-spacing: 0.01em; }
+.pencil { font-family: var(--font-tier2-pencil); letter-spacing: 0.01em; line-height: 1.85; }
+
+.pillar-row {
+  padding: 28px 0;
+  border-top: 1px dashed var(--line-thin);
+  border-bottom: 1px dashed var(--line-thin);
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 28px;
+}
+.pillar-main {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+.pillar-name {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  margin: 0;
+}
+.pillar-promise {
+  font-family: var(--font-tier2-pencil);
+  font-size: 17px;
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  margin: 0;
+  max-width: 48ch;
+}
+.btn-weak {
+  font-family: var(--font-tier3-sans);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+.btn-weak:hover { border-color: var(--accent); }
+</style></head><body>
+
+<article class="pillar-row">
+  <div class="pillar-main">
+    <h3 class="pillar-name">かたちを動かす</h3>
+    <p class="pillar-promise">向き・位置・大きさを変えても、形がそのままだと気づく目を作る。</p>
+  </div>
+  <a class="btn-weak" href="#">群 B の一覧へ →</a>
+</article>
+
+</body></html>

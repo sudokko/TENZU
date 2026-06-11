@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>ロゴリジェネ指示書（Gemini 画像生成 AI 向け） — TENZU</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root {
+  --bg: #fafaf7;
+  --panel: #ffffff;
+  --text: #1f2328;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --accent: #6b5b3a;
+  --accent-soft: #f0ead7;
+  --code-bg: #f4f0e7;
+  --table-row-alt: #faf7ee;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--text); }
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.75;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px 96px;
+  font-size: 15.5px;
+}
+header.doc-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header.doc-header .path { color: var(--muted); font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+header.doc-header .back { color: var(--accent); text-decoration: none; font-size: 13px; }
+header.doc-header .back:hover { text-decoration: underline; }
+h1, h2, h3, h4 { color: var(--accent); line-height: 1.4; }
+h1 { font-size: 24px; margin: 0 0 8px; }
+h2 { font-size: 19px; margin: 32px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+h3 { font-size: 16.5px; margin: 24px 0 8px; }
+h4 { font-size: 15px; margin: 18px 0 6px; }
+h2 a.anchor, h3 a.anchor, h4 a.anchor {
+  opacity: 0;
+  text-decoration: none;
+  color: var(--muted);
+  margin-left: -16px;
+  padding-right: 6px;
+  font-weight: normal;
+}
+h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor { opacity: 1; }
+p { margin: 8px 0 14px; }
+a { color: #496f3f; }
+a:hover { text-decoration: underline; }
+ul, ol { padding-left: 1.5em; }
+li { margin: 3px 0; }
+strong { color: #3d3320; }
+blockquote {
+  border-left: 4px solid var(--accent-soft);
+  background: #fbf8ef;
+  margin: 12px 0;
+  padding: 8px 14px;
+  color: var(--muted);
+  border-radius: 0 6px 6px 0;
+}
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.55;
+}
+pre code { background: transparent; padding: 0; }
+pre.mermaid {
+  background: transparent;
+  border: none;
+  padding: 0;
+  overflow-x: auto;
+  text-align: center;
+}
+pre.mermaid svg { max-width: none !important; height: auto; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 14px 0;
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+}
+table thead { background: var(--accent-soft); }
+table th, table td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+table tbody tr:nth-child(2n) { background: var(--table-row-alt); }
+hr { border: none; border-top: 1px dashed var(--border); margin: 28px 0; }
+nav.toc {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin: 0 0 28px;
+  font-size: 13.5px;
+}
+nav.toc h2 {
+  font-size: 14px;
+  margin: 0 0 6px;
+  border: none;
+  padding: 0;
+  color: var(--muted);
+}
+nav.toc ul { padding-left: 1.3em; margin: 4px 0; }
+nav.toc li { margin: 2px 0; }
+nav.toc a { color: var(--accent); text-decoration: none; }
+nav.toc a:hover { text-decoration: underline; }
+footer.doc-footer {
+  margin-top: 48px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+</style>
+</head>
+<body>
+<header class="doc-header">
+  <div>
+    <span class="path">design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/logo-regenerate-brief.md</span>
+  </div>
+  <a class="back" href="../../../../../../docs/html-index.html">← 一覧へ戻る</a>
+</header>
+<nav class="toc"><h2>目次</h2><ul><li><a href="#サマリ-読むのはこの-15-行で足りる">サマリ（読むのはこの 15 行で足りる）</a></li><li><a href="#1-既存ロゴから維持するもの-変更禁止領域">1. 既存ロゴから維持するもの（変更禁止領域）</a></li><ul><li><a href="#symbol-完全維持">Symbol（完全維持）</a></li><li><a href="#wordmark-骨格維持">Wordmark（骨格維持）</a></li></ul><li><a href="#2-変更点-b-ハイブリッド案の具体要件">2. 変更点（(b) ハイブリッド案の具体要件）</a></li><ul><li><a href="#2-1-form-e-の-3-横線">2.1 Ξ-form E の 3 横線</a></li><li><a href="#2-2-n・z-の角">2.2 N・Z の角</a></li><li><a href="#2-3-全体の素材感">2.3 全体の素材感</a></li><li><a href="#2-4-カラー">2.4 カラー</a></li></ul><li><a href="#3-lockup-バリアント-3-種-4-種">3. Lockup バリアント（3 種 → 4 種）</a></li><ul><li><a href="#d-full-lockup-詳細仕様-共通">D. Full Lockup 詳細仕様（共通）</a></li><li><a href="#d-1-vs-d-2-使い分けルール">D-1 vs D-2 使い分けルール</a></li></ul><li><a href="#4-ロゴが体現する-14-意味-既存-12-新規-2">4. ロゴが体現する 14 意味（既存 12 + 新規 2）</a></li><ul><li><a href="#symbol-7-項目">Symbol（7 項目）</a></li><li><a href="#wordmark-7-項目">Wordmark（7 項目）</a></li></ul><li><a href="#5-ng-リスト-やってはいけないこと">5. NG リスト（やってはいけないこと）</a></li><li><a href="#6-gemini-プロンプト用テンプレ-オーナー転用前提">6. Gemini プロンプト用テンプレ（オーナー転用前提）</a></li><li><a href="#7-関連リンク">7. 関連リンク</a></li></ul></nav>
+<main>
+<h1 id="ロゴリジェネ指示書-gemini-画像生成-ai-向け"><a class="anchor" href="#ロゴリジェネ指示書-gemini-画像生成-ai-向け">#</a>ロゴリジェネ指示書（Gemini 画像生成 AI 向け）</h1>
+<p><strong>起票日</strong>: 2026-05-26
+<strong>目的</strong>: 既存ロゴ（4-dot square symbol + Ξ-form E wordmark）を rev.5 デザインシステムと整合する形に<strong>差分アップデート</strong>するための要件定義
+<strong>対象</strong>: Gemini 画像生成 AI（オーナーが直接プロンプトに転用）
+<strong>方針</strong>: (b) ハイブリッド案 — 骨格は維持し、Wordmark の Ξ-form E と N・Z 角に「鉛筆筆致風の微妙な揺らぎ／微丸み」で温度を 1 段上げる</p>
+<h2 id="サマリ-読むのはこの-15-行で足りる"><a class="anchor" href="#サマリ-読むのはこの-15-行で足りる">#</a>サマリ（読むのはこの 15 行で足りる）</h2>
+<ul>
+<li>既存ロゴの<strong>骨格・記号性は完全維持</strong>。Symbol（4-dot square）は 1 ピクセルも触らない</li>
+<li>触るのは <strong>Wordmark の 3 点のみ</strong>：① Ξ-form E の 3 横線の端点に鉛筆筆致風揺らぎ ② N・Z の角に 0.5px 程度の微丸み ③ 全体の素材感を「わずか」→「触れる強度」に一段強化</li>
+<li>既存ロゴの<strong>12 個の意味書きは全項目維持</strong>。うち Wordmark の ②④⑤ は意味を変えず<strong>物理的に可視化する強度を上げる</strong>だけ</li>
+<li>新規追加意味は 2 個：Symbol ⑦「親と子の対話」／ Wordmark ⑦「専門店の確かさ」</li>
+<li>カラーは <code>#3F475F</code> → <strong><code>#1A1F2A</code></strong>（Ink Black, rev.5）に差し替え。Off-white 背景 <code>#FAF3EB</code> は廃止し<strong>真っ白 <code>#FFFFFF</code></strong> へ</li>
+<li>Lockup バリアントは <strong>3 種 → 4 種</strong>に拡張（Symbol Only / Vertical / Horizontal / <strong>Full Lockup with 業態識別句</strong>）</li>
+<li>NG：紙クリーム背景／ゲーミフィケーション要素／キャラクター化／グラデーション／装飾線／角丸ボックス枠</li>
+</ul>
+<h2 id="1-既存ロゴから維持するもの-変更禁止領域"><a class="anchor" href="#1-既存ロゴから維持するもの-変更禁止領域">#</a>1. 既存ロゴから維持するもの（変更禁止領域）</h2>
+<h3 id="symbol-完全維持"><a class="anchor" href="#symbol-完全維持">#</a>Symbol（完全維持）</h3>
+<ul>
+<li>4 つの黒丸点が正方形の 4 角に配置</li>
+<li>4 点を直線で結んで正方形を形成</li>
+<li><strong>🔴 点と線の間に微細な空白（gap）がある「コーナードット浮き」構造</strong>を厳守。点と線は融合させず、点が独立した存在として角に浮いている見え方<ul>
+<li>gap の幅は線幅の <strong>20-30%</strong> 程度（点と線が「触れていない」と認識される最小限）</li>
+<li>線は正方形の 4 辺を構成し、各辺の両端は点の手前で止まる</li>
+</ul>
+</li>
+<li>線の太さ・点の半径・正方形のプロポーション</li>
+<li>単色運用（黒 1 色で機能）</li>
+</ul>
+<h3 id="wordmark-骨格維持"><a class="anchor" href="#wordmark-骨格維持">#</a>Wordmark（骨格維持）</h3>
+<ul>
+<li>「TENZU」5 文字の幾何学サンセリフ骨格</li>
+<li>E の縦軸なし・3 本横線（Ξ-form E）の構造</li>
+<li>N・Z の直線性</li>
+<li>U の開き（底のカーブ）</li>
+<li>均整のとれた字間</li>
+<li>単色運用（黒 1 色で TENZU らしさが成立）</li>
+</ul>
+<h2 id="2-変更点-b-ハイブリッド案の具体要件"><a class="anchor" href="#2-変更点-b-ハイブリッド案の具体要件">#</a>2. 変更点（(b) ハイブリッド案の具体要件）</h2>
+<h3 id="2-1-form-e-の-3-横線"><a class="anchor" href="#2-1-form-e-の-3-横線">#</a>2.1 Ξ-form E の 3 横線</h3>
+<ul>
+<li><strong>現状</strong>: 3 本とも完全な直線・端点はシャープ</li>
+<li><strong>rev.5</strong>: 3 本の横線全体に<strong>鉛筆で書いた線の質感</strong>を入れる<ul>
+<li><strong>線の縁が完全な直線ではなく、わずかに不均一</strong>（鉛筆を紙の上で引いたときの微細なブレ）</li>
+<li><strong>端点（左右両端）は鉛筆の入り抜きを思わせる質感</strong>（完全なフラット切断ではない）</li>
+<li>線の中央部はかすかに濃淡があってもよい（紙繊維にインクが乗ったような）</li>
+<li>揺らぎ幅: 線幅の <strong>15-25%</strong>（前回 10-15% から増強）</li>
+<li>真ん中の横線が最も短いことは維持</li>
+<li>「手書き」レベルまでは行かないが、<strong>ベクター直線ではないことが一目でわかる</strong>強度</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-n・z-の角"><a class="anchor" href="#2-2-n・z-の角">#</a>2.2 N・Z の角</h3>
+<ul>
+<li><strong>現状</strong>: シャープな直角</li>
+<li><strong>rev.5</strong>: <strong>0.5px 程度の極めて微細な丸み</strong>を内角に入れる<ul>
+<li>「丸まった」と認識される手前のレベル</li>
+<li>U の開きと連動して「鋭さとやわらかさの両立」を一段強化</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-全体の素材感"><a class="anchor" href="#2-3-全体の素材感">#</a>2.3 全体の素材感</h3>
+<ul>
+<li><strong>現状</strong>: ベタ塗りの単色</li>
+<li><strong>rev.5</strong>: <strong>紙繊維にインクが乗ったような質感</strong>を全体に入れる<ul>
+<li>線・点の境界部に <strong>3-5%</strong> のフェザリング（前回 1-2% から増強）</li>
+<li>わずかな濃淡ムラ（鉛筆 / 万年筆で書いた感じ）</li>
+<li>「ベクター直線」ではなく「紙の上の筆跡」と一目でわかる強度</li>
+<li>ベクター出力時は維持されないため、SVG 版とラスター版で運用差を許容</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4-カラー"><a class="anchor" href="#2-4-カラー">#</a>2.4 カラー</h3>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>旧</th>
+<th>新</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Logo 主色</td>
+<td><code>#3F475F</code> (Calm Navy Gray)</td>
+<td><strong><code>#1A1F2A</code></strong> (Ink Black, rev.5)</td>
+</tr>
+<tr>
+<td>推奨背景</td>
+<td><code>#FAF3EB</code> (Premium Off-white)</td>
+<td><strong><code>#FFFFFF</code></strong> (Pure White, rev.5)</td>
+</tr>
+<tr>
+<td>Accent（使用時）</td>
+<td>なし</td>
+<td><code>#2C6E7F</code> (Seiji Teal, rev.5)：単色版が原則だが、業態識別句のみ teal 可</td>
+</tr>
+</tbody></table>
+<h2 id="3-lockup-バリアント-3-種-4-種"><a class="anchor" href="#3-lockup-バリアント-3-種-4-種">#</a>3. Lockup バリアント（3 種 → 4 種）</h2>
+<table>
+<thead>
+<tr>
+<th>バリアント</th>
+<th>構成</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A. Symbol Only</strong></td>
+<td>4-dot square のみ</td>
+<td>ファビコン・極小サイズ・SNS アイコン・既に文脈がある場所</td>
+</tr>
+<tr>
+<td><strong>B. Vertical Lockup</strong></td>
+<td>Symbol 上 / Wordmark 下</td>
+<td>アプリ起動画面・縦長配置・正方形枠</td>
+</tr>
+<tr>
+<td><strong>C. Horizontal Lockup</strong></td>
+<td>Symbol 左 / Wordmark 右</td>
+<td>LP ヘッダー・名刺の主面・ナビゲーション横並び</td>
+</tr>
+<tr>
+<td><strong>🆕 D-1. Full Lockup (Plex 版)</strong></td>
+<td>Horizontal + 業態識別句「点描写プリントの専門店」を Wordmark 下に IBM Plex Sans JP 400 で小さく</td>
+<td>構造・記号性寄り。Wordmark との視覚的調和が最優先な場面</td>
+</tr>
+<tr>
+<td><strong>🆕 D-2. Full Lockup (Klee One 版)</strong></td>
+<td>Horizontal + 業態識別句「点描写プリントの専門店」を Wordmark 下に Klee One 600（書写体）で小さく</td>
+<td>SNS プロフ画像・OGP・印刷物・名刺の裏面・フッター・初見ユーザーに<strong>温度ごと</strong>業態を伝える場面。rev.5 の 3 階層フォントルール「① 意味を運ぶ＝ Klee One」と整合</td>
+</tr>
+</tbody></table>
+<h3 id="d-full-lockup-詳細仕様-共通"><a class="anchor" href="#d-full-lockup-詳細仕様-共通">#</a>D. Full Lockup 詳細仕様（共通）</h3>
+<ul>
+<li>業態識別句のテキスト: <strong>「点描写プリントの専門店」</strong></li>
+<li>サイズ: Wordmark 高さの <strong>約 30-35%</strong></li>
+<li>色: 主色 <code>#1A1F2A</code> か Accent <code>#2C6E7F</code>（運用で選択可）</li>
+<li>配置: Wordmark の右端・左端を超えない幅で中央寄せ</li>
+<li>余白: Wordmark との垂直距離は Wordmark の x-height の <strong>50% 程度</strong></li>
+</ul>
+<h3 id="d-1-vs-d-2-使い分けルール"><a class="anchor" href="#d-1-vs-d-2-使い分けルール">#</a>D-1 vs D-2 使い分けルール</h3>
+<table>
+<thead>
+<tr>
+<th>バリアント</th>
+<th>フォント</th>
+<th>用途</th>
+<th>最小サイズ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>D-1 Plex 版</strong></td>
+<td>IBM Plex Sans JP 400</td>
+<td>構造・記号寄り。極小印刷・低解像度・モノクロ FAX 等で読める強度が必要な場面</td>
+<td>Wordmark height 40px / 印刷 4mm</td>
+</tr>
+<tr>
+<td><strong>D-2 Klee One 版</strong></td>
+<td>Klee One 600（書写体）</td>
+<td>温度・親しみ寄り。SNS プロフ・OGP・名刺・印刷物・LP フッター等、温度を出したい場面</td>
+<td><strong>Wordmark height 80px / 印刷 8mm</strong>（Klee One は線が細いため極小では潰れる）</td>
+</tr>
+</tbody></table>
+<p><strong>判断基準</strong>: 「温度を出すか／構造を保つか」。迷ったら <strong>D-2 Klee One 版</strong>を優先（rev.5 の 3 階層ルール ① と整合）。極小・低解像度の場合のみ D-1 へフォールバック。</p>
+<h2 id="4-ロゴが体現する-14-意味-既存-12-新規-2"><a class="anchor" href="#4-ロゴが体現する-14-意味-既存-12-新規-2">#</a>4. ロゴが体現する 14 意味（既存 12 + 新規 2）</h2>
+<h3 id="symbol-7-項目"><a class="anchor" href="#symbol-7-項目">#</a>Symbol（7 項目）</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>意味</th>
+<th>rev.5 での状態</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>① 4 つの点</td>
+<td>図形認識の出発点</td>
+<td>完全維持</td>
+</tr>
+<tr>
+<td>② 結ぶ動作</td>
+<td>点と点を線で結ぶ行為そのものを可視化</td>
+<td>完全維持</td>
+</tr>
+<tr>
+<td>③ 正方形の出現</td>
+<td>点から秩序ある形が現れる構図</td>
+<td>完全維持</td>
+</tr>
+<tr>
+<td>④ グリッド感</td>
+<td>整然とした思考・観察・反復</td>
+<td><strong>強化</strong>（サイト全体 24px 点格子背景と呼応）</td>
+</tr>
+<tr>
+<td>⑤ 余白と簡潔さ</td>
+<td>小さくしても識別できるミニマル設計</td>
+<td>完全維持</td>
+</tr>
+<tr>
+<td>⑥ 上達の示唆</td>
+<td>ひとつずつ結ぶ蓄積が、確かな形になる</td>
+<td>完全維持（Pillar 5「継続」と整合）</td>
+</tr>
+<tr>
+<td><strong>🆕 ⑦ 親と子の対話</strong></td>
+<td>4 点を「結ぶ」動作は親が子と一緒に進める行為のメタファー。1 点目（親が示す）→ 2 点目（子が結ぶ）→ 形になる</td>
+<td>Pillar 5「継続（親が子に寄り添う）」対応</td>
+</tr>
+</tbody></table>
+<h3 id="wordmark-7-項目"><a class="anchor" href="#wordmark-7-項目">#</a>Wordmark（7 項目）</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>意味</th>
+<th>rev.5 での状態</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>① 幾何学的な骨格</td>
+<td>秩序と構造を感じる字形</td>
+<td>完全維持</td>
+</tr>
+<tr>
+<td>② E の 3 本線</td>
+<td>ガイド線や反復、蓄積のニュアンス</td>
+<td><strong>微強化</strong>（端点に鉛筆筆致風揺らぎで「反復・蓄積」を物理的に可視化）</td>
+</tr>
+<tr>
+<td>③ 均整のとれた字間</td>
+<td>落ち着きと信頼感を生む</td>
+<td>完全維持</td>
+</tr>
+<tr>
+<td>④ 鋭さとやわらかさの両立</td>
+<td>N・Z の直線性と U の開きで、冷たすぎない印象</td>
+<td><strong>微強化</strong>（N・Z の角に 0.5px の微丸みで温度を一段上げる）</td>
+</tr>
+<tr>
+<td>⑤ 手の痕跡</td>
+<td>紙と鉛筆を思わせる、わずかな素材感</td>
+<td><strong>可視化強化</strong>（「わずか」→「触れる強度」に一段上げる）</td>
+</tr>
+<tr>
+<td>⑥ 単色で機能</td>
+<td>黒 1 色でも TENZU らしさが成立</td>
+<td>完全維持（色は <code>#1A1F2A</code> に差し替え）</td>
+</tr>
+<tr>
+<td><strong>🆕 ⑦ 専門店の確かさ</strong></td>
+<td>幾何学的骨格と手の痕跡の両立は「専門店（プロ）が手で 1 枚ずつ作っている」感の表現。大量生産タブレット教材との対立軸の視覚化</td>
+<td>Pillar 1「体系」＋ ノースクリーン軸対応</td>
+</tr>
+</tbody></table>
+<h2 id="5-ng-リスト-やってはいけないこと"><a class="anchor" href="#5-ng-リスト-やってはいけないこと">#</a>5. NG リスト（やってはいけないこと）</h2>
+<ul>
+<li>❌ 紙クリーム色背景 <code>#FAF3EB</code>（rev.5 で廃止）</li>
+<li>❌ ゲーミフィケーション要素（キャラクター・マスコット・装飾アイコン）</li>
+<li>❌ グラデーション・シャドウ・3D 効果</li>
+<li>❌ Symbol の正方形を歪める／非対称化する</li>
+<li>❌ Wordmark の E を通常の E（縦軸あり）に戻す</li>
+<li>❌ 装飾線・フレーム・角丸ボックスでロゴを囲う</li>
+<li>❌ 「手書き感」が前面に出るレベルの揺らぎ（あくまで「素材感」レベル）</li>
+<li>❌ Tagline「点と点がつなげるようになったら、点描写を。」をロゴに同梱（長すぎて視認性を殺す）</li>
+</ul>
+<h2 id="6-gemini-プロンプト用テンプレ-オーナー転用前提"><a class="anchor" href="#6-gemini-プロンプト用テンプレ-オーナー転用前提">#</a>6. Gemini プロンプト用テンプレ（オーナー転用前提）</h2>
+<pre><code>Generate the TENZU brand logo with the following specifications. This is a third revision. Previous attempt achieved good hand-drawn texture and refined proportions, but the symbol lines need to be slightly thicker — more weight and presence on the page. The dots should NOT get larger to match; keep dots delicate so lines visually dominate.
+
+== STYLE REFERENCE ==
+Imagine the logo was hand-drawn with a sharp graphite pencil (2B-4B) on textured cotton drawing paper, by a skilled adult illustrator working slowly and carefully. Think of architectural sketches, Bauhaus drafting studies, or fine pencil-on-paper diagrams from a designer&#39;s notebook. NOT digital, NOT vector, NOT clean Illustrator output. The paper texture should be visible through the strokes.
+
+== SYMBOL STRUCTURE ==
+- Four small filled circles (dots) placed at the four corners of a square
+- Four short straight line segments connecting the dots, forming the square&#39;s edges
+- CRITICAL: Each line segment STOPS SHORT before reaching the dots, leaving a clear visible gap. The dots and lines must NOT touch. The dots should appear to &quot;float&quot; at the corners, with the lines as separate independent segments.
+- Gap width between dot and line: approximately 20-30% of the line thickness
+- Refined, delicate proportions:
+  - Lines: medium-weight confident strokes — slightly thicker than the previous output, but still NOT bold or chunky. Think of a 2B pencil pressed firmly but not heavily.
+  - Dots: small and refined, roughly EQUAL to the line thickness in diameter, or only marginally larger (NOT chunky, NOT oversized)
+  - The dot-to-line diameter ratio should be approximately 1.0-1.2x (dots should NOT visually dominate the lines)
+- This must feel precise like a careful pencil diagram, NOT chunky like a modern app icon
+- The lines should have presence and weight on the page, but the overall feel remains delicate and architectural
+
+== WORDMARK ==
+- The word &quot;TENZU&quot; in geometric sans-serif letterforms
+- The letter &quot;E&quot; has NO vertical stem — only three horizontal bars (Ξ-form). The middle bar is shortest.
+- N and Z: straight, geometric, but with extremely subtle (0.5px equivalent) rounding at inner corners
+- U: open curved bottom
+- Even letter spacing, calm and intellectual
+
+== HAND-DRAWN PENCIL QUALITY (MUST BE CLEARLY VISIBLE) ==
+This is where the previous output failed. The pencil quality must be obvious at first glance:
+- Stroke edges are slightly irregular, not perfectly straight (subtle wobble as if drawn freehand against a ruler)
+- Visible graphite grain inside each stroke — slight density variation along the stroke
+- Stroke ends show characteristic pencil entry/exit marks, not flat machine cuts
+- Soft feathering at stroke edges (3-5% of stroke width) — graphite catches paper fibers
+- Some strokes may be very slightly darker in the middle or at one end (natural pressure variation)
+- Paper texture (cotton/cold-press) faintly visible through and around the strokes
+- BUT: this is a skilled adult&#39;s careful hand, NOT a child&#39;s scribble. Lines are confident and intentional, just not mechanically perfect.
+
+== COLOR ==
+- Stroke color: deep ink black (#1A1F2A), but rendered as graphite (so it reads as dark gray-black with paper showing through)
+- Background: pure white textured paper (#FFFFFF base with subtle paper grain)
+- Monochrome only — no gradients, no shadows, no color accents
+
+== OUTPUT VARIANTS (5 panels) ==
+- A: Symbol Only — just the 4-dot square
+- B: Vertical Lockup — Symbol above, &quot;TENZU&quot; wordmark below, centered
+- C: Horizontal Lockup — Symbol on the left, &quot;TENZU&quot; wordmark on the right, baseline-aligned
+- D-1: Full Lockup (Plex version) — same as C, but with the Japanese tagline &quot;点描写プリントの専門店&quot; placed below the wordmark in a clean geometric sans-serif (IBM Plex Sans JP 400 equivalent), at about 30% of the wordmark&#39;s cap height. This version emphasizes structure and harmony with the geometric wordmark above.
+- D-2: Full Lockup (Klee One version) — IDENTICAL layout to D-1, but the tagline &quot;点描写プリントの専門店&quot; is rendered in Klee One 600 style — a Japanese semi-formal handwritten/calligraphic typeface with the warmth of a teacher&#39;s handwriting on educational worksheets (think: school workbook handwritten model letters, &quot;kyokasho-tai&quot; but slightly warmer). The strokes should have the same gentle hand-drawn pencil quality as the symbol above, providing tonal continuity. This version emphasizes warmth and the &quot;specialist who personally crafts each worksheet&quot; feel.
+
+== STRICT NO ==
+- No fused dot-and-line shapes (the gap is mandatory)
+- No clean vector look (must look hand-drawn)
+- No thick chunky strokes (refined and thin)
+- No gradients, no drop shadows, no 3D effects, no embossing
+- No cartoon or character elements
+- No decorative frames or borders around the logo
+- No cream/beige background — pure white only
+- No childlike scribble or wild distortion
+- No vertical stem on the letter E
+- No color other than graphite black on white paper
+</code></pre>
+<h2 id="7-関連リンク"><a class="anchor" href="#7-関連リンク">#</a>7. 関連リンク</h2>
+<ul>
+<li><a href="rev5-brief.html">design/handoff/rev5-brief.md</a> — Design rev.5 全体ブリーフ</li>
+<li><a href="../../foundation/brand.html">foundation/brand.md</a> — ブランド本体 SSOT（Pillar 5・Tagline trio）</li>
+<li><a href="../visual-identity.html">design/visual-identity.md</a> — rev.4 SSOT（rev.5 で全面上書き対象）</li>
+<li><a href="../../decisions.html">decisions.md §3.37</a> — rev.5 着手判断</li>
+</ul>
+
+</main>
+<footer class="doc-footer">
+  <span>design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/logo-regenerate-brief.md</span>
+  <span>Generated: 2026-06-11 09:25</span>
+</footer>
+
+</body>
+</html>

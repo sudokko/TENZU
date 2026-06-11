@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Phase C — Illustration / Traces / Divider Specimen — TENZU rev.5</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body {
+    background: var(--bg);
+    padding: 56px 64px 96px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-image:
+      radial-gradient(circle, rgba(26, 31, 42, 0.16) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 16px;
+    margin-bottom: 40px;
+    border-bottom: 1px dashed var(--line-thin);
+  }
+  .kicker { font-family: var(--font-tier3-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-3); }
+  .meta-right { font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.04em; }
+  .doc-title { font-family: var(--font-tier1-klee); font-weight: 600; font-size: 34px; line-height: 1.4; letter-spacing: 0.01em; margin: 0 0 6px; }
+  .doc-sub { font-family: var(--font-tier2-pencil); font-size: 17px; line-height: 1.85; color: var(--fg-2); margin: 0; max-width: 60ch; }
+
+  section { margin-top: 64px; }
+  section > h2 {
+    display: inline-block;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid var(--accent);
+    margin-bottom: 28px;
+  }
+  section > .lead {
+    font-family: var(--font-tier2-pencil);
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--fg-2);
+    margin-bottom: 28px;
+    max-width: 66ch;
+  }
+
+  /* ===== 9-task grid ===== */
+  .task-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .task-card {
+    background: #FFFFFF;
+    padding: 20px 20px 18px;
+    border-top: 1px dashed var(--line-thin);
+    border-bottom: 1px dashed var(--line-thin);
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .task-card .icon {
+    width: 96px;
+    height: 96px;
+    background: #FFFFFF;
+    border: 1px solid var(--line-thin);
+    border-radius: var(--radius-soft);
+  }
+  .task-card .icon svg { width: 100%; height: 100%; display: block; }
+  .task-card .meta {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .task-card .code {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .task-card .name {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--fg);
+    letter-spacing: 0.01em;
+  }
+  .task-card .desc {
+    font-family: var(--font-tier2-pencil);
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--fg-2);
+  }
+
+  /* ===== traces grid ===== */
+  .traces-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .trace-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .trace-cell .trace-tag {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+
+  /* T1 — observation memo */
+  .memo--observe {
+    background: var(--bg-3);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    padding: 20px 24px;
+  }
+  .memo-label {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--fg);
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+  }
+  .memo-body {
+    font-family: var(--font-tier2-pencil);
+    font-size: 16px;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    margin: 0;
+  }
+  .memo-date {
+    margin-top: 12px;
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--fg-3);
+  }
+
+  /* T2 — revision history */
+  .memo--revision {
+    padding: 8px 0;
+    margin: 0;
+  }
+  .memo--revision .rev-row {
+    display: grid;
+    grid-template-columns: 48px 84px 1fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line-thin);
+    align-items: baseline;
+  }
+  .memo--revision .rev-row:last-child { border-bottom: none; }
+  .memo--revision .rev-version {
+    font-family: var(--font-tier3-mono); font-size: 13px; color: var(--fg);
+    letter-spacing: 0.02em;
+  }
+  .memo--revision .rev-date {
+    font-family: var(--font-tier3-mono); font-size: 11px; color: var(--fg-3);
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+  .memo--revision .rev-note {
+    font-family: var(--font-tier3-sans); font-size: 13px; color: var(--fg-2);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* T3 — rationale */
+  .memo--rationale {
+    background: transparent;
+    border-left: 2px solid var(--fg-2);
+    padding: 4px 18px;
+  }
+  .memo--rationale .memo-label {
+    font-size: 17px;
+  }
+
+  /* T4 — parent's word (uses .parents-warm) */
+  .memo--parents {
+    background: var(--bg-3);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    padding: 20px 24px;
+  }
+
+  /* ===== divider visual ===== */
+  .divider-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .div-card {
+    background: #FFFFFF;
+    border: 1px dashed var(--line-thin);
+    border-radius: var(--radius-soft);
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .div-card .div-tag {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .div-card .div-name {
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.01em;
+  }
+  .div-card .div-spec {
+    font-family: var(--font-tier3-mono);
+    font-size: 12px;
+    color: var(--fg-2);
+    letter-spacing: 0.04em;
+  }
+  .div-demo {
+    padding: 12px 0 4px;
+  }
+
+  /* sample contents inside divider demos */
+  .demo-h2 {
+    display: inline-block;
+    font-family: var(--font-tier1-klee);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--fg);
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid var(--accent);
+  }
+  .demo-list { padding: 0; margin: 0; list-style: none; }
+  .demo-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line-thin);
+    font-family: var(--font-tier3-sans);
+    font-size: 14px;
+    color: var(--fg);
+  }
+  .demo-list li:last-child { border-bottom: none; }
+  .demo-quote {
+    margin: 0;
+    padding: 12px 16px;
+    background: var(--bg-3);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+    font-family: var(--font-tier2-pencil);
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--fg);
+  }
+  .demo-rationale {
+    border-left: 2px solid var(--fg-2);
+    padding: 10px 16px;
+    font-family: var(--font-tier2-pencil);
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--fg);
+  }
+
+  /* line quality test row */
+  .stroke-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line-thin);
+    align-items: center;
+    font-family: var(--font-tier3-mono);
+    font-size: 12px;
+    color: var(--fg-2);
+  }
+  .stroke-row .strokesvg {
+    height: 32px;
+    width: 100%;
+    display: block;
+  }
+  .stroke-row .label {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .stroke-row .note {
+    font-family: var(--font-tier3-sans);
+    font-size: 12px;
+    color: var(--fg-2);
+  }
+
+  /* tone DO/DONT compare */
+  .tone-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .tone-row {
+    padding: 16px 18px;
+    border-radius: var(--radius-soft);
+  }
+  .tone-row.bad {
+    background: #FFF4F2;
+    border: 1px dashed #C04040;
+  }
+  .tone-row.good {
+    background: var(--bg-3);
+    border: 1px solid var(--line-thin);
+  }
+  .tone-row .lbl {
+    font-family: var(--font-tier3-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tone-row.bad .lbl { color: #8A2D2D; }
+  .tone-row.good .lbl { color: var(--accent); }
+  .tone-row .text {
+    font-family: var(--font-tier2-pencil);
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--fg);
+  }
+</style>
+</head>
+<body>
+  <header class="header-row">
+    <div class="kicker">PHASE C · ILLUSTRATION ／ TRACES ／ DIVIDER</div>
+    <div class="meta-right">tenzu / design-system / rev.5 · 2026-05-26</div>
+  </header>
+
+  <h1 class="doc-title">線質、店主の痕跡、罫線</h1>
+  <p class="doc-sub">教材の機能性を最優先にした直線維持の SVG 図形、5 種の店主の痕跡、4 種の罫線。3 つは互いに支え合います。</p>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>線質スケール</h2>
+    <p class="lead">stroke 幅は 1 / 1.5 / 2 の 3 段階。端点は round cap 固定。揺らぎ・wobble は採用しません。</p>
+
+    <div class="stroke-row">
+      <div class="label">1 PX</div>
+      <svg class="strokesvg" viewBox="0 0 320 32"><line x1="8" y1="16" x2="312" y2="16" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round"/></svg>
+      <div class="note">補助線・dashed 用</div>
+    </div>
+    <div class="stroke-row">
+      <div class="label">1.5 PX</div>
+      <svg class="strokesvg" viewBox="0 0 320 32"><line x1="8" y1="16" x2="312" y2="16" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="note">基本 — 9 タスク図形の主線</div>
+    </div>
+    <div class="stroke-row">
+      <div class="label">2 PX</div>
+      <svg class="strokesvg" viewBox="0 0 320 32"><line x1="8" y1="16" x2="312" y2="16" stroke="#1A1F2A" stroke-width="2" stroke-linecap="round"/></svg>
+      <div class="note">強調・memo の left-marker と同じ太さ</div>
+    </div>
+    <div class="stroke-row">
+      <div class="label">1.5 DASH</div>
+      <svg class="strokesvg" viewBox="0 0 320 32"><line x1="8" y1="16" x2="312" y2="16" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3"/></svg>
+      <div class="note">線対称軸・欠け辺・分解の分割線</div>
+    </div>
+    <div class="stroke-row">
+      <div class="label">ACCENT 1.5</div>
+      <svg class="strokesvg" viewBox="0 0 320 32"><line x1="8" y1="16" x2="312" y2="16" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="note">「正解」「到達」「答えの状態」のみ</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>9 タスク図形</h2>
+    <p class="lead">64×64 viewBox、stroke 1.5px、端点 round、accent は完成形にだけ使う。</p>
+
+    <div class="task-grid">
+
+      <!-- 1. copy -->
+      <article class="task-card">
+        <div class="icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="模写">
+            <g fill="#1A1F2A" opacity="0.16">
+              <circle cx="12" cy="12" r="1"/><circle cx="22" cy="12" r="1"/><circle cx="32" cy="12" r="1"/><circle cx="42" cy="12" r="1"/><circle cx="52" cy="12" r="1"/>
+              <circle cx="12" cy="22" r="1"/><circle cx="22" cy="22" r="1"/><circle cx="32" cy="22" r="1"/><circle cx="42" cy="22" r="1"/><circle cx="52" cy="22" r="1"/>
+              <circle cx="12" cy="32" r="1"/><circle cx="22" cy="32" r="1"/><circle cx="32" cy="32" r="1"/><circle cx="42" cy="32" r="1"/><circle cx="52" cy="32" r="1"/>
+              <circle cx="12" cy="42" r="1"/><circle cx="22" cy="42" r="1"/><circle cx="32" cy="42" r="1"/><circle cx="42" cy="42" r="1"/><circle cx="52" cy="42" r="1"/>
+              <circle cx="12" cy="52" r="1"/><circle cx="22" cy="52" r="1"/><circle cx="32" cy="52" r="1"/><circle cx="42" cy="52" r="1"/><circle cx="52" cy="52" r="1"/>
+            </g>
+            <polyline points="22,22 42,22 42,42 22,42 22,22" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="code">A1 · COPY</div>
+          <div class="name">模写</div>
+          <div class="desc">手本を点と点で写し取る。<br>9 タスクの起点。</div>
+        </div>
+      </article>
+
+      <!-- 2. mirror -->
+      <article class="task-card">
+        <div class="icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="線対称">
+            <g fill="#1A1F2A" opacity="0.16">
+              <circle cx="12" cy="12" r="1"/><circle cx="22" cy="12" r="1"/><circle cx="32" cy="12" r="1"/><circle cx="42" cy="12" r="1"/><circle cx="52" cy="12" r="1"/>
+              <circle cx="12" cy="22" r="1"/><circle cx="22" cy="22" r="1"/><circle cx="32" cy="22" r="1"/><circle cx="42" cy="22" r="1"/><circle cx="52" cy="22" r="1"/>
+              <circle cx="12" cy="32" r="1"/><circle cx="22" cy="32" r="1"/><circle cx="32" cy="32" r="1"/><circle cx="42" cy="32" r="1"/><circle cx="52" cy="32" r="1"/>
+              <circle cx="12" cy="42" r="1"/><circle cx="22" cy="42" r="1"/><circle cx="32" cy="42" r="1"/><circle cx="42" cy="42" r="1"/><circle cx="52" cy="42" r="1"/>
+              <circle cx="12" cy="52" r="1"/><circle cx="22" cy="52" r="1"/><circle cx="32" cy="52" r="1"/><circle cx="42" cy="52" r="1"/><circle cx="52" cy="52" r="1"/>
+            </g>
+            <line x1="32" y1="8" x2="32" y2="56" stroke="#1A1F2A" stroke-width="1" stroke-dasharray="3 3" stroke-linecap="round" opacity="0.5"/>
+            <polyline points="22,22 32,12 22,42 32,52" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="42,22 32,12 42,42 32,52" fill="none" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="code">A2 · MIRROR</div>
+          <div class="name">線対称</div>
+          <div class="desc">軸を見つけて、向こう側を<br>描き起こす。</div>
+        </div>
+      </article>
+
+      <!-- 3. rotate -->
+      <article class="task-card">
+        <div class="icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="回転">
+            <g fill="#1A1F2A" opacity="0.16">
+              <circle cx="12" cy="12" r="1"/><circle cx="22" cy="12" r="1"/><circle cx="32" cy="12" r="1"/><circle cx="42" cy="12" r="1"/><circle cx="52" cy="12" r="1"/>
+              <circle cx="12" cy="22" r="1"/><circle cx="22" cy="22" r="1"/><circle cx="32" cy="22" r="1"/><circle cx="42" cy="22" r="1"/><circle cx="52" cy="22" r="1"/>
+              <circle cx="12" cy="32" r="1"/><circle cx="22" cy="32" r="1"/><circle cx="32" cy="32" r="1"/><circle cx="42" cy="32" r="1"/><circle cx="52" cy="32" r="1"/>
+              <circle cx="12" cy="42" r="1"/><circle cx="22" cy="42" r="1"/><circle cx="32" cy="42" r="1"/><circle cx="42" cy="42" r="1"/><circle cx="52" cy="42" r="1"/>
+              <circle cx="12" cy="52" r="1"/><circle cx="22" cy="52" r="1"/><circle cx="32" cy="52" r="1"/><circle cx="42" cy="52" r="1"/><circle cx="52" cy="52" r="1"/>
+            </g>
+            <line x1="29" y1="32" x2="35" y2="32" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+            <line x1="32" y1="29" x2="32" y2="35" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+            <polyline points="32,12 42,22 32,32 22,22 32,12" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="52,32 42,42 32,32 42,22 52,32" fill="none" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 44 18 A 16 16 0 0 1 50 30" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.5" stroke-dasharray="3 3"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="code">A3 · ROTATE</div>
+          <div class="name">回転</div>
+          <div class="desc">中心を決めて、向きを<br>変える。</div>
+        </div>
+      </article>
+
+      <!-- 4. translate -->
+      <article class="task-card">
+        <div class="icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="平行移動">
+            <g fill="#1A1F2A" opacity="0.16">
+              <circle cx="12" cy="12" r="1"/><circle cx="22" cy="12" r="1"/><circle cx="32" cy="12" r="1"/><circle cx="42" cy="12" r="1"/><circle cx="52" cy="12" r="1"/>
+              <circle cx="12" cy="22" r="1"/><circle cx="22" cy="22" r="1"/><circle cx="32" cy="22" r="1"/><circle cx="42" cy="22" r="1"/><circle cx="52" cy="22" r="1"/>
+              <circle cx="12" cy="32" r="1"/><circle cx="22" cy="32" r="1"/><circle cx="32" cy="32" r="1"/><circle cx="42" cy="32" r="1"/><circle cx="52" cy="32" r="1"/>
+              <circle cx="12" cy="42" r="1"/><circle cx="22" cy="42" r="1"/><circle cx="32" cy="42" r="1"/><circle cx="42" cy="42" r="1"/><circle cx="52" cy="42" r="1"/>
+              <circle cx="12" cy="52" r="1"/><circle cx="22" cy="52" r="1"/><circle cx="32" cy="52" r="1"/><circle cx="42" cy="52" r="1"/><circle cx="52" cy="52" r="1"/>
+            </g>
+            <polyline points="12,22 22,22 22,32 12,32 12,22" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="42,42 52,42 52,52 42,52 42,42" fill="none" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 24 27 L 40 47" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="code">A4 · TRANSLATE</div>
+          <div class="name">平行移動</div>
+          <div class="desc">向きを変えずに、<br>位置だけずらす。</div>
+        </div>
+      </article>
+
+      <!-- 5. scale -->
+      <article class="task-card">
+        <div class="icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="拡大縮小">
+            <g fill="#1A1F2A" opacity="0.16">
+              <circle cx="12" cy="12" r="1"/><circle cx="22" cy="12" r="1"/><circle cx="32" cy="12" r="1"/><circle cx="42" cy="12" r="1"/><circle cx="52" cy="12" r="1"/>
+              <circle cx="12" cy="22" r="1"/><circle cx="22" cy="22" r="1"/><circle cx="32" cy="22" r="1"/><circle cx="42" cy="22" r="1"/><circle cx="52" cy="22" r="1"/>
+              <circle cx="12" cy="32" r="1"/><circle cx="22" cy="32" r="1"/><circle cx="32" cy="32" r="1"/><circle cx="42" cy="32" r="1"/><circle cx="52" cy="32" r="1"/>
+              <circle cx="12" cy="42" r="1"/><circle cx="22" cy="42" r="1"/><circle cx="32" cy="42" r="1"/><circle cx="42" cy="42" r="1"/><circle cx="52" cy="42" r="1"/>
+              <circle cx="12" cy="52" r="1"/><circle cx="22" cy="52" r="1"/><circle cx="32" cy="52" r="1"/><circle cx="42" cy="52" r="1"/><circle cx="52" cy="52" r="1"/>
+            </g>
+            <polyline points="28,28 36,28 36,36 28,36 28,28" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="12,12 52,12 52,52 12,52 12,12" fill="none" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="36" y1="28" x2="52" y2="12" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.4"/>
+            <line x1="36" y1="36" x2="52" y2="52" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="code">A5 · SCALE</div>
+          <div class="name">拡大縮小</div>
+          <div class="desc">形を保ったまま、<br>大きさを変える。</div>
+        </div>
+      </article>
+
+      <!-- 6. overlay -->
+      <article class="task-card">
+        <div class="icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="かさね">
+            <g fill="#1A1F2A" opacity="0.16">
+              <circle cx="12" cy="12" r="1"/><circle cx="22" cy="12" r="1"/><circle cx="32" cy="12" r="1"/><circle cx="42" cy="12" r="1"/><circle cx="52" cy="12" r="1"/>
+              <circle cx="12" cy="22" r="1"/><circle cx="22" cy="22" r="1"/><circle cx="32" cy="22" r="1"/><circle cx="42" cy="22" r="1"/><circle cx="52" cy="22" r="1"/>
+              <circle cx="12" cy="32" r="1"/><circle cx="22" cy="32" r="1"/><circle cx="32" cy="32" r="1"/><circle cx="42" cy="32" r="1"/><circle cx="52" cy="32" r="1"/>
+              <circle cx="12" cy="42" r="1"/><circle cx="22" cy="42" r="1"/><circle cx="32" cy="42" r="1"/><circle cx="42" cy="42" r="1"/><circle cx="52" cy="42" r="1"/>
+              <circle cx="12" cy="52" r="1"/><circle cx="22" cy="52" r="1"/><circle cx="32" cy="52" r="1"/><circle cx="42" cy="52" r="1"/><circle cx="52" cy="52" r="1"/>
+            </g>
+            <polyline points="32,32 42,42 32,42 32,32" fill="rgba(44,110,127,0.12)" stroke="none"/>
+            <polyline points="12,22 32,22 32,42 12,42 12,22" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="32,12 52,32 32,52 32,12" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="code">A6 · OVERLAY</div>
+          <div class="name">かさね</div>
+          <div class="desc">2 つの形が<br>重なるところを見つける。</div>
+        </div>
+      </article>
+
+      <!-- 7. decompose -->
+      <article class="task-card">
+        <div class="icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="分解">
+            <g fill="#1A1F2A" opacity="0.16">
+              <circle cx="12" cy="12" r="1"/><circle cx="22" cy="12" r="1"/><circle cx="32" cy="12" r="1"/><circle cx="42" cy="12" r="1"/><circle cx="52" cy="12" r="1"/>
+              <circle cx="12" cy="22" r="1"/><circle cx="22" cy="22" r="1"/><circle cx="32" cy="22" r="1"/><circle cx="42" cy="22" r="1"/><circle cx="52" cy="22" r="1"/>
+              <circle cx="12" cy="32" r="1"/><circle cx="22" cy="32" r="1"/><circle cx="32" cy="32" r="1"/><circle cx="42" cy="32" r="1"/><circle cx="52" cy="32" r="1"/>
+              <circle cx="12" cy="42" r="1"/><circle cx="22" cy="42" r="1"/><circle cx="32" cy="42" r="1"/><circle cx="42" cy="42" r="1"/><circle cx="52" cy="42" r="1"/>
+              <circle cx="12" cy="52" r="1"/><circle cx="22" cy="52" r="1"/><circle cx="32" cy="52" r="1"/><circle cx="42" cy="52" r="1"/><circle cx="52" cy="52" r="1"/>
+            </g>
+            <polyline points="12,12 52,12 52,52 12,52 12,12" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="12" y1="12" x2="52" y2="52" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="code">A7 · DECOMPOSE</div>
+          <div class="name">分解</div>
+          <div class="desc">大きな形を<br>パーツに分ける。</div>
+        </div>
+      </article>
+
+      <!-- 8. fill missing -->
+      <article class="task-card">
+        <div class="icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="欠け補完">
+            <g fill="#1A1F2A" opacity="0.16">
+              <circle cx="12" cy="12" r="1"/><circle cx="22" cy="12" r="1"/><circle cx="32" cy="12" r="1"/><circle cx="42" cy="12" r="1"/><circle cx="52" cy="12" r="1"/>
+              <circle cx="12" cy="22" r="1"/><circle cx="22" cy="22" r="1"/><circle cx="32" cy="22" r="1"/><circle cx="42" cy="22" r="1"/><circle cx="52" cy="22" r="1"/>
+              <circle cx="12" cy="32" r="1"/><circle cx="22" cy="32" r="1"/><circle cx="32" cy="32" r="1"/><circle cx="42" cy="32" r="1"/><circle cx="52" cy="32" r="1"/>
+              <circle cx="12" cy="42" r="1"/><circle cx="22" cy="42" r="1"/><circle cx="32" cy="42" r="1"/><circle cx="42" cy="42" r="1"/><circle cx="52" cy="42" r="1"/>
+              <circle cx="12" cy="52" r="1"/><circle cx="22" cy="52" r="1"/><circle cx="32" cy="52" r="1"/><circle cx="42" cy="52" r="1"/><circle cx="52" cy="52" r="1"/>
+            </g>
+            <polyline points="22,42 12,42 12,22 22,22" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="22,22 32,22 42,22 52,22 52,42 42,42 32,42 22,42" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 3" opacity="0.5"/>
+            <polyline points="22,22 52,22 52,42 22,42" fill="none" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="code">A8 · FILL</div>
+          <div class="name">欠け補完</div>
+          <div class="desc">足りない辺を、<br>埋めて閉じる。</div>
+        </div>
+      </article>
+
+      <!-- 9. solid -->
+      <article class="task-card">
+        <div class="icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="立体">
+            <g fill="#1A1F2A" opacity="0.16">
+              <circle cx="12" cy="12" r="1"/><circle cx="22" cy="12" r="1"/><circle cx="32" cy="12" r="1"/><circle cx="42" cy="12" r="1"/><circle cx="52" cy="12" r="1"/>
+              <circle cx="12" cy="22" r="1"/><circle cx="22" cy="22" r="1"/><circle cx="32" cy="22" r="1"/><circle cx="42" cy="22" r="1"/><circle cx="52" cy="22" r="1"/>
+              <circle cx="12" cy="32" r="1"/><circle cx="22" cy="32" r="1"/><circle cx="32" cy="32" r="1"/><circle cx="42" cy="32" r="1"/><circle cx="52" cy="32" r="1"/>
+              <circle cx="12" cy="42" r="1"/><circle cx="22" cy="42" r="1"/><circle cx="32" cy="42" r="1"/><circle cx="42" cy="42" r="1"/><circle cx="52" cy="42" r="1"/>
+              <circle cx="12" cy="52" r="1"/><circle cx="22" cy="52" r="1"/><circle cx="32" cy="52" r="1"/><circle cx="42" cy="52" r="1"/><circle cx="52" cy="52" r="1"/>
+            </g>
+            <polyline points="14,24 34,24 34,44 14,44 14,24" fill="none" stroke="#1A1F2A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="34,24 44,14 56,14 56,34 46,44 34,44" fill="none" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="14,24 24,14 44,14" fill="none" stroke="#2C6E7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="24" y1="14" x2="24" y2="34" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.4"/>
+            <line x1="24" y1="34" x2="46" y2="34" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.4"/>
+            <line x1="46" y1="34" x2="56" y2="14" stroke="#1A1F2A" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="code">A9 · SOLID</div>
+          <div class="name">立体</div>
+          <div class="desc">平面から、<br>奥行きを起こす。</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>店主の痕跡 5 種</h2>
+    <p class="lead">温度差を物理化するために、5 種類のうち 4 種は専用コンポーネントに割り当てる。「店主」一人称、日付は Mono、語彙は voice-tone と整合。</p>
+
+    <div class="traces-grid">
+      <!-- T1 -->
+      <div class="trace-cell">
+        <div class="trace-tag">T1 · 観察メモ ／ accent left marker</div>
+        <aside class="memo--observe">
+          <div class="memo-label">ここを見てください</div>
+          <p class="memo-body">このレベルの〈線対称タスク〉は、鏡を渡すよりも軸を見つけてもらうほうが先です。手本を見るときの目の動きが変わります。</p>
+          <div class="memo-date">2026-05-12</div>
+        </aside>
+      </div>
+
+      <!-- T4 (parents) - placed second for visual variety -->
+      <div class="trace-cell">
+        <div class="trace-tag">T4 · 親へのひとこと ／ parents-warm + accent left marker</div>
+        <aside class="memo--parents">
+          <div class="memo-label">親へのひとこと</div>
+          <p class="memo-body">このレベルは「写す前に、どこを見るか」を一緒に確認してみてください。<br>次は明日でも大丈夫です。</p>
+        </aside>
+      </div>
+
+      <!-- T3 -->
+      <div class="trace-cell">
+        <div class="trace-tag">T3 · 選定理由 ／ fg-2 left marker（accent ではない）</div>
+        <aside class="memo--rationale">
+          <div class="memo-label">なぜ Lv.2 にこの SKU が来るか</div>
+          <p class="memo-body">点と点の距離を測る目を作るには、4×4 までの規則的な配置が必要です。3×3 では情報が足りず、5×5 では距離の比較対象が増えすぎる。Lv.2 は「距離を測ること」だけに集中できる範囲として置きました。</p>
+        </aside>
+      </div>
+
+      <!-- T2 -->
+      <div class="trace-cell">
+        <div class="trace-tag">T2 · 改訂履歴 ／ dashed dividers のみ</div>
+        <dl class="memo--revision">
+          <div class="rev-row">
+            <dt class="rev-version">v1.3</dt>
+            <dd class="rev-date">2026-05-12</dd>
+            <dd class="rev-note">線太さを 0.5pt 増しました</dd>
+          </div>
+          <div class="rev-row">
+            <dt class="rev-version">v1.2</dt>
+            <dd class="rev-date">2026-04-30</dd>
+            <dd class="rev-note">第 3 問の dot 配置を 1 段下げました</dd>
+          </div>
+          <div class="rev-row">
+            <dt class="rev-version">v1.1</dt>
+            <dd class="rev-date">2026-04-12</dd>
+            <dd class="rev-note">親向け解説の段落を入れ替えました</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>トーンの良し悪し</h2>
+    <p class="lead">禁則語彙の代表ケース。同じ意味の文を、TENZU 流に書き直すとどう変わるか。</p>
+
+    <div class="tone-grid">
+      <div class="tone-row bad"><div class="lbl">× 指導語彙</div><div class="text">毎日続けてあげましょう。子どもの図形力にとってこの練習は大切です。</div></div>
+      <div class="tone-row good"><div class="lbl">○ 並走</div><div class="text">毎日 1 枚で、図形を見る目が変わってきます。<br>次は明日でも大丈夫です。</div></div>
+
+      <div class="tone-row bad"><div class="lbl">× 不安語彙</div><div class="text">図形が苦手な子の弱点を診断し、ピンポイントで対策します。</div></div>
+      <div class="tone-row good"><div class="lbl">○ 観察</div><div class="text">「写す前にどこを見るか」が、図形の手前にある力です。TENZU はそこから設計しています。</div></div>
+
+      <div class="tone-row bad"><div class="lbl">× 達成煽り</div><div class="text">できた！おうちの方も一緒にがんばろう！</div></div>
+      <div class="tone-row good"><div class="lbl">○ 落ち着いた声かけ</div><div class="text">今日の 1 枚、お疲れさまでした。</div></div>
+
+      <div class="tone-row bad"><div class="lbl">× 権威マウント</div><div class="text">最新の研究によると、視覚空間処理は算数の予測因子であることが証明されています。</div></div>
+      <div class="tone-row good"><div class="lbl">○ クールな引用</div><div class="text">TENZU では、視覚空間処理と漢字書字・算数達成の関連が複数の研究で示されている、という根拠で 9 タスクを設計しています。</div></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section>
+    <h2>4 種の罫線</h2>
+    <p class="lead">D1 セクション H2 ／ D2 dashed ／ D3 memo accent left ／ D4 rationale fg-2 left。これ以外は使わない。</p>
+
+    <div class="divider-grid">
+      <!-- D1 -->
+      <div class="div-card">
+        <div class="div-tag">D1 · §SECTION UNDERLINE</div>
+        <div class="div-name">H2 直線アンダーライン</div>
+        <div class="div-spec">1.5px solid var(--accent) · inline 幅</div>
+        <div class="div-demo">
+          <span class="demo-h2">家庭での続け方</span>
+        </div>
+      </div>
+
+      <!-- D2 -->
+      <div class="div-card">
+        <div class="div-tag">D2 · DASHED DIVIDER</div>
+        <div class="div-name">dashed 区切り</div>
+        <div class="div-spec">1px dashed var(--line-thin)</div>
+        <div class="div-demo">
+          <ul class="demo-list">
+            <li>模写 Lv.1 — 3×3 まで</li>
+            <li>模写 Lv.2 — 4×4 まで</li>
+            <li>模写 Lv.3 — 5×5 まで</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- D3 -->
+      <div class="div-card">
+        <div class="div-tag">D3 · MEMO LEFT MARKER（ACCENT）</div>
+        <div class="div-name">accent 左マーカー</div>
+        <div class="div-spec">2px solid var(--accent) · 観察メモ／親へのひとこと／引用</div>
+        <div class="div-demo">
+          <blockquote class="demo-quote">点と点の距離を、目で測れるように。<br>— 店主</blockquote>
+        </div>
+      </div>
+
+      <!-- D4 -->
+      <div class="div-card">
+        <div class="div-tag">D4 · RATIONALE LEFT MARKER（FG-2）</div>
+        <div class="div-name">fg-2 左マーカー</div>
+        <div class="div-spec">2px solid var(--fg-2) · 選定理由・開発ノート</div>
+        <div class="div-demo">
+          <div class="demo-rationale">Lv 構成は「距離を測る → 軸を見つける → 向きを変える」の順で進めています。各 Lv は独立に学べます。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
