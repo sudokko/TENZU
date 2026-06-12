@@ -1,0 +1,83 @@
+/* atelier（dev 限定検品ツール）。rev.5 トークン準拠の最小スタイル */
+
+.atl-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 24px 80px;
+  font-family: var(--font-ui, "IBM Plex Sans JP", sans-serif);
+  color: #2a2f36;
+}
+
+.atl-head h1 { font-size: 22px; margin: 4px 0 6px; }
+.atl-head p { color: #6b7280; font-size: 13px; margin: 0; }
+.atl-crumb { font-size: 12px; }
+.atl-crumb a { color: #2c6e7f; }
+
+.atl-actions { display: flex; gap: 10px; align-items: center; margin: 14px 0 6px; flex-wrap: wrap; }
+.atl-btn {
+  border: 1px solid #c8cdd4; background: #fff; border-radius: 4px;
+  padding: 8px 14px; font-size: 13px; cursor: pointer;
+}
+.atl-btn:hover:not(:disabled) { border-color: #2c6e7f; color: #2c6e7f; }
+.atl-btn:disabled { opacity: 0.45; cursor: default; }
+.atl-btn--pub { background: #2c6e7f; border-color: #2c6e7f; color: #fff; }
+.atl-btn--pub:hover:not(:disabled) { background: #235a68; color: #fff; }
+.atl-msg { font-size: 13px; color: #2c6e7f; }
+.atl-gen-lines {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: #6b7280;
+}
+.atl-gen-lines select {
+  border: 1px solid #c8cdd4; border-radius: 4px; background: #fff;
+  padding: 7px 8px; font-size: 13px;
+}
+
+/* ---- SKU 一覧 ---- */
+.atl-task { margin-top: 30px; }
+.atl-task h2 { font-size: 16px; border-bottom: 1.5px solid #2c6e7f; padding-bottom: 4px; }
+.atl-slug { color: #9aa0aa; font-size: 12px; font-weight: 400; }
+.atl-sku-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; margin-top: 10px; }
+.atl-sku-card {
+  display: flex; flex-direction: column; gap: 3px;
+  border: 1px dashed #c8cdd4; border-radius: 4px; padding: 10px 12px;
+  text-decoration: none; color: inherit; font-size: 13px;
+}
+.atl-sku-card:hover { border-color: #2c6e7f; }
+.atl-sku-card[data-pub] { border-style: solid; border-color: #2c6e7f; }
+.atl-sku-sku { font-family: monospace; font-size: 11px; color: #9aa0aa; }
+.atl-badges { display: flex; gap: 6px; margin-top: 2px; }
+.atl-badge {
+  font-style: normal; font-size: 10px; color: #6b7280;
+  border: 1px solid #d8dce2; border-radius: 3px; padding: 1px 5px;
+}
+.atl-badge--pub { color: #fff; background: #2c6e7f; border-color: #2c6e7f; }
+.atl-badge--gen { color: #2c6e7f; border-color: #2c6e7f; }
+
+/* ---- 検品レーン ---- */
+.atl-lane { margin-top: 34px; }
+.atl-lane h2 { font-size: 15px; margin-bottom: 10px; }
+.atl-count { color: #9aa0aa; font-weight: 400; font-size: 13px; }
+.atl-empty { color: #9aa0aa; font-size: 13px; }
+
+.atl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.atl-card {
+  margin: 0; border: 1px solid #e2e5ea; border-radius: 4px; padding: 8px;
+  background: #fff; cursor: pointer; position: relative;
+}
+.atl-card:hover { border-color: #2c6e7f; }
+.atl-card--adopted { border: 1.5px solid #2c6e7f; cursor: default; }
+.atl-card--rejected { opacity: 0.55; cursor: default; }
+.atl-thumb { display: block; width: 100%; height: auto; border: 1px dotted #eceef2; }
+.atl-card figcaption { font-size: 11px; color: #6b7280; margin-top: 6px; line-height: 1.5; }
+.atl-order {
+  position: absolute; top: -8px; left: 8px; background: #2c6e7f; color: #fff;
+  font-size: 11px; border-radius: 3px; padding: 1px 7px;
+}
+.atl-card-actions { display: flex; gap: 6px; margin-top: 6px; }
+.atl-card-actions button {
+  border: 1px solid #d8dce2; background: #fff; border-radius: 3px;
+  font-size: 11px; padding: 2px 8px; cursor: pointer;
+}
+.atl-card-actions button:hover:not(:disabled) { border-color: #2c6e7f; }
+.atl-card-actions button:disabled { opacity: 0.4; cursor: default; }
+.atl-lane--rejected .atl-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
