@@ -68,23 +68,43 @@ export function gridFor(
   return { cols: best.cols, rows: best.rows };
 }
 
-// Block-arrow silhouette points (white fill + thin outline) within a w×h box.
-export function blockArrowPoints(w: number, h: number, dir: "right" | "down"): string {
-  let pts: [number, number][];
-  if (dir === "right") {
-    const top = h * 0.32, bot = h * 0.68, hb = w * 0.55;
-    pts = [
-      [0, top], [hb, top], [hb, h * 0.10],
-      [w, h * 0.5],
-      [hb, h * 0.90], [hb, bot], [0, bot],
-    ];
-  } else {
-    const lef = w * 0.32, rig = w * 0.68, hb = h * 0.55;
-    pts = [
-      [lef, 0], [lef, hb], [w * 0.10, hb],
-      [w * 0.5, h],
-      [w * 0.90, hb], [rig, hb], [rig, 0],
-    ];
-  }
-  return pts.map(([px, py]) => `${px},${py}`).join(" ");
+/* ---- 紙面の共通表現（点・線・矢印・記名欄）。maker と商品ページが共用 ---- */
+
+// 印刷面の点・線・矢印用グレー — 真っ黒よりインク消費が少なく、視認性は保つ
+export const PRINT_INK = "#777777";
+// 記名欄など書き込み基準線の濃色
+export const BAND_INK = "#3A424E";
+
+// 点の大きさ 3 段階（基準半径への倍率）
+export type DotSize = "s" | "m" | "l";
+export const DOT_SCALE: Record<DotSize, number> = { s: 1, m: 1.8, l: 2.8 };
+
+// ペイン寸法（mm）から印刷される点の半径（mm）
+export function dotRadius(pane: number, scale: number): number {
+  return Math.max(0.45, pane * 0.008) * scale;
+}
+// 図形線の太さ（mm）
+export function edgeWidth(pane: number): number {
+  return Math.max(0.4, pane * 0.008);
+}
+
+// 名前・日付の記入欄（ON 時のみページ上部に 1 行）
+export const NAME_BAND_MM = 11;
+
+// 記入欄の SVG 断片（mm 座標・右寄せ）。プレビュー SVG と PDF 用ラスタライズが共用。
+export function nameBandSvgString(W: number, marginMm: number): string {
+  const jpFont = "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif";
+  const R = W - marginMm;          // 右端
+  const ty = marginMm + 6.4;       // テキストベースライン
+  const ly = marginMm + 7.6;       // 下線
+  const label = (x: number, s: string) =>
+    `<text x="${x}" y="${ty}" text-anchor="end" font-family="${jpFont}" font-size="4.8" fill="${BAND_INK}">${s}</text>`;
+  const line = (x1: number, x2: number) =>
+    `<line x1="${x1}" y1="${ly}" x2="${x2}" y2="${ly}" stroke="${BAND_INK}" stroke-width="0.35"/>`;
+  // 右から: なまえ＋長い下線 ← にち ← がつ（空欄はラベルの前）
+  return (
+    line(R - 117, R - 105) + label(R - 94, "がつ") +
+    line(R - 92, R - 80) + label(R - 69, "にち") +
+    label(R - 52, "なまえ") + line(R - 50, R)
+  );
 }

@@ -26,6 +26,15 @@
 }
 @media (max-width: 800px) { .sku-head { grid-template-columns: 1fr; gap: 32px; } }
 
+/* タイトル直下に紙面プレビューを置く 1 カラム構成（2026-06-11 オーナー指示） */
+.sku-head--single { grid-template-columns: 1fr; max-width: 760px; }
+
+/* 導入全幅 → 左:紙面プレビュー／右:詳細設定＋spec・価格・CTA（2026-06-12 オーナー指示）
+   左右の振り分けは .spv 側の grid が担う。モバイルは 導入 → 詳細設定 → プレビュー → 買い物 */
+.sku-head--split { grid-template-columns: 1fr; gap: 28px; }
+.sku-intro { display: flex; flex-direction: column; gap: 14px; }
+.sku-buy { display: flex; flex-direction: column; gap: 22px; }
+
 .sku-visual {
   background: #FFFFFF;
   border: 1px solid var(--line-thin);
@@ -99,6 +108,8 @@
   margin: 0;
   max-width: 28ch;
 }
+/* H1 直下・折り返さない 1 行コピー（2026-06-12 オーナー指示） */
+.sku-promise--oneline { max-width: none; }
 
 .price-row {
   display: flex; align-items: baseline; gap: 12px;
@@ -384,6 +395,67 @@ section.s .lead {
   color: var(--fg-3);
 }
 .spv { display: flex; flex-direction: column; gap: 16px; }
+.spv-main { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+/* PC: 左=プレビュー／右=詳細設定＋買い物ボックス（buySlot がある商品詳細のみ） */
+@media (min-width: 801px) {
+  .spv:has(.spv-buyslot) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "main fold"
+      "main buy";
+    gap: 0 48px;
+    align-items: start;
+  }
+  .spv:has(.spv-buyslot) .spv-main { grid-area: main; }
+  .spv:has(.spv-buyslot) .spv-fold { grid-area: fold; }
+  .spv:has(.spv-buyslot) .spv-buyslot {
+    grid-area: buy;
+    margin-top: 22px;
+    position: sticky; top: 24px;
+  }
+}
+
+/* 詳細設定 — 折りたたみ（閉でも現在値を 1 行表示・maker と同じ開閉ボックス） */
+.spv-fold {
+  border: 1px solid var(--line-mid);
+  border-radius: var(--radius-soft);
+  background: var(--bg);
+}
+.spv-fold summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex; flex-direction: column; gap: 5px;
+  padding: 12px 14px;
+  border-radius: var(--radius-soft);
+}
+.spv-fold summary:hover { background: var(--bg-3); }
+.spv-fold[open] summary {
+  border-bottom: 1px dashed var(--line-thin);
+  border-radius: var(--radius-soft) var(--radius-soft) 0 0;
+}
+.spv-fold summary::-webkit-details-marker { display: none; }
+.spv-fold-label {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--fg-2);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.spv-fold-chevron::after {
+  content: "▸  ひらく";
+  font-size: 11px; color: var(--fg-3);
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+.spv-fold[open] .spv-fold-chevron::after { content: "▾  とじる"; }
+.spv-fold-current {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px; line-height: 1.6;
+  color: var(--fg-2);
+}
+.spv-fold .spv-controls { padding: 16px 14px; }
+
 .spv-controls { display: flex; flex-direction: column; gap: 12px; }
 .spv-label {
   font-family: var(--font-tier3-sans);
@@ -436,18 +508,101 @@ section.s .lead {
   box-shadow: 0 1px 2px rgba(26, 31, 42, 0.04);
   background: #FFFFFF;
 }
-.spv-page-badge {
-  position: absolute; top: 6px; left: 6px;
+/* 大判プレビューのページ番号（紙の外・上） */
+.spv-focus-no {
+  width: 100%;
+  text-align: center;
   font-family: var(--font-tier3-mono);
-  font-size: 9px;
-  letter-spacing: 0.06em;
+  font-size: 11px;
+  letter-spacing: 0.08em;
   color: var(--fg-3);
-  background: rgba(255, 255, 255, 0.85);
-  padding: 1px 5px;
-  border-radius: 2px;
+}
+/* ラダー各段の巻リンク */
+.lv-links { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 6px; }
+.lv-link {
+  font-family: var(--font-tier3-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+  color: var(--fg-3);
+  text-decoration: none;
+}
+a.lv-link { color: var(--accent-ink); }
+a.lv-link:hover { text-decoration: underline; }
+.lv-link.is-current { color: var(--fg); font-weight: 600; }
+
+/* ならび選択チップ（ピクト＋短いラベル） */
+.spv-chip--pair {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  min-width: 86px;
+}
+.spv-chip-ic { display: block; line-height: 0; }
+.spv-chip-ic svg { display: block; }
+
+/* 点の大きさ — 実寸サンプル点つきチップ */
+.spv-chip--dot {
+  flex-direction: row; gap: 7px;
+  min-width: 64px; min-height: 36px;
+  justify-content: center;
+}
+.spv-dot-sample {
+  display: inline-block;
+  border-radius: 50%;
+  background: #777777;
+  flex: none;
+}
+.spv-dot-note {
+  margin: 6px 2px 0;
+  font-family: var(--font-tier3-sans);
+  font-size: 10.5px; color: var(--fg-3);
+  letter-spacing: 0.02em;
+}
+
+/* 2 ページ目以降のサムネ（クリックで大表示と入れ替え） */
+.spv-thumbs {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+  width: 100%;
+}
+.spv-thumb {
+  position: relative;
+  width: 92px; padding: 0; margin: 0;
+  background: none; border: none; cursor: pointer;
+}
+.spv-thumb .spv-page { width: 100% !important; min-width: 0; }
+.spv-thumb[data-sel] .spv-page svg { outline: 1.5px solid var(--accent); }
+.spv-thumb-no {
+  display: block; margin-top: 3px;
+  font-family: var(--font-tier3-mono);
+  font-size: 9px; color: var(--fg-3); letter-spacing: 0.06em;
 }
 .spv-dl { text-align: center; }
 .spv-dl[disabled] { opacity: 0.55; cursor: default; }
+
+/* 全問公開ギャラリー（中身が見える・server レンダリング） */
+.sku-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+.sku-gallery-item { margin: 0; }
+.sku-gallery-item svg {
+  display: block; width: 100%; height: auto;
+  border: 1px dashed var(--line-thin);
+  border-radius: var(--radius-soft);
+  background: #FFFFFF;
+}
+.sku-gallery-item figcaption {
+  margin-top: 6px;
+  font-family: var(--font-tier3-mono);
+  font-size: 11px; line-height: 1.6;
+  color: var(--fg-2);
+}
+.sku-gallery-item figcaption b { color: var(--fg-1); font-weight: 600; }
+.sku-gallery-aim {
+  display: block;
+  font-family: var(--font-tier2-pencil);
+  font-size: 12px; color: var(--fg-2);
+}
 .spv-note {
   font-family: var(--font-tier2-pencil);
   font-size: 13px;

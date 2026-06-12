@@ -49,18 +49,6 @@ header.maker-header {
   font-size: 10px; color: var(--fg-3);
   letter-spacing: 0.16em; text-transform: uppercase; margin-left: 8px;
 }
-.maker-header .actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-.maker-header .save-state {
-  font-family: var(--font-tier3-mono);
-  font-size: 10px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--fg-3);
-}
-.maker-header .btn-weak {
-  font-family: var(--font-tier3-sans); font-size: 12px;
-  color: var(--fg-3); text-decoration: none;
-  background: none; border: none; padding: 0; cursor: pointer;
-}
-.maker-header .btn-weak:hover { color: var(--fg); }
 .maker-header .btn-medium {
   display: inline-block; font-family: var(--font-tier3-sans);
   font-weight: 500; font-size: 13px; color: var(--fg);
@@ -130,6 +118,29 @@ header.maker-header {
 }
 .seg button:last-child { border-right: none; }
 .seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+/* ならび選択（ピクト付き・商品ページと同じ図解） */
+.seg--pair button {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 9px 0 7px;
+}
+.seg-ic { display: block; line-height: 0; }
+/* 点の大きさ — 実寸サンプル点つき */
+.seg--dot button {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 34px;
+}
+.dot-sample {
+  display: inline-block;
+  border-radius: 50%;
+  background: #777777;
+  flex: none;
+}
+.seg--dot button[aria-pressed="true"] .dot-sample { background: var(--bg); }
+.dot-sample-note {
+  margin: 6px 2px 0;
+  font-size: 10.5px; color: var(--fg-3);
+  letter-spacing: 0.02em;
+}
 .seg button[disabled] { color: var(--fg-4); cursor: not-allowed; }
 
 /* paper picker — 3×2 grid */
@@ -388,88 +399,64 @@ header.maker-header {
 /* =========================================================================
    RIGHT SIDEBAR: SAVED LIST + LAYOUT SELECTOR + PDF PREVIEW
    ========================================================================= */
-.saved-list { display: flex; flex-direction: column; gap: 0; }
-.saved-row {
+/* 保存済み — サムネ 3 列グリッド（タップで選択） */
+.saved-grid {
   display: grid;
-  grid-template-columns: 14px 16px 22px 1fr 16px;
-  gap: 8px;
-  padding: 10px 0;
-  border-bottom: 1px dashed var(--line-thin);
-  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
-.saved-row:last-child { border-bottom: none; }
-.saved-row .drag {
-  cursor: grab; width: 14px;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0.5;
-}
-.saved-row .drag svg { width: 8px; height: 14px; }
-.saved-row:hover .drag { opacity: 1; }
-.saved-row .chk {
-  width: 14px; height: 14px;
-  border: 1px solid var(--line-mid);
-  border-radius: 2px;
-  background: var(--bg);
-  display: grid; place-items: center;
+.saved-cell { position: relative; }
+.saved-cell .thumb {
+  display: block; width: 100%;
+  aspect-ratio: 1;
+  background: #fff;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 8px;
   cursor: pointer;
-  padding: 0;
+  box-sizing: border-box;
 }
-.saved-row .chk[aria-checked="true"] {
-  background: var(--accent);
+.saved-cell.sel .thumb {
   border-color: var(--accent);
+  outline: 1.5px solid var(--accent);
+  outline-offset: -1.5px;
 }
-.saved-row .chk[aria-checked="true"]::after {
-  content: "";
-  width: 7px; height: 4px;
-  border-left: 1.5px solid #fff;
-  border-bottom: 1.5px solid #fff;
-  transform: rotate(-45deg) translate(0.5px, -1px);
+.saved-cell .thumb svg { width: 100%; height: 100%; display: block; }
+.saved-cell .sel-mark {
+  position: absolute; top: -6px; left: -6px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-size: 11px; line-height: 18px; text-align: center;
+  pointer-events: none;
 }
-.saved-row .num {
-  font-family: var(--font-tier3-mono);
-  font-size: 11px; color: var(--fg-3);
-  letter-spacing: 0.04em;
+.saved-cell .del {
+  position: absolute; top: 2px; right: 2px;
+  width: 20px; height: 20px;
+  background: none; border: none; padding: 0;
+  font-size: 14px; line-height: 20px;
+  color: var(--fg-4); cursor: pointer;
 }
-.saved-row .name {
-  font-family: var(--font-tier3-sans);
-  font-size: 13px; color: var(--fg);
-  line-height: 1.4;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  cursor: pointer;
-}
-.saved-row .name.placeholder { color: var(--fg-3); }
-.saved-row .name small {
-  display: block;
+.saved-cell .del:hover { color: var(--fg); }
+.saved-cell .cnum {
+  position: absolute; bottom: 3px; left: 6px;
   font-family: var(--font-tier3-mono);
   font-size: 10px; color: var(--fg-3);
-  letter-spacing: 0.04em; margin-top: 2px;
+  letter-spacing: 0.04em;
+  pointer-events: none;
 }
-.saved-row .name.current { color: var(--accent); }
-.saved-row .name.current::before {
-  content: "● ";
-  color: var(--accent);
-  margin-right: 4px;
+.saved-cell .order {
+  position: absolute; bottom: 1px; right: 2px;
+  display: flex; gap: 2px;
 }
-.saved-row .name.editing {
-  display: flex; flex-direction: column; gap: 4px;
-  white-space: normal; overflow: visible;
-}
-.saved-row .name-input {
-  width: 100%; box-sizing: border-box;
-  padding: 4px 8px;
-  font-family: var(--font-tier3-sans);
-  font-size: 13px; color: var(--fg);
-  background: var(--bg-3);
-  border: 1px solid var(--accent);
-  border-radius: 2px; outline: none;
-}
-.saved-row .menu {
-  font-family: var(--font-tier3-mono);
-  font-size: 14px; color: var(--fg-3);
-  cursor: pointer; text-align: center;
+.saved-cell .order button {
+  width: 18px; height: 18px;
   background: none; border: none; padding: 0;
+  font-size: 13px; line-height: 18px;
+  color: var(--fg-3); cursor: pointer;
 }
-.saved-row .menu:hover { color: var(--fg); }
+.saved-cell .order button:hover:not([disabled]) { color: var(--fg); }
+.saved-cell .order button[disabled] { color: var(--line-mid); cursor: default; }
 
 .saved-empty {
   font-family: var(--font-tier2-pencil);
@@ -571,17 +558,13 @@ header.maker-header {
   box-shadow: var(--shadow-paper);
 }
 .pdf-preview .pp-page svg { width: 100%; height: 100%; display: block; }
-.pdf-preview .pp-page .pp-badge {
-  position: absolute;
-  top: 6px; left: 7px;
+.group h3 .pp-paperinfo {
+  float: right;
   font-family: var(--font-tier3-mono);
-  font-size: 9.5px; color: var(--fg-2);
+  font-weight: 400;
+  font-size: 10px; color: var(--fg-2);
   letter-spacing: 0.04em;
-  background: rgba(255, 255, 255, 0.78);
-  padding: 1px 5px;
-  border-radius: 2px;
 }
-.pdf-preview .pp-page .pp-badge .u { color: var(--fg-3); margin-left: 1px; }
 .pdf-preview .pp-page .pageno {
   position: absolute;
   bottom: 6px; right: 10px;
@@ -625,6 +608,87 @@ header.maker-header {
   font-family: var(--font-tier3-mono);
   font-size: 11px; letter-spacing: 0.04em;
   color: rgba(255, 255, 255, 0.82);
+}
+
+/* 詳細設定 — 折りたたみ（閉でも現在値を 1 行表示・ボタン然とした開閉ボックス） */
+.settings-fold {
+  border: 1px solid var(--line-mid);
+  border-radius: var(--radius-soft);
+  background: var(--bg);
+}
+.settings-fold summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex; flex-direction: column; gap: 5px;
+  padding: 12px 14px;
+  border-radius: var(--radius-soft);
+}
+.settings-fold summary:hover { background: var(--bg-3); }
+.settings-fold[open] summary {
+  border-bottom: 1px dashed var(--line-thin);
+  border-radius: var(--radius-soft) var(--radius-soft) 0 0;
+}
+.settings-fold summary::-webkit-details-marker { display: none; }
+.settings-fold .sf-label {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--fg-2);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.settings-fold .sf-chevron::after {
+  content: "▸  ひらく";
+  font-size: 11px; color: var(--fg-3);
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+.settings-fold[open] .sf-chevron::after { content: "▾  とじる"; }
+.settings-fold .sf-current {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px; line-height: 1.6;
+  color: var(--fg-2);
+}
+.settings-fold .sf-body {
+  display: flex; flex-direction: column; gap: 22px;
+  padding: 16px 14px;
+}
+
+/* 「おまかせ」チップ（layout-grid 内） */
+.layout-grid button .lauto {
+  font-family: var(--font-tier3-sans);
+  font-size: 11.5px; font-weight: 500;
+  line-height: 1.3;
+}
+
+/* モバイル専用・画面下固定の DL バー */
+.mobile-export-bar { display: none; }
+@media (max-width: 1200px) {
+  .mobile-export-bar {
+    display: block;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: var(--bg);
+    border-top: 1px dashed var(--line-thin);
+  }
+  .mobile-export-bar button {
+    width: 100%;
+    display: inline-flex; align-items: baseline; justify-content: center;
+    gap: 10px;
+    font-family: var(--font-tier3-sans);
+    font-weight: 500; font-size: 14px;
+    color: var(--bg); background: var(--accent);
+    padding: 12px 16px;
+    border: none; border-radius: var(--radius-soft);
+    letter-spacing: 0.02em; cursor: pointer;
+  }
+  .mobile-export-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .mobile-export-bar button .x {
+    font-family: var(--font-tier3-mono);
+    font-size: 11px; letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .sidebar.right { padding-bottom: 84px; }
 }
 
 /* warning (rev.5 separate font family per accessibility guard) */
@@ -801,6 +865,7 @@ header.maker-header {
   }
   body.maker-page > header.maker-header,
   body.maker-page > .app-shell,
+  .mobile-export-bar,
   .maker-done { display: none !important; }
 
   .print-only { display: block !important; }
@@ -817,6 +882,22 @@ header.maker-header {
     padding: 14mm 14mm 14mm;
     display: flex; flex-direction: column;
   }
+  .print-nameband {
+    flex: none;
+    height: 11mm;
+    display: flex; justify-content: flex-end; align-items: baseline;
+    gap: 2mm;
+    font-size: 4.8mm;
+    color: #3A424E;
+    letter-spacing: 0.04em;
+  }
+  .print-nameband .nb-line {
+    border-bottom: 0.35mm solid #3A424E;
+    height: 7mm;
+  }
+  .print-nameband .nb-line--date { width: 12mm; }
+  .print-nameband .nb-line--name { width: 50mm; }
+  .print-nameband .nb-label--name { margin-left: 4mm; }
   .print-grid {
     flex: 1;
     display: grid;
@@ -857,23 +938,6 @@ header.maker-header {
     width: 100%;
     max-width: 120mm;
   }
-  .print-problem .pheader {
-    grid-column: 1 / -1;
-    font-family: var(--font-tier1-klee);
-    font-weight: 600;
-    font-size: calc(11pt * var(--pscale, 1));
-    color: #3A424E;
-    margin-bottom: 2mm;
-    letter-spacing: 0.01em;
-  }
-  .print-problem .pheader .ptag {
-    font-family: var(--font-tier3-mono);
-    font-size: 8pt;
-    color: #666;
-    margin-left: 8px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
   .print-cell {
     display: flex; flex-direction: column;
     gap: 2mm;
@@ -881,7 +945,6 @@ header.maker-header {
   }
   .print-pane {
     aspect-ratio: 1;
-    border: 0.5pt solid #999;
     background: #fff;
     width: 100%;
   }

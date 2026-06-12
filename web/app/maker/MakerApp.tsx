@@ -5,9 +5,11 @@ import {
   taskBySlug, volHref, LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL, type Vol,
 } from "../products/data";
 import {
-  PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor, blockArrowPoints,
-  KGAP, type PaperKey, type LayoutPerPage, type PairLayout,
+  PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
+  KGAP, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
+  type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "../products/print";
+import { PairChipIcon } from "../products/SkuPrintPreview";
 
 // =========================================================================
 // Types & constants
@@ -30,19 +32,24 @@ const VIEW = 200;
 // Soft ink color — used for all drawn dots/lines/labels in panes (printable side).
 // UI chrome (toolbar buttons, etc.) stays at the original --fg.
 const INK = "#3A424E";
+// 設問セルの内側余白（セル短辺比）とくぎり破線色 — 商品ページのプレビューと同じ見え方
+const CELL_PAD = 0.06;
 
 // Outlined block arrow — used between もんだい / かいとう
+// 細線＋小さな矢じり（案A・2026-06-12）。x,y は線の始点。
 function ArrowSVG({ x, y, size, dir, color }: {
   x: number; y: number; size: number; dir: "right" | "down"; color: string;
 }) {
-  const w = dir === "right" ? size : size * 0.55;
-  const h = dir === "right" ? size * 0.55 : size;
-  const sw = Math.max(0.3, size * 0.028);
+  const hd = size * 0.3; // 矢じりの開き
+  const sw = Math.max(0.35, size * 0.04);
+  const d = dir === "right"
+    ? `M0 0 L${size} 0 M${size - hd} ${-hd} L${size} 0 L${size - hd} ${hd}`
+    : `M0 0 L0 ${size} M${-hd} ${size - hd} L0 ${size} L${hd} ${size - hd}`;
   return (
-    <polygon
-      points={blockArrowPoints(w, h, dir)}
+    <path
+      d={d}
       transform={`translate(${x},${y})`}
-      fill="#FFFFFF" stroke={color} strokeWidth={sw}
+      fill="none" stroke={color} strokeWidth={sw}
       strokeLinejoin="round" strokeLinecap="round"
     />
   );
@@ -95,31 +102,27 @@ function hasDiagonal(problems: Problem[]): boolean {
 // =========================================================================
 const PX_PER_MM = 300 / 25.4; // 300dpi
 
-function escapeXml(s: string): string {
-  return s.replace(/[<>&"']/g, (c) =>
-    ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;" }[c] as string));
-}
-
 // 1ペイン（盤面）を mm 座標の SVG 断片で描く。比率は PaperSVG（r=1.6/VIEW200）準拠。
 function paneSvgString(
   x: number, y: number, pane: number, gridSize: GridSize, edges: Edge[], showLines: boolean,
+  dotScale: number,
 ): string {
   const inset = pane * 0.10;
   const step = (pane - inset * 2) / (gridSize - 1);
   const P = (c: number, r: number) => ({ x: x + inset + c * step, y: y + inset + r * step });
-  const dotR = Math.max(0.45, pane * 0.008);
-  const lineW = Math.max(0.4, pane * 0.008);
-  let s = `<rect x="${x}" y="${y}" width="${pane}" height="${pane}" fill="#FFFFFF" stroke="#999999" stroke-width="0.2"/>`;
+  const dotR = dotRadius(pane, dotScale);
+  const lineW = edgeWidth(pane);
+  let s = "";
   if (showLines) {
     for (const e of edges) {
       const a = P(e.a.c, e.a.r), b = P(e.b.c, e.b.r);
-      s += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${INK}" stroke-width="${lineW}" stroke-linecap="round" stroke-linejoin="round"/>`;
+      s += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${PRINT_INK}" stroke-width="${lineW}" stroke-linecap="round" stroke-linejoin="round"/>`;
     }
   }
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
       const p = P(c, r);
-      s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${INK}"/>`;
+      s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
     }
   }
   return s;
@@ -127,56 +130,59 @@ function paneSvgString(
 
 type LogoInfo = { url: string; w: number; h: number };
 
+// なまえ・日付の記入欄 SVG は products/print.ts（nameBandSvgString）を共用。
+
 function buildPageSvg(opts: {
   paper: typeof PAPER[PaperKey];
   problems: Problem[];
-  startIndex: number;
   pageNo: number;
   pageCount: number;
   marginMm: number;
-  problemsPerPage: LayoutPerPage;
+  problemsPerPage: number;
   pairLayout: PairLayout;
+  nameField: boolean;
+  dotScale: number;
   logo: LogoInfo | null;
 }): string {
-  const { paper, problems, startIndex, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, logo } = opts;
+  const { paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale, logo } = opts;
   const W = paper.w, H = paper.h;
   const footerH = 12;   // フッター帯（ロゴ＋ページ番号）
-  const headerBand = 7; // 各問題の見出し行
-  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - footerH, marginMm);
+  const nameH = nameField ? NAME_BAND_MM : 0;
+  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - footerH - nameH, marginMm);
   const cellW = (W - marginMm * 2) / cols;
-  const cellH = (H - marginMm * 2 - footerH) / rows;
-  const pane = paneSize(cellW, cellH - headerBand, pairLayout);
+  const cellH = (H - marginMm * 2 - footerH - nameH) / rows;
+  const pad = Math.min(cellW, cellH) * CELL_PAD;
+  const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout);
   const gap = pane * KGAP;
   const jpFont = "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif";
 
   let body = "";
+  if (nameField) body += nameBandSvgString(W, marginMm);
   problems.forEach((p, idx) => {
     const col = idx % cols;
     const row = Math.floor(idx / cols);
     const cx = marginMm + col * cellW;
-    const cy = marginMm + row * cellH;
-    const num = (startIndex + idx + 1).toString().padStart(2, "0");
-    body += `<text x="${cx + 1}" y="${cy + 4.6}" font-family="${jpFont}" font-size="3.6" fill="${INK}">${num} · ${escapeXml(p.name)}<tspan dx="3" font-size="2.6" fill="#777777">${p.gridSize}×${p.gridSize}</tspan></text>`;
+    const cy = marginMm + nameH + row * cellH;
 
-    const areaY = cy + headerBand;
-    const areaH = cellH - headerBand;
+    const areaY = cy;
+    const areaH = cellH;
     const aSize = gap * 0.9;
     if (pairLayout === "horizontal") {
       const pairW = pane * 2 + gap;
       const sx = cx + (cellW - pairW) / 2;
       const sy = areaY + (areaH - pane) / 2;
-      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true);
-      body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, [], false);
-      const ah = aSize * 0.55;
-      body += `<g transform="translate(${sx + pane + (gap - aSize) / 2},${sy + pane / 2 - ah / 2})"><polygon points="${blockArrowPoints(aSize, ah, "right")}" fill="#FFFFFF" stroke="${INK}" stroke-width="0.25" stroke-linejoin="round" stroke-linecap="round"/></g>`;
+      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale);
+      body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, [], false, dotScale);
+      const hd = aSize * 0.3;
+      body += `<path d="M0 0 L${aSize} 0 M${aSize - hd} ${-hd} L${aSize} 0 L${aSize - hd} ${hd}" transform="translate(${sx + pane + (gap - aSize) / 2},${sy + pane / 2})" fill="none" stroke="${PRINT_INK}" stroke-width="${Math.max(0.35, aSize * 0.04)}" stroke-linejoin="round" stroke-linecap="round"/>`;
     } else {
       const pairH = pane * 2 + gap;
       const sx = cx + (cellW - pane) / 2;
       const sy = areaY + (areaH - pairH) / 2;
-      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true);
-      body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, [], false);
-      const aw = aSize * 0.55;
-      body += `<g transform="translate(${sx + pane / 2 - aw / 2},${sy + pane + (gap - aSize) / 2})"><polygon points="${blockArrowPoints(aw, aSize, "down")}" fill="#FFFFFF" stroke="${INK}" stroke-width="0.25" stroke-linejoin="round" stroke-linecap="round"/></g>`;
+      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale);
+      body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, [], false, dotScale);
+      const hd = aSize * 0.3;
+      body += `<path d="M0 0 L0 ${aSize} M${-hd} ${aSize - hd} L0 ${aSize} L${hd} ${aSize - hd}" transform="translate(${sx + pane / 2},${sy + pane + (gap - aSize) / 2})" fill="none" stroke="${PRINT_INK}" stroke-width="${Math.max(0.35, aSize * 0.04)}" stroke-linejoin="round" stroke-linecap="round"/>`;
     }
   });
 
@@ -242,6 +248,8 @@ function PaperSVG({
   onDotClick,
   showLines,
   showActiveHighlight,
+  ink = INK,
+  dotScale = 1,
 }: {
   gridSize: GridSize;
   edges: Edge[];
@@ -249,6 +257,8 @@ function PaperSVG({
   onDotClick?: (p: Point) => void;
   showLines: boolean;
   showActiveHighlight?: boolean;
+  ink?: string;
+  dotScale?: number;
 }) {
   const dots = gridSize;
   const points: Point[] = [];
@@ -271,7 +281,7 @@ function PaperSVG({
             <line
               key={i}
               x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-              stroke={INK}
+              stroke={ink}
               strokeWidth="1.6"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -281,8 +291,8 @@ function PaperSVG({
       {points.map((p) => {
         const pos = dotPos(p.c, p.r, dots);
         const isSel = samePoint(selected ?? null, p);
-        const r = showActiveHighlight && isSel ? 4 : 1.6;
-        const fill = showActiveHighlight && isSel ? "#2C6E7F" : INK;
+        const r = showActiveHighlight && isSel ? 4 : 1.6 * dotScale;
+        const fill = showActiveHighlight && isSel ? "#2C6E7F" : ink;
         return (
           <g key={pointKey(p)}>
             {showActiveHighlight && isSel && (
@@ -377,21 +387,25 @@ export default function MakerApp() {
   }
 
   // ---- Paper / layout state ----
-  const [paperKey, setPaperKey] = useState<PaperKey>("B4-L");
+  /* 既定: A4 縦・となりに書く・3 問/ページ（2026-06-12 オーナー確定・商品ページと共通の基本） */
+  const [paperKey, setPaperKey] = useState<PaperKey>("A4-P");
   const marginMm = 14;
-  const [problemsPerPage, setProblemsPerPage] = useState<LayoutPerPage>(2);
+  // 既定「おまかせ」= 選択した問題数を 1 ページに最適表示（用紙上限超は複数ページ）
+  const [perPage, setPerPage] = useState<"auto" | LayoutPerPage>("auto");
   const [pairLayout, setPairLayout] = useState<PairLayout>("horizontal");
+  const [nameField, setNameField] = useState(false); // なまえ・日付欄（既定 OFF）
+  const [dotSize, setDotSize] = useState<DotSize>("m"); // 点の大きさ（既定 中）
+  const dotScale = DOT_SCALE[dotSize];
 
-  // Switching paper clamps per-page count to that paper's legible maximum.
+  // Switching paper clamps a manual per-page count to that paper's legible maximum.
   function selectPaper(k: PaperKey) {
     setPaperKey(k);
     const max = paperMax(k);
-    setProblemsPerPage((p) => (p > max ? max : p));
+    setPerPage((p) => (p !== "auto" && p > max ? max : p));
   }
 
   // ---- Saved problems ----
   const [saved, setSaved] = useState<Problem[]>([]);
-  const [editingId, setEditingId] = useState<string | null>(null);
   const [savingNo, setSavingNo] = useState(1);
 
   function saveCurrent() {
@@ -408,9 +422,6 @@ export default function MakerApp() {
   }
   function toggleSelectSaved(id: string) {
     setSaved((s) => s.map((p) => (p.id === id ? { ...p, selected: !p.selected } : p)));
-  }
-  function renameSaved(id: string, name: string) {
-    setSaved((s) => s.map((p) => (p.id === id ? { ...p, name } : p)));
   }
   function deleteSaved(id: string) {
     setSaved((s) => s.filter((p) => p.id !== id));
@@ -439,13 +450,17 @@ export default function MakerApp() {
 
   // ---- Derived: print payload ----
   const selectedSaved = useMemo(() => saved.filter((p) => p.selected), [saved]);
+  // おまかせ = 選択数を 1 ページに（用紙上限でクランプ）。0 問時は 1 扱い。
+  const effectivePerPage = perPage === "auto"
+    ? Math.max(1, Math.min(paperMax(paperKey), selectedSaved.length))
+    : perPage;
   const pages = useMemo(() => {
     const ps: Problem[][] = [];
-    for (let i = 0; i < selectedSaved.length; i += problemsPerPage) {
-      ps.push(selectedSaved.slice(i, i + problemsPerPage));
+    for (let i = 0; i < selectedSaved.length; i += effectivePerPage) {
+      ps.push(selectedSaved.slice(i, i + effectivePerPage));
     }
     return ps;
-  }, [selectedSaved, problemsPerPage]);
+  }, [selectedSaved, effectivePerPage]);
 
   // ---- PDF ダウンロード → 完了画面 ----
   const [done, setDone] = useState(false);
@@ -462,14 +477,18 @@ export default function MakerApp() {
       for (let pi = 0; pi < pages.length; pi++) {
         if (pi > 0) doc.addPage(format, orientation);
         const svg = buildPageSvg({
-          paper, problems: pages[pi], startIndex: pi * problemsPerPage,
+          paper, problems: pages[pi],
           pageNo: pi + 1, pageCount: pages.length,
-          marginMm, problemsPerPage, pairLayout, logo,
+          marginMm, problemsPerPage: effectivePerPage, pairLayout, nameField, dotScale, logo,
         });
         const png = await svgToPng(svg, paper.w, paper.h);
         doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
       }
-      doc.save("tenzu-otameshi-tenbyosha.pdf");
+      // tenzu_yyyymmddhhmm.pdf — 2回目以降の上書き事故を防ぐタイムスタンプ命名
+      const d = new Date();
+      const p2 = (n: number) => String(n).padStart(2, "0");
+      const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
+      doc.save(`tenzu_${stamp}.pdf`);
       setDone(true);
     } catch (err) {
       console.error("PDF export failed:", err);
@@ -492,6 +511,18 @@ export default function MakerApp() {
 
   const paper = PAPER[paperKey];
 
+  // 今の用紙・問数で実際に印刷される点の直径（mm）— buildPageSvg と同じ計算
+  function dotSampleDia(k: DotSize): number {
+    const footerH = 12;
+    const nameH = nameField ? NAME_BAND_MM : 0;
+    const { cols, rows } = gridFor(effectivePerPage, pairLayout, paper.w, paper.h - footerH - nameH, marginMm);
+    const cellW = (paper.w - marginMm * 2) / cols;
+    const cellH = (paper.h - marginMm * 2 - footerH - nameH) / rows;
+    const pad = Math.min(cellW, cellH) * CELL_PAD;
+    const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout);
+    return dotRadius(pane, DOT_SCALE[k]) * 2;
+  }
+
   return (
     <>
       {/* dynamic @page size for print */}
@@ -502,10 +533,6 @@ export default function MakerApp() {
         <div className="logo-cluster">
           <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
           <div className="app-name">おためし点描写メーカー</div>
-        </div>
-        <div className="actions">
-          <span className="save-state">下書き · 端末に保存</span>
-          <a className="btn-weak" href="/">← LP に戻る</a>
         </div>
       </header>
 
@@ -595,7 +622,7 @@ export default function MakerApp() {
               </button>
             </div>
             <div className="canvas-help">
-              点をクリックして線をつないでください。印刷すると、同じ大きさの「写し用」の空欄がセットで付きます。仕上がりは「出力プレビュー」で確認できます。
+              点をクリックして線をつなぎます。印刷時は、同じ大きさの書き込み用の空欄がセットで付きます。仕上がりは「出力プレビュー」で確認できます。
             </div>
           </div>
         </main>
@@ -607,48 +634,33 @@ export default function MakerApp() {
             <h3>保存済みの問題</h3>
             {saved.length === 0 ? (
               <p className="saved-empty">
-                まだ保存された問題はありません。<br />1 問つくって「この問題を保存する」を押すと、ここに並びます。
+                まだ保存された問題はありません。<br />1 問作って「この問題を保存する」を押すと、ここに並びます。
               </p>
             ) : (
-              <div className="saved-list">
+              <div className="saved-grid">
                 {saved.map((p, i) => {
-                  const editing = editingId === p.id;
+                  const num = (i + 1).toString().padStart(2, "0");
                   return (
-                    <div className="saved-row" key={p.id}>
-                      <span className="drag" title="ドラッグして並び替え"
-                        onClick={() => moveSaved(p.id, -1)}>
-                        <svg viewBox="0 0 8 14"><g fill="#767D89">
-                          <circle cx="2" cy="2" r="1"/><circle cx="6" cy="2" r="1"/>
-                          <circle cx="2" cy="7" r="1"/><circle cx="6" cy="7" r="1"/>
-                          <circle cx="2" cy="12" r="1"/><circle cx="6" cy="12" r="1"/>
-                        </g></svg>
-                      </span>
-                      <button className="chk" type="button"
+                    <div className={`saved-cell${p.selected ? " sel" : ""}`} key={p.id}>
+                      <button className="thumb" type="button"
                         role="checkbox"
                         aria-checked={p.selected}
-                        aria-label="PDF に含める"
-                        onClick={() => toggleSelectSaved(p.id)} />
-                      <span className="num">{(i + 1).toString().padStart(2, "0")}</span>
-                      {editing ? (
-                        <span className="name editing">
-                          <input className="name-input" type="text"
-                            value={p.name}
-                            autoFocus
-                            onChange={(e) => renameSaved(p.id, e.target.value)}
-                            onBlur={() => setEditingId(null)}
-                            onKeyDown={(e) => { if (e.key === "Enter") setEditingId(null); }} />
-                          <small>{p.gridSize}×{p.gridSize} · {p.edges.length} 本 · 名前変更中</small>
-                        </span>
-                      ) : (
-                        <span className="name" onDoubleClick={() => setEditingId(p.id)}>
-                          {p.name}<small>{p.gridSize}×{p.gridSize} · {p.edges.length} 本</small>
-                        </span>
-                      )}
-                      <button className="menu" type="button" aria-label="options"
+                        aria-label={`問題 ${num} を PDF に含める`}
+                        onClick={() => toggleSelectSaved(p.id)}>
+                        <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} />
+                      </button>
+                      {p.selected && <span className="sel-mark" aria-hidden="true">✓</span>}
+                      <button className="del" type="button" aria-label={`問題 ${num} を削除`}
                         onClick={() => {
-                          if (editing) { setEditingId(null); return; }
-                          if (window.confirm(`「${p.name}」を削除しますか？`)) deleteSaved(p.id);
-                        }}>⋯</button>
+                          if (window.confirm(`この問題（#${num}）を削除しますか？`)) deleteSaved(p.id);
+                        }}>×</button>
+                      <span className="cnum">{num}</span>
+                      <span className="order">
+                        <button type="button" aria-label="ひとつ前へ" disabled={i === 0}
+                          onClick={() => moveSaved(p.id, -1)}>‹</button>
+                        <button type="button" aria-label="ひとつ後へ" disabled={i === saved.length - 1}
+                          onClick={() => moveSaved(p.id, 1)}>›</button>
+                      </span>
                     </div>
                   );
                 })}
@@ -666,68 +678,119 @@ export default function MakerApp() {
             )}
           </div>
 
-          <div className="group">
-            <h3>用紙</h3>
-            <div className="paper-grid" role="group" aria-label="用紙サイズ">
-              {PAPER_KEYS.map((k) => {
-                const p = PAPER[k];
-                return (
-                  <button key={k} type="button"
-                    aria-pressed={paperKey === k}
-                    onClick={() => selectPaper(k)}>
-                    <span className="pname">{p.label}</span>
-                    <span className="pdim">{p.w}×{p.h}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          <details className="settings-fold">
+            <summary>
+              <span className="sf-label">詳細設定<span className="sf-chevron" aria-hidden="true" /></span>
+              <span className="sf-current">
+                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "horizontal" ? "横" : "下"} · 点: {dotSize === "s" ? "小" : dotSize === "m" ? "中" : "大"} · 名前欄: {nameField ? "あり" : "なし"}
+              </span>
+            </summary>
+            <div className="sf-body">
 
-          <div className="group">
-            <h3>もんだいとかいとうの位置</h3>
-            <div className="seg" role="group" aria-label="もんだいとかいとうの位置">
-              <button type="button"
-                aria-pressed={pairLayout === "horizontal"}
-                onClick={() => setPairLayout("horizontal")}>
-                横並び（もんだい→かいとう）
-              </button>
-              <button type="button"
-                aria-pressed={pairLayout === "vertical"}
-                onClick={() => setPairLayout("vertical")}>
-                縦並び（もんだい↓かいとう）
-              </button>
+            <div className="group">
+              <h3>用紙</h3>
+              <div className="paper-grid" role="group" aria-label="用紙サイズ">
+                {PAPER_KEYS.map((k) => {
+                  const p = PAPER[k];
+                  return (
+                    <button key={k} type="button"
+                      aria-pressed={paperKey === k}
+                      onClick={() => selectPaper(k)}>
+                      <span className="pname">{p.label}</span>
+                      <span className="pdim">{p.w}×{p.h}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
 
-          <div className="group">
-            <h3>PDF レイアウト · 1 ページに何問</h3>
-            <div className="layout-grid" role="group" aria-label="1ページあたりの問題数">
-              {COUNT_OPTIONS.filter((v) => v <= paperMax(paperKey)).map((v) => {
-                const g = gridFor(v, pairLayout, paper.w, paper.h, marginMm);
-                return (
-                <button key={v} type="button"
-                  aria-pressed={problemsPerPage === v}
-                  onClick={() => setProblemsPerPage(v)}>
-                  <span className="ldiagram"
-                    style={{
-                      gridTemplateColumns: `repeat(${g.cols}, 1fr)`,
-                      gridTemplateRows:    `repeat(${g.rows}, 1fr)`,
-                    }}>
-                    {Array.from({ length: g.cols * g.rows }, (_, i) => <span key={i} />)}
-                  </span>
-                  <span className="lnum">{v} 問</span>
+            <div className="group">
+              <h3>1 ページに何問</h3>
+              <div className="layout-grid" role="group" aria-label="1ページあたりの問題数">
+                <button type="button"
+                  aria-pressed={perPage === "auto"}
+                  onClick={() => setPerPage("auto")}>
+                  <span className="lauto">おまかせ</span>
                 </button>
-                );
-              })}
+                {COUNT_OPTIONS.filter((v) => v <= paperMax(paperKey)).map((v) => {
+                  const g = gridFor(v, pairLayout, paper.w, paper.h, marginMm);
+                  return (
+                  <button key={v} type="button"
+                    aria-pressed={perPage === v}
+                    onClick={() => setPerPage(v)}>
+                    <span className="ldiagram"
+                      style={{
+                        gridTemplateColumns: `repeat(${g.cols}, 1fr)`,
+                        gridTemplateRows:    `repeat(${g.rows}, 1fr)`,
+                      }}>
+                      {Array.from({ length: g.cols * g.rows }, (_, i) => <span key={i} />)}
+                    </span>
+                    <span className="lnum">{v} 問</span>
+                  </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+
+            <div className="group">
+              <h3>問題と書き込み欄の並び</h3>
+              <div className="seg seg--pair" role="group" aria-label="問題と書き込み欄の並び">
+                <button type="button"
+                  aria-pressed={pairLayout === "horizontal"}
+                  onClick={() => setPairLayout("horizontal")}>
+                  <span className="seg-ic"><PairChipIcon pair="horizontal" /></span>
+                  横に並べる
+                </button>
+                <button type="button"
+                  aria-pressed={pairLayout === "vertical"}
+                  onClick={() => setPairLayout("vertical")}>
+                  <span className="seg-ic"><PairChipIcon pair="vertical" /></span>
+                  下に並べる
+                </button>
+              </div>
+            </div>
+
+            <div className="group">
+              <h3>点の大きさ</h3>
+              <div className="seg seg--dot" role="group" aria-label="点の大きさ">
+                {(["s", "m", "l"] as const).map((k) => (
+                  <button key={k} type="button"
+                    aria-pressed={dotSize === k}
+                    onClick={() => setDotSize(k)}>
+                    <span className="dot-sample"
+                      style={{ width: `${dotSampleDia(k)}mm`, height: `${dotSampleDia(k)}mm` }} />
+                    {k === "s" ? "小" : k === "m" ? "中" : "大"}
+                  </button>
+                ))}
+              </div>
+              <p className="dot-sample-note">●は実際に印刷される点の大きさ（今の用紙・問数での目安）</p>
+            </div>
+
+            <div className="group">
+              <h3>名前・日付の記入欄</h3>
+              <div className="seg" role="group" aria-label="名前・日付の記入欄">
+                <button type="button"
+                  aria-pressed={!nameField}
+                  onClick={() => setNameField(false)}>
+                  つけない
+                </button>
+                <button type="button"
+                  aria-pressed={nameField}
+                  onClick={() => setNameField(true)}>
+                  つける
+                </button>
+              </div>
+            </div>
+
+            </div>
+          </details>
 
           <div className="group">
-            <h3>出力プレビュー</h3>
+            <h3>出力プレビュー<span className="pp-paperinfo">{paper.label} · {paper.w}×{paper.h}mm</span></h3>
             <div className="pdf-preview">
               {selectedSaved.length === 0 ? (
                 <div className="pp-empty">
-                  チェックを入れた問題が、ここに並びます。
+                  選択した問題が、ここに並びます。
                 </div>
               ) : (
                 <>
@@ -739,13 +802,15 @@ export default function MakerApp() {
                         pageNo={pi + 1}
                         pageCount={pages.length}
                         marginMm={marginMm}
-                        problemsPerPage={problemsPerPage}
-                        pairLayout={pairLayout} />
+                        problemsPerPage={effectivePerPage}
+                        pairLayout={pairLayout}
+                        nameField={nameField}
+                        dotScale={dotScale} />
                     ))}
                   </div>
                   <div className="pp-foot">
                     <span>合計 <strong>{selectedSaved.length} 問 / {pages.length} ページ</strong></span>
-                    <span>{paper.label} · {problemsPerPage} 問 / ページ</span>
+                    <span>{paper.label} · {effectivePerPage} 問 / ページ</span>
                   </div>
                 </>
               )}
@@ -766,6 +831,18 @@ export default function MakerApp() {
 
         </aside>
       </div>
+
+      {/* モバイル（≤1200px）専用・画面下固定の DL バー */}
+      {selectedSaved.length > 0 && (
+        <div className="mobile-export-bar">
+          <button type="button" onClick={doExport} disabled={exporting}>
+            {exporting ? "PDF を作成中…" : "PDF をダウンロード"}
+            {!exporting && (
+              <span className="x">{selectedSaved.length} 問 / {pages.length} ページ</span>
+            )}
+          </button>
+        </div>
+      )}
       </>
       )}
 
@@ -775,12 +852,13 @@ export default function MakerApp() {
           <PrintPage key={pi}
             paper={paper}
             problems={page}
-            startIndex={pi * problemsPerPage}
             pageNo={pi + 1}
             pageCount={pages.length}
             marginMm={marginMm}
-            problemsPerPage={problemsPerPage}
-            pairLayout={pairLayout} />
+            problemsPerPage={effectivePerPage}
+            pairLayout={pairLayout}
+            nameField={nameField}
+            dotScale={dotScale} />
         ))}
       </div>
     </>
@@ -816,7 +894,7 @@ const DONE_STARS = ["★ 同じ細かさで", "つぎの一歩", "そのさき"]
 
 function doneMemo(maxGrid: GridSize, usedDiag: boolean): string {
   if (maxGrid === 3 && !usedDiag) {
-    return "まっすぐの線がすらすら書けていたら、つぎは「ななめ」が壁になります。同じ3×3のまま、ななめ線だけが加わる一冊を下に置いておきますね。";
+    return "まっすぐの線がすらすら書けていたら、つぎは「斜め」が壁になります。同じ3×3のまま、斜め線だけが加わる一冊を下に置いておきますね。";
   }
   if (maxGrid >= 5) {
     return "5×5がちょうどよければ、もう点描写の標準サイズです。ここから先は、角度が自由になったり、マスが6×6に広がったり。このメーカーでは作れない世界が続きます。";
@@ -855,7 +933,7 @@ function DoneScreen({
 
         <div className="done-next">
           <span className="done-basis">
-            あなたが作った問題: 最大 {reco.maxGrid}×{reco.maxGrid} · ななめ線{reco.usedDiag ? "あり" : "なし"}
+            あなたが作った問題: 最大 {reco.maxGrid}×{reco.maxGrid} · 斜め線{reco.usedDiag ? "あり" : "なし"}
           </span>
           <h3>この細かさなら、ここから。</h3>
           <p className="sub">
@@ -880,7 +958,7 @@ function DoneScreen({
 
         <div className="done-actions">
           <button type="button" className="done-back" onClick={onBack}>← つづきを作る</button>
-          <a className="done-home" href="/">お店をみる →</a>
+          <a className="done-home" href="/">お店を見る →</a>
         </div>
 
       </div>
@@ -891,33 +969,33 @@ function DoneScreen({
 // =========================================================================
 // Sub-components: PreviewPage (sidebar PDF preview) & PrintPage (print sheet)
 // =========================================================================
-function ProblemPair({ p, pairLayout }: { p: Problem; pairLayout: PairLayout }) {
+function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: PairLayout; dotScale: number }) {
   const isH = pairLayout === "horizontal";
   return (
     <>
       <div className="print-cell">
         <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} />
+          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK} dotScale={dotScale} />
         </div>
       </div>
       <div className="print-arrow" aria-hidden="true">
         {isH ? (
           <svg viewBox="0 0 40 22" xmlns="http://www.w3.org/2000/svg">
-            <polygon points={blockArrowPoints(40, 22, "right")}
-              fill="#FFFFFF" stroke={INK} strokeWidth={0.7}
+            <path d="M2 11 L38 11 M28 3 L38 11 L28 19"
+              fill="none" stroke={PRINT_INK} strokeWidth={1.6}
               strokeLinejoin="round" strokeLinecap="round" />
           </svg>
         ) : (
           <svg viewBox="0 0 22 40" xmlns="http://www.w3.org/2000/svg">
-            <polygon points={blockArrowPoints(22, 40, "down")}
-              fill="#FFFFFF" stroke={INK} strokeWidth={0.7}
+            <path d="M11 2 L11 38 M3 28 L11 38 L19 28"
+              fill="none" stroke={PRINT_INK} strokeWidth={1.6}
               strokeLinejoin="round" strokeLinecap="round" />
           </svg>
         )}
       </div>
       <div className="print-cell">
         <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} />
+          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK} dotScale={dotScale} />
         </div>
       </div>
     </>
@@ -925,37 +1003,44 @@ function ProblemPair({ p, pairLayout }: { p: Problem; pairLayout: PairLayout }) 
 }
 
 function PreviewPage({
-  paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout,
+  paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale,
 }: {
   paper: typeof PAPER[PaperKey];
   problems: Problem[];
   pageNo: number;
   pageCount: number;
   marginMm: number;
-  problemsPerPage: LayoutPerPage;
+  problemsPerPage: number;
   pairLayout: PairLayout;
+  nameField: boolean;
+  dotScale: number;
 }) {
   // SVG-based mini preview matching aspect of paper
   const W = paper.w, H = paper.h;
   // Page width conveys real paper size: longest selectable side (A3 = 420mm) → full width.
   const pageScale = Math.max(W, H) / 420;
+  const nameH = nameField ? NAME_BAND_MM : 0;
   // Use problemsPerPage (not problems.length) so pane size stays consistent across pages.
-  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H, marginMm);
+  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - nameH, marginMm);
   const cellW = (W - marginMm * 2) / cols;
-  const cellH = (H - marginMm * 2) / rows;
+  const cellH = (H - marginMm * 2 - nameH) / rows;
   // Pane + proportional gap/pad, derived from the same model the optimizer used.
-  const pane = paneSize(cellW, cellH, pairLayout);
+  const pad = Math.min(cellW, cellH) * CELL_PAD;
+  const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout);
   const gap = pane * KGAP;
   return (
     <div className="pp-page"
       style={{ aspectRatio: `${W}/${H}`, width: `${(pageScale * 100).toFixed(1)}%` }}>
-      <div className="pp-badge">{paper.label} · {W}×{H}<span className="u">mm</span></div>
       <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg">
+        {/* なまえ・日付の記入欄（PDF と同じ断片を共用） */}
+        {nameField && (
+          <g dangerouslySetInnerHTML={{ __html: nameBandSvgString(W, marginMm) }} />
+        )}
         {problems.map((p, idx) => {
           const col = idx % cols;
           const row = Math.floor(idx / cols);
           const cx = marginMm + col * cellW;
-          const cy = marginMm + row * cellH;
+          const cy = marginMm + nameH + row * cellH;
           let aX: number, aY: number, bX: number, bY: number;
           let arrowEl: React.ReactNode;
           const aSize = gap * 0.9;
@@ -968,10 +1053,10 @@ function PreviewPage({
             arrowEl = (
               <ArrowSVG
                 x={startX + pane + (gap - aSize) / 2}
-                y={startY + pane / 2 - aSize * 0.55 / 2}
+                y={startY + pane / 2}
                 size={aSize}
                 dir="right"
-                color={INK}
+                color={PRINT_INK}
               />
             );
           } else {
@@ -982,20 +1067,20 @@ function PreviewPage({
             bX = startX; bY = startY + pane + gap;
             arrowEl = (
               <ArrowSVG
-                x={startX + pane / 2 - aSize * 0.55 / 2}
+                x={startX + pane / 2}
                 y={startY + pane + (gap - aSize) / 2}
                 size={aSize}
                 dir="down"
-                color={INK}
+                color={PRINT_INK}
               />
             );
           }
           return (
             <g key={p.id} transform={`translate(${cx},${cy})`}>
               <PreviewPane x={aX} y={aY} w={pane} h={pane}
-                gridSize={p.gridSize} edges={p.edges} showLines={true} />
+                gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={dotScale} />
               <PreviewPane x={bX} y={bY} w={pane} h={pane}
-                gridSize={p.gridSize} edges={[]} showLines={false} />
+                gridSize={p.gridSize} edges={[]} showLines={false} dotScale={dotScale} />
               {arrowEl}
             </g>
           );
@@ -1007,27 +1092,26 @@ function PreviewPage({
 }
 
 function PreviewPane({
-  x, y, w, h, gridSize, edges, showLines,
+  x, y, w, h, gridSize, edges, showLines, dotScale,
 }: {
   x: number; y: number; w: number; h: number;
-  gridSize: GridSize; edges: Edge[]; showLines: boolean;
+  gridSize: GridSize; edges: Edge[]; showLines: boolean; dotScale: number;
 }) {
   // inner dots
   const dots = gridSize;
-  const inset = Math.min(w, h) * 0.12;
+  const inset = Math.min(w, h) * 0.10;
   const stepX = (w - inset * 2) / (dots - 1);
   const stepY = (h - inset * 2) / (dots - 1);
-  // Size dots/lines relative to the pane so they stay legible at any preview scale.
-  const dotR = Math.max(0.7, Math.min(w, h) * 0.035);
-  const lineW = Math.max(0.5, Math.min(w, h) * 0.022);
+  // 印刷（paneSvgString）と同じ比率 — プレビュー＝仕上がり
+  const dotR = dotRadius(Math.min(w, h), dotScale);
+  const lineW = edgeWidth(Math.min(w, h));
   const pos = (c: number, r: number) => ({
     x: x + inset + c * stepX,
     y: y + inset + r * stepY,
   });
   return (
     <g>
-      <rect x={x} y={y} width={w} height={h} fill="#FFFFFF" stroke="#E5E3DC" strokeWidth={0.3} />
-      <g fill={INK}>
+      <g fill={PRINT_INK}>
         {Array.from({ length: dots }, (_, r) =>
           Array.from({ length: dots }, (_, c) => {
             const p = pos(c, r);
@@ -1039,7 +1123,7 @@ function PreviewPane({
         const a = pos(e.a.c, e.a.r);
         const b = pos(e.b.c, e.b.r);
         return <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-          stroke={INK} strokeWidth={lineW}
+          stroke={PRINT_INK} strokeWidth={lineW}
           strokeLinecap="round" strokeLinejoin="round" />;
       })}
     </g>
@@ -1047,16 +1131,17 @@ function PreviewPane({
 }
 
 function PrintPage({
-  paper, problems, startIndex, pageNo, pageCount, marginMm, problemsPerPage, pairLayout,
+  paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale,
 }: {
   paper: typeof PAPER[PaperKey];
   problems: Problem[];
-  startIndex: number;
   pageNo: number;
   pageCount: number;
   marginMm: number;
-  problemsPerPage: LayoutPerPage;
+  problemsPerPage: number;
   pairLayout: PairLayout;
+  nameField: boolean;
+  dotScale: number;
 }) {
   const layout = gridFor(problemsPerPage, pairLayout, paper.w, paper.h, marginMm);
   // Gaps & arrow shrink as the page gets denser (gap比例化, print side).
@@ -1068,6 +1153,13 @@ function PrintPage({
       height: `${paper.h}mm`,
     }}>
       <div className="print-page-inner">
+        {nameField && (
+          <div className="print-nameband" aria-hidden="true">
+            <span className="nb-line nb-line--date" /><span className="nb-label">がつ</span>
+            <span className="nb-line nb-line--date" /><span className="nb-label">にち</span>
+            <span className="nb-label nb-label--name">なまえ</span><span className="nb-line nb-line--name" />
+          </div>
+        )}
         <div className="print-grid" style={{
           gridTemplateColumns: `repeat(${layout.cols}, 1fr)`,
           gridTemplateRows:    `repeat(${layout.rows}, auto)`,
@@ -1075,13 +1167,9 @@ function PrintPage({
           ["--pgap" as string]: dense,
           ["--pscale" as string]: arrowScale,
         }}>
-          {problems.map((p, idx) => (
+          {problems.map((p) => (
             <div key={p.id} className={`print-problem pair-${pairLayout}`}>
-              <div className="pheader">
-                {(startIndex + idx + 1).toString().padStart(2, "0")} · {p.name}
-                <span className="ptag">{p.gridSize}×{p.gridSize}</span>
-              </div>
-              <ProblemPair p={p} pairLayout={pairLayout} />
+              <ProblemPair p={p} pairLayout={pairLayout} dotScale={dotScale} />
             </div>
           ))}
         </div>
