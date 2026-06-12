@@ -133,6 +133,33 @@
   flex-wrap: wrap; padding-top: 6px;
 }
 
+/* カート CTA: プリンタアイコン＋手書きサブコピーの二段ボタン */
+.btn-cart {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 2px;
+  width: 100%;
+  background: var(--fg); color: var(--bg);
+  text-decoration: none;
+  padding: 12px 30px;
+  border-radius: var(--radius-soft);
+  transition: background 0.25s ease;
+}
+.btn-cart-main {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--font-tier3-sans);
+  font-weight: 500; font-size: 15px;
+  letter-spacing: 0.02em;
+}
+.btn-cart-main svg { width: 18px; height: 18px; flex: none; }
+.btn-cart-sub {
+  font-family: var(--font-tier2-pencil);
+  font-size: 12.5px;
+  letter-spacing: 0.03em;
+  color: #9FE1CB;
+  transition: color 0.25s ease;
+}
+.btn-cart:hover { background: var(--accent); }
+.btn-cart:hover .btn-cart-sub { color: #FFFFFF; }
+
 /* spec table */
 .spec-table {
   border-top: 1px dashed var(--line-thin);
@@ -149,7 +176,7 @@
 }
 .spec-row:last-child { border-bottom: none; }
 .spec-label { font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-3); letter-spacing: 0.04em; }
-.spec-value { font-family: var(--font-tier3-sans); font-size: 14px; color: var(--fg); }
+.spec-value { font-family: var(--font-tier3-sans); font-size: 13px; color: var(--fg); }
 .spec-value.mono { font-family: var(--font-tier3-mono); }
 
 /* memo blocks (T1 observe / T3 rationale / T4 parents) */
@@ -774,6 +801,57 @@ a.plp-card:hover .plp-card-go { color: var(--accent); }
   max-width: 48ch;
 }
 .plp-foot-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: baseline; }
+
+/* ---- 購入前の確認 FAQ（全 SKU 共通・純 CSS アコーディオン・カート CTA 直下）
+   フォントは spec-table と同階層に統一: ラベル 12px / 本文 13px・tier3-sans ---- */
+.faq-list--buy { margin-top: 18px; }
+.faq-head {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--fg-3);
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--line-thin);
+}
+.faq-item { border-bottom: 1px dashed var(--line-thin); }
+.faq-q {
+  cursor: pointer;
+  padding: 11px 24px 11px 2px;
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  list-style: none;
+  position: relative;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after {
+  content: "+";
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+  color: var(--fg-3);
+}
+.faq-item[open] .faq-q::after { content: "−"; color: var(--accent); }
+.faq-q:hover { color: var(--accent); }
+.faq-a { padding: 0 2px 14px; max-width: 60ch; }
+.faq-a p {
+  margin: 0;
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--fg-2);
+}
+.faq-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+}
+.faq-link:hover { text-decoration: underline; }
 
 /* product page mini footer (overrides landing.css footer.site grid) */
 footer.site.footer-mini {

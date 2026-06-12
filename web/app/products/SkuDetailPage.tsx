@@ -9,6 +9,7 @@
 
 import SiteHeader from "../SiteHeader";
 import SkuPrintPreview, { type RenderProblem } from "./SkuPrintPreview";
+import { PURCHASE_FAQ } from "./purchase-faq";
 import { publishedSet } from "./problems/published";
 import { metricsLabel } from "./problems/schema";
 import { catalogTaskBySlug, LEVELS } from "../catalog";
@@ -118,7 +119,32 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
               </div>
 
               <div className="cta-row">
-                <a className="btn-strong" href="#">カートへ →</a>
+                <a className="btn-cart" href="#">
+                  <span className="btn-cart-main">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+                      strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M17 17h2a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2" />
+                      <path d="M17 9V5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v4" />
+                      <rect x="7" y="13" width="10" height="8" rx="2" />
+                    </svg>
+                    カートへ
+                  </span>
+                  <span className="btn-cart-sub">印刷は、おうちのプリンタで</span>
+                </a>
+              </div>
+
+              {/* 購入前の確認 FAQ（全 SKU 共通・カート CTA 直下） */}
+              <div className="faq-list faq-list--buy">
+                <div className="faq-head">購入前にご確認ください</div>
+                {PURCHASE_FAQ.map((f) => (
+                  <details className="faq-item" key={f.q}>
+                    <summary className="faq-q">{f.q}</summary>
+                    <div className="faq-a">
+                      <p>{f.a}</p>
+                      {f.link && <a className="faq-link" href={f.link.href}>{f.link.label}</a>}
+                    </div>
+                  </details>
+                ))}
               </div>
             </div>
               } />
@@ -159,35 +185,8 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
               ))}
             </div>
 
-            {vol.observeNote && (
-              <aside className="memo--observe" style={{ marginTop: 32, maxWidth: 720 }}>
-                <div className="memo-label">ここを見てください</div>
-                <p className="memo-body">{vol.observeNote}</p>
-                {latest && <div className="memo-date">{latest.date}</div>}
-              </aside>
-            )}
-
-            {vol.ownerNote && (
-              <aside className="memo--rationale" style={{ marginTop: 32, maxWidth: 720 }}>
-                <div className="memo-label">店主から — なぜ Lv.{vol.lv} にこの巻が来るか</div>
-                <p className="memo-body">{vol.ownerNote}</p>
-              </aside>
-            )}
           </div>
         </section>
-
-        {/* ============ PARENTS（親へのひとこと） ============ */}
-        {vol.parentNote && (
-          <section className="s">
-            <div className="wrap">
-              <h2 className="h2-product">続け方</h2>
-              <aside className="memo--parents" style={{ maxWidth: 720 }}>
-                <div className="memo-label">親へのひとこと</div>
-                <p className="memo-body" style={{ whiteSpace: "pre-line" }}>{vol.parentNote}</p>
-              </aside>
-            </div>
-          </section>
-        )}
 
         {/* ============ REVISION HISTORY（実改訂が 2 件以上ある巻だけ） ============ */}
         {revisions.length >= 2 && (

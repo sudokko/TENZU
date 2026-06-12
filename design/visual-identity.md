@@ -94,7 +94,7 @@ CTA 最強ボタン／モーダル内部／画像・SVG 図形の上／`.parents
 #### §3.2 禁則（必ず守る）
 
 - Klee One①: 16px 未満・3 段落以上の連続本文・`fg-2` 以下の薄色・数値・タグ・CTA・警告では使わない。weight 600 固定
-- Zen Kurenaido②: 15px 未満・5 段落以上・`fg-3` 以下・見出し・数値・ボタン・警告では使わない
+- Zen Kurenaido②: 15px 未満・5 段落以上・`fg-3` 以下・見出し・数値・ボタン・警告では使わない（**唯一の例外**: カート CTA のサブコピー 1 行・12.5px → §7.1）
 - **Plex③ が必ず勝つ場所**: 数値・¥・Lv・Vol・座標／タグ・チップ／CTA・ナビ・パンくず／フォーム／警告・エラー・バリデーション／長文（3 段落以上）／URL・コード（Mono）
 - 越境例外: 店主メモブロック（Klee ラベル＋Pencil 本文＋Mono 日付の 3 階層共存）・商品カード（Mono コード＋Klee 商品名＋Pencil プロミス＋Plex 価格）
 
@@ -206,6 +206,8 @@ spacing は base 4px スケール（`--s-1`〜`--s-24`）。desktop margin 64px 
 | 最強 | `var(--accent)` ベタ＋白文字 | 購入確定・達成完了のみ。Hero では使わない |
 
 すべて Plex Sans JP 500・14px・radius-soft。Hero CTA は装飾なし。
+
+- **カート CTA（商品詳細・「強」の具体形）**: 二段構成。上段＝プリンタ icon（inline SVG 18px・依存なし）＋「カートへ」（Plex 500・15px）／下段＝サブコピー「印刷は、おうちのプリンタで」（Zen Kurenaido 12.5px・`#9FE1CB` → hover で白）。地は `--fg` ベタ・hover で `--accent`・買い物カラム内フル幅・radius-soft。サブコピーは購入後体験（家庭で印刷）の予告を兼ねる。**Tier② をボタン内で使う唯一の例外**（§4 タイポ禁則の例外として相互参照）。実装: `web/app/products/product.css` `.btn-cart`
 
 #### §7.2 主要部品の約束
 
