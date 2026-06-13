@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json() as {
     sku?: string;
-    updates?: { id: string; status?: CandidateStatus; order?: number | null; edges?: EdgeT[] }[];
+    updates?: { id: string; status?: CandidateStatus; order?: number | null; edges?: EdgeT[]; motif?: string }[];
   };
   const sku = safeSku(body.sku);
   if (!sku || !Array.isArray(body.updates)) {
@@ -44,6 +44,12 @@ export async function POST(req: NextRequest) {
     if (u.status) c.status = u.status;
     if (u.order === null) delete c.order;
     else if (typeof u.order === "number") c.order = u.order;
+    if (typeof u.motif === "string" && file.task === "motif") {
+      // タイトル（モチーフ表示名）の手直し。絵柄タスクのときだけ受け付ける
+      const t = u.motif.trim();
+      if (t) c.gen.motif = t;
+      else delete c.gen.motif;
+    }
     if (u.edges) {
       // 線の手直し: 正規化 → 検証 → metrics 再算出 → edited 印
       const normalized = normalizeEdges(u.edges);

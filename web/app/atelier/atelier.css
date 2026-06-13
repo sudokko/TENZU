@@ -140,6 +140,15 @@
 }
 .atl-editor-head h2 { font-size: 15px; margin: 0 0 4px; }
 .atl-editor-hint { font-size: 12px; color: #6b7280; margin: 0; line-height: 1.6; }
+.atl-editor-title {
+  display: flex; flex-direction: column; gap: 4px;
+  font-size: 12px; color: #6b7280;
+}
+.atl-editor-title input {
+  border: 1px solid #c8cdd4; border-radius: 4px; padding: 7px 10px;
+  font-size: 14px; color: #3a424e;
+}
+.atl-editor-title input:focus { outline: none; border-color: #2c6e7f; }
 .atl-editor-svg {
   display: block; margin: 0 auto;
   border: 1px dotted #d8dce2; border-radius: 4px; touch-action: manipulation;

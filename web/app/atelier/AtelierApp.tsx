@@ -158,19 +158,22 @@ export default function AtelierApp({
     } finally { setBusy(false); }
   }
 
-  async function saveEdit(id: string, edges: EdgeT[]) {
+  async function saveEdit(id: string, edges: EdgeT[], motif?: string) {
     setBusy(true); setMsg("");
     try {
       const res = await fetch("/api/atelier/candidates", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sku, updates: [{ id, edges }] }),
+        body: JSON.stringify({
+          sku,
+          updates: [{ id, edges, ...(motif !== undefined && { motif }) }],
+        }),
       });
       const j = await res.json();
       if (!res.ok) { setMsg(j.error ?? "保存に失敗しました"); return; }
       await load();            // metrics はサーバ権威で取り直す
       setEditing(null);
-      setMsg("線を保存しました");
+      setMsg(motif !== undefined ? "保存しました" : "線を保存しました");
     } finally { setBusy(false); }
   }
 
@@ -285,7 +288,8 @@ export default function AtelierApp({
           key={editing.id}
           candidate={editing}
           busy={busy}
-          onSave={(edges) => saveEdit(editing.id, edges)}
+          editableTitle={genKind === "motif"}
+          onSave={(edges, motif) => saveEdit(editing.id, edges, motif)}
           onClose={() => setEditing(null)}
         />
       )}
@@ -298,17 +302,19 @@ export default function AtelierApp({
    metrics はライブで computeMetrics 表示。保存はサーバ権威で再算出される。
    ========================================================================= */
 function EditOverlay({
-  candidate, busy, onSave, onClose,
+  candidate, busy, editableTitle, onSave, onClose,
 }: {
   candidate: Candidate;
   busy: boolean;
-  onSave: (edges: EdgeT[]) => void;
+  editableTitle: boolean;
+  onSave: (edges: EdgeT[], motif?: string) => void;
   onClose: () => void;
 }) {
   const n = candidate.grid.n;
   const [edges, setEdges] = useState<EdgeT[]>(candidate.edges);
   const [first, setFirst] = useState<Pt | null>(null);
   const [history, setHistory] = useState<EdgeT[][]>([]);
+  const [title, setTitle] = useState(candidate.gen.motif ?? "");
 
   const SIZE = 360;
   const pos = (i: number) => 10 + (80 * i) / Math.max(1, n - 1);
@@ -357,11 +363,20 @@ function EditOverlay({
     <div className="atl-overlay" role="dialog" aria-modal>
       <div className="atl-editor">
         <header className="atl-editor-head">
-          <h2>線の手直し</h2>
+          <h2>{editableTitle ? "問題の手直し" : "線の手直し"}</h2>
           <p className="atl-editor-hint">
             点を 2 つクリックして線を引く／同じ線をもう一度なぞると消える
           </p>
         </header>
+
+        {editableTitle && (
+          <label className="atl-editor-title">
+            タイトル（絵柄の名前）
+            <input type="text" value={title}
+              placeholder="かいだん など"
+              onChange={(e) => setTitle(e.target.value)} />
+          </label>
+        )}
 
         <svg viewBox="0 0 100 100" width={SIZE} height={SIZE} className="atl-editor-svg">
           <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
@@ -396,7 +411,7 @@ function EditOverlay({
           <button type="button" onClick={onClose} disabled={busy}>キャンセル</button>
           <button type="button" className="atl-btn atl-btn--pub"
             disabled={busy || edges.length === 0}
-            onClick={() => onSave(edges)}>
+            onClick={() => onSave(edges, editableTitle ? title.trim() : undefined)}>
             {edges.length === 0 ? "線が空です" : "保存する"}
           </button>
         </div>
