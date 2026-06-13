@@ -173,7 +173,7 @@ export default function AtelierApp({
       if (!res.ok) { setMsg(j.error ?? "保存に失敗しました"); return; }
       await load();            // metrics はサーバ権威で取り直す
       setEditing(null);
-      setMsg(motif !== undefined ? "保存しました" : "線を保存しました");
+      setMsg("保存しました");
     } finally { setBusy(false); }
   }
 
@@ -288,7 +288,6 @@ export default function AtelierApp({
           key={editing.id}
           candidate={editing}
           busy={busy}
-          editableTitle={genKind === "motif"}
           onSave={(edges, motif) => saveEdit(editing.id, edges, motif)}
           onClose={() => setEditing(null)}
         />
@@ -302,11 +301,10 @@ export default function AtelierApp({
    metrics はライブで computeMetrics 表示。保存はサーバ権威で再算出される。
    ========================================================================= */
 function EditOverlay({
-  candidate, busy, editableTitle, onSave, onClose,
+  candidate, busy, onSave, onClose,
 }: {
   candidate: Candidate;
   busy: boolean;
-  editableTitle: boolean;
   onSave: (edges: EdgeT[], motif?: string) => void;
   onClose: () => void;
 }) {
@@ -363,20 +361,18 @@ function EditOverlay({
     <div className="atl-overlay" role="dialog" aria-modal>
       <div className="atl-editor">
         <header className="atl-editor-head">
-          <h2>{editableTitle ? "問題の手直し" : "線の手直し"}</h2>
+          <h2>問題の手直し</h2>
           <p className="atl-editor-hint">
             点を 2 つクリックして線を引く／同じ線をもう一度なぞると消える
           </p>
         </header>
 
-        {editableTitle && (
-          <label className="atl-editor-title">
-            タイトル（絵柄の名前）
-            <input type="text" value={title}
-              placeholder="かいだん など"
-              onChange={(e) => setTitle(e.target.value)} />
-          </label>
-        )}
+        <label className="atl-editor-title">
+          タイトル（名前・任意）
+          <input type="text" value={title}
+            placeholder="かいだん・いえ など"
+            onChange={(e) => setTitle(e.target.value)} />
+        </label>
 
         <svg viewBox="0 0 100 100" width={SIZE} height={SIZE} className="atl-editor-svg">
           <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
@@ -411,7 +407,7 @@ function EditOverlay({
           <button type="button" onClick={onClose} disabled={busy}>キャンセル</button>
           <button type="button" className="atl-btn atl-btn--pub"
             disabled={busy || edges.length === 0}
-            onClick={() => onSave(edges, editableTitle ? title.trim() : undefined)}>
+            onClick={() => onSave(edges, title.trim())}>
             {edges.length === 0 ? "線が空です" : "保存する"}
           </button>
         </div>

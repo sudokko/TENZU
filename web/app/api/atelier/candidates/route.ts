@@ -44,8 +44,8 @@ export async function POST(req: NextRequest) {
     if (u.status) c.status = u.status;
     if (u.order === null) delete c.order;
     else if (typeof u.order === "number") c.order = u.order;
-    if (typeof u.motif === "string" && file.task === "motif") {
-      // タイトル（モチーフ表示名）の手直し。絵柄タスクのときだけ受け付ける
+    if (typeof u.motif === "string") {
+      // タイトル（表示名）の手直し。全タスク共通（空文字で削除）
       const t = u.motif.trim();
       if (t) c.gen.motif = t;
       else delete c.gen.motif;
