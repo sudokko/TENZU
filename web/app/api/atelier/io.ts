@@ -89,3 +89,32 @@ export function publishedSet(sku: string): SkuProblemSet | undefined {
 export function answerModeOf(task: string) {
   return TASK_ANSWER_MODE[task] ?? "none";
 }
+
+/* 兄弟巻（同タスクの他 SKU）で生きている変種キーを集める。
+   motif のようにライブラリが有限なジェネレータの巻またぎ重複防止に使う。
+   - candidates: rejected 以外（pending/adopted）を「生きている」とみなす
+   - published: 全問対象 */
+export async function readSiblingVariantKeys(task: string, exceptSku: string): Promise<Set<string>> {
+  const keys = new Set<string>();
+  const collect = (problems: { gen?: { variant?: string }; status?: string }[]) => {
+    for (const p of problems) {
+      if (p.status === "rejected") continue;
+      if (p.gen?.variant) keys.add(p.gen.variant);
+    }
+  };
+  for (const dir of [CAND_DIR(), PUB_DIR()]) {
+    let files: string[] = [];
+    try {
+      files = (await fs.readdir(dir)).filter(
+        (f) => f.startsWith(`${task}-`) && f.endsWith(".json") && f !== `${exceptSku}.json`,
+      );
+    } catch { continue; }
+    for (const f of files) {
+      try {
+        const raw = JSON.parse(await fs.readFile(path.join(dir, f), "utf8"));
+        collect(raw.candidates ?? raw.problems ?? []);
+      } catch { /* 壊れたファイルは無視（publish 時に validate される） */ }
+    }
+  }
+  return keys;
+}

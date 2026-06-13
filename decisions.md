@@ -1184,6 +1184,11 @@ Stripe Link＋MailerLiteで代替。
 
 **2026-06-06 変更**：旧正本 draw.io（`screen-flow.drawio`）はプロンプト編集に不向き（絶対座標 XML）のため Mermaid＋単独HTML へ移行。退避記録 [archive/retired-structures/2026-06-06-screen-flow-drawio.md](./archive/retired-structures/2026-06-06-screen-flow-drawio.md)。
 
+### 5.7 Web 接客は SaaS 不採用・自前実装（2026-06-12）
+
+Flipdesk 等の Web 接客 SaaS は契約せず、**React コンポーネント＋コード内設定配列の自前実装**に確定。理由: ①必要シナリオが 3 つだけ（初回訪問ポップ／カート放置の声かけ／アイドル検知のお知らせ）で SaaS の管理画面・セグメント配信は過剰 ②Next.js 自前サイトのためタグ配信レイヤー不要 ③サードパーティスクリプトを置かない方針（V3 と同根）④固定費ゼロ。**頻度は 1 人 1 メッセージ生涯 1 回・モーダル禁止（画面下部カードのみ）**で V1 煽らない・V3 邪魔しないと整合させる。計測はフックのみ先行（GA4 接続は計測基盤導入時）。
+→ [acquisition/onsite-messaging.md](./acquisition/onsite-messaging.md)
+
 ### 5.6 SEO取引意図は専用ファセットLPで受ける（TOP吸収を撤回・2026-06-08）
 
 「TOP の商品一覧で SEO 取引意図を吸収」案（§5.5 旧確定②）に無理が出たため撤回。**取引意図クエリは TOP でなく専用ファセットLPに直接着地**させる。背景は「TOP の仕事（ブランド・レベル選び・回遊）」と「取引検索者の仕事（早く問題を見て買う）」が性格的に真逆で、1ページに同居させると両方が中途半端になるため。3 AI（Claude DR・Gemini・ChatGPT）合議も「2軸スパース行列をそのまま見せず、入口を分離」で一致。
@@ -1197,6 +1202,25 @@ Stripe Link＋MailerLiteで代替。
 **SEO 効果**: クエリ特化 LP の方が何でも載る TOP より intent 一致で上位化する。「SEO は拾いたい／TOP は綺麗に」が分離で両立。
 
 → フロー/ワイヤー正本 [design/navigation/screen-flow.md §2](./design/navigation/screen-flow.md)・[pages-overview.html](./design/navigation/pages-overview.html)／[pack-design.md §25・§14.6.4](./product/pack-design.md)。§3.42（取引意図の受け皿＝旧「メーカーで拾う」）・§4.1（無料サンプル方針）・§5.5（旧確定②）を本項で改定
+
+### 5.8 メーカー送客＝Pinterest パイロット採用・IG バズ増産は凍結（2026-06-12）
+
+「おためし点描写メーカーを Instagram でバズらせる」案を起点に、DR 3 本（IG アルゴ仕様／IG 事例／媒体比較）＋ Claude 直接調査で媒体選定から再審理して確定。
+
+**決定**:
+- **Instagram**: 現行運用維持（カルーセル週 2＋リール月 1）。リール週 1-2 増産の「バズ布陣」は設計済みのまま**凍結**（解凍条件: Pinterest パイロット不成立時）
+- **Pinterest**: printable ニッチ限定で **3 ヶ月パイロット**（週 1-2h 別枠・通常ピン主体・問題プレビュー縦長・メーカー直行＋UTM）。§3.33 の汎用不採用は維持しつつニッチ限定で昇格。設計 SSOT → [channels.md §2.6](./acquisition/channels.md)
+- **X**: 外部リンク抑制（インプ 30〜60% 減・実在）対応で「本文＝画像・リンクはリプ欄」運用へ修正 → [channels.md §2.4](./acquisition/channels.md)
+- **note**: 現行月 1・補助記事ポジション維持（DL 公開文化なし・記事 1 枚挟む構造がツール起動と相性悪）
+- **KPI**: 北極星＝流入元別 `generated_pdf`（UTM で媒体識別）。Pinterest はアウトバウンド CTR（3% 超で優秀）。再生数・フォロワーは最適化対象にしない
+
+**根拠（要点）**:
+- IG は「フォロワー・再生数と DL 数が比例しない」運営者本人の明言＋送客成功の公開実例ゼロ（消極的証拠）
+- 日本の無料プリントサイト 6 例（Similarweb）は**全て Organic Search 62〜86% 主軸** → 現行の LLMO/SEO 35% 幹を第三者データが正当化
+- Pinterest はソーシャル内首位〜上位（点描写配布の noikiiki でソーシャル首位）・ピン寿命 3 年超・外部リンク優遇・勝ち形式＝問題プレビュー縦長（＝メーカー出力そのまま）。「リファラ 60〜80%」説は一次情報なしで棄却、現実目標はサイト全体寄与 3〜8%
+- **判断基準 5 つ**（リンク摩擦／勝ち実例／時間単価／ストック性／ターゲット濃度）は今後の媒体判断に再利用する
+
+→ 調査・判断の経緯詳細: [archive/sessions/2026-06/2026-06-12-maker-channel-study.md](./archive/sessions/2026-06/2026-06-12-maker-channel-study.md)
 
 ---
 

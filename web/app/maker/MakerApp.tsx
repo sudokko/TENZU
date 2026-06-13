@@ -6,7 +6,7 @@ import {
 } from "../products/data";
 import {
   PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
-  KGAP, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
+  KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "../products/print";
 import { PairChipIcon } from "../products/SkuPrintPreview";
@@ -32,8 +32,6 @@ const VIEW = 200;
 // Soft ink color — used for all drawn dots/lines/labels in panes (printable side).
 // UI chrome (toolbar buttons, etc.) stays at the original --fg.
 const INK = "#3A424E";
-// 設問セルの内側余白（セル短辺比）とくぎり破線色 — 商品ページのプレビューと同じ見え方
-const CELL_PAD = 0.06;
 
 // Outlined block arrow — used between もんだい / かいとう
 // 細線＋小さな矢じり（案A・2026-06-12）。x,y は線の始点。

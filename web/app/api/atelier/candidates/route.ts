@@ -1,7 +1,13 @@
-/* dev 限定: 候補ファイルの読み出し＋検品状態（status/order）の書き戻し */
+/* dev 限定: 候補ファイルの読み出し＋検品状態（status/order）の書き戻し
+   ＋ 線の手直し（edges 編集）。edges が来た update は正規化・検証して
+   metrics をサーバ権威で再算出し edited 印を付ける。 */
 import { NextRequest } from "next/server";
 import { devGuard, readCandidates, safeSku, writeCandidates } from "../io";
-import type { CandidateStatus } from "../../../products/problems/schema";
+import {
+  normalizeEdges, validateProblem,
+  type CandidateStatus, type EdgeT,
+} from "../../../products/problems/schema";
+import { computeMetrics } from "../../../products/problems/gen/metrics";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +28,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json() as {
     sku?: string;
-    updates?: { id: string; status?: CandidateStatus; order?: number | null }[];
+    updates?: { id: string; status?: CandidateStatus; order?: number | null; edges?: EdgeT[] }[];
   };
   const sku = safeSku(body.sku);
   if (!sku || !Array.isArray(body.updates)) {
@@ -38,6 +44,17 @@ export async function POST(req: NextRequest) {
     if (u.status) c.status = u.status;
     if (u.order === null) delete c.order;
     else if (typeof u.order === "number") c.order = u.order;
+    if (u.edges) {
+      // 線の手直し: 正規化 → 検証 → metrics 再算出 → edited 印
+      const normalized = normalizeEdges(u.edges);
+      const errs = validateProblem({ ...c, edges: normalized });
+      if (errs.length > 0) {
+        return Response.json({ error: "編集が不正です", details: errs }, { status: 400 });
+      }
+      c.edges = normalized;
+      c.metrics = computeMetrics(normalized, c.grid.n);
+      c.edited = true;
+    }
   }
   await writeCandidates(file);
   return Response.json({ ok: true });

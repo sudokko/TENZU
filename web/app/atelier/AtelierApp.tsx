@@ -7,8 +7,11 @@
    ========================================================================= */
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Candidate, CandidateFile, EdgeT } from "../products/problems/schema";
-import { metricsLabel, difficultyScore } from "../products/problems/schema";
+import type { Candidate, CandidateFile, EdgeT, Pt } from "../products/problems/schema";
+import {
+  metricsLabel, difficultyScore, normalizeEdges, splitAtLattice, edgeKey,
+} from "../products/problems/schema";
+import { computeMetrics } from "../products/problems/gen/metrics";
 import { QUESTIONS_PER_VOL } from "../products/data";
 
 const INK = "#3A424E";
@@ -35,12 +38,16 @@ function ProblemSvg({ n, edges, size = 132 }: { n: number; edges: EdgeT[]; size?
 type Update = { id: string; status?: Candidate["status"]; order?: number | null };
 
 export default function AtelierApp({
-  sku, title, hasGenerator, linesRange,
-}: { sku: string; title: string; hasGenerator: boolean; linesRange?: [number, number] }) {
+  sku, title, hasGenerator, genKind, linesRange,
+}: {
+  sku: string; title: string; hasGenerator: boolean;
+  genKind?: "copy" | "motif"; linesRange?: [number, number];
+}) {
   const [file, setFile] = useState<CandidateFile | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const [genLines, setGenLines] = useState<number | "">(""); // "" = おまかせ（全帯域）
+  const [editing, setEditing] = useState<Candidate | null>(null); // 編集中の問題
 
   const load = useCallback(async () => {
     const res = await fetch(`/api/atelier/candidates?sku=${sku}`);
@@ -128,7 +135,11 @@ export default function AtelierApp({
       });
       const j = await res.json();
       setMsg(res.ok
-        ? `+${j.added} 問（seed ${j.seed}${genLines !== "" ? `・線${genLines}本` : ""}）`
+        ? (j.added === 0
+            ? (genKind === "motif"
+                ? "新しい候補はもうありません（絵柄は有限ライブラリ・既出と似すぎを除いて打ち止め）。今ある候補から選んでください"
+                : "新しい候補が出ませんでした。もう一度試してください")
+            : `+${j.added} 問（seed ${j.seed}${genLines !== "" ? `・線${genLines}本` : ""}）`)
         : j.error);
       await load();
     } finally { setBusy(false); }
@@ -144,6 +155,22 @@ export default function AtelierApp({
       });
       const j = await res.json();
       setMsg(res.ok ? `公開しました（${j.questions} 問）→ /products/${sku}` : j.error);
+    } finally { setBusy(false); }
+  }
+
+  async function saveEdit(id: string, edges: EdgeT[]) {
+    setBusy(true); setMsg("");
+    try {
+      const res = await fetch("/api/atelier/candidates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sku, updates: [{ id, edges }] }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setMsg(j.error ?? "保存に失敗しました"); return; }
+      await load();            // metrics はサーバ権威で取り直す
+      setEditing(null);
+      setMsg("線を保存しました");
     } finally { setBusy(false); }
   }
 
@@ -193,10 +220,11 @@ export default function AtelierApp({
             <figure key={c.id} className="atl-card atl-card--adopted">
               <span className="atl-order">問 {i + 1}</span>
               <ProblemSvg n={c.grid.n} edges={c.edges} />
-              <figcaption>{metricsLabel(c.metrics, c.grid)}</figcaption>
+              <figcaption>{c.gen.motif ? `${c.gen.motif}・` : ""}{metricsLabel(c.metrics, c.grid)}</figcaption>
               <div className="atl-card-actions">
                 <button type="button" onClick={() => move(c, -1)} disabled={i === 0}>↑</button>
                 <button type="button" onClick={() => move(c, 1)} disabled={i === adopted.length - 1}>↓</button>
+                <button type="button" onClick={() => setEditing(c)}>編集</button>
                 <button type="button" onClick={() => unadopt(c)}>外す</button>
               </div>
             </figure>
@@ -217,10 +245,12 @@ export default function AtelierApp({
             <figure key={c.id} className="atl-card" onClick={() => adopt(c)}
               title="クリックで採用">
               <ProblemSvg n={c.grid.n} edges={c.edges} />
-              <figcaption>{metricsLabel(c.metrics, c.grid)}</figcaption>
+              <figcaption>{c.gen.motif ? `${c.gen.motif}・` : ""}{metricsLabel(c.metrics, c.grid)}</figcaption>
               <div className="atl-card-actions">
                 <button type="button" style={{ color: ACCENT }}
                   onClick={(e) => { e.stopPropagation(); adopt(c); }}>採用</button>
+                <button type="button"
+                  onClick={(e) => { e.stopPropagation(); setEditing(c); }}>編集</button>
                 <button type="button"
                   onClick={(e) => { e.stopPropagation(); save([{ id: c.id, status: "rejected" }]); }}>
                   不採用
@@ -249,6 +279,128 @@ export default function AtelierApp({
           </div>
         </section>
       )}
+
+      {editing && (
+        <EditOverlay
+          key={editing.id}
+          candidate={editing}
+          busy={busy}
+          onSave={(edges) => saveEdit(editing.id, edges)}
+          onClose={() => setEditing(null)}
+        />
+      )}
     </main>
+  );
+}
+
+/* =========================================================================
+   線の手直しモーダル（点を 2 つクリック → その間の線分をトグル）
+   metrics はライブで computeMetrics 表示。保存はサーバ権威で再算出される。
+   ========================================================================= */
+function EditOverlay({
+  candidate, busy, onSave, onClose,
+}: {
+  candidate: Candidate;
+  busy: boolean;
+  onSave: (edges: EdgeT[]) => void;
+  onClose: () => void;
+}) {
+  const n = candidate.grid.n;
+  const [edges, setEdges] = useState<EdgeT[]>(candidate.edges);
+  const [first, setFirst] = useState<Pt | null>(null);
+  const [history, setHistory] = useState<EdgeT[][]>([]);
+
+  const SIZE = 360;
+  const pos = (i: number) => 10 + (80 * i) / Math.max(1, n - 1);
+  const samePt = (a: Pt, b: Pt) => a[0] === b[0] && a[1] === b[1];
+
+  const liveMetrics = useMemo(() => computeMetrics(edges, n), [edges, n]);
+
+  function pushHistory(prev: EdgeT[]) {
+    setHistory((h) => [...h, prev]);
+  }
+
+  function clickPoint(p: Pt) {
+    if (!first) { setFirst(p); return; }
+    if (samePt(first, p)) { setFirst(null); return; } // 同点 = 選択解除
+    // first→p の線分を unit に割ってトグル
+    const units = splitAtLattice([first, p]);
+    const keys = new Set(edges.map(edgeKey));
+    const allPresent = units.every((u) => keys.has(edgeKey(u)));
+    pushHistory(edges);
+    if (allPresent) {
+      const drop = new Set(units.map(edgeKey));
+      setEdges(edges.filter((e) => !drop.has(edgeKey(e))));
+    } else {
+      setEdges(normalizeEdges([...edges, ...units]));
+    }
+    setFirst(null);
+  }
+
+  function undo() {
+    setHistory((h) => {
+      if (h.length === 0) return h;
+      setEdges(h[h.length - 1]);
+      setFirst(null);
+      return h.slice(0, -1);
+    });
+  }
+
+  function clearAll() {
+    if (edges.length === 0) return;
+    pushHistory(edges);
+    setEdges([]);
+    setFirst(null);
+  }
+
+  return (
+    <div className="atl-overlay" role="dialog" aria-modal>
+      <div className="atl-editor">
+        <header className="atl-editor-head">
+          <h2>線の手直し</h2>
+          <p className="atl-editor-hint">
+            点を 2 つクリックして線を引く／同じ線をもう一度なぞると消える
+          </p>
+        </header>
+
+        <svg viewBox="0 0 100 100" width={SIZE} height={SIZE} className="atl-editor-svg">
+          <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
+          {edges.map((e, i) => (
+            <line key={i}
+              x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+              stroke={INK} strokeWidth={1.7} strokeLinecap="round" />
+          ))}
+          {Array.from({ length: n * n }, (_, i) => {
+            const c = i % n, r = Math.floor(i / n);
+            const selected = first && samePt(first, [c, r]);
+            return (
+              <g key={i}>
+                <circle cx={pos(c)} cy={pos(r)} r={selected ? 3 : 1.8}
+                  fill={selected ? ACCENT : INK} />
+                {/* 当たり判定を広く（タップしやすく） */}
+                <circle cx={pos(c)} cy={pos(r)} r={6} fill="transparent"
+                  style={{ cursor: "pointer" }} onClick={() => clickPoint([c, r])} />
+              </g>
+            );
+          })}
+        </svg>
+
+        <p className="atl-editor-metrics">
+          {metricsLabel(liveMetrics, candidate.grid)}
+        </p>
+
+        <div className="atl-editor-actions">
+          <button type="button" onClick={undo} disabled={history.length === 0}>ひとつ戻す</button>
+          <button type="button" onClick={clearAll} disabled={edges.length === 0}>全消し</button>
+          <span className="atl-editor-spacer" />
+          <button type="button" onClick={onClose} disabled={busy}>キャンセル</button>
+          <button type="button" className="atl-btn atl-btn--pub"
+            disabled={busy || edges.length === 0}
+            onClick={() => onSave(edges)}>
+            {edges.length === 0 ? "線が空です" : "保存する"}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

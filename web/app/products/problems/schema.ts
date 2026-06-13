@@ -47,8 +47,13 @@ export type Problem = {
     | { mode: "explicit"; edges: EdgeT[] }
     | { mode: "derived"; transform: TransformSpec };
   metrics: ProblemMetrics;
-  gen: { kind: "auto" | "manual"; generator?: string; version?: string; seed?: number };
+  gen: {
+    kind: "auto" | "manual"; generator?: string; version?: string; seed?: number;
+    motif?: string;    // 絵柄: モチーフ表示名（「いえ」等・atelier の検品ラベル）
+    variant?: string;  // 絵柄: 変種キー（motifKey~m+詳細数）。同一変種の再生成防止に使う
+  };
   aim?: string;                // 「この問題の狙い」（山場の問題にだけ書く・任意）
+  edited?: boolean;            // /atelier で線を手直しした印（検品メタ・publish 時に剥がす）
 };
 
 /* ---- published（採用済・ちょうど12問・配列順＝出題順） ---- */

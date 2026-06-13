@@ -39,6 +39,12 @@ export function paperMax(key: PaperKey): LayoutPerPage {
 export const KGAP = 0.18; // arrow gap
 export const KPAD = 0.08; // breathing pad around the pair (no もんだい/かいとう labels)
 
+// 設問セルの内側余白（セル短辺比）。隣の設問の点との距離が
+// 格子内の点間隔より明確に広くないと設問の区切りが読めない（3×3 が最悪ケース）。
+// 0.06 では既定レイアウト（A4 縦 3 問）で両者がほぼ同値（約1.07倍）。
+// 0.08 で約1.3倍（オーナー調整 2026-06-12）。
+export const CELL_PAD = 0.08;
+
 // Largest square pane that fits a pair-cell of the given size, for the orientation.
 // Horizontal pair: 2 panes + gap wide, 1 pane + pad tall.
 // Vertical pair:   1 pane wide, 2 panes + gap + 2 pads tall.

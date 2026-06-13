@@ -32,6 +32,51 @@
   padding: 7px 8px; font-size: 13px;
 }
 
+/* ---- 詳細説明テキスト一覧（/atelier/texts） ---- */
+.atl-txt-summary {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px; margin-top: 18px;
+}
+.atl-txt-stat {
+  display: flex; flex-direction: column; gap: 2px;
+  border: 1px dashed #c8cdd4; border-radius: 4px; padding: 10px 12px;
+}
+.atl-txt-stat[data-full] { border-style: solid; border-color: #2c6e7f; }
+.atl-txt-stat-label { font-size: 12px; font-weight: 600; }
+.atl-txt-stat-count { font-family: monospace; font-size: 16px; color: #2c6e7f; }
+.atl-txt-stat[data-full] .atl-txt-stat-count::after { content: " ✓"; }
+.atl-txt-stat-note { font-size: 11px; color: #9aa0aa; line-height: 1.5; }
+
+.atl-txt-card {
+  border: 1px solid #e2e5ea; border-radius: 4px;
+  padding: 12px 14px; margin-top: 10px; background: #fff;
+}
+.atl-txt-card[data-status="scaffold"] { background: #fafbfc; }
+.atl-txt-head {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  padding-bottom: 8px; border-bottom: 1px dashed #e2e5ea;
+}
+.atl-txt-title { font-size: 14px; font-weight: 600; }
+.atl-txt-links { margin-left: auto; display: flex; gap: 12px; font-size: 12px; }
+.atl-txt-links a { color: #2c6e7f; text-decoration: none; }
+.atl-txt-links a:hover { text-decoration: underline; }
+
+.atl-txt-fields { margin: 0; }
+.atl-txt-field {
+  display: grid; grid-template-columns: 180px 1fr; gap: 12px;
+  padding: 6px 0; border-bottom: 1px dotted #eceef2; font-size: 13px;
+}
+.atl-txt-field:last-child { border-bottom: 0; }
+.atl-txt-field dt { color: #6b7280; font-size: 12px; }
+.atl-txt-field dd { margin: 0; line-height: 1.7; white-space: pre-line; }
+.atl-txt-field[data-missing] dd {
+  color: #b3531f; font-size: 12px;
+}
+.atl-txt-field[data-missing] dd::before { content: "⚠ "; }
+@media (max-width: 720px) {
+  .atl-txt-field { grid-template-columns: 1fr; gap: 2px; }
+}
+
 /* ---- SKU 一覧 ---- */
 .atl-task { margin-top: 30px; }
 .atl-task h2 { font-size: 16px; border-bottom: 1.5px solid #2c6e7f; padding-bottom: 4px; }
@@ -81,3 +126,33 @@
 .atl-card-actions button:hover:not(:disabled) { border-color: #2c6e7f; }
 .atl-card-actions button:disabled { opacity: 0.4; cursor: default; }
 .atl-lane--rejected .atl-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+
+/* ---- 線の手直しモーダル ---- */
+.atl-overlay {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(28, 32, 38, 0.5); padding: 20px;
+}
+.atl-editor {
+  background: #fff; border-radius: 6px; padding: 18px 20px 16px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  display: flex; flex-direction: column; gap: 12px; max-width: 420px;
+}
+.atl-editor-head h2 { font-size: 15px; margin: 0 0 4px; }
+.atl-editor-hint { font-size: 12px; color: #6b7280; margin: 0; line-height: 1.6; }
+.atl-editor-svg {
+  display: block; margin: 0 auto;
+  border: 1px dotted #d8dce2; border-radius: 4px; touch-action: manipulation;
+}
+.atl-editor-metrics {
+  text-align: center; font-size: 12px; color: #2c6e7f; margin: 0;
+}
+.atl-editor-actions { display: flex; gap: 8px; align-items: center; }
+.atl-editor-spacer { flex: 1; }
+.atl-editor-actions button {
+  border: 1px solid #c8cdd4; background: #fff; border-radius: 4px;
+  padding: 7px 12px; font-size: 13px; cursor: pointer;
+}
+.atl-editor-actions button:hover:not(:disabled) { border-color: #2c6e7f; color: #2c6e7f; }
+.atl-editor-actions button:disabled { opacity: 0.45; cursor: default; }
+.atl-editor-actions .atl-btn--pub:hover:not(:disabled) { color: #fff; }

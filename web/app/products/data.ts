@@ -19,11 +19,8 @@ export type Vol = {
   blurb: string;          // 各巻 1 文（§12.7 / §15-22 キャッチコピー）
   ageLabel: string;       // "4〜6才ごろ"（外向け「才」表記・decisions §3.45）
   status: VolStatus;
-  /* ---- 詳細ページ用（live のみ・無ければセクション非表示） ---- */
-  promise?: string;       // sku-promise（H1 直下の一文）
-  observeNote?: string;   // 「ここを見てください」
-  ownerNote?: string;     // 「店主から」
-  parentNote?: string;    // 「親へのひとこと」
+  /* ---- 詳細ページ用（live のみ） ---- */
+  promise?: string;       // sku-promise（H1 直下の一文・無ければ blurb で代用）
   revisions?: { ver: string; date: string; note: string }[];
 };
 
@@ -59,9 +56,7 @@ export const PRODUCT_TASKS: ProductTask[] = [
       {
         ...v("copy-lv2-vol2", 2, 2, "4×4", "枠がひとつ大きくなった4×4。斜めにも慣れてきたら。", "4〜7才ごろ", "live"),
         promise: "点と点の距離を、目で測れるように。",
-        observeNote: "写す前に「みほんのどこから見るか」を、いっしょに確認してみてください。目の動きが、3×3 のころと変わってきます。",
-        ownerNote: "点と点の距離を測る目を作るには、4×4 までの規則的な配置が必要です。3×3 では情報が足りず、5×5 では距離の比較対象が増えすぎる。この巻は「距離を測ること」だけに集中できる範囲として置きました。",
-        parentNote: "このレベルは「写す前に、どこを見るか」を一緒に確認してみてください。\n次は明日でも大丈夫です。同じ問題を 2 回やる日があってもいい設計です。",
+        /* observeNote/ownerNote/parentNote はセクション廃止により撤去（2026-06-12・git 履歴に文章あり） */
         /* revisions: モック時代の架空履歴は撤去（2026-06-11）。実改訂が
            発生したら追記する（2 件以上で履歴セクションが表示される） */
       },

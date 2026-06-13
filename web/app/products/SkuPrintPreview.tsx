@@ -13,7 +13,7 @@
 import { useMemo, useState } from "react";
 import {
   PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
-  KGAP, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
+  KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "./print";
 import type { EdgeT } from "./problems/schema";
@@ -21,8 +21,6 @@ import type { EdgeT } from "./problems/schema";
 const INK = "#3A424E";
 const QUESTIONS = 12;
 const MARGIN_MM = 14;
-/* 設問セルの内側余白（セル短辺比）。設問同士が詰まって見えないための呼吸 */
-const CELL_PAD = 0.06;
 
 /* 描画単位は辺集合（本物の問題は閉多角形とは限らない） */
 export type RenderProblem = { n: number; edges: EdgeT[] };

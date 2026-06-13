@@ -4,7 +4,7 @@
    ========================================================================= */
 import { notFound } from "next/navigation";
 import { PRODUCT_TASKS, LEVEL_NAMES } from "../products/data";
-import { COPY_LADDER } from "../products/problems/gen/ladder";
+import { generatorFor } from "../products/problems/gen";
 import { PUBLISHED } from "../products/problems/published";
 import "./atelier.css";
 
@@ -18,6 +18,7 @@ export default function AtelierIndex() {
       <header className="atl-head">
         <h1>atelier — 問題データ検品</h1>
         <p>dev 限定ツール。候補を生成 → 12 問選んで publish → 商品ページに載る。</p>
+        <p><a href="/atelier/texts">詳細説明テキスト一覧（全巻の説明文を一括検品）→</a></p>
       </header>
 
       {PRODUCT_TASKS.map((task) => (
@@ -25,7 +26,7 @@ export default function AtelierIndex() {
           <h2>{task.name} <span className="atl-slug">/{task.slug}</span></h2>
           <div className="atl-sku-grid">
             {task.vols.map((vol) => {
-              const hasGen = Boolean(COPY_LADDER[vol.sku]);
+              const hasGen = Boolean(generatorFor(vol.sku));
               const isPub = Boolean(PUBLISHED[vol.sku]);
               return (
                 <a key={vol.sku} className="atl-sku-card" href={`/atelier/${vol.sku}`}

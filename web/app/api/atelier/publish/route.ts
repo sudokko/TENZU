@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
   }
 
   const problems: Problem[] = adopted.map((c) => {
-    const { status: _s, order: _o, ...p } = c;
+    const { status: _s, order: _o, edited: _e, ...p } = c;
     return p;
   });
 

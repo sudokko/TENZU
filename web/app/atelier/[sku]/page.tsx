@@ -1,7 +1,7 @@
 /* 検品ツール SKU 単位ページ — dev 限定（本番は 404） */
 import { notFound } from "next/navigation";
 import { volBySku } from "../../products/data";
-import { COPY_LADDER } from "../../products/problems/gen/ladder";
+import { generatorFor } from "../../products/problems/gen";
 import AtelierApp from "../AtelierApp";
 import "../atelier.css";
 
@@ -14,12 +14,14 @@ export default async function AtelierSku({ params }: { params: Promise<{ sku: st
   const hit = volBySku(sku);
   if (!hit) notFound();
 
+  const gen = generatorFor(sku);
   return (
     <AtelierApp
       sku={sku}
       title={`${hit.task.name} Lv.${hit.vol.lv} Vol.${hit.vol.volNo} · ${hit.vol.grid}`}
-      hasGenerator={Boolean(COPY_LADDER[sku])}
-      linesRange={COPY_LADDER[sku]?.lines}
+      hasGenerator={Boolean(gen)}
+      genKind={gen?.kind}
+      linesRange={gen?.lines}
     />
   );
 }

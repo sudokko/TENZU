@@ -5,9 +5,11 @@
    ========================================================================= */
 import type { SkuProblemSet } from "../schema";
 import j0 from "./copy-lv1-vol1.json";
+import j1 from "./copy-lv2-vol1.json";
 
 export const PUBLISHED: Record<string, SkuProblemSet> = {
   "copy-lv1-vol1": j0 as unknown as SkuProblemSet,
+  "copy-lv2-vol1": j1 as unknown as SkuProblemSet,
 };
 
 export function publishedSet(sku: string): SkuProblemSet | undefined {
