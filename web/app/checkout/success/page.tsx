@@ -9,7 +9,7 @@ import Stripe from "stripe";
 import SiteHeader from "../../SiteHeader";
 import SkuPrintPreview, { type RenderProblem } from "../../products/SkuPrintPreview";
 import ClearCartOnSuccess from "./ClearCartOnSuccess";
-import { volBySku, volTitle } from "../../products/data";
+import { volBySku, volTitle, PRICE } from "../../products/data";
 import { publishedSet } from "../../products/problems/published";
 import "../../cart/cart.css";
 
@@ -69,8 +69,14 @@ export default async function CheckoutSuccessPage({
       <SiteHeader />
       <main className="wrap success-wrap">
         <div className="success-head">
+          <span className="success-check" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
+              strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 12.5l5 5 11-11" />
+            </svg>
+          </span>
           <h1>ご購入ありがとうございます</h1>
-          <p>各巻ごとに用紙・問題数を選んで、PDF をダウンロードしてください。</p>
+          <p>用紙・問題数・並びを選んで、PDF をダウンロードしてください。</p>
           <p className="success-revisit">このページのリンクはご購入確認メールにも届いています。ブックマークすれば、いつでも・別の端末からでも再ダウンロードできます。</p>
         </div>
 
@@ -80,9 +86,14 @@ export default async function CheckoutSuccessPage({
           const problems: RenderProblem[] | undefined = set?.problems.map((p) => ({
             n: p.grid.n, edges: p.edges,
           }));
+          const qn = set?.problems.length ?? 12;
           return (
             <section className="success-sku" key={sku}>
-              <h2 className="success-sku-name">{volTitle(resolved!.task, vol)}</h2>
+              <div className="success-sku-head">
+                <span className="success-sku-stamp">購入済み</span>
+                <h2 className="success-sku-name">{volTitle(resolved!.task, vol)}</h2>
+                <p className="success-sku-meta">{vol.grid} · 全 {qn} 問 · ¥{PRICE}（税込）</p>
+              </div>
               <SkuPrintPreview sku={sku} grid={vol.grid} problems={problems} purchased />
             </section>
           );

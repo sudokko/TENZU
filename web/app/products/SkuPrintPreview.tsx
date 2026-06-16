@@ -385,6 +385,8 @@ export default function SkuPrintPreview({
   const [nameField, setNameField] = useState(false);
   const [focusPg, setFocusPg] = useState(0);
   const [downloading, setDownloading] = useState(false);
+  // 購入後（サンクス）は最初から開いた状態に。開閉自体は維持（onToggle で制御）
+  const [foldOpen, setFoldOpen] = useState(purchased);
 
   const isReal = Boolean(realProblems && realProblems.length > 0);
   const problems = useMemo(
@@ -415,7 +417,8 @@ export default function SkuPrintPreview({
 
   return (
     <div className="spv">
-      <details className="spv-fold">
+      <details className="spv-fold" open={foldOpen}
+        onToggle={(e) => setFoldOpen((e.currentTarget as HTMLDetailsElement).open)}>
         <summary>
           <span className="spv-fold-label">詳細設定<span className="spv-fold-chevron" aria-hidden="true" /></span>
           <span className="spv-fold-current">
