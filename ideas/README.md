@@ -60,3 +60,4 @@ related: [path/to/file.md, ...]
 | 2026-05-28 | [App 装飾・再印刷機能の購入者解放](2026-05-28-app-decoration-for-buyers.md) | alive | pack-design.md / funnel.md / engineering/README.md / launch/phases.md |
 | 2026-05-28 | [印刷メンバーシップ（App サブスク）モデル](2026-05-28-app-subscription-model.md) | alive | brand.md / voice-tone.md / pack-design.md / funnel.md / engineering/README.md / launch/plan.md / launch/phases.md |
 | 2026-06-11 | [点つなぎ（番号順点結び）の商品ライン／メーカー機能化](2026-06-11-dot-to-dot-product-line.md) | alive | pack-design.md / targeting.md / competitive.md / launch/phases.md |
+| 2026-06-15 | [物語アーク点描写プリント（第3ライン「ものがたり」構想）](2026-06-15-story-arc-tenzu-line.md) | alive | pack-design.md / personas.md / brand.md / voice-tone.md / competitive.md |

@@ -1,0 +1,1702 @@
+{
+ "schemaVersion": 1,
+ "sku": "fill-lv2-vol1",
+ "task": "fill",
+ "candidates": [
+  {
+   "id": "fill-lv2-vol1-s1-01",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-02",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-04",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-09",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 5,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-05",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-06",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       0
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-08",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-13",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 6,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-10",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 5,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-11",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 5,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-12",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 5,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-03",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-15",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 6,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-16",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       0
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 6,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-07",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "fill-lv2-vol1-s1-14",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 6,
+    "diagonals": 3,
+    "diagonalAngleKinds": 1,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  }
+ ],
+ "seedCursor": 1
+}

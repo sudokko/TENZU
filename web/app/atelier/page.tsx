@@ -19,6 +19,7 @@ export default function AtelierIndex() {
         <h1>atelier — 問題データ検品</h1>
         <p>dev 限定ツール。候補を生成 → 12 問選んで publish → 商品ページに載る。</p>
         <p><a href="/atelier/texts">詳細説明テキスト一覧（全巻の説明文を一括検品）→</a></p>
+        <p><a href="/atelier/pins">ピン素材書き出し（公開済 SKU から Pinterest 用 PNG＋キャプション）→</a></p>
       </header>
 
       {PRODUCT_TASKS.map((task) => (

@@ -1,0 +1,32 @@
+/* ピン素材書き出しツール（dev）スタイル */
+.pin-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; color: #3A424E; }
+.pin-head h1 { font-size: 24px; margin: 0 0 6px; }
+.pin-dev { font-size: 12px; background: #2C6E7F; color: #fff; border-radius: 4px; padding: 2px 6px; vertical-align: middle; }
+.pin-head p { color: #6B7480; font-size: 14px; margin: 0 0 20px; }
+.pin-head a { color: #2C6E7F; }
+
+.pin-controls { display: grid; gap: 16px; padding: 16px; background: #F7F8F9; border-radius: 8px; margin-bottom: 24px; }
+.pin-controls > label { display: grid; gap: 6px; font-size: 13px; color: #6B7480; max-width: 360px; }
+.pin-controls select { font-size: 15px; padding: 8px 10px; border: 1px solid #D5D9DE; border-radius: 6px; background: #fff; }
+
+.pin-templates { display: flex; flex-wrap: wrap; gap: 10px; }
+.pin-tmpl { display: grid; gap: 2px; text-align: left; padding: 10px 14px; border: 1.5px solid #D5D9DE; border-radius: 8px; background: #fff; cursor: pointer; }
+.pin-tmpl.is-on { border-color: #2C6E7F; box-shadow: 0 0 0 2px rgba(44,110,127,.15); }
+.pin-tmpl strong { font-size: 14px; }
+.pin-tmpl span { font-size: 12px; color: #6B7480; }
+
+.pin-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.pin-btn { font-size: 14px; padding: 9px 16px; border: 1px solid #D5D9DE; border-radius: 6px; background: #fff; cursor: pointer; color: #3A424E; }
+.pin-btn:disabled { opacity: .5; cursor: not-allowed; }
+.pin-btn--primary { background: #2C6E7F; border-color: #2C6E7F; color: #fff; }
+.pin-btn--sm { padding: 4px 12px; font-size: 13px; }
+.pin-msg { font-size: 13px; color: #6B7480; }
+.pin-empty { color: #B4452F; }
+
+.pin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.pin-card { margin: 0; display: grid; gap: 8px; }
+.pin-img { width: 100%; height: auto; border: 1px solid #E5E8EC; border-radius: 6px; background: #fff; }
+.pin-card figcaption { display: grid; gap: 6px; font-size: 12px; }
+.pin-card figcaption > code { color: #6B7480; word-break: break-all; }
+.pin-caption { white-space: pre-wrap; font-size: 12px; background: #F7F8F9; padding: 8px; border-radius: 6px; font-family: var(--font-jp, sans-serif); }
+.pin-url { font-size: 11px; color: #2C6E7F; word-break: break-all; }

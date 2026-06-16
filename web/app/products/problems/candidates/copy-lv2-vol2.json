@@ -12,48 +12,28 @@
    "edges": [
     [
      [
-      1,
+      0,
       0
      ],
      [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
+      0,
       1
      ]
     ],
     [
      [
       0,
-      3
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
      ],
      [
       1,
@@ -62,49 +42,51 @@
     ],
     [
      [
+      1,
+      2
+     ],
+     [
       2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
       0
      ],
      [
-      3,
-      1
-     ]
-    ],
-    [
-     [
       1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
+      1
      ]
     ]
    ],
    "metrics": {
-    "lines": 5,
-    "diagonals": 3,
+    "lines": 3,
+    "diagonals": 1,
     "diagonalAngleKinds": 1,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 8,
+    "pointsUsed": 6,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
     "generator": "copy",
-    "version": "1",
-    "seed": 1
+    "version": "2",
+    "seed": 1,
+    "motif": "さんかく",
+    "variant": "triR#2/0@4"
    },
    "status": "pending"
   },
@@ -117,8 +99,28 @@
    "edges": [
     [
      [
-      1,
+      2,
+      0
+     ],
+     [
+      2,
       1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
      ],
      [
       2,
@@ -128,7 +130,17 @@
     [
      [
       0,
-      0
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
      ],
      [
       1,
@@ -137,69 +149,33 @@
     ],
     [
      [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
       1,
-      2
+      1
      ],
      [
       2,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
+      0
      ]
     ]
    ],
    "metrics": {
-    "lines": 6,
-    "diagonals": 3,
+    "lines": 3,
+    "diagonals": 1,
     "diagonalAngleKinds": 1,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 7,
-    "symmetry": []
+    "pointsUsed": 6,
+    "symmetry": [
+     "d1"
+    ]
    },
    "gen": {
     "kind": "auto",
     "generator": "copy",
-    "version": "1",
-    "seed": 1
+    "version": "2",
+    "seed": 1,
+    "motif": "さんかく",
+    "variant": "triR#2/1@4"
    },
    "status": "pending"
   },
@@ -212,52 +188,32 @@
    "edges": [
     [
      [
-      0,
+      3,
       0
      ],
      [
-      0,
+      3,
       1
      ]
     ],
     [
      [
-      0,
+      3,
       1
      ],
      [
-      1,
+      3,
       2
      ]
     ],
     [
      [
-      1,
+      3,
       2
      ],
      [
-      2,
+      3,
       3
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      0
      ]
     ],
     [
@@ -272,12 +228,42 @@
     ],
     [
      [
+      1,
+      3
+     ],
+     [
       2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
       2
      ],
      [
-      3,
-      3
+      2,
+      1
      ]
     ],
     [
@@ -286,140 +272,29 @@
       1
      ],
      [
-      2,
-      2
+      3,
+      0
      ]
     ]
    ],
    "metrics": {
-    "lines": 7,
-    "diagonals": 3,
+    "lines": 3,
+    "diagonals": 1,
     "diagonalAngleKinds": 1,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 8,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "copy",
-    "version": "1",
-    "seed": 1
-   },
-   "status": "pending"
-  },
-  {
-   "id": "copy-lv2-vol2-s1-05",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
+    "pointsUsed": 9,
+    "symmetry": [
+     "d1"
     ]
-   ],
-   "metrics": {
-    "lines": 9,
-    "diagonals": 3,
-    "diagonalAngleKinds": 1,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 8,
-    "symmetry": []
    },
    "gen": {
     "kind": "auto",
     "generator": "copy",
-    "version": "1",
-    "seed": 1
+    "version": "2",
+    "seed": 1,
+    "motif": "さんかく",
+    "variant": "triR#3/1@4"
    },
    "status": "pending"
   },
@@ -443,71 +318,41 @@
     [
      [
       0,
-      0
-     ],
-     [
-      1,
       1
-     ]
-    ],
-    [
+     ],
      [
       0,
-      1
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
       2
      ]
     ],
     [
      [
-      1,
+      0,
       2
      ],
      [
-      2,
+      0,
       3
      ]
     ],
     [
      [
       0,
-      1
+      3
      ],
      [
       1,
-      1
+      3
      ]
     ],
     [
      [
-      2,
+      1,
       3
      ],
      [
-      3,
-      2
+      2,
+      3
      ]
     ],
     [
@@ -518,28 +363,258 @@
      [
       3,
       3
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
      ]
     ]
    ],
    "metrics": {
-    "lines": 8,
-    "diagonals": 4,
+    "lines": 3,
+    "diagonals": 1,
     "diagonalAngleKinds": 1,
-    "crossings": 1,
+    "crossings": 0,
     "components": 1,
-    "pointsUsed": 8,
+    "pointsUsed": 9,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "さんかく",
+    "variant": "triR#3/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-05",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 3,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
     "generator": "copy",
-    "version": "1",
-    "seed": 1
+    "version": "2",
+    "seed": 1,
+    "motif": "やま",
+    "variant": "triI#1/0@4"
    },
    "status": "pending"
   },
   {
-   "id": "copy-lv2-vol2-s2-01",
+   "id": "copy-lv2-vol2-s1-06",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "わくたいかく",
+    "variant": "drect#2x2d1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-07",
    "grid": {
     "type": "square",
     "n": 4
@@ -552,17 +627,7 @@
      ],
      [
       2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      3
+      1
      ]
     ],
     [
@@ -577,12 +642,129 @@
     ],
     [
      [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 3,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やじるし",
+    "variant": "arrow#1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-08",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
       2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
       2
      ],
      [
       2,
-      3
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
      ]
     ],
     [
@@ -593,6 +775,663 @@
      [
       2,
       0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "わくたいかく",
+    "variant": "drect#2x2d1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-09",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 14,
+    "symmetry": [
+     "d1",
+     "d2",
+     "r180"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "わくたいかく",
+    "variant": "drect#3x3d1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-10",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 3,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やじるし",
+    "variant": "arrow#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-11",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [
+     "d1",
+     "d2",
+     "r180"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "わくたいかく",
+    "variant": "drect#3x3d1/0@4"
+   },
+   "status": "adopted",
+   "order": 1,
+   "edited": true
+  },
+  {
+   "id": "copy-lv2-vol2-s1-12",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "さんかくたかさ",
+    "variant": "triH#2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-13",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "さんかくたかさ",
+    "variant": "triH#2/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-14",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
      ]
     ],
     [
@@ -607,9 +1446,257 @@
     ]
    ],
    "metrics": {
-    "lines": 5,
-    "diagonals": 3,
+    "lines": 4,
+    "diagonals": 4,
     "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ひしがた",
+    "variant": "diamond#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-15",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "エルがた",
+    "variant": "L#3/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-16",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "エルがた",
+    "variant": "L#2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-17",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 7,
@@ -618,13 +1705,83 @@
    "gen": {
     "kind": "auto",
     "generator": "copy",
-    "version": "1",
-    "seed": 2
+    "version": "2",
+    "seed": 1,
+    "motif": "ティーがた",
+    "variant": "T#3/0@4"
    },
    "status": "pending"
   },
   {
-   "id": "copy-lv2-vol2-s2-04",
+   "id": "copy-lv2-vol2-s1-18",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ティーがた",
+    "variant": "T#2/0@4"
+   },
+   "status": "rejected"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-19",
    "grid": {
     "type": "square",
     "n": 4
@@ -652,17 +1809,27 @@
     ],
     [
      [
-      1,
+      0,
       0
      ],
      [
       1,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
       1
      ]
     ],
     [
      [
-      1,
+      2,
       1
      ],
      [
@@ -676,8 +1843,334 @@
       2
      ],
      [
+      2,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ティーがた",
+    "variant": "T#3/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-20",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
       3,
       3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "エルがた",
+    "variant": "L#3/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-21",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "エルがた",
+    "variant": "L#2/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-22",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ユーがた",
+    "variant": "U#2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-23",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
      ]
     ],
     [
@@ -687,7 +2180,65 @@
      ],
      [
       2,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "エイチがた",
+    "variant": "H#2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-24",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
       0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
      ]
     ],
     [
@@ -702,8 +2253,128 @@
     ],
     [
      [
-      2,
+      3,
+      1
+     ],
+     [
+      3,
       2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": [
+     "v"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "エイチがた",
+    "variant": "H#3/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-25",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
      ],
      [
       2,
@@ -718,6 +2389,392 @@
      [
       3,
       3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": [
+     "v"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ユーがた",
+    "variant": "U#3/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-26",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 4,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "イーがた",
+    "variant": "E#3/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-27",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 4,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "イーがた",
+    "variant": "E#2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-28",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
      ]
     ],
     [
@@ -732,9 +2789,10 @@
     ]
    ],
    "metrics": {
-    "lines": 8,
-    "diagonals": 2,
-    "diagonalAngleKinds": 1,
+    "lines": 4,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 9,
@@ -743,13 +2801,15 @@
    "gen": {
     "kind": "auto",
     "generator": "copy",
-    "version": "1",
-    "seed": 2
+    "version": "2",
+    "seed": 1,
+    "motif": "イーがた",
+    "variant": "E#2/1@4"
    },
    "status": "pending"
   },
   {
-   "id": "copy-lv2-vol2-s2-02",
+   "id": "copy-lv2-vol2-s1-29",
    "grid": {
     "type": "square",
     "n": 4
@@ -757,12 +2817,238 @@
    "edges": [
     [
      [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
       1,
       1
      ],
      [
       2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 4,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "イーがた",
+    "variant": "E#3/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-30",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
       0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 4,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "かいだん",
+    "variant": "stairs#2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-31",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
      ]
     ],
     [
@@ -777,8 +3063,488 @@
     ],
     [
      [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 4,
+    "diagonals": 4,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やまがた",
+    "variant": "chev#2x2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-32",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
       2,
       0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 4,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "かいだん",
+    "variant": "stairs#2/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-33",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "はしご",
+    "variant": "grid#2x1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-34",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [
+     "v"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "はしご",
+    "variant": "grid#1x2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-35",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 10,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "かいだん",
+    "variant": "stairs#3/0@4"
+   },
+   "status": "adopted",
+   "order": 6,
+   "edited": true
+  },
+  {
+   "id": "copy-lv2-vol2-s1-36",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
      ],
      [
       3,
@@ -787,22 +3553,94 @@
     ],
     [
      [
-      3,
-      0
+      0,
+      2
      ],
      [
-      3,
-      1
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
      ]
     ],
     [
      [
       2,
-      0
+      2
      ],
      [
       3,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [
+     "v",
+     "h",
+     "r180"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "はしご",
+    "variant": "grid#3x1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-37",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
       0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
      ]
     ],
     [
@@ -817,11 +3655,1058 @@
     ],
     [
      [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 6,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 3,
+    "pointsUsed": 9,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やまがた",
+    "variant": "chev#2x3/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-38",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
       1,
       3
      ],
      [
       2,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [
+     "v",
+     "h",
+     "r180"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "はしご",
+    "variant": "grid#1x3/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-39",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "といれ",
+    "variant": "notch#2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-40",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "かいだん",
+    "variant": "stairs#3/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-41",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "といれ",
+    "variant": "notch#2/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-42",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "エスじ",
+    "variant": "zigS4#1/0@4"
+   },
+   "status": "adopted",
+   "order": 4
+  },
+  {
+   "id": "copy-lv2-vol2-s1-43",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "まどいえ",
+    "variant": "house4w#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-45",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ノッチ",
+    "variant": "notchS3#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-46",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
       2
      ]
     ]
@@ -830,21 +4715,26 @@
     "lines": 6,
     "diagonals": 4,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 7,
-    "symmetry": []
+    "pointsUsed": 6,
+    "symmetry": [
+     "v"
+    ]
    },
    "gen": {
     "kind": "auto",
     "generator": "copy",
-    "version": "1",
-    "seed": 2
+    "version": "2",
+    "seed": 1,
+    "motif": "ろっかく",
+    "variant": "hex4#1/0@4"
    },
    "status": "pending"
   },
   {
-   "id": "copy-lv2-vol2-s2-03",
+   "id": "copy-lv2-vol2-s1-47",
    "grid": {
     "type": "square",
     "n": 4
@@ -853,61 +4743,11 @@
     [
      [
       0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
       0
      ],
      [
       1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      1
+      0
      ]
     ],
     [
@@ -917,39 +4757,94 @@
      ],
      [
       2,
-      1
+      0
      ]
     ],
     [
      [
       2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
       1
      ],
      [
-      3,
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
       0
+     ],
+     [
+      0,
+      1
      ]
     ]
    ],
    "metrics": {
-    "lines": 7,
-    "diagonals": 4,
-    "diagonalAngleKinds": 1,
+    "lines": 6,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 7,
-    "symmetry": []
+    "pointsUsed": 8,
+    "symmetry": [
+     "d1"
+    ]
    },
    "gen": {
     "kind": "auto",
     "generator": "copy",
-    "version": "1",
-    "seed": 2
+    "version": "2",
+    "seed": 1,
+    "motif": "といれ",
+    "variant": "toilet3#1/0@4"
    },
    "status": "pending"
   },
   {
-   "id": "copy-lv2-vol2-s2-05",
+   "id": "copy-lv2-vol2-s1-48",
    "grid": {
     "type": "square",
     "n": 4
@@ -957,8 +4852,28 @@
    "edges": [
     [
      [
-      2,
+      0,
+      1
+     ],
+     [
+      1,
       0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
      ],
      [
       3,
@@ -967,12 +4882,42 @@
     ],
     [
      [
+      0,
+      3
+     ],
+     [
       1,
-      0
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
      ],
      [
       2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
       0
+     ],
+     [
+      1,
+      1
      ]
     ],
     [
@@ -982,7 +4927,57 @@
      ],
      [
       2,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 7,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 10,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やまふた",
+    "variant": "chevd4#1/0@4"
+   },
+   "status": "adopted",
+   "order": 3,
+   "edited": true
+  },
+  {
+   "id": "copy-lv2-vol2-s1-50",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
       0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
      ]
     ],
     [
@@ -991,54 +4986,14 @@
       2
      ],
      [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
+      0,
+      3
      ]
     ],
     [
      [
       0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      2
+      3
      ],
      [
       1,
@@ -1058,18 +5013,604 @@
     [
      [
       2,
-      0
+      3
      ],
      [
       3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "さんかくたな3",
+    "variant": "tri3shelf4#1/0@4"
+   },
+   "status": "adopted",
+   "order": 2
+  },
+  {
+   "id": "copy-lv2-vol2-s1-52",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
       1
      ]
     ]
    ],
    "metrics": {
-    "lines": 9,
-    "diagonals": 4,
+    "lines": 6,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "だんつき",
+    "variant": "step3#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-54",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 1,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "すみせん",
+    "variant": "cornd4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-55",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ジグザグ",
+    "variant": "zig4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-57",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 9,
@@ -1078,11 +5619,4023 @@
    "gen": {
     "kind": "auto",
     "generator": "copy",
-    "version": "1",
-    "seed": 2
+    "version": "2",
+    "seed": 1,
+    "motif": "ジグザグ",
+    "variant": "zigz3#1/0@4"
    },
    "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-58",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 3,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 11,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ななめばしご",
+    "variant": "ladder4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-59",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ジグザグ",
+    "variant": "zig4#1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-60",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 4,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やじるしはね",
+    "variant": "feath4#1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-61",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "いえ",
+    "variant": "house3#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-62",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "おおいえ",
+    "variant": "house4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-63",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 4,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ふたやじるし",
+    "variant": "darrow4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-64",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 4,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やじるしはね",
+    "variant": "feath4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-65",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 4,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ひしよこ",
+    "variant": "diaH3#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-66",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 3,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 11,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ななめばしご",
+    "variant": "ladder4#1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-67",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "おおかいだん",
+    "variant": "step3blk4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-68",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [
+     "r180"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "もくすみ2",
+    "variant": "moku2d4#1/1@4"
+   },
+   "status": "adopted",
+   "order": 10
+  },
+  {
+   "id": "copy-lv2-vol2-s1-69",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 10,
+    "diagonals": 6,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": [
+     "r180"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "はちかくけい",
+    "variant": "oct#3/0@4"
+   },
+   "status": "adopted",
+   "order": 5,
+   "edited": true
+  },
+  {
+   "id": "copy-lv2-vol2-s1-70",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 16,
+    "symmetry": [
+     "v",
+     "h",
+     "d1",
+     "d2",
+     "r90",
+     "r180"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "いれこしかく",
+    "variant": "nestsq4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-71",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 10,
+    "diagonals": 8,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 14,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "りょうばしご",
+    "variant": "dladder4#1/1@4"
+   },
+   "status": "adopted",
+   "order": 12,
+   "edited": true
+  },
+  {
+   "id": "copy-lv2-vol2-s1-72",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 6,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 14,
+    "symmetry": [
+     "r180"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "りょうばしご",
+    "variant": "dladder4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-73",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "おおかいだん",
+    "variant": "step3blk4#1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-74",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 4,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "ないせつひし",
+    "variant": "insc#2/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-75",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "エスじ",
+    "variant": "zigS4#1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-76",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 14,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "にちすみ",
+    "variant": "nichicorn4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-77",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "さんかくたな5",
+    "variant": "trishelf4c#1/1@4"
+   },
+   "status": "adopted",
+   "order": 11
+  },
+  {
+   "id": "copy-lv2-vol2-s1-78",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 3,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "わくすみ3",
+    "variant": "framecorn3#1/1@4"
+   },
+   "status": "adopted",
+   "order": 9
+  },
+  {
+   "id": "copy-lv2-vol2-s1-79",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 11,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [
+     "v"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "たてエス",
+    "variant": "vserp4#1/0@4"
+   },
+   "status": "adopted",
+   "order": 7,
+   "edited": true
+  },
+  {
+   "id": "copy-lv2-vol2-s1-80",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 6,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 3,
+    "pointsUsed": 12,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やまだんとゆか",
+    "variant": "chevtri4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-81",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 3,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 8,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "しかくとやま",
+    "variant": "sqchev4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-82",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 6,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やじるし3だん",
+    "variant": "arrow3h4#1/0@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-83",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 3,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 8,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "しかくとやま",
+    "variant": "sqchev4#1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-84",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 6,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 3,
+    "pointsUsed": 12,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やまだんとゆか",
+    "variant": "chevtri4#1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-85",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 6,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やまたに",
+    "variant": "wmix4#1/1@4"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv2-vol2-s1-88",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 6,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "やまたに",
+    "variant": "wmix4#1/0@4"
+   },
+   "status": "adopted",
+   "order": 8,
+   "edited": true
   }
  ],
- "seedCursor": 2
+ "seedCursor": 0
 }

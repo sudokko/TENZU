@@ -141,6 +141,7 @@ export function computeMetrics(edges: EdgeT[], n: number): ProblemMetrics {
     lines: segs.length,
     diagonals,
     diagonalAngleKinds: angleKinds.size,
+    hasNon45: [...angleKinds].some((k) => k !== "1:1"), // 45°系は全部 "1:1"・それ以外＝非45°
     crossings,
     components: countComponents(edges),
     pointsUsed: pts.size,

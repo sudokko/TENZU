@@ -91,7 +91,7 @@
 </head>
 <body>
 <h1>TENZU 全ページ俯瞰ワイヤー</h1>
-<p class="sub">モバイル幅・実UI要素。遷移マップと同じ5ステージ列に実画面を縦長で配置。各枠は実際のページの長さ・並びを表す。灰色の矢印＝ボタン→遷移先ページ。詳細遷移は <code>screen-flow.md</code>。横スクロールで全ステージを見られます。</p>
+<p class="sub">モバイル幅・実UI要素。遷移マップと同じ5ステージ列に実画面を縦長で配置。各枠は実際のページの長さ・並びを表す。灰色の矢印＝ボタン→遷移先ページ。詳細遷移は <code>screen-flow.md</code>。横スクロールで全ステージを見られます。<br><b>最終更新: 2026-06-16</b></p>
 <div class="legend">
   <span><i class="dot green"></i>🟢 実装済</span>
   <span><i class="dot red"></i>🔴 未実装P0</span>
@@ -109,18 +109,19 @@
 
     <article class="phone green" id="F1">
       <div class="frame-cap">
-        <div class="ttl">TOP トップ <span class="badge green">🟢 要強化</span></div>
+        <div class="ttl">TOP トップ <span class="badge green">🟢</span></div>
         <div class="path">/</div>
       </div>
       <div class="screen">
         <div class="appbar">≡&nbsp; TENZU &nbsp;&nbsp;商品 記事 レベル選び おためし カート</div>
         <div class="blk ph tall">Hero（短く）<br>H1「点描写プリントの、専門店です。」<br>お品書き2行 / Tagline 2段<br><br>※メーカーCTAはHeroに置かない</div>
-        <div class="blk">4群タブ：見て写す / 動かす / 重ねる・分ける / 立体</div>
-        <div class="blk">やさしい｜むずかしい｜年齢｜立体｜モチーフ ▾</div>
-        <div class="blk ph xtall" data-arrow="F10" data-label="品ぞろえ→個別">商品カードグリッド（4群・全149SKU）<br><br>各カード → 商品詳細<br>※ 商品一覧 /products を吸収</div>
-        <div class="blk">§ 点描写とは / 家庭での続け方 / 記事ハブ への小リンク</div>
-        <div class="blk ph" data-arrow="F6" data-label="ナビ/フッター" data-dash="1">フッター：レベル選び / サンプル / 記事ハブ / About / FAQ / おためしメーカー</div>
-        <div class="note">玄関兼カタログ（商品一覧 /products を吸収）。<b>SEO取引意図は専用ファセットLPが受ける＝TOPは受けない</b>（吸収案は撤回・decisions §5.6）。メーカーCTAは Hero 非掲載＝ナビ/フッター経由（オーナー判断）。</div>
+        <div class="blk">なぜ点描写か（5 Pillar）</div>
+        <div class="blk ph" data-arrow="F9" data-label="品ぞろえ→タスク別">品ぞろえ＝3つの力×5段階（3群見出し＋帯グラフ）<br>→ タスク別一覧へ</div>
+        <div class="blk">「大切にした3つ」図解カード</div>
+        <div class="blk">続け方＝縦タイムライン</div>
+        <div class="blk ph" data-arrow="F5" data-label="帯CTA">帯CTA → レベル選びガイド</div>
+        <div class="blk ph" data-arrow="F6" data-label="ナビ/フッター" data-dash="1">フッター：レベル選び / 商品一覧 / 記事 / おためしメーカー</div>
+        <div class="note">ブランドハブ＋品ぞろえ概観。商品一覧は /products に独立（3層構造）。SEO取引意図は専用ファセットLPが受ける。</div>
       </div>
     </article>
 
@@ -178,7 +179,7 @@
         <div class="blk">② ブリッジ「これは一例。TENZUにはこの種類がレベル別で体系的に」</div>
         <div class="blk ph" data-arrow="F10" data-label="★有償">★③ 主役：有償商品カード（設問図・要素数/斜め線メタ・¥200・買う）</div>
         <div class="blk">④ クロスセル「他の種類・レベルも」</div>
-        <div class="blk">⑤ 相互リンク「ぜんぶ見る → TOP」（✕ メーカーCTA無し）</div>
+        <div class="blk">⑤ 相互リンク「ぜんぶ見る → 商品一覧」（✕ メーカーCTA無し）</div>
         <div class="note">対象6本：無料LP（左・別仕様）＋ プリント本丸 / むずかしい / やさしい / 年齢(年長・小1) / 立体。LP量産前提。出典 pack-design §25.6・decisions §5.6。</div>
       </div>
     </article>
@@ -205,19 +206,20 @@
       </div>
     </article>
 
-    <article class="phone red" id="F5">
+    <article class="phone green" id="F5">
       <div class="frame-cap">
-        <div class="ttl">レベル選びガイド <span class="badge red">🔴 5-7問</span></div>
+        <div class="ttl">レベル選びガイド <span class="badge green">🟢</span></div>
         <div class="path">/level-guide</div>
       </div>
       <div class="screen">
         <div class="appbar">TENZU &nbsp;&nbsp;☰</div>
-        <div class="blk h1">お子さんに合うレベルを見つける（5〜7問）</div>
-        <div class="blk meta" style="color:var(--teal);">● ● ● ○ ○ ○ ○　（Q3 / 7）</div>
+        <div class="blk h1">お子さんに合うレベルを見つける（6問・最後任意）</div>
+        <div class="blk meta" style="color:var(--teal);">● ● ● ○ ○ ○　（Q3 / 6）</div>
         <div class="blk ph tall">Q. 点と点をつなぐ遊びは？<br>　○ まだむずかしい<br>　○ できるようになった<br>　○ 飽きてきた</div>
         <div class="blk cta">次へ →</div>
-        <div class="blk good tall" data-arrow="F10" data-label="おすすめSKU">完了後：おすすめSKU提示 ＋ サンプルPDF 1本<br>（メアド取得しない）</div>
-        <div class="note">出典 funnel §3。NG語彙：弱点診断/自己診断/スタート診断/健康診断（voice-tone §1）。</div>
+        <div class="blk good tall" data-arrow="F10" data-label="★最初の一冊">完了後：2軸出力<br>軸A「はじめる位置」Lv1-5<br>軸B「最初の一冊」具体SKU<br>（メアド取得しない・商品リンク配線済）</div>
+        <div class="blk outline" data-arrow="F9" data-label="全部見る">全部見る → /products</div>
+        <div class="note">出典 funnel §3。6問・2軸出力。商品リンク配線済。<b>サンプルPDFリンクのみ未配線</b>（href="#"・PDF整備待ち）。NG語彙：弱点診断/自己診断/スタート診断/健康診断（voice-tone §1）。</div>
       </div>
     </article>
 
@@ -232,8 +234,8 @@
         <div class="blk">点の数：3×3 / 4×4 / 5×5　　難易度：○ ○ ○</div>
         <div class="blk ph xtall" style="text-align:center;">作図キャンバス（点をタップ → 線を引く）<br><br>※ 画面で解かせない<br>生成 → PDF 一直線</div>
         <div class="blk cta">この問題を保存する</div>
-        <div class="blk" data-arrow="F8" data-label="generated_pdf">保存リスト → レイアウト(1/2/3/4/6 問/頁) → PDF出力</div>
-        <div class="note">出典 brand §11.3.1。親向け / 模写のみ / 最大5×5 / 画面で解かせない。CV地点 generated_pdf。</div>
+        <div class="blk" data-arrow="F8" data-label="generated_pdf">保存リスト → レイアウト(1/2/3/4/6/8/10/12 問/頁) → PDF出力</div>
+        <div class="note">出典 brand §11.3.1。親向け / 模写のみ / 最大5×5 / 画面で解かせない。CV地点 generated_pdf。用紙別キャップ（A4=6/B4=10/A3=12）。</div>
       </div>
     </article>
 
@@ -251,9 +253,9 @@
       </div>
     </article>
 
-    <article class="phone orange" id="F8">
+    <article class="phone green" id="F8">
       <div class="frame-cap">
-        <div class="ttl"><span class="star">★</span> メーカー完了画面 <span class="badge orange">🔴 最重要</span></div>
+        <div class="ttl">メーカー完了画面 <span class="badge green">🟢 案A</span></div>
         <div class="path">/maker（PDF出力後）</div>
       </div>
       <div class="screen">
@@ -275,7 +277,7 @@
         <div class="blk warn" data-arrow="F11" data-label="セット">年長さんのはじめの5枚（セット ¥1,000）→</div>
         <div class="blk" style="font-style:italic;">『線をなぞるより楽しいみたい』— モニター K様（年長）</div>
         <div class="blk ph">メール登録（任意・ゲートにしない）</div>
-        <div class="note">出典 funnel §14（広告ROIの本丸）/ §11 generated_pdf→product_recommend_click。「DL完了」で止めない。</div>
+        <div class="note">出典 funnel §14（広告ROIの本丸）/ §11 generated_pdf→product_recommend_click。案A・動的レコメンド方式（模写8段ラダーから次の一冊を提案）。</div>
       </div>
     </article>
   </section>
@@ -284,21 +286,52 @@
   <section class="stage">
     <h2>商品</h2>
 
-    <article class="phone green" id="F10">
+    <article class="phone green" id="F9">
       <div class="frame-cap">
-        <div class="ttl">商品詳細 <span class="badge green">🟢</span></div>
-        <div class="path">/products/{sku}</div>
+        <div class="ttl">商品一覧ハブ <span class="badge green">🟢</span></div>
+        <div class="path">/products</div>
       </div>
       <div class="screen">
         <div class="appbar">TENZU &nbsp;&nbsp;商品 記事 ☰</div>
-        <div class="blk bc">ホーム &gt; A 見て写す &gt; 模写Lv.2 4×4</div>
-        <div class="blk ph tall">左：A4プレビュー画像 ／ 右：H1・promise・¥200</div>
-        <div class="blk cta" data-arrow="F12" data-label="add_to_cart">カートへ → ／ サンプル1枚を見る</div>
+        <div class="blk h1">商品一覧</div>
+        <div class="blk">帯グラフ（年齢×レベル・5段階）</div>
+        <div class="blk ph tall">3群タスク行<br>A 見て写す（模写図形/模写絵柄）<br>B かたちを動かす（線対称/回転/平行移動/拡大縮小）<br>C 重ねる・分ける（かさね/分解/立体模写）<br><br>各タスク → レベルチップ（Lv別リンク）</div>
+        <div class="blk" data-arrow="F9T" data-label="タスク別一覧">各タスク行 → /products/{task}#lv{n}</div>
+        <div class="note">TOPから独立した商品ハブ。CatalogSection（帯グラフ＋3群タスク行）。全68 SKU陳列（25 live / 43 scaffold）。</div>
+      </div>
+    </article>
+
+    <article class="phone green" id="F9T">
+      <div class="frame-cap">
+        <div class="ttl">タスク別一覧 <span class="badge green">🟢 10タスク</span></div>
+        <div class="path">/products/{task}</div>
+      </div>
+      <div class="screen">
+        <div class="appbar">TENZU &nbsp;&nbsp;商品 記事 ☰</div>
+        <div class="blk bc">ホーム &gt; 商品 &gt; 模写（図形）</div>
+        <div class="blk h1">模写（図形）の点描写プリント</div>
+        <div class="blk ph tall">Lv別セクション（#lv{n} アンカー着地）<br>Lv.1 はじめの一歩 / Lv.2 入門編 / ...<br><br>各Lv → Vol一覧チップ<br>live巻 → SKU詳細リンク<br>scaffold巻 → 非リンク「準備中」</div>
+        <div class="blk" data-arrow="F10" data-label="SKU詳細">live SKU → 商品詳細</div>
+        <div class="note">10タスク分（copy/fill/mirror/motif/solid/rotate/translate/scale/overlay/decompose）。Lvアンカー着地対応。</div>
+      </div>
+    </article>
+
+    <article class="phone green" id="F10">
+      <div class="frame-cap">
+        <div class="ttl">商品詳細 <span class="badge green">🟢 25/68 live</span></div>
+        <div class="path">/products/{task}-lv{n}-vol{m}</div>
+      </div>
+      <div class="screen">
+        <div class="appbar">TENZU &nbsp;&nbsp;商品 記事 ☰</div>
+        <div class="blk bc">ホーム &gt; 商品 &gt; 模写（図形） &gt; Lv.2 Vol.1</div>
+        <div class="blk ph tall">左：プレビュー（紙サイズ×問数チップ＋実寸比連動・pdf-lib生成）<br>右：H1・promise・¥200<br>紙＝A4/B4/A3 縦横自由・購入後も変更可</div>
+        <div class="blk cta" data-arrow="F12" data-label="add_to_cart">カートへ →</div>
         <div class="blk">spec表：紙 / 問題数 / グリッド / 年齢 / 時間 / 改訂</div>
         <div class="blk">レベルラダー5段 ＋ 観察メモ</div>
-        <div class="blk">中身グリッド(12問/2分) ＋ 店主から ＋ 親へ</div>
+        <div class="blk">全問公開ギャラリー（server SVG＋metricsLabel）</div>
+        <div class="blk">店主から ＋ 親へのひとこと</div>
         <div class="blk">関連SKU ×3（横移動の要）</div>
-        <div class="note">実装済だが CTA / パンくず / 関連SKU が現状 href=#。線を繋ぐのがP0。</div>
+        <div class="note">25 SKU live（copy 8/fill 8/mirror 6/motif検品中/他scaffold）。紙サイズ＝購入後も自由変更可（B案・pdf-lib DL時生成）。edges駆動・D+内訳表示。</div>
       </div>
     </article>
 
@@ -320,43 +353,43 @@
   <section class="stage">
     <h2>購入フロー</h2>
 
-    <article class="phone red" id="F12">
+    <article class="phone green" id="F12">
       <div class="frame-cap">
-        <div class="ttl">カート <span class="badge red">🔴 P0</span></div>
+        <div class="ttl">カート <span class="badge green">🟢</span></div>
         <div class="path">/cart</div>
       </div>
       <div class="screen">
         <div class="appbar">TENZU &nbsp;&nbsp;カート</div>
-        <div class="blk ph tall">カート内アイテム（SKU名 / ¥200 × n）<br>―――――――<br>小計 ¥xxx</div>
+        <div class="blk ph tall">カート内アイテム（SKU名 / ¥200 × n）<br>CartProvider＋複数巻まとめ買い<br>―――――――<br>小計 ¥xxx</div>
         <div class="blk cta" data-arrow="F13" data-label="">レジに進む → Stripe</div>
-        <div class="note">🔴 未実装・購入フローP0（funnel §6）。アカウント機能不要・Stripe Link で代替。</div>
+        <div class="note">実装済。CartProvider でグローバル状態管理。/api/checkout でStripeセッション生成。</div>
       </div>
     </article>
 
     <article class="phone gray dashed" id="F13">
       <div class="frame-cap">
-        <div class="ttl">Stripe Checkout <span class="badge gray">外部</span></div>
+        <div class="ttl">Stripe Checkout <span class="badge green">🟢 外部</span></div>
         <div class="path">Stripe ホスト・自前画面なし</div>
       </div>
       <div class="screen">
         <div class="ovl">外部（Stripe ホスト・自前画面なし）</div>
-        <div class="blk ph tall" data-arrow="F14" data-label="purchase">Stripe Checkout / Stripe Link<br>メール自動取得 → MailerLite連携<br><br>決済完了後 → /thanks へ戻る</div>
-        <div class="note">自作しない。出典 funnel §8（メアド取得は Stripe 一本化）/ §8.1（アカウント機能不要）。</div>
+        <div class="blk ph tall" data-arrow="F14" data-label="purchase">Stripe Checkout / Stripe Link<br>メール自動取得<br><br>決済完了後 → /checkout/success へ戻る<br>（sk_test で Checkout 到達確認済）</div>
+        <div class="note">自作しない。出典 funnel §8。本番化にはオーナー側で SES 検証＋whsec_投入が必要。</div>
       </div>
     </article>
 
-    <article class="phone orange" id="F14">
+    <article class="phone green" id="F14">
       <div class="frame-cap">
-        <div class="ttl"><span class="star">★</span> サンクス <span class="badge orange">🔴 最重要</span></div>
-        <div class="path">/thanks</div>
+        <div class="ttl">サンクス <span class="badge green">🟢</span></div>
+        <div class="path">/checkout/success</div>
       </div>
       <div class="screen">
         <div class="appbar">TENZU</div>
-        <div class="blk good">✓ ご購入ありがとうございます（ダウンロードリンク）</div>
+        <div class="blk good">✓ ご購入ありがとうございます</div>
+        <div class="blk ph tall">Stripe session_id 検証（payment_status: paid）<br>metadata.skus から購入SKU復元<br>SkuPrintPreview（purchased モード）でPDF DL<br>ClearCartOnSuccess でカートクリア</div>
+        <div class="blk">Webhook → SES マジックリンク再DLメール配送<br>（DBなし・リンク＝既存サンクスURL）</div>
         <div class="blk">次に合うレベル / タスクの提案 ×3</div>
-        <div class="blk warn">セット提案 / 季節の新作（バンドル）</div>
-        <div class="blk ph">MailerLite：次パック提案メール（購入者向け）</div>
-        <div class="note">出典 funnel §14 サンクス設計（購入版）。repeat_purchase の起点。メーカー完了画面と双子構造。</div>
+        <div class="note">出典 funnel §14。Stripe検証＋PDF DL＋SESメール配送まで実装済。本番化は SES サンドボックス脱出（DKIM/SPF/DMARC）が必要。</div>
       </div>
     </article>
   </section>
@@ -393,6 +426,10 @@
         var channelX=cols[ct].l-13;
         pts=[[s.r,s.my],[channelX,s.my],[channelX,capY],[tf.l,capY]];
         dir='right';
+      }else if(ct<cs){                             // 左方向
+        var channelX=cols[cs].l-13;
+        pts=[[s.l,s.my],[channelX,s.my],[channelX,capY],[tf.r,capY]];
+        dir='left';
       }else{                                       // 同列＝右ガターを縦に走りターゲット右端へ
         var fr=rc(src.closest('.phone'));
         var channelX=cols[cs].r+13;

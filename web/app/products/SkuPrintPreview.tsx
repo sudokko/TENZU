@@ -370,8 +370,8 @@ export async function downloadPdf(
 
 /* ===================== 本体 ===================== */
 export default function SkuPrintPreview({
-  sku, grid, problems: realProblems, buySlot,
-}: { sku: string; grid: string; problems?: RenderProblem[]; buySlot?: React.ReactNode }) {
+  sku, grid, problems: realProblems, buySlot, purchased = false,
+}: { sku: string; grid: string; problems?: RenderProblem[]; buySlot?: React.ReactNode; purchased?: boolean }) {
   const n = useMemo(() => {
     const m = grid.match(/^(\d+)×\d+$/);
     return m ? Math.min(7, Math.max(3, Number(m[1]))) : 4;
@@ -384,6 +384,7 @@ export default function SkuPrintPreview({
   const [dotSize, setDotSize] = useState<DotSize>("m");
   const [nameField, setNameField] = useState(false);
   const [focusPg, setFocusPg] = useState(0);
+  const [downloading, setDownloading] = useState(false);
 
   const isReal = Boolean(realProblems && realProblems.length > 0);
   const problems = useMemo(
@@ -523,10 +524,30 @@ export default function SkuPrintPreview({
       </div>
 
       <p className="spv-note">
-        {isReal
+        {purchased
+          ? <>ご購入ありがとうございます。用紙・問題数・並びを選んで、下のボタンから PDF を保存してください。設定を変えて<b>何度でも</b>作り直せます。</>
+          : isReal
           ? <>この巻に収録されている実際の {QUESTIONS} 問です。PDF は購入後にダウンロードでき、用紙・問題数・並びは<b>いつでも変更</b>して作り直せます。</>
           : <>図柄はプレビュー用のサンプルです。用紙と問題数は<b>購入後もいつでも変更</b>して、PDF を作り直せます。</>}
       </p>
+
+      {purchased && (
+        <button type="button" className="spv-download" disabled={downloading}
+          onClick={async () => {
+            setDownloading(true);
+            try {
+              await downloadPdf(sku, paperKey, perPage, problems, pair, nameField, DOT_SCALE[dotSize]);
+            } finally {
+              setDownloading(false);
+            }
+          }}>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 3v12m0 0 4-4m-4 4-4-4" /><path d="M5 21h14" />
+          </svg>
+          {downloading ? "PDF を作成中…" : "PDF をダウンロード"}
+        </button>
+      )}
       </div>
 
       {buySlot && <div className="spv-buyslot">{buySlot}</div>}

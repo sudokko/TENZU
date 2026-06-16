@@ -1,166 +1,283 @@
 /* =========================================================================
-   模写ジェネレータ（成長型ランダムウォーク・seed 決定的）
-   COPY_LADDER のパラメータ内で候補を count 問生成する。
-   1 候補 = 構成要素ごとにランダムウォークで辺を伸ばし（closedBias で既存頂点へ
-   戻って閉路を作る）、正規化 → 機械フィルタ → metrics 検証 → 既採用との
-   Jaccard 類似棄却。返り値は難易度スコア緩昇順（検品の初期並び＝出題順のたたき台）。
-   同 (sku, seed) なら常に同じ候補列。追加生成は seedCursor++ で呼ぶ。
+   模写（図形）ジェネレータ（手設計ライブラリ × 帯適合・決定的）
+   ランダムウォークでは「整った図形」にならないため、copy は motif（絵柄）と
+   同じライブラリ方式に転換した（2026-06-14）。copy-shapes.ts の幾何ライブラリ
+   （パラメトリック族＋一品物＋合成/密パターン）を展開し、各巻の難易度帯
+   （COPY_LADDER）に実測 metrics で適合する変種だけを候補化する。
+   - 配置は中央寄せ（決定的・整い優先。motif の rng 配置と違い遊びを入れない）
+   - 有限ライブラリ＝「打ち止め」。同 Lv 複数 Vol で同じ図形を出さない（兄弟巻排除）
+   - 変種キー（gen.variant）で自巻既出・兄弟巻重複を排除
    ========================================================================= */
 
-import type { EdgeT, Problem, Pt } from "../schema";
-import { difficultyScore, edgeKey, normalizeEdges, splitAtLattice } from "../schema";
+import type { Candidate, EdgeT, Problem, ProblemMetrics } from "../schema";
+import { edgeKey, normalizeEdges, validateProblem } from "../schema";
 import { computeMetrics } from "./metrics";
-import { bboxOk, hasNon45, jaccard, paramsOk } from "./filters";
-import { COPY_LADDER, type CopyParams, type SlopeRule } from "./ladder";
-import { pick, randInt, seededRng, type Rng } from "./rng";
+import { jaccard } from "./filters";
+import { allRawShapes, shapeEdges, type RawShape } from "./copy-shapes";
+import { generateSymmetricVariants } from "./symmetric";
+import { generateTruchetVariants } from "./truchet";
+import { generateRandomVariants, generateBlobVariants, generateHybridVariants } from "./random-engine";
+import { randInt, seededRng } from "./rng";
 
-export const GENERATOR_VERSION = "1";
+export const COPY_GENERATOR_VERSION = "2"; // 2＝ライブラリ方式（1＝旧ランダム）
 
-/* 許可方向（単位ステップ）。grid≥4 では縦横・45°の 2 倍ステップも低頻度で混ぜる
-   （正規化で 2 単位辺に分割され、併合後は 1 本の長い線分になる） */
-function moves(slopes: SlopeRule, n: number, rnd: Rng): Pt[] {
-  const base: Pt[] = [[1, 0], [-1, 0], [0, 1], [0, -1]];
-  const d45: Pt[] = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
-  const knight: Pt[] = [[1, 2], [2, 1], [-1, 2], [-2, 1], [1, -2], [2, -1], [-1, -2], [-2, -1]];
-  let out = slopes === "ortho" ? base : [...base, ...d45];
-  if (slopes === "any") out = [...out, ...knight];
-  // 2 マスの長いステップ（併合で 1 本の長い線になる）。3×3 でも有効＝
-  // 線2本でも盤面いっぱいの L 字が作れる
-  if (rnd() < 0.25) {
-    const longs: Pt[] = (slopes === "ortho" ? base : [...base, ...d45])
-      .map(([c, r]) => [c * 2, r * 2] as Pt);
-    out = [...out, ...longs];
+/* 同一族（grid/drect…）は 1 巻に最大いくつまで出すか（同族サイズ違いの氾濫防止）。
+   sym（対称構築）は各図形が別パターン＝多めに通す。truchet（織り）は似がちなので控えめ。 */
+const MAX_PER_FAMILY = 4;
+function familyCap(family: string): number {
+  if (family === "sym" || family === "rand" || family === "blob" || family === "hybrid") return 12;
+  if (family === "truchet") return 4;
+  return MAX_PER_FAMILY;
+}
+
+/* 米/X（こめ・ばつ）系＝X・対角中心の族。巻あたり頻度をキャップして偏りを抑える
+   （オーナー指示 2026-06-15: 控えめに残す＝最大2）。sym/truchet/格子/多角形は対象外。 */
+const X_FAMILIES = new Set(["star", "sframe", "mand", "bmand", "hexg", "bigwinX", "paraX", "trapX", "kiteX", "penta"]);
+const X_GROUP_CAP = 2;
+function isXShape(family: string, variantKey: string): boolean {
+  return X_FAMILIES.has(family) || variantKey.includes("d2"); // d2＝わくばつ/こうしばつ
+}
+
+export type CopySlope = "ortho" | "ortho45" | "any";
+export type CrossMode = "any" | "zero" | "some"; // 交差の種類ゲート: 不問 / 交差なし / 交差あり
+
+/* 難易度スコア D — 1 巻 12 問の「中の」難易度を散らすための相対指標。
+   2026-06-15 オーナーの目で 32 枚をティア付け → 最小二乗（ρ=0.878）。生フィットを線=1.0 に
+   スケールした重み（交差 0.146/0.110≈1.33→1.5・非45° 1.162/0.110≈10.6→12 に丸め）。
+     D = 1.0·lines + 1.5·crossings + 12·[非45°あり]
+   - **盤面サイズは式に入れない**：巻は盤面＋種類ゲートで決まり（COPY_LADDER）、盤面は巻内で一定＝
+     巻内のばらつきに寄与しない。かつ生フィットの盤面重み（≈1.65/段）よりオーナー判断で大きく
+     盛っていた経緯があるため、いっそ除外して「巻内を散らす」目的に純化した（2026-06-15 改訂）。
+   - 非45°が最大ドライバー（線 12 本ぶん）。斜め本数 diag は寄与≈0・構成数 comp は符号不安定で不採用。 */
+export function copyDifficulty(m: ProblemMetrics): number {
+  return m.lines + 1.5 * m.crossings + 12 * (m.hasNon45 ? 1 : 0);
+}
+
+/* 巻の振り分け仕様。難しさは D の狭い窓、種類はカテゴリゲートで分離する
+   （旧・多次元 band は band が広すぎ・隣接巻と重なり・巻内ばらつき9倍・難易度逆転を
+   起こしていた。D 窓化で中央値が単調・窓幅は旧 band の 1/4〜1/6 に圧縮）。 */
+export type CopyShapeParams = {
+  grid: 3 | 4 | 5 | 6 | 7;
+  slopes: CopySlope;        // ortho=直交のみ / ortho45=45°まで / any=非45°許可
+  fullGrid?: boolean;       // 盤面いっぱい必須（Lv3+: 3×3 で完結する小図形を排除）
+  requireNon45?: boolean;   // 非45°を必ず含む（5×5 の壁 lv3-vol2→lv4-vol1）
+  requireDiag45?: boolean;  // 45°斜めを最低1本要求（3×3 の壁 lv1→lv2-vol1）
+  cross?: CrossMode;        // 交差ゲート（4×4 の壁 lv2-vol2[zero]→lv3-vol1[some]）
+  D: [number, number];      // 校正難易度スコア D の窓（種類は上のゲートで分離）
+};
+
+/* D 窓＋種類ゲート。巻のレベルは grid（盤面サイズ）＋種類ゲートで決まり、D 窓はその巻の
+   難易度帯（盤面ぶんを抜いた線＋交差＋非45°の量）を指定する。窓は盤面非依存なので grid 違いの
+   巻どうしは値が重なってよい（grid ゲートで排他）。同 grid 2 巻は「壁」で住み分ける：
+   - 3×3: lv1=直交のみ / lv2-vol1=45°斜め出現（requireDiag45）
+   - 4×4: lv2-vol2=交差なし / lv3-vol1=交差あり（cross zero/some）
+   - 5×5: lv3-vol2=45°まで / lv4-vol1=非45°必須（requireNon45・D が +12）
+   ※ 2026-06-15: copyDifficulty から盤面項 6(n−2) を除外。窓は旧値から盤面ぶんを引いた値＝
+     振り分けの結果は完全に不変（スコアと窓から同じ定数を引いただけ）。 */
+export const COPY_LADDER: Record<string, CopyShapeParams> = {
+  "copy-lv1-vol1": { grid: 3, slopes: "ortho",                                  D: [2, 7] },
+  "copy-lv2-vol1": { grid: 3, slopes: "ortho45", requireDiag45: true,           D: [2, 8] },
+  "copy-lv2-vol2": { grid: 4, slopes: "ortho45", cross: "zero",                 D: [2, 8] },
+  "copy-lv3-vol1": { grid: 4, slopes: "ortho45", fullGrid: true, cross: "some", D: [7, 15] },
+  "copy-lv3-vol2": { grid: 5, slopes: "ortho45", fullGrid: true,                D: [7, 16] },
+  "copy-lv4-vol1": { grid: 5, slopes: "any", fullGrid: true, requireNon45: true, D: [17, 29] },
+  "copy-lv4-vol2": { grid: 6, slopes: "any", fullGrid: true,                    D: [12, 38] },
+  "copy-lv5-vol1": { grid: 7, slopes: "any", fullGrid: true,                    D: [14, 30] },
+};
+
+/* ---- 変種（原型 × ミラー・原点寄せ・スパン算出） ---- */
+export type ShapeVariant = {
+  key: string; name: string; family: string;
+  edges: EdgeT[]; spanC: number; spanR: number;
+};
+
+function bounds(edges: EdgeT[]) {
+  let cMin = Infinity, cMax = -Infinity, rMin = Infinity, rMax = -Infinity;
+  for (const e of edges) for (const p of e) {
+    cMin = Math.min(cMin, p[0]); cMax = Math.max(cMax, p[0]);
+    rMin = Math.min(rMin, p[1]); rMax = Math.max(rMax, p[1]);
+  }
+  return { cMin, cMax, rMin, rMax };
+}
+
+function translate(edges: EdgeT[], dc: number, dr: number): EdgeT[] {
+  return edges.map((e) => [
+    [e[0][0] + dc, e[0][1] + dr], [e[1][0] + dc, e[1][1] + dr],
+  ] as EdgeT);
+}
+
+const mirrorV = (edges: EdgeT[]): EdgeT[] =>
+  edges.map((e) => [[-e[0][0], e[0][1]], [-e[1][0], e[1][1]]] as EdgeT);
+
+/* 1 図形＝原型のみ（多くてミラー1枚）。回転・角度でパターンを水増ししない
+   （オーナー指示 2026-06-15: 角度違いの量産は不要・1〜2 パターンでよい）。
+   バリエーションは「図形の種類」と「ランダム線1本追加」で出す。 */
+export function expandShape(s: RawShape): ShapeVariant[] {
+  const family = s.key.split("#")[0];
+  const seen = new Set<string>();
+  const out: ShapeVariant[] = [];
+  const base = shapeEdges(s);
+  for (const variant of [base, mirrorV(base)]) {
+    const nb = bounds(variant);
+    const placed = normalizeEdges(translate(variant, -nb.cMin, -nb.rMin));
+    const sig = placed.map(edgeKey).sort().join("|");
+    if (seen.has(sig)) continue;     // 対称形はミラー＝同じなので 1 枚に畳む
+    seen.add(sig);
+    out.push({
+      key: `${s.key}/${out.length}`, name: s.name, family,
+      edges: placed, spanC: nb.cMax - nb.cMin, spanR: nb.rMax - nb.rMin,
+    });
   }
   return out;
 }
 
-const pkey = (p: Pt) => `${p[0]},${p[1]}`;
+/* 静的ライブラリ変種 ＋ 生成エンジン変種（対称構築・Truchet）を合成。
+   生成エンジンは Lv3+ の grid 4-7・seed=1 固定（決定的・冪等）。grid3（Lv1-2）は対象外。
+   ここ1箇所で全経路（eligibleVariants/generateCopyCandidates/bucketReport/test-gen）に乗る。 */
+export function allVariants(): ShapeVariant[] {
+  const staticV = allRawShapes().flatMap(expandShape);
+  const genV = [4, 5, 6, 7].flatMap((n) => [
+    ...generateSymmetricVariants(n, 1),
+    ...generateTruchetVariants(n, 1),
+    ...generateRandomVariants(n, 1),
+    ...generateBlobVariants(n, 1),
+    ...generateHybridVariants(n, 1),
+  ]);
+  return [...staticV, ...genV];
+}
 
-/* 1 構成要素ぶんのウォーク。startArea で開始点の偏り（多構成時の重なり回避）を与える */
-function walkComponent(
-  rnd: Rng, p: CopyParams, edgeBudget: number,
-  unitKeys: Set<string>, allEdges: EdgeT[],
-): boolean {
+/* ---- 帯への適合判定 ---- */
+/* 盤面占有。通常は「収まり＋長辺2以上」。fullGrid（Lv3+）は盤面いっぱい必須＝
+   長辺＝grid-1 かつ短辺≥grid-2。3×3 で完結する小図形を大盤面から排除する。 */
+function spanOk(v: ShapeVariant, p: CopyShapeParams): boolean {
   const n = p.grid;
-  const start: Pt = [randInt(rnd, 0, n - 1), randInt(rnd, 0, n - 1)];
-  const verts = new Map<string, Pt>([[pkey(start), start]]);
-  let added = 0;
-  let guard = 0;
-
-  while (added < edgeBudget && guard++ < edgeBudget * 30) {
-    const vlist = [...verts.values()];
-    const v = pick(rnd, vlist);
-    const cand = moves(p.slopes, n, rnd)
-      .map(([dc, dr]) => [v[0] + dc, v[1] + dr] as Pt)
-      .filter((t) => t[0] >= 0 && t[0] < n && t[1] >= 0 && t[1] < n);
-    if (cand.length === 0) continue;
-
-    // closedBias: 既存頂点へ戻る手を優先（閉じた形を作る）
-    let pool = cand;
-    if (verts.size >= 3 && rnd() < p.closedBias) {
-      const closing = cand.filter((t) => verts.has(pkey(t)));
-      if (closing.length > 0) pool = closing;
-    }
-    const t = pick(rnd, pool);
-
-    const units = splitAtLattice([v, t]);
-    if (units.some((u) => unitKeys.has(edgeKey(u)))) continue; // 重複辺
-    for (const u of units) {
-      unitKeys.add(edgeKey(u));
-      // 中間格子点も頂点に登録（長い線の途中から分岐できる＝T 字系を解禁）
-      verts.set(pkey(u[0]), u[0]);
-      verts.set(pkey(u[1]), u[1]);
-    }
-    allEdges.push([v, t]);
-    added++;
+  if (v.spanC > n - 1 || v.spanR > n - 1) return false;
+  if (p.fullGrid) {
+    return v.spanC === n - 1 && v.spanR === n - 1; // 4辺接触＝盤面いっぱい（4×4止まりを排除）
   }
-  return added >= Math.max(2, Math.floor(edgeBudget * 0.7));
+  return Math.max(v.spanC, v.spanR) >= Math.min(n - 1, 2);
 }
 
-/* 1 候補を生成（失敗は null）。targetLines は呼び出し側のクォータ制御で指定 */
-function tryOne(rnd: Rng, p: CopyParams, targetLines: number): EdgeT[] | null {
-  // 構成要素数は最小側に強く寄せる（つながった 1 つの形が基本・
-  // バラバラはアクセント程度。意図的に離す演出はしない）
-  const comps = rnd() < 0.75
-    ? p.components[0]
-    : randInt(rnd, p.components[0], p.components[1]);
-  // 構成要素へ予算配分（最低 2 辺/要素・Lv1 の線2本問題を許す）
-  const budgets: number[] = [];
-  let rest = Math.max(targetLines, comps * 2);
-  for (let i = 0; i < comps; i++) {
-    const share = i === comps - 1 ? rest : Math.max(2, Math.round(rest / (comps - i)));
-    budgets.push(share);
-    rest -= share;
-  }
-
-  const unitKeys = new Set<string>();
-  const raw: EdgeT[] = [];
-  for (const b of budgets) {
-    if (!walkComponent(rnd, p, b, unitKeys, raw)) return null;
-  }
-  return normalizeEdges(raw);
+export function variantFits(v: ShapeVariant, p: CopyShapeParams): boolean {
+  // 生成エンジン（対称構築・織り・ランダム）は Lv3+（fullGrid 巻）限定。Lv1-2 は不変に保つ
+  if ((v.family === "sym" || v.family === "truchet" || v.family === "rand" || v.family === "blob" || v.family === "hybrid") && !p.fullGrid) return false;
+  if (!spanOk(v, p)) return false;
+  const m = computeMetrics(v.edges, p.grid);
+  // ---- 種類ゲート（カテゴリ制約・難しさとは独立） ----
+  if (p.slopes !== "any" && m.hasNon45) return false;
+  if (p.requireNon45 && !m.hasNon45) return false;
+  if (p.requireDiag45 && m.diagonals < 1) return false;
+  if (p.cross === "zero" && m.crossings !== 0) return false;
+  if (p.cross === "some" && m.crossings < 1) return false;
+  // ---- D 窓（難しさ・盤面非依存） ----
+  const D = copyDifficulty(m);
+  if (D < p.D[0] || D > p.D[1]) return false;
+  return true;
 }
 
-export function generateCandidates(
-  sku: string, seed: number, count = 20,
-  existing: EdgeT[][] = [],   // 既存候補（追加生成時の多様性比較対象）
-  linesOverride?: number,     // 線本数を固定して生成（検品ツールの指定生成）
+export function eligibleVariants(sku: string): ShapeVariant[] {
+  const p = COPY_LADDER[sku];
+  if (!p) return [];
+  return allVariants().filter((v) => variantFits(v, p));
+}
+
+/* dev 検証用: 適合変種を線数バケツでグルーピング（線数ごと ~5 の充足確認） */
+export function bucketReport(sku: string): Record<number, number> {
+  const p = COPY_LADDER[sku];
+  const out: Record<number, number> = {};
+  if (!p) return out;
+  for (const v of eligibleVariants(sku)) {
+    const L = computeMetrics(v.edges, p.grid).lines;
+    out[L] = (out[L] ?? 0) + 1;
+  }
+  return out;
+}
+
+/* 盤面中央へ寄せる（決定的・整い優先） */
+function centerPlace(v: ShapeVariant, n: number): EdgeT[] {
+  const offC = Math.floor((n - 1 - v.spanC) / 2);
+  const offR = Math.floor((n - 1 - v.spanR) / 2);
+  return normalizeEdges(translate(v.edges, offC, offR));
+}
+
+/* ---- 生成本体（motif.generateMotifCandidates と同型・配置は中央固定） ---- */
+export function generateCopyCandidates(
+  sku: string,
+  seed: number,
+  count = 9999,                                  // copy は全件ロードが既定
+  existing: Pick<Candidate, "edges" | "status" | "gen">[] = [],
+  linesOverride?: number,
+  excludeVariants: Set<string> = new Set(),      // 兄弟巻で生きている変種キー
 ): Problem[] {
-  const base = COPY_LADDER[sku];
-  if (!base) throw new Error(`COPY_LADDER に未定義の sku: ${sku}`);
-  const params: CopyParams = linesOverride
-    ? { ...base, lines: [linesOverride, linesOverride] }
-    : base;
+  const params = COPY_LADDER[sku];
+  if (!params) throw new Error(`COPY_LADDER に未定義の sku: ${sku}`);
+  const n = params.grid;
+  const rnd = seededRng(`${sku}#copy#${seed}`);
 
-  const rnd = seededRng(`${sku}#${seed}`);
-  const accepted: { edges: EdgeT[]; problem: Problem }[] = [];
-  const simThreshold = params.grid <= 3 ? 0.62 : 0.5; // 3×3 は空間が狭いので緩め
-  let attempts = 0;
-  const maxAttempts = count * 200;
-
-  /* 線本数の帯域クォータ: やさしい本数〜難しい本数が候補に均等に並ぶようにする
-     （一様ランダムだと低本数帯が類似棄却で痩せる）。後半は埋まらない帯を諦めて緩和 */
-  const [lineMin, lineMax] = params.lines;
-  const quota = Math.ceil(count / (lineMax - lineMin + 1));
-  const bandCount = new Map<number, number>();
-
-  while (accepted.length < count && attempts++ < maxAttempts) {
-    const relax = attempts > maxAttempts * 0.6;
-    let target = randInt(rnd, lineMin, lineMax);
-    if (!relax) {
-      for (let L = lineMin; L <= lineMax; L++) {
-        if ((bandCount.get(L) ?? 0) < quota) { target = L; break; }
-      }
+  /* 自巻で既出の変種（不採用含む）は二度と出さない＋兄弟巻除外 */
+  const usedKeys = new Set<string>(excludeVariants);
+  const familyCount = new Map<string, number>();
+  for (const c of existing) {
+    if (c.gen?.variant) usedKeys.add(c.gen.variant);
+    if (c.status !== "rejected" && c.gen?.variant) {
+      const fam = c.gen.variant.split("#")[0];
+      familyCount.set(fam, (familyCount.get(fam) ?? 0) + 1);
     }
+  }
+  const liveEdges = existing.filter((c) => c.status !== "rejected").map((c) => c.edges);
 
-    const edges = tryOne(rnd, params, target);
-    if (!edges) continue;
-    if (!bboxOk(edges, params.bbox)) continue;
+  /* 変種キーはグリッド別（同じ形でも盤面が違えば別問題）＝兄弟巻排除は
+     「同グリッドの巻どうし」だけに効く。小プリミティブが先の巻に総取りされない */
+  const gridKey = (k: string) => `${k}@${n}`;
+  let pool = eligibleVariants(sku).filter((v) => !usedKeys.has(gridKey(v.key)));
+  if (linesOverride !== undefined) {
+    pool = pool.filter((v) => computeMetrics(v.edges, n).lines === linesOverride);
+  }
 
-    const m = computeMetrics(edges, params.grid);
-    if (!paramsOk(edges, m, params)) continue;
-    if (params.slopes === "any" && !hasNon45(edges)) continue; // 非45°の壁を保証
-    if (!relax && (bandCount.get(m.lines) ?? 0) >= quota) continue; // 帯域満杯
+  /* seed 決定的シャッフル（族が固まらないように） */
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = randInt(rnd, 0, i);
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
 
-    const tooSimilar =
-      accepted.some((a) => jaccard(a.edges, edges) > simThreshold) ||
-      existing.some((e) => jaccard(e, edges) > simThreshold);
-    if (tooSimilar) continue;
+  const simThreshold = n <= 4 ? 0.78 : n <= 6 ? 0.62 : 0.55;
+  const accepted: { edges: EdgeT[]; problem: Problem }[] = [];
 
-    bandCount.set(m.lines, (bandCount.get(m.lines) ?? 0) + 1);
-    accepted.push({
+  const tooSimilar = (edges: EdgeT[]) =>
+    accepted.some((a) => jaccard(a.edges, edges) > simThreshold) ||
+    liveEdges.some((e) => jaccard(e, edges) > simThreshold);
+
+  const emit = (edges: EdgeT[], variantKey: string, name: string): boolean => {
+    if (tooSimilar(edges)) return false;
+    const problem: Problem = {
+      id: `${sku}-s${seed}-${String(accepted.length + 1).padStart(2, "0")}`,
+      grid: { type: "square", n },
       edges,
-      problem: {
-        id: `${sku}-s${seed}-${String(accepted.length + 1).padStart(2, "0")}`,
-        grid: { type: "square", n: params.grid },
-        edges,
-        metrics: m,
-        gen: { kind: "auto", generator: "copy", version: GENERATOR_VERSION, seed },
+      metrics: computeMetrics(edges, n),
+      gen: {
+        kind: "auto", generator: "copy", version: COPY_GENERATOR_VERSION, seed,
+        motif: name, variant: variantKey,
       },
-    });
+    };
+    if (validateProblem(problem).length > 0) return false;
+    accepted.push({ edges, problem });
+    return true;
+  };
+
+  let xGroupCount = 0;
+  for (const v of pool) {
+    if (accepted.length >= count) break;
+    if ((familyCount.get(v.family) ?? 0) >= familyCap(v.family)) continue;
+    const isX = isXShape(v.family, v.key);
+    if (isX && xGroupCount >= X_GROUP_CAP) continue; // 米/X 系は巻あたり最大2
+    const edges = centerPlace(v, n);
+    if (emit(edges, gridKey(v.key), v.name)) {
+      familyCount.set(v.family, (familyCount.get(v.family) ?? 0) + 1);
+      if (isX) xGroupCount++;
+    }
   }
 
   return accepted
     .map((a) => a.problem)
-    .sort((a, b) => difficultyScore(a.metrics) - difficultyScore(b.metrics));
+    .sort((a, b) => copyDifficulty(a.metrics) - copyDifficulty(b.metrics));
 }

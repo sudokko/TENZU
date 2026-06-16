@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CartProvider } from "./cart/CartContext";
 import "./tokens.css";
 import "./landing.css";
 
@@ -18,7 +19,9 @@ export default function RootLayout({
       <head>
         <meta name="color-scheme" content="light" />
       </head>
-      <body>{children}</body>
+      <body>
+        <CartProvider>{children}</CartProvider>
+      </body>
     </html>
   );
 }

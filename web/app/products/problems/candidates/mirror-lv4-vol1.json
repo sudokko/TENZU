@@ -1,0 +1,568 @@
+{
+ "schemaVersion": 1,
+ "sku": "mirror-lv4-vol1",
+ "task": "mirror",
+ "candidates": [
+  {
+   "id": "mirror-lv4-vol1-s1-04",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "h"
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "mirror-lv4-vol1-s1-02",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "h"
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "mirror-lv4-vol1-s1-03",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "h"
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "mirror-lv4-vol1-s1-01",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "h"
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 3,
+    "symmetry": [
+     "v"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "mirror-lv4-vol1-s1-06",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "h"
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "mirror-lv4-vol1-s1-07",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "h"
+    }
+   },
+   "metrics": {
+    "lines": 5,
+    "diagonals": 1,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "d2"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "mirror-lv4-vol1-s1-08",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "h"
+    }
+   },
+   "metrics": {
+    "lines": 5,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  },
+  {
+   "id": "mirror-lv4-vol1-s1-05",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "h"
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   },
+   "status": "pending"
+  }
+ ],
+ "seedCursor": 1
+}

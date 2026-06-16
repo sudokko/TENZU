@@ -13,6 +13,22 @@
 .atl-crumb { font-size: 12px; }
 .atl-crumb a { color: #2c6e7f; }
 
+/* この巻の基準（COPY_LADDER のゲートをタイトル直下にチップ表示） */
+.atl-spec {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: 8px 0 4px; padding: 0;
+}
+.atl-spec-item {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  border: 1px solid #d7e4e7; background: #f3f7f8; border-radius: 4px;
+  padding: 4px 9px;
+}
+.atl-spec-item dt { color: #6b7280; font-size: 11px; margin: 0; }
+.atl-spec-item dd {
+  margin: 0; font-size: 12px; font-weight: 600; color: #235a68;
+  font-variant-numeric: tabular-nums;
+}
+
 .atl-actions { display: flex; gap: 10px; align-items: center; margin: 14px 0 6px; flex-wrap: wrap; }
 .atl-btn {
   border: 1px solid #c8cdd4; background: #fff; border-radius: 4px;
@@ -103,8 +119,38 @@
 .atl-lane h2 { font-size: 15px; margin-bottom: 10px; }
 .atl-count { color: #9aa0aa; font-weight: 400; font-size: 13px; }
 .atl-empty { color: #9aa0aa; font-size: 13px; }
+/* copy のエンジン2枠（対称・幾何／ランダム） */
+.atl-engine { margin-top: 26px; padding: 14px; border: 1px solid #e2e5ea; border-radius: 8px; background: #fafbfc; }
+.atl-engine-head {
+  font-size: 15px; color: #2c6e7f; font-weight: 700;
+  margin: 0 0 6px; padding-bottom: 6px; border-bottom: 2px solid #2c6e7f;
+}
+/* copy ライブラリの線数別グループ */
+.atl-bucket { margin-top: 14px; }
+.atl-bucket-head {
+  font-size: 13px; color: #6b7280; font-weight: 600;
+  margin: 0 0 8px; padding-bottom: 4px; border-bottom: 1px dashed #d7dbe0;
+}
 
 .atl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+/* 設問ごとの難易度 D ＋ 略式内訳をカードの外・上に出す（copy 専用） */
+.atl-cell { display: flex; flex-direction: column; }
+.atl-dscore { margin: 0 0 4px; padding-left: 2px; line-height: 1.25; }
+.atl-dval { font-size: 12px; font-weight: 600; color: #2c6e7f; letter-spacing: 0.02em; }
+.atl-dbreak { display: block; font-size: 10px; font-weight: 400; color: #9aa1ab; font-variant-numeric: tabular-nums; }
+.atl-deng { margin-left: 6px; padding: 0 5px; border-radius: 8px; background: #eef1f4; color: #5f6b7a; font-size: 9.5px; }
+/* ページ上部の D 計算式 解説 */
+.atl-dhelp {
+  margin: 0 0 16px; padding: 10px 14px; background: #f3f7f8;
+  border: 1px solid #d7e4e7; border-left: 3px solid #2c6e7f; border-radius: 4px;
+}
+.atl-dhelp-formula { margin: 0 0 4px; font-size: 13px; color: #2a3a40; }
+.atl-dhelp-note { margin: 0; font-size: 11px; color: #6b7280; line-height: 1.6; }
+.atl-dhelp code {
+  font-size: 0.92em; background: #fff; border: 1px solid #d7e4e7;
+  border-radius: 3px; padding: 0 4px; color: #2c6e7f;
+}
+.atl-dhelp strong { color: #2c6e7f; }
 .atl-card {
   margin: 0; border: 1px solid #e2e5ea; border-radius: 4px; padding: 8px;
   background: #fff; cursor: pointer; position: relative;

@@ -8,6 +8,7 @@
    ========================================================================= */
 
 import SiteHeader from "../SiteHeader";
+import AddToCartButton from "../cart/AddToCartButton";
 import SkuPrintPreview, { type RenderProblem } from "./SkuPrintPreview";
 import { PURCHASE_FAQ } from "./purchase-faq";
 import { publishedSet } from "./problems/published";
@@ -118,20 +119,7 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
                 <div className="price-meta">税込 · 全 {QUESTIONS_PER_VOL} 問 · PDF ダウンロード</div>
               </div>
 
-              <div className="cta-row">
-                <a className="btn-cart" href="#">
-                  <span className="btn-cart-main">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
-                      strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M17 17h2a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2" />
-                      <path d="M17 9V5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v4" />
-                      <rect x="7" y="13" width="10" height="8" rx="2" />
-                    </svg>
-                    カートへ
-                  </span>
-                  <span className="btn-cart-sub">印刷は、おうちのプリンタで</span>
-                </a>
-              </div>
+              <AddToCartButton sku={vol.sku} />
 
               {/* 購入前の確認 FAQ（全 SKU 共通・カート CTA 直下） */}
               <div className="faq-list faq-list--buy">

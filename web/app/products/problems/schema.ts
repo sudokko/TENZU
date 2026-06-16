@@ -33,6 +33,7 @@ export type ProblemMetrics = {
   lines: number;               // 線本数（正規化後の単位辺数ではなく「見た目の線分」数）
   diagonals: number;           // 斜め線本数
   diagonalAngleKinds: number;  // 斜め角度の種類数（45°系のみ=1・非45°が混ざると増える）
+  hasNon45: boolean;           // 非45°斜め（ナイト傾き等）を1本でも含むか。難易度Dの最大ドライバー（copyDifficulty）。diagonalAngleKinds>1 は単一非45°角を取りこぼすため別持ちする
   crossings: number;           // 端点以外での交差数
   components: number;          // 連結成分数（構成要素数）
   pointsUsed: number;          // 使用格子点数
@@ -134,6 +135,18 @@ export function splitAtLattice(e: EdgeT): EdgeT[] {
   return out;
 }
 
+/* 線対称の折り返し（metrics.ts の対称検出 TRANSFORMS と同一規約）。
+   みほん edges を軸で鏡映した「解答側」の辺集合を返す。検品プレビュー・
+   将来の商品/PDF レンダラが derived(mirror) answer を可視化するのに使う。 */
+export function mirrorEdges(edges: EdgeT[], n: number, axis: "v" | "h" | "d1" | "d2"): EdgeT[] {
+  const f = (p: Pt): Pt =>
+    axis === "v" ? [n - 1 - p[0], p[1]]
+      : axis === "h" ? [p[0], n - 1 - p[1]]
+        : axis === "d1" ? [p[1], p[0]]
+          : [n - 1 - p[1], n - 1 - p[0]];
+  return edges.map((e) => normalizeEdge([f(e[0]), f(e[1])]));
+}
+
 /* 辺集合の正規化: 格子点分割 → 正規化 → 重複除去（順序は安定） */
 export function normalizeEdges(edges: EdgeT[]): EdgeT[] {
   const seen = new Set<string>();
@@ -205,4 +218,14 @@ export function metricsLabel(m: ProblemMetrics, grid: GridSpec): string {
 export function difficultyScore(m: ProblemMetrics): number {
   return m.lines + 2 * m.diagonals + 3 * m.crossings + 2 * (m.diagonalAngleKinds > 1 ? m.diagonalAngleKinds : 0)
     + 2 * (m.components - 1);
+}
+
+/* 「整い」スコアの対称性ぶん。成立している対称性ほど見た目が整う。
+   縦横軸（v/h）と回転（r90）が最も「整って」見え、斜め軸（d1/d2）は中、
+   点対称（r180）は弱い。tidyScore（filters.ts）と検品の整い序列で使う。 */
+const SYM_WEIGHT: Record<SymmetryKind, number> = {
+  v: 2, h: 2, r90: 2.5, d1: 1.5, d2: 1.5, r180: 1,
+};
+export function symmetryWeight(symmetry: SymmetryKind[]): number {
+  return symmetry.reduce((s, k) => s + (SYM_WEIGHT[k] ?? 0), 0);
 }

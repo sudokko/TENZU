@@ -1,0 +1,25 @@
+version: 1
+# モノレポ構成: リポジトリ直下は設計書群、Next.js アプリは web/ 配下。
+# Amplify Hosting に「App root = web」を伝え、web/ 配下でビルドさせる。
+# /api/checkout・/api/stripe/webhook・/checkout/success は SSR（ƒ Dynamic）のため
+# 静的エクスポートではなく Next.js SSR（compute）として配信される（Amplify が自動検出）。
+applications:
+  - appRoot: web
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            # Next 16 / React 19 は新しめの Node を要求するため明示的に固定する
+            - nvm use 20 || nvm install 20
+            - npm ci
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*

@@ -22,6 +22,7 @@ export default async function AtelierSku({ params }: { params: Promise<{ sku: st
       hasGenerator={Boolean(gen)}
       genKind={gen?.kind}
       linesRange={gen?.lines}
+      gapRange={gen?.gapLines}
     />
   );
 }

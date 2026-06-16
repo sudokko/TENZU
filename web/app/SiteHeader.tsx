@@ -1,3 +1,5 @@
+import CartBadge from "./cart/CartBadge";
+
 type NavKey = "商品" | "記事" | "レベル選び" | "About";
 
 const NAV_LINKS: { href: string; label: NavKey }[] = [
@@ -23,7 +25,7 @@ export default function SiteHeader({ currentNav }: { currentNav?: NavKey }) {
             </a>
           ))}
         </nav>
-        <a className="cart-button" href="#">カート (0)</a>
+        <CartBadge />
       </div>
     </header>
   );
