@@ -67,25 +67,28 @@
 /* AddToCartButton: 追加済み状態 */
 .btn-cart.is-incart { border-color: var(--accent); color: var(--accent-ink); }
 
-/* サンクスページ（購入完了）— 商品詳細のリッチさに寄せたカード基調 */
-.success-wrap { padding-block: var(--s-8) var(--s-16); max-width: 920px; }
+/* サンクスページ（購入完了）— 単カラムのまま大胆に装飾 */
+.success-wrap { padding-block: var(--s-8) var(--s-16); max-width: 880px; }
 
-/* 確認ヒーロー: accent の上罫＋チェックマークで「完了」を強く出す */
+/* 確認ヒーロー: accent グラデ地＋リング付きチェックで「完了」を堂々と */
 .success-head {
   text-align: center; margin-bottom: var(--s-12);
-  padding: var(--s-10) var(--s-6) var(--s-8);
+  padding: var(--s-12) var(--s-6) var(--s-10);
   border: 1px solid var(--line-mid);
-  border-top: 3px solid var(--accent);
+  border-top: 4px solid var(--accent);
   border-radius: var(--radius-soft);
-  background: var(--bg);
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(44, 110, 127, 0.10), rgba(44, 110, 127, 0) 60%),
+    var(--bg);
 }
 .success-check {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 54px; height: 54px; border-radius: 50%;
+  width: 66px; height: 66px; border-radius: 50%;
   background: var(--accent); color: #fff; margin-bottom: var(--s-5);
+  box-shadow: 0 0 0 7px rgba(44, 110, 127, 0.12);
 }
 .success-head h1 {
-  font-family: var(--font-tier1-klee); font-size: 30px; font-weight: 600;
+  font-family: var(--font-tier1-klee); font-size: 36px; font-weight: 600;
   letter-spacing: 0.01em; color: var(--fg); margin: 0 0 var(--s-3);
 }
 .success-head p { color: var(--fg-2); margin: 0; font-size: 15px; }
@@ -96,35 +99,46 @@
   padding: var(--s-10); color: var(--fg-2);
 }
 
-/* 各巻 = 紙のカード（商品サムネと同じ shadow-paper） */
+/* 各巻 = 紙のカード。ヘッダーは accent 地の帯でカード幅いっぱいに張る */
 .success-sku {
   margin-bottom: var(--s-10);
   border: 1px solid var(--line-mid);
   border-radius: var(--radius-soft);
   background: var(--bg);
   box-shadow: var(--shadow-paper);
-  padding: var(--s-7) var(--s-6);
+  padding: 0; overflow: hidden;
 }
 .success-sku-head {
   display: flex; flex-direction: column; gap: var(--s-2);
-  padding-bottom: var(--s-5); margin-bottom: var(--s-6);
-  border-bottom: 1px dashed var(--line-thin);
+  padding: var(--s-6) var(--s-7) var(--s-5);
+  background:
+    linear-gradient(180deg, rgba(44, 110, 127, 0.07), rgba(44, 110, 127, 0.02));
+  border-bottom: 1px solid var(--line-mid);
 }
 .success-sku-stamp {
   align-self: flex-start;
   font-family: var(--font-tier3-mono); font-size: 11px;
   letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--accent-ink); background: var(--bg-3);
-  border: 1px solid var(--line-mid); border-radius: 999px;
-  padding: 2px 10px;
+  color: #fff; background: var(--accent);
+  border-radius: 999px; padding: 3px 12px;
 }
 .success-sku-name {
-  font-family: var(--font-tier1-klee); font-weight: 600; font-size: 24px;
+  font-family: var(--font-tier1-klee); font-weight: 600; font-size: 27px;
   line-height: 1.4; color: var(--fg); margin: 0;
 }
 .success-sku-meta {
   font-family: var(--font-tier3-mono); font-size: 13px;
   letter-spacing: 0.04em; color: var(--fg-2); margin: 0;
+}
+/* カード本文（プレビュー＋設定＋DL）。ヘッダー帯と分けて内側に余白 */
+.success-sku .spv { padding: var(--s-7) var(--s-7) var(--s-8); }
+/* 開いた印刷設定を「区画」として見せる（プレーンな羅列に見えない枠） */
+.success-sku .spv-fold { background: var(--bg-3); }
+/* DL ボタンを単カラムの主役に: 中央・大きく（PC は最大幅でキャップ） */
+.success-sku .spv-download {
+  display: flex; width: 100%; max-width: 380px;
+  justify-content: center; margin: var(--s-6) auto 0;
+  font-size: 18px; padding: var(--s-4);
 }
 
 /* SkuPrintPreview: 購入後 DL ボタン */
