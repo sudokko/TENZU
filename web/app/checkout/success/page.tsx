@@ -11,7 +11,8 @@ import SkuPrintPreview, { type RenderProblem } from "../../products/SkuPrintPrev
 import ClearCartOnSuccess from "./ClearCartOnSuccess";
 import { volBySku, volTitle, PRICE } from "../../products/data";
 import { publishedSet } from "../../products/problems/published";
-import "../../cart/cart.css";
+import "../../products/product.css"; // SkuPrintPreview の spv-* スタイル（チップ/設定/レイアウト）
+import "../../cart/cart.css"; // ↑の後に読み、success の上書きを優先させる
 
 export const dynamic = "force-dynamic";
 

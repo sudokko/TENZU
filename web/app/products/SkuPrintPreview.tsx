@@ -533,7 +533,10 @@ export default function SkuPrintPreview({
           ? <>この巻に収録されている実際の {QUESTIONS} 問です。PDF は購入後にダウンロードでき、用紙・問題数・並びは<b>いつでも変更</b>して作り直せます。</>
           : <>図柄はプレビュー用のサンプルです。用紙と問題数は<b>購入後もいつでも変更</b>して、PDF を作り直せます。</>}
       </p>
+      </div>
 
+      {/* 購入後 DL ボタン。spv 直下に出し、サンクスでは CSS order で
+          プレビュー→設定→DL の順に並べ替える（商品ページは非表示で無影響） */}
       {purchased && (
         <button type="button" className="spv-download" disabled={downloading}
           onClick={async () => {
@@ -551,7 +554,6 @@ export default function SkuPrintPreview({
           {downloading ? "PDF を作成中…" : "PDF をダウンロード"}
         </button>
       )}
-      </div>
 
       {buySlot && <div className="spv-buyslot">{buySlot}</div>}
     </div>

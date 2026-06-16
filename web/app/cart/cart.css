@@ -91,7 +91,7 @@
   font-family: var(--font-tier1-klee); font-size: 36px; font-weight: 600;
   letter-spacing: 0.01em; color: var(--fg); margin: 0 0 var(--s-3);
 }
-.success-head p { color: var(--fg-2); margin: 0; font-size: 15px; }
+.success-head p { font-family: var(--font-tier2-pencil); color: var(--fg-2); margin: 0; font-size: 16px; }
 .success-revisit { font-size: 13px !important; color: var(--fg-3); margin-top: var(--s-4) !important; }
 .success-fail {
   max-width: 560px; margin: var(--s-12) auto; text-align: center;
@@ -132,12 +132,18 @@
 }
 /* カード本文（プレビュー＋設定＋DL）。ヘッダー帯と分けて内側に余白 */
 .success-sku .spv { padding: var(--s-7) var(--s-7) var(--s-8); }
+/* 並び順: プレビュー(主役) → 設定 → DL。「設定がダラっと最上部」を解消 */
+.success-sku .spv-main { order: 1; }
+.success-sku .spv-fold { order: 2; }
+.success-sku .spv-download { order: 3; }
 /* 開いた印刷設定を「区画」として見せる（プレーンな羅列に見えない枠） */
 .success-sku .spv-fold { background: var(--bg-3); }
+/* 温かいトーン: 注記を手書き系フォントに */
+.success-sku .spv-note { font-family: var(--font-tier2-pencil); font-size: 14px; line-height: 1.8; }
 /* DL ボタンを単カラムの主役に: 中央・大きく（PC は最大幅でキャップ） */
 .success-sku .spv-download {
   display: flex; width: 100%; max-width: 380px;
-  justify-content: center; margin: var(--s-6) auto 0;
+  justify-content: center; margin: var(--s-2) auto 0;
   font-size: 18px; padding: var(--s-4);
 }
 
