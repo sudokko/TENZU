@@ -3,7 +3,20 @@
    サンドボックス時は SES_FROM_EMAIL と受信者の双方が検証済みである必要がある。 */
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
-const ses = new SESClient({ region: process.env.AWS_REGION ?? "ap-northeast-1" });
+/* Amplify Hosting は "AWS" 接頭辞の環境変数を予約済みで設定できないため、SES 認証情報は
+   別名（SES_*）で受ける。SES_* が無ければ既定の認証チェーン（ローカルの AWS_* env / IAM
+   ロール）にフォールバックする＝ローカル開発と Amplify コンピュートロール運用の両対応。 */
+const ses = new SESClient({
+  region: process.env.SES_REGION ?? process.env.AWS_REGION ?? "ap-northeast-1",
+  ...(process.env.SES_ACCESS_KEY_ID && process.env.SES_SECRET_ACCESS_KEY
+    ? {
+        credentials: {
+          accessKeyId: process.env.SES_ACCESS_KEY_ID,
+          secretAccessKey: process.env.SES_SECRET_ACCESS_KEY,
+        },
+      }
+    : {}),
+});
 
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
