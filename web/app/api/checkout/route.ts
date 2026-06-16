@@ -2,7 +2,9 @@
    - body: { skus: string[] } を検証（live SKU のみ・全 ¥200 一律）
    - 各 SKU を price_data でその場定義（Stripe 側に商品事前登録は不要）
    - 購入 SKU は metadata.skus に CSV で載せ、サンクスページで復元する
-   - success/cancel の base は req.nextUrl.origin から導出（env 不要） */
+   - success/cancel の base は SITE_URL 優先（Amplify SSR では req.nextUrl.origin が
+     CloudFront/Lambda 裏の内部ホスト localhost:3000 に化けるため）。ローカルは
+     SITE_URL=http://localhost:3001 が効き、未設定環境では origin にフォールバック */
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { volBySku, volTitle, PRICE } from "../../products/data";
@@ -36,6 +38,8 @@ export async function POST(req: NextRequest) {
 
   const stripe = new Stripe(key);
 
+  const base = process.env.SITE_URL ?? req.nextUrl.origin;
+
   // metadata 値は 500 文字制限。SKU slug ~15 字 → 実用上のカート規模では収まる。
   const skuCsv = resolved.map((r) => r.sku).join(",");
 
@@ -51,8 +55,8 @@ export async function POST(req: NextRequest) {
         quantity: 1,
       })),
       metadata: { skus: skuCsv },
-      success_url: `${req.nextUrl.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.nextUrl.origin}/cart`,
+      success_url: `${base}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${base}/cart`,
     });
     return Response.json({ url: session.url });
   } catch (e) {
