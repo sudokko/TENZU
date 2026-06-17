@@ -46,6 +46,9 @@ export async function POST(req: NextRequest) {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      // ダッシュボードで有効化した決済方法（カード/PayPay 等）を Stripe が自動で出し分ける。
+      // payment_method_types を明示せず automatic に任せると、地域・通貨・金額に応じた最適表示になる
+      automatic_payment_methods: { enabled: true },
       line_items: resolved.map(({ found }) => ({
         price_data: {
           currency: "jpy",
