@@ -84,7 +84,7 @@ export type CandidateFile = {
    解答要否マトリクス（pack-design §8）
    none     … 手本＝解答（模写系）。解答データを持たない
    explicit … 解答 edges を別持ち（欠け補完・かさね・分解）
-   derived  … TransformSpec から算出（線対称・回転・平行移動・拡大縮小）
+   derived  … TransformSpec から算出（鏡＝旧 線対称・回転・平行移動・拡大縮小）
    ========================================================================= */
 export const TASK_ANSWER_MODE: Record<string, AnswerMode> = {
   copy: "none", motif: "none", solid: "none",
@@ -135,7 +135,7 @@ export function splitAtLattice(e: EdgeT): EdgeT[] {
   return out;
 }
 
-/* 線対称の折り返し（metrics.ts の対称検出 TRANSFORMS と同一規約）。
+/* 鏡（旧 線対称）の折り返し（metrics.ts の対称検出 TRANSFORMS と同一規約）。
    みほん edges を軸で鏡映した「解答側」の辺集合を返す。検品プレビュー・
    将来の商品/PDF レンダラが derived(mirror) answer を可視化するのに使う。 */
 export function mirrorEdges(edges: EdgeT[], n: number, axis: "v" | "h" | "d1" | "d2"): EdgeT[] {

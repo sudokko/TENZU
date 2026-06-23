@@ -1,0 +1,97 @@
+/* 物語アーク試作（dev /atelier/story 専用・最小） */
+
+.story-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+  font-family: var(--font-body, system-ui, sans-serif);
+  color: #1d2330;
+}
+
+.story-head h1 {
+  font-family: var(--font-display, var(--font-body));
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+.story-head p {
+  margin: 0 0 6px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #3a424e;
+}
+.story-head .story-note {
+  font-size: 12px;
+  color: #6a727f;
+}
+
+.story-arc {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px dashed #c8cdd6;
+}
+.story-arc-head h2 {
+  font-family: var(--font-display, var(--font-body));
+  font-size: 22px;
+  margin: 0 0 4px;
+}
+.story-arc-log {
+  margin: 0 0 18px;
+  font-size: 14px;
+  color: #2c6e7f;
+}
+
+.story-rail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 14px;
+}
+@media (max-width: 1100px) {
+  .story-rail { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .story-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.story-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.story-thumb-wrap {
+  background: #fff;
+  border: 1px solid #d8dde4;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.story-thumb {
+  width: 100%;
+  height: auto;
+}
+.story-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+}
+.story-step {
+  font-weight: 600;
+  color: #1d2330;
+}
+.story-rung {
+  color: #6a727f;
+}
+.story-caption {
+  margin-top: 2px;
+  color: #2c6e7f;
+  font-family: "Zen Kurenaido", var(--font-body);
+}
+.story-stats {
+  color: #8b929c;
+  font-size: 11px;
+}

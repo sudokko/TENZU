@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CartProvider } from "./cart/CartContext";
+import { AuthProvider } from "./AuthContext";
 import "./tokens.css";
 import "./landing.css";
 
@@ -20,7 +21,9 @@ export default function RootLayout({
         <meta name="color-scheme" content="light" />
       </head>
       <body>
-        <CartProvider>{children}</CartProvider>
+        <AuthProvider>
+          <CartProvider>{children}</CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

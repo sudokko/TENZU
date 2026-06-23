@@ -79,13 +79,15 @@ const QUESTIONS: Question[] = [
 ];
 
 /* ---- 軸B：目的 → ★最初の一冊（primary）＋関連（related） ---- */
+/* 2026-06-19: 旧「模写（絵柄）」は「模写」に統合済（subtype 区別）。draw 系は
+   primary=模写 のまま related で絵柄ニーズを受ける関連タスクへ流す */
 const MOKUTEKI_MAP: Record<string, { primary: string; related: string[] }> = {
-  first: { primary: "模写（図形）", related: ["欠け補完", "模写（絵柄）"] },
-  kumon: { primary: "模写（図形）", related: ["線対称", "回転"] },
-  struggle: { primary: "模写（図形）", related: ["欠け補完", "平行移動"] },
-  draw: { primary: "模写（絵柄）", related: ["模写（図形）", "かさね"] },
-  harder: { primary: "線対称", related: ["回転", "かさね"] },
-  solid: { primary: "模写（立体）", related: ["模写（図形）", "かさね"] },
+  first: { primary: "模写", related: ["欠け補完", "鏡"] },
+  kumon: { primary: "模写", related: ["鏡", "回転"] },
+  struggle: { primary: "模写", related: ["欠け補完", "平行移動"] },
+  draw: { primary: "模写", related: ["かさね", "模写（立体）"] },
+  harder: { primary: "鏡", related: ["回転", "かさね"] },
+  solid: { primary: "模写（立体）", related: ["模写", "かさね"] },
 };
 
 /* ---- 軸A：年齢で初期推定 → 手ごたえ 3 問で確定（手ごたえ優先・やさしい方が勝つ） ---- */

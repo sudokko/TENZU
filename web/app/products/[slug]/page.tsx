@@ -9,7 +9,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import {
-  PRODUCT_TASKS, SKU_ALIASES, taskBySlug, volBySku, volTitle, PRICE, QUESTIONS_PER_VOL,
+  PRODUCT_TASKS, SKU_ALIASES, TASK_ALIASES, taskBySlug, volBySku, volTitle, PRICE, QUESTIONS_PER_VOL,
 } from "../data";
 import TaskListPage from "../TaskListPage";
 import SkuDetailPage from "../SkuDetailPage";
@@ -22,6 +22,7 @@ export function generateStaticParams() {
     ...PRODUCT_TASKS.flatMap((t) =>
       t.vols.filter((x) => x.status === "live").map((x) => ({ slug: x.sku }))),
     ...Object.keys(SKU_ALIASES).map((slug) => ({ slug })),
+    ...Object.keys(TASK_ALIASES).map((slug) => ({ slug })),
   ];
 }
 
@@ -48,6 +49,9 @@ export async function generateMetadata(
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+
+  const taskAlias = TASK_ALIASES[slug];
+  if (taskAlias) permanentRedirect(`/products/${taskAlias}`);
 
   const alias = SKU_ALIASES[slug];
   if (alias) permanentRedirect(`/products/${alias}`);

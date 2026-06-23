@@ -70,3 +70,52 @@ export async function sendPurchaseEmail(opts: {
     },
   }));
 }
+
+/* 会員ログインリンク（マジックリンク）。サブスク作成時・別端末からの再ログイン時に送る。
+   リンク先 = /api/auth/verify?token=...（署名トークンを検証して cookie を発行）。 */
+export async function sendLoginLink(opts: {
+  to: string;
+  loginUrl: string;
+  planName: string; // 「スタンダード」など
+}): Promise<void> {
+  const from = process.env.SES_FROM_EMAIL;
+  if (!from) throw new Error("SES_FROM_EMAIL 未設定");
+
+  const textBody = [
+    "TENZU メーカーのご利用ありがとうございます。",
+    "",
+    `現在のプラン：${opts.planName}`,
+    "",
+    "下記のリンクからログインできます（このリンクは 30 分間有効です）。",
+    "一度ログインすれば、しばらくは開くだけで使えます。別の端末でも同じリンクからログインできます。",
+    "",
+    opts.loginUrl,
+    "",
+    "— 点図形（点描写）プリントの専門店 TENZU",
+  ].join("\n");
+
+  const htmlBody = `
+    <div style="font-family:sans-serif;line-height:1.7;color:#3A424E">
+      <p>TENZU メーカーのご利用ありがとうございます。</p>
+      <p>現在のプラン：<strong>${esc(opts.planName)}</strong></p>
+      <p>下記のボタンからログインできます（このリンクは 30 分間有効です）。<br>
+      一度ログインすれば、しばらくは開くだけで使えます。別の端末でも同じリンクからログインできます。</p>
+      <p><a href="${esc(opts.loginUrl)}"
+        style="display:inline-block;background:#2C6E7F;color:#fff;text-decoration:none;
+        padding:12px 24px;border-radius:4px;font-weight:600">ログインする</a></p>
+      <p style="font-size:12px;color:#9AA0AA">${esc(opts.loginUrl)}</p>
+      <p style="font-size:12px;color:#9AA0AA">— 点図形（点描写）プリントの専門店 TENZU</p>
+    </div>`;
+
+  await ses.send(new SendEmailCommand({
+    Source: from,
+    Destination: { ToAddresses: [opts.to] },
+    Message: {
+      Subject: { Data: "【TENZU】メーカーのログインリンク", Charset: "UTF-8" },
+      Body: {
+        Text: { Data: textBody, Charset: "UTF-8" },
+        Html: { Data: htmlBody, Charset: "UTF-8" },
+      },
+    },
+  }));
+}

@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# recovery tool audit log (contains customer emails / session ids — never commit)
+/scripts/recover-audit.log.jsonl
+
 # vercel
 .vercel
 

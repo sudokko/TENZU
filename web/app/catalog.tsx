@@ -69,7 +69,7 @@ function SampleFrame({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* 軸（線対称用） */
+/* 軸（鏡タスク用） */
 function Axis({ ox }: { ox: number }) {
   return <line x1={gx(ox, 2)} y1={gy(0) - 8} x2={gx(ox, 2)} y2={gy(4) + 8}
     stroke={FAINT} strokeWidth={1} strokeDasharray="2 4" />;
@@ -80,11 +80,6 @@ const PENT = [[1, 0], [3, 0], [4, 2], [2, 4], [0, 2]];
 
 function FigCopy() {
   return <SampleFrame><Shape ox={LX} p={PENT} /><Shape ox={RX} p={PENT} faint /></SampleFrame>;
-}
-/* 絵柄（具象モチーフ）の模写：家のシルエットを点で写す */
-const HOUSE = [[1, 4], [1, 2], [2, 1], [3, 2], [3, 4]];
-function FigMotif() {
-  return <SampleFrame><Shape ox={LX} p={HOUSE} /><Shape ox={RX} p={HOUSE} faint /></SampleFrame>;
 }
 function FigMirror() {
   const tri = [[0, 1], [2, 1], [0, 3]];
@@ -184,23 +179,13 @@ export const GROUPS: Group[] = [
     sub: "形をそのまま読み取る、いちばんの基礎。立体に起こすところまで。",
     tasks: [
       {
-        slug: "copy", name: "模写（図形）", desc: "見本のとおりに、点をつないで写す。", lv: lvCounts("copy"), Fig: FigCopy,
+        slug: "copy", name: "模写", desc: "見本のとおりに、点をつないで写す。", lv: lvCounts("copy"), Fig: FigCopy,
         notes: [
           "3×3・まっすぐの線だけ",
           "ななめ（45°）が登場。3×3〜4×4",
           "線が増えて交差も。4×4〜5×5",
           "45°以外の角度へ。5×5〜6×6",
           "最大7×7で総仕上げ",
-        ],
-      },
-      {
-        slug: "motif", name: "模写（絵柄）", desc: "いきもの・乗りもの…絵を、点で写す。", lv: lvCounts("motif"), Fig: FigMotif,
-        notes: [
-          "",
-          "絵柄でななめに挑戦。3×3〜4×4",
-          "線が増えた絵柄。4×4〜5×5",
-          "複雑な角度の絵柄。5×5〜6×6",
-          "大きな絵柄を写しきる",
         ],
       },
       {
@@ -229,7 +214,7 @@ export const GROUPS: Group[] = [
     sub: "向きを変える、動かす、大きさを変える。頭の中で形を操る力。",
     tasks: [
       {
-        slug: "mirror", name: "線対称", desc: "軸で折り返した形を描く。", lv: lvCounts("mirror"), Fig: FigMirror,
+        slug: "mirror", name: "鏡", desc: "鏡の反対側に映る形を描く。", lv: lvCounts("mirror"), Fig: FigMirror,
         notes: [
           "",
           "縦軸（左右の鏡うつし）。3×3",

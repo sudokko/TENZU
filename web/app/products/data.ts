@@ -1,11 +1,13 @@
 /* =========================================================================
    商品カタログ Vol レベル SSOT
-   タスク（10 ライン）× Lv × Vol の全 63 巻を定義する単一ソース。
+   タスク（9 ライン）× Lv × Vol の全 56 巻を定義する単一ソース。
    catalog.tsx の GROUPS（表示コピー・Fig）はここから lvCounts() で巻数を導出する。
    出典: pack-design §11.6/§12.2/§12.7・pack-tasks §15-22。
    - sku slug 形式: {task}-lv{n}-vol{m}（同一 Lv ×同一グリッドの巻が存在するため
      grid ではなく Vol 番号で一意化。旧 copy-lv2-4x4 は SKU_ALIASES で温存）
    - status: "live"＝詳細ページあり / "scaffold"＝一覧に「準備中」で陳列のみ
+   - 2026-06-19 絵柄ライン完全削除（旧 motif タスク 7 巻廃止）。
+     copy 任は図形のみ。/products/motif は /products/copy へリダイレクト維持
    ========================================================================= */
 
 export type VolStatus = "live" | "scaffold";
@@ -41,6 +43,12 @@ export const SKU_ALIASES: Record<string, string> = {
   "copy-lv2-4x4": "copy-lv2-vol2",
 };
 
+/* 旧タスク slug → 統合後タスク slug（タスク廃止時のリダイレクト用）
+   2026-06-19: 絵柄ライン完全削除（旧 motif タスクは廃止・copy にリダイレクト） */
+export const TASK_ALIASES: Record<string, string> = {
+  motif: "copy",
+};
+
 const v = (
   sku: string, lv: 1 | 2 | 3 | 4 | 5, volNo: number, grid: string,
   blurb: string, ageLabel: string, status: VolStatus, variant?: string,
@@ -49,7 +57,9 @@ const v = (
 export const PRODUCT_TASKS: ProductTask[] = [
   /* ============ A. 見て写す ============ */
   {
-    slug: "copy", name: "模写（図形）", groupIdx: 0,
+    /* 2026-06-19: 絵柄ライン完全削除。模写は図形のみで運用。
+       /products/motif → /products/copy リダイレクトは TASK_ALIASES で維持 */
+    slug: "copy", name: "模写", groupIdx: 0,
     vols: [
       v("copy-lv1-vol1", 1, 1, "3×3", "はじめての点描写に。点と点を結ぶ「まっすぐ」から。", "4〜6才ごろ", "live"),
       v("copy-lv2-vol1", 2, 1, "3×3", "「ななめ」デビュー。同じ3×3で、少しだけ世界が広がる。", "4〜6才ごろ", "live"),
@@ -65,18 +75,6 @@ export const PRODUCT_TASKS: ProductTask[] = [
       v("copy-lv4-vol1", 4, 1, "5×5", "角度いろいろ、観察力が伸びる。ゆっくり、きれいに。", "6〜8才ごろ", "live"),
       v("copy-lv4-vol2", 4, 2, "6×6", "いつもの難しさのまま、枠をひとつ大きく。のびのび6×6。", "6〜9才ごろ", "live"),
       v("copy-lv5-vol1", 5, 1, "7×7", "最大盤面7×7。大人でも手ごたえの、点描写マスターへ。", "8才〜", "live"),
-    ],
-  },
-  {
-    slug: "motif", name: "模写（絵柄）", groupIdx: 0,
-    vols: [
-      v("motif-lv2-vol1", 2, 1, "3×3", "絵柄でななめに挑戦。小さな絵から。", "4〜6才ごろ", "scaffold"),
-      v("motif-lv2-vol2", 2, 2, "4×4", "枠がひとつ大きくなった絵柄。", "4〜7才ごろ", "scaffold"),
-      v("motif-lv3-vol1", 3, 1, "4×4", "線が増えた絵柄。交差も登場。", "5〜7才ごろ", "scaffold"),
-      v("motif-lv3-vol2", 3, 2, "5×5", "標準サイズ5×5の絵柄へ。", "5〜8才ごろ", "scaffold"),
-      v("motif-lv4-vol1", 4, 1, "5×5", "複雑な角度の絵柄に挑戦。", "6〜8才ごろ", "scaffold"),
-      v("motif-lv4-vol2", 4, 2, "6×6", "大きな絵柄をのびのび写す。", "6〜9才ごろ", "scaffold"),
-      v("motif-lv5-vol1", 5, 1, "7×7", "最大盤面の絵柄を写しきる。", "8才〜", "scaffold"),
     ],
   },
   {
@@ -104,7 +102,7 @@ export const PRODUCT_TASKS: ProductTask[] = [
   },
   /* ============ B. かたちを動かす ============ */
   {
-    slug: "mirror", name: "線対称", groupIdx: 1,
+    slug: "mirror", name: "鏡", groupIdx: 1,
     vols: [
       v("mirror-lv2-vol1", 2, 1, "3×3", "「鏡うつし」デビュー。まずは縦の線を境に、左右おなじを描こう。", "4〜6才ごろ", "live", "縦軸"),
       v("mirror-lv3-vol1", 3, 1, "4×4", "線が増えて交差も登場。縦の鏡うつしを4×4でしっかり。", "5〜7才ごろ", "live", "縦軸"),
@@ -198,7 +196,7 @@ export function firstVol(task: ProductTask): Vol {
   return [...task.vols].sort((a, b) => a.lv - b.lv || a.volNo - b.volNo)[0];
 }
 
-/* 商品名（外向け）: "模写（図形） 入門編 Vol.2 — 4×4" */
+/* 商品名（外向け）: "模写 入門編 Vol.2 — 4×4" */
 export function volTitle(task: ProductTask, vol: Vol): string {
   return `${task.name} ${LEVEL_NAMES[vol.lv - 1]} Vol.${vol.volNo} — ${vol.grid}`;
 }

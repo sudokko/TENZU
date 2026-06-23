@@ -1,5 +1,5 @@
 /* =========================================================================
-   線対称ジェネレータ（たたき台・seed 決定的）
+   鏡（旧 線対称）ジェネレータ（たたき台・seed 決定的）
    軸の片側（ソース領域）に閉じたランダムウォークで「みほん」を作り、解答は
    derived transform（mirror・軸）として持たせる。みほん＝子が見て写す半分、
    解答＝軸で折り返した残り半分。軸の規約は metrics.ts の TRANSFORMS と同一
@@ -23,7 +23,7 @@ export type MirrorParams = {
   grid: 3 | 4 | 5 | 6 | 7;
   axis: MirrorAxis;
   lines: [number, number];
-  slopes: SlopeRule;          // 線対称では "any"(非45°) は使わない
+  slopes: SlopeRule;          // 鏡タスクでは "any"(非45°) は使わない
   diagonals: [number, number];
   crossings: [number, number];
   components: [number, number];

@@ -28,7 +28,12 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json() as {
     sku?: string;
-    updates?: { id: string; status?: CandidateStatus; order?: number | null; edges?: EdgeT[]; motif?: string }[];
+    updates?: {
+      id: string; status?: CandidateStatus; order?: number | null;
+      edges?: EdgeT[]; motif?: string;
+      /* 欠け補完(fill)の R 手直し。answer.mode は変えず edges だけ差し替える */
+      answerEdges?: EdgeT[];
+    }[];
   };
   const sku = safeSku(body.sku);
   if (!sku || !Array.isArray(body.updates)) {
@@ -59,6 +64,11 @@ export async function POST(req: NextRequest) {
       }
       c.edges = normalized;
       c.metrics = computeMetrics(normalized, c.grid.n);
+      c.edited = true;
+    }
+    if (u.answerEdges && c.answer?.mode === "explicit") {
+      // R の手直し: 正規化のみ（R は F の部分集合という制約は検品者が目視で担保）
+      c.answer = { mode: "explicit", edges: normalizeEdges(u.answerEdges) };
       c.edited = true;
     }
   }

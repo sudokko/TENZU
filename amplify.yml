@@ -18,7 +18,7 @@ applications:
             # （compute/Lambda）には自動で渡らない。ビルド時に .env.production へ書き出して
             # Next.js サーバーランタイムに読ませる（AWS 公式の SSR 向けワークアラウンド）。
             # マッチ無しでも grep の exit 1 でビルドを落とさないよう || true。
-            - env | grep -E '^(STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|SITE_URL|SES_REGION|SES_FROM_EMAIL|SES_ACCESS_KEY_ID|SES_SECRET_ACCESS_KEY)=' >> .env.production || true
+            - env | grep -E '^(STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|SITE_URL|SES_REGION|SES_FROM_EMAIL|SES_ACCESS_KEY_ID|SES_SECRET_ACCESS_KEY|AUTH_SECRET|STRIPE_PRICE_ENTRY|STRIPE_PRICE_FULL)=' >> .env.production || true
             - npm run build
       artifacts:
         baseDirectory: .next

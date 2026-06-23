@@ -23,6 +23,18 @@
 
 > 一次ソース: [pack-design.md](./product/pack-design.md)
 
+### 3.51 絵柄ライン完全削除・10→9 タスク（2026-06-19）
+
+旧「模写（絵柄）motif」タスクを**完全削除**。模写は図形のみで運用。**SKU タスク数 10→9・総巻数 63→56**。
+
+- **背景**: AI 生成問題のクオリティ問題でオーナーが atelier で全問題自作する方針に転換。自作前提だと絵柄ラインを別 SKU で持つ管理コストが見合わない。図形のみに集中
+- **データ層**: `web/app/products/data.ts` から motif 関連 7 巻を全削除。Vol スキーマから `subtype`/`CopySubtype`/`volsBySubtype`/`SUBTYPE_LABEL` も一掃。copy は figure 8 巻のシンプル構造に戻る
+- **URL**: `/products/motif` → `/products/copy` permanentRedirect は維持（TASK_ALIASES）。SEO 流入の保護。個別 motif-* SKU slug は完全消失（元 scaffold で外部リンクなし）
+- **UI**: 一覧の subtype 二段表示廃止（plp-subgroup CSS も削除）。SKU 詳細 H1 から subtype 注記廃止
+- **非対象**: 立体模写（solid）・欠け補完（fill）は独立タスクで存続
+- **スコープ外（次セッション以降）**: 方針 #2「全タイプのメーカー＆atelier」。最初は fill メーカーから着手
+- **影響ファイル**: `web/app/products/data.ts`・`catalog.tsx`・`TaskListPage.tsx`・`SkuDetailPage.tsx`・`[slug]/page.tsx`・`product.css`・`level-guide/GuideApp.tsx`・`maker/MakerApp.tsx`・`pack-design.md §0/§13.7.2`
+
 ### 3.50 「App」呼称を全廃し「Web ジェネレータ（おためし点描写メーカー）」へ表記統一（2026-06-11）
 
 2026-05-27 の acquisition ゼロベース見直しで「App＝ネイティブアプリ」誤解（DR 誤読・広告コピー NG）が確認されたため表記統一を決定していたが、設計書本文への徹底が未了だったものを全領域へ反映。一次ソース [foundation/brand.md §11.3.1](./foundation/brand.md)・[voice-tone.md §7](./foundation/voice-tone.md)。
@@ -1151,6 +1163,20 @@ GPT-5 + Gemini 2 AI 合議でレビュー。観点：(1) 啓蒙と煽りの境�
 
 Stripe Link＋MailerLiteで代替。
 → [acquisition/funnel.md §6.1](./acquisition/funnel.md)
+
+### 4.3 メーカー有償化の認証方式を 3AI DR で再評価（OTP＋Google/LINE ＝ DB 保持が確定・自前 Auth.js 推奨）（2026-06-23）
+
+[[maker-monetization-2026-06]] の認証（マジックリンク＋署名 Cookie・DB レス）を単独でリリースすることへのオーナー不安を起点に、3AI Deep Research（Claude=反証検証付き / ChatGPT / Gemini）で再評価。**実装は未決定（判断材料の整理段階）**。
+
+**3者一致＝確定**: ①マジックリンク単独の長期運用は不可 ②メール OTP フォールバック必須（別ブラウザ/メールアプリ WebView の Cookie 断絶を 6 桁で救済）③キャリアメール到達対策を本番前に実測（SPF/DKIM/DMARC＋SES カスタム MAIL FROM アライメント・docomo 2025/2 厳格化対策）④安全な OTP/失効には最小状態ストア（Upstash 等）が要る＝純ステートレス Cookie では不可 ⑤LINE ログインが日本の CVR 本命（ソーシャルログインの 88%）⑥Stripe は Webhook で権限確定（署名検証・client_reference_id・customer_email ロック・冪等・past_due 猶予・retrieve で pull 同期）⑦Customer Portal は認証しない（短命 URL を認証済み画面から）⑧OWASP 一式（__Host-/HttpOnly/Secure/SameSite/サーバー側失効/ユーザー列挙対策）⑨パスキーは最終到達点。
+
+**DB 要否（オーナー質問への回答）**: 現状が DB レスで済むのは「会員マスタ＝Stripe／セッション＝署名 Cookie 自身／email が唯一キーかつ唯一手段」だから。OTP は会員 DB 不要だが一時 KV（TTL 10分・自己消滅・会員台帳ではない）が要る＝「半分 DB 不要」。**Google＋LINE を初手採用＝durable な DB を持つことが確定**（LINE はメール不返却あり＋OTP/Google/LINE の名寄せ・重複防止が必須）。最小スキーマ＝users / identities / stripe_customer_id、サブスクの真実は引き続き Stripe（DB はキャッシュ）。
+
+**自前 vs Supabase（web 検索で検証済）**: Supabase ネイティブに **LINE プロバイダは無い**（DR2社の「Auth>Providers>LINE でコピペ開通」は誤り＝採用しても LINE は手作業）。**Auth.js（NextAuth v5）は LINE/Google ともビルトイン**。→ **現推奨＝Auth.js＋Postgres**（managed Postgres は Supabase/Neon を「ただの DB」として使えばロックイン最小）。Clerk はコストでオーナー不採用。⚠Auth.js v5×Next 16.2.6 の互換は着手前に要確認（web/AGENTS.md）。
+
+**注意**: DR2社が引用したパスキー性能値（成功率 93%/99.9%・サインイン速度）は Claude 反証検証で**却下**＝資料転用禁止（方向のみ採用）。CVE-2025-29927 は web=Next 16.2.6 で対策済（DAL 多重防御の原則のみ採用）。**§4.2「アカウント機能 Phase 1 不要」は本有償化で実質改定。**
+
+→ 詳細は session memory `auth-method-dr-2026-06`。関連 [pack-design.md §24](./product/pack-design.md)（マネタイズ・実装確定時に反映）
 
 ---
 

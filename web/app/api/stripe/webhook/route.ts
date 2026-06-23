@@ -8,7 +8,10 @@
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { volBySku, volTitle } from "../../../products/data";
-import { sendPurchaseEmail } from "../../../lib/email";
+import { sendPurchaseEmail, sendLoginLink } from "../../../lib/email";
+import { signMagic } from "../../../lib/auth";
+import { resolveTier } from "../../../lib/billing";
+import { PLANS } from "../../../products/capabilities";
 
 export const dynamic = "force-dynamic";
 
@@ -37,6 +40,7 @@ export async function POST(req: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session;
     try {
       const email = session.customer_details?.email;
+      // サブスク Checkout は skus を持たない → 単発購入（payment mode）のみ DL メール。
       const skus = (session.metadata?.skus ?? "").split(",").map((s) => s.trim()).filter(Boolean);
 
       if (session.payment_status === "paid" && email && skus.length > 0) {
@@ -52,6 +56,29 @@ export async function POST(req: NextRequest) {
     } catch (e) {
       // 送信失敗してもエンドポイントを生かすため 200 で返す（運用はログで検知）
       console.error("[stripe webhook] purchase email failed:", e);
+    }
+  }
+
+  // 会員サブスク作成 → 別端末/再ログイン用のマジックリンクをメール送信。
+  // （申込ブラウザは success_url の /api/auth/verify で即ログイン済み。これは予備手段）
+  if (event.type === "customer.subscription.created") {
+    const sub = event.data.object as Stripe.Subscription;
+    try {
+      const customerId = typeof sub.customer === "string" ? sub.customer : sub.customer.id;
+      const stripe2 = new Stripe(key);
+      const customer = await stripe2.customers.retrieve(customerId);
+      const email = !customer.deleted ? customer.email : null;
+      if (email) {
+        const tier = await resolveTier(stripe2, customerId);
+        if (tier !== "guest") {
+          const base = process.env.SITE_URL ?? req.nextUrl.origin;
+          const loginUrl = `${base}/api/auth/verify?token=${signMagic(email)}`;
+          const planName = tier === "full" ? PLANS.full.name : PLANS.entry.name;
+          await sendLoginLink({ to: email, loginUrl, planName });
+        }
+      }
+    } catch (e) {
+      console.error("[stripe webhook] login link failed:", e);
     }
   }
 

@@ -30,25 +30,23 @@ function mirrorAxisOf(answer: Problem["answer"]): "v" | "h" | "d1" | "d2" | null
 }
 
 /* answer の種類に応じて「実線（子が見る出題図）」と「ゴースト（解答側＝薄色点線）」へ
-   辺を振り分ける。
-   - mirror(derived): 実線＝みほん edges／ゴースト＝軸で折り返した残り半分
+   辺を振り分ける（mirror 以外用）。
    - fill(explicit) : edges＝完全図 F・answer.edges＝抜いた線 R。実線＝F∖R（欠け図 G）
      ／ゴースト＝R（子が描き足す線）
-   - none           : 実線＝edges のみ */
+   - none           : 実線＝edges のみ
+   mirror(derived) は ProblemSvg 側で別ペイン描画するので、ここでは扱わない */
 function splitForDisplay(
-  edges: EdgeT[], answer: Problem["answer"], n: number,
-): { solid: EdgeT[]; ghost: EdgeT[]; axis: "v" | "h" | "d1" | "d2" | null } {
-  const axis = mirrorAxisOf(answer);
-  if (axis) return { solid: edges, ghost: mirrorEdges(edges, n, axis), axis };
+  edges: EdgeT[], answer: Problem["answer"],
+): { solid: EdgeT[]; ghost: EdgeT[] } {
   if (answer?.mode === "explicit") {
     const removed = new Set(answer.edges.map(edgeKey));
-    return { solid: edges.filter((e) => !removed.has(edgeKey(e))), ghost: answer.edges, axis: null };
+    return { solid: edges.filter((e) => !removed.has(edgeKey(e))), ghost: answer.edges };
   }
-  return { solid: edges, ghost: [], axis: null };
+  return { solid: edges, ghost: [] };
 }
 
-/* 対称軸の点線（viewBox 0..100・点は pos()=10..90 に並ぶ） */
-function AxisLine({ axis }: { axis: "v" | "h" | "d1" | "d2" }) {
+/* 軸の点線（1 ペイン 0..100 のローカル座標） */
+function AxisLineLocal({ axis }: { axis: "v" | "h" | "d1" | "d2" }) {
   const p = { stroke: ACCENT, strokeWidth: 0.7, strokeDasharray: "3 2", opacity: 0.75 } as const;
   if (axis === "v") return <line x1={50} y1={4} x2={50} y2={96} {...p} />;
   if (axis === "h") return <line x1={4} y1={50} x2={96} y2={50} {...p} />;
@@ -56,19 +54,62 @@ function AxisLine({ axis }: { axis: "v" | "h" | "d1" | "d2" }) {
   return <line x1={94} y1={6} x2={6} y2={94} {...p} />; // d2
 }
 
-/* ---- 候補サムネ SVG（格子点＋辺）。mirror は軸＋折り返した解答をゴースト表示 ---- */
+/* 1 ペイン分の描画（格子点＋辺＋軸線）— 0..100 のローカル座標で完結。
+   ox/oy: viewBox 内の左上原点。across-pane レイアウトでこれを 2 つ並べる */
+function PaneFig({
+  n, edges, axis, ox = 0, oy = 0,
+}: { n: number; edges: EdgeT[]; axis?: "v" | "h" | "d1" | "d2"; ox?: number; oy?: number }) {
+  const pos = (i: number) => 10 + (80 * i) / Math.max(1, n - 1);
+  return (
+    <g transform={`translate(${ox} ${oy})`}>
+      <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
+      {Array.from({ length: n * n }, (_, i) => (
+        <circle key={`d${i}`} cx={pos(i % n)} cy={pos(Math.floor(i / n))} r={1.6} fill={INK} />
+      ))}
+      {axis && <AxisLineLocal axis={axis} />}
+      {edges.map((e, i) => (
+        <line key={i}
+          x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+          stroke={INK} strokeWidth={1.7} strokeLinecap="round" />
+      ))}
+    </g>
+  );
+}
+
+/* ---- 候補サムネ SVG。
+   mirror: 左ペイン=F・右ペイン=mirror(F)（解答）の across-pane で表示。
+           h 軸だけは上下に並べる。検品者が「出題→解答」の対応を一目で確認できる。
+   fill   : 実線=F∖R（欠け図 G）／ゴースト=R を 1 ペイン重ね描き
+   none   : F のみ 1 ペイン
+   ---- */
 function ProblemSvg({
   n, edges, answer, size = 132,
 }: { n: number; edges: EdgeT[]; answer?: Problem["answer"]; size?: number }) {
+  const axis = mirrorAxisOf(answer);
+  /* mirror: across-pane（v/d1/d2=横並び 200×100, h=縦並び 100×200） */
+  if (axis) {
+    const R = mirrorEdges(edges, n, axis);
+    const stack = axis === "h";
+    const vbW = stack ? 100 : 200;
+    const vbH = stack ? 200 : 100;
+    return (
+      <svg viewBox={`0 0 ${vbW} ${vbH}`} width={stack ? size : size * 2} height={stack ? size * 2 : size}
+        className="atl-thumb" aria-label="鏡: 左=みほん／右=解答">
+        <PaneFig n={n} edges={edges} />
+        <PaneFig n={n} edges={R}
+          ox={stack ? 0 : 100} oy={stack ? 100 : 0} />
+      </svg>
+    );
+  }
+  /* mirror 以外: 従来通り 1 ペイン */
+  const { solid, ghost } = splitForDisplay(edges, answer);
   const pos = (i: number) => 10 + (80 * i) / Math.max(1, n - 1);
-  const { solid, ghost, axis } = splitForDisplay(edges, answer, n);
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} className="atl-thumb" aria-hidden>
       <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
       {Array.from({ length: n * n }, (_, i) => (
         <circle key={i} cx={pos(i % n)} cy={pos(Math.floor(i / n))} r={1.6} fill={INK} />
       ))}
-      {axis && <AxisLine axis={axis} />}
       {ghost.map((e, i) => (
         <line key={`g${i}`}
           x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
@@ -118,11 +159,15 @@ function ladderSpec(p: CopyShapeParams): { k: string; v: string }[] {
 type Update = { id: string; status?: Candidate["status"]; order?: number | null };
 
 export default function AtelierApp({
-  sku, title, hasGenerator, genKind, linesRange, gapRange,
+  sku, title, hasGenerator, genKind, linesRange, gapRange, motifInspoEnabled = false,
 }: {
   sku: string; title: string; hasGenerator: boolean;
   genKind?: "copy" | "motif" | "mirror" | "fill";
   linesRange?: [number, number]; gapRange?: [number, number];
+  /* true なら初回ロード時に /api/atelier/seed-motif-inspo を一度叩いて
+     模様候補（gen.generator="motif"）を candidates JSON に注入する。
+     注入後は通常の pending 候補と同じく採用/編集/不採用が効く */
+  motifInspoEnabled?: boolean;
 }) {
   const [file, setFile] = useState<CandidateFile | null>(null);
   const [busy, setBusy] = useState(false);
@@ -137,6 +182,25 @@ export default function AtelierApp({
   }, [sku]);
 
   useEffect(() => { load(); }, [load]);
+
+  /* 模様候補シード: 対象 sku のうち、まだ「gen.generator=motif」の候補が
+     1 つも入っていなければ /api/atelier/seed-motif-inspo を 1 回叩く。
+     成功したら load() で取り直す。サーバ側は idempotent なので二重投入なし */
+  const [motifSeeded, setMotifSeeded] = useState(false);
+  useEffect(() => {
+    if (!motifInspoEnabled || !file || motifSeeded) return;
+    const hasMotif = file.candidates.some((c) => c.gen?.generator === "motif");
+    if (hasMotif) { setMotifSeeded(true); return; }
+    (async () => {
+      setMotifSeeded(true);
+      const res = await fetch("/api/atelier/seed-motif-inspo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sku }),
+      });
+      if (res.ok) await load();
+    })();
+  }, [motifInspoEnabled, file, motifSeeded, sku, load]);
 
   async function save(updates: Update[]) {
     // 楽観更新 → 書き戻し
@@ -171,7 +235,13 @@ export default function AtelierApp({
   );
   const pending = useMemo(
     () => (file?.candidates ?? [])
-      .filter((c) => c.status === "pending")
+      .filter((c) => c.status === "pending" && c.gen?.generator !== "motif")
+      .sort((a, b) => difficultyScore(a.metrics) - difficultyScore(b.metrics)),
+    [file],
+  );
+  const pendingMotif = useMemo(
+    () => (file?.candidates ?? [])
+      .filter((c) => c.status === "pending" && c.gen?.generator === "motif")
       .sort((a, b) => difficultyScore(a.metrics) - difficultyScore(b.metrics)),
     [file],
   );
@@ -243,7 +313,7 @@ export default function AtelierApp({
     } finally { setBusy(false); }
   }
 
-  async function saveEdit(id: string, edges: EdgeT[], motif?: string) {
+  async function saveEdit(id: string, edges: EdgeT[], motif?: string, answerEdges?: EdgeT[]) {
     setBusy(true); setMsg("");
     try {
       const res = await fetch("/api/atelier/candidates", {
@@ -251,7 +321,11 @@ export default function AtelierApp({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sku,
-          updates: [{ id, edges, ...(motif !== undefined && { motif }) }],
+          updates: [{
+            id, edges,
+            ...(motif !== undefined && { motif }),
+            ...(answerEdges !== undefined && { answerEdges }),
+          }],
         }),
       });
       const j = await res.json();
@@ -370,6 +444,21 @@ export default function AtelierApp({
             disabled={busy || adopted.length !== QUESTIONS_PER_VOL} onClick={publish}>
             公開する（{adopted.length} / {QUESTIONS_PER_VOL}）
           </button>
+          {/* 鏡タスクの検品用: 採用済から「解答 PDF」を生成して目視確認 */}
+          {genKind === "mirror" && adopted.length > 0 && (
+            <button type="button" className="atl-btn" disabled={busy}
+              onClick={async () => {
+                const { downloadAnswerPdf } = await import("../products/SkuPrintPreview");
+                const probs = adopted.map((c) => ({
+                  n: c.grid.n, edges: c.edges,
+                  ...(c.answer?.mode === "derived" && c.answer.transform.type === "mirror"
+                    && { mirrorAxis: c.answer.transform.axis }),
+                }));
+                await downloadAnswerPdf(sku, "A4-P", probs);
+              }}>
+              解答 PDF を確認（{adopted.length} 問）
+            </button>
+          )}
           {msg && <span className="atl-msg">{msg}</span>}
         </div>
       </header>
@@ -448,12 +537,42 @@ export default function AtelierApp({
         </section>
       )}
 
+      {/* ---- 候補（模様）— 同盤面の motif 由来。採用/編集/不採用は figure と同じパイプライン ---- */}
+      {motifInspoEnabled && (
+        <section className="atl-lane atl-lane--motif">
+          <h2>候補（模様）<span className="atl-count">{pendingMotif.length}</span></h2>
+          {pendingMotif.length === 0 && (
+            <p className="atl-empty">
+              模様候補がありません（同タスクの兄弟巻で使い切った可能性あり）。
+            </p>
+          )}
+          <div className="atl-grid">
+            {pendingMotif.map((c) => withDScore(c,
+              <figure key={c.id} className="atl-card atl-card--motif" onClick={() => adopt(c)} title="クリックで採用">
+                <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} />
+                {c.gen.motif && <figcaption className="atl-inspo-name">{c.gen.motif}</figcaption>}
+                <div className="atl-card-actions">
+                  <button type="button" style={{ color: ACCENT }}
+                    onClick={(e) => { e.stopPropagation(); adopt(c); }}>採用</button>
+                  <button type="button"
+                    onClick={(e) => { e.stopPropagation(); setEditing(c); }}>編集</button>
+                  <button type="button"
+                    onClick={(e) => { e.stopPropagation(); save([{ id: c.id, status: "rejected" }]); }}>
+                    不採用
+                  </button>
+                </div>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
+
       {editing && (
         <EditOverlay
           key={editing.id}
           candidate={editing}
           busy={busy}
-          onSave={(edges, motif) => saveEdit(editing.id, edges, motif)}
+          onSave={(edges, motif, answerEdges) => saveEdit(editing.id, edges, motif, answerEdges)}
           onClose={() => setEditing(null)}
         />
       )}
@@ -464,19 +583,26 @@ export default function AtelierApp({
 /* =========================================================================
    線の手直しモーダル（点を 2 つクリック → その間の線分をトグル）
    metrics はライブで computeMetrics 表示。保存はサーバ権威で再算出される。
+   fill 候補のときは F/R モード切替を出し、R モードでは F の部分集合として
+   R をトグル（公平性=「R の両端点が G に残るか」をライブで注記）。
    ========================================================================= */
 function EditOverlay({
   candidate, busy, onSave, onClose,
 }: {
   candidate: Candidate;
   busy: boolean;
-  onSave: (edges: EdgeT[], motif?: string) => void;
+  onSave: (edges: EdgeT[], motif?: string, answerEdges?: EdgeT[]) => void;
   onClose: () => void;
 }) {
   const n = candidate.grid.n;
+  const isFill = candidate.answer?.mode === "explicit";
   const [edges, setEdges] = useState<EdgeT[]>(candidate.edges);
+  const [rEdges, setREdges] = useState<EdgeT[]>(
+    isFill && candidate.answer?.mode === "explicit" ? candidate.answer.edges : [],
+  );
+  const [mode, setMode] = useState<"F" | "R">("F");
   const [first, setFirst] = useState<Pt | null>(null);
-  const [history, setHistory] = useState<EdgeT[][]>([]);
+  const [history, setHistory] = useState<{ edges: EdgeT[]; rEdges: EdgeT[] }[]>([]);
   const [title, setTitle] = useState(candidate.gen.motif ?? "");
 
   const SIZE = 360;
@@ -485,25 +611,62 @@ function EditOverlay({
 
   const liveMetrics = useMemo(() => computeMetrics(edges, n), [edges, n]);
   const axis = mirrorAxisOf(candidate.answer);
-  const ghost = useMemo(() => (axis ? mirrorEdges(edges, n, axis) : []), [axis, edges, n]);
+  const mirrorGhost = useMemo(() => (axis ? mirrorEdges(edges, n, axis) : []), [axis, edges, n]);
 
-  function pushHistory(prev: EdgeT[]) {
+  /* fill の R が F の部分集合か。F の手直しで R が孤立した場合の検品サイン */
+  const fSet = useMemo(() => new Set(edges.map(edgeKey)), [edges]);
+  const rOrphan = useMemo(
+    () => isFill ? rEdges.filter((e) => !fSet.has(edgeKey(e))) : [],
+    [isFill, rEdges, fSet],
+  );
+  /* 公平性チェック: R の両端点が G=F∖R に必ず残るか */
+  const fairness = useMemo(() => {
+    if (!isFill || rEdges.length === 0) return { ok: true, msg: "" };
+    const rSet = new Set(rEdges.map(edgeKey));
+    const G = edges.filter((e) => !rSet.has(edgeKey(e)));
+    const ptsG = new Set<string>();
+    for (const e of G) { ptsG.add(`${e[0][0]},${e[0][1]}`); ptsG.add(`${e[1][0]},${e[1][1]}`); }
+    // R は単位辺なので両端点をそのまま見れば良い
+    const lonely = rEdges.filter((e) =>
+      !ptsG.has(`${e[0][0]},${e[0][1]}`) || !ptsG.has(`${e[1][0]},${e[1][1]}`));
+    return lonely.length === 0
+      ? { ok: true, msg: `抜く線 ${rEdges.length} 本・公平性 OK` }
+      : { ok: false, msg: `抜く線 ${rEdges.length} 本・孤立端 ${lonely.length} 本（つなぐ先が見えない）` };
+  }, [isFill, rEdges, edges]);
+
+  function pushHistory(prev: { edges: EdgeT[]; rEdges: EdgeT[] }) {
     setHistory((h) => [...h, prev]);
   }
 
   function clickPoint(p: Pt) {
     if (!first) { setFirst(p); return; }
     if (samePt(first, p)) { setFirst(null); return; } // 同点 = 選択解除
-    // first→p の線分を unit に割ってトグル
     const units = splitAtLattice([first, p]);
-    const keys = new Set(edges.map(edgeKey));
-    const allPresent = units.every((u) => keys.has(edgeKey(u)));
-    pushHistory(edges);
-    if (allPresent) {
-      const drop = new Set(units.map(edgeKey));
-      setEdges(edges.filter((e) => !drop.has(edgeKey(e))));
+    if (mode === "F") {
+      const keys = new Set(edges.map(edgeKey));
+      const allPresent = units.every((u) => keys.has(edgeKey(u)));
+      pushHistory({ edges, rEdges });
+      if (allPresent) {
+        const drop = new Set(units.map(edgeKey));
+        setEdges(edges.filter((e) => !drop.has(edgeKey(e))));
+        // F から消えた辺は R からも消す（孤立 R 防止）
+        if (isFill) setREdges(rEdges.filter((e) => !drop.has(edgeKey(e))));
+      } else {
+        setEdges(normalizeEdges([...edges, ...units]));
+      }
     } else {
-      setEdges(normalizeEdges([...edges, ...units]));
+      // R モード: F の中からだけ拾える
+      const inF = units.every((u) => fSet.has(edgeKey(u)));
+      if (!inF) { setFirst(null); return; } // F に無い辺は R にできない
+      const rKeys = new Set(rEdges.map(edgeKey));
+      const allInR = units.every((u) => rKeys.has(edgeKey(u)));
+      pushHistory({ edges, rEdges });
+      if (allInR) {
+        const drop = new Set(units.map(edgeKey));
+        setREdges(rEdges.filter((e) => !drop.has(edgeKey(e))));
+      } else {
+        setREdges(normalizeEdges([...rEdges, ...units]));
+      }
     }
     setFirst(null);
   }
@@ -511,18 +674,29 @@ function EditOverlay({
   function undo() {
     setHistory((h) => {
       if (h.length === 0) return h;
-      setEdges(h[h.length - 1]);
+      const prev = h[h.length - 1];
+      setEdges(prev.edges);
+      setREdges(prev.rEdges);
       setFirst(null);
       return h.slice(0, -1);
     });
   }
 
   function clearAll() {
-    if (edges.length === 0) return;
-    pushHistory(edges);
-    setEdges([]);
+    if (mode === "F") {
+      if (edges.length === 0 && rEdges.length === 0) return;
+      pushHistory({ edges, rEdges });
+      setEdges([]); setREdges([]);
+    } else {
+      if (rEdges.length === 0) return;
+      pushHistory({ edges, rEdges });
+      setREdges([]);
+    }
     setFirst(null);
   }
+
+  /* fill の R 集合（描画用） */
+  const rSetView = useMemo(() => new Set(rEdges.map(edgeKey)), [rEdges]);
 
   return (
     <div className="atl-overlay" role="dialog" aria-modal>
@@ -530,9 +704,27 @@ function EditOverlay({
         <header className="atl-editor-head">
           <h2>問題の手直し</h2>
           <p className="atl-editor-hint">
-            点を 2 つクリックして線を引く／同じ線をもう一度なぞると消える
+            {mode === "F"
+              ? "点を 2 つクリックして線を引く／同じ線をもう一度なぞると消える"
+              : "完成図の線をクリックすると「抜く線」へ／もう一度で戻る"}
           </p>
         </header>
+
+        {isFill && (
+          <div className="atl-editor-mode" role="tablist" aria-label="編集モード">
+            <button type="button"
+              className={`atl-mode${mode === "F" ? " is-sel" : ""}`}
+              onClick={() => { setMode("F"); setFirst(null); }}>
+              完成図を直す
+            </button>
+            <button type="button"
+              className={`atl-mode${mode === "R" ? " is-sel" : ""}`}
+              onClick={() => { setMode("R"); setFirst(null); }}>
+              抜く線を直す
+            </button>
+            <span className={`atl-fair${fairness.ok ? "" : " is-bad"}`}>{fairness.msg}</span>
+          </div>
+        )}
 
         <label className="atl-editor-title">
           タイトル（名前・任意）
@@ -543,16 +735,36 @@ function EditOverlay({
 
         <svg viewBox="0 0 100 100" width={SIZE} height={SIZE} className="atl-editor-svg">
           <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
-          {axis && <AxisLine axis={axis} />}
-          {ghost.map((e, i) => (
-            <line key={`g${i}`}
+          {axis && <AxisLineLocal axis={axis} />}
+          {mirrorGhost.map((e, i) => (
+            <line key={`mg${i}`}
               x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
               stroke={GHOST} strokeWidth={1.5} strokeDasharray="3 2" strokeLinecap="round" />
           ))}
-          {edges.map((e, i) => (
-            <line key={i}
+          {/* F の辺。fill かつ R に含まれている辺は R モードで強調、F モードでゴースト */}
+          {edges.map((e, i) => {
+            const inR = isFill && rSetView.has(edgeKey(e));
+            if (!isFill) {
+              return <line key={i}
+                x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+                stroke={INK} strokeWidth={1.7} strokeLinecap="round" />;
+            }
+            if (mode === "R") {
+              return <line key={i}
+                x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+                stroke={inR ? ACCENT : INK} strokeWidth={inR ? 2.2 : 1.7}
+                strokeDasharray={inR ? "3 2" : undefined} strokeLinecap="round" />;
+            }
+            return <line key={i}
               x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
-              stroke={INK} strokeWidth={1.7} strokeLinecap="round" />
+              stroke={inR ? GHOST : INK} strokeWidth={1.7}
+              strokeDasharray={inR ? "3 2" : undefined} strokeLinecap="round" />;
+          })}
+          {/* F に含まれない孤立 R（編集途中で出ることがある） */}
+          {rOrphan.map((e, i) => (
+            <line key={`ro${i}`}
+              x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+              stroke="#D04848" strokeWidth={1.5} strokeDasharray="2 2" strokeLinecap="round" />
           ))}
           {Array.from({ length: n * n }, (_, i) => {
             const c = i % n, r = Math.floor(i / n);
@@ -575,13 +787,18 @@ function EditOverlay({
 
         <div className="atl-editor-actions">
           <button type="button" onClick={undo} disabled={history.length === 0}>ひとつ戻す</button>
-          <button type="button" onClick={clearAll} disabled={edges.length === 0}>全消し</button>
+          <button type="button" onClick={clearAll}
+            disabled={mode === "F" ? edges.length === 0 && rEdges.length === 0 : rEdges.length === 0}>
+            {mode === "F" ? "全消し" : "抜く線を全部戻す"}
+          </button>
           <span className="atl-editor-spacer" />
           <button type="button" onClick={onClose} disabled={busy}>キャンセル</button>
           <button type="button" className="atl-btn atl-btn--pub"
-            disabled={busy || edges.length === 0}
-            onClick={() => onSave(edges, title.trim())}>
-            {edges.length === 0 ? "線が空です" : "保存する"}
+            disabled={busy || edges.length === 0 || (isFill && rEdges.length === 0)}
+            onClick={() => onSave(edges, title.trim(), isFill ? rEdges : undefined)}>
+            {edges.length === 0 ? "線が空です"
+              : isFill && rEdges.length === 0 ? "抜く線が空です"
+              : "保存する"}
           </button>
         </div>
       </div>

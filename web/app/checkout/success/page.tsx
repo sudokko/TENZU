@@ -30,6 +30,26 @@ function FailShell({ message }: { message: string }) {
   );
 }
 
+/* 非同期決済（コンビニ/銀行振込/一部の PayPay 等）はリダイレクト時点でまだ paid でない
+   ことがある。行き止まりにせず「処理中」を見せ、20 秒ごとに自動再読込して paid になり
+   次第ダウンロード画面へ自動遷移させる（メール不達でも初回アクセスを成立させる）。 */
+function ProcessingShell() {
+  return (
+    <>
+      {/* React 19 が <head> に巻き上げる。完了後の自動再読込。 */}
+      <meta httpEquiv="refresh" content="20" />
+      <SiteHeader />
+      <main className="wrap success-wrap">
+        <div className="success-head">
+          <h1>お支払いを確認しています</h1>
+          <p>コンビニ・銀行振込などの場合、確認に少しお時間がかかることがあります。</p>
+          <p className="success-revisit">このページを開いたままお待ちください（確認でき次第、自動でダウンロード画面に切り替わります）。ブックマークして後で開き直しても大丈夫です。ご購入確認メールも届きます。</p>
+        </div>
+      </main>
+    </>
+  );
+}
+
 export default async function CheckoutSuccessPage({
   searchParams,
 }: {
@@ -57,7 +77,8 @@ export default async function CheckoutSuccessPage({
   }
 
   if (!paid) {
-    return <FailShell message="お支払いがまだ確認できていません。完了後に再度アクセスしてください。" />;
+    // セッションは取得できている（＝決済自体は開始済み）→ 行き止まりにせず処理中表示。
+    return <ProcessingShell />;
   }
 
   const purchased = skus

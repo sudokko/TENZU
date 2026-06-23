@@ -16,14 +16,45 @@ import {
   KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "./print";
-import type { EdgeT } from "./problems/schema";
+import { edgeKey, mirrorEdges, type EdgeT } from "./problems/schema";
 
 const INK = "#3A424E";
+const AXIS_INK = "#9AA0AA"; // 軸線（鏡タスク・薄い点線）
 const QUESTIONS = 12;
 const MARGIN_MM = 14;
 
-/* 描画単位は辺集合（本物の問題は閉多角形とは限らない） */
-export type RenderProblem = { n: number; edges: EdgeT[] };
+/* 鏡タスクの軸種（schema.ts の TransformSpec.axis と同じ語彙） */
+export type MirrorAxis = "v" | "h" | "d1" | "d2";
+
+/* 描画単位は辺集合（本物の問題は閉多角形とは限らない）
+   answerEdges: 欠け補完（fill）のとき、抜く線 R を指定する。みほんペインには edges（F）
+   をすべて描き、かくマスペインには F∖R（欠け図 G）を事前印字する。
+   mirrorAxis: 鏡タスクのとき、軸の種類。両ペインの中央に軸点線を描き、かくマスは空白。
+   未指定（copy/motif/solid 等）はかくマスを白紙のまま。 */
+export type RenderProblem = {
+  n: number;
+  edges: EdgeT[];
+  answerEdges?: EdgeT[];
+  mirrorAxis?: MirrorAxis;
+};
+
+/* fill 用: F から R を除いた G（欠け図）を返す。R 未指定なら null */
+function gapEdgesOf(pb: RenderProblem): EdgeT[] | null {
+  if (!pb.answerEdges || pb.answerEdges.length === 0) return null;
+  const rSet = new Set(pb.answerEdges.map(edgeKey));
+  return pb.edges.filter((e) => !rSet.has(edgeKey(e)));
+}
+
+/* 鏡の軸線（ペイン内座標 0..pane）→ {x1,y1,x2,y2}。
+   v=縦中央／h=横中央／d1=左上→右下／d2=右上→左下 */
+function axisLineCoords(pane: number, axis: MirrorAxis) {
+  switch (axis) {
+    case "v":  return { x1: pane / 2, y1: 0, x2: pane / 2, y2: pane };
+    case "h":  return { x1: 0, y1: pane / 2, x2: pane, y2: pane / 2 };
+    case "d1": return { x1: 0, y1: 0, x2: pane, y2: pane };
+    case "d2": return { x1: pane, y1: 0, x2: 0, y2: pane };
+  }
+}
 
 /* ---- SKU slug から決定的にサンプル 12 問を生成（seeded LCG） ---- */
 function seededRng(seed: string) {
@@ -193,20 +224,42 @@ function PreviewPage({
                   cx={sx + g.dot(g.pane, c, n)} cy={sy + g.dot(g.pane, r, n)} r={dotR} fill={PRINT_INK} />);
           }
           const arr = arrowProps(g, cx, cy, pair);
+          const gap = gapEdgesOf(pb);
+          const axisDash = Math.max(0.6, g.pane * 0.02).toFixed(2) + " " + Math.max(0.5, g.pane * 0.015).toFixed(2);
           return (
             <g key={i}>
               {dots}
+              {/* 鏡面はペイン間の点線（下の矢印置換）一本のみ。ペイン内には軸線を引かない */}
               {pb.edges.map((e, k) => (
                 <line key={k}
                   x1={cx + g.dot(g.pane, e[0][0], n)} y1={cy + g.dot(g.pane, e[0][1], n)}
                   x2={cx + g.dot(g.pane, e[1][0], n)} y2={cy + g.dot(g.pane, e[1][1], n)}
                   stroke={PRINT_INK} strokeWidth={lw} strokeLinecap="round" />
               ))}
-              <path d={thinArrowPath(arr.size, arr.dir)}
-                transform={`translate(${arr.x},${arr.y})`}
-                fill="none" stroke={PRINT_INK}
-                strokeWidth={Math.max(0.35, arr.size * 0.04)}
-                strokeLinejoin="round" strokeLinecap="round" />
+              {gap && gap.map((e, k) => (
+                <line key={`g${k}`}
+                  x1={cx + g.dx + g.dot(g.pane, e[0][0], n)} y1={cy + g.dy + g.dot(g.pane, e[0][1], n)}
+                  x2={cx + g.dx + g.dot(g.pane, e[1][0], n)} y2={cy + g.dy + g.dot(g.pane, e[1][1], n)}
+                  stroke={PRINT_INK} strokeWidth={lw} strokeLinecap="round" />
+              ))}
+              {/* 鏡 SKU は矢印じゃなく薄い点線（鏡面演出）。それ以外は従来の細線矢印 */}
+              {pb.mirrorAxis ? (
+                pair === "horizontal"
+                  ? <line x1={cx + g.pane + g.gap / 2} y1={cy - g.pane * 0.05}
+                      x2={cx + g.pane + g.gap / 2} y2={cy + g.pane * 1.05}
+                      stroke={AXIS_INK} strokeWidth={Math.max(0.3, lw * 0.7)}
+                      strokeDasharray={axisDash} strokeLinecap="round" />
+                  : <line x1={cx - g.pane * 0.05} y1={cy + g.pane + g.gap / 2}
+                      x2={cx + g.pane * 1.05} y2={cy + g.pane + g.gap / 2}
+                      stroke={AXIS_INK} strokeWidth={Math.max(0.3, lw * 0.7)}
+                      strokeDasharray={axisDash} strokeLinecap="round" />
+              ) : (
+                <path d={thinArrowPath(arr.size, arr.dir)}
+                  transform={`translate(${arr.x},${arr.y})`}
+                  fill="none" stroke={PRINT_INK}
+                  strokeWidth={Math.max(0.35, arr.size * 0.04)}
+                  strokeLinejoin="round" strokeLinecap="round" />
+              )}
             </g>
           );
         })}
@@ -318,23 +371,61 @@ export async function downloadPdf(
           thickness: lw, color: ink, lineCap: 1,
         });
       }
-      // 矢印（みほん→うつす・細線＋小さな矢じり・向きは pair に追従）
-      const arr = arrowProps(g, cx, cyTop, pair);
-      const hd = arr.size * 0.3;
-      const aw = Math.max(0.35 * MM2PT, arr.size * 0.04);
-      const seg = (x1: number, y1: number, x2: number, y2: number) =>
+      // 欠け補完: かくマスペインに G=F∖R を事前印字
+      const gap = gapEdgesOf(pb);
+      if (gap) for (const e of gap) {
         page.drawLine({
-          start: { x: x1, y: Y(y1) }, end: { x: x2, y: Y(y2) },
-          thickness: aw, color: ink, lineCap: 1,
+          start: { x: cx + g.dx + g.dot(g.pane, e[0][0], n), y: Y(cyTop + g.dy + g.dot(g.pane, e[0][1], n)) },
+          end:   { x: cx + g.dx + g.dot(g.pane, e[1][0], n), y: Y(cyTop + g.dy + g.dot(g.pane, e[1][1], n)) },
+          thickness: lw, color: ink, lineCap: 1,
         });
-      if (arr.dir === "right") {
-        seg(arr.x, arr.y, arr.x + arr.size, arr.y);
-        seg(arr.x + arr.size - hd, arr.y - hd, arr.x + arr.size, arr.y);
-        seg(arr.x + arr.size - hd, arr.y + hd, arr.x + arr.size, arr.y);
+      }
+      if (pb.mirrorAxis) {
+        // 鏡 SKU: みほん→解答 の境界は矢印じゃなく薄い点線（鏡面）
+        const planeColor = rgb(0x9a / 255, 0xa0 / 255, 0xaa / 255);
+        const planeDashStep = Math.max(0.4 * MM2PT, g.pane * 0.025);
+        const planeW = Math.max(0.2 * MM2PT, lw * 0.7);
+        const drawDashedPlane = (x1: number, y1Top: number, x2: number, y2Top: number) => {
+          const dx = x2 - x1, dy = y2Top - y1Top;
+          const len = Math.hypot(dx, dy);
+          const ux = dx / len, uy = dy / len;
+          let t = 0;
+          while (t < len) {
+            const t2 = Math.min(t + planeDashStep, len);
+            page.drawLine({
+              start: { x: x1 + ux * t, y: Y(y1Top + uy * t) },
+              end:   { x: x1 + ux * t2, y: Y(y1Top + uy * t2) },
+              thickness: planeW, color: planeColor, lineCap: 1,
+            });
+            t = t2 + planeDashStep * 0.7;
+          }
+        };
+        if (pair === "horizontal") {
+          const mx = cx + g.pane + g.gap / 2;
+          drawDashedPlane(mx, cyTop - g.pane * 0.05, mx, cyTop + g.pane * 1.05);
+        } else {
+          const my = cyTop + g.pane + g.gap / 2;
+          drawDashedPlane(cx - g.pane * 0.05, my, cx + g.pane * 1.05, my);
+        }
       } else {
-        seg(arr.x, arr.y, arr.x, arr.y + arr.size);
-        seg(arr.x - hd, arr.y + arr.size - hd, arr.x, arr.y + arr.size);
-        seg(arr.x + hd, arr.y + arr.size - hd, arr.x, arr.y + arr.size);
+        // 矢印（みほん→うつす・細線＋小さな矢じり・向きは pair に追従）
+        const arr = arrowProps(g, cx, cyTop, pair);
+        const hd = arr.size * 0.3;
+        const aw = Math.max(0.35 * MM2PT, arr.size * 0.04);
+        const seg = (x1: number, y1: number, x2: number, y2: number) =>
+          page.drawLine({
+            start: { x: x1, y: Y(y1) }, end: { x: x2, y: Y(y2) },
+            thickness: aw, color: ink, lineCap: 1,
+          });
+        if (arr.dir === "right") {
+          seg(arr.x, arr.y, arr.x + arr.size, arr.y);
+          seg(arr.x + arr.size - hd, arr.y - hd, arr.x + arr.size, arr.y);
+          seg(arr.x + arr.size - hd, arr.y + hd, arr.x + arr.size, arr.y);
+        } else {
+          seg(arr.x, arr.y, arr.x, arr.y + arr.size);
+          seg(arr.x - hd, arr.y + arr.size - hd, arr.x, arr.y + arr.size);
+          seg(arr.x + hd, arr.y + arr.size - hd, arr.x, arr.y + arr.size);
+        }
       }
     });
 
@@ -364,6 +455,125 @@ export async function downloadPdf(
   const p2 = (x: number) => String(x).padStart(2, "0");
   const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
   a.download = `${sku}_${paperKey}_${perPage}q_${stamp}.pdf`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ===================== 解答 PDF（鏡タスク・1問=1ページ・用紙MAX） =====================
+   F と mirror(F) を合成した「完成図」を、用紙余白いっぱいの大判 1 ペインで描く。
+   ヘッダ・もんだい/かくマス見出し・矢印なし。フッタはロゴ＋ {sku}・解答・P n/m のみ。
+   問題に mirrorAxis が無いものはスキップ（将来 fill/overlay の解答へ汎化する余地あり）。 */
+export async function downloadAnswerPdf(
+  sku: string, paperKey: PaperKey, problems: RenderProblem[],
+) {
+  const { PDFDocument, rgb, StandardFonts } = await import("pdf-lib");
+  const paper = PAPER[paperKey];
+  const doc = await PDFDocument.create();
+  const font = await doc.embedFont(StandardFonts.Courier);
+  const ink = rgb(0x77 / 255, 0x77 / 255, 0x77 / 255);
+  const gray = rgb(0.6, 0.63, 0.67);
+  const axisColor = rgb(0x9a / 255, 0xa0 / 255, 0xaa / 255);
+
+  let logo: Awaited<ReturnType<typeof doc.embedPng>> | null = null;
+  try {
+    const buf = await fetch("/assets/logo-horizontal.png").then((r) => r.arrayBuffer());
+    logo = await doc.embedPng(buf);
+  } catch { /* logo optional */ }
+
+  // 鏡タスク以外は解答 PDF の対象外（answerEdges による fill 解答は将来扱う）
+  const targets = problems.filter((p) => p.mirrorAxis);
+  if (targets.length === 0) throw new Error("解答対象の問題が見つかりません（鏡軸が未設定）");
+
+  const W = paper.w * MM2PT;
+  const H = paper.h * MM2PT;
+  const margin = MARGIN_MM * MM2PT;
+  const footerH = 12 * MM2PT;     // 下端フッター帯
+  const headerH = 14 * MM2PT;     // 上端「解答」タイトル帯
+  const paneArea = Math.min(W - margin * 2, H - margin * 2 - footerH - headerH);
+
+  targets.forEach((pb, pg) => {
+    const page = doc.addPage([W, H]);
+    const n = pb.n;
+    const pane = paneArea;
+    // ペインを中央配置
+    const px = (W - pane) / 2;
+    const pyTop = margin + headerH; // mm 上原点
+    const Y = (yTop: number) => H - yTop; // PDF y 上向き
+
+    const dot = (i: number) => pane * (0.1 + (0.8 * i) / Math.max(1, n - 1));
+    const dotR = dotRadius(pane / MM2PT, DOT_SCALE.m) * MM2PT;
+    const lw = edgeWidth(pane / MM2PT) * MM2PT;
+
+    // 格子点
+    for (let r = 0; r < n; r++) {
+      for (let c = 0; c < n; c++) {
+        page.drawCircle({ x: px + dot(c), y: Y(pyTop + dot(r)), size: dotR, color: ink });
+      }
+    }
+
+    // 軸線（点線）— 中央
+    const ax = axisLineCoords(pane, pb.mirrorAxis!);
+    const axisDashStep = Math.max(0.6 * MM2PT, pane * 0.018);
+    const axisW = Math.max(0.25 * MM2PT, lw * 0.55);
+    {
+      const x1 = px + ax.x1, y1Top = pyTop + ax.y1, x2 = px + ax.x2, y2Top = pyTop + ax.y2;
+      const dx = x2 - x1, dy = y2Top - y1Top, len = Math.hypot(dx, dy);
+      const ux = dx / len, uy = dy / len;
+      let t = 0;
+      while (t < len) {
+        const t2 = Math.min(t + axisDashStep, len);
+        page.drawLine({
+          start: { x: x1 + ux * t, y: Y(y1Top + uy * t) },
+          end:   { x: x1 + ux * t2, y: Y(y1Top + uy * t2) },
+          thickness: axisW, color: axisColor, lineCap: 1,
+        });
+        t = t2 + axisDashStep * 0.65;
+      }
+    }
+
+    // F と mirror(F) を 1 ペインに重ね描き＝完成図
+    const R = mirrorEdges(pb.edges, n, pb.mirrorAxis!);
+    const allEdges = [...pb.edges, ...R];
+    for (const e of allEdges) {
+      page.drawLine({
+        start: { x: px + dot(e[0][0]), y: Y(pyTop + dot(e[0][1])) },
+        end:   { x: px + dot(e[1][0]), y: Y(pyTop + dot(e[1][1])) },
+        thickness: lw, color: ink, lineCap: 1,
+      });
+    }
+
+    // ヘッダタイトル「解答」（左上・欧文のみで日本語埋め込み回避→ロゴ画像で代替）
+    const headText = `ANSWER  ·  P ${pg + 1} / ${targets.length}`;
+    page.drawText(headText, {
+      x: margin, y: H - margin - 5,
+      size: 9, font, color: gray,
+    });
+
+    // フッタ: 左=ロゴ／右=SKU・ページ
+    const footY = 6 * MM2PT;
+    if (logo) {
+      const lh = 5.5 * MM2PT;
+      const lwid = (logo.width / logo.height) * lh;
+      page.drawImage(logo, { x: margin, y: footY - lh / 2, width: lwid, height: lh });
+    }
+    const footText = `${sku}  ·  ANSWER  ·  P ${pg + 1} / ${targets.length}`;
+    page.drawText(footText, {
+      x: W - margin - font.widthOfTextAtSize(footText, 8),
+      y: footY - 3, size: 8, font, color: gray,
+    });
+  });
+
+  const bytes = await doc.save();
+  const ab = new ArrayBuffer(bytes.byteLength);
+  new Uint8Array(ab).set(bytes);
+  const blob = new Blob([ab], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const d = new Date();
+  const p2 = (x: number) => String(x).padStart(2, "0");
+  const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
+  a.download = `${sku}_answer_${paperKey}_${stamp}.pdf`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -552,6 +762,24 @@ export default function SkuPrintPreview({
             <path d="M12 3v12m0 0 4-4m-4 4-4-4" /><path d="M5 21h14" />
           </svg>
           {downloading ? "PDF を作成中…" : "PDF をダウンロード"}
+        </button>
+      )}
+      {/* 解答 PDF（鏡タスクのみ・1問=1ページ・用紙MAX） */}
+      {purchased && problems.some((p) => p.mirrorAxis) && (
+        <button type="button" className="spv-download spv-download--answer" disabled={downloading}
+          onClick={async () => {
+            setDownloading(true);
+            try {
+              await downloadAnswerPdf(sku, paperKey, problems);
+            } finally {
+              setDownloading(false);
+            }
+          }}>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 3v12m0 0 4-4m-4 4-4-4" /><path d="M5 21h14" />
+          </svg>
+          {downloading ? "PDF を作成中…" : "解答 PDF をダウンロード"}
         </button>
       )}
 

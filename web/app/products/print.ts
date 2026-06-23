@@ -46,27 +46,29 @@ export const KPAD = 0.08; // breathing pad around the pair (no もんだい/か�
 export const CELL_PAD = 0.08;
 
 // Largest square pane that fits a pair-cell of the given size, for the orientation.
-// Horizontal pair: 2 panes + gap wide, 1 pane + pad tall.
-// Vertical pair:   1 pane wide, 2 panes + gap + 2 pads tall.
-export function paneSize(cellW: number, cellH: number, pair: PairLayout): number {
+// `panes` 個のペインを (panes-1) 個の gap でつないだ並び（既定 2＝みほん→うつす）。
+// Horizontal: panes 枚 + (panes-1)gap 幅, 1 pane + pad 高さ。
+// Vertical:   1 pane 幅, panes 枚 + (panes-1)gap + 2pad 高さ。
+// panes=3（重ねメーカー /maker-overlay の「A ＋ B ＝ □」）でも同式で成立。
+export function paneSize(cellW: number, cellH: number, pair: PairLayout, panes = 2): number {
   if (pair === "horizontal") {
-    return Math.min(cellW / (2 + KGAP), cellH / (1 + KPAD));
+    return Math.min(cellW / (panes + (panes - 1) * KGAP), cellH / (1 + KPAD));
   }
-  return Math.min(cellW, cellH / (2 + KGAP + 2 * KPAD));
+  return Math.min(cellW, cellH / (panes + (panes - 1) * KGAP + 2 * KPAD));
 }
 
 // Pick cols×rows for `count` pair-cells on a W×H page (mm) maximizing pane size.
 // Dynamic: adapts to paper, pair orientation and count automatically. A light blank-cell
 // penalty breaks near-ties toward a fuller grid.
 export function gridFor(
-  count: number, pair: PairLayout, W: number, H: number, margin: number,
+  count: number, pair: PairLayout, W: number, H: number, margin: number, panes = 2,
 ): { cols: number; rows: number } {
   const usableW = W - margin * 2;
   const usableH = H - margin * 2;
   let best = { cols: 1, rows: count, score: -1 };
   for (let cols = 1; cols <= count; cols++) {
     const rows = Math.ceil(count / cols);
-    const pane = paneSize(usableW / cols, usableH / rows, pair);
+    const pane = paneSize(usableW / cols, usableH / rows, pair, panes);
     const blanks = cols * rows - count;
     const score = pane * (1 - 0.04 * (blanks / count));
     if (score > best.score) best = { cols, rows, score };

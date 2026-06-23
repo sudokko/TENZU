@@ -34,6 +34,9 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
     ?? (problemSet ? { ver: "v1.0", date: problemSet.publishedAt, note: "初版" } : undefined);
   const renderProblems: RenderProblem[] | undefined = problemSet?.problems.map((p) => ({
     n: p.grid.n, edges: p.edges,
+    ...(p.answer?.mode === "explicit" && { answerEdges: p.answer.edges }),
+    ...(p.answer?.mode === "derived" && p.answer.transform.type === "mirror"
+      && { mirrorAxis: p.answer.transform.axis }),
   }));
 
   /* ラダー: タスクの存在 Lv ごとに 1 段（グリッドは Lv 内の巻から集約・各巻へのリンク付き） */

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "recover": "node scripts/recover.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.1068.0",

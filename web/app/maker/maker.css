@@ -230,6 +230,10 @@ header.maker-header {
 .canvas-gridbar .seg {
   flex: 0 0 auto; min-width: 220px;
 }
+/* 作図設定バー（点の大きさ・一筆書き）— グリッドバー直下。横並び＆狭幅で折返し。 */
+.canvas-makebar .seg--dot { min-width: 200px; }
+.canvas-makebar .seg--toggle { min-width: 110px; }
+.canvas-makebar .makebar-note { flex-basis: 100%; margin: 2px 0 0; }
 
 .canvas-toolbar {
   padding: 14px 28px;
@@ -399,10 +403,12 @@ header.maker-header {
 /* =========================================================================
    RIGHT SIDEBAR: SAVED LIST + LAYOUT SELECTOR + PDF PREVIEW
    ========================================================================= */
-/* 保存済み — サムネ 3 列グリッド（タップで選択） */
+/* 保存済み — サムネのグリッド（タップで選択）。
+   ラベル付きの編集/削除ボタンが入るので、列は固定3列でなく最小幅で自動調整。
+   サイドバー幅（約330px）では自然に2列＝各約160px になり、ボタンが十分大きくなる。 */
 .saved-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 10px;
 }
 .saved-cell { position: relative; }
@@ -430,33 +436,85 @@ header.maker-header {
   font-size: 11px; line-height: 18px; text-align: center;
   pointer-events: none;
 }
-.saved-cell .del {
-  position: absolute; top: 2px; right: 2px;
-  width: 20px; height: 20px;
-  background: none; border: none; padding: 0;
-  font-size: 14px; line-height: 20px;
-  color: var(--fg-4); cursor: pointer;
-}
-.saved-cell .del:hover { color: var(--fg); }
 .saved-cell .cnum {
-  position: absolute; bottom: 3px; left: 6px;
+  position: absolute; top: 4px; right: 7px;
   font-family: var(--font-tier3-mono);
   font-size: 10px; color: var(--fg-3);
   letter-spacing: 0.04em;
   pointer-events: none;
 }
+/* 並べ替えはアクション行の下に中央寄せの 1 行（破壊的でないので小さめでOK） */
 .saved-cell .order {
-  position: absolute; bottom: 1px; right: 2px;
-  display: flex; gap: 2px;
+  display: flex; justify-content: center; gap: 12px;
+  margin-top: 4px;
 }
 .saved-cell .order button {
-  width: 18px; height: 18px;
+  width: 32px; height: 22px;
   background: none; border: none; padding: 0;
-  font-size: 13px; line-height: 18px;
+  font-size: 15px; line-height: 22px;
   color: var(--fg-3); cursor: pointer;
 }
 .saved-cell .order button:hover:not([disabled]) { color: var(--fg); }
 .saved-cell .order button[disabled] { color: var(--line-mid); cursor: default; }
+
+/* 保存済みセルの操作行 — 「編集」（大・主役）＋「削除」（アイコン）を横並び。
+   角の極小×を廃止してタップ事故を防ぐ（案B・2026-06-21）。 */
+.saved-cell .cell-actions {
+  display: flex; gap: 8px; margin-top: 8px;
+}
+.saved-cell .act-edit {
+  flex: 1 1 auto; height: 38px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: var(--radius-soft);
+  font-size: 13px; cursor: pointer;
+}
+.saved-cell .act-edit:hover { filter: brightness(1.08); }
+.saved-cell .act-edit svg { width: 14px; height: 14px; }
+.saved-cell .act-edit .lbl { line-height: 1; }
+.saved-cell.editing .act-edit { background: var(--fg); } /* 編集中は色を落ち着かせる */
+.saved-cell .act-del {
+  flex: 0 0 46px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; color: var(--fg-3);
+  border: 1px solid var(--line-mid); border-radius: var(--radius-soft);
+  cursor: pointer;
+}
+.saved-cell .act-del:hover { border-color: #B33A3A; color: #B33A3A; }
+.saved-cell .act-del svg { width: 15px; height: 15px; }
+/* 編集中の対象セル — teal の破線リングで「いま編集中」を示す（実線=選択中と区別） */
+.saved-cell.editing .thumb {
+  border-color: var(--accent);
+  outline: 2px dashed var(--accent);
+  outline-offset: 1px;
+}
+.saved-cell .edit-mark {
+  position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: #fff;
+  font-size: 9px; line-height: 1; letter-spacing: 0.04em;
+  padding: 3px 6px; border-radius: 999px;
+  pointer-events: none; white-space: nowrap;
+}
+
+/* 編集モード時のエディタ強調 */
+.canvas-toolbar.editing .title { color: var(--accent); }
+.canvas-toolbar.editing .title::before {
+  content: "● "; color: var(--accent); font-size: 0.7em; vertical-align: middle;
+}
+.gb-editing { color: var(--accent); font-family: var(--font-tier3-mono); font-size: 11px; }
+
+/* 「やめる」（編集破棄）ボタン — 保存ボタンの隣のゴースト */
+.canvas-actions .btn-cancel-edit {
+  flex: 0 0 auto;
+  background: none;
+  border: 1px solid var(--line-mid);
+  border-radius: var(--radius-soft);
+  color: var(--fg-3);
+  padding: 0 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.canvas-actions .btn-cancel-edit:hover { border-color: var(--fg); color: var(--fg); }
 
 .saved-empty {
   font-family: var(--font-tier2-pencil);
@@ -962,4 +1020,172 @@ header.maker-header {
   .print-page-footer .print-logo {
     height: 6.5mm; width: auto; display: block;
   }
+}
+
+/* 欠け補完メーカー（/maker-fill）: 公平性インラインバッジのみ追加 */
+.gb-fair { font-size: 12px; color: #6b727b; }
+.gb-fair.is-bad { color: #d04848; }
+
+/* =========================================================================
+   重ねメーカー（/maker-overlay）— 編集ステージ 3 ボード「図形A ＋ 図形B ＝ □」
+   既存クラスは不変。overlay 名前空間の追記のみ（他メーカーに無影響）。
+   ========================================================================= */
+.overlay-boards {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+}
+.overlay-board {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.overlay-board .ob-cap {
+  font-family: var(--font-tier3-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.overlay-board .paper-pane { width: 100%; }
+.overlay-board .paper-pane > svg { width: 100%; height: 100%; display: block; }
+.overlay-op {
+  flex: 0 0 auto;
+  align-self: center;
+  font-family: var(--font-tier1-klee);
+  font-size: 22px;
+  color: var(--fg-2);
+  user-select: none;
+  margin-top: 16px; /* ob-cap の高さ分だけ下げて盤面の縦中央に合わせる */
+}
+@media (max-width: 900px) {
+  .overlay-boards { flex-direction: column; align-items: center; gap: 6px; max-width: 340px; }
+  .overlay-op { margin-top: 0; }
+}
+/* 折り重ねメーカー: 式の並び=縦一列のとき編集ステージも縦並びに（折り方と連動） */
+.overlay-boards.is-vertical {
+  flex-direction: column;
+  align-items: center;
+  max-width: 380px;
+}
+.overlay-boards.is-vertical .overlay-board { width: 100%; }
+.overlay-boards.is-vertical .overlay-op { margin-top: 0; }
+/* 横向き(landscape)の狭幅端末: 式の並び=横一列なら横3列に戻す（重ねを横で想像しやすく）。
+   縦一列(is-vertical)を選んでいるときは縦のまま尊重する。 */
+@media (max-width: 900px) and (orientation: landscape) {
+  .overlay-boards:not(.is-vertical) {
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 760px;
+  }
+  .overlay-boards:not(.is-vertical) .overlay-board { width: auto; }
+  .overlay-boards:not(.is-vertical) .overlay-op { margin-top: 16px; }
+}
+
+/* 印刷フォールバック（window.print）: 3 ペイン横一列／縦一列 */
+@media print {
+  .print-problem.triple.pair-horizontal {
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+  }
+  .print-problem.triple.pair-vertical {
+    grid-template-columns: 1fr;
+  }
+  .print-op {
+    align-self: center;
+    justify-self: center;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5mm;
+    color: #777;
+  }
+}
+
+/* =========================================================================
+   有償化（tier ゲート）— 会員導線・ロック・アップセル
+   ========================================================================= */
+/* ヘッダー右の会員クラスタ */
+.maker-auth { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.maker-auth .ma-link {
+  font-family: var(--font-tier3-sans); font-size: 13px; color: var(--fg-2);
+  text-decoration: none; padding: 6px 4px; letter-spacing: 0.02em;
+}
+.maker-auth .ma-link:hover { color: var(--fg); text-decoration: underline; }
+.maker-auth .ma-cta {
+  font-family: var(--font-tier3-sans); font-weight: 500; font-size: 13px; color: var(--bg);
+  background: var(--accent); padding: 8px 15px; border-radius: var(--radius-soft);
+  text-decoration: none; letter-spacing: 0.02em;
+}
+.maker-auth .ma-cta:hover { background: var(--accent-ink); }
+.maker-auth .ma-badge {
+  font-family: var(--font-tier3-mono); font-size: 11px; color: var(--accent-ink);
+  border: 1px solid var(--accent); border-radius: 999px; padding: 3px 11px;
+  letter-spacing: 0.04em;
+}
+
+/* ロックされた選択肢（「奪う」でなく「発見」: 見せたまま薄く・鍵つき・クリックで /pricing） */
+.lockico { vertical-align: -1px; margin-left: 3px; opacity: 0.85; }
+button.locked {
+  position: relative; opacity: 0.62; cursor: pointer;
+}
+button.locked:hover { opacity: 0.85; outline: 1px dashed var(--accent); }
+button.locked[aria-pressed="true"] { opacity: 1; }
+.seg button.locked { color: var(--fg-3); }
+.paper-grid button.locked .pname,
+.layout-grid button.locked .lnum { color: var(--fg-3); }
+
+/* 詳細設定の先頭アップセル帯 */
+a.sf-upsell {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin: 0 0 14px; padding: 10px 12px;
+  background: color-mix(in srgb, var(--accent) 7%, var(--bg));
+  border: 1px dashed var(--accent); border-radius: var(--radius-soft);
+  text-decoration: none;
+}
+.sf-upsell-ic { display: none; } /* テキスト側の鍵で足りるため非表示（構造は残す） */
+.sf-upsell-tx {
+  font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-2);
+  line-height: 1.6; flex: 1 1 180px;
+}
+.sf-upsell-go {
+  font-family: var(--font-tier3-sans); font-weight: 600; font-size: 12px;
+  color: var(--accent-ink); white-space: nowrap;
+}
+a.sf-upsell:hover .sf-upsell-go { text-decoration: underline; }
+
+/* 保存上限ノート */
+.save-cap-note {
+  margin: 8px 0 0; font-family: var(--font-tier3-sans); font-size: 11.5px;
+  color: var(--fg-3); line-height: 1.6; text-align: center;
+}
+.save-cap-note a { color: var(--accent-ink); text-decoration: none; }
+.save-cap-note a:hover { text-decoration: underline; }
+
+/* 1 日 DL ソフトガードのナッジ */
+.daily-nudge {
+  margin: 0 0 8px; padding: 8px 10px;
+  background: color-mix(in srgb, var(--accent) 6%, var(--bg));
+  border-left: 2px solid var(--accent); border-radius: 2px;
+  font-family: var(--font-tier3-sans); font-size: 11.5px; color: var(--fg-2); line-height: 1.6;
+}
+.daily-nudge a { color: var(--accent-ink); text-decoration: none; font-weight: 600; }
+.daily-nudge a:hover { text-decoration: underline; }
+
+/* 完了画面のサブスク訴求 */
+.done-upsell {
+  margin-top: 22px; padding: 16px 18px;
+  background: var(--bg-2, #FAFAF8); border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+}
+.done-upsell .who {
+  display: block; font-family: var(--font-tier3-mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 6px;
+}
+.done-upsell p {
+  margin: 0 0 10px; font-family: var(--font-tier2-zen, var(--font-tier3-sans));
+  font-size: 13.5px; line-height: 1.85; color: var(--fg);
 }

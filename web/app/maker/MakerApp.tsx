@@ -10,6 +10,10 @@ import {
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "../products/print";
 import { PairChipIcon } from "../products/SkuPrintPreview";
+import {
+  capabilities, unlockLabel, PLANS, type Tier, type GridSize,
+} from "../products/capabilities";
+import { useAuth } from "../AuthContext";
 
 // =========================================================================
 // Types & constants
@@ -18,7 +22,7 @@ import { PairChipIcon } from "../products/SkuPrintPreview";
 type Point = { c: number; r: number };
 type Edge = { a: Point; b: Point };
 
-type GridSize = 3 | 4 | 5;
+// GridSize（3|4|5|6）は capabilities.ts（tier ゲート SSOT）で定義。
 
 type Problem = {
   id: string;
@@ -61,6 +65,12 @@ function edgeKey(e: Edge) {
   const [a, b] = [e.a, e.b].sort((p, q) => p.c - q.c || p.r - q.r);
   return `${a.c},${a.r}-${b.c},${b.r}`;
 }
+// 2つの辺集合が同一か（順序無視）。編集中の「未保存変更あり」判定に使う。
+function edgesEqual(a: Edge[], b: Edge[]) {
+  if (a.length !== b.length) return false;
+  const ka = new Set(a.map(edgeKey));
+  return b.every((e) => ka.has(edgeKey(e)));
+}
 function dotPos(c: number, r: number, dots: number) {
   if (dots <= 1) return { x: VIEW / 2, y: VIEW / 2 };
   const inset = VIEW * 0.10;
@@ -71,8 +81,18 @@ function uid() {
   return `p_${Math.random().toString(36).slice(2, 9)}`;
 }
 
+// 有料機能の鍵アイコン（「奪う」でなく「発見」: ロック要素はプレビューしつつ /pricing へ誘導）
+function Lock() {
+  return (
+    <svg className="lockico" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true">
+      <rect x="2.5" y="5.3" width="7" height="4.7" rx="1" fill="none" stroke="currentColor" strokeWidth="1" />
+      <path d="M4 5.3 V3.9 a2 2 0 0 1 4 0 V5.3" fill="none" stroke="currentColor" strokeWidth="1" />
+    </svg>
+  );
+}
+
 // =========================================================================
-// 完了画面レコメンド — 模写（図形）8段ラダー（products/data.ts SSOT）から
+// 完了画面レコメンド — 模写タスク8段ラダー（products/data.ts SSOT）から
 // 「作った問題と同じグリッドの最初の Vol」を起点に連続3冊を引く。
 // 3×3 のみ斜め有無で起点が分岐（#1 直線のみ / #2 ななめ導入）。
 // =========================================================================
@@ -315,17 +335,35 @@ function PaperSVG({
 // =========================================================================
 // MakerApp
 // =========================================================================
-export default function MakerApp() {
+export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier }) {
   // Body class for global background
   useEffect(() => {
     document.body.classList.add("maker-page");
     return () => document.body.classList.remove("maker-page");
   }, []);
 
+  // ---- Tier / capabilities ----
+  // サーバーが cookie から渡す initialTier で初期描画（フラッシュ回避）→
+  // クライアントの /api/me 応答（authReady）で確定値に置換。
+  const { tier: liveTier, ready: authReady } = useAuth();
+  const tier: Tier = authReady ? liveTier : initialTier;
+  const caps = capabilities(tier);
+
+  // アップグレード導線（ロック要素のクリック先）
+  function goPricing() {
+    window.location.href = "/pricing";
+  }
+
   // ---- Editor state (current problem) ----
   const [gridSize, setGridSize] = useState<GridSize>(5);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [selected, setSelected] = useState<Point | null>(null);
+  // 一筆書きモード（既定 OFF）: ON にすると終点クリック後にその点を次の線の始点として残す。
+  // 初見は「2 点クリックで 1 本」が直感的なので OFF 既定。細かいグリッドで連打が辛い人が ON にする。
+  const [oneStroke, setOneStroke] = useState(false);
+  // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const isEditing = editingId != null;
 
   // history stack of edge arrays — index points at current state
   const historyRef = useRef<Edge[][]>([[]]);
@@ -365,18 +403,22 @@ export default function MakerApp() {
     if (samePoint(selected, p)) { setSelected(null); return; }
     const next: Edge = { a: selected, b: p };
     const k = edgeKey(next);
+    // 一筆書き ON: 線を引いた後、終点を次の線の始点として残す（連続描画）。
+    // OFF: 従来どおり選択解除（線ごとに 2 点クリック）。
+    const after = oneStroke ? p : null;
     if (edges.some((e) => edgeKey(e) === k)) {
-      setSelected(null);
+      setSelected(after);
       return;
     }
     const updated = [...edges, next];
     setEdges(updated);
     pushHistory(updated);
-    setSelected(null);
+    setSelected(after);
   }
 
   function changeGridSize(n: GridSize) {
     if (n === gridSize) return;
+    if (editingId) return; // 編集中はグリッド固定（変えると編集中の線が消える事故になる）
     setGridSize(n);
     setEdges([]);
     setSelected(null);
@@ -397,32 +439,80 @@ export default function MakerApp() {
 
   // Switching paper clamps a manual per-page count to that paper's legible maximum.
   function selectPaper(k: PaperKey) {
+    if (!caps.papers.includes(k)) { goPricing(); return; }
     setPaperKey(k);
     const max = paperMax(k);
     setPerPage((p) => (p !== "auto" && p > max ? max : p));
   }
 
+  // tier 変更（ログイン/解約の反映）時に、各設定を現プランの範囲へ丸める。
+  useEffect(() => {
+    if (!caps.gridSizes.includes(gridSize)) changeGridSize(caps.gridSizes[caps.gridSizes.length - 1]);
+    if (!caps.papers.includes(paperKey)) setPaperKey("A4-P");
+    if (!caps.dotSizes.includes(dotSize)) setDotSize("m");
+    if (!caps.nameField && nameField) setNameField(false);
+    setPerPage((p) => (p !== "auto" && p > caps.perPageMax ? "auto" : p));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tier]);
+
   // ---- Saved problems ----
   const [saved, setSaved] = useState<Problem[]>([]);
   const [savingNo, setSavingNo] = useState(1);
 
-  function saveCurrent() {
-    if (edges.length === 0) return;
-    const id = uid();
-    const name = `無題 ${savingNo.toString().padStart(2, "0")}`;
-    setSaved((s) => [...s, { id, name, gridSize, edges, selected: true }]);
-    setSavingNo((n) => n + 1);
-    // reset canvas for next problem
+  const savedFull = saved.length >= caps.savedMax;
+  // 編集後/新規保存の共通リセット（キャンバスを空に戻す）
+  function resetCanvas() {
     setEdges([]);
     setSelected(null);
     historyRef.current = [[]];
     histIdxRef.current = 0;
+  }
+  function saveCurrent() {
+    if (edges.length === 0) return;
+    if (editingId) {
+      // 編集モード: その場で上書き（並び順・PDF 選択・名前は保持）→ 新規モードに戻る
+      setSaved((s) => s.map((p) => (p.id === editingId ? { ...p, gridSize, edges } : p)));
+      setEditingId(null);
+      resetCanvas();
+      return;
+    }
+    if (saved.length >= caps.savedMax) { goPricing(); return; } // 保存上限 → アップグレード導線
+    const id = uid();
+    const name = `無題 ${savingNo.toString().padStart(2, "0")}`;
+    setSaved((s) => [...s, { id, name, gridSize, edges, selected: true }]);
+    setSavingNo((n) => n + 1);
+    resetCanvas();
+  }
+  // 保存済み問題をエディタに読み込んで編集モードへ。未保存の変更があれば確認。
+  function startEdit(id: string) {
+    if (id === editingId) return; // すでにこれを編集中
+    const p = saved.find((x) => x.id === id);
+    if (!p) return;
+    const dirty = editingId
+      ? (() => { const o = saved.find((x) => x.id === editingId); return !o || !edgesEqual(edges, o.edges); })()
+      : edges.length > 0;
+    if (dirty && !window.confirm(editingId
+      ? "編集中の変更は保存されていません。破棄して別の問題を編集しますか？"
+      : "作りかけの問題があります。破棄して編集しますか？")) return;
+    setGridSize(p.gridSize);
+    setEdges(p.edges);
+    setSelected(null);
+    historyRef.current = [p.edges];
+    histIdxRef.current = 0;
+    setEditingId(id);
+    rerender();
+  }
+  // 編集をやめて新規モードへ（変更は破棄）
+  function cancelEdit() {
+    setEditingId(null);
+    resetCanvas();
   }
   function toggleSelectSaved(id: string) {
     setSaved((s) => s.map((p) => (p.id === id ? { ...p, selected: !p.selected } : p)));
   }
   function deleteSaved(id: string) {
     setSaved((s) => s.filter((p) => p.id !== id));
+    if (id === editingId) cancelEdit(); // 編集中の問題を消したら編集モードも解除
   }
   function moveSaved(id: string, dir: -1 | 1) {
     setSaved((s) => {
@@ -448,10 +538,12 @@ export default function MakerApp() {
 
   // ---- Derived: print payload ----
   const selectedSaved = useMemo(() => saved.filter((p) => p.selected), [saved]);
-  // おまかせ = 選択数を 1 ページに（用紙上限でクランプ）。0 問時は 1 扱い。
+  // 1 ページ問数の実上限 = 用紙の上限 ∩ tier の上限。
+  const perPageCap = Math.min(paperMax(paperKey), caps.perPageMax);
+  // おまかせ = 選択数を 1 ページに（上限でクランプ）。0 問時は 1 扱い。
   const effectivePerPage = perPage === "auto"
-    ? Math.max(1, Math.min(paperMax(paperKey), selectedSaved.length))
-    : perPage;
+    ? Math.max(1, Math.min(perPageCap, selectedSaved.length))
+    : Math.min(perPage, perPageCap);
   const pages = useMemo(() => {
     const ps: Problem[][] = [];
     for (let i = 0; i < selectedSaved.length; i += effectivePerPage) {
@@ -459,6 +551,25 @@ export default function MakerApp() {
     }
     return ps;
   }, [selectedSaved, effectivePerPage]);
+
+  // ---- 1 日の DL ソフトガード（ゲストのみ・localStorage・回避可能だが「無制限に見せない」）----
+  const [todayExports, setTodayExports] = useState(0);
+  const QUOTA_KEY = "tenzu_maker_quota";
+  function todayStr() { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; }
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(QUOTA_KEY);
+      if (raw) { const q = JSON.parse(raw); if (q && q.date === todayStr()) setTodayExports(q.count || 0); }
+    } catch { /* 壊れた値は無視 */ }
+  }, []);
+  function bumpExports() {
+    setTodayExports((n) => {
+      const next = n + 1;
+      try { localStorage.setItem(QUOTA_KEY, JSON.stringify({ date: todayStr(), count: next })); } catch { /* quota 無視 */ }
+      return next;
+    });
+  }
+  const overDailyLimit = caps.dailyExports != null && todayExports >= caps.dailyExports;
 
   // ---- PDF ダウンロード → 完了画面 ----
   const [done, setDone] = useState(false);
@@ -487,6 +598,7 @@ export default function MakerApp() {
       const p2 = (n: number) => String(n).padStart(2, "0");
       const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
       doc.save(`tenzu_${stamp}.pdf`);
+      bumpExports();
       setDone(true);
     } catch (err) {
       console.error("PDF export failed:", err);
@@ -505,7 +617,10 @@ export default function MakerApp() {
   }, [selectedSaved]);
 
   const edgeCountLabel = `線 ${edges.length} 本`;
-  const editingTitle = `問題 #${(saved.length + 1).toString().padStart(2, "0")} を作る`;
+  const editingNo = isEditing ? saved.findIndex((p) => p.id === editingId) + 1 : 0;
+  const editingTitle = isEditing
+    ? `問題 #${String(editingNo).padStart(2, "0")} を編集中`
+    : `問題 #${(saved.length + 1).toString().padStart(2, "0")} を作る`;
 
   const paper = PAPER[paperKey];
 
@@ -532,11 +647,24 @@ export default function MakerApp() {
           <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
           <div className="app-name">おためし点描写メーカー</div>
         </div>
+        <div className="maker-auth">
+          {tier === "guest" ? (
+            <>
+              <a className="ma-link" href="/login">ログイン</a>
+              <a className="ma-cta" href="/pricing">プランを見る</a>
+            </>
+          ) : (
+            <>
+              <span className="ma-badge">{tier === "full" ? PLANS.full.name : PLANS.entry.name}</span>
+              <a className="ma-link" href="/account">会員ページ</a>
+            </>
+          )}
+        </div>
       </header>
 
       {/* ============ DONE SCREEN ============ */}
       {done && reco ? (
-        <DoneScreen reco={reco} count={selectedSaved.length} onBack={() => setDone(false)} />
+        <DoneScreen reco={reco} count={selectedSaved.length} tier={tier} onBack={() => setDone(false)} />
       ) : (
       <>
       {/* ============ APP SHELL ============ */}
@@ -547,16 +675,50 @@ export default function MakerApp() {
           <div className="canvas-gridbar">
             <span className="gb-label">グリッドサイズ</span>
             <div className="seg" role="group" aria-label="グリッドサイズ">
-              {([3, 4, 5] as GridSize[]).map((n) => (
-                <button key={n} type="button"
-                  aria-pressed={gridSize === n}
-                  onClick={() => changeGridSize(n)}>
-                  {n}×{n}
-                </button>
-              ))}
+              {([3, 4, 5, 6, 7, 8] as GridSize[]).map((n) => {
+                const locked = !caps.gridSizes.includes(n);
+                return (
+                  <button key={n} type="button"
+                    className={locked ? "locked" : undefined}
+                    aria-pressed={gridSize === n}
+                    disabled={isEditing && gridSize !== n}
+                    onClick={() => (locked ? goPricing() : changeGridSize(n))}
+                    title={isEditing ? "編集中はグリッドを変えられません" : (locked ? unlockLabel("entry") : undefined)}>
+                    {n}×{n}{locked && <Lock />}
+                  </button>
+                );
+              })}
             </div>
+            {isEditing && <span className="gb-label gb-editing" style={{ marginLeft: "auto" }}>編集中はグリッド固定</span>}
           </div>
-          <div className="canvas-toolbar">
+
+          {/* 作図に効く設定（点の大きさ・一筆書き）をグリッドの直下に。詳細設定（PDF 出力系）とは分離。 */}
+          <div className="canvas-gridbar canvas-makebar">
+            <span className="gb-label">点の大きさ</span>
+            <div className="seg seg--dot" role="group" aria-label="点の大きさ">
+              {(["s", "m", "l"] as const).map((k) => {
+                const locked = !caps.dotSizes.includes(k);
+                return (
+                  <button key={k} type="button"
+                    className={locked ? "locked" : undefined}
+                    aria-pressed={dotSize === k}
+                    onClick={() => (locked ? goPricing() : setDotSize(k))}
+                    title={locked ? unlockLabel("entry") : undefined}>
+                    <span className="dot-sample"
+                      style={{ width: `${dotSampleDia(k)}mm`, height: `${dotSampleDia(k)}mm` }} />
+                    {k === "s" ? "小" : k === "m" ? "中" : "大"}{locked && <Lock />}
+                  </button>
+                );
+              })}
+            </div>
+            <span className="gb-label">一筆書き</span>
+            <div className="seg seg--toggle" role="group" aria-label="一筆書きモード">
+              <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)}>OFF</button>
+              <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
+            </div>
+            <p className="dot-sample-note makebar-note">一筆書き ON：点を続けてクリックすると、線がつながります。</p>
+          </div>
+          <div className={`canvas-toolbar${isEditing ? " editing" : ""}`}>
             <div className="title">
               {editingTitle}
               <span className="small">{gridSize} × {gridSize} · {paper.label}</span>
@@ -610,17 +772,32 @@ export default function MakerApp() {
                   onDotClick={handleDot}
                   showLines={true}
                   showActiveHighlight={true}
+                  dotScale={dotScale}
                 />
                 <div className="pp-stamp">{gridSize}×{gridSize}</div>
               </div>
             </div>
             <div className="canvas-actions">
-              <button className="btn-save" type="button" onClick={saveCurrent} disabled={edges.length === 0}>
-                この問題を保存する
+              <button className="btn-save" type="button" onClick={saveCurrent}
+                disabled={isEditing ? edges.length === 0 : (edges.length === 0 && !savedFull)}>
+                {isEditing ? "変更を保存" : "この問題を保存する"}
               </button>
+              {isEditing && (
+                <button className="btn-cancel-edit" type="button" onClick={cancelEdit}>
+                  やめる
+                </button>
+              )}
+              {savedFull && !isEditing && (
+                <p className="save-cap-note">
+                  保存できるのは {caps.savedMax} 問まで。
+                  <a href="/pricing">もっと保存できるプランへ →</a>
+                </p>
+              )}
             </div>
             <div className="canvas-help">
-              点をクリックして線をつなぎます。印刷時は、同じ大きさの書き込み用の空欄がセットで付きます。仕上がりは「出力プレビュー」で確認できます。
+              {isEditing
+                ? "保存済みの問題を編集中です。線を直して「変更を保存」を押すと、元の問題が上書きされます（並び順とPDF選択はそのまま）。"
+                : "点をクリックして線をつなぎます。印刷時は、同じ大きさの書き込み用の空欄がセットで付きます。仕上がりは「出力プレビュー」で確認できます。"}
             </div>
           </div>
         </main>
@@ -638,8 +815,9 @@ export default function MakerApp() {
               <div className="saved-grid">
                 {saved.map((p, i) => {
                   const num = (i + 1).toString().padStart(2, "0");
+                  const beingEdited = editingId === p.id;
                   return (
-                    <div className={`saved-cell${p.selected ? " sel" : ""}`} key={p.id}>
+                    <div className={`saved-cell${p.selected ? " sel" : ""}${beingEdited ? " editing" : ""}`} key={p.id}>
                       <button className="thumb" type="button"
                         role="checkbox"
                         aria-checked={p.selected}
@@ -648,17 +826,40 @@ export default function MakerApp() {
                         <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} />
                       </button>
                       {p.selected && <span className="sel-mark" aria-hidden="true">✓</span>}
-                      <button className="del" type="button" aria-label={`問題 ${num} を削除`}
-                        onClick={() => {
-                          if (window.confirm(`この問題（#${num}）を削除しますか？`)) deleteSaved(p.id);
-                        }}>×</button>
+                      {beingEdited && <span className="edit-mark" aria-hidden="true">編集中</span>}
                       <span className="cnum">{num}</span>
-                      <span className="order">
+                      {/* 編集・削除は大きいラベル付きボタンを横並び（角の極小×は廃止＝誤タップ対策・案B 2026-06-21） */}
+                      <div className="cell-actions">
+                        <button className="act-edit" type="button"
+                          aria-label={`問題 ${num} を編集`}
+                          aria-pressed={beingEdited}
+                          onClick={() => startEdit(p.id)}>
+                          <svg viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M10.5 2.5 L13.5 5.5 L5.5 13.5 L2.5 13.5 L2.5 10.5 Z"
+                              fill="none" stroke="currentColor" strokeWidth="1.4"
+                              strokeLinejoin="round" strokeLinecap="round" />
+                          </svg>
+                          <span className="lbl">{beingEdited ? "編集中" : "編集"}</span>
+                        </button>
+                        <button className="act-del" type="button" aria-label={`問題 ${num} を削除`}
+                          onClick={() => {
+                            if (window.confirm(`この問題（#${num}）を削除しますか？`)) deleteSaved(p.id);
+                          }}>
+                          <svg viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M 2.5 4.5 L 13.5 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                            <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="currentColor" strokeWidth="1.4"
+                              strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="currentColor" strokeWidth="1.4"
+                              strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div className="order">
                         <button type="button" aria-label="ひとつ前へ" disabled={i === 0}
                           onClick={() => moveSaved(p.id, -1)}>‹</button>
                         <button type="button" aria-label="ひとつ後へ" disabled={i === saved.length - 1}
                           onClick={() => moveSaved(p.id, 1)}>›</button>
-                      </span>
+                      </div>
                     </div>
                   );
                 })}
@@ -680,21 +881,34 @@ export default function MakerApp() {
             <summary>
               <span className="sf-label">詳細設定<span className="sf-chevron" aria-hidden="true" /></span>
               <span className="sf-current">
-                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "horizontal" ? "横" : "下"} · 点: {dotSize === "s" ? "小" : dotSize === "m" ? "中" : "大"} · 名前欄: {nameField ? "あり" : "なし"}
+                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "horizontal" ? "横" : "下"} · 名前欄: {nameField ? "あり" : "なし"}
               </span>
             </summary>
             <div className="sf-body">
+
+            {tier === "guest" && (
+              <a className="sf-upsell" href="/pricing">
+                <span className="sf-upsell-ic"><Lock /></span>
+                <span className="sf-upsell-tx">
+                  <Lock /> のついた設定は {PLANS.entry.name}（¥{PLANS.entry.yen}/月）で解放されます
+                </span>
+                <span className="sf-upsell-go">プランを見る →</span>
+              </a>
+            )}
 
             <div className="group">
               <h3>用紙</h3>
               <div className="paper-grid" role="group" aria-label="用紙サイズ">
                 {PAPER_KEYS.map((k) => {
                   const p = PAPER[k];
+                  const locked = !caps.papers.includes(k);
                   return (
                     <button key={k} type="button"
+                      className={locked ? "locked" : undefined}
                       aria-pressed={paperKey === k}
-                      onClick={() => selectPaper(k)}>
-                      <span className="pname">{p.label}</span>
+                      onClick={() => selectPaper(k)}
+                      title={locked ? unlockLabel("entry") : undefined}>
+                      <span className="pname">{p.label}{locked && <Lock />}</span>
                       <span className="pdim">{p.w}×{p.h}</span>
                     </button>
                   );
@@ -712,10 +926,13 @@ export default function MakerApp() {
                 </button>
                 {COUNT_OPTIONS.filter((v) => v <= paperMax(paperKey)).map((v) => {
                   const g = gridFor(v, pairLayout, paper.w, paper.h, marginMm);
+                  const locked = v > caps.perPageMax;
                   return (
                   <button key={v} type="button"
+                    className={locked ? "locked" : undefined}
                     aria-pressed={perPage === v}
-                    onClick={() => setPerPage(v)}>
+                    onClick={() => (locked ? goPricing() : setPerPage(v))}
+                    title={locked ? unlockLabel("entry") : undefined}>
                     <span className="ldiagram"
                       style={{
                         gridTemplateColumns: `repeat(${g.cols}, 1fr)`,
@@ -723,7 +940,7 @@ export default function MakerApp() {
                       }}>
                       {Array.from({ length: g.cols * g.rows }, (_, i) => <span key={i} />)}
                     </span>
-                    <span className="lnum">{v} 問</span>
+                    <span className="lnum">{v} 問{locked && <Lock />}</span>
                   </button>
                   );
                 })}
@@ -749,22 +966,6 @@ export default function MakerApp() {
             </div>
 
             <div className="group">
-              <h3>点の大きさ</h3>
-              <div className="seg seg--dot" role="group" aria-label="点の大きさ">
-                {(["s", "m", "l"] as const).map((k) => (
-                  <button key={k} type="button"
-                    aria-pressed={dotSize === k}
-                    onClick={() => setDotSize(k)}>
-                    <span className="dot-sample"
-                      style={{ width: `${dotSampleDia(k)}mm`, height: `${dotSampleDia(k)}mm` }} />
-                    {k === "s" ? "小" : k === "m" ? "中" : "大"}
-                  </button>
-                ))}
-              </div>
-              <p className="dot-sample-note">●は実際に印刷される点の大きさ（今の用紙・問数での目安）</p>
-            </div>
-
-            <div className="group">
               <h3>名前・日付の記入欄</h3>
               <div className="seg" role="group" aria-label="名前・日付の記入欄">
                 <button type="button"
@@ -773,9 +974,11 @@ export default function MakerApp() {
                   つけない
                 </button>
                 <button type="button"
+                  className={!caps.nameField ? "locked" : undefined}
                   aria-pressed={nameField}
-                  onClick={() => setNameField(true)}>
-                  つける
+                  onClick={() => (caps.nameField ? setNameField(true) : goPricing())}
+                  title={!caps.nameField ? unlockLabel("entry") : undefined}>
+                  つける{!caps.nameField && <Lock />}
                 </button>
               </div>
             </div>
@@ -813,6 +1016,12 @@ export default function MakerApp() {
                 </>
               )}
             </div>
+            {overDailyLimit && (
+              <p className="daily-nudge">
+                きょうは {caps.dailyExports} 枚そろいました。たっぷり刷るなら
+                <a href="/pricing"> {PLANS.entry.name}（¥{PLANS.entry.yen}/月）→</a>
+              </p>
+            )}
             <button className="btn-export" type="button"
               onClick={doExport} disabled={selectedSaved.length === 0 || exporting}>
               {exporting ? "PDF を作成中…" : "PDF をダウンロード"}
@@ -894,17 +1103,21 @@ function doneMemo(maxGrid: GridSize, usedDiag: boolean): string {
   if (maxGrid === 3 && !usedDiag) {
     return "まっすぐの線がすらすら書けていたら、つぎは「斜め」が壁になります。同じ3×3のまま、斜め線だけが加わる一冊を下に置いておきますね。";
   }
+  if (maxGrid >= 6) {
+    return `${maxGrid}×${maxGrid}まで描けたら、もう十分すぎる手ごたえです。あとは角度を自由にしたり、紙の上で好きなだけ伸ばしたり。同じ細かさから始められる一冊も、下に置いておきますね。`;
+  }
   if (maxGrid >= 5) {
-    return "5×5がちょうどよければ、もう点描写の標準サイズです。ここから先は、角度が自由になったり、マスが6×6に広がったり。このメーカーでは作れない世界が続きます。";
+    return "5×5がちょうどよければ、もう点描写の標準サイズです。ここから先は、角度が自由になったり、マスがもっと広がったり。一段ずつ伸ばしていけます。";
   }
   return "いま作った問題が「ちょうどいい」と感じたら、その手ごたえがいちばんの目安です。同じ細かさから始められる一冊を、下に置いておきますね。";
 }
 
 function DoneScreen({
-  reco, count, onBack,
+  reco, count, tier, onBack,
 }: {
   reco: { maxGrid: GridSize; usedDiag: boolean; vols: Vol[] };
   count: number;
+  tier: Tier;
   onBack: () => void;
 }) {
   return (
@@ -953,6 +1166,17 @@ function DoneScreen({
             <a className="done-ghost" href="/level-guide">どのレベルが合うか迷ったら — レベル選びガイドへ</a>
           </div>
         </div>
+
+        {tier === "guest" && (
+          <div className="done-upsell">
+            <span className="who">メーカーをもっと使うなら</span>
+            <p>
+              {PLANS.entry.name}（¥{PLANS.entry.yen}/月）なら、1 枚に 4〜12 問・B4 / A3・記名欄つき。
+              きょうみたいな練習プリントを、好きなだけ刷れます。
+            </p>
+            <a className="done-ghost" href="/pricing">プランを見る →</a>
+          </div>
+        )}
 
         <div className="done-actions">
           <button type="button" className="done-back" onClick={onBack}>← つづきを作る</button>

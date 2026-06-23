@@ -158,6 +158,13 @@
 .atl-card:hover { border-color: #2c6e7f; }
 .atl-card--adopted { border: 1.5px solid #2c6e7f; cursor: default; }
 .atl-card--rejected { opacity: 0.55; cursor: default; }
+.atl-card--motif { background: #fbfbf7; }
+.atl-card--motif:hover { border-color: #c5a570; }
+.atl-inspo-name {
+  font-size: 11px; color: #8a6f3e; margin-top: 4px; text-align: center;
+}
+.atl-lane--motif { margin-top: 32px; padding-top: 20px; border-top: 1px dashed #d8dce2; }
+.atl-lane--motif h2 { color: #8a6f3e; }
 .atl-thumb { display: block; width: 100%; height: auto; border: 1px dotted #eceef2; }
 .atl-card figcaption { font-size: 11px; color: #6b7280; margin-top: 6px; line-height: 1.5; }
 .atl-order {
@@ -211,3 +218,17 @@
 .atl-editor-actions button:hover:not(:disabled) { border-color: #2c6e7f; color: #2c6e7f; }
 .atl-editor-actions button:disabled { opacity: 0.45; cursor: default; }
 .atl-editor-actions .atl-btn--pub:hover:not(:disabled) { color: #fff; }
+
+/* 欠け補完(fill)の編集モード切替（F を直す／R を直す）と公平性注記 */
+.atl-editor-mode { display: flex; align-items: center; gap: 6px; margin: 0 0 10px 0; }
+.atl-editor-mode .atl-mode {
+  background: #fff; border: 1px solid #d6d9dd; color: #3a424e; border-radius: 999px;
+  padding: 5px 12px; font-size: 12.5px; cursor: pointer;
+}
+.atl-editor-mode .atl-mode.is-sel {
+  background: #2c6e7f; border-color: #2c6e7f; color: #fff;
+}
+.atl-editor-mode .atl-fair {
+  margin-left: auto; font-size: 12px; color: #6b727b;
+}
+.atl-editor-mode .atl-fair.is-bad { color: #d04848; }
