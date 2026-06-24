@@ -1,22 +1,22 @@
 "use client";
 
 /* =========================================================================
-   分解メーカー（内部用・/maker-decompose）
-   かさね(overlay)の逆。重なった全体「正解の図」から片方「引くもの」を
-   取り除いた残り（こたえ）を子に描かせる新タスク（data.ts slug=decompose・
-   group C「重ねる・分ける」・answerMode=explicit）。
-   - 編集は3キャンバス: 正解の図(C) 編集・引くもの(B) 編集・こたえ結果プレビュー（読み取り専用）
-   - 保存問題は { gridSize, edgesA(=正解の図), edgesB(=引くもの) }
-   - こたえ = C ∖ B（C の辺のうち B に無いもの＝集合差）
-   - 結果プレビューは のこり=墨 / 取り除く線=teal で色分け（目視確認用・印刷は単色）
-   - PDF/プレビューは 正解の図・引くもの・空欄を一列に。連結記号は − と ＝
-   - 解答 PDF を別出力（用紙MAX・空欄に C∖B を描き込み・「かいとう」見出し）
+   平行移動メーカー（内部用・/maker-translate）
+   拡大メーカー（/maker-scale）と同じ scaffolding で、F（もとの図）＋ 移動先（●）から
+   R = translate(F, dc, dr) を自動算出。
+   - 起点 = 最初に置いた点 edges[0].a（★「きてん」）。拡大の不動点と同じ思想。
+   - 移動先 = 盤面を 1 クリックで置く点（●「ここへ」）。起点 ★ がここへ着地するよう
+     図形全体を平行移動する。ベクトル (dc,dr) = 移動先 − 起点（距離入力はしない）。
+   - 平行移動図が n×n 枠に収まるかをライブ判定。はみ出すと保存・PDF を抑止。
+   - 編集画面に「もとの図 → うつした図（けっか）」の 2 ペインを並べてライブ表示。
+   - 保存問題は { gridSize, edges: F, dc, dr }（schema の translate と整合）。
+   - PDF/プレビューはもとの図ペイン=F＋★／かくマスペイン=出題は空＋●・解答は R＋★。
+   - 出題＋解答を 1 PDF に連結（解答ページ上端に「かいとう」見出し）。
+   - 並びは答えに影響しない（紙面レイアウトだけ）。
    ヘッダー・LP・フッターから動線なし。robots noindex。
-   レイアウトエンジン（PAPER/gridFor/paneSize）は products/print.ts（SSOT）を
-   panes=3 で呼ぶ。ベース＝重ねメーカー（/maker-overlay・∪ を ∖ に差し替え）。
    ========================================================================= */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
   KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
@@ -26,32 +26,93 @@ import { PairChipIcon } from "../products/SkuPrintPreview";
 
 // =========================================================================
 // Types & constants
+// レイアウトエンジン（PAPER/gridFor/paneSize 等）は products/print.ts（SSOT）から import
 // =========================================================================
 type Point = { c: number; r: number };
 type Edge = { a: Point; b: Point };
 
-type GridSize = 3 | 4 | 5 | 6;
-type Board = "A" | "B"; // A=正解の図 / B=引くもの
+type GridSize = 3 | 4 | 5 | 6; // 平行移動は family 標準（3×3〜6×6・商品の 3×3/4×4 に整合）
 
-/* edgesA=正解の図（重なった全体 C）／edgesB=引くもの（取り除く片方 B）。
-   こたえは描画時に C ∖ B（C の辺で B に無いもの）を算出する。 */
 type Problem = {
   id: string;
   name: string;
   gridSize: GridSize;
-  edgesA: Edge[];
-  edgesB: Edge[];
+  edges: Edge[];
+  dc: number; // 移動ベクトル（保存時に確定・収まることを検証済）
+  dr: number;
   selected: boolean;
 };
 
+/* 各点を (dc,dr) だけ平行移動。形・向き・大きさは変えない */
+function translatePoint(p: Point, dc: number, dr: number): Point {
+  return { c: p.c + dc, r: p.r + dr };
+}
+function translateEdgesOf(edges: Edge[], dc: number, dr: number): Edge[] {
+  return edges.map((e) => ({ a: translatePoint(e.a, dc, dr), b: translatePoint(e.b, dc, dr) }));
+}
+function inGrid(edges: Edge[], n: number): boolean {
+  return edges.every((e) => [e.a, e.b].every((p) => p.c >= 0 && p.c <= n - 1 && p.r >= 0 && p.r <= n - 1));
+}
+
+/* 起点（最初に置いた点 edges[0].a・★）が移動先 target（●）へ着地するよう全点を平行移動。
+   target 未指定（クリック前）は移動なし＝ fits=true で警告を出さない。
+   平行移動後が枠を超えるかは判定するが、自動では動かさない（起点・移動先・グリッドで人が調整）。 */
+function computeTranslate(edges: Edge[], target: Point | null, n: number):
+  { edges: Edge[]; star?: Point; targetMark?: Point; dc: number; dr: number; fits: boolean } {
+  if (edges.length === 0) return { edges: [], dc: 0, dr: 0, fits: true };
+  const start = edges[0].a; // 起点 ★
+  if (!target) return { edges: [], star: start, dc: 0, dr: 0, fits: true };
+  const dc = target.c - start.c, dr = target.r - start.r;
+  const R = translateEdgesOf(edges, dc, dr);
+  return { edges: R, star: start, targetMark: target, dc, dr, fits: inGrid(R, n) };
+}
+
+/* 移動量を日本語の方向ラベルに（右2・下1 など）。ラベル表示専用 */
+function dirText(dc: number, dr: number): string {
+  if (dc === 0 && dr === 0) return "移動なし";
+  const h = dc > 0 ? `右${dc}` : dc < 0 ? `左${-dc}` : "";
+  const v = dr > 0 ? `下${dr}` : dr < 0 ? `上${-dr}` : "";
+  return [h, v].filter(Boolean).join("・");
+}
+
+/* 5 角星 SVG path 文字列。pos 中心・size=外接半径。dot に重ねて基準マーカーとして使う */
+function starPathD(cx: number, cy: number, outer: number): string {
+  const inner = outer * 0.4;
+  let d = "";
+  for (let i = 0; i < 10; i++) {
+    const ang = (Math.PI / 5) * i - Math.PI / 2;
+    const r = i % 2 === 0 ? outer : inner;
+    const x = cx + Math.cos(ang) * r;
+    const y = cy + Math.sin(ang) * r;
+    d += (i === 0 ? "M" : "L") + x.toFixed(2) + "," + y.toFixed(2);
+  }
+  return d + "Z";
+}
+
 const VIEW = 200;
 // Soft ink color — used for all drawn dots/lines/labels in panes (printable side).
+// UI chrome (toolbar buttons, etc.) stays at the original --fg.
 const INK = "#3A424E";
-// 結果プレビューで「取り除く線」を示す teal（編集プレビューのみ・印刷は常に単色 PRINT_INK）
-const INK_B = "#2C6E7F";
-// 引くもの編集の下敷きに薄く出す「正解の図 C」のゴースト色（なぞって引くためのガイド・編集時のみ）
-const GHOST_INK = "#3A424E";
-const GHOST_OPACITY = 0.2;
+
+// Outlined block arrow — used between もとの図 / かくマス
+// 細線＋小さな矢じり（案A・2026-06-12）。x,y は線の始点。
+function ArrowSVG({ x, y, size, dir, color }: {
+  x: number; y: number; size: number; dir: "right" | "down"; color: string;
+}) {
+  const hd = size * 0.3; // 矢じりの開き
+  const sw = Math.max(0.35, size * 0.04);
+  const d = dir === "right"
+    ? `M0 0 L${size} 0 M${size - hd} ${-hd} L${size} 0 L${size - hd} ${hd}`
+    : `M0 0 L0 ${size} M${-hd} ${size - hd} L0 ${size} L${hd} ${size - hd}`;
+  return (
+    <path
+      d={d}
+      transform={`translate(${x},${y})`}
+      fill="none" stroke={color} strokeWidth={sw}
+      strokeLinejoin="round" strokeLinecap="round"
+    />
+  );
+}
 
 function pointKey(p: Point) { return `${p.c},${p.r}`; }
 function samePoint(a: Point | null, b: Point | null) {
@@ -60,38 +121,6 @@ function samePoint(a: Point | null, b: Point | null) {
 function edgeKey(e: Edge) {
   const [a, b] = [e.a, e.b].sort((p, q) => p.c - q.c || p.r - q.r);
   return `${a.c},${a.r}-${b.c},${b.r}`;
-}
-/* 辺を「単位線分」（格子上の隣接点をつなぐ最小の線）へ分解する。
-   長い線や、視覚的に重なるが端点が違う線どうしを、重なりで判定できるようにするため。
-   例: (2,0)-(2,3) → (2,0)-(2,1) / (2,1)-(2,2) / (2,2)-(2,3) の 3 本。 */
-function gcd(a: number, b: number): number { return b === 0 ? a : gcd(b, a % b); }
-function unitSegments(e: Edge): Edge[] {
-  const dc = e.b.c - e.a.c, dr = e.b.r - e.a.r;
-  const g = gcd(Math.abs(dc), Math.abs(dr));
-  if (g <= 1) return [e]; // これ以上分割できない（既に最小）
-  const sc = dc / g, sr = dr / g;
-  const segs: Edge[] = [];
-  for (let i = 0; i < g; i++) {
-    segs.push({
-      a: { c: e.a.c + sc * i, r: e.a.r + sr * i },
-      b: { c: e.a.c + sc * (i + 1), r: e.a.r + sr * (i + 1) },
-    });
-  }
-  return segs;
-}
-/* こたえ＝C∖B／取り除く線＝C∩B を「単位線分」レベルで計算。
-   B の線が C の線に視覚的に重なっていれば（端点が完全一致でなくても）その重なり部分を取り除く。
-   C のどの単位線分とも重ならない B の線は無効＝こたえにも取り除きにも出ない。 */
-function diffEdges(edgesA: Edge[], edgesB: Edge[]): { answer: Edge[]; removed: Edge[] } {
-  const bUnits = new Set(edgesB.flatMap(unitSegments).map(edgeKey));
-  const answer: Edge[] = [];
-  const removed: Edge[] = [];
-  for (const e of edgesA) {
-    for (const u of unitSegments(e)) {
-      (bUnits.has(edgeKey(u)) ? removed : answer).push(u);
-    }
-  }
-  return { answer, removed };
 }
 function dotPos(c: number, r: number, dots: number) {
   if (dots <= 1) return { x: VIEW / 2, y: VIEW / 2 };
@@ -103,47 +132,30 @@ function uid() {
   return `p_${Math.random().toString(36).slice(2, 9)}`;
 }
 
-/* 連結記号 − / ＝ — 細い SVG ストローク（中心 x,y）。React 用とPDF文字列用で同形。
-   並びの流れに合わせて 90°回転（横並び=水平／縦並び=垂直）。重ね・折り重ねと同規約。 */
-function opGlyphPath(x: number, y: number, size: number, kind: "minus" | "eq", vertical = false): string {
-  const s = size / 2;
-  const g = size * 0.24;
-  if (kind === "minus") {
-    return vertical
-      ? `M${x} ${y - s} L${x} ${y + s}`
-      : `M${x - s} ${y} L${x + s} ${y}`;
-  }
-  return vertical
-    ? `M${x - g} ${y - s} L${x - g} ${y + s} M${x + g} ${y - s} L${x + g} ${y + s}`
-    : `M${x - s} ${y - g} L${x + s} ${y - g} M${x - s} ${y + g} L${x + s} ${y + g}`;
-}
-function OpGlyph({ x, y, size, kind, color, vertical }: {
-  x: number; y: number; size: number; kind: "minus" | "eq"; color: string; vertical?: boolean;
-}) {
-  return (
-    <path d={opGlyphPath(x, y, size, kind, vertical)} fill="none" stroke={color}
-      strokeWidth={Math.max(0.4, size * 0.1)} strokeLinecap="round" />
-  );
-}
-function opGlyphSvgString(x: number, y: number, size: number, kind: "minus" | "eq", color: string, vertical = false): string {
-  return `<path d="${opGlyphPath(x, y, size, kind, vertical)}" fill="none" stroke="${color}" stroke-width="${Math.max(0.4, size * 0.1)}" stroke-linecap="round"/>`;
-}
+/* 内部用ツールのため完了画面のレコメンドは省略（copy 側のみ） */
 
 // =========================================================================
 // PDF 生成 — jsPDF ＋ ページ SVG → 300dpi PNG 焼き込み。
-// レイアウトは印刷系と同じ gridFor / paneSize / KGAP を panes=3 で共有。
+// window.print() はスマホで使いものにならないため、ファイルとして
+// ダウンロードさせる（コンビニ印刷・プリンタアプリにもそのまま渡せる）。
+// レイアウトは印刷系と同じ gridFor / paneSize / KGAP を共有。
 // =========================================================================
 const PX_PER_MM = 300 / 25.4; // 300dpi
 
 // 1ペイン（盤面）を mm 座標の SVG 断片で描く。比率は PaperSVG（r=1.6/VIEW200）準拠。
+// starAt=起点★（「きてん」）／ targetAt=移動先●（「ここへ」・中空リング）
 function paneSvgString(
   x: number, y: number, pane: number, gridSize: GridSize, edges: Edge[], showLines: boolean,
-  dotScale: number,
+  dotScale: number, starAt?: Point, targetAt?: Point,
 ): string {
   const inset = pane * 0.10;
   const step = (pane - inset * 2) / (gridSize - 1);
   const P = (c: number, r: number) => ({ x: x + inset + c * step, y: y + inset + r * step });
   const dotR = dotRadius(pane, dotScale);
+  const starR = Math.max(dotR * 4.2, pane * 0.035); // 起点★（強調・大きめ）
+  const tR = Math.max(dotR * 3.4, pane * 0.030);    // 移動先●（リング）
+  const labelFs = Math.max(2.2, pane * 0.058);
+  const jpFont = "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif";
   const lineW = edgeWidth(pane);
   let s = "";
   if (showLines) {
@@ -155,10 +167,35 @@ function paneSvgString(
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
       const p = P(c, r);
-      s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
+      if (starAt && c === starAt.c && r === starAt.r) {
+        const labelY = r === gridSize - 1 ? p.y - starR - labelFs * 0.3 : p.y + starR + labelFs;
+        s += `<path d="${starPathD(p.x, p.y, starR)}" fill="${PRINT_INK}"/>`;
+        s += `<text x="${p.x}" y="${labelY}" text-anchor="middle" font-family="${jpFont}" font-size="${labelFs}" font-weight="700" fill="${PRINT_INK}">きてん</text>`;
+      } else if (targetAt && c === targetAt.c && r === targetAt.r) {
+        const labelY = r === gridSize - 1 ? p.y - tR - labelFs * 0.3 : p.y + tR + labelFs;
+        const ring = Math.max(0.5, pane * 0.012);
+        s += `<circle cx="${p.x}" cy="${p.y}" r="${tR}" fill="none" stroke="${PRINT_INK}" stroke-width="${ring}"/>`;
+        s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
+        s += `<text x="${p.x}" y="${labelY}" text-anchor="middle" font-family="${jpFont}" font-size="${labelFs}" font-weight="700" fill="${PRINT_INK}">ここへ</text>`;
+      } else {
+        s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
+      }
     }
   }
   return s;
+}
+
+/* もとの図⇔かくマスの境界に細線矢印（模写と同じ）。移動方向は ★(起点)→●(移動先) で示す */
+function arrowSvgString(
+  cx: number, cy: number, pane: number, gap: number, pair: PairLayout,
+): string {
+  const aSize = gap * 0.9;
+  const hd = aSize * 0.3;
+  const sw = Math.max(0.35, aSize * 0.04);
+  if (pair === "horizontal") {
+    return `<path d="M0 0 L${aSize} 0 M${aSize - hd} ${-hd} L${aSize} 0 L${aSize - hd} ${hd}" transform="translate(${cx + pane + (gap - aSize) / 2},${cy + pane / 2})" fill="none" stroke="${PRINT_INK}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>`;
+  }
+  return `<path d="M0 0 L0 ${aSize} M${-hd} ${aSize - hd} L0 ${aSize} L${hd} ${aSize - hd}" transform="translate(${cx + pane / 2},${cy + pane + (gap - aSize) / 2})" fill="none" stroke="${PRINT_INK}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>`;
 }
 
 type LogoInfo = { url: string; w: number; h: number };
@@ -176,7 +213,7 @@ function buildPageSvg(opts: {
   nameField: boolean;
   dotScale: number;
   logo: LogoInfo | null;
-  answer?: boolean; // true=解答ページ群（空欄ペインに C∖B を描画）
+  answer?: boolean; // true=解答ページ群（かくマス側に R 描画）
 }): string {
   const { paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale, logo } = opts;
   const W = paper.w, H = paper.h;
@@ -184,13 +221,12 @@ function buildPageSvg(opts: {
   const nameH = nameField ? NAME_BAND_MM : 0;
   // 解答ページのみ「かいとう」見出し帯を確保（上端）
   const titleH = opts.answer ? 12 : 0;
-  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - footerH - nameH - titleH, marginMm, 3);
+  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - footerH - nameH - titleH, marginMm);
   const cellW = (W - marginMm * 2) / cols;
   const cellH = (H - marginMm * 2 - footerH - nameH - titleH) / rows;
   const pad = Math.min(cellW, cellH) * CELL_PAD;
-  const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout, 3);
+  const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout);
   const gap = pane * KGAP;
-  const opSize = gap * 0.5;
   const jpFont = "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif";
 
   let body = "";
@@ -208,32 +244,32 @@ function buildPageSvg(opts: {
 
     const areaY = cy;
     const areaH = cellH;
-    /* 出題: ペイン1=正解の図／ペイン2=引くもの／ペイン3=空欄（子が残りを描く）
-       解答: ペイン3に C∖B を描き込み。連結記号は − / ＝（共通） */
-    const resultEdges = opts.answer ? diffEdges(p.edgesA, p.edgesB).answer : [];
-    const showResult = Boolean(opts.answer);
+    /* 出題と解答で同じペアレイアウトを共用。違いはかくマスペインの中身だけ。
+       出題: もとの図=F＋★(起点)／かくマス=空欄＋●(移動先・ここへ)
+       解答: もとの図=F＋★／かくマス=R＋★(起点が着地した位置)
+       境界は標準の細線矢印 */
+    const start = p.edges[0]?.a;
+    if (!start) return;
+    const tgt = { c: start.c + p.dc, r: start.r + p.dr };
+    const answerEdges = opts.answer ? translateEdgesOf(p.edges, p.dc, p.dr) : [];
+    const rightEdges = answerEdges;
+    const rightShow = Boolean(opts.answer);
+    const rightStar = opts.answer ? tgt : undefined;       // 解答=★(着地位置)
+    const rightTarget = opts.answer ? undefined : tgt;     // 出題=●(行き先)
     if (pairLayout === "horizontal") {
-      const blockW = pane * 3 + gap * 2;
-      const sx = cx + (cellW - blockW) / 2;
+      const pairW = pane * 2 + gap;
+      const sx = cx + (cellW - pairW) / 2;
       const sy = areaY + (areaH - pane) / 2;
-      const x2 = sx + pane + gap;
-      const x3 = sx + 2 * (pane + gap);
-      body += paneSvgString(sx, sy, pane, p.gridSize, p.edgesA, true, dotScale);
-      body += paneSvgString(x2, sy, pane, p.gridSize, p.edgesB, true, dotScale);
-      body += paneSvgString(x3, sy, pane, p.gridSize, resultEdges, showResult, dotScale);
-      body += opGlyphSvgString(sx + pane + gap / 2, sy + pane / 2, opSize, "minus", PRINT_INK);
-      body += opGlyphSvgString(x2 + pane + gap / 2, sy + pane / 2, opSize, "eq", PRINT_INK);
+      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined);
+      body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget);
+      body += arrowSvgString(sx, sy, pane, gap, "horizontal");
     } else {
-      const blockH = pane * 3 + gap * 2;
+      const pairH = pane * 2 + gap;
       const sx = cx + (cellW - pane) / 2;
-      const sy = areaY + (areaH - blockH) / 2;
-      const y2 = sy + pane + gap;
-      const y3 = sy + 2 * (pane + gap);
-      body += paneSvgString(sx, sy, pane, p.gridSize, p.edgesA, true, dotScale);
-      body += paneSvgString(sx, y2, pane, p.gridSize, p.edgesB, true, dotScale);
-      body += paneSvgString(sx, y3, pane, p.gridSize, resultEdges, showResult, dotScale);
-      body += opGlyphSvgString(sx + pane / 2, sy + pane + gap / 2, opSize, "minus", PRINT_INK, true);
-      body += opGlyphSvgString(sx + pane / 2, y2 + pane + gap / 2, opSize, "eq", PRINT_INK, true);
+      const sy = areaY + (areaH - pairH) / 2;
+      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined);
+      body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget);
+      body += arrowSvgString(sx, sy, pane, gap, "vertical");
     }
   });
 
@@ -291,32 +327,37 @@ async function loadLogo(): Promise<LogoInfo | null> {
 
 // =========================================================================
 // Paper pane SVG (used both in canvas and PDF preview)
-// edgesB を渡すと第2の辺集合を inkB で重ね描き（結果プレビューの色分け用）。
 // =========================================================================
 function PaperSVG({
   gridSize,
   edges,
-  edgesB,
-  ghostEdges,
   selected,
   onDotClick,
   showLines,
   showActiveHighlight,
   ink = INK,
-  inkB = INK_B,
   dotScale = 1,
+  starAt,
+  starInk = "#2C6E7F",
+  starLabel = true,
+  targetAt,
+  targetInk = "#2C6E7F",
+  targetLabel = true,
 }: {
   gridSize: GridSize;
   edges: Edge[];
-  edgesB?: Edge[];
-  ghostEdges?: Edge[];
   selected?: Point | null;
   onDotClick?: (p: Point) => void;
   showLines: boolean;
   showActiveHighlight?: boolean;
   ink?: string;
-  inkB?: string;
   dotScale?: number;
+  starAt?: Point;
+  starInk?: string;   // 起点★の色（画面=teal 強調 / 印刷経路=PRINT_INK）
+  starLabel?: boolean; // 「きてん」ラベルを出すか（サムネは false）
+  targetAt?: Point;
+  targetInk?: string;  // 移動先●の色（画面=teal / 印刷経路=PRINT_INK）
+  targetLabel?: boolean; // 「ここへ」ラベルを出すか（サムネは false）
 }) {
   const dots = gridSize;
   const points: Point[] = [];
@@ -331,55 +372,60 @@ function PaperSVG({
       role={interactive ? "application" : "img"}
       aria-label="点描写の盤面"
     >
-      {/* ゴースト（正解の図 C の下敷き・最背面・編集ガイド）。なぞると上に本線が乗る */}
-      {showLines && ghostEdges &&
-        ghostEdges.map((e, i) => {
-          const a = dotPos(e.a.c, e.a.r, dots);
-          const b = dotPos(e.b.c, e.b.r, dots);
-          return (
-            <line key={`g${i}`}
-              x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-              stroke={GHOST_INK} strokeWidth="1.6" opacity={GHOST_OPACITY}
-              strokeLinecap="round" strokeLinejoin="round"
-            />
-          );
-        })}
       {showLines &&
         edges.map((e, i) => {
           const a = dotPos(e.a.c, e.a.r, dots);
           const b = dotPos(e.b.c, e.b.r, dots);
           return (
-            <line key={`a${i}`}
+            <line
+              key={i}
               x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-              stroke={ink} strokeWidth="1.6"
-              strokeLinecap="round" strokeLinejoin="round"
-            />
-          );
-        })}
-      {showLines && edgesB &&
-        edgesB.map((e, i) => {
-          const a = dotPos(e.a.c, e.a.r, dots);
-          const b = dotPos(e.b.c, e.b.r, dots);
-          return (
-            <line key={`b${i}`}
-              x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-              stroke={inkB} strokeWidth="1.6"
-              strokeLinecap="round" strokeLinejoin="round"
-              strokeDasharray="4 3"
+              stroke={ink}
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           );
         })}
       {points.map((p) => {
         const pos = dotPos(p.c, p.r, dots);
         const isSel = samePoint(selected ?? null, p);
+        const isStar = !!starAt && p.c === starAt.c && p.r === starAt.r;
+        const isTarget = !isStar && !!targetAt && p.c === targetAt.c && p.r === targetAt.r;
         const r = showActiveHighlight && isSel ? 4 : 1.6 * dotScale;
         const fill = showActiveHighlight && isSel ? "#2C6E7F" : ink;
+        const starR = Math.max(1.6 * dotScale * 4.4, 8); // 起点★を大きく
+        const targetR = Math.max(1.6 * dotScale * 4.0, 7); // 移動先●リング
+        const lastRow = p.r === dots - 1;
+        const labelY = lastRow ? pos.y - starR - 4 : pos.y + starR + 12;
+        const tLabelY = lastRow ? pos.y - targetR - 4 : pos.y + targetR + 12;
         return (
           <g key={pointKey(p)}>
             {showActiveHighlight && isSel && (
               <circle cx={pos.x} cy={pos.y} r={7} fill="#2C6E7F" opacity={0.18} />
             )}
-            <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />
+            {isStar ? (
+              <>
+                <circle cx={pos.x} cy={pos.y} r={starR * 1.5} fill={starInk} opacity={0.12} />
+                <path d={starPathD(pos.x, pos.y, starR)} fill={starInk} />
+                {starLabel && (
+                  <text x={pos.x} y={labelY} textAnchor="middle" fontSize={12} fontWeight={700}
+                    fill={starInk} style={{ fontFamily: "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif" }}>きてん</text>
+                )}
+              </>
+            ) : isTarget ? (
+              <>
+                <circle cx={pos.x} cy={pos.y} r={targetR * 1.5} fill={targetInk} opacity={0.10} />
+                <circle cx={pos.x} cy={pos.y} r={targetR} fill="none" stroke={targetInk} strokeWidth={2} />
+                <circle cx={pos.x} cy={pos.y} r={Math.max(1.6 * dotScale, 1.4)} fill={targetInk} />
+                {targetLabel && (
+                  <text x={pos.x} y={tLabelY} textAnchor="middle" fontSize={12} fontWeight={700}
+                    fill={targetInk} style={{ fontFamily: "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif" }}>ここへ</text>
+                )}
+              </>
+            ) : (
+              <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />
+            )}
             {interactive && (
               <circle
                 cx={pos.x} cy={pos.y} r={9}
@@ -396,11 +442,11 @@ function PaperSVG({
 }
 
 // =========================================================================
-// MakerDecomposeApp
+// MakerTranslateApp
 // =========================================================================
-type Snap = { edgesA: Edge[]; edgesB: Edge[] };
+type Snap = { edges: Edge[] };
 
-export default function MakerDecomposeApp() {
+export default function MakerTranslateApp() {
   // Body class for global background
   useEffect(() => {
     document.body.classList.add("maker-page");
@@ -409,18 +455,15 @@ export default function MakerDecomposeApp() {
 
   // ---- Editor state (current problem) ----
   const [gridSize, setGridSize] = useState<GridSize>(4);
-  const [edgesA, setEdgesA] = useState<Edge[]>([]); // 正解の図（全体 C）
-  const [edgesB, setEdgesB] = useState<Edge[]>([]); // 引くもの（取り除く片方 B）
-  const [selectedA, setSelectedA] = useState<Point | null>(null);
-  const [selectedB, setSelectedB] = useState<Point | null>(null);
+  const [edges, setEdges] = useState<Edge[]>([]); // F
+  const [selected, setSelected] = useState<Point | null>(null);
   // 一筆書きモード（既定 OFF）: ON にすると終点クリック後にその点を次の線の始点として残す。
-  // 初見は「2 点クリックで 1 本」が直感的なので OFF 既定。両ボード（正解の図 A・引くもの B）に効く。
   const [oneStroke, setOneStroke] = useState(false);
-  // 引くもの(B)で「正解の図(C)に無い線」を引こうとしたときの一時警告
-  const [bWarn, setBWarn] = useState(false);
+  // target は移動先（●・盤面の格子点）。右（結果）盤面のクリックで置く（モード切替なし）。
+  const [target, setTarget] = useState<Point | null>(null);
 
-  // history stack — { edgesA, edgesB } snapshots（A/B 両ボード共通）
-  const historyRef = useRef<Snap[]>([{ edgesA: [], edgesB: [] }]);
+  // history stack — F snapshots
+  const historyRef = useRef<Snap[]>([{ edges: [] }]);
   const histIdxRef = useRef<number>(0);
   const [, forceRender] = useState(0);
   const rerender = () => forceRender((v) => v + 1);
@@ -431,10 +474,8 @@ export default function MakerDecomposeApp() {
     histIdxRef.current = historyRef.current.length - 1;
   }
   function applySnap(s: Snap) {
-    setEdgesA(s.edgesA);
-    setEdgesB(s.edgesB);
-    setSelectedA(null);
-    setSelectedB(null);
+    setEdges(s.edges);
+    setSelected(null);
   }
   function canUndo() { return histIdxRef.current > 0; }
   function canRedo() { return histIdxRef.current < historyRef.current.length - 1; }
@@ -451,77 +492,68 @@ export default function MakerDecomposeApp() {
     rerender();
   }
   function clearAll() {
-    pushHistory({ edgesA: [], edgesB: [] });
-    setEdgesA([]);
-    setEdgesB([]);
-    setSelectedA(null);
-    setSelectedB(null);
-    setBWarn(false);
+    pushHistory({ edges: [] });
+    setEdges([]);
+    setSelected(null);
+    setTarget(null);
   }
 
-  function handleDot(board: Board, p: Point) {
-    const isA = board === "A";
-    const selected = isA ? selectedA : selectedB;
-    const setSelected = isA ? setSelectedA : setSelectedB;
-    const edges = isA ? edgesA : edgesB;
-    const setEdges = isA ? setEdgesA : setEdgesB;
+  // 移動先を置く（右＝結果盤面のクリック・同点クリックで解除。図形未描画なら無視）
+  function handleTarget(p: Point) {
+    if (edges.length === 0) return;
+    setTarget((t) => (t && samePoint(t, p) ? null : p));
+  }
+
+  // 図形を描く（左盤面・拡大メーカーと同じ）
+  function handleDot(p: Point) {
     if (!selected) { setSelected(p); return; }
     if (samePoint(selected, p)) { setSelected(null); return; }
     const next: Edge = { a: selected, b: p };
     const k = edgeKey(next);
-    let updated: Edge[];
+    // 一筆書き ON: 線を引いた（消した）後、終点を次の線の始点として残す（連続描画）。
+    const after = oneStroke ? p : null;
     if (edges.some((e) => edgeKey(e) === k)) {
       // 既存線をもう一度なぞる→消す
-      updated = edges.filter((e) => edgeKey(e) !== k);
-    } else {
-      // 引くもの(B)は 正解の図(C) に「重なる」線をなぞって取り除く（端点が完全一致でなくてもよい）。
-      // C のどの単位線分とも重ならない線は こたえ に反映されないので、引かせずに警告する。
-      if (!isA) {
-        const cUnits = new Set(edgesA.flatMap(unitSegments).map(edgeKey));
-        const overlapsC = unitSegments(next).some((u) => cUnits.has(edgeKey(u)));
-        if (!overlapsC) {
-          setSelected(oneStroke ? p : null);
-          setBWarn(true);
-          return;
-        }
-      }
-      updated = [...edges, next];
+      const updated = edges.filter((e) => edgeKey(e) !== k);
+      setEdges(updated);
+      pushHistory({ edges: updated });
+      setSelected(after);
+      return;
     }
-    setBWarn(false);
+    const updated = [...edges, next];
     setEdges(updated);
-    pushHistory(isA ? { edgesA: updated, edgesB } : { edgesA, edgesB: updated });
-    // 一筆書き ON: 線を引いた後、終点をこのボードの次の始点として残す（連続描画）。
-    // OFF: 従来どおり選択解除（線ごとに 2 点クリック）。
-    setSelected(oneStroke ? p : null);
+    pushHistory({ edges: updated });
+    setSelected(after);
   }
 
   function changeGridSize(n: GridSize) {
     if (n === gridSize) return;
     setGridSize(n);
-    setEdgesA([]);
-    setEdgesB([]);
-    setSelectedA(null);
-    setSelectedB(null);
-    historyRef.current = [{ edgesA: [], edgesB: [] }];
+    setEdges([]);
+    setSelected(null);
+    setTarget(null);
+    historyRef.current = [{ edges: [] }];
     histIdxRef.current = 0;
   }
 
   // ---- Paper / layout state ----
-  /* 既定: A4 縦・横一列・3 問/ページ（商品ページと共通の基本） */
+  /* 既定: A4 縦・となりに書く・3 問/ページ（商品ページと共通の基本） */
   const [paperKey, setPaperKey] = useState<PaperKey>("A4-P");
   const marginMm = 14;
   // 既定「おまかせ」= 選択した問題数を 1 ページに最適表示（用紙上限超は複数ページ）
   const [perPage, setPerPage] = useState<"auto" | LayoutPerPage>("auto");
-  const [pairLayout, setPairLayout] = useState<"auto" | PairLayout>("auto"); // おまかせ=選択数で縦/横を自動
+  const [pairLayout, setPairLayout] = useState<"auto" | PairLayout>("auto"); // おまかせ=選択数で上下/横を自動
   const [nameField, setNameField] = useState(false); // なまえ・日付欄（既定 OFF）
   const [dotSize, setDotSize] = useState<DotSize>("m"); // 点の大きさ（既定 中）
   const dotScale = DOT_SCALE[dotSize];
 
-  /* こたえ（のこり）= C∖B／取り除く線 = C∩B（検品用の本数表示と結果プレビューに使う） */
-  const { answer: answerEdges, removed: removedEdges } = useMemo(
-    () => diffEdges(edgesA, edgesB),
-    [edgesA, edgesB],
-  );
+  // ---- Derived: 現在編集中の図形の平行移動結果（ライブ） ----
+  const cur = useMemo(() => computeTranslate(edges, target, gridSize), [edges, target, gridSize]);
+  const resultEdges = cur.edges;
+  const isZeroMove = target !== null && cur.dc === 0 && cur.dr === 0;
+  const canSave = edges.length > 0 && target !== null && !isZeroMove && cur.fits;
+  const startPoint = edges.length > 0 ? edges[0].a : undefined; // 起点（最初に置いた点）
+  const resultStar = cur.fits ? cur.targetMark : undefined;     // 着地位置（けっか）の ★
 
   // Switching paper clamps a manual per-page count to that paper's legible maximum.
   function selectPaper(k: PaperKey) {
@@ -535,17 +567,16 @@ export default function MakerDecomposeApp() {
   const [savingNo, setSavingNo] = useState(1);
 
   function saveCurrent() {
-    if (edgesA.length === 0) return; // 正解の図（全体）が無ければ問題にならない
+    if (!canSave) return;
     const id = uid();
     const name = `無題 ${savingNo.toString().padStart(2, "0")}`;
-    setSaved((s) => [...s, { id, name, gridSize, edgesA, edgesB, selected: true }]);
+    setSaved((s) => [...s, { id, name, gridSize, edges, dc: cur.dc, dr: cur.dr, selected: true }]);
     setSavingNo((n) => n + 1);
     // reset canvas for next problem
-    setEdgesA([]);
-    setEdgesB([]);
-    setSelectedA(null);
-    setSelectedB(null);
-    historyRef.current = [{ edgesA: [], edgesB: [] }];
+    setEdges([]);
+    setSelected(null);
+    setTarget(null);
+    historyRef.current = [{ edges: [] }];
     histIdxRef.current = 0;
   }
   function toggleSelectSaved(id: string) {
@@ -582,7 +613,7 @@ export default function MakerDecomposeApp() {
   const effectivePerPage = perPage === "auto"
     ? Math.max(1, Math.min(paperMax(paperKey), selectedSaved.length))
     : perPage;
-  // おまかせ並び = 選択 2 問以下は縦一列（1 問でもスカスカに見えない）・3 問以上は横一列。
+  // おまかせ並び = 選択 2 問以下は上下（1 問でもスカスカに見えない）・3 問以上は横。
   const effectivePairLayout: PairLayout = pairLayout === "auto"
     ? (selectedSaved.length <= 2 ? "vertical" : "horizontal")
     : pairLayout;
@@ -596,8 +627,8 @@ export default function MakerDecomposeApp() {
 
   // ---- PDF ダウンロード（内部用なので完了画面なし） ----
   const [exporting, setExporting] = useState(false);
-  /* 出題ページ群 → 解答ページ群を 1 つの PDF に連結。
-     解答ページは同レイアウトで 空欄ペインに C∖B を描き込んだ版。 */
+  /* 出題ページ群 → 解答ページ群 を 1 つの PDF に連結。
+     移動ベクトルは各問題に焼き付けた (dc,dr) を使用（混在可） */
   async function doExport() {
     if (selectedSaved.length === 0 || exporting) return;
     setExporting(true);
@@ -609,7 +640,7 @@ export default function MakerDecomposeApp() {
       const doc = new jsPDF({ orientation, unit: "mm", format });
       const totalPages = pages.length * 2; // 出題ページ群 ＋ 解答ページ群（同レイアウト）
 
-      // 出題ページ群（正解の図・引くもの・空欄）
+      // 出題ページ群（もとの図=F＋★／かくマス=空＋●移動先）
       for (let pi = 0; pi < pages.length; pi++) {
         if (pi > 0) doc.addPage(format, orientation);
         const svg = buildPageSvg({
@@ -620,7 +651,7 @@ export default function MakerDecomposeApp() {
         const png = await svgToPng(svg, paper.w, paper.h);
         doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
       }
-      // 解答ページ群（空欄ペインに C∖B を描き込み）
+      // 解答ページ群（同じレイアウトで かくマス=R = translate(F, dc, dr) を描き入れた版）
       for (let pi = 0; pi < pages.length; pi++) {
         doc.addPage(format, orientation);
         const svg = buildPageSvg({
@@ -632,11 +663,10 @@ export default function MakerDecomposeApp() {
         const png = await svgToPng(svg, paper.w, paper.h);
         doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
       }
-      // tenzu_decompose_yyyymmddhhmm.pdf — 上書き事故を防ぐタイムスタンプ命名
       const d = new Date();
       const p2 = (n: number) => String(n).padStart(2, "0");
       const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
-      doc.save(`tenzu_decompose_${stamp}.pdf`);
+      doc.save(`tenzu_translate_${stamp}.pdf`);
     } catch (err) {
       console.error("PDF export failed:", err);
       window.alert("PDF の作成に失敗しました。もう一度お試しください。");
@@ -645,6 +675,14 @@ export default function MakerDecomposeApp() {
     }
   }
 
+  // 右（結果）盤面のキャプションを状態で出し分け（操作の主役）
+  const resultCap = edges.length === 0
+    ? "うつす先（まず左で図形を描いてね）"
+    : target === null
+      ? "ここをクリックして移動先（●）をおく"
+      : cur.fits
+        ? "うつした図（クリックで移動先を変更）"
+        : "移動先（枠からはみ出します）";
   const editingTitle = `問題 #${(saved.length + 1).toString().padStart(2, "0")} を作る`;
 
   const paper = PAPER[paperKey];
@@ -658,7 +696,7 @@ export default function MakerDecomposeApp() {
       <header className="maker-header">
         <div className="logo-cluster">
           <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
-          <div className="app-name">分解メーカー（内部用）</div>
+          <div className="app-name">平行移動メーカー（内部用）</div>
         </div>
       </header>
 
@@ -707,56 +745,54 @@ export default function MakerDecomposeApp() {
           </div>
 
           <div className="canvas-stage">
-            <div className="paper-pair-label">問題（正解の図 − 引くもの ＝ のこり）</div>
+            {/* もとの図 → うつした図 の 3 要素（重ね/折り/拡大メーカーと同じ overlay-boards を流用） */}
             <div className="overlay-boards">
               <div className="overlay-board">
-                <div className="ob-cap">正解の図（ぜんたい）</div>
-                <div className="paper-pane problem" aria-label="正解の図 の盤面">
+                <span className="ob-cap">もとの図（★＝起点）</span>
+                <div className="paper-pane problem" aria-label="図形を描く盤面">
                   <PaperSVG
                     gridSize={gridSize}
-                    edges={edgesA}
-                    selected={selectedA}
-                    onDotClick={(p) => handleDot("A", p)}
+                    edges={edges}
+                    selected={selected}
+                    onDotClick={handleDot}
                     showLines={true}
                     showActiveHighlight={true}
+                    dotScale={dotScale}
+                    starAt={startPoint}
                   />
                   <div className="pp-stamp">{gridSize}×{gridSize}</div>
                 </div>
               </div>
-              <div className="overlay-op" aria-hidden="true">−</div>
+              <div className="overlay-op">ずらす</div>
               <div className="overlay-board">
-                <div className="ob-cap">引くもの（うすい線をなぞる）</div>
-                <div className="paper-pane problem" aria-label="引くもの の盤面">
+                <span className="ob-cap">{resultCap}</span>
+                <div className="paper-pane" aria-label="移動先を置く盤面（クリックで配置）">
                   <PaperSVG
                     gridSize={gridSize}
-                    edges={edgesB}
-                    ghostEdges={edgesA}
-                    selected={selectedB}
-                    onDotClick={(p) => handleDot("B", p)}
-                    showLines={true}
-                    showActiveHighlight={true}
+                    edges={resultEdges}
+                    onDotClick={handleTarget}
+                    showLines={cur.fits}
+                    ink={INK}
+                    dotScale={dotScale}
+                    starAt={resultStar}
+                    targetAt={target ?? undefined}
                   />
-                  <div className="pp-stamp">{gridSize}×{gridSize}</div>
-                </div>
-              </div>
-              <div className="overlay-op" aria-hidden="true">＝</div>
-              <div className="overlay-board">
-                <div className="ob-cap">こたえ（のこり）</div>
-                <div className="paper-pane" aria-label="こたえ（正解の図から引くものを取り除いた残り）">
-                  <PaperSVG
-                    gridSize={gridSize}
-                    edges={answerEdges}
-                    edgesB={removedEdges}
-                    showLines={true}
-                  />
+                  <div className="pp-stamp">けっか</div>
                 </div>
               </div>
             </div>
-            {bWarn && (
-              <p className="trace-warn" role="alert">
-                引くものは「正解の図」に重なる線をなぞって取り除きます。図に重ならない線はこたえに反映されません。
-              </p>
+
+            {edges.length > 0 && target !== null && !cur.fits && (
+              <div role="alert" style={{
+                width: "100%", maxWidth: 760,
+                background: "#fdecec", border: "1px solid #e3a0a0", color: "#b33a3a",
+                borderRadius: 8, padding: "8px 12px", fontSize: 13, lineHeight: 1.5,
+              }}>
+                この移動先では平行移動した図が枠からはみ出します。<br />
+                もとの図を小さく描く／移動先を起点に近づける／グリッドを大きくしてください。
+              </div>
             )}
+
             <div className="canvas-actions">
               <div className="edit-actions">
                 <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
@@ -780,7 +816,7 @@ export default function MakerDecomposeApp() {
                   <span className="lbl">進む</span>
                 </button>
                 <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
-                  onClick={clearAll} disabled={edgesA.length === 0 && edgesB.length === 0}>
+                  onClick={clearAll} disabled={edges.length === 0}>
                   <svg viewBox="0 0 16 16">
                     <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
                     <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
@@ -793,16 +829,14 @@ export default function MakerDecomposeApp() {
                   <span className="lbl">全消去</span>
                 </button>
               </div>
-              <button className="btn-save" type="button" onClick={saveCurrent}
-                disabled={edgesA.length === 0}>
+              <button className="btn-save" type="button" onClick={saveCurrent} disabled={!canSave}>
                 この問題を保存する
               </button>
             </div>
             <div className="canvas-help">
-              「正解の図」に全体（重なった形）を引きます（点を 2 つクリック／同じ線をもう一度クリックで消えます）。
-              「引くもの」には<b>正解の図がうすく下敷き表示</b>されるので、取り去る線をなぞって引きます。
-              右の「こたえ（のこり）」＝正解の図から引くものを取り除いた残りが仕上がり（<b>青い点線＝取り除く線</b>・こたえには出ません）。
-              印刷では「正解の図 − 引くもの ＝ 空欄」が一列に並び、空欄に残りを描かせます。
+              <strong>① 左で図形を描く</strong>（線を引く＝点を 2 つクリック）。最初に置いた点が「起点」（★）。
+              <strong> ② 右の盤面をクリック</strong>して移動先（●）をおく。起点 ★ がそこへ移動した図が右に出ます。
+              はみ出すときは、もとの図を小さく描く／移動先を近くにする／グリッドを大きく。
             </div>
           </div>
         </main>
@@ -820,22 +854,25 @@ export default function MakerDecomposeApp() {
               <div className="saved-grid">
                 {saved.map((p, i) => {
                   const num = (i + 1).toString().padStart(2, "0");
+                  const start = p.edges[0].a;
+                  const tgt = { c: start.c + p.dc, r: start.r + p.dr };
+                  const move = dirText(p.dc, p.dr);
                   return (
                     <div className={`saved-cell${p.selected ? " sel" : ""}`} key={p.id}>
                       <button className="thumb" type="button"
                         role="checkbox"
                         aria-checked={p.selected}
-                        aria-label={`問題 ${num} を PDF に含める`}
+                        aria-label={`問題 ${num}（${move}）を PDF に含める`}
                         onClick={() => toggleSelectSaved(p.id)}>
-                        {/* サムネは正解の図（ぜんたい）— 問題の見分けが一番つく */}
-                        <PaperSVG gridSize={p.gridSize} edges={p.edgesA} showLines={true} />
+                        <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true}
+                          starAt={start} starLabel={false} targetAt={tgt} targetLabel={false} />
                       </button>
                       {p.selected && <span className="sel-mark" aria-hidden="true">✓</span>}
                       <button className="del" type="button" aria-label={`問題 ${num} を削除`}
                         onClick={() => {
                           if (window.confirm(`この問題（#${num}）を削除しますか？`)) deleteSaved(p.id);
                         }}>×</button>
-                      <span className="cnum">{num}</span>
+                      <span className="cnum">{num} · {move}</span>
                       <span className="order">
                         <button type="button" aria-label="ひとつ前へ" disabled={i === 0}
                           onClick={() => moveSaved(p.id, -1)}>‹</button>
@@ -863,7 +900,7 @@ export default function MakerDecomposeApp() {
             <summary>
               <span className="sf-label">詳細設定<span className="sf-chevron" aria-hidden="true" /></span>
               <span className="sf-current">
-                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横一列" : "縦一列"} · 名前欄: {nameField ? "あり" : "なし"}
+                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: {nameField ? "あり" : "なし"}
               </span>
             </summary>
             <div className="sf-body">
@@ -894,7 +931,7 @@ export default function MakerDecomposeApp() {
                   <span className="lauto">おまかせ</span>
                 </button>
                 {COUNT_OPTIONS.filter((v) => v <= paperMax(paperKey)).map((v) => {
-                  const g = gridFor(v, effectivePairLayout, paper.w, paper.h, marginMm, 3);
+                  const g = gridFor(v, effectivePairLayout, paper.w, paper.h, marginMm);
                   return (
                   <button key={v} type="button"
                     aria-pressed={perPage === v}
@@ -914,8 +951,8 @@ export default function MakerDecomposeApp() {
             </div>
 
             <div className="group">
-              <h3>式の並び</h3>
-              <div className="seg seg--pair" role="group" aria-label="式の並び">
+              <h3>問題と書き込み欄の並び</h3>
+              <div className="seg seg--pair" role="group" aria-label="問題と書き込み欄の並び">
                 <button type="button"
                   aria-pressed={pairLayout === "auto"}
                   onClick={() => setPairLayout("auto")}>
@@ -925,17 +962,17 @@ export default function MakerDecomposeApp() {
                   aria-pressed={pairLayout === "horizontal"}
                   onClick={() => setPairLayout("horizontal")}>
                   <span className="seg-ic"><PairChipIcon pair="horizontal" /></span>
-                  横一列
+                  横に並べる
                 </button>
                 <button type="button"
                   aria-pressed={pairLayout === "vertical"}
                   onClick={() => setPairLayout("vertical")}>
                   <span className="seg-ic"><PairChipIcon pair="vertical" /></span>
-                  縦一列
+                  上下に並べる
                 </button>
               </div>
               {pairLayout === "auto" && (
-                <p className="seg-hint">問題が 2 問までは縦一列、3 問以上は横一列に自動で並べます。</p>
+                <p className="seg-hint">問題が 2 問までは上下、3 問以上は横に自動で並べます。</p>
               )}
             </div>
 
@@ -959,7 +996,7 @@ export default function MakerDecomposeApp() {
           </details>
 
           <div className="group">
-            <h3>出力プレビュー（解答）<span className="pp-paperinfo">{paper.label} · {paper.w}×{paper.h}mm</span></h3>
+            <h3>出力プレビュー<span className="pp-paperinfo">{paper.label} · {paper.w}×{paper.h}mm</span></h3>
             <div className="pdf-preview">
               {selectedSaved.length === 0 ? (
                 <div className="pp-empty">
@@ -1040,25 +1077,37 @@ export default function MakerDecomposeApp() {
 // =========================================================================
 // Sub-components: PreviewPage (sidebar PDF preview) & PrintPage (print sheet)
 // =========================================================================
-function ProblemTriple({ p, dotScale }: { p: Problem; dotScale: number }) {
+function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: PairLayout; dotScale: number }) {
+  const isH = pairLayout === "horizontal";
+  const start = p.edges[0].a;
+  const tgt = { c: start.c + p.dc, r: start.r + p.dr };
   return (
     <>
       <div className="print-cell">
         <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={p.edgesA} showLines={true} ink={PRINT_INK} dotScale={dotScale} />
+          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK} dotScale={dotScale} starAt={start} starInk={PRINT_INK} />
         </div>
       </div>
-      <div className="print-op" aria-hidden="true">−</div>
-      <div className="print-cell">
-        <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={p.edgesB} showLines={true} ink={PRINT_INK} dotScale={dotScale} />
-        </div>
+      {/* 模写と同じ標準の細線矢印（移動方向は ★→● で示す） */}
+      <div className="print-arrow" aria-hidden="true">
+        {isH ? (
+          <svg viewBox="0 0 40 22" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 13 L38 13 M28 6 L38 13 L28 20"
+              fill="none" stroke={PRINT_INK} strokeWidth={1.6}
+              strokeLinejoin="round" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 22 40" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 2 L8 38 M1 28 L8 38 L15 28"
+              fill="none" stroke={PRINT_INK} strokeWidth={1.6}
+              strokeLinejoin="round" strokeLinecap="round" />
+          </svg>
+        )}
       </div>
-      <div className="print-op" aria-hidden="true">＝</div>
       <div className="print-cell">
         <div className="print-pane">
-          {/* 出題なので結果ペインは空（子が描く）。解答は PDF 側へ */}
-          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK} dotScale={dotScale} />
+          {/* 出題は解答ペイン空。移動先だけ ● で示す */}
+          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK} dotScale={dotScale} targetAt={tgt} targetInk={PRINT_INK} />
         </div>
       </div>
     </>
@@ -1084,14 +1133,13 @@ function PreviewPage({
   const pageScale = Math.max(W, H) / 420;
   const nameH = nameField ? NAME_BAND_MM : 0;
   // Use problemsPerPage (not problems.length) so pane size stays consistent across pages.
-  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - nameH, marginMm, 3);
+  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - nameH, marginMm);
   const cellW = (W - marginMm * 2) / cols;
   const cellH = (H - marginMm * 2 - nameH) / rows;
   // Pane + proportional gap/pad, derived from the same model the optimizer used.
   const pad = Math.min(cellW, cellH) * CELL_PAD;
-  const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout, 3);
+  const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout);
   const gap = pane * KGAP;
-  const opSize = gap * 0.5;
   return (
     <div className="pp-page"
       style={{ aspectRatio: `${W}/${H}`, width: `${(pageScale * 100).toFixed(1)}%` }}>
@@ -1105,39 +1153,41 @@ function PreviewPage({
           const row = Math.floor(idx / cols);
           const cx = marginMm + col * cellW;
           const cy = marginMm + nameH + row * cellH;
-          // 出力プレビュー＝解答（ペイン3に C∖B）
-          const answer = diffEdges(p.edgesA, p.edgesB).answer;
-          let p1: { x: number; y: number }, p2: { x: number; y: number }, p3: { x: number; y: number };
-          let minus: { x: number; y: number }, eq: { x: number; y: number };
+          let aX: number, aY: number, bX: number, bY: number;
+          /* 平行移動: 境界に標準の細線矢印（模写と同じ）。移動方向は ★→● で示す */
+          let arrowEl: ReactNode;
           if (pairLayout === "horizontal") {
-            const blockW = pane * 3 + gap * 2;
-            const startX = (cellW - blockW) / 2;
+            const pairW = pane * 2 + gap;
+            const startX = (cellW - pairW) / 2;
             const startY = (cellH - pane) / 2;
-            p1 = { x: startX, y: startY };
-            p2 = { x: startX + pane + gap, y: startY };
-            p3 = { x: startX + 2 * (pane + gap), y: startY };
-            minus = { x: startX + pane + gap / 2, y: startY + pane / 2 };
-            eq = { x: startX + 2 * pane + gap + gap / 2, y: startY + pane / 2 };
+            aX = startX;                  aY = startY;
+            bX = startX + pane + gap;     bY = startY;
+            const aSize = gap * 0.9;
+            arrowEl = (
+              <ArrowSVG x={startX + pane + (gap - aSize) / 2} y={startY + pane / 2}
+                size={aSize} dir="right" color={PRINT_INK} />
+            );
           } else {
-            const blockH = pane * 3 + gap * 2;
+            const pairH = pane * 2 + gap;
             const startX = (cellW - pane) / 2;
-            const startY = (cellH - blockH) / 2;
-            p1 = { x: startX, y: startY };
-            p2 = { x: startX, y: startY + pane + gap };
-            p3 = { x: startX, y: startY + 2 * (pane + gap) };
-            minus = { x: startX + pane / 2, y: startY + pane + gap / 2 };
-            eq = { x: startX + pane / 2, y: startY + 2 * pane + gap + gap / 2 };
+            const startY = (cellH - pairH) / 2;
+            aX = startX; aY = startY;
+            bX = startX; bY = startY + pane + gap;
+            const aSize = gap * 0.9;
+            arrowEl = (
+              <ArrowSVG x={startX + pane / 2} y={startY + pane + (gap - aSize) / 2}
+                size={aSize} dir="down" color={PRINT_INK} />
+            );
           }
+          const start = p.edges[0].a;
+          const tgt = { c: start.c + p.dc, r: start.r + p.dr };
           return (
             <g key={p.id} transform={`translate(${cx},${cy})`}>
-              <PreviewPane x={p1.x} y={p1.y} w={pane} h={pane}
-                gridSize={p.gridSize} edges={p.edgesA} showLines={true} dotScale={dotScale} />
-              <PreviewPane x={p2.x} y={p2.y} w={pane} h={pane}
-                gridSize={p.gridSize} edges={p.edgesB} showLines={true} dotScale={dotScale} />
-              <PreviewPane x={p3.x} y={p3.y} w={pane} h={pane}
-                gridSize={p.gridSize} edges={answer} showLines={true} dotScale={dotScale} />
-              <OpGlyph x={minus.x} y={minus.y} size={opSize} kind="minus" color={PRINT_INK} vertical={pairLayout === "vertical"} />
-              <OpGlyph x={eq.x} y={eq.y} size={opSize} kind="eq" color={PRINT_INK} vertical={pairLayout === "vertical"} />
+              <PreviewPane x={aX} y={aY} w={pane} h={pane}
+                gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={dotScale} starAt={start} />
+              <PreviewPane x={bX} y={bY} w={pane} h={pane}
+                gridSize={p.gridSize} edges={[]} showLines={false} dotScale={dotScale} targetAt={tgt} />
+              {arrowEl}
             </g>
           );
         })}
@@ -1148,10 +1198,11 @@ function PreviewPage({
 }
 
 function PreviewPane({
-  x, y, w, h, gridSize, edges, showLines, dotScale,
+  x, y, w, h, gridSize, edges, showLines, dotScale, starAt, targetAt,
 }: {
   x: number; y: number; w: number; h: number;
   gridSize: GridSize; edges: Edge[]; showLines: boolean; dotScale: number;
+  starAt?: Point; targetAt?: Point;
 }) {
   // inner dots
   const dots = gridSize;
@@ -1160,7 +1211,11 @@ function PreviewPane({
   const stepY = (h - inset * 2) / (dots - 1);
   // 印刷（paneSvgString）と同じ比率 — プレビュー＝仕上がり
   const dotR = dotRadius(Math.min(w, h), dotScale);
-  const lineW = edgeWidth(Math.min(w, h));
+  const paneMin = Math.min(w, h);
+  const starR = Math.max(dotR * 4.2, paneMin * 0.035);
+  const tR = Math.max(dotR * 3.4, paneMin * 0.030);
+  const labelFs = Math.max(2.0, paneMin * 0.058);
+  const lineW = edgeWidth(paneMin);
   const pos = (c: number, r: number) => ({
     x: x + inset + c * stepX,
     y: y + inset + r * stepY,
@@ -1171,6 +1226,27 @@ function PreviewPane({
         {Array.from({ length: dots }, (_, r) =>
           Array.from({ length: dots }, (_, c) => {
             const p = pos(c, r);
+            if (starAt && c === starAt.c && r === starAt.r) {
+              const labelY = r === dots - 1 ? p.y - starR - labelFs * 0.3 : p.y + starR + labelFs;
+              return (
+                <g key={`s-${c}-${r}`}>
+                  <path d={starPathD(p.x, p.y, starR)} />
+                  <text x={p.x} y={labelY} textAnchor="middle" fontSize={labelFs} fontWeight={700}
+                    style={{ fontFamily: "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif" }}>きてん</text>
+                </g>
+              );
+            }
+            if (targetAt && c === targetAt.c && r === targetAt.r) {
+              const labelY = r === dots - 1 ? p.y - tR - labelFs * 0.3 : p.y + tR + labelFs;
+              return (
+                <g key={`t-${c}-${r}`}>
+                  <circle cx={p.x} cy={p.y} r={tR} fill="none" stroke={PRINT_INK} strokeWidth={Math.max(0.5, paneMin * 0.012)} />
+                  <circle cx={p.x} cy={p.y} r={dotR} />
+                  <text x={p.x} y={labelY} textAnchor="middle" fontSize={labelFs} fontWeight={700}
+                    style={{ fontFamily: "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif" }}>ここへ</text>
+                </g>
+              );
+            }
             return <circle key={`${c}-${r}`} cx={p.x} cy={p.y} r={dotR} />;
           })
         )}
@@ -1199,9 +1275,10 @@ function PrintPage({
   nameField: boolean;
   dotScale: number;
 }) {
-  const layout = gridFor(problemsPerPage, pairLayout, paper.w, paper.h, marginMm, 3);
-  // Gaps shrink as the page gets denser (gap比例化, print side).
+  const layout = gridFor(problemsPerPage, pairLayout, paper.w, paper.h, marginMm);
+  // Gaps & arrow shrink as the page gets denser (gap比例化, print side).
   const dense = problemsPerPage <= 4 ? "8mm" : problemsPerPage <= 8 ? "5mm" : "3mm";
+  const arrowScale = problemsPerPage <= 4 ? 1 : problemsPerPage <= 8 ? 0.7 : 0.5;
   return (
     <div className="print-page" style={{
       width: `${paper.w}mm`,
@@ -1220,10 +1297,11 @@ function PrintPage({
           gridTemplateRows:    `repeat(${layout.rows}, auto)`,
           gap: dense,
           ["--pgap" as string]: dense,
+          ["--pscale" as string]: arrowScale,
         }}>
           {problems.map((p) => (
-            <div key={p.id} className={`print-problem triple pair-${pairLayout}`}>
-              <ProblemTriple p={p} dotScale={dotScale} />
+            <div key={p.id} className={`print-problem pair-${pairLayout}`}>
+              <ProblemPair p={p} pairLayout={pairLayout} dotScale={dotScale} />
             </div>
           ))}
         </div>

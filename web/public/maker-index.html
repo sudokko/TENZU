@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>メーカー一覧（内部用） · TENZU</title>
+<style>
+  :root{
+    --fg:#3A424E; --fg2:#5b626c; --fg3:#8a909a;
+    --bg:#ffffff; --bg3:#f4f2ec; --line:#e3e0d6; --accent:#2C6E7F;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; color:var(--fg); background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+    -webkit-text-size-adjust:100%;
+  }
+  header{
+    border-bottom:1px dashed var(--line); padding:14px 20px;
+    display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+  }
+  header .nm{font-size:15px; font-weight:600; letter-spacing:.01em;}
+  header .tag{font-size:11px; color:var(--fg3); letter-spacing:.08em;}
+  main{max-width:720px; margin:0 auto; padding:22px 16px 64px;}
+  .intro{font-size:13px; color:var(--fg3); margin:0 0 8px; line-height:1.6;}
+  section{margin-top:24px;}
+  h2{
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--fg3); margin:0 0 10px; font-weight:500;
+  }
+  .list{display:grid; gap:8px;}
+  a.card{
+    display:flex; flex-direction:column; gap:3px;
+    padding:13px 15px; text-decoration:none; color:inherit;
+    background:var(--bg); border:1px solid var(--line); border-radius:7px;
+  }
+  a.card:hover,a.card:active{border-color:var(--accent); background:var(--bg3);}
+  .card .nm{font-size:15px; font-weight:600; letter-spacing:.01em;}
+  .card .ds{font-size:12.5px; color:var(--fg2); line-height:1.5;}
+  .card .url{font-size:11px; color:var(--fg3); font-family:ui-monospace,Menlo,Consolas,monospace; letter-spacing:.02em;}
+</style>
+</head>
+<body>
+<header>
+  <span class="nm">メーカー一覧</span>
+  <span class="tag">内部用 · noindex</span>
+</header>
+<main>
+  <p class="intro">内部の作問メーカー一覧。カードのリンクから直接ひらけます。</p>
+
+  <section>
+    <h2>模写（公開）</h2>
+    <div class="list">
+      <a class="card" href="/maker"><span class="nm">おためし点描写メーカー</span><span class="ds">模写（公開版・tier ゲートあり）</span><span class="url">/maker</span></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>向き</h2>
+    <div class="list">
+      <a class="card" href="/maker-mirror"><span class="nm">鏡メーカー</span><span class="ds">線対称（左右／上下反転・軸は並び連動）</span><span class="url">/maker-mirror</span></a>
+      <a class="card" href="/maker-rotate"><span class="nm">回転メーカー</span><span class="ds">回転（角度はサイドで指定）</span><span class="url">/maker-rotate</span></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>重ね（2 図形）</h2>
+    <div class="list">
+      <a class="card" href="/maker-overlay"><span class="nm">重ねメーカー</span><span class="ds">図形A ＋ 図形B ＝ 重ねたかたち</span><span class="url">/maker-overlay</span></a>
+      <a class="card" href="/maker-fold"><span class="nm">折り重ねメーカー</span><span class="ds">問題1を折り返して問題2に重ねる</span><span class="url">/maker-fold</span></a>
+      <a class="card" href="/maker-decompose"><span class="nm">分解メーカー</span><span class="ds">正解の図 − 引くもの ＝ のこり</span><span class="url">/maker-decompose</span></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>変形</h2>
+    <div class="list">
+      <a class="card" href="/maker-scale"><span class="nm">拡大メーカー</span><span class="ds">整数倍（×2／×3）</span><span class="url">/maker-scale</span></a>
+      <a class="card" href="/maker-shrink"><span class="nm">縮小メーカー</span><span class="ds">分数倍（1/2／1/3）</span><span class="url">/maker-shrink</span></a>
+      <a class="card" href="/maker-translate"><span class="nm">平行移動メーカー</span><span class="ds">起点★→移動先●へ平行移動</span><span class="url">/maker-translate</span></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>欠け補完</h2>
+    <div class="list">
+      <a class="card" href="/maker-fill"><span class="nm">欠け補完メーカー</span><span class="ds">完成図から線を抜く（F／R モード）</span><span class="url">/maker-fill</span></a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -444,16 +444,10 @@ export default function MakerOverlayApp() {
   const marginMm = 14;
   // 既定「おまかせ」= 選択した問題数を 1 ページに最適表示（用紙上限超は複数ページ）
   const [perPage, setPerPage] = useState<"auto" | LayoutPerPage>("auto");
-  const [pairLayout, setPairLayout] = useState<PairLayout>("horizontal");
+  const [pairLayout, setPairLayout] = useState<"auto" | PairLayout>("auto"); // おまかせ=選択数で縦/横を自動
   const [nameField, setNameField] = useState(false); // なまえ・日付欄（既定 OFF）
   const [dotSize, setDotSize] = useState<DotSize>("m"); // 点の大きさ（既定 中）
   const dotScale = DOT_SCALE[dotSize];
-
-  /* 重ね結果の本数（重なる線は同一扱いで数える・検品用） */
-  const unionCount = useMemo(
-    () => new Set([...edgesA, ...edgesB].map(edgeKey)).size,
-    [edgesA, edgesB],
-  );
 
   // Switching paper clamps a manual per-page count to that paper's legible maximum.
   function selectPaper(k: PaperKey) {
@@ -514,6 +508,10 @@ export default function MakerOverlayApp() {
   const effectivePerPage = perPage === "auto"
     ? Math.max(1, Math.min(paperMax(paperKey), selectedSaved.length))
     : perPage;
+  // おまかせ並び = 選択 2 問以下は縦一列（1 問でもスカスカに見えない）・3 問以上は横一列。
+  const effectivePairLayout: PairLayout = pairLayout === "auto"
+    ? (selectedSaved.length <= 2 ? "vertical" : "horizontal")
+    : pairLayout;
   const pages = useMemo(() => {
     const ps: Problem[][] = [];
     for (let i = 0; i < selectedSaved.length; i += effectivePerPage) {
@@ -543,7 +541,7 @@ export default function MakerOverlayApp() {
         const svg = buildPageSvg({
           paper, problems: pages[pi],
           pageNo: pi + 1, pageCount: totalPages,
-          marginMm, problemsPerPage: effectivePerPage, pairLayout, nameField, dotScale, logo,
+          marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
         });
         const png = await svgToPng(svg, paper.w, paper.h);
         doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
@@ -554,7 +552,7 @@ export default function MakerOverlayApp() {
         const svg = buildPageSvg({
           paper, problems: pages[pi],
           pageNo: pages.length + pi + 1, pageCount: totalPages,
-          marginMm, problemsPerPage: effectivePerPage, pairLayout, nameField, dotScale, logo,
+          marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
           answer: true,
         });
         const png = await svgToPng(svg, paper.w, paper.h);
@@ -577,18 +575,6 @@ export default function MakerOverlayApp() {
 
   const paper = PAPER[paperKey];
 
-  // 今の用紙・問数で実際に印刷される点の直径（mm）— buildPageSvg と同じ計算（panes=3）
-  function dotSampleDia(k: DotSize): number {
-    const footerH = 12;
-    const nameH = nameField ? NAME_BAND_MM : 0;
-    const { cols, rows } = gridFor(effectivePerPage, pairLayout, paper.w, paper.h - footerH - nameH, marginMm, 3);
-    const cellW = (paper.w - marginMm * 2) / cols;
-    const cellH = (paper.h - marginMm * 2 - footerH - nameH) / rows;
-    const pad = Math.min(cellW, cellH) * CELL_PAD;
-    const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout, 3);
-    return dotRadius(pane, DOT_SCALE[k]) * 2;
-  }
-
   return (
     <>
       {/* dynamic @page size for print */}
@@ -609,82 +595,41 @@ export default function MakerOverlayApp() {
 
         {/* ---------- CENTER ---------- */}
         <main className="canvas-area">
-          <div className="canvas-gridbar">
-            <span className="gb-label">グリッドサイズ</span>
-            <div className="seg" role="group" aria-label="グリッドサイズ">
-              {([3, 4, 5, 6] as GridSize[]).map((n) => (
-                <button key={n} type="button"
-                  aria-pressed={gridSize === n}
-                  onClick={() => changeGridSize(n)}>
-                  {n}×{n}
-                </button>
-              ))}
-            </div>
-            <span className="gb-label" style={{ marginLeft: "auto" }}>重ね {unionCount} 本</span>
-          </div>
-
-          {/* 作図に効く設定（点の大きさ・一筆書き）をグリッドの直下に。詳細設定（PDF 出力系）とは分離。 */}
-          <div className="canvas-gridbar canvas-makebar">
-            <span className="gb-label">点の大きさ</span>
-            <div className="seg seg--dot" role="group" aria-label="点の大きさ">
-              {(["s", "m", "l"] as const).map((k) => (
-                <button key={k} type="button"
-                  aria-pressed={dotSize === k}
-                  onClick={() => setDotSize(k)}>
-                  <span className="dot-sample"
-                    style={{ width: `${dotSampleDia(k)}mm`, height: `${dotSampleDia(k)}mm` }} />
-                  {k === "s" ? "小" : k === "m" ? "中" : "大"}
-                </button>
-              ))}
-            </div>
-            <span className="gb-label">一筆書き</span>
-            <div className="seg seg--toggle" role="group" aria-label="一筆書きモード">
-              <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)}>OFF</button>
-              <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
-            </div>
-            <p className="dot-sample-note makebar-note">一筆書き ON：点を続けてクリックすると、線がつながります。</p>
-          </div>
           <div className="canvas-toolbar">
             <div className="title">
               {editingTitle}
-              <span className="small">{gridSize} × {gridSize} · {paper.label}</span>
             </div>
-            <div className="right">
-              <span className="pos-readout">図形A {edgesA.length} 本 / 図形B {edgesB.length} 本</span>
-              <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
-                onClick={undo} disabled={!canUndo()}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
-                <span className="lbl">戻る</span>
-              </button>
-              <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
-                onClick={redo} disabled={!canRedo()}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
-                <span className="lbl">進む</span>
-              </button>
-              <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
-                onClick={clearAll} disabled={edgesA.length === 0 && edgesB.length === 0}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
-                  <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
-                    strokeLinecap="round"/>
-                </svg>
-                <span className="lbl">全消去</span>
-              </button>
+          </div>
+
+          {/* 作図の設定（グリッド・点の大きさ・一筆書き）をタイトル直下のコンパクト帯に集約 */}
+          <div className="maker-quickbar" role="group" aria-label="作図の設定">
+            <div className="qb-group">
+              <span className="qb-label">グリッド</span>
+              <select className="qb-select" aria-label="グリッドサイズ" value={gridSize}
+                onChange={(e) => changeGridSize(Number(e.target.value) as GridSize)}>
+                {([3, 4, 5, 6] as GridSize[]).map((n) => (
+                  <option key={n} value={n}>{n}×{n}</option>
+                ))}
+              </select>
             </div>
+            <div className="qb-group">
+              <span className="qb-label">点の大きさ</span>
+              <div className="seg qb-seg" role="group" aria-label="点の大きさ">
+                {(["s", "m", "l"] as const).map((k) => (
+                  <button key={k} type="button" aria-pressed={dotSize === k} onClick={() => setDotSize(k)}>
+                    {k === "s" ? "小" : k === "m" ? "中" : "大"}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="qb-group">
+              <span className="qb-label">一筆書き</span>
+              <div className="seg qb-seg" role="group" aria-label="一筆書きモード">
+                <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)}>OFF</button>
+                <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
+              </div>
+            </div>
+            {oneStroke && <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>}
           </div>
 
           <div className="canvas-stage">
@@ -733,6 +678,41 @@ export default function MakerOverlayApp() {
               </div>
             </div>
             <div className="canvas-actions">
+              <div className="edit-actions">
+                <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
+                  onClick={undo} disabled={!canUndo()}>
+                  <svg viewBox="0 0 16 16">
+                    <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  </svg>
+                  <span className="lbl">戻る</span>
+                </button>
+                <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
+                  onClick={redo} disabled={!canRedo()}>
+                  <svg viewBox="0 0 16 16">
+                    <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  </svg>
+                  <span className="lbl">進む</span>
+                </button>
+                <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
+                  onClick={clearAll} disabled={edgesA.length === 0 && edgesB.length === 0}>
+                  <svg viewBox="0 0 16 16">
+                    <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
+                      strokeLinecap="round"/>
+                  </svg>
+                  <span className="lbl">全消去</span>
+                </button>
+              </div>
               <button className="btn-save" type="button" onClick={saveCurrent}
                 disabled={edgesA.length === 0 && edgesB.length === 0}>
                 この問題を保存する
@@ -800,7 +780,7 @@ export default function MakerOverlayApp() {
             <summary>
               <span className="sf-label">詳細設定<span className="sf-chevron" aria-hidden="true" /></span>
               <span className="sf-current">
-                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "horizontal" ? "横一列" : "縦一列"} · 名前欄: {nameField ? "あり" : "なし"}
+                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横一列" : "縦一列"} · 名前欄: {nameField ? "あり" : "なし"}
               </span>
             </summary>
             <div className="sf-body">
@@ -831,7 +811,7 @@ export default function MakerOverlayApp() {
                   <span className="lauto">おまかせ</span>
                 </button>
                 {COUNT_OPTIONS.filter((v) => v <= paperMax(paperKey)).map((v) => {
-                  const g = gridFor(v, pairLayout, paper.w, paper.h, marginMm, 3);
+                  const g = gridFor(v, effectivePairLayout, paper.w, paper.h, marginMm, 3);
                   return (
                   <button key={v} type="button"
                     aria-pressed={perPage === v}
@@ -854,6 +834,11 @@ export default function MakerOverlayApp() {
               <h3>式の並び</h3>
               <div className="seg seg--pair" role="group" aria-label="式の並び">
                 <button type="button"
+                  aria-pressed={pairLayout === "auto"}
+                  onClick={() => setPairLayout("auto")}>
+                  おまかせ
+                </button>
+                <button type="button"
                   aria-pressed={pairLayout === "horizontal"}
                   onClick={() => setPairLayout("horizontal")}>
                   <span className="seg-ic"><PairChipIcon pair="horizontal" /></span>
@@ -866,6 +851,9 @@ export default function MakerOverlayApp() {
                   縦一列
                 </button>
               </div>
+              {pairLayout === "auto" && (
+                <p className="seg-hint">問題が 2 問までは縦一列、3 問以上は横一列に自動で並べます。</p>
+              )}
             </div>
 
             <div className="group">
@@ -905,7 +893,7 @@ export default function MakerOverlayApp() {
                         pageCount={pages.length}
                         marginMm={marginMm}
                         problemsPerPage={effectivePerPage}
-                        pairLayout={pairLayout}
+                        pairLayout={effectivePairLayout}
                         nameField={nameField}
                         dotScale={dotScale} />
                     ))}
@@ -957,7 +945,7 @@ export default function MakerOverlayApp() {
             pageCount={pages.length}
             marginMm={marginMm}
             problemsPerPage={effectivePerPage}
-            pairLayout={pairLayout}
+            pairLayout={effectivePairLayout}
             nameField={nameField}
             dotScale={dotScale} />
         ))}

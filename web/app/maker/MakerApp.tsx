@@ -432,7 +432,7 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
   const marginMm = 14;
   // 既定「おまかせ」= 選択した問題数を 1 ページに最適表示（用紙上限超は複数ページ）
   const [perPage, setPerPage] = useState<"auto" | LayoutPerPage>("auto");
-  const [pairLayout, setPairLayout] = useState<PairLayout>("horizontal");
+  const [pairLayout, setPairLayout] = useState<"auto" | PairLayout>("auto"); // おまかせ=選択数で上下/横を自動
   const [nameField, setNameField] = useState(false); // なまえ・日付欄（既定 OFF）
   const [dotSize, setDotSize] = useState<DotSize>("m"); // 点の大きさ（既定 中）
   const dotScale = DOT_SCALE[dotSize];
@@ -544,6 +544,10 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
   const effectivePerPage = perPage === "auto"
     ? Math.max(1, Math.min(perPageCap, selectedSaved.length))
     : Math.min(perPage, perPageCap);
+  // おまかせ並び = 選択 2 問以下は上下（1 問でもスカスカに見えない）・3 問以上は横。
+  const effectivePairLayout: PairLayout = pairLayout === "auto"
+    ? (selectedSaved.length <= 2 ? "vertical" : "horizontal")
+    : pairLayout;
   const pages = useMemo(() => {
     const ps: Problem[][] = [];
     for (let i = 0; i < selectedSaved.length; i += effectivePerPage) {
@@ -588,7 +592,7 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
         const svg = buildPageSvg({
           paper, problems: pages[pi],
           pageNo: pi + 1, pageCount: pages.length,
-          marginMm, problemsPerPage: effectivePerPage, pairLayout, nameField, dotScale, logo,
+          marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
         });
         const png = await svgToPng(svg, paper.w, paper.h);
         doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
@@ -616,25 +620,12 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
     return { maxGrid, usedDiag, vols: recommendVols(maxGrid, usedDiag) };
   }, [selectedSaved]);
 
-  const edgeCountLabel = `線 ${edges.length} 本`;
   const editingNo = isEditing ? saved.findIndex((p) => p.id === editingId) + 1 : 0;
   const editingTitle = isEditing
     ? `問題 #${String(editingNo).padStart(2, "0")} を編集中`
     : `問題 #${(saved.length + 1).toString().padStart(2, "0")} を作る`;
 
   const paper = PAPER[paperKey];
-
-  // 今の用紙・問数で実際に印刷される点の直径（mm）— buildPageSvg と同じ計算
-  function dotSampleDia(k: DotSize): number {
-    const footerH = 12;
-    const nameH = nameField ? NAME_BAND_MM : 0;
-    const { cols, rows } = gridFor(effectivePerPage, pairLayout, paper.w, paper.h - footerH - nameH, marginMm);
-    const cellW = (paper.w - marginMm * 2) / cols;
-    const cellH = (paper.h - marginMm * 2 - footerH - nameH) / rows;
-    const pad = Math.min(cellW, cellH) * CELL_PAD;
-    const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout);
-    return dotRadius(pane, DOT_SCALE[k]) * 2;
-  }
 
   return (
     <>
@@ -672,97 +663,54 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
 
         {/* ---------- CENTER ---------- */}
         <main className="canvas-area">
-          <div className="canvas-gridbar">
-            <span className="gb-label">グリッドサイズ</span>
-            <div className="seg" role="group" aria-label="グリッドサイズ">
-              {([3, 4, 5, 6, 7, 8] as GridSize[]).map((n) => {
-                const locked = !caps.gridSizes.includes(n);
-                return (
-                  <button key={n} type="button"
-                    className={locked ? "locked" : undefined}
-                    aria-pressed={gridSize === n}
-                    disabled={isEditing && gridSize !== n}
-                    onClick={() => (locked ? goPricing() : changeGridSize(n))}
-                    title={isEditing ? "編集中はグリッドを変えられません" : (locked ? unlockLabel("entry") : undefined)}>
-                    {n}×{n}{locked && <Lock />}
-                  </button>
-                );
-              })}
-            </div>
-            {isEditing && <span className="gb-label gb-editing" style={{ marginLeft: "auto" }}>編集中はグリッド固定</span>}
+          <div className={`canvas-toolbar${isEditing ? " editing" : ""}`}>
+            <div className="title">{editingTitle}</div>
           </div>
 
-          {/* 作図に効く設定（点の大きさ・一筆書き）をグリッドの直下に。詳細設定（PDF 出力系）とは分離。 */}
-          <div className="canvas-gridbar canvas-makebar">
-            <span className="gb-label">点の大きさ</span>
-            <div className="seg seg--dot" role="group" aria-label="点の大きさ">
-              {(["s", "m", "l"] as const).map((k) => {
-                const locked = !caps.dotSizes.includes(k);
-                return (
+          {/* 作図の設定をタイトル直下のコンパクト帯に集約。各ラベル+操作は qb-group で一体折返し */}
+          <div className="maker-quickbar" role="group" aria-label="作図の設定">
+            <div className="qb-group">
+              <span className="qb-label">グリッド</span>
+              <select className="qb-select" aria-label="グリッドサイズ"
+                value={gridSize}
+                disabled={isEditing}
+                onChange={(e) => {
+                  const n = Number(e.target.value) as GridSize;
+                  if (!caps.gridSizes.includes(n)) { goPricing(); return; }
+                  changeGridSize(n);
+                }}>
+                {([3, 4, 5, 6, 7, 8] as GridSize[]).map((n) => (
+                  <option key={n} value={n}>
+                    {n}×{n}{caps.gridSizes.includes(n) ? "" : "（プランで解放）"}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="qb-group">
+              <span className="qb-label">点の大きさ</span>
+              <div className="seg qb-seg" role="group" aria-label="点の大きさ">
+                {(["s", "m", "l"] as const).map((k) => (
                   <button key={k} type="button"
-                    className={locked ? "locked" : undefined}
                     aria-pressed={dotSize === k}
-                    onClick={() => (locked ? goPricing() : setDotSize(k))}
-                    title={locked ? unlockLabel("entry") : undefined}>
-                    <span className="dot-sample"
-                      style={{ width: `${dotSampleDia(k)}mm`, height: `${dotSampleDia(k)}mm` }} />
-                    {k === "s" ? "小" : k === "m" ? "中" : "大"}{locked && <Lock />}
+                    onClick={() => setDotSize(k)}>
+                    {k === "s" ? "小" : k === "m" ? "中" : "大"}
                   </button>
-                );
-              })}
+                ))}
+              </div>
             </div>
-            <span className="gb-label">一筆書き</span>
-            <div className="seg seg--toggle" role="group" aria-label="一筆書きモード">
-              <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)}>OFF</button>
-              <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
+            <div className="qb-group">
+              <span className="qb-label">一筆書き</span>
+              <div className="seg qb-seg" role="group" aria-label="一筆書きモード">
+                <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)}>OFF</button>
+                <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
+              </div>
             </div>
-            <p className="dot-sample-note makebar-note">一筆書き ON：点を続けてクリックすると、線がつながります。</p>
-          </div>
-          <div className={`canvas-toolbar${isEditing ? " editing" : ""}`}>
-            <div className="title">
-              {editingTitle}
-              <span className="small">{gridSize} × {gridSize} · {paper.label}</span>
-            </div>
-            <div className="right">
-              <span className="pos-readout">{edgeCountLabel}</span>
-              <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
-                onClick={undo} disabled={!canUndo()}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
-                <span className="lbl">戻る</span>
-              </button>
-              <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
-                onClick={redo} disabled={!canRedo()}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
-                <span className="lbl">進む</span>
-              </button>
-              <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
-                onClick={clearAll} disabled={edges.length === 0}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
-                  <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
-                    strokeLinecap="round"/>
-                </svg>
-                <span className="lbl">全消去</span>
-              </button>
-            </div>
+            {isEditing
+              ? <span className="qb-note">編集中はグリッドは固定されます。</span>
+              : oneStroke && <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>}
           </div>
 
           <div className="canvas-stage">
-            <div className="paper-pair-label">問題</div>
             <div className="paper-pair">
               <div className="paper-pane problem" aria-label="編集中の盤面">
                 <PaperSVG
@@ -778,6 +726,41 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
               </div>
             </div>
             <div className="canvas-actions">
+              <div className="edit-actions">
+                <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
+                  onClick={undo} disabled={!canUndo()}>
+                  <svg viewBox="0 0 16 16">
+                    <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  </svg>
+                  <span className="lbl">戻る</span>
+                </button>
+                <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
+                  onClick={redo} disabled={!canRedo()}>
+                  <svg viewBox="0 0 16 16">
+                    <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  </svg>
+                  <span className="lbl">進む</span>
+                </button>
+                <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
+                  onClick={clearAll} disabled={edges.length === 0}>
+                  <svg viewBox="0 0 16 16">
+                    <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                    <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
+                      strokeLinecap="round"/>
+                  </svg>
+                  <span className="lbl">全消去</span>
+                </button>
+              </div>
               <button className="btn-save" type="button" onClick={saveCurrent}
                 disabled={isEditing ? edges.length === 0 : (edges.length === 0 && !savedFull)}>
                 {isEditing ? "変更を保存" : "この問題を保存する"}
@@ -881,7 +864,7 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
             <summary>
               <span className="sf-label">詳細設定<span className="sf-chevron" aria-hidden="true" /></span>
               <span className="sf-current">
-                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "horizontal" ? "横" : "下"} · 名前欄: {nameField ? "あり" : "なし"}
+                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: {nameField ? "あり" : "なし"}
               </span>
             </summary>
             <div className="sf-body">
@@ -925,7 +908,7 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
                   <span className="lauto">おまかせ</span>
                 </button>
                 {COUNT_OPTIONS.filter((v) => v <= paperMax(paperKey)).map((v) => {
-                  const g = gridFor(v, pairLayout, paper.w, paper.h, marginMm);
+                  const g = gridFor(v, effectivePairLayout, paper.w, paper.h, marginMm);
                   const locked = v > caps.perPageMax;
                   return (
                   <button key={v} type="button"
@@ -951,6 +934,11 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
               <h3>問題と書き込み欄の並び</h3>
               <div className="seg seg--pair" role="group" aria-label="問題と書き込み欄の並び">
                 <button type="button"
+                  aria-pressed={pairLayout === "auto"}
+                  onClick={() => setPairLayout("auto")}>
+                  おまかせ
+                </button>
+                <button type="button"
                   aria-pressed={pairLayout === "horizontal"}
                   onClick={() => setPairLayout("horizontal")}>
                   <span className="seg-ic"><PairChipIcon pair="horizontal" /></span>
@@ -960,9 +948,12 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
                   aria-pressed={pairLayout === "vertical"}
                   onClick={() => setPairLayout("vertical")}>
                   <span className="seg-ic"><PairChipIcon pair="vertical" /></span>
-                  下に並べる
+                  上下に並べる
                 </button>
               </div>
+              {pairLayout === "auto" && (
+                <p className="seg-hint">問題が 2 問までは上下、3 問以上は横に自動で並べます。</p>
+              )}
             </div>
 
             <div className="group">
@@ -1004,7 +995,7 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
                         pageCount={pages.length}
                         marginMm={marginMm}
                         problemsPerPage={effectivePerPage}
-                        pairLayout={pairLayout}
+                        pairLayout={effectivePairLayout}
                         nameField={nameField}
                         dotScale={dotScale} />
                     ))}
@@ -1063,7 +1054,7 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
             pageCount={pages.length}
             marginMm={marginMm}
             problemsPerPage={effectivePerPage}
-            pairLayout={pairLayout}
+            pairLayout={effectivePairLayout}
             nameField={nameField}
             dotScale={dotScale} />
         ))}

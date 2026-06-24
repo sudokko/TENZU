@@ -118,6 +118,14 @@ header.maker-header {
 }
 .seg button:last-child { border-right: none; }
 .seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+/* 詳細設定／並び枠のセグメント（並び・名前欄）は「1ページに何問」(layout-grid)・「用紙」(paper-grid)
+   と同じ選択表現に統一：bg-3 背景＋accent インラインアウトライン（オーナー指摘の見た目バラつき解消）。
+   quickbar のチップ（点・一筆・倍率等）は対象外＝コンパクト帯では塗りつぶしのまま。 */
+.sf-body .seg button[aria-pressed="true"],
+.group--pair-frame .seg button[aria-pressed="true"] {
+  background: var(--bg-3); color: var(--fg);
+  outline: 1.5px solid var(--accent); outline-offset: -1.5px;
+}
 /* ならび選択（ピクト付き・商品ページと同じ図解） */
 .seg--pair button {
   display: flex; flex-direction: column; align-items: center; gap: 5px;
@@ -235,6 +243,54 @@ header.maker-header {
 .canvas-makebar .seg--toggle { min-width: 110px; }
 .canvas-makebar .makebar-note { flex-basis: 100%; margin: 2px 0 0; }
 
+/* コンパクト作図バー — タイトル直下にグリッド/点/一筆書きを集約（スマホ縦詰め）。
+   旧 .canvas-gridbar + .canvas-makebar の 2 バーをこの 1 行帯に置き換える。 */
+.maker-quickbar {
+  padding: 8px 28px;
+  border-bottom: 1px dashed var(--line-thin);
+  background: var(--bg-3);
+  background-image: none;
+  display: flex; align-items: center; gap: 8px 12px;
+  flex-wrap: wrap;
+}
+.maker-quickbar .qb-label {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--fg-3);
+}
+.maker-quickbar .qb-select {
+  font-family: var(--font-tier3-mono);
+  font-size: 13px; color: var(--fg);
+  padding: 5px 8px;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  background: var(--bg); cursor: pointer;
+}
+.maker-quickbar .qb-select:disabled { opacity: 0.5; cursor: not-allowed; }
+.maker-quickbar .qb-seg { flex: 0 0 auto; }
+.maker-quickbar .qb-seg button { flex: 0 0 auto; padding: 5px 11px; }
+.maker-quickbar .qb-note {
+  flex-basis: 100%;
+  font-family: var(--font-tier3-sans);
+  font-size: 11px; color: var(--fg-3);
+  letter-spacing: 0.02em; margin: 0;
+}
+/* ラベルと操作をセットで折り返す（スマホでラベルだけ取り残されない・オーナー指摘#4） */
+.maker-quickbar .qb-group { display: inline-flex; align-items: center; gap: 6px; }
+/* 点の大きさチップに実サイズ感のドットを付ける（小/中/大が一目で・オーナー指摘#3） */
+.maker-quickbar .qb-seg[aria-label="点の大きさ"] button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+}
+.maker-quickbar .qb-seg[aria-label="点の大きさ"] button::before {
+  content: ""; border-radius: 50%; background: currentColor; flex: none;
+}
+.maker-quickbar .qb-seg[aria-label="点の大きさ"] button:nth-child(1)::before { width: 4px; height: 4px; }
+.maker-quickbar .qb-seg[aria-label="点の大きさ"] button:nth-child(2)::before { width: 6px; height: 6px; }
+.maker-quickbar .qb-seg[aria-label="点の大きさ"] button:nth-child(3)::before { width: 9px; height: 9px; }
+@media (max-width: 600px) {
+  .maker-quickbar { padding: 8px 16px; }
+}
+
 .canvas-toolbar {
   padding: 14px 28px;
   border-bottom: 1px dashed var(--line-thin);
@@ -255,7 +311,7 @@ header.maker-header {
   letter-spacing: 0.16em; text-transform: uppercase; margin-left: 10px;
 }
 .canvas-toolbar .right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.canvas-toolbar .iconbtn {
+.iconbtn {
   width: 32px; height: 32px;
   display: grid; place-items: center;
   border: 1px solid var(--line-thin);
@@ -264,22 +320,22 @@ header.maker-header {
   border-radius: 2px;
   padding: 0;
 }
-.canvas-toolbar .iconbtn:hover:not(:disabled) { border-color: var(--accent); }
-.canvas-toolbar .iconbtn:disabled { opacity: 0.4; cursor: not-allowed; }
-.canvas-toolbar .iconbtn svg { width: 14px; height: 14px; }
-.canvas-toolbar .iconbtn.labeled {
+.iconbtn:hover:not(:disabled) { border-color: var(--accent); }
+.iconbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.iconbtn svg { width: 14px; height: 14px; }
+.iconbtn.labeled {
   width: auto; height: 32px; padding: 0 10px;
   gap: 6px; grid-auto-flow: column;
   font-family: var(--font-tier3-sans);
   font-size: 12px; color: var(--fg);
   letter-spacing: 0.02em;
 }
-.canvas-toolbar .iconbtn.labeled .lbl { line-height: 1; }
-.canvas-toolbar .iconbtn.labeled.danger:hover:not(:disabled) {
+.iconbtn.labeled .lbl { line-height: 1; }
+.iconbtn.labeled.danger:hover:not(:disabled) {
   border-color: #B33A3A;
 }
-.canvas-toolbar .iconbtn.labeled.danger:hover:not(:disabled) .lbl,
-.canvas-toolbar .iconbtn.labeled.danger:hover:not(:disabled) svg path {
+.iconbtn.labeled.danger:hover:not(:disabled) .lbl,
+.iconbtn.labeled.danger:hover:not(:disabled) svg path {
   color: #B33A3A; stroke: #B33A3A;
 }
 .canvas-toolbar .pos-readout {
@@ -312,11 +368,11 @@ header.maker-header {
 .paper-pair-label {
   width: 100%;
   max-width: 440px;
-  color: var(--fg-3);
-  font-family: var(--font-tier3-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  color: var(--fg-2);
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-align: left;
 }
 .paper-pair {
@@ -374,10 +430,11 @@ header.maker-header {
 .canvas-actions {
   width: 100%;
   max-width: 440px;
-  display: flex;
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
 }
+.canvas-actions .edit-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .canvas-actions .btn-save {
-  flex: 1;
+  flex: 1; min-width: 150px;
   display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--font-tier3-sans);
   font-weight: 500; font-size: 14px;
@@ -677,8 +734,8 @@ header.maker-header {
 .settings-fold summary {
   list-style: none;
   cursor: pointer;
-  display: flex; flex-direction: column; gap: 5px;
-  padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 13px 14px;
   border-radius: var(--radius-soft);
 }
 .settings-fold summary:hover { background: var(--bg-3); }
@@ -688,18 +745,22 @@ header.maker-header {
 }
 .settings-fold summary::-webkit-details-marker { display: none; }
 .settings-fold .sf-label {
-  font-family: var(--font-tier3-mono);
-  font-size: 11px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--fg-2);
-  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-tier3-sans);
+  font-size: 13px; font-weight: 500; letter-spacing: 0.02em;
+  text-transform: none; color: var(--fg);
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
 }
+/* 開閉アフォーダンスを明確化：右端に accent ピル「ひらく ▾／とじる ▴」 */
 .settings-fold .sf-chevron::after {
-  content: "▸  ひらく";
-  font-size: 11px; color: var(--fg-3);
-  letter-spacing: 0.08em;
-  text-transform: none;
+  content: "ひらく ▾";
+  display: inline-block; white-space: nowrap;
+  font-family: var(--font-tier3-sans);
+  font-size: 12px; font-weight: 500;
+  color: var(--bg); background: var(--accent);
+  padding: 3px 12px; border-radius: 999px;
+  letter-spacing: 0.04em;
 }
-.settings-fold[open] .sf-chevron::after { content: "▾  とじる"; }
+.settings-fold[open] .sf-chevron::after { content: "とじる ▴"; }
 .settings-fold .sf-current {
   font-family: var(--font-tier3-sans);
   font-size: 12px; line-height: 1.6;
@@ -715,6 +776,54 @@ header.maker-header {
   font-family: var(--font-tier3-sans);
   font-size: 11.5px; font-weight: 500;
   line-height: 1.3;
+}
+/* 並び「おまかせ」選択時の自動ルール注記 */
+.group .seg-hint {
+  font-family: var(--font-tier3-sans);
+  font-size: 11px; color: var(--fg-3);
+  margin: 7px 2px 0; letter-spacing: 0.02em; line-height: 1.5;
+}
+
+/* 分解メーカー: 引くものが正解の図に無い線のときの警告 */
+.trace-warn {
+  width: 100%; max-width: 440px; margin: 0;
+  padding: 8px 12px; border-radius: var(--radius-soft);
+  background: #fdecec; border: 1px solid #f3c0c0;
+  font-family: var(--font-tier3-sans); font-size: 12px;
+  color: #b3322f; line-height: 1.55; text-align: center;
+}
+
+/* =========================================================================
+   内部用メーカー一覧 (/maker-index)
+   ========================================================================= */
+.mi-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
+.mi-intro {
+  font-family: var(--font-tier3-sans); font-size: 13px;
+  color: var(--fg-3); margin: 0 0 8px; line-height: 1.6;
+}
+.mi-group { margin-top: 26px; }
+.mi-group > h2 {
+  font-family: var(--font-tier3-mono); font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--fg-3); margin: 0 0 10px; font-weight: 400;
+}
+.mi-list { display: grid; gap: 8px; }
+.mi-card {
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 13px 15px; text-decoration: none;
+  background: var(--bg); border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+}
+.mi-card:hover { border-color: var(--accent); background: var(--bg-3); }
+.mi-card .mi-name {
+  font-family: var(--font-tier1-klee); font-weight: 600;
+  font-size: 15px; color: var(--fg); letter-spacing: 0.01em;
+}
+.mi-card .mi-desc {
+  font-family: var(--font-tier3-sans); font-size: 12.5px; color: var(--fg-2);
+}
+.mi-card .mi-url {
+  font-family: var(--font-tier3-mono); font-size: 11px;
+  color: var(--fg-3); letter-spacing: 0.02em; margin-top: 1px;
 }
 
 /* モバイル専用・画面下固定の DL バー */
@@ -1025,6 +1134,7 @@ header.maker-header {
 /* 欠け補完メーカー（/maker-fill）: 公平性インラインバッジのみ追加 */
 .gb-fair { font-size: 12px; color: #6b727b; }
 .gb-fair.is-bad { color: #d04848; }
+.qb-note.is-bad { color: #d04848; }
 
 /* =========================================================================
    重ねメーカー（/maker-overlay）— 編集ステージ 3 ボード「図形A ＋ 図形B ＝ □」
@@ -1047,11 +1157,11 @@ header.maker-header {
   gap: 8px;
 }
 .overlay-board .ob-cap {
-  font-family: var(--font-tier3-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--fg-3);
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--fg-2);
 }
 .overlay-board .paper-pane { width: 100%; }
 .overlay-board .paper-pane > svg { width: 100%; height: 100%; display: block; }

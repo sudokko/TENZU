@@ -20,3 +20,5 @@ docs/html-index.html
 !design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/*.html
 !design/navigation/pages-overview.html
 !prototypes/tenbyo-preview.html
+# 内部用メーカー一覧（手作りの静的HTML・生成物ではない）
+!web/public/maker-index.html
