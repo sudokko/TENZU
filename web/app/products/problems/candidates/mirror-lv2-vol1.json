@@ -13,21 +13,21 @@
     [
      [
       0,
-      2
+      0
      ],
      [
-      1,
-      2
+      2,
+      1
      ]
     ],
     [
      [
-      1,
-      1
+      0,
+      2
      ],
      [
-      1,
-      2
+      2,
+      1
      ]
     ]
    ],
@@ -40,12 +40,15 @@
    },
    "metrics": {
     "lines": 2,
-    "diagonals": 0,
-    "diagonalAngleKinds": 0,
+    "diagonals": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": true,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 3,
-    "symmetry": []
+    "symmetry": [
+     "h"
+    ]
    },
    "gen": {
     "kind": "auto",
@@ -54,7 +57,22 @@
     "seed": 1
    },
    "status": "adopted",
-   "order": 1
+   "order": 1,
+   "difficulty": {
+    "task": "mirror",
+    "value": 14,
+    "auto": 14,
+    "parts": {
+     "base": 14
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   },
+   "edited": true
   },
   {
    "id": "mirror-lv2-vol1-s1-02",
@@ -106,7 +124,21 @@
     "version": "1",
     "seed": 1
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 2,
+    "auto": 2,
+    "parts": {
+     "base": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   }
   },
   {
    "id": "mirror-lv2-vol1-s1-03",
@@ -160,7 +192,21 @@
     "version": "1",
     "seed": 1
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 2,
+    "auto": 2,
+    "parts": {
+     "base": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   }
   },
   {
    "id": "mirror-lv2-vol1-s1-04",
@@ -222,7 +268,21 @@
     "version": "1",
     "seed": 1
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 3,
+    "auto": 3,
+    "parts": {
+     "base": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   }
   },
   {
    "id": "mirror-lv2-vol1-s1-05",
@@ -294,7 +354,21 @@
     "version": "1",
     "seed": 1
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 3,
+    "auto": 3,
+    "parts": {
+     "base": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   }
   },
   {
    "id": "mirror-lv2-vol1-s1-06",
@@ -356,7 +430,21 @@
     "version": "1",
     "seed": 1
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 3,
+    "auto": 3,
+    "parts": {
+     "base": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   }
   },
   {
    "id": "mirror-lv2-vol1-s1-07",
@@ -438,7 +526,21 @@
     "version": "1",
     "seed": 1
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 4,
+    "auto": 4,
+    "parts": {
+     "base": 4
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   }
   },
   {
    "id": "mirror-lv2-vol1-s1-08",
@@ -520,7 +622,21 @@
     "version": "1",
     "seed": 1
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 4,
+    "auto": 4,
+    "parts": {
+     "base": 4
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 1
+   }
   },
   {
    "id": "mirror-lv2-vol1-s2-09",
@@ -575,7 +691,21 @@
     "version": "1",
     "seed": 2
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 2,
+    "auto": 2,
+    "parts": {
+     "base": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 2
+   }
   },
   {
    "id": "mirror-lv2-vol1-s2-10",
@@ -640,7 +770,21 @@
     "version": "1",
     "seed": 2
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 2,
+    "auto": 2,
+    "parts": {
+     "base": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 2
+   }
   },
   {
    "id": "mirror-lv2-vol1-s2-11",
@@ -704,7 +848,21 @@
     "seed": 2
    },
    "status": "adopted",
-   "order": 2
+   "order": 2,
+   "difficulty": {
+    "task": "mirror",
+    "value": 3,
+    "auto": 3,
+    "parts": {
+     "base": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 2
+   }
   },
   {
    "id": "mirror-lv2-vol1-s2-12",
@@ -779,7 +937,21 @@
     "version": "1",
     "seed": 2
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 3,
+    "auto": 3,
+    "parts": {
+     "base": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 2
+   }
   },
   {
    "id": "mirror-lv2-vol1-s2-13",
@@ -864,7 +1036,21 @@
     "version": "1",
     "seed": 2
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 4,
+    "auto": 4,
+    "parts": {
+     "base": 4
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 2
+   }
   },
   {
    "id": "mirror-lv2-vol1-s3-14",
@@ -929,7 +1115,21 @@
     "version": "1",
     "seed": 3
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 2,
+    "auto": 2,
+    "parts": {
+     "base": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 3
+   }
   },
   {
    "id": "mirror-lv2-vol1-s3-15",
@@ -992,7 +1192,21 @@
     "version": "1",
     "seed": 3
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 3,
+    "auto": 3,
+    "parts": {
+     "base": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 3
+   }
   },
   {
    "id": "mirror-lv2-vol1-s3-16",
@@ -1065,8 +1279,89 @@
     "version": "1",
     "seed": 3
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 3,
+    "auto": 3,
+    "parts": {
+     "base": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 3
+   }
+  },
+  {
+   "id": "mirror-lv2-vol1-s4-17",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 3,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 4
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "value": 2,
+    "auto": 2,
+    "parts": {
+     "base": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "1",
+    "seed": 4
+   }
   }
  ],
- "seedCursor": 3
+ "seedCursor": 4
 }

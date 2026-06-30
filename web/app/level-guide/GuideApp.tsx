@@ -84,7 +84,7 @@ const QUESTIONS: Question[] = [
 const MOKUTEKI_MAP: Record<string, { primary: string; related: string[] }> = {
   first: { primary: "模写", related: ["欠け補完", "鏡"] },
   kumon: { primary: "模写", related: ["鏡", "回転"] },
-  struggle: { primary: "模写", related: ["欠け補完", "平行移動"] },
+  struggle: { primary: "模写", related: ["欠け補完", "鏡"] },
   draw: { primary: "模写", related: ["かさね", "模写（立体）"] },
   harder: { primary: "鏡", related: ["回転", "かさね"] },
   solid: { primary: "模写（立体）", related: ["模写", "かさね"] },

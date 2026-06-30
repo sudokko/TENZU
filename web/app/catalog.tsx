@@ -5,167 +5,13 @@
    ＝数値の二重定義なし。出典: pack-design §0.2/§11.6/§12-22/§13.7。
    ========================================================================= */
 
-import { lvCounts, firstVol, taskBySlug, volHref, LEVEL_NAMES } from "./products/data";
+import { lvCounts, firstVol, taskBySlug, volHref, LEVEL_NAMES, LEVEL_AGES } from "./products/data";
+import { isLaunchHidden } from "./products/capabilities";
+import { MAKER_FIG, FigSolid } from "./products/maker-figs";
 
+/* 設問サンプル図は maker-figs.tsx を SSOT として共用（メーカー一覧と完全同一の凡例）。
+   solid のみメーカー非対応のため maker-figs 側の FigSolid を流用する。 */
 const TEAL = "#2C6E7F";
-const FAINT = "#B0B5BD";
-const INK = "#1A1F2A";
-
-/* ---- 図のジオメトリ（5×5 ドットの「みほん」「うつす」2 枚並び） ---- */
-const STEP = 22;
-const OY = 40;
-const LX = 20;   // みほん グリッド原点 x
-const RX = 212;  // うつす グリッド原点 x
-
-function gx(ox: number, c: number) { return ox + c * STEP; }
-function gy(r: number) { return OY + r * STEP; }
-function ptStr(ox: number, arr: number[][]) {
-  return arr.map(([c, r]) => `${gx(ox, c)},${gy(r)}`).join(" ");
-}
-
-function GridDots({ ox }: { ox: number }) {
-  const a: React.ReactNode[] = [];
-  for (let r = 0; r < 5; r++)
-    for (let c = 0; c < 5; c++)
-      a.push(<circle key={`${r}-${c}`} cx={gx(ox, c)} cy={gy(r)} r={1.6} fill={INK} />);
-  return <>{a}</>;
-}
-
-function Shape({
-  ox, p, faint, closed = true, dots = true,
-}: { ox: number; p: number[][]; faint?: boolean; closed?: boolean; dots?: boolean }) {
-  const s = ptStr(ox, p);
-  const stroke = faint ? FAINT : TEAL;
-  const sw = faint ? 1.5 : 2.2;
-  const dash = faint ? "3 4" : undefined;
-  return (
-    <>
-      {closed ? (
-        <polygon points={s} fill="none" stroke={stroke} strokeWidth={sw} strokeDasharray={dash}
-          strokeLinejoin="round" strokeLinecap="round" />
-      ) : (
-        <polyline points={s} fill="none" stroke={stroke} strokeWidth={sw} strokeDasharray={dash}
-          strokeLinejoin="round" strokeLinecap="round" />
-      )}
-      {!faint && dots && p.map(([c, r], i) => (
-        <circle key={i} cx={gx(ox, c)} cy={gy(r)} r={3} fill={TEAL} />
-      ))}
-    </>
-  );
-}
-
-function SampleFrame({ children }: { children: React.ReactNode }) {
-  return (
-    <svg viewBox="0 0 320 168" role="img" aria-label="設問サンプル。みほんを、うつす。">
-      <text x={LX} y={22} className="t-mono" fontSize="11" fill="#767D89" letterSpacing="0.06em">みほん</text>
-      <text x={RX} y={22} className="t-mono" fontSize="11" fill="#767D89" letterSpacing="0.06em">うつす</text>
-      <GridDots ox={LX} />
-      <GridDots ox={RX} />
-      {/* みほん → うつす 矢印 */}
-      <path d="M150 84 L182 84 M174 78 L182 84 L174 90" fill="none" stroke="#767D89"
-        strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      {children}
-    </svg>
-  );
-}
-
-/* 軸（鏡タスク用） */
-function Axis({ ox }: { ox: number }) {
-  return <line x1={gx(ox, 2)} y1={gy(0) - 8} x2={gx(ox, 2)} y2={gy(4) + 8}
-    stroke={FAINT} strokeWidth={1} strokeDasharray="2 4" />;
-}
-
-/* ---- 9 種類の設問サンプル ---- */
-const PENT = [[1, 0], [3, 0], [4, 2], [2, 4], [0, 2]];
-
-function FigCopy() {
-  return <SampleFrame><Shape ox={LX} p={PENT} /><Shape ox={RX} p={PENT} faint /></SampleFrame>;
-}
-function FigMirror() {
-  const tri = [[0, 1], [2, 1], [0, 3]];
-  const mir = [[4, 1], [2, 1], [4, 3]];
-  return (
-    <SampleFrame>
-      <Axis ox={LX} /><Shape ox={LX} p={tri} />
-      <Axis ox={RX} /><Shape ox={RX} p={tri} faint dots={false} /><Shape ox={RX} p={mir} faint />
-    </SampleFrame>
-  );
-}
-function FigRotate() {
-  const a = [[1, 1], [3, 2], [1, 3]];   // 右向き三角
-  const b = [[1, 1], [3, 1], [2, 3]];   // 下向き三角（90°）
-  return <SampleFrame><Shape ox={LX} p={a} /><Shape ox={RX} p={b} faint /></SampleFrame>;
-}
-function FigTranslate() {
-  const sq = (c: number, r: number) => [[c, r], [c + 1, r], [c + 1, r + 1], [c, r + 1]];
-  return (
-    <SampleFrame>
-      <Shape ox={LX} p={sq(0, 0)} />
-      <Shape ox={RX} p={sq(0, 0)} faint dots={false} /><Shape ox={RX} p={sq(3, 3)} faint />
-    </SampleFrame>
-  );
-}
-function FigScale() {
-  const small = [[1, 1], [2, 1], [2, 2], [1, 2]];
-  const big = [[1, 1], [3, 1], [3, 3], [1, 3]];
-  return <SampleFrame><Shape ox={LX} p={small} /><Shape ox={RX} p={big} faint /></SampleFrame>;
-}
-function FigOverlay() {
-  const aIn = [[0, 0], [2, 0], [2, 2], [0, 2]];
-  const bIn = [[2, 2], [4, 2], [4, 4], [2, 4]];
-  const aOut = [[0, 1], [2, 1], [2, 3], [0, 3]];
-  const bOut = [[1, 2], [3, 2], [3, 4], [1, 4]];
-  return (
-    <SampleFrame>
-      <Shape ox={LX} p={aIn} /><Shape ox={LX} p={bIn} />
-      <rect x={gx(RX, 1)} y={gy(2)} width={STEP} height={STEP} fill="rgba(44,110,127,0.16)" />
-      <Shape ox={RX} p={aOut} faint /><Shape ox={RX} p={bOut} faint />
-    </SampleFrame>
-  );
-}
-function FigDecompose() {
-  const sq = [[1, 2], [3, 2], [3, 4], [1, 4]];
-  const roof = [[1, 2], [2, 1], [3, 2]];
-  const roofUp = [[1, 1.6], [2, 0.6], [3, 1.6]];
-  const sqDn = [[1, 2.4], [3, 2.4], [3, 4], [1, 4]];
-  return (
-    <SampleFrame>
-      <Shape ox={LX} p={sq} dots={false} /><Shape ox={LX} p={roof} dots={false} />
-      <Shape ox={RX} p={roofUp} faint dots={false} /><Shape ox={RX} p={sqDn} faint dots={false} />
-    </SampleFrame>
-  );
-}
-function FigFill() {
-  // 欠け：[4,2]→[2,4] の一辺が抜けた五角形（開いた線）
-  const open = [[2, 4], [0, 2], [1, 0], [3, 0], [4, 2]];
-  return (
-    <SampleFrame>
-      <Shape ox={LX} p={open} closed={false} />
-      {/* 欠け端点を小さく示す */}
-      <circle cx={gx(LX, 4)} cy={gy(2)} r={3} fill="none" stroke={TEAL} strokeWidth={1.4} />
-      <circle cx={gx(LX, 2)} cy={gy(4)} r={3} fill="none" stroke={TEAL} strokeWidth={1.4} />
-      <Shape ox={RX} p={PENT} faint />
-    </SampleFrame>
-  );
-}
-function FigSolid() {
-  const cube = (ox: number, faint?: boolean) => {
-    const stroke = faint ? FAINT : TEAL;
-    const sw = faint ? 1.5 : 2.2;
-    const dash = faint ? "3 4" : undefined;
-    const front = ptStr(ox, [[1, 2], [3, 2], [3, 4], [1, 4]]);
-    const top = ptStr(ox, [[1, 2], [2, 1], [4, 1], [3, 2]]);
-    const right = ptStr(ox, [[3, 2], [4, 1], [4, 3], [3, 4]]);
-    return (
-      <>
-        <polygon points={front} fill="none" stroke={stroke} strokeWidth={sw} strokeDasharray={dash} strokeLinejoin="round" />
-        <polygon points={top} fill="none" stroke={stroke} strokeWidth={sw} strokeDasharray={dash} strokeLinejoin="round" />
-        <polygon points={right} fill="none" stroke={stroke} strokeWidth={sw} strokeDasharray={dash} strokeLinejoin="round" />
-      </>
-    );
-  };
-  return <SampleFrame>{cube(LX)}{cube(RX, true)}</SampleFrame>;
-}
 
 /* slug = products/data.ts のタスク slug（突合キー・/products/{slug} へ配線）
    lv = Lv.1〜5 の各 Vol 数（0＝歯抜け）。data.ts の lvCounts() から導出（手書き禁止）
@@ -173,13 +19,14 @@ function FigSolid() {
 export type Task = { slug: string; name: string; desc: string; lv: number[]; notes: string[]; Fig: () => React.ReactElement };
 export type Group = { label: string; sub: string; tasks: Task[] };
 
-export const GROUPS: Group[] = [
+/* 全タスク定義（translate/scale/shrink の定義も温存）。公開は LAUNCH_HIDDEN を除いた GROUPS。 */
+const ALL_GROUPS: Group[] = [
   {
     label: "見て写す",
     sub: "形をそのまま読み取る、いちばんの基礎。立体に起こすところまで。",
     tasks: [
       {
-        slug: "copy", name: "模写", desc: "見本のとおりに、点をつないで写す。", lv: lvCounts("copy"), Fig: FigCopy,
+        slug: "copy", name: "模写", desc: "見本のとおりに、点をつないで写す。", lv: lvCounts("copy"), Fig: MAKER_FIG.copy,
         notes: [
           "3×3・まっすぐの線だけ",
           "ななめ（45°）が登場。3×3〜4×4",
@@ -198,7 +45,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        slug: "fill", name: "欠け補完", desc: "足りない辺を補って、形を閉じる。", lv: lvCounts("fill"), Fig: FigFill,
+        slug: "fill", name: "欠け補完", desc: "足りない辺を補って、形を閉じる。", lv: lvCounts("fill"), Fig: MAKER_FIG.fill,
         notes: [
           "3×3・足りない線を描き足す",
           "ななめ線入りの欠け。3×3",
@@ -211,10 +58,10 @@ export const GROUPS: Group[] = [
   },
   {
     label: "かたちを動かす",
-    sub: "向きを変える、動かす、大きさを変える。頭の中で形を操る力。",
+    sub: "向きや位置を変えて、頭の中で形をとらえる力。鏡・平行移動・回転。",
     tasks: [
       {
-        slug: "mirror", name: "鏡", desc: "鏡の反対側に映る形を描く。", lv: lvCounts("mirror"), Fig: FigMirror,
+        slug: "mirror", name: "鏡", desc: "鏡の反対側に映る形を描く。", lv: lvCounts("mirror"), Fig: MAKER_FIG.mirror,
         notes: [
           "",
           "縦軸（左右の鏡うつし）。3×3",
@@ -224,17 +71,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        slug: "rotate", name: "回転", desc: "回しても同じ形だととらえる。", lv: lvCounts("rotate"), Fig: FigRotate,
-        notes: [
-          "",
-          "90°右回り。3×3",
-          "90°右＋左回り。4×4",
-          "180°（さかさま）が登場",
-          "",
-        ],
-      },
-      {
-        slug: "translate", name: "平行移動", desc: "形を変えずに、ずらして写す。", lv: lvCounts("translate"), Fig: FigTranslate,
+        slug: "translate", name: "平行移動", desc: "形を変えずに、ずらして写す。", lv: lvCounts("translate"), Fig: MAKER_FIG.translate,
         notes: [
           "",
           "横→縦にずらす。3×3",
@@ -244,10 +81,27 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        slug: "scale", name: "拡大・縮小", desc: "大きく・小さく、比をそろえて写す。", lv: lvCounts("scale"), Fig: FigScale,
+        slug: "rotate", name: "回転", desc: "回しても同じ形だととらえる。", lv: lvCounts("rotate"), Fig: MAKER_FIG.rotate,
+        notes: [
+          "",
+          "90°右回り。3×3",
+          "90°右＋左回り。4×4",
+          "180°（さかさま）が登場",
+          "",
+        ],
+      },
+      {
+        slug: "scale", name: "拡大", desc: "比をそろえて、大きく写す。", lv: lvCounts("scale"), Fig: MAKER_FIG.scale,
         notes: [
           "", "", "",
           "2倍に拡大（3×3→5×5）",
+          "",
+        ],
+      },
+      {
+        slug: "shrink", name: "縮小", desc: "比をそろえて、小さく写す。", lv: lvCounts("shrink"), Fig: MAKER_FIG.shrink,
+        notes: [
+          "", "", "", "",
           "1/2に縮小（5×5→3×3）",
         ],
       },
@@ -258,7 +112,7 @@ export const GROUPS: Group[] = [
     sub: "複数の形を組み立てたり、分けたりして読みとく力。",
     tasks: [
       {
-        slug: "overlay", name: "かさね", desc: "2 つの形を重ねたところを描く。", lv: lvCounts("overlay"), Fig: FigOverlay,
+        slug: "overlay", name: "かさね", desc: "2 つの形を重ねたところを描く。", lv: lvCounts("overlay"), Fig: MAKER_FIG.overlay,
         notes: [
           "",
           "2つの形を重ねる。3×3",
@@ -268,7 +122,7 @@ export const GROUPS: Group[] = [
         ],
       },
       {
-        slug: "decompose", name: "分解", desc: "1 つの形を、パーツに分ける。", lv: lvCounts("decompose"), Fig: FigDecompose,
+        slug: "decompose", name: "分解", desc: "1 つの形を、パーツに分ける。", lv: lvCounts("decompose"), Fig: MAKER_FIG.decompose,
         notes: [
           "",
           "重なりから1つ取り出す。3×3",
@@ -277,19 +131,36 @@ export const GROUPS: Group[] = [
           "最大盤面の分解。6×6",
         ],
       },
+      {
+        slug: "fold", name: "折り重ね", desc: "形を折り返して、重ねたところを描く。", lv: lvCounts("fold"), Fig: MAKER_FIG.fold,
+        notes: [
+          "",
+          "折り返して重ねる。3×3",
+          "交差＋線の密度。4×4",
+          "角度いろいろ。5×5",
+          "大盤面で折り重ねる。6×6",
+        ],
+      },
     ],
   },
 ];
+
+/* 公開カタログ＝LAUNCH_HIDDEN（scale/shrink）を除いた集合。
+   TOTAL_KINDS/TOTAL_VOL・TOP/一覧の表示はすべてこの GROUPS から導出（件数の二重定義なし）。 */
+export const GROUPS: Group[] = ALL_GROUPS.map((g) => ({
+  ...g,
+  tasks: g.tasks.filter((t) => !isLaunchHidden(t.slug)),
+}));
 
 export const LEVELS = LEVEL_NAMES;
 
 /* レベル＝発達段階インデックス。年齢はめやす（§12.7 基準尺）。 */
 const LEVEL_GRAPH = [
-  { name: "発展編", from: 8, to: 10, label: "8才〜" },
-  { name: "応用編", from: 6, to: 9, label: "6〜9才" },
-  { name: "基礎編", from: 5, to: 8, label: "5〜8才" },
-  { name: "入門編", from: 4, to: 7, label: "4〜7才" },
-  { name: "はじめの一歩", from: 4, to: 6, label: "4〜6才" },
+  { name: "発展編", from: 8, to: 10, label: LEVEL_AGES[4] },
+  { name: "応用編", from: 6, to: 9, label: LEVEL_AGES[3] },
+  { name: "基礎編", from: 5, to: 8, label: LEVEL_AGES[2] },
+  { name: "入門編", from: 4, to: 7, label: LEVEL_AGES[1] },
+  { name: "はじめの一歩", from: 4, to: 6, label: LEVEL_AGES[0] },
 ];
 const AGE_MIN = 4, AGE_MAX = 10, GX0 = 130, GX1 = 504, NAMEX = 118;
 const gxa = (a: number) => GX0 + ((a - AGE_MIN) / (AGE_MAX - AGE_MIN)) * (GX1 - GX0);
@@ -499,6 +370,7 @@ export function SiteFooter() {
             <h5>SHOP</h5>
             <ul>
               <li><a href="/products">商品一覧</a></li>
+              <li><a href="/makers">メーカー（自分で作る）</a></li>
               <li><a href="/level-guide">レベル選びガイド</a></li>
               <li><a href="#">サンプル PDF</a></li>
             </ul>

@@ -1,14 +1,17 @@
 import "./top-rich.css";
 import { Fragment } from "react";
 import SiteHeader from "./SiteHeader";
-import { GROUPS, volOf, LevelGraph, ArticlesSection, SiteFooter } from "./catalog";
+import { GROUPS, volOf, LevelGraph, ArticlesSection, SiteFooter, TOTAL_KINDS } from "./catalog";
+import { VISIBLE_MAKERS } from "./products/makers";
+
+const MAKER_KINDS = VISIBLE_MAKERS.length;
 
 /* =========================================================================
    TOP（正本 `/`）— Brilliant 寄せ「1.5」。2026-06-09 に /top-rich から昇格。
    方針（オーナー確定）: rev.5 の静けさを保ったまま、物語・証明・体験・締めの
    セクションを足して平坦さを解消。署名となる動き（点→形の線描）を一つだけ置く。
-   - TOP では「おためし点描写メーカー」に触れない（funnel §17）。主導線は
-     「サンプルを見る」「レベル選びガイド」。
+   - メーカーは従属的に触れる（funnel §17 更新）。主導線は PDF「サンプルを見る」
+     「レベル選びガイド」。メーカーは Flow 後の補完セクションで案内（PDF 導線を阻害しない）。
    - 9 種類は coverage 方式で圧縮: 3 群タブ＋種類リスト＋代表デモ＋レベル帯グラフ。
    - 「大切にした 3 つ」＝図解カード（①適レベル ②模写だけにしない ③印刷の自由）。
    - 「家庭での続け方」＝縦タイムライン（案B）。
@@ -171,7 +174,7 @@ function SignatureDraw() {
 }
 
 const PILLARS = [
-  { no: "01", t: "体系", d: "9 種類 × 5 段階で整理。今なにを練習しているか、言葉にできる。" },
+  { no: "01", t: "体系", d: `${TOTAL_KINDS} 種類 × 5 段階で整理。今なにを練習しているか、言葉にできる。` },
   { no: "02", t: "解像度", d: "買う前に、サンプル・難易度・根拠が読める。中身を見せる専門店。" },
   { no: "03", t: "発見", d: "知っている人だけが得をしない。全種類のサンプルを公開し、手で触れて確かめられる。" },
   { no: "04", t: "言語化", d: "この問題は何の力に効くか。タスクと能力の対応を、言葉にする。" },
@@ -333,7 +336,7 @@ function CoverageSection() {
                     ))}
                   </div>
                   <p className="cov-sub">{g.sub}</p>
-                  <a className="cov-more" href="/products">9 種類 × 5 段階を、すべて見る →</a>
+                  <a className="cov-more" href="/products">{TOTAL_KINDS} 種類 × 5 段階を、すべて見る →</a>
                 </div>
 
                 <div className="cov-demo">
@@ -342,7 +345,7 @@ function CoverageSection() {
                     return (
                       <div className="cov-demo-fig" key={t.name}>
                         <div className="cov-demo-card"><Fig /></div>
-                        <p className="cov-demo-cap">{t.name}・みほん → うつす</p>
+                        <p className="cov-demo-cap">{t.name}</p>
                         <a className="cov-demo-link" href={`/products/${t.slug}`}>
                           「{t.name}」全 {volOf(t.lv)} 巻を見る →
                         </a>
@@ -408,7 +411,7 @@ export default function Home() {
             </div>
             <p className="tr-lead">
               計算と読み書きはやっているけれど、図形は手薄。点つなぎは楽しんでいるけれど、次が見当たらない。
-              そんな家庭に渡せる「次の一枚」を、9 種類 × 5 段階で整えています。TENZU は受験対策の教材ではありません。
+              そんな家庭に渡せる「次の一枚」を、{TOTAL_KINDS} 種類 × 5 段階で整えています。TENZU は受験対策の教材ではありません。
               漢字ドリル・計算ドリルと並ぶ「家庭の当たり前の練習」として、机に向かう数分の中に置きます。
             </p>
             <div className="method-cards">
@@ -476,6 +479,25 @@ export default function Home() {
               <b>「毎日続いていますか」と聞かれることがあります。</b>続いていなくても大丈夫です。
               1 週間休んだ後の一枚も、最初の一枚と同じ価値です。
             </p>
+          </div>
+        </section>
+
+        {/* ===================== ⑦ 自分で作る（メーカー・従属的な補完） ===================== */}
+        <section className="tr-sec tr-sec-alt">
+          <div className="wrap wrap-narrow">
+            <div className="tr-sec-head">
+              <p className="tr-sec-kicker">自分で作る — メーカー</p>
+              <h2>ぴったりが無ければ、自分で作る。</h2>
+            </div>
+            <p className="tr-lead">
+              模写・鏡・平行移動・回転・欠け補完から、重ね・分解・折り重ねまで。
+              {MAKER_KINDS} 種類のメーカーで、家庭の練習プリントを思いどおりに作って PDF 印刷できます。
+              模写はいつでも無料。気に入ったメーカーだけ ¥980 の買い切りで。
+            </p>
+            <div className="tr-cta-row">
+              <a className="tr-btn-primary" href="/makers">メーカーを見る →</a>
+              <a className="tr-btn-ghost" href="/maker">無料で試す（模写）</a>
+            </div>
           </div>
         </section>
 

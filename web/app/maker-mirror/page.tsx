@@ -1,14 +1,24 @@
 import type { Metadata } from "next";
 import MakerMirrorApp from "./MakerMirrorApp";
+import MakerGate from "../maker/MakerGate";
+import { readOwned } from "../lib/auth";
 import "../maker/maker.css";
 
-/* 内部用ツール: 検索/シェアに乗せない */
+/* 公開メーカー（買い切り ¥980）。ツール自体は noindex（SEO はハブ /makers に集約）。 */
 export const metadata: Metadata = {
-  title: "鏡メーカー（内部用） · TENZU",
-  description: "鏡(mirror)タスクの問題を作って PDF にする内部用ツール。左右反転／上下反転の軸切替で解答が自動算出される。解答 PDF は 1 問 1 ページの用紙 MAX で別出力。",
+  title: "鏡メーカー · TENZU",
+  description: "鏡の反対側に映る形を描く点描写プリントを作って、PDF で印刷できます。",
   robots: { index: false, follow: false },
 };
 
-export default function MakerMirrorPage() {
-  return <MakerMirrorApp />;
+// cookie から tier を読むため動的レンダリング（MakerGate がクライアントで確定）。
+export const dynamic = "force-dynamic";
+
+export default async function MakerMirrorPage() {
+  const owned = await readOwned();
+  return (
+    <MakerGate makerKey="mirror" initialOwned={owned}>
+      <MakerMirrorApp />
+    </MakerGate>
+  );
 }

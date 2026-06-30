@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
 import MakerFoldApp from "./MakerFoldApp";
+import MakerGate from "../maker/MakerGate";
+import { readOwned } from "../lib/auth";
 import "../maker/maker.css";
 
-/* 内部用ツール: 検索/シェアに乗せない */
+/* 公開メーカー（買い切り ¥980）。ツール自体は noindex（SEO はハブ /makers に集約）。 */
 export const metadata: Metadata = {
-  title: "折り重ねメーカー（内部用） · TENZU",
-  description:
-    "折り重ね(fold)の問題を作って PDF にする内部用ツール。問題1を折り線で折り返して問題2に重ねた図を出題する鏡×重ねのハイブリッド。出題＋解答を1ファイルに連結出力。",
+  title: "折り重ねメーカー · TENZU",
+  description: "折り返して重ねた形を描く点描写プリントを作って、PDF で印刷できます。",
   robots: { index: false, follow: false },
 };
 
-export default function MakerFoldPage() {
-  return <MakerFoldApp />;
+export const dynamic = "force-dynamic";
+
+export default async function MakerFoldPage() {
+  const owned = await readOwned();
+  return (
+    <MakerGate makerKey="fold" initialOwned={owned}>
+      <MakerFoldApp />
+    </MakerGate>
+  );
 }

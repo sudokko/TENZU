@@ -3,9 +3,9 @@ import PricingApp from "./PricingApp";
 import "../membership.css";
 
 export const metadata: Metadata = {
-  title: "メーカーのプラン · TENZU",
+  title: "メーカーの料金 · TENZU",
   description:
-    "おためし点描写メーカーのプラン。無料ゲスト／スタンダード（¥480/月）／フル（¥980/月）。コア体験は無料のまま、量産・仕上げ・他タスクを解放します。",
+    "点描写メーカーの料金。模写は無料、ほかは各 ¥980 の買い切り（月額なし）。買う前にどのメーカーも触って試せます。",
 };
 
 export default function PricingPage() {

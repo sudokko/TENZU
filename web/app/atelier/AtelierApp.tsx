@@ -9,14 +9,16 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Candidate, CandidateFile, EdgeT, Pt, Problem } from "../products/problems/schema";
 import {
-  metricsLabel, difficultyScore, normalizeEdges, splitAtLattice, edgeKey, mirrorEdges,
+  metricsLabel, normalizeEdges, splitAtLattice, edgeKey, mirrorEdges, TASK_ANSWER_MODE,
 } from "../products/problems/schema";
 import { computeMetrics } from "../products/problems/gen/metrics";
 import {
-  copyDifficulty, COPY_LADDER,
-  type CopyShapeParams, type CopySlope,
-} from "../products/problems/gen/copy";
+  ladderChips, ladderFieldsFor, GRID_MIN, GRID_MAX, type LadderField,
+} from "../products/problems/ladder-schema";
+import { baseDifficulty } from "../products/problems/gen/difficulty";
 import { QUESTIONS_PER_VOL } from "../products/data";
+import { EdgeHitLayer } from "../maker/erase";
+import { SCREEN_DOT } from "../products/print";
 
 const INK = "#3A424E";
 const ACCENT = "#2C6E7F";
@@ -83,8 +85,19 @@ function PaneFig({
    none   : F のみ 1 ペイン
    ---- */
 function ProblemSvg({
-  n, edges, answer, size = 132,
-}: { n: number; edges: EdgeT[]; answer?: Problem["answer"]; size?: number }) {
+  n, edges, answer, inputB, size = 132,
+}: { n: number; edges: EdgeT[]; answer?: Problem["answer"]; inputB?: EdgeT[]; size?: number }) {
+  /* 折り重ね（fold）: 問題1(A=edges) ｜ 問題2(B=inputB) の across-pane。
+     解答は mirror(A)∪B で導出可＝サムネは2図の確認に集中する。 */
+  if (inputB) {
+    return (
+      <svg viewBox="0 0 200 100" width={size * 2} height={size}
+        className="atl-thumb" aria-label="折り重ね: 問題1／問題2">
+        <PaneFig n={n} edges={edges} />
+        <PaneFig n={n} edges={inputB} ox={100} />
+      </svg>
+    );
+  }
   const axis = mirrorAxisOf(answer);
   /* mirror: across-pane（v/d1/d2=横並び 200×100, h=縦並び 100×200） */
   if (axis) {
@@ -134,47 +147,96 @@ function engineLabel(variant?: string): string {
   return "対称・幾何";
 }
 
-/* 線の向きゲートを日本語に。検品者が「ここまでの斜めはOK」を一目で分かるように。 */
-function slopeLabel(s: CopySlope): string {
-  if (s === "ortho") return "タテ・ヨコのみ（斜めなし）";
-  if (s === "ortho45") return "45°斜めまで（非45°なし）";
-  return "自由角（非45°あり）";
+/* タスク別の難易度式を1行で（atl-dhelp 見出し用）。式の実体は gen/difficulty.ts。 */
+function dFormulaLabel(kind?: string): string {
+  switch (kind) {
+    case "copy": return "線数 ＋ 斜め本数×1.5 ＋ 非45°本数×8";
+    case "fill": return "図形の土台 ＋ 欠け線分×2";
+    case "mirror": return "図形の土台難易度（反転の操作負荷は軸ゲートで吸収）";
+    case "motif": return "線数 ＋ 斜め本数×1.5 ＋ 非45°本数×8";
+    default: return "タスク別の難易度式（gen/difficulty.ts）";
+  }
 }
 
-/* COPY_LADDER の巻パラメータ → タイトル下に出す「この巻の基準」チップ列。
-   盤面・線の向き・必須条件・交差ゲート・盤面いっぱい・D 窓の順。 */
-function ladderSpec(p: CopyShapeParams): { k: string; v: string }[] {
-  const items: { k: string; v: string }[] = [];
-  items.push({ k: "盤面", v: `${p.grid}×${p.grid}` });
-  items.push({ k: "線の向き", v: slopeLabel(p.slopes) });
-  if (p.requireDiag45) items.push({ k: "必須", v: "45°斜めを1本以上" });
-  if (p.requireNon45) items.push({ k: "必須", v: "非45°の線をふくむ" });
-  if (p.cross === "zero") items.push({ k: "交差", v: "なし" });
-  else if (p.cross === "some") items.push({ k: "交差", v: "あり" });
-  if (p.fullGrid) items.push({ k: "大きさ", v: "盤面いっぱい（4辺接触）" });
-  items.push({ k: "難易度", v: `D ${p.D[0]}–${p.D[1]}` });
-  return items;
+/* カードに出すタイトル。白紙作成＝provenance.label／編集で付けた名前＝gen.motif。全カード共通。 */
+function cardLabel(c: Candidate): string | undefined {
+  return c.provenance?.label ?? c.gen?.motif;
+}
+
+/* レベル定義エントリ → 編集フォーム state（入力は文字列・range は [min,max] の文字列対）。 */
+function initLform(task: string, entry: Record<string, unknown> | null): Record<string, unknown> | null {
+  const fields = ladderFieldsFor(task);
+  if (!fields || !entry) return null;
+  const f: Record<string, unknown> = {};
+  for (const fd of fields) {
+    const val = entry[fd.key];
+    switch (fd.kind) {
+      case "grid": f[fd.key] = Number(val) || GRID_MIN; break;
+      case "select": f[fd.key] = val == null ? "" : String(val); break;
+      case "bool": f[fd.key] = val === true; break;
+      case "range": f[fd.key] = Array.isArray(val) ? [String(val[0]), String(val[1])] : ["", ""]; break;
+      default: f[fd.key] = val == null ? "" : String(val); // int / float
+    }
+  }
+  return f;
+}
+
+/* 編集フォーム state → API patch（型を数値・配列へ戻す。optional select の "" は null＝省略）。 */
+function lformToPatch(task: string, lform: Record<string, unknown>): Record<string, unknown> {
+  const fields = ladderFieldsFor(task) ?? [];
+  const patch: Record<string, unknown> = {};
+  for (const fd of fields) {
+    const v = lform[fd.key];
+    switch (fd.kind) {
+      case "grid": patch[fd.key] = Number(v); break;
+      case "select": patch[fd.key] = v === "" ? null : v; break;
+      case "bool": patch[fd.key] = v === true; break;
+      case "range": { const r = v as [string, string]; patch[fd.key] = [Number(r[0]), Number(r[1])]; break; }
+      default: patch[fd.key] = Number(v); // int / float
+    }
+  }
+  return patch;
 }
 
 type Update = { id: string; status?: Candidate["status"]; order?: number | null };
 
 export default function AtelierApp({
-  sku, title, hasGenerator, genKind, linesRange, gapRange, motifInspoEnabled = false,
+  sku, title, blurb, meate, hasGenerator, genKind, linesRange, gapRange, motifInspoEnabled = false,
+  blankGridN, ladderEntry = null,
 }: {
-  sku: string; title: string; hasGenerator: boolean;
+  sku: string; title: string;
+  /* この巻のキャッチコピー（各巻1文）と めあて（この巻で鍛えたい力）。
+     live 商品詳細と同じ Vol メタ。タイトル下に出して検品時に狙いを確認する。 */
+  blurb?: string; meate?: string;
+  hasGenerator: boolean;
   genKind?: "copy" | "motif" | "mirror" | "fill";
   linesRange?: [number, number]; gapRange?: [number, number];
   /* true なら初回ロード時に /api/atelier/seed-motif-inspo を一度叩いて
      模様候補（gen.generator="motif"）を candidates JSON に注入する。
      注入後は通常の pending 候補と同じく採用/編集/不採用が効く */
   motifInspoEnabled?: boolean;
+  /* 白紙作成で使う盤面サイズ（正方タスクのみ。非対応タスクは undefined＝ボタン非表示） */
+  blankGridN?: number;
+  /* この巻のレベル定義（生成パラメータ）の現値。基準編集パネルの初期値・チップ表示に使う。
+     生成器の無いタスクや未定義 SKU は null（編集 UI 非表示）。 */
+  ladderEntry?: Record<string, unknown> | null;
 }) {
+  const task = sku.split("-")[0];
+  const lfields = ladderFieldsFor(task);
   const [file, setFile] = useState<CandidateFile | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const [genLines, setGenLines] = useState<number | "">(""); // "" = おまかせ（全帯域）
   const [genGap, setGenGap] = useState<number | "">("");     // fill のみ（欠けの本数）
   const [editing, setEditing] = useState<Candidate | null>(null); // 編集中の問題
+  const [creating, setCreating] = useState(false);                // 白紙からの新規作成中
+  const [ladderEdit, setLadderEdit] = useState(false);            // 巻のレベル定義編集中
+  const [lentry, setLentry] = useState<Record<string, unknown> | null>(ladderEntry); // 現値（保存で更新）
+  const [lform, setLform] = useState<Record<string, unknown> | null>(
+    () => initLform(task, ladderEntry),
+  );
+  const [dragIdx, setDragIdx] = useState<number | null>(null);   // ドラッグ中の採用カード（採用レーン内 index）
+  const [overIdx, setOverIdx] = useState<number | null>(null);   // ドロップ先のハイライト index
 
   const load = useCallback(async () => {
     const res = await fetch(`/api/atelier/candidates?sku=${sku}`);
@@ -236,19 +298,44 @@ export default function AtelierApp({
   const pending = useMemo(
     () => (file?.candidates ?? [])
       .filter((c) => c.status === "pending" && c.gen?.generator !== "motif")
-      .sort((a, b) => difficultyScore(a.metrics) - difficultyScore(b.metrics)),
+      .sort((a, b) => (a.difficulty?.value ?? 0) - (b.difficulty?.value ?? 0)),
     [file],
   );
   const pendingMotif = useMemo(
     () => (file?.candidates ?? [])
       .filter((c) => c.status === "pending" && c.gen?.generator === "motif")
-      .sort((a, b) => difficultyScore(a.metrics) - difficultyScore(b.metrics)),
+      .sort((a, b) => (a.difficulty?.value ?? 0) - (b.difficulty?.value ?? 0)),
     [file],
   );
   const rejected = useMemo(
     () => (file?.candidates ?? []).filter((c) => c.status === "rejected"),
     [file],
   );
+
+  /* 白紙作成モードで EditOverlay に渡す空の合成 candidate（盤面サイズ・解答モードを task から組む）。
+     none=copy系（edges のみ）／explicit=fill/かさね/分解（F＋R）／derived(mirror)=軸ゴースト表示。 */
+  const blankCandidate: Candidate | null = ((): Candidate | null => {
+    if (blankGridN === undefined) return null;
+    const n = blankGridN as 3 | 4 | 5 | 6 | 7;
+    const mode = TASK_ANSWER_MODE[task] ?? "none";
+    const axis = lentry?.axis as "v" | "h" | "d1" | undefined;
+    const answer: Problem["answer"] =
+      mode === "explicit" ? { mode: "explicit", edges: [] }
+        : mode === "derived" && task === "mirror" && axis
+          ? { mode: "derived", transform: { type: "mirror", axis } }
+          : undefined;
+    return {
+      id: "__new__",
+      grid: { type: "square", n },
+      edges: [],
+      ...(answer ? { answer } : {}),
+      metrics: computeMetrics([], n),
+      difficulty: { task, value: 0, auto: 0 },
+      provenance: { source: "blank", createdAt: "" },
+      gen: { kind: "manual" },
+      status: "pending",
+    };
+  })();
 
   function adopt(c: Candidate) {
     const maxOrder = adopted.reduce((m, a) => Math.max(m, a.order ?? 0), 0);
@@ -272,6 +359,20 @@ export default function AtelierApp({
       { id: c.id, order: other.order ?? idx + dir + 1 },
       { id: other.id, order: c.order ?? idx + 1 },
     ]);
+  }
+
+  /* 採用カードを from→to へ差し込んで出題順を組み替える（ドラッグ＆ドロップ用）。
+     order を 1..n に振り直し、変わった分だけ save する。 */
+  function reorder(from: number, to: number) {
+    if (from === to || from < 0 || to < 0) return;
+    const arr = adopted.slice();
+    const [moved] = arr.splice(from, 1);
+    arr.splice(to, 0, moved);
+    const updates: Update[] = [];
+    arr.forEach((c, i) => {
+      if ((c.order ?? 999) !== i + 1) updates.push({ id: c.id, order: i + 1 });
+    });
+    if (updates.length) save(updates);
   }
 
   async function generate() {
@@ -336,29 +437,123 @@ export default function AtelierApp({
     } finally { setBusy(false); }
   }
 
-  /* 各設問の難易度 D（今回校正の copyDifficulty）をカードの外・上に、略式の内訳付きで出す。
-     copy 専用（D は copy 校正値）。掃除後 JSON の metrics は hasNon45 を持たないので
-     保存値でなく edges から都度再計算する（非45°巻で 12 ぶんズレるのを防ぐ）。
-     内訳の各項の意味はページ上部の解説（atl-dhelp）で定義する。 */
-  const showD = genKind === "copy";
-  const ladder = COPY_LADDER[sku];
-  const win = ladder?.D;
+  /* 難易度の人手 override（手動ティア付け）。空欄で自動へ戻す。auto は保全される。 */
+  async function saveManual(id: string, manual: number | null) {
+    setBusy(true); setMsg("");
+    try {
+      await fetch("/api/atelier/candidates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sku, updates: [{ id, manual }] }),
+      });
+      await load();
+      setMsg(manual === null ? "難易度を自動に戻しました" : `難易度を ${manual} に手動設定しました`);
+    } finally { setBusy(false); }
+  }
+  function promptManual(c: Candidate) {
+    const auto = c.difficulty?.auto;
+    const cur = c.difficulty?.manual;
+    const v = window.prompt(
+      `「${c.id}」の難易度を手動指定（空欄で自動に戻す）\n自動値 = ${auto != null ? auto : "?"}`,
+      cur != null ? String(cur) : "",
+    );
+    if (v === null) return;
+    const t = v.trim();
+    if (t === "") { saveManual(c.id, null); return; }
+    const num = Number(t);
+    if (Number.isNaN(num)) { setMsg("数値を入力してください"); return; }
+    saveManual(c.id, num);
+  }
+
+  /* 白紙からの新規作成を保存（provenance=blank で candidates に1問追加） */
+  async function createNew(edges: EdgeT[], title?: string, answerEdges?: EdgeT[]) {
+    setBusy(true); setMsg("");
+    try {
+      const res = await fetch("/api/atelier/candidates/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sku, edges,
+          ...(answerEdges !== undefined && { answerEdges }),
+          ...(title && { title }),
+        }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setMsg(j.error ?? "作成に失敗しました"); return; }
+      await load();
+      setCreating(false);
+      setMsg(`新規作成しました（${j.id}）`);
+    } finally { setBusy(false); }
+  }
+
+  /* この巻のレベル定義（grid・線の向き・各範囲・ゲート・D 窓）を保存（copy/fill/mirror/motif）。
+     ladder.json を書き戻す。生成器は静的 import で読むので、反映には再生成（生成ボタン）が要る。
+     grid を変えると catalog-extra に表示メタ patch も書かれ、既存問題は旧 grid のまま不整合になる。 */
+  async function saveLadder() {
+    if (!lform || !lfields) return;
+    setBusy(true); setMsg("");
+    try {
+      const patch = lformToPatch(task, lform);
+      const res = await fetch("/api/atelier/ladder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sku, patch }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setMsg(j.error ?? "保存に失敗しました"); return; }
+      setLentry(j.entry);
+      setLform(initLform(task, j.entry));
+      setLadderEdit(false);
+      setMsg(j.gridChanged
+        ? "盤面サイズを変更しました。既存の候補/公開問題は旧 grid のまま不整合です。生成ボタンで作り直して採用し直し、D 窓も grid に合わせて見直してください。"
+        : "レベル定義を保存しました（生成ボタンで再生成して反映）");
+    } finally { setBusy(false); }
+  }
+
+  /* この巻を複製して同 Lv の次の Vol を作る（ladder.json ＋ catalog-extra.json に追記）。 */
+  async function addVol() {
+    setBusy(true); setMsg("");
+    try {
+      const res = await fetch("/api/atelier/ladder/add-vol", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sku }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setMsg(j.error ?? "Vol 追加に失敗しました"); return; }
+      setMsg(`Vol を追加しました → ${j.sku}（基準を調整して問題を作成。開く: /atelier/${j.sku}）`);
+    } finally { setBusy(false); }
+  }
+
+  /* 難易度 D を全タスクでカードの外・上に前面化する（atelier の独自要素）。
+     candidates は readCandidates で migrate 済み＝c.difficulty.{value,auto,parts,manual} を持つ。
+     value＝実効値（手動 manual があればそれ・無ければ機械算出 auto）。✎ で手動上書き／自動へ戻す。
+     式は gen/difficulty.ts（taskDifficulty）。内訳の意味は上部 atl-dhelp で定義。 */
+  // copy のみ「窓」D をカード上に出すのに使う（他タスクは undefined）
+  const win = task === "copy" && Array.isArray(lentry?.D)
+    ? (lentry!.D as [number, number]) : undefined;
   const fmtD = (x: number) => (Number.isInteger(x) ? String(x) : x.toFixed(1));
-  const dPartsOf = (c: Candidate) => {
-    const m = computeMetrics(c.edges, c.grid.n);
-    return { lines: m.lines, cross: 1.5 * m.crossings, non: m.hasNon45 ? 12 : 0, total: copyDifficulty(m) };
+  const dValueOf = (c: Candidate): number =>
+    c.difficulty ? c.difficulty.value : baseDifficulty(computeMetrics(c.edges, c.grid.n));
+  const partsTitle = (c: Candidate): string | undefined => {
+    const parts = c.difficulty?.parts;
+    if (!parts) return undefined;
+    const body = Object.entries(parts).map(([k, v]) => `${k} ${fmtD(v)}`).join("・");
+    return win ? `${body}（窓 D ${win[0]}–${win[1]}）` : body;
   };
   const withDScore = (c: Candidate, fig: ReactNode): ReactNode => {
-    if (!showD) return fig;
-    const p = dPartsOf(c);
+    const manual = c.difficulty?.manual != null;
+    const parts = c.difficulty?.parts;
     return (
       <div key={c.id} className="atl-cell">
-        <div className="atl-dscore" title={win ? `線${p.lines}＋交${fmtD(p.cross)}＋非45 ${p.non}（窓 D ${win[0]}–${win[1]}）` : undefined}>
-          <span className="atl-dval">D {fmtD(p.total)}</span>
+        <div className={`atl-dscore${manual ? " is-manual" : ""}`} title={partsTitle(c)}>
+          <span className="atl-dval">D {fmtD(dValueOf(c))}{manual && <em className="atl-dman">手動</em>}</span>
           <span className="atl-dbreak">
-            {p.lines}+{fmtD(p.cross)}+{p.non}
-            <span className="atl-deng">{engineLabel(c.gen.variant)}</span>
+            {parts ? Object.values(parts).map((v) => fmtD(v)).join("+") : ""}
+            {genKind === "copy" && <span className="atl-deng">{engineLabel(c.gen.variant)}</span>}
           </span>
+          <button type="button" className="atl-dedit" title="難易度を手動指定／自動へ戻す"
+            onClick={(e) => { e.stopPropagation(); promptManual(c); }}>✎</button>
         </div>
         {fig}
       </div>
@@ -367,7 +562,8 @@ export default function AtelierApp({
 
   const renderPendingCard = (c: Candidate) => withDScore(c,
     <figure key={c.id} className="atl-card" onClick={() => adopt(c)} title="クリックで採用">
-      <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} />
+      <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} />
+      {cardLabel(c) && <figcaption className="atl-card-name">{cardLabel(c)}</figcaption>}
       <div className="atl-card-actions">
         <button type="button" style={{ color: ACCENT }}
           onClick={(e) => { e.stopPropagation(); adopt(c); }}>採用</button>
@@ -381,6 +577,63 @@ export default function AtelierApp({
     </figure>
   );
 
+  /* レベル定義フォームの 1 フィールド描画（lform は呼び出し側で non-null を保証）。 */
+  const setLf = (key: string, val: unknown) =>
+    setLform({ ...(lform as Record<string, unknown>), [key]: val });
+  const setLfRange = (key: string, idx: 0 | 1, val: string) => {
+    const cur = ((lform as Record<string, unknown>)[key] as [string, string]) ?? ["", ""];
+    setLf(key, (idx === 0 ? [val, cur[1]] : [cur[0], val]) as [string, string]);
+  };
+  const renderLadderField = (fd: LadderField): ReactNode => {
+    const v = (lform as Record<string, unknown>)[fd.key];
+    switch (fd.kind) {
+      case "grid":
+        return (
+          <label key={fd.key}>{fd.label}
+            <select value={String(v)} onChange={(e) => setLf(fd.key, Number(e.target.value))}>
+              {Array.from({ length: GRID_MAX - GRID_MIN + 1 }, (_, i) => GRID_MIN + i).map((g) => (
+                <option key={g} value={g}>{g}×{g}</option>
+              ))}
+            </select>
+          </label>
+        );
+      case "select":
+        return (
+          <label key={fd.key}>{fd.label}
+            <select value={String(v ?? "")} onChange={(e) => setLf(fd.key, e.target.value)}>
+              {fd.options!.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+          </label>
+        );
+      case "bool":
+        return (
+          <label key={fd.key} className="atl-le-chk">
+            <input type="checkbox" checked={v === true}
+              onChange={(e) => setLf(fd.key, e.target.checked)} /> {fd.label}
+          </label>
+        );
+      case "range": {
+        const r = (v as [string, string]) ?? ["", ""];
+        return (
+          <label key={fd.key}>{fd.label}
+            <input type="number" value={r[0]} className="atl-le-num"
+              onChange={(e) => setLfRange(fd.key, 0, e.target.value)} />
+            <span> 〜 </span>
+            <input type="number" value={r[1]} className="atl-le-num"
+              onChange={(e) => setLfRange(fd.key, 1, e.target.value)} />
+          </label>
+        );
+      }
+      default: // int / float
+        return (
+          <label key={fd.key}>{fd.label}
+            <input type="number" step={fd.kind === "float" ? 0.05 : 1} value={String(v ?? "")}
+              className="atl-le-num" onChange={(e) => setLf(fd.key, e.target.value)} />
+          </label>
+        );
+    }
+  };
+
   if (!file) return <main className="atl-wrap"><p>読み込み中…</p></main>;
 
   return (
@@ -388,15 +641,45 @@ export default function AtelierApp({
       <header className="atl-head">
         <p className="atl-crumb"><a href="/atelier">atelier</a> / {sku}</p>
         <h1>{title}</h1>
-        {ladder && (
-          <dl className="atl-spec" aria-label="この巻の基準">
-            {ladderSpec(ladder).map((s, i) => (
-              <div key={i} className="atl-spec-item">
-                <dt>{s.k}</dt>
-                <dd>{s.v}</dd>
-              </div>
-            ))}
-          </dl>
+        {blurb && <p className="atl-blurb">{blurb}</p>}
+        {meate && (
+          <p className="atl-meate">
+            <span className="atl-meate-label">この巻のめあて</span>
+            {meate}
+          </p>
+        )}
+        {lfields && lentry && !ladderEdit && (
+          <div className="atl-spec-wrap">
+            <dl className="atl-spec" aria-label="この巻のレベル定義">
+              {ladderChips(task, lentry).map((s, i) => (
+                <div key={i} className="atl-spec-item">
+                  <dt>{s.k}</dt>
+                  <dd>{s.v}</dd>
+                </div>
+              ))}
+            </dl>
+            {lform && (
+              <button type="button" className="atl-spec-edit" onClick={() => setLadderEdit(true)}>
+                レベル定義を編集
+              </button>
+            )}
+          </div>
+        )}
+        {lfields && ladderEdit && lform && (
+          <form className="atl-ladder-edit" aria-label="巻のレベル定義を編集"
+            onSubmit={(e) => { e.preventDefault(); saveLadder(); }}>
+            <div className="atl-le-row">
+              {lfields.map((fd) => renderLadderField(fd))}
+            </div>
+            <div className="atl-le-row">
+              <span className="atl-editor-spacer" />
+              <button type="submit" className="atl-btn" disabled={busy}>レベル定義を保存</button>
+              <button type="button"
+                onClick={() => { setLform(initLform(task, lentry)); setLadderEdit(false); }}>
+                やめる
+              </button>
+            </div>
+          </form>
         )}
         <div className="atl-actions">
           {hasGenerator && genKind !== "copy" && (
@@ -440,6 +723,15 @@ export default function AtelierApp({
               ライブラリを読み込む
             </button>
           )}
+          {blankGridN !== undefined && (
+            <button type="button" className="atl-btn" disabled={busy} onClick={() => setCreating(true)}>
+              ＋ 新規作成（白紙）
+            </button>
+          )}
+          <button type="button" className="atl-btn" disabled={busy} onClick={addVol}
+            title="この巻を複製して同 Lv の次の Vol を作る">
+            Vol を追加
+          </button>
           <button type="button" className="atl-btn atl-btn--pub"
             disabled={busy || adopted.length !== QUESTIONS_PER_VOL} onClick={publish}>
             公開する（{adopted.length} / {QUESTIONS_PER_VOL}）
@@ -463,19 +755,16 @@ export default function AtelierApp({
         </div>
       </header>
 
-      {showD && (
-        <section className="atl-dhelp">
-          <p className="atl-dhelp-formula">
-            難易度 <strong>D</strong> ＝ 線数 ＋ 交差 <code>×1.5</code> ＋ 非45° <code>あれば +12</code>
-          </p>
-          <p className="atl-dhelp-note">
-            この 12 問の中で難易度を散らすための指標。巻のレベルは盤面サイズ＋交差などの種類で決まるので、盤面は式から外した。
-            各カードの内訳は <code>線＋交差＋非45°</code> の順。
-            {ladder && <>　この巻の窓は <strong>D {ladder.D[0]}–{ladder.D[1]}</strong>。</>}
-            　非45°が最大ドライバー（あんたのティア判定・ρ=0.878）。
-          </p>
-        </section>
-      )}
+      <section className="atl-dhelp">
+        <p className="atl-dhelp-formula">
+          難易度 <strong>D</strong>：{dFormulaLabel(genKind)}
+        </p>
+        <p className="atl-dhelp-note">
+          12 問の中で難易度を散らすための指標（全タスク共通でカード上に前面表示）。
+          各カードの <strong>✎</strong> で難易度を手動上書き／自動へ戻せる（人手ティア付け・auto は保全）。
+          {win && <>　この巻の窓は <strong>D {win[0]}–{win[1]}</strong>。非45°が最大ドライバー（ρ=0.878）。</>}
+        </p>
+      </section>
 
       {/* ---- 採用レーン（＝巻内出題順） ---- */}
       <section className="atl-lane">
@@ -483,9 +772,16 @@ export default function AtelierApp({
         {adopted.length === 0 && <p className="atl-empty">下の候補をクリックして採用してください。</p>}
         <div className="atl-grid">
           {adopted.map((c, i) => withDScore(c,
-            <figure key={c.id} className="atl-card atl-card--adopted">
-              <span className="atl-order">問 {i + 1}</span>
-              <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} />
+            <figure key={c.id}
+              className={`atl-card atl-card--adopted${dragIdx === i ? " is-dragging" : ""}${overIdx === i && dragIdx !== null && dragIdx !== i ? " is-dropover" : ""}`}
+              draggable
+              onDragStart={(e) => { setDragIdx(i); e.dataTransfer.effectAllowed = "move"; }}
+              onDragEnd={() => { setDragIdx(null); setOverIdx(null); }}
+              onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; if (overIdx !== i) setOverIdx(i); }}
+              onDrop={(e) => { e.preventDefault(); if (dragIdx !== null) reorder(dragIdx, i); setDragIdx(null); setOverIdx(null); }}>
+              <span className="atl-order" title="ドラッグして並び替え">⠿ 問 {i + 1}</span>
+              <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} />
+              {cardLabel(c) && <figcaption className="atl-card-name">{cardLabel(c)}</figcaption>}
               <div className="atl-card-actions">
                 <button type="button" onClick={() => move(c, -1)} disabled={i === 0}>↑</button>
                 <button type="button" onClick={() => move(c, 1)} disabled={i === adopted.length - 1}>↓</button>
@@ -507,14 +803,10 @@ export default function AtelierApp({
               : "手設計の問題を candidates JSON に追記してください。"}
           </p>
         )}
-        {/* カードは図柄のみ。copy は難易度 D 昇順の一枚壁にして「12 問の中の散らし」を一目で見る
-            （線数バケツ・エンジン分けは廃止＝D 表示に集約）。 */}
+        {/* カードは難易度 D 昇順の一枚壁（pending は difficulty.value で整列済み）。
+            「12 問の中の散らし」を一目で見る。 */}
         <div className="atl-grid">
-          {(showD
-            ? [...pending].sort((a, b) =>
-                copyDifficulty(computeMetrics(a.edges, a.grid.n)) - copyDifficulty(computeMetrics(b.edges, b.grid.n)))
-            : pending
-          ).map((c) => renderPendingCard(c))}
+          {pending.map((c) => renderPendingCard(c))}
         </div>
       </section>
 
@@ -525,7 +817,8 @@ export default function AtelierApp({
           <div className="atl-grid">
             {rejected.map((c) => withDScore(c,
               <figure key={c.id} className="atl-card atl-card--rejected">
-                <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} size={92} />
+                <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} size={92} />
+                {cardLabel(c) && <figcaption className="atl-card-name">{cardLabel(c)}</figcaption>}
                 <div className="atl-card-actions">
                   <button type="button" onClick={() => save([{ id: c.id, status: "pending" }])}>
                     戻す
@@ -549,8 +842,8 @@ export default function AtelierApp({
           <div className="atl-grid">
             {pendingMotif.map((c) => withDScore(c,
               <figure key={c.id} className="atl-card atl-card--motif" onClick={() => adopt(c)} title="クリックで採用">
-                <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} />
-                {c.gen.motif && <figcaption className="atl-inspo-name">{c.gen.motif}</figcaption>}
+                <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} />
+                {cardLabel(c) && <figcaption className="atl-inspo-name">{cardLabel(c)}</figcaption>}
                 <div className="atl-card-actions">
                   <button type="button" style={{ color: ACCENT }}
                     onClick={(e) => { e.stopPropagation(); adopt(c); }}>採用</button>
@@ -576,6 +869,16 @@ export default function AtelierApp({
           onClose={() => setEditing(null)}
         />
       )}
+      {creating && blankCandidate && (
+        <EditOverlay
+          key="__new__"
+          candidate={blankCandidate}
+          busy={busy}
+          createMode
+          onSave={(edges, title, answerEdges) => createNew(edges, title, answerEdges)}
+          onClose={() => setCreating(false)}
+        />
+      )}
     </main>
   );
 }
@@ -587,12 +890,13 @@ export default function AtelierApp({
    R をトグル（公平性=「R の両端点が G に残るか」をライブで注記）。
    ========================================================================= */
 function EditOverlay({
-  candidate, busy, onSave, onClose,
+  candidate, busy, onSave, onClose, createMode = false,
 }: {
   candidate: Candidate;
   busy: boolean;
   onSave: (edges: EdgeT[], motif?: string, answerEdges?: EdgeT[]) => void;
   onClose: () => void;
+  createMode?: boolean;
 }) {
   const n = candidate.grid.n;
   const isFill = candidate.answer?.mode === "explicit";
@@ -602,8 +906,10 @@ function EditOverlay({
   );
   const [mode, setMode] = useState<"F" | "R">("F");
   const [first, setFirst] = useState<Pt | null>(null);
+  const [oneStroke, setOneStroke] = useState(false);   // 一筆書き: 線を引いた後、終点を次の始点に残す
+  const [eraseMode, setEraseMode] = useState(false);   // 消す（消しゴム）: 線をクリックで1本削除
   const [history, setHistory] = useState<{ edges: EdgeT[]; rEdges: EdgeT[] }[]>([]);
-  const [title, setTitle] = useState(candidate.gen.motif ?? "");
+  const [title, setTitle] = useState(candidate.provenance?.label ?? candidate.gen?.motif ?? "");
 
   const SIZE = 360;
   const pos = (i: number) => 10 + (80 * i) / Math.max(1, n - 1);
@@ -638,7 +944,17 @@ function EditOverlay({
     setHistory((h) => [...h, prev]);
   }
 
+  // 消すモード: 線をクリック → その辺を F から削除（R に入っていたら R からも消す）
+  function eraseUnit(i: number) {
+    pushHistory({ edges, rEdges });
+    const k = edgeKey(edges[i]);
+    setEdges(edges.filter((_, idx) => idx !== i));
+    if (isFill) setREdges(rEdges.filter((e) => edgeKey(e) !== k));
+    setFirst(null);
+  }
+
   function clickPoint(p: Pt) {
+    if (eraseMode) return; // 消すモードでは点クリックでは描かない
     if (!first) { setFirst(p); return; }
     if (samePt(first, p)) { setFirst(null); return; } // 同点 = 選択解除
     const units = splitAtLattice([first, p]);
@@ -668,7 +984,8 @@ function EditOverlay({
         setREdges(normalizeEdges([...rEdges, ...units]));
       }
     }
-    setFirst(null);
+    // 一筆書き ON: 終点を次の線の始点として残す（連続描画）。OFF: 選択解除。
+    setFirst(oneStroke ? p : null);
   }
 
   function undo() {
@@ -698,33 +1015,36 @@ function EditOverlay({
   /* fill の R 集合（描画用） */
   const rSetView = useMemo(() => new Set(rEdges.map(edgeKey)), [rEdges]);
 
+  /* 「質問＋回答」の2要素があるタスクは、maker 同様に右へ回答ペイン（読取専用ライブプレビュー）を並べる。
+     左＝編集中（完成図/抜く線）・右＝子が見る結果。重ね描きの読みにくさを解消する。 */
+  const inputB = (candidate as { inputB?: EdgeT[] }).inputB;
+  const previewKind: "fill" | "mirror" | "fold" | null =
+    isFill ? "fill" : axis ? "mirror" : Array.isArray(inputB) ? "fold" : null;
+  const previewSolid: EdgeT[] =
+    previewKind === "fill" ? edges.filter((e) => !rSetView.has(edgeKey(e)))
+      : previewKind === "mirror" ? mirrorGhost
+        : previewKind === "fold" ? (inputB ?? [])
+          : [];
+  // fill のみ: 抜いた線（子が描き足す＝解答）をアクセント点線で重ねる
+  const previewAccent: EdgeT[] =
+    previewKind === "fill" ? rEdges.filter((e) => fSet.has(edgeKey(e))) : [];
+  const previewLabel =
+    previewKind === "fill" ? "回答ペイン（欠け図＋抜いた線）"
+      : previewKind === "mirror" ? "回答ペイン（折り返した形）"
+        : previewKind === "fold" ? "問題2（B）" : "";
+  const editSize = previewKind ? 300 : SIZE;
+
   return (
     <div className="atl-overlay" role="dialog" aria-modal>
-      <div className="atl-editor">
+      <div className={`atl-editor${previewKind ? " has-pair" : ""}`}>
         <header className="atl-editor-head">
-          <h2>問題の手直し</h2>
+          <h2>{createMode ? "新規作成（白紙）" : "問題の手直し"}</h2>
           <p className="atl-editor-hint">
             {mode === "F"
               ? "点を 2 つクリックして線を引く／同じ線をもう一度なぞると消える"
               : "完成図の線をクリックすると「抜く線」へ／もう一度で戻る"}
           </p>
         </header>
-
-        {isFill && (
-          <div className="atl-editor-mode" role="tablist" aria-label="編集モード">
-            <button type="button"
-              className={`atl-mode${mode === "F" ? " is-sel" : ""}`}
-              onClick={() => { setMode("F"); setFirst(null); }}>
-              完成図を直す
-            </button>
-            <button type="button"
-              className={`atl-mode${mode === "R" ? " is-sel" : ""}`}
-              onClick={() => { setMode("R"); setFirst(null); }}>
-              抜く線を直す
-            </button>
-            <span className={`atl-fair${fairness.ok ? "" : " is-bad"}`}>{fairness.msg}</span>
-          </div>
-        )}
 
         <label className="atl-editor-title">
           タイトル（名前・任意）
@@ -733,7 +1053,34 @@ function EditOverlay({
             onChange={(e) => setTitle(e.target.value)} />
         </label>
 
-        <svg viewBox="0 0 100 100" width={SIZE} height={SIZE} className="atl-editor-svg">
+        <div className="atl-editor-onestroke" role="group" aria-label="モード">
+          <span className="atl-os-label">モード</span>
+          <div className="atl-seg">
+            <button type="button" aria-pressed={!eraseMode && mode === "F"}
+              onClick={() => { setEraseMode(false); setMode("F"); setFirst(null); }}>描く</button>
+            {isFill && (
+              <button type="button" aria-pressed={!eraseMode && mode === "R"}
+                onClick={() => { setEraseMode(false); setMode("R"); setFirst(null); }}>抜く線を選ぶ</button>
+            )}
+            <button type="button" aria-pressed={eraseMode}
+              onClick={() => { setEraseMode(true); setFirst(null); }}>消す</button>
+          </div>
+          {isFill && <span className={`atl-fair${fairness.ok ? "" : " is-bad"}`}>{fairness.msg}</span>}
+          {eraseMode && <span className="atl-os-note">線をクリックすると、その線だけ消えます。</span>}
+        </div>
+
+        <div className="atl-editor-onestroke" role="group" aria-label="一筆書きモード">
+          <span className="atl-os-label">一筆書き</span>
+          <div className="atl-seg">
+            <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)} disabled={eraseMode}>OFF</button>
+            <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)} disabled={eraseMode}>ON</button>
+          </div>
+          {oneStroke && <span className="atl-os-note">点を続けてクリックすると線がつながります。</span>}
+        </div>
+
+        <div className={previewKind ? "atl-editor-pair" : undefined}>
+        <div className="atl-editor-paneblock">
+        <svg viewBox="0 0 100 100" width={editSize} height={editSize} className="atl-editor-svg">
           <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
           {axis && <AxisLineLocal axis={axis} />}
           {mirrorGhost.map((e, i) => (
@@ -772,14 +1119,58 @@ function EditOverlay({
             return (
               <g key={i}>
                 <circle cx={pos(c)} cy={pos(r)} r={selected ? 3 : 1.8}
-                  fill={selected ? ACCENT : INK} />
-                {/* 当たり判定を広く（タップしやすく） */}
-                <circle cx={pos(c)} cy={pos(r)} r={6} fill="transparent"
-                  style={{ cursor: "pointer" }} onClick={() => clickPoint([c, r])} />
+                  fill={selected ? ACCENT : SCREEN_DOT} />
+                {/* 当たり判定を広く（タップしやすく）。消すモードでは点は触らせない。 */}
+                {!eraseMode && (
+                  <circle cx={pos(c)} cy={pos(r)} r={6} fill="transparent"
+                    style={{ cursor: "pointer" }} onClick={() => clickPoint([c, r])} />
+                )}
               </g>
             );
           })}
+          {eraseMode && (
+            <EdgeHitLayer
+              edges={edges.map((e) => ({ a: { c: e[0][0], r: e[0][1] }, b: { c: e[1][0], r: e[1][1] } }))}
+              pos={(c, r) => ({ x: pos(c), y: pos(r) })}
+              onErase={eraseUnit}
+              step={80 / Math.max(1, n - 1)}
+            />
+          )}
         </svg>
+        {previewKind && (
+          <span className="atl-pane-label">
+            編集中（{isFill ? (mode === "F" ? "完成図" : "抜く線") : "みほん"}）
+          </span>
+        )}
+        </div>
+        {previewKind && (
+          <>
+            <span className="atl-editor-arrow" aria-hidden>→</span>
+            <div className="atl-editor-paneblock">
+              <svg viewBox="0 0 100 100" width={editSize} height={editSize}
+                className="atl-preview-svg" aria-label={previewLabel}>
+                <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
+                {previewKind === "mirror" && axis && <AxisLineLocal axis={axis} />}
+                {previewSolid.map((e, i) => (
+                  <line key={`ps${i}`}
+                    x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+                    stroke={INK} strokeWidth={1.7} strokeLinecap="round" />
+                ))}
+                {previewAccent.map((e, i) => (
+                  <line key={`pa${i}`}
+                    x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+                    stroke={ACCENT} strokeWidth={1.9} strokeDasharray="3 2" strokeLinecap="round" />
+                ))}
+                {Array.from({ length: n * n }, (_, i) => {
+                  const c = i % n, r = Math.floor(i / n);
+                  return <circle key={i} cx={pos(c)} cy={pos(r)} r={1.8} fill={INK} />;
+                })}
+              </svg>
+              <span className="atl-pane-label">{previewLabel}</span>
+            </div>
+          </>
+        )}
+        </div>
 
         <p className="atl-editor-metrics">
           {metricsLabel(liveMetrics, candidate.grid)}

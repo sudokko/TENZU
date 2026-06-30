@@ -9,9 +9,11 @@
    - 変種キー（gen.variant）で自巻既出・兄弟巻重複を排除
    ========================================================================= */
 
-import type { Candidate, EdgeT, Problem, ProblemMetrics } from "../schema";
+import type { Candidate, EdgeT, Problem } from "../schema";
 import { edgeKey, normalizeEdges, validateProblem } from "../schema";
 import { computeMetrics } from "./metrics";
+import { baseDifficulty } from "./difficulty";
+import { COPY_LADDER } from "./ladder";
 import { jaccard } from "./filters";
 import { allRawShapes, shapeEdges, type RawShape } from "./copy-shapes";
 import { generateSymmetricVariants } from "./symmetric";
@@ -41,17 +43,9 @@ function isXShape(family: string, variantKey: string): boolean {
 export type CopySlope = "ortho" | "ortho45" | "any";
 export type CrossMode = "any" | "zero" | "some"; // 交差の種類ゲート: 不問 / 交差なし / 交差あり
 
-/* 難易度スコア D — 1 巻 12 問の「中の」難易度を散らすための相対指標。
-   2026-06-15 オーナーの目で 32 枚をティア付け → 最小二乗（ρ=0.878）。生フィットを線=1.0 に
-   スケールした重み（交差 0.146/0.110≈1.33→1.5・非45° 1.162/0.110≈10.6→12 に丸め）。
-     D = 1.0·lines + 1.5·crossings + 12·[非45°あり]
-   - **盤面サイズは式に入れない**：巻は盤面＋種類ゲートで決まり（COPY_LADDER）、盤面は巻内で一定＝
-     巻内のばらつきに寄与しない。かつ生フィットの盤面重み（≈1.65/段）よりオーナー判断で大きく
-     盛っていた経緯があるため、いっそ除外して「巻内を散らす」目的に純化した（2026-06-15 改訂）。
-   - 非45°が最大ドライバー（線 12 本ぶん）。斜め本数 diag は寄与≈0・構成数 comp は符号不安定で不採用。 */
-export function copyDifficulty(m: ProblemMetrics): number {
-  return m.lines + 1.5 * m.crossings + 12 * (m.hasNon45 ? 1 : 0);
-}
+/* 難易度スコア D は gen/difficulty.ts の baseDifficulty に一本化した（全9タスク横断 SSOT）。
+   式・校正の経緯（2026-06-15 ティア付け→最小二乗・盤面項除外）はそちらのコメント参照。
+   copy はこの D をそのまま巻内12問の散らしに使う。 */
 
 /* 巻の振り分け仕様。難しさは D の狭い窓、種類はカテゴリゲートで分離する
    （旧・多次元 band は band が広すぎ・隣接巻と重なり・巻内ばらつき9倍・難易度逆転を
@@ -67,23 +61,16 @@ export type CopyShapeParams = {
 };
 
 /* D 窓＋種類ゲート。巻のレベルは grid（盤面サイズ）＋種類ゲートで決まり、D 窓はその巻の
-   難易度帯（盤面ぶんを抜いた線＋交差＋非45°の量）を指定する。窓は盤面非依存なので grid 違いの
+   難易度帯（盤面ぶんを抜いた線＋斜め＋非45°の量。2026-06-30 改訂で交差は D から撤去）を指定する。窓は盤面非依存なので grid 違いの
    巻どうしは値が重なってよい（grid ゲートで排他）。同 grid 2 巻は「壁」で住み分ける：
    - 3×3: lv1=直交のみ / lv2-vol1=45°斜め出現（requireDiag45）
    - 4×4: lv2-vol2=交差なし / lv3-vol1=交差あり（cross zero/some）
-   - 5×5: lv3-vol2=45°まで / lv4-vol1=非45°必須（requireNon45・D が +12）
+   - 5×5: lv3-vol2=45°まで / lv4-vol1=非45°必須（requireNon45・D が非45°本数×8で跳ねる）
    ※ 2026-06-15: copyDifficulty から盤面項 6(n−2) を除外。窓は旧値から盤面ぶんを引いた値＝
      振り分けの結果は完全に不変（スコアと窓から同じ定数を引いただけ）。 */
-export const COPY_LADDER: Record<string, CopyShapeParams> = {
-  "copy-lv1-vol1": { grid: 3, slopes: "ortho",                                  D: [2, 7] },
-  "copy-lv2-vol1": { grid: 3, slopes: "ortho45", requireDiag45: true,           D: [2, 8] },
-  "copy-lv2-vol2": { grid: 4, slopes: "ortho45", cross: "zero",                 D: [2, 8] },
-  "copy-lv3-vol1": { grid: 4, slopes: "ortho45", fullGrid: true, cross: "some", D: [7, 15] },
-  "copy-lv3-vol2": { grid: 5, slopes: "ortho45", fullGrid: true,                D: [7, 16] },
-  "copy-lv4-vol1": { grid: 5, slopes: "any", fullGrid: true, requireNon45: true, D: [17, 29] },
-  "copy-lv4-vol2": { grid: 6, slopes: "any", fullGrid: true,                    D: [12, 38] },
-  "copy-lv5-vol1": { grid: 7, slopes: "any", fullGrid: true,                    D: [14, 30] },
-};
+/* 実体は ladder.json（SSOT・atelier から編集/Vol追加）。読み取りは gen/ladder.ts 経由。
+   ここでは型のため再 export する。 */
+export { COPY_LADDER };
 
 /* ---- 変種（原型 × ミラー・原点寄せ・スパン算出） ---- */
 export type ShapeVariant = {
@@ -170,7 +157,7 @@ export function variantFits(v: ShapeVariant, p: CopyShapeParams): boolean {
   if (p.cross === "zero" && m.crossings !== 0) return false;
   if (p.cross === "some" && m.crossings < 1) return false;
   // ---- D 窓（難しさ・盤面非依存） ----
-  const D = copyDifficulty(m);
+  const D = baseDifficulty(m);
   if (D < p.D[0] || D > p.D[1]) return false;
   return true;
 }
@@ -279,5 +266,5 @@ export function generateCopyCandidates(
 
   return accepted
     .map((a) => a.problem)
-    .sort((a, b) => copyDifficulty(a.metrics) - copyDifficulty(b.metrics));
+    .sort((a, b) => baseDifficulty(a.metrics) - baseDifficulty(b.metrics));
 }

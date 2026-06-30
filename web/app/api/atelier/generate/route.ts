@@ -4,6 +4,7 @@
 import { NextRequest } from "next/server";
 import { devGuard, readCandidates, readSiblingVariantKeys, safeSku, writeCandidates } from "../io";
 import { generatorFor } from "../../../products/problems/gen";
+import { migrateCandidateFile } from "../../../products/problems/gen/difficulty";
 import type { CandidateFile } from "../../../products/problems/schema";
 
 export const dynamic = "force-dynamic";
@@ -79,7 +80,8 @@ export async function POST(req: NextRequest) {
     status: "pending" as const,
   })));
   if (!gen.loadAll) file.seedCursor = seed;
-  await writeCandidates(file);
+  // 生成候補に difficulty/provenance を焼き込んでから書き出す（atelier がすぐ難易度を出せる）。
+  await writeCandidates(migrateCandidateFile(file));
 
   return Response.json({ ok: true, added: fresh.length, seed, total: file.candidates.length });
 }

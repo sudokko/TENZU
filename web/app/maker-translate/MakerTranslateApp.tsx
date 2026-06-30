@@ -11,7 +11,7 @@
    - 編集画面に「もとの図 → うつした図（けっか）」の 2 ペインを並べてライブ表示。
    - 保存問題は { gridSize, edges: F, dc, dr }（schema の translate と整合）。
    - PDF/プレビューはもとの図ペイン=F＋★／かくマスペイン=出題は空＋●・解答は R＋★。
-   - 出題＋解答を 1 PDF に連結（解答ページ上端に「かいとう」見出し）。
+   - 出題 PDF と解答 PDF を別々に書き出す（解答ページ上端に「かいとう」見出し）。
    - 並びは答えに影響しない（紙面レイアウトだけ）。
    ヘッダー・LP・フッターから動線なし。robots noindex。
    ========================================================================= */
@@ -19,10 +19,14 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
-  KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
+  KGAP, CELL_PAD, PRINT_INK, SCREEN_DOT, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "../products/print";
 import { PairChipIcon } from "../products/SkuPrintPreview";
+import { useAuth } from "../AuthContext";
+import { ownsMaker } from "../products/capabilities";
+import { buyMaker } from "../maker/buyMaker";
+import { EdgeHitLayer, ModeToggle } from "../maker/erase";
 
 // =========================================================================
 // Types & constants
@@ -121,6 +125,12 @@ function samePoint(a: Point | null, b: Point | null) {
 function edgeKey(e: Edge) {
   const [a, b] = [e.a, e.b].sort((p, q) => p.c - q.c || p.r - q.r);
   return `${a.c},${a.r}-${b.c},${b.r}`;
+}
+// 2つの辺集合が同一か（順序無視）。編集中の「未保存変更あり」判定に使う。
+function edgesEqual(a: Edge[], b: Edge[]) {
+  if (a.length !== b.length) return false;
+  const ka = new Set(a.map(edgeKey));
+  return b.every((e) => ka.has(edgeKey(e)));
 }
 function dotPos(c: number, r: number, dots: number) {
   if (dots <= 1) return { x: VIEW / 2, y: VIEW / 2 };
@@ -343,6 +353,8 @@ function PaperSVG({
   targetAt,
   targetInk = "#2C6E7F",
   targetLabel = true,
+  onEdgeErase,
+  erase = false,
 }: {
   gridSize: GridSize;
   edges: Edge[];
@@ -358,6 +370,8 @@ function PaperSVG({
   targetAt?: Point;
   targetInk?: string;  // 移動先●の色（画面=teal / 印刷経路=PRINT_INK）
   targetLabel?: boolean; // 「ここへ」ラベルを出すか（サムネは false）
+  onEdgeErase?: (i: number) => void;
+  erase?: boolean;
 }) {
   const dots = gridSize;
   const points: Point[] = [];
@@ -393,7 +407,7 @@ function PaperSVG({
         const isStar = !!starAt && p.c === starAt.c && p.r === starAt.r;
         const isTarget = !isStar && !!targetAt && p.c === targetAt.c && p.r === targetAt.r;
         const r = showActiveHighlight && isSel ? 4 : 1.6 * dotScale;
-        const fill = showActiveHighlight && isSel ? "#2C6E7F" : ink;
+        const fill = showActiveHighlight ? (isSel ? "#2C6E7F" : SCREEN_DOT) : ink;
         const starR = Math.max(1.6 * dotScale * 4.4, 8); // 起点★を大きく
         const targetR = Math.max(1.6 * dotScale * 4.0, 7); // 移動先●リング
         const lastRow = p.r === dots - 1;
@@ -426,7 +440,7 @@ function PaperSVG({
             ) : (
               <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />
             )}
-            {interactive && (
+            {interactive && !erase && (
               <circle
                 cx={pos.x} cy={pos.y} r={9}
                 fill="transparent"
@@ -437,6 +451,9 @@ function PaperSVG({
           </g>
         );
       })}
+      {interactive && erase && onEdgeErase && (
+        <EdgeHitLayer edges={edges} pos={(c, r) => dotPos(c, r, dots)} onErase={onEdgeErase} />
+      )}
     </svg>
   );
 }
@@ -453,14 +470,23 @@ export default function MakerTranslateApp() {
     return () => document.body.classList.remove("maker-page");
   }, []);
 
+  // PDF 書き出しは買い切り所有が必要（未所有なら購入へ誘導）。
+  const { owned, ready } = useAuth();
+  const isOwned = ownsMaker(owned, "translate");
+
   // ---- Editor state (current problem) ----
   const [gridSize, setGridSize] = useState<GridSize>(4);
   const [edges, setEdges] = useState<Edge[]>([]); // F
   const [selected, setSelected] = useState<Point | null>(null);
   // 一筆書きモード（既定 OFF）: ON にすると終点クリック後にその点を次の線の始点として残す。
   const [oneStroke, setOneStroke] = useState(false);
+  const [erase, setErase] = useState(false);
+  function changeErase(v: boolean) { setErase(v); setSelected(null); }
   // target は移動先（●・盤面の格子点）。右（結果）盤面のクリックで置く（モード切替なし）。
   const [target, setTarget] = useState<Point | null>(null);
+  // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const isEditing = editingId != null;
 
   // history stack — F snapshots
   const historyRef = useRef<Snap[]>([{ edges: [] }]);
@@ -504,8 +530,16 @@ export default function MakerTranslateApp() {
     setTarget((t) => (t && samePoint(t, p) ? null : p));
   }
 
+  // 消すモード: 線をクリック＝その 1 本を削除（pushHistory は Snap 形）
+  function eraseEdge(i: number) {
+    const updated = edges.filter((_, idx) => idx !== i);
+    setEdges(updated);
+    pushHistory({ edges: updated });
+  }
+
   // 図形を描く（左盤面・拡大メーカーと同じ）
   function handleDot(p: Point) {
+    if (erase) return;
     if (!selected) { setSelected(p); return; }
     if (samePoint(selected, p)) { setSelected(null); return; }
     const next: Edge = { a: selected, b: p };
@@ -527,6 +561,7 @@ export default function MakerTranslateApp() {
   }
 
   function changeGridSize(n: GridSize) {
+    if (editingId) return; // 編集中はグリッド固定（変えると編集中の線が消える事故になる）
     if (n === gridSize) return;
     setGridSize(n);
     setEdges([]);
@@ -566,24 +601,63 @@ export default function MakerTranslateApp() {
   const [saved, setSaved] = useState<Problem[]>([]);
   const [savingNo, setSavingNo] = useState(1);
 
-  function saveCurrent() {
-    if (!canSave) return;
-    const id = uid();
-    const name = `無題 ${savingNo.toString().padStart(2, "0")}`;
-    setSaved((s) => [...s, { id, name, gridSize, edges, dc: cur.dc, dr: cur.dr, selected: true }]);
-    setSavingNo((n) => n + 1);
-    // reset canvas for next problem
+  // 編集後/新規保存の共通リセット（キャンバスを空に戻す）
+  function resetCanvas() {
     setEdges([]);
     setSelected(null);
     setTarget(null);
     historyRef.current = [{ edges: [] }];
     histIdxRef.current = 0;
   }
+  function saveCurrent() {
+    if (!canSave) return;
+    if (editingId) {
+      // 編集モード: その場で上書き（並び順・PDF 選択・名前は保持）→ 新規モードに戻る
+      // dc,dr は新規保存と同じく cur（computeTranslate の結果）から確定する
+      setSaved((s) => s.map((p) =>
+        (p.id === editingId ? { ...p, gridSize, edges, dc: cur.dc, dr: cur.dr } : p)));
+      setEditingId(null);
+      resetCanvas();
+      return;
+    }
+    const id = uid();
+    const name = `無題 ${savingNo.toString().padStart(2, "0")}`;
+    setSaved((s) => [...s, { id, name, gridSize, edges, dc: cur.dc, dr: cur.dr, selected: true }]);
+    setSavingNo((n) => n + 1);
+    resetCanvas();
+  }
+  // 保存済み問題をエディタに読み込んで編集モードへ。未保存の変更があれば確認。
+  function startEdit(id: string) {
+    if (id === editingId) return; // すでにこれを編集中
+    const p = saved.find((x) => x.id === id);
+    if (!p) return;
+    const dirty = editingId
+      ? (() => { const o = saved.find((x) => x.id === editingId); return !o || !edgesEqual(edges, o.edges); })()
+      : edges.length > 0;
+    if (dirty && !window.confirm(editingId
+      ? "編集中の変更は保存されていません。破棄して別の問題を編集しますか？"
+      : "作りかけの問題があります。破棄して編集しますか？")) return;
+    setGridSize(p.gridSize);
+    setEdges(p.edges);
+    setSelected(null);
+    // 移動先（●）は保存時の dc,dr から復元（起点 edges[0].a + ベクトル）
+    setTarget({ c: p.edges[0].a.c + p.dc, r: p.edges[0].a.r + p.dr });
+    historyRef.current = [{ edges: p.edges }];
+    histIdxRef.current = 0;
+    setEditingId(id);
+    rerender();
+  }
+  // 編集をやめて新規モードへ（変更は破棄）
+  function cancelEdit() {
+    setEditingId(null);
+    resetCanvas();
+  }
   function toggleSelectSaved(id: string) {
     setSaved((s) => s.map((p) => (p.id === id ? { ...p, selected: !p.selected } : p)));
   }
   function deleteSaved(id: string) {
     setSaved((s) => s.filter((p) => p.id !== id));
+    if (id === editingId) cancelEdit(); // 編集中の問題を消したら編集モードも解除
   }
   function moveSaved(id: string, dir: -1 | 1) {
     setSaved((s) => {
@@ -626,39 +700,27 @@ export default function MakerTranslateApp() {
   }, [selectedSaved, effectivePerPage]);
 
   // ---- PDF ダウンロード（内部用なので完了画面なし） ----
-  const [exporting, setExporting] = useState(false);
+  const [exporting, setExporting] = useState<false | "q" | "a">(false);
   /* 出題ページ群 → 解答ページ群 を 1 つの PDF に連結。
      移動ベクトルは各問題に焼き付けた (dc,dr) を使用（混在可） */
-  async function doExport() {
+  async function doExport(mode: "q" | "a") {
     if (selectedSaved.length === 0 || exporting) return;
-    setExporting(true);
+    if (ready && !isOwned) { buyMaker("translate").catch(() => {}); return; }
+    setExporting(mode);
     try {
       const { jsPDF } = await import("jspdf");
       const logo = await loadLogo();
       const orientation = paper.landscape ? "landscape" : "portrait";
       const format: [number, number] = [Math.min(paper.w, paper.h), Math.max(paper.w, paper.h)];
       const doc = new jsPDF({ orientation, unit: "mm", format });
-      const totalPages = pages.length * 2; // 出題ページ群 ＋ 解答ページ群（同レイアウト）
 
-      // 出題ページ群（もとの図=F＋★／かくマス=空＋●移動先）
       for (let pi = 0; pi < pages.length; pi++) {
         if (pi > 0) doc.addPage(format, orientation);
         const svg = buildPageSvg({
           paper, problems: pages[pi],
-          pageNo: pi + 1, pageCount: totalPages,
+          pageNo: pi + 1, pageCount: pages.length,
           marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
-        });
-        const png = await svgToPng(svg, paper.w, paper.h);
-        doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
-      }
-      // 解答ページ群（同じレイアウトで かくマス=R = translate(F, dc, dr) を描き入れた版）
-      for (let pi = 0; pi < pages.length; pi++) {
-        doc.addPage(format, orientation);
-        const svg = buildPageSvg({
-          paper, problems: pages[pi],
-          pageNo: pages.length + pi + 1, pageCount: totalPages,
-          marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
-          answer: true,
+          answer: mode === "a",
         });
         const png = await svgToPng(svg, paper.w, paper.h);
         doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
@@ -666,7 +728,7 @@ export default function MakerTranslateApp() {
       const d = new Date();
       const p2 = (n: number) => String(n).padStart(2, "0");
       const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
-      doc.save(`tenzu_translate_${stamp}.pdf`);
+      doc.save(`tenzu_translate_${mode}_${stamp}.pdf`);
     } catch (err) {
       console.error("PDF export failed:", err);
       window.alert("PDF の作成に失敗しました。もう一度お試しください。");
@@ -683,7 +745,10 @@ export default function MakerTranslateApp() {
       : cur.fits
         ? "うつした図（クリックで移動先を変更）"
         : "移動先（枠からはみ出します）";
-  const editingTitle = `問題 #${(saved.length + 1).toString().padStart(2, "0")} を作る`;
+  const editingNo = isEditing ? saved.findIndex((p) => p.id === editingId) + 1 : 0;
+  const editingTitle = isEditing
+    ? `問題 #${String(editingNo).padStart(2, "0")} を編集中`
+    : `問題 #${(saved.length + 1).toString().padStart(2, "0")} を作る`;
 
   const paper = PAPER[paperKey];
 
@@ -707,7 +772,7 @@ export default function MakerTranslateApp() {
 
         {/* ---------- CENTER ---------- */}
         <main className="canvas-area">
-          <div className="canvas-toolbar">
+          <div className={`canvas-toolbar${isEditing ? " editing" : ""}`}>
             <div className="title">
               {editingTitle}
             </div>
@@ -718,12 +783,14 @@ export default function MakerTranslateApp() {
             <div className="qb-group">
               <span className="qb-label">グリッド</span>
               <select className="qb-select" aria-label="グリッドサイズ" value={gridSize}
+                disabled={isEditing}
                 onChange={(e) => changeGridSize(Number(e.target.value) as GridSize)}>
                 {([3, 4, 5, 6] as GridSize[]).map((n) => (
                   <option key={n} value={n}>{n}×{n}</option>
                 ))}
               </select>
             </div>
+            <ModeToggle erase={erase} onChange={changeErase} />
             <div className="qb-group">
               <span className="qb-label">点の大きさ</span>
               <div className="seg qb-seg" role="group" aria-label="点の大きさ">
@@ -741,10 +808,48 @@ export default function MakerTranslateApp() {
                 <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
               </div>
             </div>
-            {oneStroke && <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>}
+            {isEditing
+              ? <span className="qb-note">編集中はグリッドは固定されます。</span>
+              : oneStroke && <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>}
           </div>
 
           <div className="canvas-stage">
+            {/* 戻る・進む・全消去 — 作図盤面の真上に（スマホで指の近く・2026-06-25） */}
+            <div className="edit-actions">
+              <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
+                onClick={undo} disabled={!canUndo()}>
+                <svg viewBox="0 0 16 16">
+                  <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                </svg>
+                <span className="lbl">戻る</span>
+              </button>
+              <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
+                onClick={redo} disabled={!canRedo()}>
+                <svg viewBox="0 0 16 16">
+                  <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                </svg>
+                <span className="lbl">進む</span>
+              </button>
+              <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
+                onClick={clearAll} disabled={edges.length === 0}>
+                <svg viewBox="0 0 16 16">
+                  <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
+                    strokeLinecap="round"/>
+                </svg>
+                <span className="lbl">全消去</span>
+              </button>
+            </div>
             {/* もとの図 → うつした図 の 3 要素（重ね/折り/拡大メーカーと同じ overlay-boards を流用） */}
             <div className="overlay-boards">
               <div className="overlay-board">
@@ -759,6 +864,8 @@ export default function MakerTranslateApp() {
                     showActiveHighlight={true}
                     dotScale={dotScale}
                     starAt={startPoint}
+                    onEdgeErase={eraseEdge}
+                    erase={erase}
                   />
                   <div className="pp-stamp">{gridSize}×{gridSize}</div>
                 </div>
@@ -794,49 +901,25 @@ export default function MakerTranslateApp() {
             )}
 
             <div className="canvas-actions">
-              <div className="edit-actions">
-                <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
-                  onClick={undo} disabled={!canUndo()}>
-                  <svg viewBox="0 0 16 16">
-                    <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                    <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  </svg>
-                  <span className="lbl">戻る</span>
-                </button>
-                <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
-                  onClick={redo} disabled={!canRedo()}>
-                  <svg viewBox="0 0 16 16">
-                    <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                    <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  </svg>
-                  <span className="lbl">進む</span>
-                </button>
-                <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
-                  onClick={clearAll} disabled={edges.length === 0}>
-                  <svg viewBox="0 0 16 16">
-                    <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
-                    <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                    <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                    <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
-                      strokeLinecap="round"/>
-                  </svg>
-                  <span className="lbl">全消去</span>
-                </button>
-              </div>
               <button className="btn-save" type="button" onClick={saveCurrent} disabled={!canSave}>
-                この問題を保存する
+                {isEditing ? "変更を保存" : "この問題を保存する"}
               </button>
+              {isEditing && (
+                <button className="btn-cancel-edit" type="button" onClick={cancelEdit}>
+                  やめる
+                </button>
+              )}
             </div>
             <div className="canvas-help">
-              <strong>① 左で図形を描く</strong>（線を引く＝点を 2 つクリック）。最初に置いた点が「起点」（★）。
-              <strong> ② 右の盤面をクリック</strong>して移動先（●）をおく。起点 ★ がそこへ移動した図が右に出ます。
-              はみ出すときは、もとの図を小さく描く／移動先を近くにする／グリッドを大きく。
+              {isEditing ? (
+                <>保存済みの問題を編集中です。図形や移動先を直して「変更を保存」を押すと、元の問題が上書きされます（並び順と PDF 選択はそのまま）。</>
+              ) : (
+                <>
+                  <strong>① 左で図形を描く</strong>（線を引く＝点を 2 つクリック）。最初に置いた点が「起点」（★）。
+                  <strong> ② 右の盤面をクリック</strong>して移動先（●）をおく。起点 ★ がそこへ移動した図が右に出ます。
+                  はみ出すときは、もとの図を小さく描く／移動先を近くにする／グリッドを大きく。
+                </>
+              )}
             </div>
           </div>
         </main>
@@ -857,28 +940,57 @@ export default function MakerTranslateApp() {
                   const start = p.edges[0].a;
                   const tgt = { c: start.c + p.dc, r: start.r + p.dr };
                   const move = dirText(p.dc, p.dr);
+                  const beingEdited = editingId === p.id;
                   return (
-                    <div className={`saved-cell${p.selected ? " sel" : ""}`} key={p.id}>
+                    <div className={`saved-cell${p.selected ? " sel" : ""}${beingEdited ? " editing" : ""}`} key={p.id}>
                       <button className="thumb" type="button"
                         role="checkbox"
                         aria-checked={p.selected}
                         aria-label={`問題 ${num}（${move}）を PDF に含める`}
                         onClick={() => toggleSelectSaved(p.id)}>
-                        <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true}
-                          starAt={start} starLabel={false} targetAt={tgt} targetLabel={false} />
+                        <span className="thumb-pair">
+                          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true}
+                            starAt={start} starLabel={false} />
+                          <span className="tp-op" aria-hidden="true">→</span>
+                          <PaperSVG gridSize={p.gridSize} edges={translateEdgesOf(p.edges, p.dc, p.dr)}
+                            showLines={true} starAt={tgt} starLabel={false} />
+                        </span>
                       </button>
                       {p.selected && <span className="sel-mark" aria-hidden="true">✓</span>}
-                      <button className="del" type="button" aria-label={`問題 ${num} を削除`}
-                        onClick={() => {
-                          if (window.confirm(`この問題（#${num}）を削除しますか？`)) deleteSaved(p.id);
-                        }}>×</button>
+                      {beingEdited && <span className="edit-mark" aria-hidden="true">編集中</span>}
                       <span className="cnum">{num} · {move}</span>
-                      <span className="order">
+                      {/* 編集・削除は大きいラベル付きボタンを横並び（角の極小×は廃止＝誤タップ対策・案B 2026-06-21） */}
+                      <div className="cell-actions">
+                        <button className="act-edit" type="button"
+                          aria-label={`問題 ${num} を編集`}
+                          aria-pressed={beingEdited}
+                          onClick={() => startEdit(p.id)}>
+                          <svg viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M10.5 2.5 L13.5 5.5 L5.5 13.5 L2.5 13.5 L2.5 10.5 Z"
+                              fill="none" stroke="currentColor" strokeWidth="1.4"
+                              strokeLinejoin="round" strokeLinecap="round" />
+                          </svg>
+                          <span className="lbl">{beingEdited ? "編集中" : "編集"}</span>
+                        </button>
+                        <button className="act-del" type="button" aria-label={`問題 ${num} を削除`}
+                          onClick={() => {
+                            if (window.confirm(`この問題（#${num}）を削除しますか？`)) deleteSaved(p.id);
+                          }}>
+                          <svg viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M 2.5 4.5 L 13.5 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                            <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="currentColor" strokeWidth="1.4"
+                              strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="currentColor" strokeWidth="1.4"
+                              strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div className="order">
                         <button type="button" aria-label="ひとつ前へ" disabled={i === 0}
                           onClick={() => moveSaved(p.id, -1)}>‹</button>
                         <button type="button" aria-label="ひとつ後へ" disabled={i === saved.length - 1}
                           onClick={() => moveSaved(p.id, 1)}>›</button>
-                      </span>
+                      </div>
                     </div>
                   );
                 })}
@@ -1025,13 +1137,22 @@ export default function MakerTranslateApp() {
                 </>
               )}
             </div>
-            <button className="btn-export" type="button"
-              onClick={doExport} disabled={selectedSaved.length === 0 || exporting}>
-              {exporting ? "PDF を作成中…" : "PDF をダウンロード（出題＋解答）"}
-              {!exporting && selectedSaved.length > 0 && (
-                <span className="x">{selectedSaved.length} 問 / 出題 {pages.length}p ＋ 解答 {pages.length}p</span>
-              )}
-            </button>
+            <div className="export-actions">
+              <button className="btn-export" type="button"
+                onClick={() => doExport("q")} disabled={selectedSaved.length === 0 || exporting !== false}>
+                {exporting === "q" ? "PDF を作成中…" : "問題をダウンロード"}
+                {exporting !== "q" && selectedSaved.length > 0 && (
+                  <span className="x">{selectedSaved.length} 問 / {pages.length}p</span>
+                )}
+              </button>
+              <button className="btn-export" type="button"
+                onClick={() => doExport("a")} disabled={selectedSaved.length === 0 || exporting !== false}>
+                {exporting === "a" ? "PDF を作成中…" : "解答をダウンロード"}
+                {exporting !== "a" && selectedSaved.length > 0 && (
+                  <span className="x">{selectedSaved.length} 問 / {pages.length}p</span>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className="warning" data-system="warning" role="note">
@@ -1045,9 +1166,15 @@ export default function MakerTranslateApp() {
       {/* モバイル（≤1200px）専用・画面下固定の DL バー */}
       {selectedSaved.length > 0 && (
         <div className="mobile-export-bar">
-          <button type="button" onClick={doExport} disabled={exporting}>
-            {exporting ? "PDF を作成中…" : "PDF をダウンロード"}
-            {!exporting && (
+          <button type="button" onClick={() => doExport("q")} disabled={exporting !== false}>
+            {exporting === "q" ? "PDF を作成中…" : "問題をダウンロード"}
+            {exporting !== "q" && (
+              <span className="x">{selectedSaved.length} 問 / {pages.length} ページ</span>
+            )}
+          </button>
+          <button type="button" onClick={() => doExport("a")} disabled={exporting !== false}>
+            {exporting === "a" ? "PDF を作成中…" : "解答をダウンロード"}
+            {exporting !== "a" && (
               <span className="x">{selectedSaved.length} 問 / {pages.length} ページ</span>
             )}
           </button>

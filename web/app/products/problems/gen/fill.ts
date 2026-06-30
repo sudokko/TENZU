@@ -16,6 +16,7 @@ import { difficultyScore, edgeKey, normalizeEdges, splitAtLattice } from "../sch
 import { computeMetrics, mergedSegments } from "./metrics";
 import { bboxOk, hasNon45, jaccard, paramsOk } from "./filters";
 import type { CopyParams, SlopeRule } from "./ladder";
+import { FILL_LADDER } from "./ladder";
 import { pick, randInt, seededRng, type Rng } from "./rng";
 
 export const FILL_GENERATOR_VERSION = "1";
@@ -24,51 +25,9 @@ export const FILL_GENERATOR_VERSION = "1";
    lines は「完成図 F の見た目の線分数」。missing は「そこから抜く本数」。 */
 export type FillParams = CopyParams & { missing: [number, number] };
 
-/* data.ts の fill 8 巻に対応。欠け少なめ／多めは missing で吸収する。 */
-export const FILL_LADDER: Record<string, FillParams> = {
-  /* Lv.1 Vol.1 — 3×3・縦横のみ・線分 2〜5 本・欠け 1〜3 本
-     オーナー指示 2026-06-14: Lv1 を模写（図形）寄りで。やさしい側を厚く＝線分は
-     2 本まで下げて選べるように、欠けは 1〜3 本 */
-  "fill-lv1-vol1": {
-    grid: 3, lines: [2, 5], slopes: "ortho", diagonals: [0, 0],
-    crossings: [0, 0], components: [1, 1], bbox: 2, closedBias: 0.85, missing: [1, 3],
-  },
-  /* Lv.2 Vol.1 — 3×3・45°導入・線分 3〜6 本・欠け 1〜3 本 */
-  "fill-lv2-vol1": {
-    grid: 3, lines: [3, 6], slopes: "ortho45", diagonals: [1, 3],
-    crossings: [0, 1], components: [1, 1], bbox: 2, closedBias: 0.75, missing: [1, 3],
-  },
-  /* Lv.3 Vol.1 — 4×4・45°あり・欠け少なめ */
-  "fill-lv3-vol1": {
-    grid: 4, lines: [6, 9], slopes: "ortho45", diagonals: [1, 4],
-    crossings: [0, 2], components: [1, 2], bbox: 3, closedBias: 0.65, missing: [1, 2],
-  },
-  /* Lv.3 Vol.2 — 4×4・欠け多め */
-  "fill-lv3-vol2": {
-    grid: 4, lines: [6, 9], slopes: "ortho45", diagonals: [1, 4],
-    crossings: [0, 2], components: [1, 2], bbox: 3, closedBias: 0.65, missing: [3, 4],
-  },
-  /* Lv.4 Vol.1 — 5×5・非45°導入・欠け少なめ */
-  "fill-lv4-vol1": {
-    grid: 5, lines: [8, 12], slopes: "any", diagonals: [2, 6],
-    crossings: [1, 4], components: [2, 3], bbox: 4, closedBias: 0.55, missing: [2, 3],
-  },
-  /* Lv.4 Vol.2 — 5×5・欠け多め */
-  "fill-lv4-vol2": {
-    grid: 5, lines: [8, 12], slopes: "any", diagonals: [2, 6],
-    crossings: [1, 4], components: [2, 3], bbox: 4, closedBias: 0.55, missing: [4, 5],
-  },
-  /* Lv.5 Vol.1 — 6×6・欠け少なめ */
-  "fill-lv5-vol1": {
-    grid: 6, lines: [10, 15], slopes: "any", diagonals: [3, 8],
-    crossings: [2, 6], components: [2, 4], bbox: 5, closedBias: 0.5, missing: [3, 4],
-  },
-  /* Lv.5 Vol.2 — 6×6・欠け最大 */
-  "fill-lv5-vol2": {
-    grid: 6, lines: [10, 15], slopes: "any", diagonals: [3, 8],
-    crossings: [2, 6], components: [2, 4], bbox: 5, closedBias: 0.5, missing: [5, 7],
-  },
-};
+/* data.ts の fill 8 巻に対応（欠け少なめ／多めは missing で吸収）。実体は ladder.json
+   （SSOT・atelier から編集/Vol追加）。読み取りは gen/ladder.ts 経由。ここでは再 export する。 */
+export { FILL_LADDER };
 
 const pkey = (p: Pt) => `${p[0]},${p[1]}`;
 

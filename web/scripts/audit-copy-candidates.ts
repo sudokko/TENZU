@@ -3,7 +3,8 @@
    付けなければ dry-run（判定の棚卸しだけ・無削除）。 */
 import { promises as fs } from "fs";
 import path from "path";
-import { COPY_LADDER, variantFits, copyDifficulty, type ShapeVariant } from "../app/products/problems/gen/copy";
+import { COPY_LADDER, variantFits, type ShapeVariant } from "../app/products/problems/gen/copy";
+import { baseDifficulty } from "../app/products/problems/gen/difficulty";
 import { computeMetrics } from "../app/products/problems/gen/metrics";
 import type { Candidate, CandidateFile, EdgeT } from "../app/products/problems/schema";
 
@@ -48,7 +49,7 @@ for (const sku of Object.keys(COPY_LADDER)) {
     if (c.status === "adopted") adoptedFail++;
     if (!sample) {
       const m = computeMetrics(c.edges, p.grid);
-      const D = copyDifficulty(m);
+      const D = baseDifficulty(m);
       const reasons: string[] = [];
       if (p.slopes !== "any" && m.hasNon45) reasons.push("非45°混入");
       if (p.requireNon45 && !m.hasNon45) reasons.push("非45°なし");

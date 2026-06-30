@@ -16,6 +16,7 @@ import { difficultyScore, normalizeEdges, validateProblem } from "../schema";
 import { computeMetrics } from "./metrics";
 import { hasNon45, jaccard } from "./filters";
 import { MOTIFS, parsePaths, type MotifDef } from "./motif-shapes";
+import { MOTIF_LADDER } from "./ladder";
 import { randInt, seededRng } from "./rng";
 
 export const MOTIF_GENERATOR_VERSION = "1";
@@ -31,37 +32,9 @@ export type MotifParams = {
   components: [number, number];
 };
 
-/* 7 巻の難易度帯（pack-design §11 絵柄ライン Lv.2〜5・data.ts の grid と同期） */
-export const MOTIF_LADDER: Record<string, MotifParams> = {
-  /* 3×3・45°導入・小さな絵 */
-  "motif-lv2-vol1": {
-    grid: 3, slopes: "ortho45", lines: [3, 7], crossings: [0, 1], components: [1, 1],
-  },
-  /* 4×4・やさしい帯（基本形中心）。lv3-vol1 と完全非交差＝生成順に依存しない */
-  "motif-lv2-vol2": {
-    grid: 4, slopes: "ortho45", lines: [4, 6], crossings: [0, 1], components: [1, 1],
-  },
-  /* 4×4・ディテール付きの濃い帯 */
-  "motif-lv3-vol1": {
-    grid: 4, slopes: "ortho45", lines: [7, 13], crossings: [0, 2], components: [1, 2],
-  },
-  /* 5×5・標準サイズ（45°まで） */
-  "motif-lv3-vol2": {
-    grid: 5, slopes: "ortho45", lines: [6, 13], crossings: [0, 3], components: [1, 2],
-  },
-  /* 5×5・非45°（複雑な角度）必須 */
-  "motif-lv4-vol1": {
-    grid: 5, slopes: "any", requireNon45: true, lines: [4, 14], crossings: [0, 5], components: [1, 2],
-  },
-  /* 6×6・大きな絵柄（情景もの＝構成 3 まで許容） */
-  "motif-lv4-vol2": {
-    grid: 6, slopes: "any", lines: [9, 16], crossings: [0, 5], components: [1, 3],
-  },
-  /* 7×7・最大盤面を写しきる */
-  "motif-lv5-vol1": {
-    grid: 7, slopes: "any", lines: [9, 20], crossings: [0, 6], components: [1, 3],
-  },
-};
+/* 7 巻の難易度帯（pack-design §11 絵柄ライン Lv.2〜5・data.ts の grid と同期）。実体は
+   ladder.json（SSOT）。読み取りは gen/ladder.ts 経由。絵柄ラインは廃止済だが seed 用に温存。 */
+export { MOTIF_LADDER };
 
 /* 同一モチーフの変種は 1 巻に最大いくつまで出すか（候補・採用・保留を通算） */
 const MAX_PER_MOTIF = 2;

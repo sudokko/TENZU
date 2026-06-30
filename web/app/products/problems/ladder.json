@@ -1,0 +1,543 @@
+{
+  "schemaVersion": 1,
+  "copy": {
+    "copy-lv1-vol1": {
+      "grid": 3,
+      "slopes": "ortho",
+      "D": [
+        2,
+        6
+      ]
+    },
+    "copy-lv2-vol1": {
+      "grid": 3,
+      "slopes": "ortho45",
+      "requireDiag45": true,
+      "D": [
+        4,
+        14
+      ]
+    },
+    "copy-lv2-vol2": {
+      "grid": 4,
+      "slopes": "ortho45",
+      "cross": "zero",
+      "D": [
+        6,
+        22
+      ]
+    },
+    "copy-lv3-vol1": {
+      "grid": 4,
+      "slopes": "ortho45",
+      "fullGrid": true,
+      "cross": "some",
+      "D": [
+        10,
+        23
+      ]
+    },
+    "copy-lv3-vol2": {
+      "grid": 5,
+      "slopes": "ortho45",
+      "fullGrid": true,
+      "D": [
+        10,
+        28
+      ]
+    },
+    "copy-lv4-vol1": {
+      "grid": 5,
+      "slopes": "any",
+      "fullGrid": true,
+      "requireNon45": true,
+      "D": [
+        16,
+        94
+      ]
+    },
+    "copy-lv4-vol2": {
+      "grid": 6,
+      "slopes": "any",
+      "fullGrid": true,
+      "D": [
+        12,
+        43
+      ]
+    },
+    "copy-lv5-vol1": {
+      "grid": 7,
+      "slopes": "any",
+      "fullGrid": true,
+      "D": [
+        11,
+        54
+      ]
+    }
+  },
+  "fill": {
+    "fill-lv1-vol1": {
+      "grid": 3,
+      "lines": [
+        2,
+        5
+      ],
+      "slopes": "ortho",
+      "diagonals": [
+        0,
+        0
+      ],
+      "crossings": [
+        0,
+        0
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 2,
+      "closedBias": 0.85,
+      "missing": [
+        1,
+        3
+      ]
+    },
+    "fill-lv2-vol1": {
+      "grid": 3,
+      "lines": [
+        3,
+        6
+      ],
+      "slopes": "ortho45",
+      "diagonals": [
+        1,
+        3
+      ],
+      "crossings": [
+        0,
+        1
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 2,
+      "closedBias": 0.75,
+      "missing": [
+        1,
+        3
+      ]
+    },
+    "fill-lv3-vol1": {
+      "grid": 4,
+      "lines": [
+        6,
+        9
+      ],
+      "slopes": "ortho45",
+      "diagonals": [
+        1,
+        4
+      ],
+      "crossings": [
+        0,
+        2
+      ],
+      "components": [
+        1,
+        2
+      ],
+      "bbox": 3,
+      "closedBias": 0.65,
+      "missing": [
+        1,
+        2
+      ]
+    },
+    "fill-lv3-vol2": {
+      "grid": 4,
+      "lines": [
+        6,
+        9
+      ],
+      "slopes": "ortho45",
+      "diagonals": [
+        1,
+        4
+      ],
+      "crossings": [
+        0,
+        2
+      ],
+      "components": [
+        1,
+        2
+      ],
+      "bbox": 3,
+      "closedBias": 0.65,
+      "missing": [
+        3,
+        4
+      ]
+    },
+    "fill-lv4-vol1": {
+      "grid": 5,
+      "lines": [
+        8,
+        12
+      ],
+      "slopes": "any",
+      "diagonals": [
+        2,
+        6
+      ],
+      "crossings": [
+        1,
+        4
+      ],
+      "components": [
+        2,
+        3
+      ],
+      "bbox": 4,
+      "closedBias": 0.55,
+      "missing": [
+        2,
+        3
+      ]
+    },
+    "fill-lv4-vol2": {
+      "grid": 5,
+      "lines": [
+        8,
+        12
+      ],
+      "slopes": "any",
+      "diagonals": [
+        2,
+        6
+      ],
+      "crossings": [
+        1,
+        4
+      ],
+      "components": [
+        2,
+        3
+      ],
+      "bbox": 4,
+      "closedBias": 0.55,
+      "missing": [
+        4,
+        5
+      ]
+    },
+    "fill-lv5-vol1": {
+      "grid": 6,
+      "lines": [
+        10,
+        15
+      ],
+      "slopes": "any",
+      "diagonals": [
+        3,
+        8
+      ],
+      "crossings": [
+        2,
+        6
+      ],
+      "components": [
+        2,
+        4
+      ],
+      "bbox": 5,
+      "closedBias": 0.5,
+      "missing": [
+        3,
+        4
+      ]
+    },
+    "fill-lv5-vol2": {
+      "grid": 6,
+      "lines": [
+        10,
+        15
+      ],
+      "slopes": "any",
+      "diagonals": [
+        3,
+        8
+      ],
+      "crossings": [
+        2,
+        6
+      ],
+      "components": [
+        2,
+        4
+      ],
+      "bbox": 5,
+      "closedBias": 0.5,
+      "missing": [
+        5,
+        7
+      ]
+    }
+  },
+  "mirror": {
+    "mirror-lv2-vol1": {
+      "grid": 3,
+      "axis": "v",
+      "lines": [
+        2,
+        4
+      ],
+      "slopes": "ortho",
+      "diagonals": [
+        0,
+        0
+      ],
+      "crossings": [
+        0,
+        0
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 1,
+      "closedBias": 0.6
+    },
+    "mirror-lv3-vol1": {
+      "grid": 4,
+      "axis": "v",
+      "lines": [
+        3,
+        6
+      ],
+      "slopes": "ortho45",
+      "diagonals": [
+        0,
+        2
+      ],
+      "crossings": [
+        0,
+        1
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 1,
+      "closedBias": 0.55
+    },
+    "mirror-lv4-vol1": {
+      "grid": 3,
+      "axis": "h",
+      "lines": [
+        2,
+        5
+      ],
+      "slopes": "ortho45",
+      "diagonals": [
+        0,
+        2
+      ],
+      "crossings": [
+        0,
+        1
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 1,
+      "closedBias": 0.55
+    },
+    "mirror-lv4-vol2": {
+      "grid": 4,
+      "axis": "h",
+      "lines": [
+        3,
+        6
+      ],
+      "slopes": "ortho45",
+      "diagonals": [
+        1,
+        3
+      ],
+      "crossings": [
+        0,
+        2
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 1,
+      "closedBias": 0.5
+    },
+    "mirror-lv5-vol1": {
+      "grid": 3,
+      "axis": "d1",
+      "lines": [
+        2,
+        5
+      ],
+      "slopes": "ortho45",
+      "diagonals": [
+        0,
+        3
+      ],
+      "crossings": [
+        0,
+        1
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 1,
+      "closedBias": 0.5
+    },
+    "mirror-lv5-vol2": {
+      "grid": 4,
+      "axis": "d1",
+      "lines": [
+        3,
+        7
+      ],
+      "slopes": "ortho45",
+      "diagonals": [
+        1,
+        4
+      ],
+      "crossings": [
+        0,
+        2
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 1,
+      "closedBias": 0.5
+    }
+  },
+  "motif": {
+    "motif-lv2-vol1": {
+      "grid": 3,
+      "slopes": "ortho45",
+      "lines": [
+        3,
+        7
+      ],
+      "crossings": [
+        0,
+        1
+      ],
+      "components": [
+        1,
+        1
+      ]
+    },
+    "motif-lv2-vol2": {
+      "grid": 4,
+      "slopes": "ortho45",
+      "lines": [
+        4,
+        6
+      ],
+      "crossings": [
+        0,
+        1
+      ],
+      "components": [
+        1,
+        1
+      ]
+    },
+    "motif-lv3-vol1": {
+      "grid": 4,
+      "slopes": "ortho45",
+      "lines": [
+        7,
+        13
+      ],
+      "crossings": [
+        0,
+        2
+      ],
+      "components": [
+        1,
+        2
+      ]
+    },
+    "motif-lv3-vol2": {
+      "grid": 5,
+      "slopes": "ortho45",
+      "lines": [
+        6,
+        13
+      ],
+      "crossings": [
+        0,
+        3
+      ],
+      "components": [
+        1,
+        2
+      ]
+    },
+    "motif-lv4-vol1": {
+      "grid": 5,
+      "slopes": "any",
+      "requireNon45": true,
+      "lines": [
+        4,
+        14
+      ],
+      "crossings": [
+        0,
+        5
+      ],
+      "components": [
+        1,
+        2
+      ]
+    },
+    "motif-lv4-vol2": {
+      "grid": 6,
+      "slopes": "any",
+      "lines": [
+        9,
+        16
+      ],
+      "crossings": [
+        0,
+        5
+      ],
+      "components": [
+        1,
+        3
+      ]
+    },
+    "motif-lv5-vol1": {
+      "grid": 7,
+      "slopes": "any",
+      "lines": [
+        9,
+        20
+      ],
+      "crossings": [
+        0,
+        6
+      ],
+      "components": [
+        1,
+        3
+      ]
+    }
+  }
+}

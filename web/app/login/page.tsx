@@ -3,8 +3,8 @@ import LoginApp from "./LoginApp";
 import "../membership.css";
 
 export const metadata: Metadata = {
-  title: "ログイン · TENZU メーカー",
-  description: "TENZU メーカー会員のログイン。登録メールにログインリンクをお送りします。",
+  title: "購入を復元 · TENZU メーカー",
+  description: "購入した点描写メーカーを別の端末に復元します。ご購入時のメールに復元リンクをお送りします。",
   robots: { index: false },
 };
 

@@ -31,30 +31,57 @@ export type SymmetryKind = "v" | "h" | "d1" | "d2" | "r90" | "r180";
 
 export type ProblemMetrics = {
   lines: number;               // 線本数（正規化後の単位辺数ではなく「見た目の線分」数）
-  diagonals: number;           // 斜め線本数
+  diagonals: number;           // 斜め線本数（45°系＋非45°）。難易度Dのドライバー
+  non45: number;               // 非45°斜め（ナイト傾き等）の本数。難易度Dの最大ドライバー（baseDifficulty）。数で効く
   diagonalAngleKinds: number;  // 斜め角度の種類数（45°系のみ=1・非45°が混ざると増える）
-  hasNon45: boolean;           // 非45°斜め（ナイト傾き等）を1本でも含むか。難易度Dの最大ドライバー（copyDifficulty）。diagonalAngleKinds>1 は単一非45°角を取りこぼすため別持ちする
-  crossings: number;           // 端点以外での交差数
+  hasNon45: boolean;           // 非45°を1本でも含むか（= non45 > 0）。生成フィルタ用の真偽値
+  crossings: number;           // 端点以外での交差数。生成フィルタ・情報表示用（難易度Dには非算入）
   components: number;          // 連結成分数（構成要素数）
   pointsUsed: number;          // 使用格子点数
   symmetry: SymmetryKind[];    // 成立している対称性
 };
 
+/* ---- 難易度（全9タスク横断・一級市民）----
+   atelier の独自要素。タスク非依存に value を読めるよう、機械算出 auto と人手 override
+   manual を別持ちし、実効値 value = manual ?? auto。式は gen/difficulty.ts（SSOT）。 */
+export type DifficultyParts = Record<string, number>;  // 内訳（UI 表示・監査用。例 {lines,diag,non45}）
+
+export type Difficulty = {
+  task: string;                // どのタスクの式で出した値か（copy/fill/…）
+  value: number;               // 実効値（manual があれば manual・無ければ auto）
+  auto: number;                // metrics から機械算出した値（taskDifficulty で常に復元可能）
+  parts?: DifficultyParts;     // value の内訳
+  manual?: number;             // 人手 override（手動ティア付け）
+  manualNote?: string;         // なぜ手で動かしたか（検品メモ）
+};
+
+/* ---- 作問の出自（provenance）----
+   旧 gen{kind,generator,version,seed,motif,variant} ＋ edited を統合。
+   ai＝有限ライブラリ生成（variant 持ち・兄弟巻重複排除の対象）／blank＝白紙作問
+   （variant 無し）／ai-edited＝AI 生成を手直し。 */
+export type Provenance =
+  | { source: "ai"; generator: string; version: string; seed: number; variant?: string; label?: string; edited?: boolean }
+  | { source: "blank"; createdAt: string; label?: string; edited?: boolean }
+  | { source: "ai-edited"; generator: string; version: string; seed: number; variant?: string; label?: string };
+
 export type Problem = {
   id: string;                  // "copy-lv1-vol1-s1-03"（sku-seed-連番）/ 手設計 "…-m01"
   grid: GridSpec;
-  edges: EdgeT[];              // みほん（出題図）
+  edges: EdgeT[];              // みほん（出題図）。fold/2図タスクでは図形A
+  inputB?: EdgeT[];            // 2図目（折り重ね fold の問題2 等）。単一図タスクは持たない
   answer?:
     | { mode: "explicit"; edges: EdgeT[] }
     | { mode: "derived"; transform: TransformSpec };
   metrics: ProblemMetrics;
-  gen: {
+  difficulty?: Difficulty;     // 全9タスク横断の難易度（Phase 3 で必須化。SSOT は gen/difficulty.ts）
+  provenance?: Provenance;     // 作問の出自（Phase 3 で必須化。旧 gen + edited を置換）
+  gen: {                       // 旧出自（provenance へ移行中。Phase 3 で optional 化→撤去）
     kind: "auto" | "manual"; generator?: string; version?: string; seed?: number;
     motif?: string;    // 絵柄: モチーフ表示名（「いえ」等・atelier の検品ラベル）
     variant?: string;  // 絵柄: 変種キー（motifKey~m+詳細数）。同一変種の再生成防止に使う
   };
   aim?: string;                // 「この問題の狙い」（山場の問題にだけ書く・任意）
-  edited?: boolean;            // /atelier で線を手直しした印（検品メタ・publish 時に剥がす）
+  edited?: boolean;            // 旧・手直し印（provenance.edited へ移行中）
 };
 
 /* ---- published（採用済・ちょうど12問・配列順＝出題順） ---- */
@@ -88,8 +115,8 @@ export type CandidateFile = {
    ========================================================================= */
 export const TASK_ANSWER_MODE: Record<string, AnswerMode> = {
   copy: "none", motif: "none", solid: "none",
-  fill: "explicit", overlay: "explicit", decompose: "explicit",
-  mirror: "derived", rotate: "derived", translate: "derived", scale: "derived",
+  fill: "explicit", overlay: "explicit", decompose: "explicit", fold: "explicit",
+  mirror: "derived", rotate: "derived", translate: "derived", scale: "derived", shrink: "derived",
 };
 
 /* =========================================================================
@@ -216,8 +243,7 @@ export function metricsLabel(m: ProblemMetrics, grid: GridSpec): string {
 
 /* 巻内の難易度緩昇順ソートに使うスコア（生成・検品の初期並び共用） */
 export function difficultyScore(m: ProblemMetrics): number {
-  return m.lines + 2 * m.diagonals + 3 * m.crossings + 2 * (m.diagonalAngleKinds > 1 ? m.diagonalAngleKinds : 0)
-    + 2 * (m.components - 1);
+  return m.lines + 2 * m.diagonals + 3 * m.non45 + 2 * (m.components - 1);
 }
 
 /* 「整い」スコアの対称性ぶん。成立している対称性ほど見た目が整う。

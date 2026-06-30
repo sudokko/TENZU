@@ -11,7 +11,7 @@ import { CatalogSection, SiteFooter, TOTAL_KINDS, TOTAL_VOL } from "../catalog";
 import "./product.css";
 
 export const metadata: Metadata = {
-  title: "商品一覧 — 9 種類 × 5 段階 · TENZU",
+  title: `商品一覧 — ${TOTAL_KINDS} 種類 × 5 段階 · TENZU`,
   description:
     `点描写プリントの品ぞろえ。${TOTAL_KINDS} 種類 × 5 段階・計 ${TOTAL_VOL} 巻。¥200 一律・サブスクなし。`,
 };
@@ -24,7 +24,7 @@ export default function ProductsHub() {
         <div className="wrap">
           <header className="plp-hub-head">
             <p className="plp-kicker">品ぞろえ</p>
-            <h1 className="plp-h1">9 種類 × 5 段階、ぜんぶ。</h1>
+            <h1 className="plp-h1">{TOTAL_KINDS} 種類 × 5 段階、ぜんぶ。</h1>
             <p className="plp-desc">
               種類ごとの「レベルを選ぶ」から、巻の一覧に進めます。年齢はめやすです。
             </p>

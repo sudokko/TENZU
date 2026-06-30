@@ -6,14 +6,16 @@ import {
 } from "../products/data";
 import {
   PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
-  KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
+  KGAP, CELL_PAD, PRINT_INK, SCREEN_DOT, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "../products/print";
 import { PairChipIcon } from "../products/SkuPrintPreview";
 import {
-  capabilities, unlockLabel, PLANS, type Tier, type GridSize,
+  capabilities, ownsMaker, FREE_MAKER, MAKER_PRICE, type MakerKey, type GridSize,
 } from "../products/capabilities";
 import { useAuth } from "../AuthContext";
+import { buyMaker } from "./buyMaker";
+import { EdgeHitLayer, ModeToggle } from "./erase";
 
 // =========================================================================
 // Types & constants
@@ -264,6 +266,8 @@ function PaperSVG({
   edges,
   selected,
   onDotClick,
+  onEdgeErase,
+  erase = false,
   showLines,
   showActiveHighlight,
   ink = INK,
@@ -273,6 +277,8 @@ function PaperSVG({
   edges: Edge[];
   selected?: Point | null;
   onDotClick?: (p: Point) => void;
+  onEdgeErase?: (i: number) => void;
+  erase?: boolean;
   showLines: boolean;
   showActiveHighlight?: boolean;
   ink?: string;
@@ -310,14 +316,14 @@ function PaperSVG({
         const pos = dotPos(p.c, p.r, dots);
         const isSel = samePoint(selected ?? null, p);
         const r = showActiveHighlight && isSel ? 4 : 1.6 * dotScale;
-        const fill = showActiveHighlight && isSel ? "#2C6E7F" : ink;
+        const fill = showActiveHighlight ? (isSel ? "#2C6E7F" : SCREEN_DOT) : ink;
         return (
           <g key={pointKey(p)}>
             {showActiveHighlight && isSel && (
               <circle cx={pos.x} cy={pos.y} r={7} fill="#2C6E7F" opacity={0.18} />
             )}
             <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />
-            {interactive && (
+            {interactive && !erase && (
               <circle
                 cx={pos.x} cy={pos.y} r={9}
                 fill="transparent"
@@ -328,6 +334,9 @@ function PaperSVG({
           </g>
         );
       })}
+      {interactive && erase && onEdgeErase && (
+        <EdgeHitLayer edges={edges} pos={(c, r) => dotPos(c, r, dots)} onErase={onEdgeErase} />
+      )}
     </svg>
   );
 }
@@ -335,32 +344,50 @@ function PaperSVG({
 // =========================================================================
 // MakerApp
 // =========================================================================
-export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier }) {
+export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKey[] }) {
   // Body class for global background
   useEffect(() => {
     document.body.classList.add("maker-page");
     return () => document.body.classList.remove("maker-page");
   }, []);
 
-  // ---- Tier / capabilities ----
-  // サーバーが cookie から渡す initialTier で初期描画（フラッシュ回避）→
-  // クライアントの /api/me 応答（authReady）で確定値に置換。
-  const { tier: liveTier, ready: authReady } = useAuth();
-  const tier: Tier = authReady ? liveTier : initialTier;
-  const caps = capabilities(tier);
+  // ---- capabilities ----
+  // 模写は無料で 4×4 まで（decisions §4.6/§4.7）。ゲートはグリッドサイズ 1 本＝
+  // 用紙・問数・記名欄・保存・DL は無料でも全開放。5×5〜8×8 は ¥980 買い切りで解放。
+  // 初期値は SSR の cookie（initialOwned）→ /api/me 確定値（useAuth）で置換。
+  const { owned: liveOwned, ready } = useAuth();
+  const owned = ready ? liveOwned : initialOwned;
+  const isOwned = ownsMaker(owned, FREE_MAKER);
+  const caps = capabilities(owned, FREE_MAKER);
 
-  // アップグレード導線（ロック要素のクリック先）
-  function goPricing() {
-    window.location.href = "/pricing";
+  // 5×5 以上をクリック → 模写メーカーの買い切り（¥980）へ。owned になれば 8×8 まで解放。
+  const [buying, setBuying] = useState(false);
+  async function buyCopy() {
+    if (buying) return;
+    setBuying(true);
+    try { await buyMaker(FREE_MAKER); }
+    catch (e) { alert(e instanceof Error ? e.message : "購入に進めませんでした"); setBuying(false); }
   }
+  // 大きい用紙など（COPY_FREE_CAPS では全開放なので未所有でも通常は出ない）の保険導線。
+  function goMakers() {
+    window.location.href = "/makers";
+  }
+  const lockHint = "ほかのメーカー（買い切り ¥980）で使えます";
 
   // ---- Editor state (current problem) ----
-  const [gridSize, setGridSize] = useState<GridSize>(5);
+  // 初期グリッド: 所有なら 5×5、無料（4×4 上限）なら 4×4 から（SSR の initialOwned で確定）。
+  const [gridSize, setGridSize] = useState<GridSize>(() => {
+    const c = capabilities(initialOwned, FREE_MAKER);
+    return (c.gridSizes.includes(5) ? 5 : c.gridSizes[c.gridSizes.length - 1]) as GridSize;
+  });
   const [edges, setEdges] = useState<Edge[]>([]);
   const [selected, setSelected] = useState<Point | null>(null);
   // 一筆書きモード（既定 OFF）: ON にすると終点クリック後にその点を次の線の始点として残す。
   // 初見は「2 点クリックで 1 本」が直感的なので OFF 既定。細かいグリッドで連打が辛い人が ON にする。
   const [oneStroke, setOneStroke] = useState(false);
+  // 消す（消しゴム）モード。ON のあいだは線をクリックでその1本を削除（描画は止まる）。
+  const [erase, setErase] = useState(false);
+  function changeErase(v: boolean) { setErase(v); setSelected(null); }
   // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
   const [editingId, setEditingId] = useState<string | null>(null);
   const isEditing = editingId != null;
@@ -398,7 +425,15 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
     setSelected(null);
   }
 
+  // 消すモード: 線をクリック → その辺を削除
+  function eraseEdge(i: number) {
+    const updated = edges.filter((_, idx) => idx !== i);
+    setEdges(updated);
+    pushHistory(updated);
+  }
+
   function handleDot(p: Point) {
+    if (erase) return; // 消すモードでは点クリックでは描かない
     if (!selected) { setSelected(p); return; }
     if (samePoint(selected, p)) { setSelected(null); return; }
     const next: Edge = { a: selected, b: p };
@@ -439,13 +474,14 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
 
   // Switching paper clamps a manual per-page count to that paper's legible maximum.
   function selectPaper(k: PaperKey) {
-    if (!caps.papers.includes(k)) { goPricing(); return; }
+    if (!caps.papers.includes(k)) { goMakers(); return; }
     setPaperKey(k);
     const max = paperMax(k);
     setPerPage((p) => (p !== "auto" && p > max ? max : p));
   }
 
-  // tier 変更（ログイン/解約の反映）時に、各設定を現プランの範囲へ丸める。
+  // 所有状態の確定（/api/me）で caps が変わったとき、各設定を現上限へ丸める。
+  // caps は capabilities() が返すモジュール定数＝参照安定なので、所有が変化した時だけ発火する。
   useEffect(() => {
     if (!caps.gridSizes.includes(gridSize)) changeGridSize(caps.gridSizes[caps.gridSizes.length - 1]);
     if (!caps.papers.includes(paperKey)) setPaperKey("A4-P");
@@ -453,7 +489,7 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
     if (!caps.nameField && nameField) setNameField(false);
     setPerPage((p) => (p !== "auto" && p > caps.perPageMax ? "auto" : p));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tier]);
+  }, [caps]);
 
   // ---- Saved problems ----
   const [saved, setSaved] = useState<Problem[]>([]);
@@ -476,7 +512,7 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
       resetCanvas();
       return;
     }
-    if (saved.length >= caps.savedMax) { goPricing(); return; } // 保存上限 → アップグレード導線
+    if (saved.length >= caps.savedMax) { goMakers(); return; } // 保存上限 → アップグレード導線
     const id = uid();
     const name = `無題 ${savingNo.toString().padStart(2, "0")}`;
     setSaved((s) => [...s, { id, name, gridSize, edges, selected: true }]);
@@ -636,26 +672,17 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
       <header className="maker-header">
         <div className="logo-cluster">
           <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
-          <div className="app-name">おためし点描写メーカー</div>
+          <div className="app-name">模写メーカー</div>
         </div>
         <div className="maker-auth">
-          {tier === "guest" ? (
-            <>
-              <a className="ma-link" href="/login">ログイン</a>
-              <a className="ma-cta" href="/pricing">プランを見る</a>
-            </>
-          ) : (
-            <>
-              <span className="ma-badge">{tier === "full" ? PLANS.full.name : PLANS.entry.name}</span>
-              <a className="ma-link" href="/account">会員ページ</a>
-            </>
-          )}
+          <a className="ma-link" href="/account">マイページ</a>
+          <a className="ma-cta" href="/makers">ほかのメーカー</a>
         </div>
       </header>
 
       {/* ============ DONE SCREEN ============ */}
       {done && reco ? (
-        <DoneScreen reco={reco} count={selectedSaved.length} tier={tier} onBack={() => setDone(false)} />
+        <DoneScreen reco={reco} count={selectedSaved.length} onBack={() => setDone(false)} />
       ) : (
       <>
       {/* ============ APP SHELL ============ */}
@@ -676,16 +703,17 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
                 disabled={isEditing}
                 onChange={(e) => {
                   const n = Number(e.target.value) as GridSize;
-                  if (!caps.gridSizes.includes(n)) { goPricing(); return; }
+                  if (!caps.gridSizes.includes(n)) { buyCopy(); return; }
                   changeGridSize(n);
                 }}>
                 {([3, 4, 5, 6, 7, 8] as GridSize[]).map((n) => (
                   <option key={n} value={n}>
-                    {n}×{n}{caps.gridSizes.includes(n) ? "" : "（プランで解放）"}
+                    {n}×{n}{caps.gridSizes.includes(n) ? "" : `（¥${MAKER_PRICE}で解放）`}
                   </option>
                 ))}
               </select>
             </div>
+            <ModeToggle erase={erase} onChange={changeErase} />
             <div className="qb-group">
               <span className="qb-label">点の大きさ</span>
               <div className="seg qb-seg" role="group" aria-label="点の大きさ">
@@ -705,12 +733,54 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
                 <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
               </div>
             </div>
-            {isEditing
-              ? <span className="qb-note">編集中はグリッドは固定されます。</span>
-              : oneStroke && <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>}
+            {erase
+              ? <span className="qb-note">消すモード：線をクリックすると、その線だけ消えます。</span>
+              : isEditing
+                ? <span className="qb-note">編集中はグリッドは固定されます。</span>
+                : oneStroke
+                  ? <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>
+                  : !isOwned && (
+                    <span className="qb-note">無料は 4×4 まで。5×5〜8×8 は ¥{MAKER_PRICE} の買い切りで解放できます。</span>
+                  )}
           </div>
 
           <div className="canvas-stage">
+            {/* 戻る・進む・全消去 — 作図盤面の真上に（スマホで指の近く・2026-06-25） */}
+            <div className="edit-actions">
+              <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
+                onClick={undo} disabled={!canUndo()}>
+                <svg viewBox="0 0 16 16">
+                  <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                </svg>
+                <span className="lbl">戻る</span>
+              </button>
+              <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
+                onClick={redo} disabled={!canRedo()}>
+                <svg viewBox="0 0 16 16">
+                  <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                </svg>
+                <span className="lbl">進む</span>
+              </button>
+              <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
+                onClick={clearAll} disabled={edges.length === 0}>
+                <svg viewBox="0 0 16 16">
+                  <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
+                    strokeLinecap="round"/>
+                </svg>
+                <span className="lbl">全消去</span>
+              </button>
+            </div>
             <div className="paper-pair">
               <div className="paper-pane problem" aria-label="編集中の盤面">
                 <PaperSVG
@@ -718,6 +788,8 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
                   edges={edges}
                   selected={selected}
                   onDotClick={handleDot}
+                  onEdgeErase={eraseEdge}
+                  erase={erase}
                   showLines={true}
                   showActiveHighlight={true}
                   dotScale={dotScale}
@@ -726,41 +798,6 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
               </div>
             </div>
             <div className="canvas-actions">
-              <div className="edit-actions">
-                <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
-                  onClick={undo} disabled={!canUndo()}>
-                  <svg viewBox="0 0 16 16">
-                    <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                    <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  </svg>
-                  <span className="lbl">戻る</span>
-                </button>
-                <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
-                  onClick={redo} disabled={!canRedo()}>
-                  <svg viewBox="0 0 16 16">
-                    <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                    <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  </svg>
-                  <span className="lbl">進む</span>
-                </button>
-                <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
-                  onClick={clearAll} disabled={edges.length === 0}>
-                  <svg viewBox="0 0 16 16">
-                    <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
-                    <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                    <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                    <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
-                      strokeLinecap="round"/>
-                  </svg>
-                  <span className="lbl">全消去</span>
-                </button>
-              </div>
               <button className="btn-save" type="button" onClick={saveCurrent}
                 disabled={isEditing ? edges.length === 0 : (edges.length === 0 && !savedFull)}>
                 {isEditing ? "変更を保存" : "この問題を保存する"}
@@ -772,8 +809,8 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
               )}
               {savedFull && !isEditing && (
                 <p className="save-cap-note">
-                  保存できるのは {caps.savedMax} 問まで。
-                  <a href="/pricing">もっと保存できるプランへ →</a>
+                  模写メーカーで保存できるのは {caps.savedMax} 問まで。
+                  <a href="/makers">ほかのメーカー（買い切り）は保存無制限 →</a>
                 </p>
               )}
             </div>
@@ -869,16 +906,6 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
             </summary>
             <div className="sf-body">
 
-            {tier === "guest" && (
-              <a className="sf-upsell" href="/pricing">
-                <span className="sf-upsell-ic"><Lock /></span>
-                <span className="sf-upsell-tx">
-                  <Lock /> のついた設定は {PLANS.entry.name}（¥{PLANS.entry.yen}/月）で解放されます
-                </span>
-                <span className="sf-upsell-go">プランを見る →</span>
-              </a>
-            )}
-
             <div className="group">
               <h3>用紙</h3>
               <div className="paper-grid" role="group" aria-label="用紙サイズ">
@@ -890,7 +917,7 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
                       className={locked ? "locked" : undefined}
                       aria-pressed={paperKey === k}
                       onClick={() => selectPaper(k)}
-                      title={locked ? unlockLabel("entry") : undefined}>
+                      title={locked ? lockHint : undefined}>
                       <span className="pname">{p.label}{locked && <Lock />}</span>
                       <span className="pdim">{p.w}×{p.h}</span>
                     </button>
@@ -914,8 +941,8 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
                   <button key={v} type="button"
                     className={locked ? "locked" : undefined}
                     aria-pressed={perPage === v}
-                    onClick={() => (locked ? goPricing() : setPerPage(v))}
-                    title={locked ? unlockLabel("entry") : undefined}>
+                    onClick={() => (locked ? goMakers() : setPerPage(v))}
+                    title={locked ? lockHint : undefined}>
                     <span className="ldiagram"
                       style={{
                         gridTemplateColumns: `repeat(${g.cols}, 1fr)`,
@@ -967,8 +994,8 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
                 <button type="button"
                   className={!caps.nameField ? "locked" : undefined}
                   aria-pressed={nameField}
-                  onClick={() => (caps.nameField ? setNameField(true) : goPricing())}
-                  title={!caps.nameField ? unlockLabel("entry") : undefined}>
+                  onClick={() => (caps.nameField ? setNameField(true) : goMakers())}
+                  title={!caps.nameField ? lockHint : undefined}>
                   つける{!caps.nameField && <Lock />}
                 </button>
               </div>
@@ -1009,8 +1036,8 @@ export default function MakerApp({ initialTier = "guest" }: { initialTier?: Tier
             </div>
             {overDailyLimit && (
               <p className="daily-nudge">
-                きょうは {caps.dailyExports} 枚そろいました。たっぷり刷るなら
-                <a href="/pricing"> {PLANS.entry.name}（¥{PLANS.entry.yen}/月）→</a>
+                きょうは {caps.dailyExports} 枚そろいました。もっと作りたくなったら
+                <a href="/makers"> ほかのメーカーも（買い切り ¥980）→</a>
               </p>
             )}
             <button className="btn-export" type="button"
@@ -1104,11 +1131,10 @@ function doneMemo(maxGrid: GridSize, usedDiag: boolean): string {
 }
 
 function DoneScreen({
-  reco, count, tier, onBack,
+  reco, count, onBack,
 }: {
   reco: { maxGrid: GridSize; usedDiag: boolean; vols: Vol[] };
   count: number;
-  tier: Tier;
   onBack: () => void;
 }) {
   return (
@@ -1158,16 +1184,14 @@ function DoneScreen({
           </div>
         </div>
 
-        {tier === "guest" && (
-          <div className="done-upsell">
-            <span className="who">メーカーをもっと使うなら</span>
-            <p>
-              {PLANS.entry.name}（¥{PLANS.entry.yen}/月）なら、1 枚に 4〜12 問・B4 / A3・記名欄つき。
-              きょうみたいな練習プリントを、好きなだけ刷れます。
-            </p>
-            <a className="done-ghost" href="/pricing">プランを見る →</a>
-          </div>
-        )}
+        <div className="done-upsell">
+          <span className="who">メーカーをもっと使うなら</span>
+          <p>
+            鏡・平行移動・回転・欠け補完・重ね・分解・折り重ね。模写の次の一手は、
+            「動かす・重ねる」メーカー（各 ¥980 の買い切り）。頭の中で形を操る練習へ進めます。
+          </p>
+          <a className="done-ghost" href="/makers">メーカー一覧を見る →</a>
+        </div>
 
         <div className="done-actions">
           <button type="button" className="done-back" onClick={onBack}>← つづきを作る</button>

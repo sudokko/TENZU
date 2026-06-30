@@ -1,17 +1,18 @@
 /* Stripe Webhook（checkout.session.completed → 購入完了メール配送）。
    - 署名検証には raw body が必須 → req.text() で生のまま取得（JSON パースしない）
    - 宛先メールは Stripe Checkout が収集した customer_details.email を使う
-   - マジックリンク＝既存サンクスURL（/checkout/success?session_id=...）。
-     あのページがサーバー側で paid を再照合するため、独自トークン保管は不要
+   - プリント（metadata.skus）= DL ページのリンクをメール（再 DL 用）
+   - メーカー買い切り（metadata.makers）= 別端末復元のマジックリンクをメール
+     （申込ブラウザは success_url の /api/auth/verify で即 cookie 取得済み。これは予備手段）
    - Stripe にエンドポイントを無効化されないよう、処理失敗でも 200 を返す（ログのみ）
    - 冪等性: DB を持たないため webhook 重複時はメール重複の可能性あり（低害・MVP 受容） */
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { volBySku, volTitle } from "../../../products/data";
-import { sendPurchaseEmail, sendLoginLink } from "../../../lib/email";
+import { sendPurchaseEmail, sendRestoreLink } from "../../../lib/email";
 import { signMagic } from "../../../lib/auth";
-import { resolveTier } from "../../../lib/billing";
-import { PLANS } from "../../../products/capabilities";
+import { parseMakers } from "../../../lib/billing";
+import { makerByKey } from "../../../products/makers";
 
 export const dynamic = "force-dynamic";
 
@@ -40,45 +41,32 @@ export async function POST(req: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session;
     try {
       const email = session.customer_details?.email;
-      // サブスク Checkout は skus を持たない → 単発購入（payment mode）のみ DL メール。
-      const skus = (session.metadata?.skus ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+      if (session.payment_status !== "paid" || !email) {
+        return Response.json({ received: true });
+      }
 
-      if (session.payment_status === "paid" && email && skus.length > 0) {
+      const skus = (session.metadata?.skus ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+      const makers = parseMakers(session.metadata);
+      const base = process.env.SITE_URL ?? req.nextUrl.origin;
+
+      if (skus.length > 0) {
+        // プリント（payment mode・¥200）→ 再 DL ページのリンク。
         const items = skus
           .map((sku) => { const r = volBySku(sku); return r ? volTitle(r.task, r.vol) : null; })
           .filter((t): t is string => Boolean(t));
-
-        const base = process.env.SITE_URL ?? req.nextUrl.origin;
         const downloadUrl = `${base}/checkout/success?session_id=${session.id}`;
-
         await sendPurchaseEmail({ to: email, downloadUrl, items });
+      } else if (makers.length > 0) {
+        // メーカー買い切り → 別端末復元のマジックリンク（所有は Stripe 履歴から再構成）。
+        const items = makers
+          .map((k) => makerByKey(k)?.name)
+          .filter((n): n is string => Boolean(n));
+        const restoreUrl = `${base}/api/auth/verify?token=${signMagic(email)}`;
+        await sendRestoreLink({ to: email, restoreUrl, items });
       }
     } catch (e) {
       // 送信失敗してもエンドポイントを生かすため 200 で返す（運用はログで検知）
       console.error("[stripe webhook] purchase email failed:", e);
-    }
-  }
-
-  // 会員サブスク作成 → 別端末/再ログイン用のマジックリンクをメール送信。
-  // （申込ブラウザは success_url の /api/auth/verify で即ログイン済み。これは予備手段）
-  if (event.type === "customer.subscription.created") {
-    const sub = event.data.object as Stripe.Subscription;
-    try {
-      const customerId = typeof sub.customer === "string" ? sub.customer : sub.customer.id;
-      const stripe2 = new Stripe(key);
-      const customer = await stripe2.customers.retrieve(customerId);
-      const email = !customer.deleted ? customer.email : null;
-      if (email) {
-        const tier = await resolveTier(stripe2, customerId);
-        if (tier !== "guest") {
-          const base = process.env.SITE_URL ?? req.nextUrl.origin;
-          const loginUrl = `${base}/api/auth/verify?token=${signMagic(email)}`;
-          const planName = tier === "full" ? PLANS.full.name : PLANS.entry.name;
-          await sendLoginLink({ to: email, loginUrl, planName });
-        }
-      }
-    } catch (e) {
-      console.error("[stripe webhook] login link failed:", e);
     }
   }
 

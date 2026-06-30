@@ -1,0 +1,72 @@
+/* =========================================================================
+   立体模写メーカー固有の調整（maker.css の後に読む）
+   - 盤面を少し広く（密な格子でも点を押しやすく）
+   - SVG をペインいっぱいに
+   - 線スタイル（実線/点線）トグル・作品名入力・完了メッセージ
+   ========================================================================= */
+
+/* ヘッダーの試作ラベル */
+.maker-solid .app-name .app-tag {
+  margin-left: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+}
+
+/* 盤面：立体は横長。幅を広めに取り、高さは grid アスペクト（インライン style）で決まる。 */
+.maker-solid .paper-pair { max-width: 680px; }
+.maker-solid .paper-pane.problem { aspect-ratio: auto; height: auto; }
+.maker-solid .paper-pane > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* サムネは横長の枠で（meet レターボックスを最小化） */
+.maker-solid .saved-cell .thumb { aspect-ratio: 3 / 2; height: auto; }
+.maker-solid .canvas-stage > .edit-actions,
+.maker-solid .canvas-actions { max-width: 680px; }
+
+/* グリッドの × 区切り */
+.maker-solid .qb-group .qb-x { margin: 0 2px; color: var(--fg-3); font-size: 12px; }
+
+/* サムネ内 SVG */
+.maker-solid .saved-cell .thumb > svg { display: block; width: 100%; height: 100%; }
+
+/* 線スタイル（実線/点線）トグル — 点線ボタンは押下時に破線下線で示す */
+.maker-solid .qb-seg.linestyle button[aria-pressed="true"] { font-weight: 700; }
+
+/* 消しゴム（消すモード）— 線にホバーすると消える対象を赤帯で予告 */
+.maker-solid svg .erase-hit:hover { stroke: rgba(214, 69, 69, 0.28); }
+.maker-solid .qb-seg.tool button[aria-pressed="true"] { font-weight: 700; }
+
+/* 作品名の入力欄 */
+.maker-solid .solid-title {
+  width: 100%;
+  margin-top: 4px;
+  padding: 3px 6px;
+  font-family: var(--font-tier3-sans, sans-serif);
+  font-size: 12px;
+  color: var(--fg, #1a1f2a);
+  background: #fff;
+  border: 1px solid var(--line-thin, #e2e2e2);
+  border-radius: 6px;
+}
+.maker-solid .solid-title:focus {
+  outline: none;
+  border-color: var(--accent, #2c6e7f);
+}
+
+/* PDF 完了メッセージ */
+.maker-solid .solid-done {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: #2c6e7f;
+  background: rgba(44, 110, 127, 0.08);
+  border-radius: 8px;
+}
+
+/* プレビューページ内 SVG をコンテナに合わせる */
+.maker-solid .pp-page > svg { display: block; width: 100%; height: 100%; }

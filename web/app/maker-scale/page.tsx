@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
 import MakerScaleApp from "./MakerScaleApp";
+import MakerGate from "../maker/MakerGate";
+import { readOwned } from "../lib/auth";
 import "../maker/maker.css";
 
-/* 内部用ツール: 検索/シェアに乗せない */
+/* 公開メーカー（買い切り ¥980）。ツール自体は noindex（SEO はハブ /makers に集約）。 */
 export const metadata: Metadata = {
-  title: "拡大メーカー（内部用） · TENZU",
-  description: "拡大(scale)タスクの問題を作って PDF にする内部用ツール。×2/×3 で拡大図が自動算出される（伸ばす方向は図形から自動判定・枠に収まるか判定）。出題＋解答を 1 PDF に連結。並びは答えに影響しない。",
+  title: "拡大メーカー · TENZU",
+  description: "比をそろえて大きく写す（×2・×3）点描写プリントを作って、PDF で印刷できます。",
   robots: { index: false, follow: false },
 };
 
-export default function MakerScalePage() {
-  return <MakerScaleApp />;
+export const dynamic = "force-dynamic";
+
+export default async function MakerScalePage() {
+  const owned = await readOwned();
+  return (
+    <MakerGate makerKey="scale" initialOwned={owned}>
+      <MakerScaleApp />
+    </MakerGate>
+  );
 }

@@ -168,7 +168,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-71@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 7,
+    "auto": 7,
+    "parts": {
+     "lines": 7,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-71@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-02",
@@ -355,7 +373,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-112@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-112@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-03",
@@ -554,7 +590,25 @@
     "variant": "rand#5#1-113@5"
    },
    "status": "pending",
-   "edited": true
+   "edited": true,
+   "difficulty": {
+    "task": "copy",
+    "value": 9,
+    "auto": 9,
+    "parts": {
+     "lines": 9,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-113@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-04",
@@ -825,7 +879,25 @@
     "motif": "ななめこうし",
     "variant": "naname#4-2/1@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 7,
+    "auto": 7,
+    "parts": {
+     "lines": 7,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "naname#4-2/1@5",
+    "label": "ななめこうし"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-05",
@@ -982,7 +1054,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-81@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-81@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-06",
@@ -1159,7 +1249,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-386@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8.5,
+    "auto": 8.5,
+    "parts": {
+     "lines": 7,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-386@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-07",
@@ -1306,7 +1414,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-40@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 9,
+    "auto": 9,
+    "parts": {
+     "lines": 9,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-40@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-08",
@@ -1463,7 +1589,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-317@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 9,
+    "auto": 9,
+    "parts": {
+     "lines": 9,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-317@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-09",
@@ -1610,7 +1754,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-302@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 9,
+    "auto": 9,
+    "parts": {
+     "lines": 9,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-302@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-10",
@@ -1797,7 +1959,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-206@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "lines": 11,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-206@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-11",
@@ -1974,7 +2154,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-151@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "lines": 11,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-151@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-12",
@@ -2181,7 +2379,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-530@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 9.5,
+    "auto": 9.5,
+    "parts": {
+     "lines": 8,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-530@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-13",
@@ -2338,7 +2554,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-425@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 10,
+    "auto": 10,
+    "parts": {
+     "lines": 10,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-425@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-14",
@@ -2465,7 +2699,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-247@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-247@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-15",
@@ -2659,7 +2911,25 @@
     "motif": "はちぼうせい",
     "variant": "penta#8a/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "penta#8a/0@5",
+    "label": "はちぼうせい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-16",
@@ -2806,7 +3076,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-442@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "lines": 11,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-442@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-17",
@@ -2983,7 +3271,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-496@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "lines": 11,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-496@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-18",
@@ -3177,7 +3483,25 @@
     "motif": "ひしじゅうじ",
     "variant": "rhomX#1/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 7.5,
+    "auto": 7.5,
+    "parts": {
+     "lines": 6,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rhomX#1/0@5",
+    "label": "ひしじゅうじ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-19",
@@ -3364,7 +3688,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-492@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 10,
+    "auto": 10,
+    "parts": {
+     "lines": 7,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-492@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-20",
@@ -3555,7 +3897,25 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-51/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-51/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-21",
@@ -3752,7 +4112,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-373@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 10.5,
+    "auto": 10.5,
+    "parts": {
+     "lines": 9,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-373@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-22",
@@ -4107,7 +4485,25 @@
     "variant": "conc#4/0@5"
    },
    "status": "adopted",
-   "order": 3
+   "order": 3,
+   "difficulty": {
+    "task": "copy",
+    "value": 12,
+    "auto": 12,
+    "parts": {
+     "lines": 12,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "conc#4/0@5",
+    "label": "どうしん"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-23",
@@ -4462,7 +4858,25 @@
     "variant": "sym#5#1-124/0@5"
    },
    "status": "adopted",
-   "order": 4
+   "order": 4,
+   "difficulty": {
+    "task": "copy",
+    "value": 15.5,
+    "auto": 15.5,
+    "parts": {
+     "lines": 14,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-124/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-24",
@@ -4613,7 +5027,25 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-90/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 12,
+    "auto": 12,
+    "parts": {
+     "lines": 12,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-90/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-25",
@@ -4850,7 +5282,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-40@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 13.5,
+    "auto": 13.5,
+    "parts": {
+     "lines": 9,
+     "cross": 4.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-40@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-26",
@@ -5078,7 +5528,25 @@
     "variant": "rand#5#1-428@5"
    },
    "status": "adopted",
-   "order": 12
+   "order": 12,
+   "difficulty": {
+    "task": "copy",
+    "value": 13.5,
+    "auto": 13.5,
+    "parts": {
+     "lines": 9,
+     "cross": 4.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-428@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-27",
@@ -5227,7 +5695,25 @@
     "motif": "おりもの",
     "variant": "truchet#5#1-116/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 9,
+    "auto": 9,
+    "parts": {
+     "lines": 6,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "truchet#5#1-116/0@5",
+    "label": "おりもの"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-28",
@@ -5581,7 +6067,25 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-66/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 16,
+    "auto": 16,
+    "parts": {
+     "lines": 16,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-66/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-29",
@@ -5798,7 +6302,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-487@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 14,
+    "auto": 14,
+    "parts": {
+     "lines": 8,
+     "cross": 6,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-487@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-30",
@@ -6149,7 +6671,25 @@
     "motif": "ななめこうし",
     "variant": "naname#4-1/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "lines": 11,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "naname#4-1/0@5",
+    "label": "ななめこうし"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-31",
@@ -6303,7 +6843,25 @@
     "motif": "いれこひし",
     "variant": "ndia#2/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "ndia#2/0@5",
+    "label": "いれこひし"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-32",
@@ -6550,7 +7108,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-693@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 15,
+    "auto": 15,
+    "parts": {
+     "lines": 9,
+     "cross": 6,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-693@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-33",
@@ -6721,7 +7297,25 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-291/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 12,
+    "auto": 12,
+    "parts": {
+     "lines": 12,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-291/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-34",
@@ -7090,7 +7684,25 @@
     "motif": "おりもの",
     "variant": "truchet#5#1-29/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 16,
+    "auto": 16,
+    "parts": {
+     "lines": 10,
+     "cross": 6,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "truchet#5#1-29/0@5",
+    "label": "おりもの"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-35",
@@ -7324,7 +7936,25 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-13/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 16,
+    "auto": 16,
+    "parts": {
+     "lines": 16,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-13/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-36",
@@ -7536,7 +8166,25 @@
     "variant": "sym#5#1-21/0@5"
    },
    "status": "adopted",
-   "order": 7
+   "order": 7,
+   "difficulty": {
+    "task": "copy",
+    "value": 16,
+    "auto": 16,
+    "parts": {
+     "lines": 16,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-21/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-37",
@@ -7748,7 +8396,25 @@
    },
    "status": "adopted",
    "order": 10,
-   "edited": true
+   "edited": true,
+   "difficulty": {
+    "task": "copy",
+    "value": 16,
+    "auto": 16,
+    "parts": {
+     "lines": 16,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-268/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-38",
@@ -7901,7 +8567,25 @@
     "variant": "sym#5#1-33/0@5"
    },
    "status": "adopted",
-   "order": 1
+   "order": 1,
+   "difficulty": {
+    "task": "copy",
+    "value": 7.5,
+    "auto": 7.5,
+    "parts": {
+     "lines": 6,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-33/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-39",
@@ -8013,7 +8697,25 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-140/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-140/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-40",
@@ -8245,7 +8947,25 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-142/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-142/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-41",
@@ -8535,7 +9255,25 @@
    },
    "status": "adopted",
    "order": 6,
-   "edited": true
+   "edited": true,
+   "difficulty": {
+    "task": "copy",
+    "value": 10.5,
+    "auto": 10.5,
+    "parts": {
+     "lines": 9,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "bigU#1/0@5",
+    "label": "おおユー"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-42",
@@ -8725,7 +9463,25 @@
     "motif": "おおティー",
     "variant": "bigT#1/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "bigT#1/0@5",
+    "label": "おおティー"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-43",
@@ -8876,7 +9632,25 @@
     "variant": "truchet#5#1-87/0@5"
    },
    "status": "adopted",
-   "order": 2
+   "order": 2,
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 5,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "truchet#5#1-87/0@5",
+    "label": "おりもの"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-44",
@@ -8986,7 +9760,25 @@
     "motif": "かいだん",
     "variant": "stairs#4/1@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "stairs#4/1@5",
+    "label": "かいだん"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-45",
@@ -9096,7 +9888,25 @@
     "motif": "かいだん",
     "variant": "stairs#4/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "stairs#4/0@5",
+    "label": "かいだん"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-46",
@@ -9294,7 +10104,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-652@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8.5,
+    "auto": 8.5,
+    "parts": {
+     "lines": 7,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-652@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-47",
@@ -9492,7 +10320,25 @@
     "motif": "ランダム",
     "variant": "rand#5#1-689@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 9,
+    "auto": 9,
+    "parts": {
+     "lines": 6,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-689@5",
+    "label": "ランダム"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-48",
@@ -9684,7 +10530,25 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-177/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 10,
+    "auto": 10,
+    "parts": {
+     "lines": 10,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#5#1-177/0@5",
+    "label": "たいしょう"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-49",
@@ -9862,7 +10726,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-315@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 10,
+    "auto": 10,
+    "parts": {
+     "lines": 7,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-315@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-50",
@@ -10057,7 +10939,25 @@
     "motif": "いげた",
     "variant": "igeta#4/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 10,
+    "auto": 10,
+    "parts": {
+     "lines": 4,
+     "cross": 6,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "igeta#4/0@5",
+    "label": "いげた"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-51",
@@ -10205,7 +11105,25 @@
     "motif": "じゆうけい",
     "variant": "blob#5#1-486@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "lines": 11,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "blob#5#1-486@5",
+    "label": "じゆうけい"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-52",
@@ -10477,7 +11395,25 @@
     "motif": "かさねしかく",
     "variant": "twosq#1/1@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "lines": 8,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "twosq#1/1@5",
+    "label": "かさねしかく"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-53",
@@ -10749,7 +11685,25 @@
     "motif": "かさねしかく",
     "variant": "twosq#1/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "lines": 8,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "twosq#1/0@5",
+    "label": "かさねしかく"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-54",
@@ -10947,7 +11901,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-90@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11.5,
+    "auto": 11.5,
+    "parts": {
+     "lines": 10,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-90@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-55",
@@ -11155,7 +12127,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-73@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 12,
+    "auto": 12,
+    "parts": {
+     "lines": 9,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-73@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-56",
@@ -11323,7 +12313,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-139@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 13,
+    "auto": 13,
+    "parts": {
+     "lines": 10,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-139@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-57",
@@ -11561,7 +12569,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-96@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 13,
+    "auto": 13,
+    "parts": {
+     "lines": 10,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-96@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-58",
@@ -11809,7 +12835,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-235@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 13,
+    "auto": 13,
+    "parts": {
+     "lines": 10,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-235@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-59",
@@ -12004,7 +13048,25 @@
     "motif": "こめじるし",
     "variant": "star#4/0@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 13,
+    "auto": 13,
+    "parts": {
+     "lines": 4,
+     "cross": 9,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "star#4/0@5",
+    "label": "こめじるし"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-60",
@@ -12242,7 +13304,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-250@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 14,
+    "auto": 14,
+    "parts": {
+     "lines": 11,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-250@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-61",
@@ -12460,7 +13540,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-192@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 14.5,
+    "auto": 14.5,
+    "parts": {
+     "lines": 10,
+     "cross": 4.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-192@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-62",
@@ -12668,7 +13766,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-263@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 15,
+    "auto": 15,
+    "parts": {
+     "lines": 12,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-263@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-63",
@@ -12927,7 +14043,25 @@
     "variant": "hybrid#5#1-271@5"
    },
    "status": "adopted",
-   "order": 5
+   "order": 5,
+   "difficulty": {
+    "task": "copy",
+    "value": 15,
+    "auto": 15,
+    "parts": {
+     "lines": 12,
+     "cross": 3,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-271@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-64",
@@ -13136,7 +14270,25 @@
     "variant": "truchet#5#1-72/0@5"
    },
    "status": "pending",
-   "edited": true
+   "edited": true,
+   "difficulty": {
+    "task": "copy",
+    "value": 15.5,
+    "auto": 15.5,
+    "parts": {
+     "lines": 11,
+     "cross": 4.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "truchet#5#1-72/0@5",
+    "label": "おりもの"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-65",
@@ -13354,7 +14506,25 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-97@5"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 15.5,
+    "auto": 15.5,
+    "parts": {
+     "lines": 11,
+     "cross": 4.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-97@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-s1-66",
@@ -13573,7 +14743,25 @@
     "variant": "hybrid#5#1-6@5"
    },
    "status": "adopted",
-   "order": 9
+   "order": 9,
+   "difficulty": {
+    "task": "copy",
+    "value": 15.5,
+    "auto": 15.5,
+    "parts": {
+     "lines": 11,
+     "cross": 4.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-6@5",
+    "label": "くみあわせ"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-67",
@@ -13743,7 +14931,25 @@
     "motif": "トラック",
     "variant": "truck5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "truck5+0",
+    "label": "トラック"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-68",
@@ -13931,7 +15137,25 @@
     "motif": "かたつむり",
     "variant": "snail5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "snail5+0",
+    "label": "かたつむり"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-69",
@@ -14119,7 +15343,25 @@
     "motif": "かたつむり",
     "variant": "snail5~m+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "snail5~m+0",
+    "label": "かたつむり"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-70",
@@ -14279,7 +15521,25 @@
     "motif": "がいとう",
     "variant": "lamp5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 6,
+    "auto": 6,
+    "parts": {
+     "lines": 6,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "lamp5+0",
+    "label": "がいとう"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-71",
@@ -14427,7 +15687,25 @@
     "motif": "かさ",
     "variant": "umbrella5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 6,
+    "auto": 6,
+    "parts": {
+     "lines": 6,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "umbrella5+0",
+    "label": "かさ"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-72",
@@ -14617,7 +15895,25 @@
     "motif": "くるま",
     "variant": "car5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 9,
+    "auto": 9,
+    "parts": {
+     "lines": 9,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "car5+0",
+    "label": "くるま"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-73",
@@ -14765,7 +16061,25 @@
     "motif": "ふうしゃ",
     "variant": "windmill5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 7.5,
+    "auto": 7.5,
+    "parts": {
+     "lines": 6,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "windmill5+0",
+    "label": "ふうしゃ"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-74",
@@ -14965,7 +16279,25 @@
     "motif": "くるま",
     "variant": "car5+1"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 10,
+    "auto": 10,
+    "parts": {
+     "lines": 10,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "car5+1",
+    "label": "くるま"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-75",
@@ -15115,7 +16447,25 @@
     "motif": "ロケット",
     "variant": "rocket5+1"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 7,
+    "auto": 7,
+    "parts": {
+     "lines": 7,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "rocket5+1",
+    "label": "ロケット"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-76",
@@ -15313,7 +16663,25 @@
     "motif": "ヨット",
     "variant": "yacht5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "yacht5+0",
+    "label": "ヨット"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-77",
@@ -15562,7 +16930,25 @@
     "variant": "house5+3"
    },
    "status": "adopted",
-   "order": 11
+   "order": 11,
+   "difficulty": {
+    "task": "copy",
+    "value": 12,
+    "auto": 12,
+    "parts": {
+     "lines": 12,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "house5+3",
+    "label": "いえ"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-78",
@@ -15677,7 +17063,25 @@
     "motif": "たいよう",
     "variant": "sun5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "sun5+0",
+    "label": "たいよう"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-79",
@@ -15837,7 +17241,25 @@
     "motif": "もみのき",
     "variant": "pine5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8,
+    "auto": 8,
+    "parts": {
+     "lines": 8,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "pine5+0",
+    "label": "もみのき"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-80",
@@ -16045,7 +17467,25 @@
     "motif": "ヨット",
     "variant": "yacht5~m+1"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 9,
+    "auto": 9,
+    "parts": {
+     "lines": 9,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "yacht5~m+1",
+    "label": "ヨット"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-81",
@@ -16173,7 +17613,25 @@
     "motif": "さかな",
     "variant": "fish5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 8.5,
+    "auto": 8.5,
+    "parts": {
+     "lines": 7,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "fish5+0",
+    "label": "さかな"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-82",
@@ -16321,7 +17779,25 @@
     "motif": "さかな",
     "variant": "fish5~m+1"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 9.5,
+    "auto": 9.5,
+    "parts": {
+     "lines": 8,
+     "cross": 1.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "fish5~m+1",
+    "label": "さかな"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-83",
@@ -16481,7 +17957,25 @@
     "motif": "かに",
     "variant": "crab5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "lines": 11,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "crab5+0",
+    "label": "かに"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-84",
@@ -16652,7 +18146,25 @@
     "variant": "rocket5+2"
    },
    "status": "adopted",
-   "order": 8
+   "order": 8,
+   "difficulty": {
+    "task": "copy",
+    "value": 9,
+    "auto": 9,
+    "parts": {
+     "lines": 9,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "rocket5+2",
+    "label": "ロケット"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-85",
@@ -16800,7 +18312,25 @@
     "motif": "やまとたいよう",
     "variant": "mtsun5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 7,
+    "auto": 7,
+    "parts": {
+     "lines": 7,
+     "cross": 0,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "mtsun5+0",
+    "label": "やまとたいよう"
+   }
   },
   {
    "id": "copy-lv3-vol2-motif-s1-86",
@@ -17030,7 +18560,25 @@
     "motif": "ちょうちょ",
     "variant": "butterfly5+0"
    },
-   "status": "pending"
+   "status": "pending",
+   "difficulty": {
+    "task": "copy",
+    "value": 11.5,
+    "auto": 11.5,
+    "parts": {
+     "lines": 7,
+     "cross": 4.5,
+     "non45": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "butterfly5+0",
+    "label": "ちょうちょ"
+   }
   }
  ],
  "seedCursor": 0

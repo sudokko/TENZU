@@ -32,5 +32,18 @@ export type CopyParams = {
   minCompEdges?: number; // 各連結成分の最小辺数（1辺の孤立片を排除・Phase 2）
 };
 
-/* COPY_LADDER（模写の難易度帯）は copy.ts（ライブラリ方式）へ移設した（2026-06-14）。
-   このファイルは fill/mirror が共有する CopyParams 型・SlopeRule のみを提供する。 */
+/* このファイルは fill/mirror が共有する CopyParams 型・SlopeRule に加え、
+   全タスクの難易度ラダー（巻ごとの盤面＋ゲート＋難易度窓）の単一読み取り口を提供する。
+   実体は ladder.json（SSOT）に外出しし、atelier が /api/atelier/ladder で編集・Vol 追加する。
+   各タスクの型は各生成器側に置いたまま型のみ import する＝実行時の依存は ladder.json だけで、
+   生成器との循環にはならない（型は消去される）。 */
+import ladderData from "../ladder.json";
+import type { CopyShapeParams } from "./copy";
+import type { FillParams } from "./fill";
+import type { MirrorParams } from "./mirror";
+import type { MotifParams } from "./motif";
+
+export const COPY_LADDER = (ladderData.copy ?? {}) as unknown as Record<string, CopyShapeParams>;
+export const FILL_LADDER = (ladderData.fill ?? {}) as unknown as Record<string, FillParams>;
+export const MIRROR_LADDER = (ladderData.mirror ?? {}) as unknown as Record<string, MirrorParams>;
+export const MOTIF_LADDER = (ladderData.motif ?? {}) as unknown as Record<string, MotifParams>;

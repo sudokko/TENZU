@@ -9,6 +9,7 @@ import {
   TASK_ANSWER_MODE, validateProblemSet,
   type CandidateFile, type SkuProblemSet,
 } from "../../products/problems/schema";
+import { migrateCandidateFile, migrateSet } from "../../products/problems/gen/difficulty";
 
 export function devGuard(): Response | null {
   if (process.env.NODE_ENV === "production") {
@@ -20,6 +21,71 @@ export function devGuard(): Response | null {
 const PROBLEMS_DIR = () => path.join(process.cwd(), "app", "products", "problems");
 const CAND_DIR = () => path.join(PROBLEMS_DIR(), "candidates");
 const PUB_DIR = () => path.join(PROBLEMS_DIR(), "published");
+const LADDER_PATH = () => path.join(PROBLEMS_DIR(), "ladder.json");
+
+/* ラダー（巻の難易度基準）の dev 読み書き。gen/ladder.ts は静的 import で読むが、
+   atelier の編集 UI はここで disk から直に読み（編集直後の値を即返す）・書き戻す。
+   構造は { schemaVersion, copy:{sku:params}, fill:{...}, mirror:{...}, motif:{...} }。 */
+export type LadderFile = { schemaVersion: number } & Record<string, unknown>;
+
+export async function readLadder(): Promise<LadderFile> {
+  const raw = await fs.readFile(LADDER_PATH(), "utf8");
+  return JSON.parse(raw) as LadderFile;
+}
+
+export async function writeLadder(data: LadderFile): Promise<void> {
+  await fs.writeFile(LADDER_PATH(), JSON.stringify(data, null, 2) + "\n", "utf8");
+}
+
+/* atelier から追加した Vol の置き場（既存 data.ts PRODUCT_TASKS は不変のまま合流する）。
+   add-vol API が書き、data.ts が読み込み時に該当タスクへ append する。 */
+const CATALOG_EXTRA_PATH = () => path.join(process.cwd(), "app", "products", "catalog-extra.json");
+export type CatalogExtraVol = {
+  task: string; sku: string; lv: number; volNo: number; grid: string;
+  variant?: string; blurb: string; ageLabel: string; status: "live" | "scaffold";
+};
+/* 既存 PRODUCT_TASKS（ハードコード TS・API から書き戻せない）の表示メタを
+   dev で上書きするレイヤ。grid 編集・メタ編集・非表示を data.ts を触らず反映する。
+   hidden=true は data.ts が PRODUCT_TASKS から除外（公開・atelier 双方から消える）。 */
+export type CatalogPatch = {
+  sku: string; grid?: string; blurb?: string; ageLabel?: string;
+  variant?: string; status?: "live" | "scaffold"; hidden?: boolean;
+};
+export type CatalogExtra = { vols: CatalogExtraVol[]; patches?: CatalogPatch[] };
+
+export async function readCatalogExtra(): Promise<CatalogExtra> {
+  try {
+    return JSON.parse(await fs.readFile(CATALOG_EXTRA_PATH(), "utf8")) as CatalogExtra;
+  } catch {
+    return { vols: [] };
+  }
+}
+
+export async function writeCatalogExtra(data: CatalogExtra): Promise<void> {
+  await fs.writeFile(CATALOG_EXTRA_PATH(), JSON.stringify(data, null, 2) + "\n", "utf8");
+}
+
+/* 表示メタの上書きを catalog-extra に反映する。scaffold Vol（extra.vols に居る sku）は
+   patch ではなく vols 側を直接更新し、それ以外（PRODUCT_TASKS の既存巻）は patches へ upsert。 */
+export async function upsertCatalogPatch(
+  sku: string, partial: Omit<CatalogPatch, "sku">,
+): Promise<void> {
+  const extra = await readCatalogExtra();
+  const inExtra = extra.vols.find((x) => x.sku === sku);
+  if (inExtra) {
+    if (partial.grid != null) inExtra.grid = partial.grid;
+    if (partial.blurb != null) inExtra.blurb = partial.blurb;
+    if (partial.ageLabel != null) inExtra.ageLabel = partial.ageLabel;
+    if (partial.variant != null) inExtra.variant = partial.variant;
+    if (partial.status != null) inExtra.status = partial.status;
+  } else {
+    const patches = extra.patches ?? (extra.patches = []);
+    const cur = patches.find((p) => p.sku === sku);
+    if (cur) Object.assign(cur, partial);
+    else patches.push({ sku, ...partial });
+  }
+  await writeCatalogExtra(extra);
+}
 
 /* sku はファイル名に使うので形式を縛る（パストラバーサル防止） */
 export function safeSku(sku: unknown): string | null {
@@ -29,7 +95,8 @@ export function safeSku(sku: unknown): string | null {
 export async function readCandidates(sku: string): Promise<CandidateFile | null> {
   try {
     const raw = await fs.readFile(path.join(CAND_DIR(), `${sku}.json`), "utf8");
-    return JSON.parse(raw) as CandidateFile;
+    // 読み取り境界で v1→v2 昇格（difficulty/provenance 補完）。全ルートがここを通る。
+    return migrateCandidateFile(JSON.parse(raw) as CandidateFile);
   } catch {
     return null;
   }
@@ -45,12 +112,14 @@ export async function writeCandidates(file: CandidateFile): Promise<void> {
 }
 
 export async function writePublished(set: SkuProblemSet): Promise<string[]> {
-  const errs = validateProblemSet(set);
+  // 公開 JSON に difficulty/provenance を焼き込む（消費側は migrate 不要で読める）。
+  const migrated = migrateSet(set);
+  const errs = validateProblemSet(migrated);
   if (errs.length > 0) return errs;
   await fs.mkdir(PUB_DIR(), { recursive: true });
   await fs.writeFile(
-    path.join(PUB_DIR(), `${set.sku}.json`),
-    JSON.stringify(set, null, 1),
+    path.join(PUB_DIR(), `${migrated.sku}.json`),
+    JSON.stringify(migrated, null, 1),
     "utf8",
   );
   await regenerateIndex();

@@ -2,7 +2,7 @@
 /* =========================================================================
    TENZU 手動リカバリ CLI（メール不達時の救済・オーナー専用ローカルツール）
 
-   「課金したのにメール（DLリンク/ログインリンク）が届かない」客の対応を
+   「課金したのにメール（DLリンク/復元リンク）が届かない」客の対応を
    サクッと済ませるための発行装置。ネットには出さない＝ローカル実行のみ。
    発行関数は本番コードと同一ロジックを流用（auth.ts signMagic / success ページ）。
 
@@ -13,20 +13,18 @@
        node scripts/recover.mjs okayama@example.com      # メールで横断検索
        node scripts/recover.mjs cs_test_xxx              # Checkout セッション直指定（商品）
        node scripts/recover.mjs cus_xxx                  # 顧客直指定（メーカー）
-       node scripts/recover.mjs sub_xxx                  # サブスク直指定（メーカー）
        node scripts/recover.mjs pi_xxx                   # PaymentIntent 直指定（商品）
        node scripts/recover.mjs okayama@example.com --resend   # 登録メール宛に再送（スパム/一時不達用）
 
    読み込む env（web/.env.local を自動ロード・実 env が優先）:
-     STRIPE_SECRET_KEY（必須）/ AUTH_SECRET（メーカーのログインリンク発行に必須）
-     STRIPE_PRICE_ENTRY / STRIPE_PRICE_FULL（tier 表示用）
+     STRIPE_SECRET_KEY（必須）/ AUTH_SECRET（メーカーの復元リンク発行に必須）
      SITE_URL（発行リンクのドメイン・未設定なら https://tenzu.jp・--base で上書き可）
      SES_FROM_EMAIL ほか（--resend 時のみ）
 
    セキュリティ（厳守・末尾にも再掲）:
      - 発行リンクは「有料アクセスのベアラ」。Slack/メール等にうかつに貼らない
      - 既定は「登録メール宛」に手渡す。別アドレス希望時は金額・購入日・カード末尾4桁で本人確認してから
-     - メーカーのログインリンクは verify 側で再照合するため、解約済みには無効（安全）
+     - メーカーの復元リンクは verify 側で Stripe 履歴を再照合するため、未購入には無効（安全）
    発行は scripts/recover-audit.log.jsonl に追記される。
    ========================================================================= */
 import { createHmac } from "node:crypto";
@@ -75,7 +73,7 @@ if (!query) {
   line(`使い方: ${C.c}node scripts/recover.mjs <メール または Stripe ID> [--resend] [--base=URL]${C.x}`);
   line(`  メール       例: node scripts/recover.mjs okayama@example.com`);
   line(`  Checkout     例: node scripts/recover.mjs cs_test_xxx   （商品）`);
-  line(`  顧客/サブスク 例: node scripts/recover.mjs cus_xxx / sub_xxx   （メーカー）`);
+  line(`  顧客       例: node scripts/recover.mjs cus_xxx   （メーカー）`);
   line(`  PaymentIntent 例: node scripts/recover.mjs pi_xxx   （商品）`);
   line(`  --resend     登録メール宛に再送（スパム/一時不達用）`);
   process.exit(1);
@@ -87,15 +85,13 @@ if (!STRIPE_KEY) {
   process.exit(1);
 }
 const AUTH_SECRET = process.env.AUTH_SECRET;
-const PRICE_ENTRY = process.env.STRIPE_PRICE_ENTRY;
-const PRICE_FULL = process.env.STRIPE_PRICE_FULL;
 const stripe = new Stripe(STRIPE_KEY);
 
 /* ---- 発行プリミティブ（本番コードと一致）---- */
 // auth.ts signMagic と同一: pack({typ:"m",email,exp}) を HMAC-SHA256 で署名。
 // 署名は token 内の body 文字列に対して計算され verify 側も同じ body で再計算するため、
 // payload のキー順は一致不要（同じ AUTH_SECRET で署名されていれば検証は通る）。
-function makerLoginLink(email) {
+function makerRestoreLink(email) {
   if (!AUTH_SECRET) return null;
   const payload = { typ: "m", email, exp: Math.floor(Date.now() / 1000) + 60 * 30 };
   const body = Buffer.from(JSON.stringify(payload)).toString("base64url");
@@ -116,20 +112,18 @@ function audit(entry) {
   } catch { /* ログ失敗は致命ではない */ }
 }
 
-/* 顧客の有効サブスクから tier を解決（billing.ts resolveTier と同一判定）。 */
-async function tierForCustomer(customerId) {
-  const subs = await stripe.subscriptions.list({ customer: customerId, limit: 20 });
-  let entry = false, full = false;
+/* 顧客の支払い済み Checkout から所有メーカー集合を再構成（billing.ts resolveOwnedMakers と同一判定）。 */
+async function ownedForCustomer(customerId) {
+  const owned = new Set();
   const rows = [];
-  for (const s of subs.data) {
-    const okNow = s.status === "active" || s.status === "trialing";
-    for (const it of s.items.data) {
-      if (PRICE_FULL && it.price.id === PRICE_FULL && okNow) full = true;
-      if (PRICE_ENTRY && it.price.id === PRICE_ENTRY && okNow) entry = true;
-    }
-    rows.push({ id: s.id, status: s.status });
+  for await (const s of stripe.checkout.sessions.list({ customer: customerId, limit: 100 })) {
+    if (s.payment_status !== "paid") continue;
+    const makers = (s.metadata?.makers ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+    if (makers.length === 0) continue;
+    for (const m of makers) owned.add(m);
+    rows.push({ id: s.id, makers: makers.join("・"), created: s.created });
   }
-  return { tier: full ? "full" : entry ? "entry" : "guest", rows };
+  return { owned: [...owned], rows };
 }
 
 /* Checkout セッションのカード情報を best-effort で取得（本人確認の照合用）。 */
@@ -157,15 +151,14 @@ async function findProductSessions(email) {
 }
 
 /* ---- 出力ブロック ---- */
-function printMaker({ email, tier, rows }) {
-  head("■ メーカー（サブスク）");
-  if (!rows || rows.length === 0) { line(`${C.dim}  サブスク契約は見つかりませんでした。${C.x}`); return null; }
-  line(`  現在の tier : ${tier === "guest" ? C.y + tier + " （有効サブスクなし＝ログインリンクは無効）" + C.x : C.g + tier + C.x}`);
-  for (const r of rows) line(`  サブスク    : ${r.id}  status=${r.status}`);
-  if (tier === "guest") return null;
-  const link = makerLoginLink(email);
-  if (!link) { line(`${C.r}  AUTH_SECRET 未設定のためログインリンクを発行できません。${C.x}`); return null; }
-  line(`  ${C.b}ログインリンク（30分有効・このメール宛の顧客のみ有効）:${C.x}`);
+function printMaker({ email, owned, rows }) {
+  head("■ メーカー（買い切り）");
+  if (!owned || owned.length === 0) { line(`${C.dim}  購入済みのメーカーは見つかりませんでした。${C.x}`); return null; }
+  line(`  購入済み : ${C.g}${owned.join("・")}${C.x}`);
+  for (const r of rows) line(`  購入     : ${r.id}  ${r.makers}  ${when(r.created)}`);
+  const link = makerRestoreLink(email);
+  if (!link) { line(`${C.r}  AUTH_SECRET 未設定のため復元リンクを発行できません。${C.x}`); return null; }
+  line(`  ${C.b}復元リンク（30分有効・このメール宛の購入のみ有効）:${C.x}`);
   line(`  ${C.c}${link}${C.x}`);
   return link;
 }
@@ -199,7 +192,7 @@ function printTemplates({ email, makerLink, productLinks }) {
   if (makerLink || dl) {
     line(`\n${C.dim}--- ② リンクを直接お渡し ---${C.x}`);
     line(`大変失礼いたしました。下記のリンクからご利用いただけます。`);
-    if (makerLink) line(`▼ ログイン（30分有効）\n${makerLink}`);
+    if (makerLink) line(`▼ 復元リンク（30分有効）\n${makerLink}`);
     if (dl) line(`▼ ダウンロードページ\n${dl}`);
   }
   line(`\n${C.dim}--- ③ 別アドレスを希望された場合（本人確認してから）---${C.x}`);
@@ -255,13 +248,13 @@ try {
 
     const custs = await stripe.customers.list({ email: query, limit: 5 });
     if (custs.data.length === 0) {
-      head("■ メーカー（サブスク）");
+      head("■ メーカー（買い切り）");
       line(`${C.dim}  この宛先の Stripe 顧客は見つかりませんでした。${C.x}`);
     } else {
       for (const cust of custs.data) {
-        const { tier, rows } = await tierForCustomer(cust.id);
+        const { owned, rows } = await ownedForCustomer(cust.id);
         line(`${C.dim}  customer=${cust.id} email=${cust.email}${C.x}`);
-        const l = printMaker({ email: query, tier, rows });
+        const l = printMaker({ email: query, owned, rows });
         if (l) makerLink = l;
       }
     }
@@ -274,13 +267,17 @@ try {
     /* Checkout セッション直指定 */
     const s = await stripe.checkout.sessions.retrieve(query);
     onFileEmail = s.customer_details?.email ?? null;
-    if (s.mode === "subscription") {
+    const sessMakers = (s.metadata?.makers ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+    if (sessMakers.length > 0) {
+      /* メーカー買い切り（payment mode・metadata.makers）→ 顧客の所有を横断再構成 */
       const customerId = typeof s.customer === "string" ? s.customer : s.customer?.id;
-      if (customerId) {
-        const email = onFileEmail ?? (await stripe.customers.retrieve(customerId)).email;
-        onFileEmail = email;
-        const { tier, rows } = await tierForCustomer(customerId);
-        makerLink = printMaker({ email, tier, rows });
+      const email = onFileEmail ?? (customerId ? (await stripe.customers.retrieve(customerId)).email : null);
+      onFileEmail = email;
+      if (email && customerId) {
+        const { owned, rows } = await ownedForCustomer(customerId);
+        makerLink = printMaker({ email, owned, rows });
+      } else if (email) {
+        makerLink = printMaker({ email, owned: sessMakers, rows: [{ id: s.id, makers: sessMakers.join("・"), created: s.created }] });
       }
     } else {
       const paid = s.payment_status === "paid";
@@ -291,19 +288,14 @@ try {
       else line(`${C.y}  未入金のため発行しません。${C.x}`);
     }
 
-  } else if (query.startsWith("cus_") || query.startsWith("sub_")) {
-    /* 顧客 / サブスク直指定（メーカー） */
-    let customerId = query;
-    if (query.startsWith("sub_")) {
-      const sub = await stripe.subscriptions.retrieve(query);
-      customerId = typeof sub.customer === "string" ? sub.customer : sub.customer.id;
-    }
-    const cust = await stripe.customers.retrieve(customerId);
+  } else if (query.startsWith("cus_")) {
+    /* 顧客直指定（メーカー買い切り） */
+    const cust = await stripe.customers.retrieve(query);
     onFileEmail = cust.deleted ? null : cust.email;
-    line(`${C.dim}  customer=${customerId} email=${onFileEmail}${C.x}`);
-    const { tier, rows } = await tierForCustomer(customerId);
-    if (onFileEmail) makerLink = printMaker({ email: onFileEmail, tier, rows });
-    else line(`${C.r}  顧客にメールが無く、ログインリンクを発行できません。${C.x}`);
+    line(`${C.dim}  customer=${query} email=${onFileEmail}${C.x}`);
+    const { owned, rows } = await ownedForCustomer(query);
+    if (onFileEmail) makerLink = printMaker({ email: onFileEmail, owned, rows });
+    else line(`${C.r}  顧客にメールが無く、復元リンクを発行できません。${C.x}`);
 
   } else if (query.startsWith("pi_")) {
     /* PaymentIntent 直指定（商品）→ Checkout セッションを逆引き */
@@ -321,7 +313,7 @@ try {
 
   } else {
     line(`${C.r}認識できない入力です: ${query}${C.x}`);
-    line(`メール、または cs_/cus_/sub_/pi_ で始まる Stripe ID を渡してください。`);
+    line(`メール、または cs_/cus_/pi_ で始まる Stripe ID を渡してください。`);
     process.exit(1);
   }
 

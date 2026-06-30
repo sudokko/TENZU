@@ -82,6 +82,9 @@ export function gridFor(
 export const PRINT_INK = "#777777";
 // 記名欄など書き込み基準線の濃色
 export const BAND_INK = "#3A424E";
+// 各メーカー編集盤面の格子ドット色（画面表示のみ・全メーカー共通 SSOT）。
+// 線（見える辺）より控えめにして、線を主役に見せる。印刷の点は PRINT_INK のまま。
+export const SCREEN_DOT = "#828A94";
 
 // 点の大きさ 3 段階（基準半径への倍率）
 export type DotSize = "s" | "m" | "l";

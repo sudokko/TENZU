@@ -13,7 +13,7 @@ const GROUPS: { title: string; items: Item[] }[] = [
   {
     title: "模写（公開）",
     items: [
-      { href: "/maker", name: "おためし点描写メーカー", desc: "模写（公開版・tier ゲートあり）" },
+      { href: "/maker", name: "模写メーカー", desc: "模写（公開版・無料 4×4／¥980 で 5×5〜8×8）" },
     ],
   },
   {
@@ -27,8 +27,8 @@ const GROUPS: { title: string; items: Item[] }[] = [
     title: "重ね（2 図形）",
     items: [
       { href: "/maker-overlay", name: "重ねメーカー", desc: "図形A ＋ 図形B ＝ 重ねたかたち" },
-      { href: "/maker-fold", name: "折り重ねメーカー", desc: "問題1を折り返して問題2に重ねる" },
       { href: "/maker-decompose", name: "分解メーカー", desc: "正解の図 − 引くもの ＝ のこり" },
+      { href: "/maker-fold", name: "折り重ねメーカー", desc: "問題1を折り返して問題2に重ねる" },
     ],
   },
   {

@@ -12,6 +12,7 @@ import { difficultyScore, edgeKey, normalizeEdges, splitAtLattice } from "../sch
 import { computeMetrics } from "./metrics";
 import { jaccard, paramsOk } from "./filters";
 import type { SlopeRule } from "./ladder";
+import { MIRROR_LADDER } from "./ladder";
 import { pick, randInt, seededRng, type Rng } from "./rng";
 
 export const MIRROR_GENERATOR_VERSION = "1";
@@ -31,39 +32,9 @@ export type MirrorParams = {
   closedBias: number;
 };
 
-/* data.ts の mirror 6 巻に対応。軸は SKU 単位で固定（縦→横→斜めの順に難化） */
-export const MIRROR_LADDER: Record<string, MirrorParams> = {
-  /* Lv.2 Vol.1 — 3×3・縦軸デビュー・縦横のみ・少ない線 */
-  "mirror-lv2-vol1": {
-    grid: 3, axis: "v", lines: [2, 4], slopes: "ortho", diagonals: [0, 0],
-    crossings: [0, 0], components: [1, 1], bbox: 1, closedBias: 0.6,
-  },
-  /* Lv.3 Vol.1 — 4×4・縦軸・45°と交差が少し */
-  "mirror-lv3-vol1": {
-    grid: 4, axis: "v", lines: [3, 6], slopes: "ortho45", diagonals: [0, 2],
-    crossings: [0, 1], components: [1, 1], bbox: 1, closedBias: 0.55,
-  },
-  /* Lv.4 Vol.1 — 3×3・横軸デビュー（上下を返す） */
-  "mirror-lv4-vol1": {
-    grid: 3, axis: "h", lines: [2, 5], slopes: "ortho45", diagonals: [0, 2],
-    crossings: [0, 1], components: [1, 1], bbox: 1, closedBias: 0.55,
-  },
-  /* Lv.4 Vol.2 — 4×4・横軸・線と交差を増やす */
-  "mirror-lv4-vol2": {
-    grid: 4, axis: "h", lines: [3, 6], slopes: "ortho45", diagonals: [1, 3],
-    crossings: [0, 2], components: [1, 1], bbox: 1, closedBias: 0.5,
-  },
-  /* Lv.5 Vol.1 — 3×3・斜め軸デビュー（日常にない反転） */
-  "mirror-lv5-vol1": {
-    grid: 3, axis: "d1", lines: [2, 5], slopes: "ortho45", diagonals: [0, 3],
-    crossings: [0, 1], components: [1, 1], bbox: 1, closedBias: 0.5,
-  },
-  /* Lv.5 Vol.2 — 4×4・斜め軸・空間操作の総仕上げ */
-  "mirror-lv5-vol2": {
-    grid: 4, axis: "d1", lines: [3, 7], slopes: "ortho45", diagonals: [1, 4],
-    crossings: [0, 2], components: [1, 1], bbox: 1, closedBias: 0.5,
-  },
-};
+/* data.ts の mirror 6 巻に対応（軸は SKU 単位で固定・縦→横→斜めの順に難化）。実体は
+   ladder.json（SSOT・atelier から編集/Vol追加）。読み取りは gen/ladder.ts 経由。再 export する。 */
+export { MIRROR_LADDER };
 
 const pkey = (p: Pt) => `${p[0]},${p[1]}`;
 

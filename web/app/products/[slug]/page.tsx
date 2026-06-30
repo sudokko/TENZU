@@ -9,7 +9,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import {
-  PRODUCT_TASKS, SKU_ALIASES, TASK_ALIASES, taskBySlug, volBySku, volTitle, PRICE, QUESTIONS_PER_VOL,
+  PRODUCT_TASKS, LAUNCH_TASKS, SKU_ALIASES, TASK_ALIASES, taskBySlug, volBySku, volTitle, PRICE, QUESTIONS_PER_VOL,
 } from "../data";
 import TaskListPage from "../TaskListPage";
 import SkuDetailPage from "../SkuDetailPage";
@@ -17,8 +17,10 @@ import SkuDetailPage from "../SkuDetailPage";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
+  // 公開タスクのみ静的生成（LAUNCH_HIDDEN は dynamicParams=false で 404）。
+  // live SKU は全タスクから（隠しタスクは scaffold のみ＝live なし＝実質含まれない）。
   return [
-    ...PRODUCT_TASKS.map((t) => ({ slug: t.slug })),
+    ...LAUNCH_TASKS.map((t) => ({ slug: t.slug })),
     ...PRODUCT_TASKS.flatMap((t) =>
       t.vols.filter((x) => x.status === "live").map((x) => ({ slug: x.sku }))),
     ...Object.keys(SKU_ALIASES).map((slug) => ({ slug })),

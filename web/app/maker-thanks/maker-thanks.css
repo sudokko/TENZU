@@ -1,0 +1,52 @@
+/* メーカー買い切り 決済完了画面（/maker-thanks）。membership.css の上に重ねる。 */
+
+.thanks-wrap { max-width: 640px; }
+
+.thanks-hero { text-align: center; margin-bottom: 28px; }
+.thanks-check {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--bg-3, #EEF3F2); color: var(--accent, #2C6E7F);
+  margin-bottom: 14px;
+}
+.thanks-hero h1 {
+  font-family: var(--font-tier1-klee); font-size: 26px; color: var(--fg);
+  margin: 0 0 8px;
+}
+.thanks-hero .thanks-lead { color: var(--fg-2); font-size: 14.5px; margin: 0; }
+
+/* 買ったメーカーへの大ボタン */
+.thanks-makers { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+.thanks-cta {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "name arrow" "sub arrow";
+  align-items: center;
+  gap: 2px 16px;
+  padding: 20px 24px;
+  background: var(--accent, #2C6E7F);
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 2px 14px rgba(44,110,127,0.18);
+  transition: background 0.15s;
+}
+.thanks-cta:hover { background: var(--accent-ink, #21525F); }
+.thanks-cta .tc-name { grid-area: name; color: #fff; font-size: 18px; font-weight: 700; }
+.thanks-cta .tc-sub  { grid-area: sub;  color: #EAF3F1; font-size: 12.5px; }
+.thanks-cta .tc-arrow { grid-area: arrow; color: #fff; font-size: 26px; font-weight: 700; }
+
+/* 同じブラウザ / 別ブラウザ の案内 */
+.thanks-notes { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+.thanks-note {
+  padding: 14px 18px; border-radius: 10px; font-size: 13.5px; line-height: 1.7;
+  color: var(--fg-2); background: var(--bg-2, #FAFAF8); border: 1px solid var(--line-thin, #E6E3DB);
+}
+.thanks-note b { display: block; color: var(--fg); font-size: 14px; margin-bottom: 2px; }
+.thanks-note.ok { background: var(--bg-3, #EEF3F2); border-color: transparent; }
+.thanks-note a { color: var(--accent-ink, #21525F); font-weight: 600; text-decoration: none; }
+.thanks-note a:hover { text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .thanks-cta { padding: 16px 18px; }
+  .thanks-cta .tc-name { font-size: 16px; }
+}

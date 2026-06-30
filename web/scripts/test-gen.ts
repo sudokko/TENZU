@@ -5,8 +5,9 @@
    - 制約違反ゼロ（validateProblem）＋難易度昇順
    - 線数バケツの充足（bucketReport） */
 import {
-  generateCopyCandidates, COPY_LADDER, bucketReport, copyDifficulty,
+  generateCopyCandidates, COPY_LADDER, bucketReport,
 } from "../app/products/problems/gen/copy";
+import { baseDifficulty } from "../app/products/problems/gen/difficulty";
 import { validateProblem, metricsLabel } from "../app/products/problems/schema";
 
 let fail = 0;
@@ -20,7 +21,7 @@ for (const sku of Object.keys(COPY_LADDER)) {
   let violations = 0;
   for (const p of a) violations += validateProblem(p).length;
 
-  const scores = a.map((p) => copyDifficulty(p.metrics));
+  const scores = a.map((p) => baseDifficulty(p.metrics));
   const sorted = scores.every((s, i) => i === 0 || s >= scores[i - 1]);
 
   const ok = a.length > 0 && deterministic && violations === 0 && sorted;

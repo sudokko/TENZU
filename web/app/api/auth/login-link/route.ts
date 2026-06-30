@@ -1,13 +1,13 @@
-/* 別端末・再ログイン用のマジックリンク送信（/login のフォームから）。
+/* 別端末・データ消失からの「購入の復元」リンク送信（/login のフォームから）。
    - body: { email }
-   - そのメールの顧客に有効サブスクがあればログインリンクを SES 送信。
+   - そのメールに買い切り購入があれば復元リンクを SES 送信。
    - メール存在の有無を漏らさないため、結果に関わらず常に { ok: true } を返す。 */
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { signMagic } from "../../../lib/auth";
-import { findCustomerIdByEmail, resolveTier } from "../../../lib/billing";
-import { sendLoginLink } from "../../../lib/email";
-import { PLANS } from "../../../products/capabilities";
+import { resolveOwnedByEmail } from "../../../lib/billing";
+import { sendRestoreLink } from "../../../lib/email";
+import { makerByKey } from "../../../products/makers";
 
 export const dynamic = "force-dynamic";
 
@@ -25,18 +25,15 @@ export async function POST(req: NextRequest) {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) return Response.json({ error: "サーバー設定が未完了です" }, { status: 500 });
 
-  // 漏洩防止: 顧客の有無・サブスクの有無で挙動を変えず、常に ok。送信可否のみ内部で分岐。
+  // 漏洩防止: 顧客・購入の有無で挙動を変えず、常に ok。送信可否のみ内部で分岐。
   try {
     const stripe = new Stripe(key);
-    const customerId = await findCustomerIdByEmail(stripe, email);
-    if (customerId) {
-      const tier = await resolveTier(stripe, customerId);
-      if (tier !== "guest") {
-        const base = process.env.SITE_URL ?? req.nextUrl.origin;
-        const loginUrl = `${base}/api/auth/verify?token=${signMagic(email)}`;
-        const planName = tier === "full" ? PLANS.full.name : PLANS.entry.name;
-        await sendLoginLink({ to: email, loginUrl, planName });
-      }
+    const owned = await resolveOwnedByEmail(stripe, email);
+    if (owned.length > 0) {
+      const base = process.env.SITE_URL ?? req.nextUrl.origin;
+      const restoreUrl = `${base}/api/auth/verify?token=${signMagic(email)}`;
+      const items = owned.map((k) => makerByKey(k)?.name).filter((n): n is string => Boolean(n));
+      await sendRestoreLink({ to: email, restoreUrl, items });
     }
   } catch (e) {
     // 送信失敗もユーザーには成功と見せる（列挙攻撃対策）。運用はログで検知。

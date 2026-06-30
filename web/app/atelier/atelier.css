@@ -12,6 +12,96 @@
 .atl-head p { color: #6b7280; font-size: 13px; margin: 0; }
 .atl-crumb { font-size: 12px; }
 .atl-crumb a { color: #2c6e7f; }
+/* タイトル下の Vol メタ（live 商品詳細と同じ blurb / めあて） */
+.atl-head .atl-blurb { color: #3a424e; font-size: 14px; margin: 2px 0 8px; }
+.atl-head .atl-meate {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 0 0 8px; padding: 8px 12px; max-width: 640px;
+  border: 1px solid #d7e4e7; border-left: 3px solid #2c6e7f; border-radius: 4px;
+  background: #fafdfd; color: #3a424e; font-size: 13px; line-height: 1.6;
+}
+.atl-meate-label {
+  flex: none; font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+  color: #2c6e7f;
+}
+
+/* ===================== 設問タイプ × レベル 一覧（ハブ） ===================== */
+.atl-ov { margin-top: 18px; }
+.atl-ov-title { font-size: 17px; margin: 0 0 4px; }
+.atl-ov-note { color: #6b7280; font-size: 12px; margin: 0 0 10px; }
+.atl-ov-scroll { overflow-x: auto; }
+.atl-ovt { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+.atl-ovt th, .atl-ovt td {
+  border: 1px solid #e6e9ee; padding: 6px 9px; text-align: left; vertical-align: top; white-space: nowrap;
+}
+.atl-ovt thead th { background: #f4f6f8; color: #4a515b; font-weight: 600; }
+.atl-ovt-grp th {
+  background: #eef6f8; color: #235a68; font-weight: 700; font-size: 12px; letter-spacing: 0.03em;
+}
+.atl-ovt-lvh { text-align: center; }
+.atl-ovt-lvh-lv { display: block; font-weight: 700; color: #2a2f36; }
+.atl-ovt-lvh-name { display: block; font-weight: 500; color: #235a68; font-size: 11.5px; }
+.atl-ovt-lvh-age { display: block; font-weight: 400; color: #8a909a; font-size: 11px; }
+.atl-ovt-name { font-weight: 600; color: #2a2f36; }
+.atl-ovt-total { text-align: center; font-weight: 600; }
+.atl-ovt-empty { color: #c2c7cf; text-align: center; }
+
+/* ===================== Vol 管理パネル（ハブ） ===================== */
+.atl-vm { margin-top: 22px; }
+.atl-vm-title { font-size: 17px; margin: 0 0 4px; }
+.atl-vm-note { color: #6b7280; font-size: 12px; line-height: 1.7; margin: 0 0 8px; max-width: 880px; }
+.atl-vm-msg {
+  font-size: 13px; color: #235a68; background: #eef6f8;
+  border: 1px solid #cfe3e8; border-radius: 4px; padding: 7px 10px; margin: 0 0 12px;
+}
+.atl-vm-task { border-top: 1px solid #e6e9ee; padding: 12px 0; }
+.atl-vm-taskhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.atl-vm-taskhead h3 { font-size: 15px; margin: 0; }
+.atl-vm-rows { display: flex; flex-direction: column; gap: 6px; }
+.atl-vm-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  border: 1px solid #e6e9ee; border-radius: 5px; padding: 8px 10px; background: #fff;
+}
+.atl-vm-rowmain { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-width: 0; }
+.atl-vm-name { font-size: 13px; font-weight: 600; color: #2a2f36; }
+.atl-vm-variant { font-style: normal; color: #6b7280; font-weight: 400; }
+.atl-vm-sku { font-size: 11px; color: #9aa0aa; font-family: var(--font-mono, monospace); }
+.atl-vm-blurb { font-size: 12px; color: #6b7280; flex: 1 1 240px; min-width: 0; }
+.atl-vm-badges { display: flex; flex-wrap: wrap; gap: 4px; }
+.atl-vm-rowacts { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+.atl-vm-rowacts a, .atl-vm-rowacts button {
+  font-size: 12px; padding: 5px 9px; border-radius: 4px;
+  border: 1px solid #c8cdd4; background: #fff; color: #3a424e; cursor: pointer; text-decoration: none;
+}
+.atl-vm-rowacts a:hover, .atl-vm-rowacts button:hover:not(:disabled) { border-color: #2c6e7f; color: #2c6e7f; }
+.atl-vm-rowacts button:disabled { opacity: 0.45; cursor: default; }
+.atl-vm-del:hover:not(:disabled) { border-color: #d04848 !important; color: #d04848 !important; }
+.atl-vm-open { color: #2c6e7f !important; }
+/* 追加・編集フォーム */
+.atl-vm-form {
+  border: 1px solid #cfe3e8; background: #f7fbfc; border-radius: 5px;
+  padding: 12px; margin: 4px 0 8px; display: flex; flex-direction: column; gap: 10px;
+}
+.atl-vm-editsku { font-size: 12px; color: #6b7280; margin: 0; }
+.atl-vm-editsku em { font-style: normal; color: #9aa0aa; }
+.atl-vm-fgrid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;
+}
+.atl-vm-form label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: #6b7280; }
+.atl-vm-form input, .atl-vm-form select {
+  border: 1px solid #c8cdd4; border-radius: 4px; padding: 6px 8px; font-size: 13px; color: #3a424e; background: #fff;
+}
+.atl-vm-form input:focus, .atl-vm-form select:focus { outline: none; border-color: #2c6e7f; }
+.atl-vm-fwide { width: 100%; }
+.atl-vm-formacts { display: flex; gap: 8px; }
+.atl-vm-formacts button {
+  font-size: 13px; padding: 7px 14px; border-radius: 4px;
+  border: 1px solid #c8cdd4; background: #fff; color: #3a424e; cursor: pointer;
+}
+.atl-vm-formacts .atl-btn--pub { background: #2c6e7f; border-color: #2c6e7f; color: #fff; }
+.atl-vm-formacts .atl-btn--pub:disabled { opacity: 0.45; cursor: default; }
+.atl-vm-hidden { border-top: 1px solid #e6e9ee; padding-top: 12px; margin-top: 8px; }
+.atl-vm-hidden h3 { font-size: 14px; margin: 0 0 8px; color: #6b7280; }
 
 /* この巻の基準（COPY_LADDER のゲートをタイトル直下にチップ表示） */
 .atl-spec {
@@ -28,6 +118,17 @@
   margin: 0; font-size: 12px; font-weight: 600; color: #235a68;
   font-variant-numeric: tabular-nums;
 }
+
+/* 巻の基準（ラダー）編集 */
+.atl-spec-wrap { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.atl-spec-edit { padding: 3px 10px; border: 1px solid #cdd4db; border-radius: 7px; background: #fff; color: #2c6e7f; font-size: 12px; cursor: pointer; }
+.atl-spec-edit:hover { background: #eef4f5; }
+.atl-ladder-edit { margin: 8px 0 4px; padding: 10px 14px; background: #f3f7f8; border: 1px solid #dfe6e8; border-radius: 10px; }
+.atl-le-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.atl-le-row:last-child { margin-bottom: 0; }
+.atl-le-row > label { font-size: 12px; color: #5f6b7a; display: inline-flex; align-items: center; gap: 6px; }
+.atl-le-num { width: 56px; padding: 2px 6px; border: 1px solid #cdd4db; border-radius: 6px; }
+.atl-le-chk { cursor: pointer; }
 
 .atl-actions { display: flex; gap: 10px; align-items: center; margin: 14px 0 6px; flex-wrap: wrap; }
 .atl-btn {
@@ -139,6 +240,11 @@
 .atl-dval { font-size: 12px; font-weight: 600; color: #2c6e7f; letter-spacing: 0.02em; }
 .atl-dbreak { display: block; font-size: 10px; font-weight: 400; color: #9aa1ab; font-variant-numeric: tabular-nums; }
 .atl-deng { margin-left: 6px; padding: 0 5px; border-radius: 8px; background: #eef1f4; color: #5f6b7a; font-size: 9.5px; }
+/* 難易度の人手 override（手動ティア付け） */
+.atl-dscore.is-manual .atl-dval { color: #b5532a; }
+.atl-dman { margin-left: 4px; padding: 0 4px; border-radius: 7px; background: #f3e2d8; color: #b5532a; font-size: 9px; font-style: normal; font-weight: 600; }
+.atl-dedit { margin-left: 6px; padding: 0 5px; border: 1px solid #d6dbe1; border-radius: 6px; background: #fff; color: #7a8492; font-size: 10px; cursor: pointer; }
+.atl-dedit:hover { background: #eef1f4; color: #2c6e7f; }
 /* ページ上部の D 計算式 解説 */
 .atl-dhelp {
   margin: 0 0 16px; padding: 10px 14px; background: #f3f7f8;
@@ -156,7 +262,10 @@
   background: #fff; cursor: pointer; position: relative;
 }
 .atl-card:hover { border-color: #2c6e7f; }
-.atl-card--adopted { border: 1.5px solid #2c6e7f; cursor: default; }
+.atl-card--adopted { border: 1.5px solid #2c6e7f; cursor: grab; }
+.atl-card--adopted:active { cursor: grabbing; }
+.atl-card--adopted.is-dragging { opacity: 0.45; }
+.atl-card--adopted.is-dropover { border-color: #c5a570; box-shadow: -3px 0 0 0 #c5a570; }
 .atl-card--rejected { opacity: 0.55; cursor: default; }
 .atl-card--motif { background: #fbfbf7; }
 .atl-card--motif:hover { border-color: #c5a570; }
@@ -206,6 +315,19 @@
   display: block; margin: 0 auto;
   border: 1px dotted #d8dce2; border-radius: 4px; touch-action: manipulation;
 }
+/* 「質問＋回答」タスクは左＝編集・右＝回答ライブプレビューの2ペイン並べ（maker と同じ見え方） */
+.atl-editor.has-pair { max-width: 760px; }
+.atl-editor-pair {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; flex-wrap: wrap;
+}
+.atl-editor-paneblock { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.atl-editor-arrow { font-size: 22px; color: #9aa0aa; flex: 0 0 auto; }
+.atl-pane-label { font-size: 11px; color: #6b7280; }
+.atl-preview-svg {
+  display: block;
+  border: 1px dotted #d8dce2; border-radius: 4px; background: #fff;
+}
 .atl-editor-metrics {
   text-align: center; font-size: 12px; color: #2c6e7f; margin: 0;
 }
@@ -217,7 +339,23 @@
 }
 .atl-editor-actions button:hover:not(:disabled) { border-color: #2c6e7f; color: #2c6e7f; }
 .atl-editor-actions button:disabled { opacity: 0.45; cursor: default; }
-.atl-editor-actions .atl-btn--pub:hover:not(:disabled) { color: #fff; }
+/* 「保存する」は teal 背景・白文字（.atl-editor-actions button の白背景に詳細度で勝たせる） */
+.atl-editor-actions .atl-btn--pub { background: #2c6e7f; border-color: #2c6e7f; color: #fff; }
+.atl-editor-actions .atl-btn--pub:hover:not(:disabled) { background: #235a68; color: #fff; }
+
+/* エディタの一筆書きトグル */
+.atl-editor-onestroke { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
+.atl-os-label { font-size: 12px; color: #5f6b7a; }
+.atl-os-note { font-size: 11px; color: #9aa1ab; }
+.atl-seg { display: inline-flex; border: 1px solid #cdd4db; border-radius: 7px; overflow: hidden; }
+.atl-seg button { border: 0; background: #fff; padding: 4px 12px; font-size: 12px; cursor: pointer; color: #5f6b7a; }
+.atl-seg button + button { border-left: 1px solid #cdd4db; }
+.atl-seg button[aria-pressed="true"] { background: #2c6e7f; color: #fff; }
+.atl-seg button:disabled { opacity: 0.45; cursor: not-allowed; }
+/* 消すモード: 線にカーソルを合わせると赤帯で削除対象を予告（app/maker/erase.tsx の EdgeHitLayer） */
+.atl-editor-svg .erase-hit:hover { stroke: rgba(214, 69, 69, 0.28); }
+/* カードのタイトル */
+.atl-card-name { font-size: 11px; color: #5f6b7a; text-align: center; margin: 2px 0 0; line-height: 1.2; }
 
 /* 欠け補完(fill)の編集モード切替（F を直す／R を直す）と公平性注記 */
 .atl-editor-mode { display: flex; align-items: center; gap: 6px; margin: 0 0 10px 0; }

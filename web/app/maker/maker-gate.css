@@ -1,0 +1,178 @@
+/* =========================================================================
+   MakerGate 専用スタイル（introbar ＋ ロック画面）。
+   maker.css には触れず、ゲート関連だけをここに隔離。配色は TENZU パレット準拠。
+   ========================================================================= */
+
+/* ---- 文脈バー（使える人向け・ツール最上部の細い帯） ---- */
+.maker-introbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 7px 16px;
+  background: #FAFAF8;
+  border-bottom: 1px solid #E6E3DB;
+  font-size: 12.5px;
+  color: #4A4F58;
+}
+.maker-introbar .mib-back {
+  flex: none;
+  color: #2C6E7F;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.maker-introbar .mib-back:hover { text-decoration: underline; }
+.maker-introbar .mib-ctx {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  overflow: hidden;
+}
+.maker-introbar .mib-name { color: #1A1F2A; white-space: nowrap; }
+.maker-introbar .mib-desc {
+  color: #767D89;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.maker-introbar .mib-auth {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.maker-introbar .mib-badge {
+  background: #2C6E7F;
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.maker-introbar .mib-buy {
+  background: #2C6E7F;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.maker-introbar .mib-buy:hover { background: #25606F; }
+.maker-introbar .mib-buy:disabled { opacity: 0.6; cursor: default; }
+.maker-introbar .mib-restore {
+  flex: none;
+  color: #767D89;
+  font-size: 11.5px;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+.maker-introbar .mib-restore:hover { color: #2C6E7F; }
+.maker-introbar .mib-auth a { color: #4A4F58; text-decoration: none; }
+.maker-introbar .mib-auth a:hover { text-decoration: underline; }
+
+/* 狭い画面では文脈バーを折り返す（購入＋復元の2要素が右に増えるため） */
+@media (max-width: 560px) {
+  .maker-introbar { flex-wrap: wrap; gap: 8px 12px; }
+  .maker-introbar .mib-ctx { order: 3; flex-basis: 100%; }
+}
+
+@media (max-width: 640px) {
+  .maker-introbar { gap: 10px; padding: 6px 12px; }
+  .maker-introbar .mib-desc { display: none; } /* 狭幅は名前だけ */
+}
+
+/* ---- ロック画面（使えない人向け・「発見」型） ---- */
+.maker-gate {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px 64px;
+}
+.maker-gate .mg-inner {
+  max-width: 540px;
+  width: 100%;
+  text-align: center;
+}
+.maker-gate .mg-kicker {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #2C6E7F;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.maker-gate .mg-title {
+  font-size: 26px;
+  line-height: 1.3;
+  color: #1A1F2A;
+  margin: 0 0 8px;
+}
+.maker-gate .mg-desc {
+  font-size: 15px;
+  color: #4A4F58;
+  margin: 0 0 22px;
+}
+.maker-gate .mg-sample {
+  max-width: 360px;
+  margin: 0 auto 24px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #E6E3DB;
+  border-radius: 12px;
+}
+.maker-gate .mg-sample svg { display: block; width: 100%; height: auto; }
+
+.maker-gate .mg-lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #F4F1EA;
+  border: 1px solid #E6E3DB;
+  border-radius: 999px;
+  padding: 8px 16px;
+  margin-bottom: 22px;
+  color: #6B5E3A;
+}
+.maker-gate .mg-lock-ic { display: inline-flex; color: #9A8A55; }
+.maker-gate .mg-lock-tx { margin: 0; font-size: 13.5px; }
+.maker-gate .mg-lock-tx b { color: #1A1F2A; }
+
+.maker-gate .mg-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.maker-gate .mg-primary {
+  background: #2C6E7F;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+.maker-gate .mg-primary:hover { background: #245a68; }
+.maker-gate .mg-ghost {
+  align-self: center;
+  color: #4A4F58;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 12px 8px;
+  border-bottom: 1px solid transparent;
+}
+.maker-gate .mg-ghost:hover { border-bottom-color: #C9CDD3; }
+.maker-gate .mg-more {
+  display: inline-block;
+  color: #767D89;
+  font-size: 13px;
+  text-decoration: none;
+  margin-top: 4px;
+}
+.maker-gate .mg-more:hover { text-decoration: underline; }

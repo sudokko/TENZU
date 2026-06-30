@@ -8,6 +8,7 @@ import {
   type CandidateStatus, type EdgeT,
 } from "../../../products/problems/schema";
 import { computeMetrics } from "../../../products/problems/gen/metrics";
+import { refreshMeta } from "../../../products/problems/gen/difficulty";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +34,8 @@ export async function POST(req: NextRequest) {
       edges?: EdgeT[]; motif?: string;
       /* 欠け補完(fill)の R 手直し。answer.mode は変えず edges だけ差し替える */
       answerEdges?: EdgeT[];
+      /* 難易度の人手 override（手動ティア付け）。number=固定 / null=自動へ戻す */
+      manual?: number | null; manualNote?: string;
     }[];
   };
   const sku = safeSku(body.sku);
@@ -50,10 +53,15 @@ export async function POST(req: NextRequest) {
     if (u.order === null) delete c.order;
     else if (typeof u.order === "number") c.order = u.order;
     if (typeof u.motif === "string") {
-      // タイトル（表示名）の手直し。全タスク共通（空文字で削除）
+      // タイトル（表示名）の手直し。全タスク共通（空文字で削除）。
+      // 旧 gen.motif と v2 provenance.label の両方を同期（カードは label 優先で読む）。
       const t = u.motif.trim();
       if (t) c.gen.motif = t;
       else delete c.gen.motif;
+      if (c.provenance) {
+        if (t) c.provenance.label = t;
+        else delete c.provenance.label;
+      }
     }
     if (u.edges) {
       // 線の手直し: 正規化 → 検証 → metrics 再算出 → edited 印
@@ -66,11 +74,25 @@ export async function POST(req: NextRequest) {
       c.metrics = computeMetrics(normalized, c.grid.n);
       c.edited = true;
     }
-    if (u.answerEdges && c.answer?.mode === "explicit") {
+    const answerEdited = !!(u.answerEdges && c.answer?.mode === "explicit");
+    if (answerEdited) {
       // R の手直し: 正規化のみ（R は F の部分集合という制約は検品者が目視で担保）
-      c.answer = { mode: "explicit", edges: normalizeEdges(u.answerEdges) };
+      c.answer = { mode: "explicit", edges: normalizeEdges(u.answerEdges!) };
       c.edited = true;
     }
+    // 難易度の人手 override（手動ティア付け・自動値は auto に保全）
+    if (u.manual !== undefined && c.difficulty) {
+      if (u.manual === null) {
+        delete c.difficulty.manual; delete c.difficulty.manualNote;
+        c.difficulty.value = c.difficulty.auto;
+      } else {
+        c.difficulty.manual = u.manual;
+        c.difficulty.value = u.manual;
+        if (typeof u.manualNote === "string") c.difficulty.manualNote = u.manualNote;
+      }
+    }
+    // edges/解答を変えたら difficulty.auto と provenance を引き直す（manual は保全）
+    if (u.edges || answerEdited) refreshMeta(file.task, c);
   }
   await writeCandidates(file);
   return Response.json({ ok: true });

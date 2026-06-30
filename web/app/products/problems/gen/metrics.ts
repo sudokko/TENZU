@@ -118,6 +118,7 @@ export function computeMetrics(edges: EdgeT[], n: number): ProblemMetrics {
   const segs = mergedSegments(edges);
 
   let diagonals = 0;
+  let non45 = 0;
   const angleKinds = new Set<string>();
   for (const s of segs) {
     const dc = s.b[0] - s.a[0];
@@ -125,7 +126,9 @@ export function computeMetrics(edges: EdgeT[], n: number): ProblemMetrics {
     if (dc !== 0 && dr !== 0) {
       diagonals++;
       const g = gcd(Math.abs(dc), Math.abs(dr));
-      angleKinds.add(`${Math.abs(dc / g)}:${Math.abs(dr / g)}`); // 45°系は全部 "1:1"
+      const kind = `${Math.abs(dc / g)}:${Math.abs(dr / g)}`; // 45°系は全部 "1:1"
+      angleKinds.add(kind);
+      if (kind !== "1:1") non45++; // 非45°（ナイト傾き等）の本数。難易度Dの最大ドライバー
     }
   }
 
@@ -140,8 +143,9 @@ export function computeMetrics(edges: EdgeT[], n: number): ProblemMetrics {
   return {
     lines: segs.length,
     diagonals,
+    non45,
     diagonalAngleKinds: angleKinds.size,
-    hasNon45: [...angleKinds].some((k) => k !== "1:1"), // 45°系は全部 "1:1"・それ以外＝非45°
+    hasNon45: non45 > 0, // 45°系は全部 "1:1"・それ以外＝非45°
     crossings,
     components: countComponents(edges),
     pointsUsed: pts.size,
