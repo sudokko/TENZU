@@ -186,6 +186,37 @@
 - **EP-084** ★★ TOP を A 基調に一本化決着（少 SKU 専門店 UI 三層「入口で導く→一覧で圧縮→詳細はあと」・`<details>` 純 CSS・★最初の 1 冊） — [episodes/EP-084-top-single-track-three-layer.md](episodes/EP-084-top-single-track-three-layer.md)
 - **EP-065** ★★★ SEO 取引意図を TOP から分離し専用ファセット LP 群へ（3 AI 合議＝Claude 102 エージェント＋Gemini＋ChatGPT・2 軸スパース行列は見せない） — [episodes/EP-065-seo-transactional-facet-lp.md](episodes/EP-065-seo-transactional-facet-lp.md)
 
+## 2026-06-14 カート＋Stripe決済＋メール配送基盤
+
+- **EP-087** ★★★ カート＋Stripe決済＋SES配送をDBなしで通す（外部SaaSを会員台帳に・マジックリンク＝既存success URL・Amplify SSR の env 地雷3つ） — [episodes/EP-087-cart-stripe-ses-checkout.md](episodes/EP-087-cart-stripe-ses-checkout.md)
+
+## 2026-06-15 難易度スコア再設計と第3ライン構想
+
+- **EP-088** ★★ 模写難易度の盤面項除外（巻Lvと巻内散らしの責務分離・D=線+1.5·交差+12·非45°） — `episodes/EP-088-difficulty-score-board-exclusion.md`
+- **EP-089** ★★ 物語アーク第3ライン構想（題材の幾何性質が成立操作を決める・案C マスコット周遊・ideas起票） — `episodes/EP-089-story-arc-third-line.md`
+
+## 2026-06-19 欠け補完メーカー
+
+- **EP-090** ★★ 欠け補完メーカー /maker-fill（F/R二モード・出題＝完成図∖抜く線・公平性ライブ判定） — `episodes/EP-090-maker-fill-task.md`
+
+## 2026-06-20 鏡タスクの軸自動導出
+
+- **EP-091** ★★ 鏡タスクの軸を並びから描画時導出（導出可能な情報は永続化に焼き付けない・出題＋解答連結PDF） — `episodes/EP-091-mirror-axis-derivation.md`
+
+## 2026-06-21 群Cメーカーと有償化・編集機能
+
+- **EP-092** ★★ 群Cの3メーカーを「3ペイン＝式」で束ねる（重ね/折り重ね/分解・記号だけ差し替え・panes引数） — `episodes/EP-092-group-c-three-pane.md`
+- **EP-093** ★ 保存済み問題のその場編集（案A・全メーカー横展開・未保存ガード） — `episodes/EP-093-saved-problem-editing.md`
+- **EP-094** ★★★ メーカー有償化を2段階サブスクで設計（深さは削るな・幅と量を絞れ・差別化はタスク種類・依存ゼロ署名cookie） — [episodes/EP-094-maker-monetization-tiers.md](episodes/EP-094-maker-monetization-tiers.md)
+
+## 2026-06-23 変換メーカー三部作・認証再評価・スマホUI
+
+- **EP-095** ★★ 拡大メーカー /maker-scale（機械最適化より直感＝始点固定・自動補正なし） — `episodes/EP-095-scale-maker-fixed-start.md`
+- **EP-096** ★★ 縮小メーカー /maker-shrink（factorに1/denomを渡すだけで流用・格子乗り判定onLattice） — `episodes/EP-096-shrink-maker-factor-reuse.md`
+- **EP-097** ★★ 平行移動メーカー /maker-translate（盤面分離でモード切替を消す・動的キャプション） — `episodes/EP-097-translate-maker-board-split.md`
+- **EP-098** ★★★ 認証方式を3AIで再評価しメール一本へ撤回（3者一致だけ信用・DBなしの根拠・手動リカバリCLI） — [episodes/EP-098-auth-method-3ai-dr.md](episodes/EP-098-auth-method-3ai-dr.md)
+- **EP-099** ★★ スマホUIのquickbar反復（3バー→1quickbar・実機テストで4指摘反映・型安全ネット） — `episodes/EP-099-mobile-quickbar-iteration.md`
+
 ## 期間横断（特定日付に紐付かないもの）
 
 - **EP-004** ★★ グローバル CLAUDE.md にキャラクター指定を入れた理由（惣流アスカ） — `episodes/EP-004-asuka-character-config.md`
