@@ -6,7 +6,7 @@
 - **MISSION**: 点図形（点描写）の実践を通して、図形力が得意な子を増やす
 - **ブランド短期定義**: 「TENZU は、図形が苦手になる前にも、つまずいた後にも使える点図形（点描写）専門店。9タスク × 5レベル × Vol細刻みで、見る・写す・回す・重ねる力を、戻れるところから育てます」
 - **差別化キーフレーズ**: 戻れる／ピンポイント／解像度
-- **提供物**: レベル別 PDF パック（¥200一律）＋**おためし点描写メーカー**（無料 Web ジェネレータ・Phase 1 仕込みで投入・[foundation/brand.md §11.3.1](foundation/brand.md)）
+- **提供物**: レベル別 PDF パック（¥200一律・主役）＋**点描写メーカー**（クロスセル商材・per-maker 買い切り ¥980／模写は無料・有料ゲート＝PDF 書き出し・[foundation/brand.md §11.3.1](foundation/brand.md)）
 - **技術スタック**: Next.js / AWS Amplify / Stripe / MailerLite
 - **フェーズ構成**: **3 フェーズ（Phase 1 仕込み / Phase 2 先行リリース[M2a+M2b] / Phase 3 本リリース）**＋春 LP 絶対時刻トラック（2026-05-28 統合・[decisions.md §3.41](decisions.md)）
 - **設計書構造**: Foundation Tier 0 ＋ 7領域（M/A/P/C/D/E/L）。ブランド定義・MISSION 等は [foundation/brand.md](foundation/brand.md) を SSOT とする

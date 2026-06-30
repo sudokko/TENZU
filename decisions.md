@@ -23,6 +23,42 @@
 
 > 一次ソース: [pack-design.md](./product/pack-design.md)
 
+### 3.54 難易度スコア D 再校正：交差を撤去・斜め本数／非45°本数へ寄せる（2026-06-30）
+
+atelier 全タスクの土台難易度式 `baseDifficulty` から**交差項を撤去**し、その重みを斜め線の本数へ移した。オーナーの実作判断（「交差は難易度への寄与が薄い／斜め・特に非45°の本数のほうが効く」）に基づく係数移設。
+
+- **旧式**: `D = lines + 1.5·crossings + 12·[非45°あり]`（非45°は flat ボーナス）
+- **新式**: `D = lines + 1.5·diagonals + 8·non45`（斜め本数と非45°**本数**で効く）
+- **メトリクス追加**: [schema.ts](./web/app/products/problems/schema.ts) `ProblemMetrics.non45`（非45°斜めの本数）を新設。[metrics.ts](./web/app/products/problems/gen/metrics.ts) `computeMetrics` が算出。旧 `hasNon45` 真偽値は**生成フィルタ用に温存**（`= non45 > 0`）。`crossings` も**生成フィルタ・情報表示用に温存**（難易度Dには非算入）。
+- **波及**: 巻内ソートキー `difficultyScore`（schema.ts）も交差項を撤去し非45°本数へ。`scale`/`shrink`/`solid` の別式は元から交差非依存で不変。
+- **マイグレーション**: 旧 published JSON の metrics は `non45` 欠落のため、`migrateProblem` が欠落時 edges から再計算（純粋・決定的）。既 publish 済みセットは固定で表示 D が変わるのみ＝実害なし。
+- **D 窓 再較正（同日・完了）**: [ladder.json](./web/app/products/problems/ladder.json) `copy.*.D` を新スケールへ引き直し。public 済み6巻＝公開12問の `[⌊min⌋,⌈max⌉]`（curated 全内包）／未public 2巻（lv4-vol2・lv5-vol1）＝候補プールの `[⌊min⌋,⌈p90⌉]`（**暫定**・公開確定時に再較正）。新窓: lv1[2,6]/lv2v1[4,14]/lv2v2[6,22]/lv3v1[10,23]/lv3v2[10,28]/lv4v1[16,94]/lv4v2[12,43]※/lv5v1[11,54]※。lv4v1 が 16→94 と広いのは非45°本数×8 の素直な帰結（grid ゲートで排他なので可）。**copy のみ D 窓を使う**（fill/mirror/motif は lines/diag/cross/comp バンド＋difficultyScore ソートで D 窓非依存）。壁ゲート（§12.3）は D 非依存で不変。
+- 一次ソース: [pack-design §12.12](./product/pack-design.md)。tsc 緑・published 全6セットで新 D が非NaN・Lv 単調（Lv1≈2-6 → Lv4≈16-94）を確認。
+
+### 3.53 ローンチ公開スコープ縮小：拡大・縮小を非公開（平行移動は公開）（2026-06-29）
+
+メーカー／商品の公開スコープを縮小。**拡大・縮小の2種を今回のローンチから外す**（実装は温存・将来そのまま再投入可）。平行移動は当初一緒に外していたが、認知的に最易で「かたちを動かす」の入口として有効と判断し公開に戻した（同日）。
+
+- **外す根拠（拡大・縮小）**: 拡大（×2）・縮小（1/2）＝倍率・分数の概念依存が重く、対象（年中〜小2）には腑に落ちにくい・優先度低。3AI 整理（DR）でも縮小は最終段・拡大は概念依存と一致。
+- **戻す根拠（平行移動）**: 形を変えず位置だけずらす＝**作図の認知負荷が最も軽い変換**。鏡・回転の前段の入口として自然で、「かたちを動かす」群の難度の底を作る。商品価値は地味だが公開の害は無い。
+- **残す根拠（折り重ね）**: 認知負荷は高い（心的折り畳み）が、**小学校受験で実出題されニーズが実在**するため公開維持。
+- **公開後の構成**: メーカー＝**8種**（模写・欠け補完・鏡・平行移動・回転・重ね・分解・折り重ね）。商品ライン＝**9種**（上記＋模写（立体）。立体模写はメーカー無し・copy 共用の商品ライン）。3群は維持（「かたちを動かす」＝鏡・平行移動・回転＝向き＋位置の変換でまとまる）。
+- **学習ラダー（公開セット・確定）**: 模写 → 欠け補完 → 鏡 → 平行移動 → 回転 → 重ね → 分解 → 折り重ね。立体模写は別系統枝（2D⇄3D・具体物伴走で早期可）。主軸＝**作図の認知負荷**（描かせるツールゆえ知覚発達より出力負荷を優先）。外した2種が DR で割れていた論点（拡大の置き場）だったため、残りの隣接は全て AI 一致のロック領域。
+- **群内順（鏡 → 平行移動 → 回転）の根拠**: 平行移動と回転は向きが裏返らない同族の剛体移動。最軽量の平行移動を回転（capstone＝心的回転）の直前に置いて助走にし、裏返る異端の鏡は群の入口へ。平行移動が鏡↔回転の取り違え（裏返し vs 180°）の緩衝にもなる。純・易→難なら平行→鏡→回転だが、群内の作図負荷差は小さく概念連続性を優先。
+- **実装（単一レバー）**: [capabilities.ts](./web/app/products/capabilities.ts) `LAUNCH_HIDDEN=["scale","shrink"]`。効く範囲＝メーカー表示（`makersInGroup`/`VISIBLE_MAKERS`）・商品カタログ（catalog `GROUPS`）・商品ルート（`products/[slug]` `generateStaticParams`→隠しタスクは 404）。効かない範囲＝`makerByKey`/`PURCHASABLE_MAKERS`（所有判定）は全件維持＝購入済みは継続使用可。`/maker-index`（noindex 内部用）から隠しメーカーへは到達可。**件数表記は TOTAL_KINDS / VISIBLE_MAKERS から自動導出に統一**（旧ハードコード「9種類」のドリフトを根絶）。
+- **再投入**: `LAUNCH_HIDDEN` から該当キーを外すだけで、データ・コードそのままで復活。
+
+### 3.52 atelier 再構築：難易度を全9タスクへ・ラダー/カタログをデータ化・白紙作成（2026-06-27）
+
+問題制作ツール atelier を再構築。「AI が例題生成 → 人が編集 → 12 問公開」のコンセプトは維持しつつ、難易度を一級要素へ格上げし、巻の基準と Vol を atelier から編集できるようにした。
+
+- **難易度を全9タスクへ拡張**: 旧 `copyDifficulty`（copy 専用）を `baseDifficulty` に改名・土台化し、`taskDifficulty(task, p)`（[gen/difficulty.ts](./web/app/products/problems/gen/difficulty.ts)）で各タスクへ展開（fill=base＋欠け量×2／overlay・decompose=×2／変換系=base／scale・solid=別式の口のみ）。atelier は全タスクで D を内訳付き前面表示＋人手 override（✎・auto 保全）。式・窓は pack-design §12.12 が SSOT。
+- **ラダー/カタログのデータ化**: ハードコードの `COPY_LADDER`/`FILL_LADDER`/`MIRROR_LADDER`/`MOTIF_LADDER` を [ladder.json](./web/app/products/problems/ladder.json) へ外出し（`gen/ladder.ts` が型付きで配る）。atelier から基準（D 窓・種類ゲート）の見直しと Vol 追加が完結（`/api/atelier/ladder`・`add-vol`＝ladder.json＋[catalog-extra.json](./web/app/products/catalog-extra.json) に追記、既存 `PRODUCT_TASKS` は不変のまま data.ts が合流）。
+- **新規作成（白紙）追加**: 空盤面から点クリックで作問（provenance=blank・難易度自動算出）。AI 生成と並ぶ独立入口。
+- **schema v2（後方互換）**: `Problem.difficulty{value, auto, manual, parts}`＋`provenance{ai | blank | ai-edited}` を任意追加。読み取り境界の `migrate` で過去に作った模写 published を無改変で昇格（流用可）・再 publish で焼き込む。下流（商品ページ・PDF・checkout・メーカー）は無回帰を確認。
+- **見送り（後送り）**: scale/solid の生成器（型と式の口のみ・白紙手作りで運用）、商品ページでの難易度表示、AtelierApp のフル component 分割。
+- **実装 SSOT**: [pack-design.md §12.12](./product/pack-design.md)。
+
 ### 3.51 絵柄ライン完全削除・10→9 タスク（2026-06-19）
 
 旧「模写（絵柄）motif」タスクを**完全削除**。模写は図形のみで運用。**SKU タスク数 10→9・総巻数 63→56**。
@@ -1189,6 +1225,54 @@ Stripe Link＋MailerLiteで代替。
 - 認証・課金の実装方式は §4.3 の 3AI DR 整理に従う（本項は tier 構成の確定）
 
 → session memory `maker-tier-onestroke-2026-06`
+
+### 4.5 メーカーを外部公開（サブスク商品化）＋ Standard 線引き見直し（2026-06-25）
+
+当初「模写以外は内部用」だった 9 メーカー（noindex・ゲート無し＝URL 直打ちで無料使い放題）を、サブスク商品として外部公開。**紹介＋利用**の 2 層を実装（コード SSOT＝[capabilities.ts](../web/app/products/capabilities.ts) `MAKER_MIN_TIER`・[makers.ts](../web/app/products/makers.ts)・仕様 [pack-design.md §23.9](./product/pack-design.md)）。
+
+- **タスク幅の段階解放へ変更**（旧 §4.4「差別化は `allTasks` 一点」を撤回）。**スタンダード ¥480 = 1 図形の操作**（模写・鏡・回転・欠け補完）／**フル ¥980 = ＋2 図形・座標変換**（重ね・折り重ね・分解・拡大・縮小・平行移動）
+- **overlay（重ね）の所属**: オーナー指定の両リストから漏れていたため、同グループ（fold/decompose）に合わせフルへ（`MAKER_MIN_TIER.overlay` 1 行で可変）
+- **立体メーカーは未実装**につき訴求から除外（pricing/§23.9 の「立体」記述を削除・将来送り）
+- **紹介の厚み = 公開ハブ 1 枚**（[/makers]・indexed）＋各ツール内に説明（`MakerGate` の introbar／未契約はロック・プレビュー＋ /pricing 導線）。メーカー別 LP は作らない
+- **ゲート方式**: 各 `maker-*/page.tsx` が `readTier`（server）→ `<MakerGate>` で client 再確定。未契約はエディタを**マウントせず**ロック画面。ツールは noindex 維持（SEO はハブに集約）
+- **露出**: ヘッダー/フッターに「メーカー」追加＋TOP 下部に従属的な補完セクション。「TOP でメーカーに触れない」方針を「**従属的になら触れてOK**（PDF 導線を阻害しない範囲）」へ緩和
+
+→ session memory `maker-externalize-2026-06`
+
+### 4.6 メーカー有償化を再設計（ピボット見送り・per-maker 買い切り ¥980・クロスセル・サブスク廃止）（2026-06-26）
+
+「メーカーを主役に全面ピボット＋サブスク化」案を 3AI 合議（Claude 反証／Gemini／ChatGPT）で検証し、**全面ピボットは見送り**。主役は体系プリント店のまま、メーカーは**クロスセル商材＋差別化の旗**に位置づけ直す。**§4.4 の 3 tier・§4.5 のサブスク商品化（スタンダード/フル・¥480/¥980 月額）は撤回**（コードはまだ旧モデルのまま＝capabilities.ts の再設計は実装待ち）。
+
+- **ピボットしない**: プリント（¥200・レベル別）が主役・不変。メーカーは「¥200 を買った人へ『もっと子に合う問題を自作したいならこちらも』」のクロスセル。同時に「自分で作れる工房付きの唯一の点描写プリント店」＝差別化の旗。
+- **価格 = per-maker 買い切り ¥980・無期限**（模写は無料）。9 メーカー個別販売。**サブスク・tier（スタンダード/フル）・段階解放（`MAKER_MIN_TIER`）・¥200 週/¥400 月は全廃**。entitlement は「tier ランク」→「所有メーカーの集合」へ。
+- **有料ゲート = PDF 書き出し**（ページ入室ではない＝全メーカー触れる・プレビューできる）。模写は機能限定版を無料で実用。スクショ対策は透かし軽め（過剰防御しない）。**※模写の無料線引きは §4.8 で「機能ロック撤廃・グリッドゲート（無料 4×4／¥980 で 5×5〜8×8）」へ改定。**
+- **棚割り = 「伸ばす力」軸**で分類（販売は個別・力軸は導線）。訴求は「あなたが作れます！」→「苦手な空間認知だけ、子に合わせて 1 分でプリント化」へ。
+- **インフルエンサー comp**: 宣伝用に全メーカー無料付与（約 ¥8,820 相当）＋フォロワー向け追跡割引コードでチャネル化。本人アクセスは固有コード/マジックリンク紐付け（§4.7・裸トークンで漏らさない）。
+- **3AI 合議の核**: ①堀は 9 操作でなく編集眼・難易度設計・カリキュラム（「良問しか作れない」化）②¥200/週は買い切りを食う（3AI 一致）→廃止③9 メーカー個別売りは作り手目線→力軸で見せる④需要未検証で全面ピボットは危険→**クロスセルのアタッチ率が実銭の需要検証**になる。
+- **実装（次パス）**: capabilities.ts を tier→per-maker 買い切りへ再設計・Stripe 都度決済・MakerGate を PDF 書き出しゲートへ・pricing からサブスク表記一掃。本項は方針確定のみ。
+
+### 4.7 メーカー買い切りで「ログイン」を廃止・所有モデル＋マジックリンク復元（2026-06-27）
+
+§4.6 で entitlement を「tier ランク」→「所有メーカーの集合」へ変えた帰結として、**ログインという概念そのものを廃止**する。サブスクは契約状態が時間で変わる（解約され得る）ため本人追跡＋24h Stripe 再照会＝ログインが必要だったが、買い切りの entitlement は**永続・取り消されない・粒度=メーカー単位**で、守るべき「状態」が無いため。
+
+- **本人確認（OTP ログイン）廃止**。購入 = Stripe Checkout がメール取得＋決済を兼ね、success リダイレクトで「所有メーカー集合」を署名 cookie に mint する。**この瞬間がログインの代替**。
+- **24h tier 再照会（texp）廃止**（買い切りは失効しないため再検証の意味が無い）。
+- **PDF ゲート = `cookie.owned` の HMAC 検証**（DB 無し・現行の署名 cookie 基盤をそのまま流用＝§4.3 の DB レス思想と一貫）。
+- **別端末・cookie 消失時の復元 = メール → マジックリンク → 所有集合を再 mint**（買い替え・スマホ↔PC をまたぐ。SES 配送だが OTP より遥かに軽い）。
+- **捨てる**: OTP 一式（`makeOtpCode`/`hashOtp`/`otpMatches`/`otp-store.ts`・Upstash 負荷減）・`texp`/`tierExpired`/24h Stripe 再照会・`/login`・サブスク `Tier`(guest/entry/full)・月額 `PLANS`。
+- **残す**: HMAC 署名 cookie 基盤・`signMagic`/`readMagic`・SES（マジックリンク配送のみ）。
+- 構造変更の核心は **cookie の `Session` 型が `{tier}` → `{owned: MakerKey[]}`** へ変わること。`capabilities.ts` は tier 段階解放（`MAKER_MIN_TIER`）→メーカー単位の所有判定へ作り替え。
+- **影響**: 「SES サンドボックス脱出」は OTP 廃止で負荷が下がるが、マジックリンク復元を採るため依然必要（オーナー本番化の最優先のまま）。本項は §4.6 実装残務①に追加。
+
+### 4.8 模写を「おためし」改称・機能ロック撤廃・グリッドゲート（無料 4×4／¥980 で 5×5〜8×8）（2026-06-29）
+
+§4.6 で「模写は機能限定版を無料・他 9 はクロスセル」としたが、他メーカーが出揃い「おためし」の位置づけが薄れた。模写を独立した買い切り商材へ格上げしつつ、無料の線引きを**機能ロックからグリッドサイズ 1 本へ集約**する（適用は模写のみ・他 9 は §4.6 のまま不変）。
+
+- **改称**: 「おためし点描写メーカー」→**「模写メーカー」**（makers.ts name・/maker ヘッダ／title・maker-index）。
+- **機能ロック撤廃**: 無料でも用紙(B4/A3)・問数(〜12)・記名欄・保存無制限・DL 無制限を**全開放**（旧 FREE_CAPS の A4 のみ・3 問・保存 5・1 日 5 枚は模写には適用しない）。
+- **グリッドゲート**: 無料＝3×3・4×4。**5×5〜8×8 は ¥980 買い切りで解放**（他 9 と同額・所有で OWNED_CAPS）。PDF 書き出しは無料のまま（4×4 まで刷れる）。
+- **copy を購入対象に追加**: `PURCHASABLE_MAKERS = [copy, ...PAID_MAKERS]` を新設し checkout／マジックリンク復元／完了画面の検証に使用。`PAID_MAKERS`（9）は /makers・/pricing の表示基準として不変。`capabilities()` は未所有 copy に `COPY_FREE_CAPS`（grid [3,4]・他開放）を返す分岐を追加。`canExportPdf(copy)` は従来どおり常に true。
+- コード SSOT: [capabilities.ts](../web/app/products/capabilities.ts)・[MakerApp.tsx](../web/app/maker/MakerApp.tsx)・[maker-checkout](../web/app/api/maker-checkout/route.ts)・[billing.ts](../web/app/lib/billing.ts)。tsc 緑・実 SSR で表示/既定 4×4/解放ラベル確認済（git 未コミット）。
 
 ---
 
