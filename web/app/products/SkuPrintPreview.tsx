@@ -580,8 +580,8 @@ export async function downloadAnswerPdf(
 
 /* ===================== 本体 ===================== */
 export default function SkuPrintPreview({
-  sku, grid, problems: realProblems, buySlot, purchased = false,
-}: { sku: string; grid: string; problems?: RenderProblem[]; buySlot?: React.ReactNode; purchased?: boolean }) {
+  sku, grid, problems: realProblems, buySlot, purchased = false, meate,
+}: { sku: string; grid: string; problems?: RenderProblem[]; buySlot?: React.ReactNode; purchased?: boolean; meate?: string }) {
   const n = useMemo(() => {
     const m = grid.match(/^(\d+)×\d+$/);
     return m ? Math.min(7, Math.max(3, Number(m[1]))) : 4;
@@ -736,13 +736,16 @@ export default function SkuPrintPreview({
         )}
       </div>
 
-      <p className="spv-note">
-        {purchased
-          ? <>ご購入ありがとうございます。用紙・問題数・並びを選んで、下のボタンから PDF を保存してください。設定を変えて<b>何度でも</b>作り直せます。</>
-          : isReal
-          ? <>この巻に収録されている実際の {QUESTIONS} 問です。PDF は購入後にダウンロードでき、用紙・問題数・並びは<b>いつでも変更</b>して作り直せます。</>
-          : <>図柄はプレビュー用のサンプルです。用紙と問題数は<b>購入後もいつでも変更</b>して、PDF を作り直せます。</>}
-      </p>
+      {purchased ? (
+        <p className="spv-note">ご購入ありがとうございます。用紙・問題数・並びを選んで、下のボタンから PDF を保存してください。設定を変えて<b>何度でも</b>作り直せます。</p>
+      ) : meate ? (
+        <div className="spv-meate">
+          <span className="spv-meate-label">この巻のめあて</span>
+          <p className="spv-meate-text">{meate}</p>
+        </div>
+      ) : !isReal ? (
+        <p className="spv-note">図柄はプレビュー用のサンプルです。用紙と問題数は<b>購入後もいつでも変更</b>して、PDF を作り直せます。</p>
+      ) : null}
       </div>
 
       {/* 購入後 DL ボタン。spv 直下に出し、サンクスでは CSS order で

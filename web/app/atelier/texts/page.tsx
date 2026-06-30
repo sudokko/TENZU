@@ -1,8 +1,8 @@
 /* =========================================================================
    検品ツール（atelier）詳細説明テキスト一覧 — dev 限定（本番は 404 ）
    data.ts の全 63 巻について、商品詳細ページに載る説明テキスト
-   （blurb / promise / observeNote / ownerNote / parentNote / revisions）を
-   一画面で照合する。未記入フィールドを可視化し、記入率を集計する。
+   （blurb / meate / revisions）を一画面で照合する。
+   未記入フィールドを可視化し、記入率を集計する。
    ========================================================================= */
 import { notFound } from "next/navigation";
 import { PRODUCT_TASKS, LEVEL_NAMES, volTitle, type Vol } from "../../products/data";
@@ -14,7 +14,7 @@ export const metadata = { title: "atelier — 詳細説明一覧（dev）", robo
    observeNote/ownerNote/parentNote はセクション廃止により対象外（2026-06-12） */
 const FIELDS = [
   { key: "blurb", label: "blurb（一覧の1文）", note: "タスク一覧・カードに表示。全巻必須" },
-  { key: "promise", label: "promise（H1直下）", note: "live 詳細ページの H1 直下。無ければ blurb で代用" },
+  { key: "meate", label: "meate（この巻のめあて）", note: "live 詳細ページのプレビュー下。この巻で鍛えたい力を40字程度" },
 ] as const;
 
 type FieldKey = (typeof FIELDS)[number]["key"];

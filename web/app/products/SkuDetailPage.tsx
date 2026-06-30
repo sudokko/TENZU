@@ -53,7 +53,7 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
     "@type": "Product",
     name: `${task.name} ${lvName} Vol.${vol.volNo}（${vol.grid}）`,
     sku: vol.sku,
-    description: vol.promise ?? vol.blurb,
+    description: vol.blurb,
     brand: { "@type": "Brand", name: "TENZU" },
     ...(latest && { dateModified: latest.date }),
     offers: {
@@ -99,10 +99,11 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
           <section className="sku-head sku-head--split">
             <header className="sku-intro">
               <h1 className="sku-name">{task.name} {lvName} Vol.{vol.volNo}・{vol.grid}</h1>
-              <p className="sku-promise sku-promise--oneline">{vol.promise ?? vol.blurb}</p>
+              <p className="sku-blurb sku-blurb--oneline">{vol.blurb}</p>
             </header>
 
             <SkuPrintPreview sku={vol.sku} grid={vol.grid} problems={renderProblems}
+              meate={vol.meate}
               buySlot={
             <div className="sku-buy">
               <div className="spec-table">

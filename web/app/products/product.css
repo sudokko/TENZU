@@ -99,7 +99,8 @@
   color: var(--fg);
   margin: 0;
 }
-.sku-promise {
+/* H1 直下のコピー = blurb（promise は撤去・blurb に統一） */
+.sku-blurb {
   font-family: var(--font-tier2-pencil);
   font-size: 17px;
   line-height: 1.85;
@@ -109,7 +110,7 @@
   max-width: 28ch;
 }
 /* H1 直下・折り返さない 1 行コピー（2026-06-12 オーナー指示） */
-.sku-promise--oneline { max-width: none; }
+.sku-blurb--oneline { max-width: none; }
 
 .price-row {
   display: flex; align-items: baseline; gap: 12px;
@@ -453,8 +454,8 @@ section.s .lead {
 .spv-fold summary {
   list-style: none;
   cursor: pointer;
-  display: flex; flex-direction: column; gap: 5px;
-  padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 13px 14px;
   border-radius: var(--radius-soft);
 }
 .spv-fold summary:hover { background: var(--bg-3); }
@@ -464,18 +465,22 @@ section.s .lead {
 }
 .spv-fold summary::-webkit-details-marker { display: none; }
 .spv-fold-label {
-  font-family: var(--font-tier3-mono);
-  font-size: 11px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--fg-2);
-  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-tier3-sans);
+  font-size: 13px; font-weight: 500; letter-spacing: 0.02em;
+  text-transform: none; color: var(--fg);
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
 }
+/* 開閉アフォーダンスを明確化：右端に accent ピル「ひらく ▾／とじる ▴」（メーカーと共通） */
 .spv-fold-chevron::after {
-  content: "▸  ひらく";
-  font-size: 11px; color: var(--fg-3);
-  letter-spacing: 0.08em;
-  text-transform: none;
+  content: "ひらく ▾";
+  display: inline-block; white-space: nowrap;
+  font-family: var(--font-tier3-sans);
+  font-size: 12px; font-weight: 500;
+  color: var(--bg); background: var(--accent);
+  padding: 3px 12px; border-radius: 999px;
+  letter-spacing: 0.04em;
 }
-.spv-fold[open] .spv-fold-chevron::after { content: "▾  とじる"; }
+.spv-fold[open] .spv-fold-chevron::after { content: "とじる ▴"; }
 .spv-fold-current {
   font-family: var(--font-tier3-sans);
   font-size: 12px; line-height: 1.6;
@@ -638,6 +643,29 @@ a.lv-link:hover { text-decoration: underline; }
   margin: 0;
 }
 .spv-note b { color: var(--accent-ink); }
+
+/* この巻のめあて — プレビュー下の学習目標カード（小学校「めあて」＝この時間で鍛えたい力） */
+.spv-meate {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line-mid);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-soft);
+  background: var(--bg);
+}
+.spv-meate-label {
+  display: inline-block;
+  font-family: var(--font-tier3-sans);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--accent-ink);
+  margin-bottom: 4px;
+}
+.spv-meate-text {
+  margin: 0;
+  font-family: var(--font-tier2-pencil);
+  font-size: 14px; line-height: 1.8;
+  color: var(--fg-1);
+}
 
 /* =========================================================================
    plp- : タスク別一覧ページ（TaskListPage）＋ /products ハブ
