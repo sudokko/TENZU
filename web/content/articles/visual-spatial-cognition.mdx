@@ -1,0 +1,97 @@
+---
+slug: visual-spatial-cognition
+title: 点描写の手前にあるもの — 視覚空間認知の足場
+title_main: 点描写の手前にあるもの
+title_sub: — 視覚空間認知の足場
+description: 「写す」前に何が起きているか。点描写を始めるその数秒の間に、目はもう動いている。Pillar 1 · 図形の手前 第 1 回。
+article_type: pillar
+parent_pillar: pillar-a
+kicker: PILLAR 1 · 図形の手前
+series: 第 1 回 / 全 6 回
+updated_at: 2026-05-20
+reading_time: 8
+author: 店主
+lead: 「写す」前に何が起きているか。点描写を始めるその数秒の間に、目はもう動いている。
+breadcrumb:
+  - label: 記事
+    href: /articles
+  - label: Pillar 1 · 図形の手前
+    href: "#"
+related_heading: Pillar 1 の続き
+related:
+  - meta: PILLAR 1 · 第 2 回
+    title: 点と点の距離を測る目
+    lead: Lv.1 と Lv.2 の差を、実例で。「数えて写す」から「測って写す」への切り替え。
+    href: "#"
+  - meta: PILLAR 1 · 第 3 回
+    title: 「全体を先に見る」とは何か
+    lead: 手本に視線を 1 度走らせる数秒の中で、何が起きているか。
+    href: "#"
+  - meta: PILLAR 2 · 第 1 回
+    title: 変換タスクとは
+    lead: 鏡・回転・平行移動・拡大縮小。9 タスクの第二段。
+    href: "#"
+---
+
+<LeadGraf>
+図形が苦手なお子さんを、と聞かれて気付くのは、「図形が苦手」より先に「写す前に何を見ているか」が育っていないことが多い、ということです。点描写は、その手前の練習として置かれます。
+</LeadGraf>
+
+## 視覚空間認知とは
+
+視覚空間認知 (visual-spatial cognition) は、ものの向き・位置・大きさを目で捉えて、頭の中で再構成する力です。算数の図形問題で扱うのは、その力が育った後の話です。手前にあるのは、「点の位置を見る」「線の方向を見る」「全体を一度見てから細部に降りる」という、もっと地味な動作の集まりです。
+
+<Diagram title="「写す」の手前にある 3 段階" caption="① 全体を見る ／ ② 起点を決める ／ ③ 距離と方向を確認する。点描写は、この 3 段階を毎回繰り返す練習として設計されています。">
+  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="視覚空間認知の図解">
+    <g fill="#1A1F2A" opacity="0.16">
+      {Array.from({ length: 25 }, (_, i) => (
+        <circle key={i} cx={20 + (i % 5) * 20} cy={20 + Math.floor(i / 5) * 20} r={1.5} />
+      ))}
+    </g>
+    <polyline points="40,40 80,40 80,80 40,80 40,40" fill="none" stroke="#1A1F2A" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx={60} cy={60} r={3} fill="#2C6E7F" />
+  </svg>
+</Diagram>
+
+4–9 歳でこの段階を経験しておくと、その後の図形問題・漢字書字・地図読みで「どこから見るか」が安定する、という観察があります。TENZU は受験対策ではなく、この段階を「家庭で短時間、繰り返し置ける形」に整えています。
+
+## 研究の引用と TENZU の訳
+
+視覚空間処理が学業達成と関連する、という主張は複数の論文で言われています。TENZU はその根拠を、親が読める言葉に翻訳して提示します。
+
+<TenzuTranslate
+  src="“Visual-spatial processing skills uniquely predict mathematics achievement above and beyond verbal abilities, and contribute to handwriting fluency in early elementary years.”"
+  cite="— Mix & Cheng (2012), Cognitive Development · 1 例として"
+>
+  図形を見て写し取る力は、ことばの力とは別に、算数の力につながります。<br />
+  同じ力は、早い時期の手書きの滑らかさにも関係しています。
+</TenzuTranslate>
+
+この訳は、論文の主張を弱めずに、しかし親の生活語彙に寄せて書き直しています。元の主張に同意できない方は、原典のリンクから論文に当たってください。TENZU は「研究によると」という権威的な使い方を避け、根拠の所在を毎回明示します。
+
+## 点描写は「写す」だけの練習ではない
+
+<Quote author="— TENZU · 9 タスク設計ノート">
+「写す前に、どこを見るか」<br />が、図形の手前にある力です。
+</Quote>
+
+点描写は、見本の図を写すだけの作業に見えます。実際には次の動作が連続します:
+
+- 手本の全体形を一度見る（数秒）
+- 写し始める起点を決める（左上か中央か）
+- 起点から次の点までの距離を測る
+- 線を引く方向を決める
+- 1 つの辺を引き終えたら、次の起点を決め直す
+- 全体が閉じたか、最後に確認する
+
+このうちのどれかが抜けていると、写し終えても線が歪んだり、閉じなかったりします。「うまく写せない」のではなく、「写す前の段階で目が動いていない」ことが多い、というのが TENZU の観察です。
+
+<SideNote label="DEV NOTE · 2026-05-20">
+この記事は「視覚空間認知」という言葉を最初に出す Pillar 1 の入口として書かれました。次の記事「点と点の距離を測る目」で、Lv.1 と Lv.2 の差を実例で扱います。記事は順に読まなくても独立に意味が通る設計にしています。
+</SideNote>
+
+### 次の 1 枚をどう選ぶか
+
+もし「写す前に、どこを見るか」が育っていないと感じたら、Lv.1 から始めることをおすすめします。Lv.2 以降に飛ばすのは可能ですが、Lv.1 の数枚で「全体を見る」癖を作っておくと、Lv.2 の体験が変わります。
+
+逆に Lv.1 が物足りない様子なら、Lv.2 を試して、戻る判断は親の側で残しておけば大丈夫です。同じレベルを 2 度買う必要はありません（PDF は印刷自由）。レベルを行き来する設計です。
