@@ -1,4 +1,8 @@
-.claude/
+# .claude はマシン固有物（settings.local.json・worktrees・launch.json）を含むため既定で除外。
+# ただし記事執筆で使う共有アセット（エージェント・スキル）はブラウザ(claude.ai/code)運用のため追跡する。
+.claude/*
+!.claude/agents/
+!.claude/skills/
 __pycache__/
 *.pyc
 
