@@ -7,52 +7,15 @@
    ========================================================================= */
 
 import type { Metadata } from "next";
-import { readdirSync } from "node:fs";
-import { join } from "node:path";
-import type { ComponentType } from "react";
 import SiteHeader from "../../SiteHeader";
+import { SITE_NAME, absoluteUrl } from "../../site";
+import { listSlugs, loadArticle, type ArticleFrontmatter } from "../articles-data";
 import "../article.css";
 
 export const dynamicParams = false;
 
-const ARTICLES_DIR = join(process.cwd(), "content", "articles");
-
-type Crumb = { label: string; href: string };
-type Related = { meta: string; title: string; lead: string; href?: string };
-type ArticleFrontmatter = {
-  slug: string;
-  title: string;
-  title_main?: string;
-  title_sub?: string;
-  description?: string;
-  kicker?: string;
-  series?: string;
-  updated_at?: string;
-  reading_time?: number;
-  author?: string;
-  lead?: string;
-  breadcrumb?: Crumb[];
-  related_heading?: string;
-  related?: Related[];
-};
-
-type ArticleModule = {
-  default: ComponentType;
-  frontmatter: ArticleFrontmatter;
-};
-
-function listSlugs(): string[] {
-  return readdirSync(ARTICLES_DIR)
-    .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.replace(/\.mdx$/, ""));
-}
-
 export function generateStaticParams() {
   return listSlugs().map((slug) => ({ slug }));
-}
-
-async function loadArticle(slug: string): Promise<ArticleModule> {
-  return (await import(`@/content/articles/${slug}.mdx`)) as unknown as ArticleModule;
 }
 
 export async function generateMetadata(
@@ -60,20 +23,103 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await params;
   const { frontmatter: fm } = await loadArticle(slug);
-  const title = `${fm.title} · TENZU`;
+  const url = `/articles/${slug}`;
+  // og:title は title.template の対象外なので明示的にサフィックスを付ける。
+  const ogTitle = `${fm.title} · ${SITE_NAME}`;
   return {
-    title,
+    // layout の template により <title> は「<fm.title> · TENZU」になる。
+    title: fm.title,
     description: fm.description,
-    openGraph: { title, description: fm.description, type: "article" },
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title: ogTitle,
+      description: fm.description,
+      publishedTime: fm.published_at ?? fm.updated_at,
+      modifiedTime: fm.updated_at,
+      authors: fm.author ? [fm.author] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: fm.description,
+    },
+    // og:image / twitter:image は opengraph-image.tsx（動的 OG / 手動 eyecatch）が供給する。
   };
+}
+
+/* 構造化データ（LLMO の核）: Article + BreadcrumbList（+ FAQ 記事は FAQPage）。
+   AI クローラに「結論・出典・階層」を機械可読で渡す。絶対URLは SITE_URL 基点。 */
+function buildJsonLd(slug: string, fm: ArticleFrontmatter) {
+  const url = absoluteUrl(`/articles/${slug}`);
+  const ogImage = absoluteUrl(`/articles/${slug}/opengraph-image`);
+
+  const article = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: fm.title,
+    description: fm.description,
+    inLanguage: "ja",
+    author: { "@type": "Person", name: fm.author ?? "店主" },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      logo: { "@type": "ImageObject", url: absoluteUrl("/assets/logo-horizontal.png") },
+    },
+    datePublished: fm.published_at ?? fm.updated_at,
+    dateModified: fm.updated_at ?? fm.published_at,
+    image: ogImage,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+  };
+
+  // 実 href を持つパンくずのみ item に採用し、末尾に現在ページを追加。
+  const crumbItems = [
+    ...(fm.breadcrumb ?? []).filter((c) => c.href && c.href !== "#"),
+    { label: fm.title_main ?? fm.title, href: `/articles/${slug}` },
+  ];
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbItems.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.label,
+      item: absoluteUrl(c.href),
+    })),
+  };
+
+  const graphs: object[] = [article, breadcrumb];
+
+  if (fm.faq_schema && fm.faq_schema.length > 0) {
+    graphs.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: fm.faq_schema.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+  }
+
+  return graphs;
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { default: Body, frontmatter: fm } = await loadArticle(slug);
+  const jsonLd = buildJsonLd(slug, fm);
 
   return (
     <>
+      {jsonLd.map((g, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(g) }}
+        />
+      ))}
       <SiteHeader currentNav="記事" />
 
       <nav className="crumb-article" aria-label="パンくず">

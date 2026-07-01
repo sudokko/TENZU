@@ -339,7 +339,7 @@ export function ArticlesSection() {
         <ul className="more-list">
           {ARTICLES.map((a) => (
             <li key={a.title}>
-              <a className="more-item" href="#">
+              <a className="more-item" href="/articles">
                 <span className="more-title">{a.title}</span>
                 <span className="more-note">{a.note}</span>
               </a>
@@ -347,7 +347,7 @@ export function ArticlesSection() {
           ))}
         </ul>
 
-        <a className="btn-weak more-all" href="#">記事をすべて見る →</a>
+        <a className="btn-weak more-all" href="/articles">記事をすべて見る →</a>
       </div>
     </section>
   );
@@ -378,7 +378,7 @@ export function SiteFooter() {
           <div className="foot-col">
             <h5>READ</h5>
             <ul>
-              <li><a href="#">記事ハブ</a></li>
+              <li><a href="/articles">記事ハブ</a></li>
               <li><a href="#">About TENZU</a></li>
               <li><a href="#">FAQ</a></li>
               <li><a href="#">改訂履歴</a></li>
