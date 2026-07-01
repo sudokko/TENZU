@@ -133,6 +133,28 @@ references: [JP24, JP6, No.27]           # references-map.md の ID 配列
 
 pillars.md §3.2 は本ファイル §2.3 への参照に圧縮済（Layer 2.1 で対応）。
 
+### 2.5 表示・パイプライン用キー（MDX 公開パイプライン実装反映・2026-07-02）
+
+§2.1 は「企画・CTA 運用」の必須フィールド。以下は **`web/app/articles/[slug]/page.tsx` と OG/JSON-LD 基盤が実際に消費する表示・レンダリング用キー**（Phase 1-3 実装）。§2.1 と併記してよい（同じ frontmatter 内）。一次ソースは本節。
+
+| キー | 型 | 役割 | 消費先 |
+|---|---|---|---|
+| `target` | `tenzu` / `note` / `ameba` | 出力先3分岐（書き始めに宣言）。`note`/`ameba` は LLMO/OG 対象外 | パイプライン分岐（kit） |
+| `title_main` / `title_sub` | string | H1 を主／副の2段で描く（`title_sub` は `<br>` 改行で下段） | `[slug]/page.tsx` ヘッダ |
+| `kicker` | string | H1 上の小見出し（例「PILLAR 1 · 図形の手前」）。OG のキッカーにも使う | ヘッダ・OG |
+| `series` | string | 連載表示（例「第 1 回 / 全 6 回」） | ヘッダ pillar-bar |
+| `lead` | string | H1 下のリード文（本文の `<LeadGraf>` とは別・ヘッダ用要約） | ヘッダ |
+| `published_at` | ISO date | 初出日。JSON-LD `datePublished`（未指定時は `updated_at`） | JSON-LD |
+| `breadcrumb` | `[{label, href}]` | パンくず。`href` が実 URL のものだけ BreadcrumbList の item に採用（`#` は除外） | 表示・BreadcrumbList |
+| `related` / `related_heading` | `[{meta, title, lead, href?}]` / string | 末尾の関連記事カードと見出し | 記事末尾セクション |
+| `eyecatch` | string（`/assets/...`） | 手動アイキャッチ（Gemini 生成・public 配下）。未指定なら OG 動的生成にフォールバック | `opengraph-image.tsx` |
+| `faq_schema` | `[{q, a}]` | FAQ 記事の FAQPage JSON-LD 用 Q&A（本文の Q&A を要約・新設問は作らない） | JSON-LD FAQPage |
+
+**注**:
+- 絶対 URL の基点は `SITE_URL` env 一本（`web/app/site.ts`）。frontmatter にドメインを書かない。
+- Phase 1 サンプル `visual-spatial-cognition.mdx` は**レンダリング検証用デモ**であり §2.1 の企画必須フィールド（target_persona 等）は未充足。LLMO 検査（`web/scripts/llmo-check.mjs`）で WARN が出るのは想定内。
+- 全体設計・実装経緯: [article-writing-kit.md §6](article-writing-kit.md)（記事執筆ブラウザ移行 plan への入口）
+
 ---
 
 ## §3. MDX 11セクション固定テンプレート（HO-B2-7）

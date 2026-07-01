@@ -26,6 +26,7 @@
 | [structure-craft.md](structure-craft.md) | **構成・目次提案 craft の SSOT**（dump 入力フォーマット・提案の境界線・構成設計技術・オーナー確定フロー） |
 | [writing-craft.md](writing-craft.md) | **本文化 craft の SSOT**（構成メモ入力フォーマット・膨らませの境界線・文章術・リード/TLDR 作法） |
 | [revision-craft.md](revision-craft.md) | **推敲 craft の SSOT**（推敲の境界線＝表現レベルのみ・推敲手順・変更点リスト形式） |
+| [external-output.md](external-output.md) | **note/アメブロ整形規約の SSOT**（貼付用テキスト生成・ネイティブ要素翻訳・画像/alt・`/article-export` が参照） |
 | [research.md](research.md) | B-2 リサーチ Phase 0（**本ファイル独自のリサーチフェーズ名・ローンチ Phase とは別概念**）・著者/読者ペルソナ・Voice・KW 候補・競合トピック構造 |
 | [references-map.md](references-map.md) | 5系譜文献マップ・引用論文の正確な帰属・教育系メディアソース |
 

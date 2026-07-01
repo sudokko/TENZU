@@ -8,7 +8,7 @@
 - **接続だけで効くもの**: プロジェクト `CLAUDE.md`（起動時に README＋brand を読めと指示）／`article-reviewer` エージェント（品質チェックに自動で使える）
 - **執筆キット＝12ファイル**（§2 の表）。工程は dump→構成メモ→本文化→レビュー→推敲（§3）
 - **ガードレール早見は §4**。衝突時は常に `voice-tone > templates > craft` の順で voice-tone が勝つ
-- **専用ツール**: `article-reviewer` は実装済。`/article-decorate`・`/llmo`・`/article-image` は**未実装**（当面は手動代替・§5）
+- **専用ツール**: `article-reviewer`・`/llmo`・`/article-decorate`・`/article-image` は**実装済**（§5）。機械検査は `web/scripts/{llmo-check,img-optimize}.mjs`
 - 全体設計（MDX 公開パイプライン・LLMO 基盤・外部出力）は本キットの範囲外。詳細は plan ファイル参照（§6 附録）
 
 ## 詳細
@@ -56,7 +56,7 @@ personas・templates）に従い、voice-tone のガードレールを最優先�
 | 3 本文 | [evidence.md](evidence.md) | エビデンス SSOT・引用根拠 |
 | 3 本文 | [references-map.md](references-map.md) | 5系譜・論文帰属 |
 
-参考（必要時のみ）: [keyword-research.md](keyword-research.md)／[research.md](research.md)／[faq.md](faq.md)（FAQ 記事のみ）。装飾のビジュアル規定は [../design/visual-identity.md](../design/visual-identity.md) §4-7。学習素材の原典は `content/sources/udemy-writing/`（craft 3冊の元ネタ・通常は読まない）。
+参考（必要時のみ）: [keyword-research.md](keyword-research.md)／[research.md](research.md)／[faq.md](faq.md)（FAQ 記事のみ）。装飾のビジュアル規定は [../design/visual-identity.md](../design/visual-identity.md) §4-7。**target=note/ameba の整形規約は [external-output.md](external-output.md)**（`/article-export` が参照）。学習素材の原典は `content/sources/udemy-writing/`（craft 3冊の元ネタ・通常は読まない）。
 
 ### §3. 記事パイプライン
 
@@ -73,11 +73,11 @@ personas・templates）に従い、voice-tone のガードレールを最優先�
 
 | 出力先 | 本文の置き場所 | 掲載 |
 |---|---|---|
-| `tenzu`（メイン） | `docs/drafts/articles/<slug>.mdx` → 昇格 `web/content/articles/<slug>.mdx` | commit → PR → マージ → Amplify 公開（MDX 公開パイプラインは Phase 1 で実装予定・未整備） |
-| `note` | `docs/drafts/external/note/<slug>.md`（note 貼付用 Markdown） | 本人が note にコピペ |
-| `ameba` | `docs/drafts/external/ameba/<slug>.html`（Ameba 貼付用 HTML） | 本人が Ameba にコピペ |
+| `tenzu`（メイン） | `docs/drafts/articles/<slug>.mdx` → 昇格 `web/content/articles/<slug>.mdx` | commit → PR → マージ → Amplify 公開（MDX 公開パイプライン＋LLMO/OG 基盤は実装済＝メタ/canonical/OG 画像/JSON-LD/sitemap/robots 自動生成） |
+| `note` | `docs/drafts/external/note/<slug>.md`（`/article-export` が生成・note 貼付用 Markdown） | 本人が note にコピペ＋画像アップ |
+| `ameba` | `docs/drafts/external/ameba/<slug>.html`（`/article-export` が生成・Ameba 貼付用 HTML） | 本人が Ameba にコピペ＋画像アップ |
 
-> 補足: `tenzu` 向けの MDX→本番ページ変換（公開パイプライン）と note/ameba の整形規約は現時点で未実装。当面 `tenzu` は本文 mdx を書いて git に上げるところまで、note/ameba は整形テキストを出力するところまで。詳細は §6 の plan 参照。
+> 補足: `tenzu` 向けの MDX→本番ページ変換（公開パイプライン）と LLMO/OG 基盤は実装済。`web/content/articles/<slug>.mdx` を置けば `/articles/<slug>` が SSG され、メタ/canonical/OG 画像（手動 eyecatch が無ければ動的生成）/JSON-LD/sitemap/robots が自動で付く。frontmatter に `eyecatch`（手動アイキャッチ・public 配下パス）・`faq_schema`（FAQ 記事の FAQPage 用 Q&A）・`published_at` を書けばそれぞれ反映される（キー定義は [templates.md §2.5](templates.md)）。note/ameba は `/article-export` が [external-output.md](external-output.md) の規約で貼付用テキストを生成する（投稿・画像アップは本人が手動）。詳細は §6 の plan 参照。
 
 ### §4. ガードレール早見（要点リマインド・定義は一次ソースへ）
 
@@ -96,9 +96,10 @@ personas・templates）に従い、voice-tone のガードレールを最優先�
 | ツール | 状態 | 用途 / 当面の代替 |
 |---|---|---|
 | `article-reviewer`（エージェント） | **実装済** | 本文完成後に呼ぶ。Voice/Tone/NG/LLMO/日本語品質を Severity 分類でチェック（`docs/drafts/memos/<slug>.md` があればメモ照合込み） |
-| `/article-decorate` | **未実装（Phase 3 予定）** | 内容から装飾ブロックを自動挿入。当面は [writing-craft.md](writing-craft.md) §3・[../design/visual-identity.md](../design/visual-identity.md) §4-7 を読んで手動で図版/引用/DEV NOTE を配置 |
-| `/llmo` | **未実装（Phase 3 予定）** | meta・JSON-LD・AI 向け要点の検査＋追記。当面は [templates.md](templates.md) §7.4 のセルフチェックを手動で適用 |
-| `/article-image` | **未実装（Phase 3 予定）** | アイキャッチの配置/最適化/OG 埋め込み/alt 付与。画像生成は本人が Gemini で手動。当面は手動配置＋alt を [revision-craft.md](revision-craft.md) §3.5 に従って記述 |
+| `/article-decorate`（スキル） | **実装済** | 内容から装飾ブロック（`<Diagram><TenzuTranslate><Quote><SideNote><LeadGraf>`）を過装飾ガード内で配置。target=note/ameba はネイティブ要素へ翻訳。SSOT= [writing-craft.md](writing-craft.md) §3・[../design/visual-identity.md](../design/visual-identity.md) §4 |
+| `/llmo`（スキル＋スクリプト） | **実装済** | `web/scripts/llmo-check.mjs` で検査 → meta/結論先出し/定義/出典/`faq_schema` を追記 → 再検査。JSON-LD は frontmatter から自動生成（手書き不要）。target=tenzu のみ。SSOT= [templates.md](templates.md) §7.4 |
+| `/article-image`（スキル＋スクリプト） | **実装済** | 手動画像を `web/public/assets/articles/` へ配置・`eyecatch` 更新・`web/scripts/img-optimize.mjs` で寸法/容量検査・alt 付与。**画像生成は本人が Gemini で手動**。eyecatch 未指定なら OG 動的生成にフォールバック（Phase 2）。SSOT= [revision-craft.md](revision-craft.md) §3.5 |
+| `/article-export`（スキル） | **実装済** | target=note/ameba の貼付用テキストを `docs/drafts/external/{note,ameba}/` へ生成。独自ブロックをネイティブ要素へ翻訳・LLMO/メタ/内部リンク/SKU は外す。投稿・画像アップは本人。SSOT= [external-output.md](external-output.md) |
 
 ### §6. 附録
 
