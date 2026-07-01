@@ -5,8 +5,8 @@
 - **目的**: 執筆キット（[../content/article-writing-kit.md](../content/article-writing-kit.md)）が想定する「記事を書く→WEB に載せる」の**後半（WEB アップ側）**を仕組み化する
 - **現状 = Step 0**: 試作記事 1 本が手書き `.tsx` で存在するだけ。MDX パイプラインは未実装（依存ゼロ・`web/content/` 無し・記事一覧無し・フロントマター処理無し）
 - **配信基盤は稼働済**: Amplify Hosting が `web/` を Next.js SSR でビルド・配信（[amplify.yml](../amplify.yml)・`deploy/amplify` ブランチ）。欠けているのは記事コンテンツの流し込みだけ
-- **未決の分岐（Step 1 で決める）**: 記事を **MDX** で持つか、既存踏襲で **手書き tsx** にするか。既存記事は tsx・キット/templates は MDX 前提でねじれている
-- **推奨**: MDX 採用。フロントマター（[templates.md §2](../content/templates.md)）・確定スラッグ（[urls.md](../content/urls.md)）・LLMO Schema・量産性が MDX 前提で設計済のため
+- **✅ 方式決定済（MDX 採用）**: フロントマター（[templates.md §2](../content/templates.md)）・確定スラッグ（[urls.md](../content/urls.md)）・LLMO Schema・16 本の量産性が MDX 前提で設計済のため。既存 tsx 記事は Step 7 で MDX へ移行
+- **次セッションはここから**: Step 1（ドラフト置き場の骨組み）→ Step 2（MDX ランタイム導入）に着手。詳細は §5 着手ガイド
 - **ステップ全体像**（MDX 採用時）:
   - Step 1: 方式決定 ＋ ドラフト置き場の骨組み
   - Step 2: MDX ランタイム導入 ＋ フロントマター型
@@ -49,14 +49,14 @@
 
 ---
 
-### §2. 未決の分岐（Step 1 の決定事項）
+### §2. 方式決定（✅ MDX 採用・確定）
 
-| 方式 | 内容 | 向き/不向き |
+| 方式 | 内容 | 判定 |
 |---|---|---|
-| **A. MDX パイプライン**（推奨） | `web/content/articles/*.mdx` を置くと自動でページ化。フロントマター・CTA・引用がコンポーネントで効く | ○量産・整合維持・LLMO Schema 自動化 ／ △初期実装コスト |
-| **B. 手書き tsx 標準化** | 既存 `visual-spatial-cognition` 方式を踏襲。1 記事 = 1 `page.tsx` | ○初期ゼロ・デザイン自由 ／ ×量産不可・フロントマター/整合が手作業 |
+| **A. MDX パイプライン** | `web/content/articles/*.mdx` を置くと自動でページ化。フロントマター・CTA・引用がコンポーネントで効く | **✅ 採用** |
+| **B. 手書き tsx 標準化** | 既存 `visual-spatial-cognition` 方式を踏襲。1 記事 = 1 `page.tsx` | ❌ 不採用（量産不可） |
 
-**推奨理由（A）**: [templates.md](../content/templates.md) のフロントマター・[urls.md](../content/urls.md) の確定スラッグ・[clusters.md](../content/clusters.md) の 16 ページ・FAQPage/HowTo Schema が**すべて MDX 前提で設計済**。B は 16 本を手書きし続ける負債が大きい。デザインの豊かさ（§1.3 の独自ブロック）は MDX のカスタムコンポーネントとして温存できる。
+**採用理由（A）**: [templates.md](../content/templates.md) のフロントマター・[urls.md](../content/urls.md) の確定スラッグ・[clusters.md](../content/clusters.md) の 16 ページ・FAQPage/HowTo Schema が**すべて MDX 前提で設計済**。B は 16 本を手書きし続ける負債が大きい。デザインの豊かさ（§1.3 の独自ブロック）は MDX のカスタムコンポーネントとして温存する。既存 tsx 記事 1 本は Step 7 で MDX へ移行。
 
 ---
 
@@ -123,6 +123,26 @@ Step 8（外部出力）は Step 3 以降に着手可（tenzu 本線と独立）
 ```
 
 「最短で 1 本を tenzu に公開」だけなら **Step 1→2→3→4** で到達。一覧・外部出力・移行は後追いで足せる。
+
+### §5. 次セッション着手ガイド（申し送り）
+
+**決定**: MDX 採用確定（§2）。**着手ブランチ**: 記事配信は `web/` 配下＝Amplify が `deploy/amplify` をビルド。実装は designated ブランチ（`claude/article-creation-rules-19u4cm`）で進め、公開反映時に `deploy/amplify` へ。
+
+**次セッションの最初の一手（Step 1）**:
+1. `docs/drafts/` に `dumps/` `articles/` `external/note/` `external/ameba/` を作成（各 `.gitkeep`）
+2. 続けて Step 2: `web/` に MDX 依存を追加
+
+**Step 2 の技術選定メモ（着手時に確定）**:
+- Next.js 16 App Router 前提。候補は (a) `@next/mdx`（ファイルベース・シンプル）か (b) `next-mdx-remote` ＋ `gray-matter`（`web/content/` 分離・フロントマター柔軟）。**16 本を `web/content/articles/` に集約する設計のため (b) が有力**（要着手時判断）
+- フロントマター型は [templates.md §2.1](../content/templates.md) の必須フィールドをそのまま TypeScript 型に落とす
+- 現状 `web/package.json` に MDX 系依存はゼロ（追加が Step 2 の実質開始点）
+
+**注意・既知の論点**:
+- 既存 `web/app/articles/visual-spatial-cognition/page.tsx`（手書き tsx）は Step 7 まで**残す**（消さない）。`article.css` の独自ブロック（`diagram`/`tenzu-translate`/`article-quote`/`article-sidenote`）を Step 3 で MDX コンポーネント化する際の見本になる
+- ペルソナ表記のねじれ未解消: [personas.md](../content/personas.md) は S-a/S-b/S-c 体系だが [templates.md §2.2](../content/templates.md) の `target_persona` enum は旧 P1a/P2a 系。フロントマター型を作る Step 2 で**どちらに寄せるか要確認**（SSOT は personas.md 側）
+- 「最短 1 本公開」だけなら Step 1→2→3→4 で到達（§4）
+
+**この計画のステータス**: Step 0 完了・Step 1 未着手。方式のみ確定済。
 
 ## 附録
 
