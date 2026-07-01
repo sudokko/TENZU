@@ -16,6 +16,7 @@
 
 | ファイル | 責務 |
 |---|---|
+| [article-writing-kit.md](article-writing-kit.md) | **記事執筆の入口索引**（ブラウザ起動用・出力先3分岐 tenzu/note/ameba・執筆キット12ファイルとパイプラインへの誘導） |
 | [personas.md](personas.md) | **ペルソナ P0-P7 の SSOT**（読者ペルソナ・ターゲット層・キャラクター属性） |
 | [pillars.md](pillars.md) | Pillar 5本（P1-P5）の H2構成・引用論文マッピング・共通運用ルール |
 | [clusters.md](clusters.md) | **記事/非記事の振り分け原則（§1.5）**・確定 16 ページの種別表・降格/削除判断・内部リンク・GTM 配分 |
