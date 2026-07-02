@@ -7,6 +7,7 @@
 - **記事は書き始めに出力先で3分岐**: `tenzu`（サイト＝メイン）／`note`（集客）／`ameba`（アメブロ・集客）。craft・ペルソナ・ガードレールは共通、**分岐は最終整形と掲載先だけ**
 - **接続だけで効くもの**: プロジェクト `CLAUDE.md`（起動時に README＋brand を読めと指示）／`article-reviewer` エージェント（品質チェックに自動で使える）
 - **執筆キット＝12ファイル**（§2 の表）。工程は dump→構成メモ→本文化→レビュー→推敲（§3）
+- **立ち上げ高速化**: セッション冒頭は [quick-reference.md](quick-reference.md)（1枚チートシート・非SSOT）で書き出しに必要なルールを回復し、定義が要る時だけ SSOT を開く
 - **ガードレール早見は §4**。衝突時は常に `voice-tone > templates > craft` の順で voice-tone が勝つ
 - **専用ツール**: `article-reviewer`・`/llmo`・`/article-decorate`・`/article-image` は**実装済**（§5）。機械検査は `web/scripts/{llmo-check,img-optimize}.mjs`
 - 全体設計（MDX 公開パイプライン・LLMO 基盤・外部出力）は本キットの範囲外。詳細は plan ファイル参照（§6 附録）

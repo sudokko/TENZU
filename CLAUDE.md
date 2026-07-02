@@ -1,5 +1,14 @@
 # TENZU プロジェクト指示
 
+## 記事執筆セッションのルーティング（最短経路）
+
+記事を書くタスクではフル読み込みをせず、次の最短経路で立ち上げる:
+
+1. **作業ベースは `deploy/amplify` ブランチ**。`content/personas.md` が見えない場合は古い `main` ベースにいるので、まず `origin/deploy/amplify` に合わせる
+2. [content/quick-reference.md](content/quick-reference.md)（1枚チートシート）で書き出しに必要なルールを回復する
+3. 工程の詳細・定義が必要になった時点で [content/article-writing-kit.md](content/article-writing-kit.md)（入口索引）から該当 SSOT だけを開く（全ファイル通読しない）
+4. 執筆完了時は quick-reference §8 のセルフチェック → `article-reviewer` エージェント
+
 ## 設計書の読み方
 
 - 会話開始時に必ず `README.md`（プロジェクト全体索引）と `foundation/brand.md`（ブランド土台）を読むこと
