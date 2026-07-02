@@ -97,7 +97,7 @@ personas・templates）に従い、voice-tone のガードレールを最優先�
 |---|---|---|
 | `article-reviewer`（エージェント） | **実装済** | 本文完成後に呼ぶ。Voice/Tone/NG/LLMO/日本語品質を Severity 分類でチェック（`docs/drafts/memos/<slug>.md` があればメモ照合込み） |
 | `/article-decorate`（スキル） | **実装済** | 内容から装飾ブロック（`<Diagram><TenzuTranslate><Quote><SideNote><LeadGraf>`）を過装飾ガード内で配置。target=note/ameba はネイティブ要素へ翻訳。SSOT= [writing-craft.md](writing-craft.md) §3・[../design/visual-identity.md](../design/visual-identity.md) §4 |
-| `/llmo`（スキル＋スクリプト） | **実装済** | `web/scripts/llmo-check.mjs` で検査 → meta/結論先出し/定義/出典/`faq_schema` を追記 → 再検査。JSON-LD は frontmatter から自動生成（手書き不要）。target=tenzu のみ。SSOT= [templates.md](templates.md) §7.4 |
+| `/llmo`（スキル＋スクリプト） | **実装済** | **構造化データ(JSON-LD/meta/OG)のフィーダー専用**＝`faq_schema` 生成＋frontmatter 完全性の確認だけ（`web/scripts/llmo-check.mjs` で検査）。**本文の 8原則・見出し・箇条書き・NG語は `article-reviewer`（§H）が担当**。JSON-LD は frontmatter から自動生成。target=tenzu のみ |
 | `/article-image`（スキル＋スクリプト） | **実装済** | 手動画像を `web/public/assets/articles/` へ配置・`eyecatch` 更新・`web/scripts/img-optimize.mjs` で寸法/容量検査・alt 付与。**画像生成は本人が Gemini で手動**。eyecatch 未指定なら OG 動的生成にフォールバック（Phase 2）。SSOT= [revision-craft.md](revision-craft.md) §3.5 |
 | `/article-export`（スキル） | **実装済** | target=note/ameba の貼付用テキストを `docs/drafts/external/{note,ameba}/` へ生成。独自ブロックをネイティブ要素へ翻訳・LLMO/メタ/内部リンク/SKU は外す。投稿・画像アップは本人。SSOT= [external-output.md](external-output.md) |
 
