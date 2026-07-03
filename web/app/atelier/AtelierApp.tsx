@@ -7,11 +7,14 @@
    ========================================================================= */
 
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
-import type { Candidate, CandidateFile, EdgeT, Pt, Problem } from "../products/problems/schema";
+import type {
+  Candidate, CandidateFile, EdgeT, Pt, Problem, SolidEdge, SolidGrid,
+} from "../products/problems/schema";
 import {
   metricsLabel, normalizeEdges, splitAtLattice, edgeKey, mirrorEdges, TASK_ANSWER_MODE,
+  solidEdgeKey, normalizeSolidEdges,
 } from "../products/problems/schema";
-import { computeMetrics } from "../products/problems/gen/metrics";
+import { computeMetrics, computeSolidMetrics } from "../products/problems/gen/metrics";
 import {
   ladderChips, ladderFieldsFor, GRID_MIN, GRID_MAX, type LadderField,
 } from "../products/problems/ladder-schema";
@@ -19,6 +22,8 @@ import { baseDifficulty } from "../products/problems/gen/difficulty";
 import { QUESTIONS_PER_VOL } from "../products/data";
 import { EdgeHitLayer } from "../maker/erase";
 import { SCREEN_DOT } from "../products/print";
+import { SolidPaperSVG, editorVB, type Point } from "../maker-solid/SolidPaperSVG";
+import type { LineStyle } from "../maker-solid/solid-print";
 
 const INK = "#3A424E";
 const ACCENT = "#2C6E7F";
@@ -138,6 +143,19 @@ function ProblemSvg({
 }
 
 
+/* 立体の候補サムネ（読取専用）。抽出した SolidPaperSVG を viewBox 比で箱に収める。
+   隠れ辺は点線で描かれる（buildSolidPageSvg と同じ規約）。 */
+function SolidThumb({ grid, edges, size = 120 }: { grid: SolidGrid; edges: SolidEdge[]; size?: number }) {
+  const { vw, vh } = editorVB(grid.cols, grid.rows);
+  const H = size;
+  const W = Math.round((size * vw) / vh);
+  return (
+    <div className="atl-thumb atl-thumb--solid" style={{ width: W, height: H }}>
+      <SolidPaperSVG cols={grid.cols} rows={grid.rows} edges={edges} showLines />
+    </div>
+  );
+}
+
 /* 候補がどの生成エンジンで作られたか（gen.variant 接頭辞から）。撤去した枠分割の代わりに
    各カードの D 内訳の隣に小さく出す。rand#=ランダム分割／blob#=自由形／hybrid#=合成／他=対称・幾何。 */
 function engineLabel(variant?: string): string {
@@ -154,6 +172,7 @@ function dFormulaLabel(kind?: string): string {
     case "fill": return "図形の土台 ＋ 欠け線分×2";
     case "mirror": return "図形の土台難易度（反転の操作負荷は軸ゲートで吸収）";
     case "motif": return "線数 ＋ 斜め本数×1.5 ＋ 非45°本数×8";
+    case "solid": return "線 ＋ 斜め×1.5 ＋ 非45°×8 ＋ 隠れ辺×3";
     default: return "タスク別の難易度式（gen/difficulty.ts）";
   }
 }
@@ -202,7 +221,7 @@ type Update = { id: string; status?: Candidate["status"]; order?: number | null 
 
 export default function AtelierApp({
   sku, title, blurb, meate, hasGenerator, genKind, linesRange, gapRange, motifInspoEnabled = false,
-  blankGridN, ladderEntry = null,
+  blankGridN, ladderEntry = null, isSolid = false,
 }: {
   sku: string; title: string;
   /* この巻のキャッチコピー（各巻1文）と めあて（この巻で鍛えたい力）。
@@ -220,6 +239,8 @@ export default function AtelierApp({
   /* この巻のレベル定義（生成パラメータ）の現値。基準編集パネルの初期値・チップ表示に使う。
      生成器の無いタスクや未定義 SKU は null（編集 UI 非表示）。 */
   ladderEntry?: Record<string, unknown> | null;
+  /* 立体タスク（solid）。白紙作成を立体エディタに切り替え、サムネを SolidThumb で描く。 */
+  isSolid?: boolean;
 }) {
   const task = sku.split("-")[0];
   const lfields = ladderFieldsFor(task);
@@ -315,14 +336,28 @@ export default function AtelierApp({
   /* 白紙作成モードで EditOverlay に渡す空の合成 candidate（盤面サイズ・解答モードを task から組む）。
      none=copy系（edges のみ）／explicit=fill/かさね/分解（F＋R）／derived(mirror)=軸ゴースト表示。 */
   const blankCandidate: Candidate | null = ((): Candidate | null => {
+    if (isSolid) {
+      // 立体は矩形点格子（既定 7×7）。cols/rows は SolidEditOverlay で選び直せる。
+      return {
+        id: "__new__",
+        grid: { type: "solid", cols: 7, rows: 7 },
+        edges: [],
+        solidEdges: [],
+        metrics: computeSolidMetrics([]),
+        difficulty: { task: "solid", value: 0, auto: 0 },
+        provenance: { source: "blank", createdAt: "" },
+        gen: { kind: "manual" },
+        status: "pending",
+      };
+    }
     if (blankGridN === undefined) return null;
     const n = blankGridN as 3 | 4 | 5 | 6 | 7;
     const mode = TASK_ANSWER_MODE[task] ?? "none";
-    const axis = lentry?.axis as "v" | "h" | "d1" | undefined;
     const answer: Problem["answer"] =
       mode === "explicit" ? { mode: "explicit", edges: [] }
-        : mode === "derived" && task === "mirror" && axis
-          ? { mode: "derived", transform: { type: "mirror", axis } }
+        : mode === "derived" && task === "mirror"
+          // 鏡は軸レス（軸＝印刷時の並び選択・decisions §3.59）。代表値 v を焼く
+          ? { mode: "derived", transform: { type: "mirror", axis: "v" } }
           : undefined;
     return {
       id: "__new__",
@@ -486,6 +521,40 @@ export default function AtelierApp({
     } finally { setBusy(false); }
   }
 
+  /* 立体の編集を保存（既存候補の solidEdges を差し替え。grid は不変）。 */
+  async function saveSolidEdit(id: string, solidEdges: SolidEdge[]) {
+    setBusy(true); setMsg("");
+    try {
+      const res = await fetch("/api/atelier/candidates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sku, updates: [{ id, solidEdges }] }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setMsg(j.error ?? "保存に失敗しました"); return; }
+      await load();
+      setEditing(null);
+      setMsg("保存しました");
+    } finally { setBusy(false); }
+  }
+
+  /* 立体の白紙作成を保存（cols/rows＋solidEdges で candidates に1問追加）。 */
+  async function createSolid(cols: number, rows: number, solidEdges: SolidEdge[]) {
+    setBusy(true); setMsg("");
+    try {
+      const res = await fetch("/api/atelier/candidates/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sku, cols, rows, solidEdges }),
+      });
+      const j = await res.json();
+      if (!res.ok) { setMsg(j.error ?? "作成に失敗しました"); return; }
+      await load();
+      setCreating(false);
+      setMsg(`新規作成しました（${j.id}）`);
+    } finally { setBusy(false); }
+  }
+
   /* この巻のレベル定義（grid・線の向き・各範囲・ゲート・D 窓）を保存（copy/fill/mirror/motif）。
      ladder.json を書き戻す。生成器は静的 import で読むので、反映には再生成（生成ボタン）が要る。
      grid を変えると catalog-extra に表示メタ patch も書かれ、既存問題は旧 grid のまま不整合になる。 */
@@ -530,11 +599,15 @@ export default function AtelierApp({
      value＝実効値（手動 manual があればそれ・無ければ機械算出 auto）。✎ で手動上書き／自動へ戻す。
      式は gen/difficulty.ts（taskDifficulty）。内訳の意味は上部 atl-dhelp で定義。 */
   // copy のみ「窓」D をカード上に出すのに使う（他タスクは undefined）
-  const win = task === "copy" && Array.isArray(lentry?.D)
+  const win = (task === "copy" || task === "solid") && Array.isArray(lentry?.D)
     ? (lentry!.D as [number, number]) : undefined;
   const fmtD = (x: number) => (Number.isInteger(x) ? String(x) : x.toFixed(1));
   const dValueOf = (c: Candidate): number =>
-    c.difficulty ? c.difficulty.value : baseDifficulty(computeMetrics(c.edges, c.grid.n));
+    c.difficulty
+      ? c.difficulty.value
+      : c.grid.type === "solid"
+        ? 0
+        : baseDifficulty(computeMetrics(c.edges, c.grid.n));
   const partsTitle = (c: Candidate): string | undefined => {
     const parts = c.difficulty?.parts;
     if (!parts) return undefined;
@@ -560,9 +633,15 @@ export default function AtelierApp({
     );
   };
 
+  /* 候補サムネ＝立体は SolidThumb・それ以外は ProblemSvg（grid.type で分岐） */
+  const renderThumb = (c: Candidate, size?: number): ReactNode =>
+    c.grid.type === "solid"
+      ? <SolidThumb grid={c.grid} edges={c.solidEdges ?? []} {...(size ? { size } : {})} />
+      : <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} {...(size ? { size } : {})} />;
+
   const renderPendingCard = (c: Candidate) => withDScore(c,
     <figure key={c.id} className="atl-card" onClick={() => adopt(c)} title="クリックで採用">
-      <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} />
+      {renderThumb(c)}
       {cardLabel(c) && <figcaption className="atl-card-name">{cardLabel(c)}</figcaption>}
       <div className="atl-card-actions">
         <button type="button" style={{ color: ACCENT }}
@@ -723,7 +802,7 @@ export default function AtelierApp({
               ライブラリを読み込む
             </button>
           )}
-          {blankGridN !== undefined && (
+          {(blankGridN !== undefined || isSolid) && (
             <button type="button" className="atl-btn" disabled={busy} onClick={() => setCreating(true)}>
               ＋ 新規作成（白紙）
             </button>
@@ -742,7 +821,7 @@ export default function AtelierApp({
               onClick={async () => {
                 const { downloadAnswerPdf } = await import("../products/SkuPrintPreview");
                 const probs = adopted.map((c) => ({
-                  n: c.grid.n, edges: c.edges,
+                  n: c.grid.type === "square" ? c.grid.n : 0, edges: c.edges,
                   ...(c.answer?.mode === "derived" && c.answer.transform.type === "mirror"
                     && { mirrorAxis: c.answer.transform.axis }),
                 }));
@@ -757,12 +836,12 @@ export default function AtelierApp({
 
       <section className="atl-dhelp">
         <p className="atl-dhelp-formula">
-          難易度 <strong>D</strong>：{dFormulaLabel(genKind)}
+          難易度 <strong>D</strong>：{dFormulaLabel(genKind ?? task)}
         </p>
         <p className="atl-dhelp-note">
           12 問の中で難易度を散らすための指標（全タスク共通でカード上に前面表示）。
           各カードの <strong>✎</strong> で難易度を手動上書き／自動へ戻せる（人手ティア付け・auto は保全）。
-          {win && <>　この巻の窓は <strong>D {win[0]}–{win[1]}</strong>。非45°が最大ドライバー（ρ=0.878）。</>}
+          {win && <>　この巻の窓は <strong>D {win[0]}–{win[1]}</strong>。{task === "solid" ? "隠れ辺（点線）が最大ドライバー。" : "非45°が最大ドライバー（ρ=0.878）。"}</>}
         </p>
       </section>
 
@@ -780,7 +859,7 @@ export default function AtelierApp({
               onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; if (overIdx !== i) setOverIdx(i); }}
               onDrop={(e) => { e.preventDefault(); if (dragIdx !== null) reorder(dragIdx, i); setDragIdx(null); setOverIdx(null); }}>
               <span className="atl-order" title="ドラッグして並び替え">⠿ 問 {i + 1}</span>
-              <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} />
+              {renderThumb(c)}
               {cardLabel(c) && <figcaption className="atl-card-name">{cardLabel(c)}</figcaption>}
               <div className="atl-card-actions">
                 <button type="button" onClick={() => move(c, -1)} disabled={i === 0}>↑</button>
@@ -817,7 +896,7 @@ export default function AtelierApp({
           <div className="atl-grid">
             {rejected.map((c) => withDScore(c,
               <figure key={c.id} className="atl-card atl-card--rejected">
-                <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} size={92} />
+                {renderThumb(c, 92)}
                 {cardLabel(c) && <figcaption className="atl-card-name">{cardLabel(c)}</figcaption>}
                 <div className="atl-card-actions">
                   <button type="button" onClick={() => save([{ id: c.id, status: "pending" }])}>
@@ -842,7 +921,7 @@ export default function AtelierApp({
           <div className="atl-grid">
             {pendingMotif.map((c) => withDScore(c,
               <figure key={c.id} className="atl-card atl-card--motif" onClick={() => adopt(c)} title="クリックで採用">
-                <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} />
+                {renderThumb(c)}
                 {cardLabel(c) && <figcaption className="atl-inspo-name">{cardLabel(c)}</figcaption>}
                 <div className="atl-card-actions">
                   <button type="button" style={{ color: ACCENT }}
@@ -860,7 +939,15 @@ export default function AtelierApp({
         </section>
       )}
 
-      {editing && (
+      {editing && (editing.grid.type === "solid" ? (
+        <SolidEditOverlay
+          key={editing.id}
+          candidate={editing}
+          busy={busy}
+          onSave={(_cols, _rows, solidEdges) => saveSolidEdit(editing.id, solidEdges)}
+          onClose={() => setEditing(null)}
+        />
+      ) : (
         <EditOverlay
           key={editing.id}
           candidate={editing}
@@ -868,8 +955,17 @@ export default function AtelierApp({
           onSave={(edges, motif, answerEdges) => saveEdit(editing.id, edges, motif, answerEdges)}
           onClose={() => setEditing(null)}
         />
-      )}
-      {creating && blankCandidate && (
+      ))}
+      {creating && blankCandidate && (blankCandidate.grid.type === "solid" ? (
+        <SolidEditOverlay
+          key="__new__"
+          candidate={blankCandidate}
+          busy={busy}
+          createMode
+          onSave={(cols, rows, solidEdges) => createSolid(cols, rows, solidEdges)}
+          onClose={() => setCreating(false)}
+        />
+      ) : (
         <EditOverlay
           key="__new__"
           candidate={blankCandidate}
@@ -878,7 +974,7 @@ export default function AtelierApp({
           onSave={(edges, title, answerEdges) => createNew(edges, title, answerEdges)}
           onClose={() => setCreating(false)}
         />
-      )}
+      ))}
     </main>
   );
 }
@@ -898,7 +994,8 @@ function EditOverlay({
   onClose: () => void;
   createMode?: boolean;
 }) {
-  const n = candidate.grid.n;
+  // EditOverlay は square 専用（solid は SolidEditOverlay へ分岐済み）。型を絞る。
+  const n = candidate.grid.type === "square" ? candidate.grid.n : 3;
   const isFill = candidate.answer?.mode === "explicit";
   const [edges, setEdges] = useState<EdgeT[]>(candidate.edges);
   const [rEdges, setREdges] = useState<EdgeT[]>(
@@ -1190,6 +1287,158 @@ function EditOverlay({
             {edges.length === 0 ? "線が空です"
               : isFill && rEdges.length === 0 ? "抜く線が空です"
               : "保存する"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================================
+   立体の作成／手直しモーダル（抽出した SolidPaperSVG を内蔵）
+   点を2つクリックで線／描いた線をクリックで実線⇔点線／消すモードで1本削除。
+   createMode では盤面（横×縦・7〜15）を選べる。既存編集では grid 固定。
+   線種の切替・モード切替では作図中の選択点を解除（引きかけの線が別線種へ流れない）。
+   ========================================================================= */
+const SOLID_SIZES = [7, 8, 9, 10, 11, 12, 13, 14, 15];
+
+function SolidEditOverlay({
+  candidate, busy, onSave, onClose, createMode = false,
+}: {
+  candidate: Candidate;
+  busy: boolean;
+  onSave: (cols: number, rows: number, solidEdges: SolidEdge[]) => void;
+  onClose: () => void;
+  createMode?: boolean;
+}) {
+  const g0 = candidate.grid.type === "solid" ? candidate.grid : { cols: 7, rows: 7 };
+  const [cols, setCols] = useState(g0.cols);
+  const [rows, setRows] = useState(g0.rows);
+  const [edges, setEdges] = useState<SolidEdge[]>(candidate.solidEdges ?? []);
+  const [selected, setSelected] = useState<Point | null>(null);
+  const [drawStyle, setDrawStyle] = useState<LineStyle>("solid");
+  const [tool, setTool] = useState<"draw" | "erase">("draw");
+  const [oneStroke, setOneStroke] = useState(true);
+  const [history, setHistory] = useState<SolidEdge[][]>([]);
+
+  const pushHistory = () => setHistory((h) => [...h, edges]);
+  const changeTool = (t: "draw" | "erase") => { setTool(t); setSelected(null); };
+  const changeDrawStyle = (s: LineStyle) => { setDrawStyle(s); setSelected(null); };
+  const samePoint = (a: Point | null, b: Point | null) => !!a && !!b && a.c === b.c && a.r === b.r;
+
+  function handleDot(p: Point) {
+    if (tool === "erase") return;
+    if (!selected) { setSelected(p); return; }
+    if (samePoint(selected, p)) { setSelected(null); return; }
+    const next: SolidEdge = { a: selected, b: p, style: drawStyle };
+    const k = solidEdgeKey(next);
+    const after = oneStroke ? p : null;
+    const existing = edges.findIndex((e) => solidEdgeKey(e) === k);
+    if (existing >= 0) {
+      if (edges[existing].style !== drawStyle) {
+        pushHistory();
+        setEdges(edges.map((e, i) => (i === existing ? { ...e, style: drawStyle } : e)));
+      }
+      setSelected(after);
+      return;
+    }
+    pushHistory();
+    setEdges([...edges, next]);
+    setSelected(after);
+  }
+
+  function onEdgeClick(i: number) {
+    if (tool === "erase") { pushHistory(); setEdges(edges.filter((_, idx) => idx !== i)); return; }
+    pushHistory();
+    setEdges(edges.map((e, idx) =>
+      idx === i ? { ...e, style: e.style === "dashed" ? "solid" as const : "dashed" as const } : e));
+  }
+
+  function undo() {
+    setHistory((h) => {
+      if (h.length === 0) return h;
+      setEdges(h[h.length - 1]); setSelected(null);
+      return h.slice(0, -1);
+    });
+  }
+  function clearAll() { if (edges.length === 0) return; pushHistory(); setEdges([]); setSelected(null); }
+  function changeDims(nc: number, nr: number) {
+    if (!createMode) return;
+    setCols(nc); setRows(nr); setEdges([]); setSelected(null); setHistory([]);
+  }
+
+  const grid: SolidGrid = { type: "solid", cols, rows };
+  const { vw, vh } = editorVB(cols, rows);
+  const boardW = 380;
+  const boardH = Math.round((boardW * vh) / vw);
+  const liveMetrics = useMemo(() => computeSolidMetrics(edges), [edges]);
+
+  return (
+    <div className="atl-overlay" role="dialog" aria-modal>
+      <div className="atl-editor">
+        <header className="atl-editor-head">
+          <h2>{createMode ? "新規作成（立体・白紙）" : "立体の手直し"}</h2>
+          <p className="atl-editor-hint">
+            点を 2 つクリックして線を引く／描いた線をクリックで実線⇔点線／消すモードで 1 本削除。
+            実線＝見える辺・点線＝かくれた辺。
+          </p>
+        </header>
+
+        {createMode && (
+          <div className="atl-editor-onestroke" role="group" aria-label="盤面サイズ">
+            <span className="atl-os-label">盤面（横×縦）</span>
+            <select value={cols} onChange={(e) => changeDims(Number(e.target.value), rows)}>
+              {SOLID_SIZES.map((g) => <option key={g} value={g}>{g}</option>)}
+            </select>
+            <span aria-hidden> × </span>
+            <select value={rows} onChange={(e) => changeDims(cols, Number(e.target.value))}>
+              {SOLID_SIZES.map((g) => <option key={g} value={g}>{g}</option>)}
+            </select>
+          </div>
+        )}
+
+        <div className="atl-editor-onestroke" role="group" aria-label="モード・線種">
+          <span className="atl-os-label">モード</span>
+          <div className="atl-seg">
+            <button type="button" aria-pressed={tool === "draw"} onClick={() => changeTool("draw")}>描く</button>
+            <button type="button" aria-pressed={tool === "erase"} onClick={() => changeTool("erase")}>消す</button>
+          </div>
+          <span className="atl-os-label">線</span>
+          <div className="atl-seg">
+            <button type="button" aria-pressed={drawStyle === "solid"} disabled={tool === "erase"}
+              onClick={() => changeDrawStyle("solid")}>実線</button>
+            <button type="button" aria-pressed={drawStyle === "dashed"} disabled={tool === "erase"}
+              onClick={() => changeDrawStyle("dashed")}>点線</button>
+          </div>
+        </div>
+
+        <div className="atl-editor-onestroke" role="group" aria-label="一筆書きモード">
+          <span className="atl-os-label">一筆書き</span>
+          <div className="atl-seg">
+            <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)}>OFF</button>
+            <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
+          </div>
+        </div>
+
+        <div className="atl-editor-paneblock">
+          <div style={{ width: boardW, height: boardH, background: "#FFFFFF", border: "1px solid #E2E2E2", borderRadius: 8 }}>
+            <SolidPaperSVG
+              cols={cols} rows={rows} edges={edges} selected={selected} tool={tool}
+              onDotClick={handleDot} onEdgeClick={onEdgeClick} showLines interactive
+            />
+          </div>
+        </div>
+
+        <p className="atl-editor-metrics">{metricsLabel(liveMetrics, grid)}</p>
+
+        <div className="atl-editor-actions">
+          <button type="button" onClick={undo} disabled={history.length === 0}>ひとつ戻す</button>
+          <button type="button" onClick={clearAll} disabled={edges.length === 0}>全消し</button>
+          <span className="atl-editor-spacer" />
+          <button type="button" onClick={onClose} disabled={busy}>キャンセル</button>
+          <button type="button" className="atl-btn atl-btn--pub" disabled={busy || edges.length === 0}
+            onClick={() => onSave(cols, rows, normalizeSolidEdges(edges))}>
+            {edges.length === 0 ? "線が空です" : "保存する"}
           </button>
         </div>
       </div>

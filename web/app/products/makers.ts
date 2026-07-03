@@ -1,5 +1,5 @@
 /* =========================================================================
-   メーカー・カタログ SSOT（メーカーのメタ。実装は 10・ローンチ公開は 8）
+   メーカー・カタログ SSOT（メーカーのメタ。実装は 11・ローンチ公開は 9）
    ハブ（/makers）・各メーカーの MakerGate（introbar）・導線が共用。
    価格・所有判定は capabilities.ts（買い切り ¥980・owned モデル）が一次ソース。
    ここは表示名・説明・グループ・ルートだけを持つ純データ（React 非依存）。
@@ -20,6 +20,7 @@ export type MakerMeta = {
 
 export const MAKERS: MakerMeta[] = [
   { key: "copy",      href: "/maker",           name: "模写メーカー",         short: "模写",     desc: "見本のとおりに、点をつないで写す。",       group: "見て写す" },
+  { key: "solid",     href: "/maker-solid",     name: "立体模写メーカー",     short: "立体",     desc: "見える辺と隠れた辺で、立体を点で写す。",   group: "見て写す" },
   { key: "fill",      href: "/maker-fill",      name: "欠け補完メーカー",     short: "欠け補完", desc: "足りない辺を補って、形を閉じる。",       group: "見て写す" },
   { key: "mirror",    href: "/maker-mirror",    name: "鏡メーカー",           short: "鏡",       desc: "鏡の反対側に映る形を描く。",             group: "かたちを動かす" },
   { key: "translate", href: "/maker-translate", name: "平行移動メーカー",     short: "平行移動", desc: "形を変えずに、ずらして写す。",           group: "かたちを動かす" },

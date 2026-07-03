@@ -7,7 +7,7 @@
      割り切りとして、本物データの認証 API 化（再構築）は次フェーズ送り。 */
 import Stripe from "stripe";
 import SiteHeader from "../../SiteHeader";
-import SkuPrintPreview, { type RenderProblem } from "../../products/SkuPrintPreview";
+import SkuPrintPreview, { type RenderProblem, type SolidRenderProblem } from "../../products/SkuPrintPreview";
 import ClearCartOnSuccess from "./ClearCartOnSuccess";
 import { volBySku, volTitle, PRICE } from "../../products/data";
 import { publishedSet } from "../../products/problems/published";
@@ -105,9 +105,19 @@ export default async function CheckoutSuccessPage({
         {purchased.map(({ sku, resolved }) => {
           const { vol } = resolved!;
           const set = publishedSet(sku);
-          const problems: RenderProblem[] | undefined = set?.problems.map((p) => ({
-            n: p.grid.n, edges: p.edges,
-          }));
+          const isSolid = resolved!.task.slug === "solid";
+          const problems: RenderProblem[] | undefined = isSolid ? undefined
+            : set?.problems.map((p) => ({
+              n: p.grid.type === "square" ? p.grid.n : 4, edges: p.edges,
+            }));
+          const solidProblems: SolidRenderProblem[] | undefined = isSolid
+            ? set?.problems
+                .filter((p) => p.grid.type === "solid")
+                .map((p) => {
+                  const g = p.grid as { type: "solid"; cols: number; rows: number };
+                  return { cols: g.cols, rows: g.rows, edges: p.solidEdges ?? [] };
+                })
+            : undefined;
           const qn = set?.problems.length ?? 12;
           return (
             <section className="success-sku" key={sku}>
@@ -116,7 +126,7 @@ export default async function CheckoutSuccessPage({
                 <h2 className="success-sku-name">{volTitle(resolved!.task, vol)}</h2>
                 <p className="success-sku-meta">{vol.grid} · 全 {qn} 問 · ¥{PRICE}（税込）</p>
               </div>
-              <SkuPrintPreview sku={sku} grid={vol.grid} problems={problems} purchased />
+              <SkuPrintPreview sku={sku} grid={vol.grid} problems={problems} solidProblems={solidProblems} purchased />
             </section>
           );
         })}

@@ -33,7 +33,7 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
       <div className="wrap">
         <nav className="crumb" aria-label="パンくず">
           <a href="/products">商品</a><span className="sep">/</span>
-          <a href="/products">{cat?.group.label}</a><span className="sep">/</span>
+          <a href={cat ? `/products#cat-g${cat.groupIdx + 1}` : "/products"}>{cat?.group.label}</a><span className="sep">/</span>
           <span className="cur">{task.name}</span>
         </nav>
       </div>
@@ -50,6 +50,14 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
               <p className="plp-stat">
                 全 {task.vols.length} 巻 ・ 1 冊 {QUESTIONS_PER_VOL} 問 ・ ¥{PRICE} 一律
               </p>
+              {/* レベルジャンプ（SEO/パンくず直行者向けの棚内ナビ。ハブのチップと同じ着地点） */}
+              <nav className="plp-lvnav" aria-label="レベルへ移動">
+                {sections.map((s) => (
+                  <a className="plp-lvnav-chip" href={`#lv${s.lv}`} key={s.lv}>
+                    Lv.{s.lv} {s.name}<span className="plp-lvnav-vol">{s.vols.length}巻</span>
+                  </a>
+                ))}
+              </nav>
             </div>
           </section>
         </div>
@@ -70,7 +78,7 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
                         <span className="plp-card-vol">Vol.{vol.volNo}</span>
                         <span className="plp-card-grid">{vol.grid}</span>
                         {vol.variant && <span className="plp-card-variant">{vol.variant}</span>}
-                        {isStar && <span className="plp-card-star">★ 最初の1冊</span>}
+                        {isStar && <span className="plp-card-star">★ いちばんやさしい巻</span>}
                         {vol.status === "scaffold" && <span className="plp-card-soon">準備中</span>}
                       </div>
                       <p className="plp-card-blurb">{vol.blurb}</p>

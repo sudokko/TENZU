@@ -1,17 +1,5 @@
 {
-  "vols": [
-    {
-      "task": "solid",
-      "sku": "solid-lv3-vol2",
-      "lv": 3,
-      "volNo": 2,
-      "grid": "ブロック 2〜5",
-      "ageLabel": "6〜8才ごろ",
-      "status": "scaffold",
-      "variant": "単一塊・段",
-      "blurb": "新しい Vol（atelier で追加）。基準を調整して問題を作成してください。"
-    }
-  ],
+  "vols": [],
   "patches": [
     {
       "sku": "copy-lv1-vol1",

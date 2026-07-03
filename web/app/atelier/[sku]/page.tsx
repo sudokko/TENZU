@@ -9,11 +9,13 @@ import "../atelier.css";
 
 export const metadata = { robots: { index: false } };
 
-/* 模様候補シードの対象 sku（Lv.2〜Lv.3）。
-   AtelierApp が初回ロードで /api/atelier/seed-motif-inspo を 1 回叩く */
+/* 模様候補シードの対象 sku。
+   AtelierApp が初回ロードで /api/atelier/seed-motif-inspo を 1 回叩く。
+   copy＝モチーフをそのまま模写候補に／fill＝モチーフから欠けを抜いて補完候補に */
 const MOTIF_INSPO_SKUS = new Set([
-  "copy-lv2-vol1", "copy-lv2-vol2",
+  "copy-lv2-vol1",
   "copy-lv3-vol1", "copy-lv3-vol2",
+  "fill-lv2-vol1", "fill-lv3-vol1", "fill-lv4-vol1", "fill-lv5-vol1",
 ]);
 
 export default async function AtelierSku({ params }: { params: Promise<{ sku: string }> }) {
@@ -47,6 +49,7 @@ export default async function AtelierSku({ params }: { params: Promise<{ sku: st
       motifInspoEnabled={MOTIF_INSPO_SKUS.has(sku)}
       blankGridN={blankGridN}
       ladderEntry={ladderEntry}
+      isSolid={task === "solid"}
     />
   );
 }

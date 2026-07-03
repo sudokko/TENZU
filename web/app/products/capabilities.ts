@@ -14,7 +14,7 @@
 import type { PaperKey, DotSize, LayoutPerPage } from "./print";
 
 export type MakerKey =
-  | "copy" | "mirror" | "rotate" | "fill"               // 1 図形の操作
+  | "copy" | "solid" | "mirror" | "rotate" | "fill"     // 1 図形の操作（solid=立体模写）
   | "overlay" | "fold" | "decompose"                    // 2 図形（重ね系）
   | "scale" | "shrink" | "translate";                   // 座標変換
 
@@ -23,7 +23,7 @@ export const FREE_MAKER: MakerKey = "copy";
 
 // ¥980 買い切りで売る 9 メーカー（copy 以外）。/makers・/pricing の表示はこの集合が基準。
 export const PAID_MAKERS: readonly MakerKey[] = [
-  "mirror", "rotate", "fill", "overlay", "fold", "decompose", "scale", "shrink", "translate",
+  "solid", "mirror", "rotate", "fill", "overlay", "fold", "decompose", "scale", "shrink", "translate",
 ];
 
 // 買い切りで「購入できる」全メーカー。copy も 5×5 以上の解放を買えるためここに含む

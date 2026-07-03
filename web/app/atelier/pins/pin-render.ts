@@ -20,6 +20,11 @@ const JP = "'Yu Gothic','Hiragino Sans','Meiryo',sans-serif"; // ラスタライ
 
 export type PinTemplate = "p1" | "p2" | "p3";
 
+/* 正方格子の n（ピンは square タスク専用・solid は PinsApp で除外済み）。 */
+function gn(p: Problem): number {
+  return p.grid.type === "square" ? p.grid.n : 0;
+}
+
 /* 本番メーカー URL（送客直行先・decisions §5.6/§5.8）。
    ドメイン確定後に差し替え。UTM はここに付与する。 */
 export const MAKER_URL = "https://tenzu.jp/maker";
@@ -95,7 +100,7 @@ function levelOf(vol: Vol): string { return LEVEL_NAMES[vol.lv - 1]; }
 
 /* ---- P1: 一問プレビュー（発見用の主力ピン） ---- */
 export function pinP1(task: ProductTask, vol: Vol, p: Problem): string {
-  const n = p.grid.n;
+  const n = gn(p);
   const S = 400, oxL = 70, oxR = 530, oy = 470;
   const cy = oy + S / 2;
   const head =
@@ -119,9 +124,10 @@ export function pinP2(task: ProductTask, vol: Vol, problems: Problem[]): string 
   let rows = "";
   problems.slice(0, 3).forEach((p, i) => {
     const oy = ys[i];
+    const pn = gn(p);
     rows +=
-      gridGroup(p.grid.n, p.edges, 90, oy, S) +
-      text(360, oy + S / 2 - 18, `${p.grid.n}×${p.grid.n}`, 44, INK, "start", 700) +
+      gridGroup(pn, p.edges, 90, oy, S) +
+      text(360, oy + S / 2 - 18, `${pn}×${pn}`, 44, INK, "start", 700) +
       text(360, oy + S / 2 + 34, metricsLabel(p.metrics, p.grid), 32, MUTED, "start");
   });
   return wrap(head + rows + footer());
@@ -137,7 +143,7 @@ export function pinP3(task: ProductTask, vol: Vol, problems: Problem[]): string 
   let cells = "";
   picks.forEach((p, i) => {
     const ox = xs[i % 3], oy = ys[Math.floor(i / 3)];
-    cells += gridGroup(p.grid.n, p.edges, ox, oy, S);
+    cells += gridGroup(gn(p), p.edges, ox, oy, S);
   });
   return wrap(head + cells + footer());
 }
@@ -169,7 +175,7 @@ export function pinCaption(
 ): string {
   const age = ageOf(vol);
   if (template === "p1" && p) {
-    return `${age}向けの点描写を1枚。${p.grid.n}×${p.grid.n}・${metricsLabel(p.metrics, p.grid)}。\n親が画面で作って、子どもは紙で解けます。おうちで無料・印刷してすぐ使えます。\n作り方はプロフィールのリンクから。`;
+    return `${age}向けの点描写を1枚。${gn(p)}×${gn(p)}・${metricsLabel(p.metrics, p.grid)}。\n親が画面で作って、子どもは紙で解けます。おうちで無料・印刷してすぐ使えます。\n作り方はプロフィールのリンクから。`;
   }
   if (template === "p2") {
     return `${task.name}は、${age}ごろから。今日の手ごたえに合わせて、やさしくも、むずかしくもできます。\n親が画面で作って、子どもは紙で解く点描写。無料で印刷できます。\nプロフィールのリンクから。`;

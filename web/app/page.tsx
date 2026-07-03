@@ -1,7 +1,6 @@
 import "./top-rich.css";
-import { Fragment } from "react";
 import SiteHeader from "./SiteHeader";
-import { GROUPS, volOf, LevelGraph, ArticlesSection, SiteFooter, TOTAL_KINDS } from "./catalog";
+import { ForceMapCards, ArticlesSection, SiteFooter, TOTAL_KINDS, TOTAL_VOL } from "./catalog";
 import { VISIBLE_MAKERS } from "./products/makers";
 
 const MAKER_KINDS = VISIBLE_MAKERS.length;
@@ -287,87 +286,20 @@ const VALUES = [
   { Fig: ValFigPaper, t: "家庭の印刷機に、合わせられる", d: "用紙は A4〜A3、たて・よこも自由。1 枚に入れる問題数も選べます。¥200 一律で、ご家庭のプリンター事情に合わせて印刷できます。" },
 ];
 
-/* ---- 9 種類を coverage 方式で圧縮（3 群タブ＋種類リスト＋代表デモ・純CSSタブ） ---- */
+/* ---- 品ぞろえ予告編（店頭の実体は /products に一本化・TOP は地図3カード＋CTA のみ） ---- */
 function CoverageSection() {
   return (
     <section className="tr-sec">
       <div className="wrap">
         <div className="tr-sec-head">
           <p className="tr-sec-kicker">品ぞろえ</p>
-          <h2>点描写を、3 つの力 × 5 段階で。</h2>
+          <h2>点描写を、3 つの力 × 5 レベルで。</h2>
         </div>
-
-        {/* パート①: 3 つの力（何を練習するか）＝ 3 群タブ */}
-        <div className="cov-part">
-          <h3 className="cov-part-title"><b>3 つの力</b><span>― 何を練習するか</span></h3>
-        <div className="cov-tabs">
-          {/* 純CSS タブ: radio の :checked でタブ着色＝隣接 + ／ パネル切替＝ ~（JS なし） */}
-          {GROUPS.map((g, i) => (
-            <Fragment key={g.label}>
-              <input type="radio" name="cov" id={`cov-${i}`} className="cov-radio" defaultChecked={i === 0} />
-              <label className="cov-tab" htmlFor={`cov-${i}`}>{g.label}</label>
-            </Fragment>
-          ))}
-
-          <div className="cov-panels">
-            {GROUPS.map((g, gi) => (
-              <div className="cov-panel" key={g.label}>
-                {/* タスク選択用 radio（パネル先頭・各群で独立 name）。
-                    :checked で同 index のラベル active ＋ 右デモ図を表示（純CSS・JSなし）。 */}
-                {g.tasks.map((t, ti) => (
-                  <input
-                    key={`r-${t.name}`}
-                    type="radio"
-                    name={`demo-${gi}`}
-                    id={`demo-${gi}-${ti}`}
-                    className="cov-taskradio"
-                    defaultChecked={ti === 0}
-                  />
-                ))}
-
-                <div className="cov-list">
-                  <p className="cov-list-label">ふくまれる種類（選ぶと右が変わります）</p>
-                  <div className="cov-tasklist">
-                    {g.tasks.map((t, ti) => (
-                      <label className="cov-task" htmlFor={`demo-${gi}-${ti}`} key={t.name}>
-                        <span className="cov-name">{t.name}</span>
-                        <span className="cov-vol">全 {volOf(t.lv)} 巻</span>
-                      </label>
-                    ))}
-                  </div>
-                  <p className="cov-sub">{g.sub}</p>
-                  <a className="cov-more" href="/products">{TOTAL_KINDS} 種類 × 5 段階を、すべて見る →</a>
-                </div>
-
-                <div className="cov-demo">
-                  {g.tasks.map((t) => {
-                    const Fig = t.Fig;
-                    return (
-                      <div className="cov-demo-fig" key={t.name}>
-                        <div className="cov-demo-card"><Fig /></div>
-                        <p className="cov-demo-cap">{t.name}</p>
-                        <a className="cov-demo-link" href={`/products/${t.slug}`}>
-                          「{t.name}」全 {volOf(t.lv)} 巻を見る →
-                        </a>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        </div>
-
-        {/* パート②: 5 段階（どこから始めるか）＝ レベル帯グラフ */}
-        <div className="cov-part">
-          <h3 className="cov-part-title"><b>5 段階</b><span>― どこから始めるか</span></h3>
-          <div className="tr-levelband">
-            <div className="lvgraph-wrap"><LevelGraph /></div>
-            <p className="tr-levelband-note">
-              年齢はめやすです。どのレベルも幅を広めにとっています。学年ではなく「いまの手ごたえ」で選んでください。
-            </p>
-          </div>
+        <ForceMapCards hrefBase="/products" goLabel="この力の棚へ →" />
+        <div className="tr-teaser-foot">
+          <a className="tr-btn-ghost" href="/products">
+            商品一覧（{TOTAL_KINDS} 種類 ・ 計 {TOTAL_VOL} 巻）へ →
+          </a>
         </div>
       </div>
     </section>

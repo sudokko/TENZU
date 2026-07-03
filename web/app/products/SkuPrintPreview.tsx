@@ -16,7 +16,8 @@ import {
   KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "./print";
-import { edgeKey, mirrorEdges, type EdgeT } from "./problems/schema";
+import { edgeKey, mirrorEdges, type EdgeT, type SolidEdge } from "./problems/schema";
+import { buildSolidPageSvg, svgToPng, loadLogo } from "../maker-solid/solid-print";
 
 const INK = "#3A424E";
 const AXIS_INK = "#9AA0AA"; // 軸線（鏡タスク・薄い点線）
@@ -43,17 +44,6 @@ function gapEdgesOf(pb: RenderProblem): EdgeT[] | null {
   if (!pb.answerEdges || pb.answerEdges.length === 0) return null;
   const rSet = new Set(pb.answerEdges.map(edgeKey));
   return pb.edges.filter((e) => !rSet.has(edgeKey(e)));
-}
-
-/* 鏡の軸線（ペイン内座標 0..pane）→ {x1,y1,x2,y2}。
-   v=縦中央／h=横中央／d1=左上→右下／d2=右上→左下 */
-function axisLineCoords(pane: number, axis: MirrorAxis) {
-  switch (axis) {
-    case "v":  return { x1: pane / 2, y1: 0, x2: pane / 2, y2: pane };
-    case "h":  return { x1: 0, y1: pane / 2, x2: pane, y2: pane / 2 };
-    case "d1": return { x1: 0, y1: 0, x2: pane, y2: pane };
-    case "d2": return { x1: pane, y1: 0, x2: 0, y2: pane };
-  }
 }
 
 /* ---- SKU slug から決定的にサンプル 12 問を生成（seeded LCG） ---- */
@@ -459,10 +449,11 @@ export async function downloadPdf(
   URL.revokeObjectURL(url);
 }
 
-/* ===================== 解答 PDF（鏡タスク・1問=1ページ・用紙MAX） =====================
-   F と mirror(F) を合成した「完成図」を、用紙余白いっぱいの大判 1 ペインで描く。
-   ヘッダ・もんだい/かくマス見出し・矢印なし。フッタはロゴ＋ {sku}・解答・P n/m のみ。
-   問題に mirrorAxis が無いものはスキップ（将来 fill/overlay の解答へ汎化する余地あり）。 */
+/* ===================== 解答 PDF（鏡タスク・1問=1ページ） =====================
+   maker-mirror と同じ2ペイン形式：みほんペイン（F）｜かくペイン（mirror(F)）を並べ、
+   ペイン間に鏡面の点線を引く。軸 v=横並び／h=上下並び（軸は印刷時の並びに対応する
+   代表値・decisions §3.59）。旧「F∪mirror(F) を1盤面合成」は全盤面 F では線が重なって
+   読めないため廃止。ヘッダ・フッタはロゴ＋ {sku}・ANSWER・P n/m のみ。 */
 export async function downloadAnswerPdf(
   sku: string, paperKey: PaperKey, problems: RenderProblem[],
 ) {
@@ -472,7 +463,7 @@ export async function downloadAnswerPdf(
   const font = await doc.embedFont(StandardFonts.Courier);
   const ink = rgb(0x77 / 255, 0x77 / 255, 0x77 / 255);
   const gray = rgb(0.6, 0.63, 0.67);
-  const axisColor = rgb(0x9a / 255, 0xa0 / 255, 0xaa / 255);
+  const planeColor = rgb(0x9a / 255, 0xa0 / 255, 0xaa / 255);
 
   let logo: Awaited<ReturnType<typeof doc.embedPng>> | null = null;
   try {
@@ -489,60 +480,76 @@ export async function downloadAnswerPdf(
   const margin = MARGIN_MM * MM2PT;
   const footerH = 12 * MM2PT;     // 下端フッター帯
   const headerH = 14 * MM2PT;     // 上端「解答」タイトル帯
-  const paneArea = Math.min(W - margin * 2, H - margin * 2 - footerH - headerH);
 
   targets.forEach((pb, pg) => {
     const page = doc.addPage([W, H]);
     const n = pb.n;
-    const pane = paneArea;
-    // ペインを中央配置
-    const px = (W - pane) / 2;
-    const pyTop = margin + headerH; // mm 上原点
+    const axis = pb.mirrorAxis!;
+    const stack = axis === "h";           // h=上下並び／v・その他=横並び
+    const usableW = W - margin * 2;
+    const usableH = H - margin * 2 - footerH - headerH;
+    // ペア（pane + gap + pane）が紙面に収まる最大ペイン
+    const gapRatio = KGAP;
+    const pane = stack
+      ? Math.min(usableW, usableH / (2 + gapRatio))
+      : Math.min(usableH, usableW / (2 + gapRatio));
+    const gap = pane * gapRatio;
+    const blockW = stack ? pane : pane * 2 + gap;
+    const blockH = stack ? pane * 2 + gap : pane;
+    const px = (W - blockW) / 2;
+    const pyTop = margin + headerH + (usableH - blockH) / 2;
     const Y = (yTop: number) => H - yTop; // PDF y 上向き
 
     const dot = (i: number) => pane * (0.1 + (0.8 * i) / Math.max(1, n - 1));
     const dotR = dotRadius(pane / MM2PT, DOT_SCALE.m) * MM2PT;
     const lw = edgeWidth(pane / MM2PT) * MM2PT;
 
-    // 格子点
-    for (let r = 0; r < n; r++) {
-      for (let c = 0; c < n; c++) {
-        page.drawCircle({ x: px + dot(c), y: Y(pyTop + dot(r)), size: dotR, color: ink });
+    // 1 ペイン描画（格子点＋辺）
+    const drawPane = (ox: number, oyTop: number, edges: EdgeT[]) => {
+      for (let r = 0; r < n; r++) {
+        for (let c = 0; c < n; c++) {
+          page.drawCircle({ x: ox + dot(c), y: Y(oyTop + dot(r)), size: dotR, color: ink });
+        }
       }
-    }
+      for (const e of edges) {
+        page.drawLine({
+          start: { x: ox + dot(e[0][0]), y: Y(oyTop + dot(e[0][1])) },
+          end:   { x: ox + dot(e[1][0]), y: Y(oyTop + dot(e[1][1])) },
+          thickness: lw, color: ink, lineCap: 1,
+        });
+      }
+    };
 
-    // 軸線（点線）— 中央
-    const ax = axisLineCoords(pane, pb.mirrorAxis!);
-    const axisDashStep = Math.max(0.6 * MM2PT, pane * 0.018);
-    const axisW = Math.max(0.25 * MM2PT, lw * 0.55);
-    {
-      const x1 = px + ax.x1, y1Top = pyTop + ax.y1, x2 = px + ax.x2, y2Top = pyTop + ax.y2;
+    const R = mirrorEdges(pb.edges, n, axis);
+    drawPane(px, pyTop, pb.edges);                                        // みほん＝F
+    drawPane(px + (stack ? 0 : pane + gap), pyTop + (stack ? pane + gap : 0), R); // 解答＝mirror(F)
+
+    // ペイン間の鏡面（点線）— maker と同じ見せ方
+    const planeDashStep = Math.max(0.6 * MM2PT, pane * 0.02);
+    const planeW = Math.max(0.25 * MM2PT, lw * 0.7);
+    const drawDashedPlane = (x1: number, y1Top: number, x2: number, y2Top: number) => {
       const dx = x2 - x1, dy = y2Top - y1Top, len = Math.hypot(dx, dy);
       const ux = dx / len, uy = dy / len;
       let t = 0;
       while (t < len) {
-        const t2 = Math.min(t + axisDashStep, len);
+        const t2 = Math.min(t + planeDashStep, len);
         page.drawLine({
           start: { x: x1 + ux * t, y: Y(y1Top + uy * t) },
           end:   { x: x1 + ux * t2, y: Y(y1Top + uy * t2) },
-          thickness: axisW, color: axisColor, lineCap: 1,
+          thickness: planeW, color: planeColor, lineCap: 1,
         });
-        t = t2 + axisDashStep * 0.65;
+        t = t2 + planeDashStep * 0.65;
       }
+    };
+    if (stack) {
+      const my = pyTop + pane + gap / 2;
+      drawDashedPlane(px - pane * 0.05, my, px + pane * 1.05, my);
+    } else {
+      const mx = px + pane + gap / 2;
+      drawDashedPlane(mx, pyTop - pane * 0.05, mx, pyTop + pane * 1.05);
     }
 
-    // F と mirror(F) を 1 ペインに重ね描き＝完成図
-    const R = mirrorEdges(pb.edges, n, pb.mirrorAxis!);
-    const allEdges = [...pb.edges, ...R];
-    for (const e of allEdges) {
-      page.drawLine({
-        start: { x: px + dot(e[0][0]), y: Y(pyTop + dot(e[0][1])) },
-        end:   { x: px + dot(e[1][0]), y: Y(pyTop + dot(e[1][1])) },
-        thickness: lw, color: ink, lineCap: 1,
-      });
-    }
-
-    // ヘッダタイトル「解答」（左上・欧文のみで日本語埋め込み回避→ロゴ画像で代替）
+    // ヘッダタイトル「解答」（欧文のみで日本語埋め込み回避）
     const headText = `ANSWER  ·  P ${pg + 1} / ${targets.length}`;
     page.drawText(headText, {
       x: margin, y: H - margin - 5,
@@ -578,8 +585,189 @@ export async function downloadAnswerPdf(
   URL.revokeObjectURL(url);
 }
 
-/* ===================== 本体 ===================== */
-export default function SkuPrintPreview({
+/* ===================== 立体（solid）プレビュー＋PDF =====================
+   矩形点格子・隠れ線（点線）は maker-solid の buildSolidPageSvg / svgToPng / loadLogo を
+   そのまま流用（描画 SSOT を一元化）。square 経路（PreviewPage/downloadPdf）には触れない。 */
+const SOLID_DOT_SCALE: Record<DotSize, number> = { s: 0.6, m: 1.0, l: 1.3 };
+
+export type SolidRenderProblem = { cols: number; rows: number; edges: SolidEdge[] };
+
+function SolidPrintPreview({
+  sku, problems, buySlot, purchased = false, meate,
+}: { sku: string; problems: SolidRenderProblem[]; buySlot?: React.ReactNode; purchased?: boolean; meate?: string }) {
+  // 立体は横長が自然（既定 A4 横・2 問/ページ）。
+  const [paperKey, setPaperKey] = useState<PaperKey>("A4-L");
+  const [perPage, setPerPage] = useState<LayoutPerPage>(2);
+  const [pair, setPair] = useState<PairLayout>("horizontal");
+  const [dotSize, setDotSize] = useState<DotSize>("m");
+  const [nameField, setNameField] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [foldOpen, setFoldOpen] = useState(purchased);
+
+  const paper = PAPER[paperKey];
+  const dotScale = SOLID_DOT_SCALE[dotSize];
+  const effPerPage = Math.min(perPage, paperMax(paperKey));
+  const pages = useMemo(() => {
+    const ps: SolidRenderProblem[][] = [];
+    for (let i = 0; i < problems.length; i += effPerPage) ps.push(problems.slice(i, i + effPerPage));
+    return ps.length ? ps : [[]];
+  }, [problems, effPerPage]);
+  const pageCount = pages.length;
+
+  const pageSvg = (page: SolidRenderProblem[], pageNo: number) =>
+    buildSolidPageSvg({
+      paper, problems: page, pageNo, pageCount, marginMm: MARGIN_MM,
+      problemsPerPage: effPerPage, pairLayout: pair, nameField, dotScale, logo: null,
+    });
+
+  const selectPaper = (k: PaperKey) => {
+    setPaperKey(k);
+    setPerPage((v) => (v > paperMax(k) ? paperMax(k) : v));
+  };
+
+  async function doDownload() {
+    setDownloading(true);
+    try {
+      const { jsPDF } = await import("jspdf");
+      const logo = await loadLogo();
+      const orientation = paper.landscape ? "landscape" : "portrait";
+      const format: [number, number] = [Math.min(paper.w, paper.h), Math.max(paper.w, paper.h)];
+      const doc = new jsPDF({ orientation, unit: "mm", format });
+      for (let pi = 0; pi < pages.length; pi++) {
+        if (pi > 0) doc.addPage(format, orientation);
+        const svg = buildSolidPageSvg({
+          paper, problems: pages[pi], pageNo: pi + 1, pageCount: pages.length,
+          marginMm: MARGIN_MM, problemsPerPage: effPerPage, pairLayout: pair, nameField, dotScale, logo,
+        });
+        const png = await svgToPng(svg, paper.w, paper.h);
+        doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
+      }
+      const d = new Date();
+      const p2 = (x: number) => String(x).padStart(2, "0");
+      const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
+      doc.save(`${sku}_${paperKey}_${stamp}.pdf`);
+    } finally {
+      setDownloading(false);
+    }
+  }
+
+  return (
+    <div className="spv">
+      <details className="spv-fold" open={foldOpen}
+        onToggle={(e) => setFoldOpen((e.currentTarget as HTMLDetailsElement).open)}>
+        <summary>
+          <span className="spv-fold-label">詳細設定<span className="spv-fold-chevron" aria-hidden="true" /></span>
+          <span className="spv-fold-current">
+            用紙: {paper.label} · 問数: {effPerPage}問/頁（{pageCount}枚） · 並び: {pair === "horizontal" ? "横" : "下"} · 点: {dotSize === "s" ? "小" : dotSize === "m" ? "中" : "大"} · 名前欄: {nameField ? "あり" : "なし"}
+          </span>
+        </summary>
+        <div className="spv-controls">
+          <div className="spv-group">
+            <p className="spv-label">用紙</p>
+            <div className="spv-chips">
+              {PAPER_KEYS.map((k) => (
+                <button key={k} type="button" className={`spv-chip${k === paperKey ? " is-sel" : ""}`}
+                  onClick={() => selectPaper(k)}>
+                  <span className="spv-chip-main">{PAPER[k].label}</span>
+                  <span className="spv-chip-sub">{PAPER[k].w}×{PAPER[k].h}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="spv-group">
+            <p className="spv-label">みほんと書き込み欄の並び</p>
+            <div className="spv-chips">
+              {([["horizontal", "横に並べる"], ["vertical", "下に並べる"]] as [PairLayout, string][]).map(([k, label]) => (
+                <button key={k} type="button" className={`spv-chip spv-chip--pair${k === pair ? " is-sel" : ""}`}
+                  onClick={() => setPair(k)}>
+                  <span className="spv-chip-ic"><PairChipIcon pair={k} /></span>
+                  <span className="spv-chip-main">{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="spv-group">
+            <p className="spv-label">1 ページの問題数（全 {problems.length} 問）</p>
+            <div className="spv-chips">
+              {COUNT_OPTIONS.filter((v) => v <= paperMax(paperKey)).map((v) => (
+                <button key={v} type="button" className={`spv-chip${v === perPage ? " is-sel" : ""}`}
+                  onClick={() => setPerPage(v)}>
+                  <span className="spv-chip-main">{v} 問</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="spv-group">
+            <p className="spv-label">点の大きさ</p>
+            <div className="spv-chips">
+              {(["s", "m", "l"] as const).map((k) => (
+                <button key={k} type="button" className={`spv-chip${k === dotSize ? " is-sel" : ""}`}
+                  onClick={() => setDotSize(k)}>
+                  <span className="spv-chip-main">{k === "s" ? "小" : k === "m" ? "中" : "大"}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="spv-group">
+            <p className="spv-label">名前・日付の記入欄</p>
+            <div className="spv-chips">
+              <button type="button" className={`spv-chip${!nameField ? " is-sel" : ""}`}
+                onClick={() => setNameField(false)}><span className="spv-chip-main">つけない</span></button>
+              <button type="button" className={`spv-chip${nameField ? " is-sel" : ""}`}
+                onClick={() => setNameField(true)}><span className="spv-chip-main">つける</span></button>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div className="spv-main">
+        <div className="spv-pages">
+          {pages.map((page, pi) => (
+            <div key={`${paperKey}-${pair}-${effPerPage}-${nameField}-${dotSize}-${pi}`}
+              className="spv-page" style={{ width: `${(Math.max(paper.w, paper.h) / 420) * 100 * (paper.w / Math.max(paper.w, paper.h))}%` }}
+              dangerouslySetInnerHTML={{ __html: pageSvg(page, pi + 1) }} />
+          ))}
+        </div>
+        {purchased ? (
+          <p className="spv-note">ご購入ありがとうございます。用紙・問題数・並びを選んで、下のボタンから PDF を保存してください。設定を変えて<b>何度でも</b>作り直せます。</p>
+        ) : meate ? (
+          <div className="spv-meate">
+            <span className="spv-meate-label">この巻のめあて</span>
+            <p className="spv-meate-text">{meate}</p>
+          </div>
+        ) : null}
+      </div>
+
+      {purchased && (
+        <button type="button" className="spv-download" disabled={downloading} onClick={doDownload}>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 3v12m0 0 4-4m-4 4-4-4" /><path d="M5 21h14" />
+          </svg>
+          {downloading ? "PDF を作成中…" : "PDF をダウンロード"}
+        </button>
+      )}
+
+      {buySlot && <div className="spv-buyslot">{buySlot}</div>}
+    </div>
+  );
+}
+
+/* ===================== 本体 =====================
+   立体（solid）は専用プレビュー SolidPrintPreview へ、square は SquarePrintPreview へ振り分ける
+   薄いディスパッチャ。フックの条件呼び出しを避けるため、分岐はここで完結させる。 */
+export default function SkuPrintPreview(props: {
+  sku: string; grid: string; problems?: RenderProblem[]; solidProblems?: SolidRenderProblem[];
+  buySlot?: React.ReactNode; purchased?: boolean; meate?: string;
+}) {
+  if (props.solidProblems) {
+    return <SolidPrintPreview sku={props.sku} problems={props.solidProblems}
+      buySlot={props.buySlot} purchased={props.purchased} meate={props.meate} />;
+  }
+  return <SquarePrintPreview {...props} />;
+}
+
+function SquarePrintPreview({
   sku, grid, problems: realProblems, buySlot, purchased = false, meate,
 }: { sku: string; grid: string; problems?: RenderProblem[]; buySlot?: React.ReactNode; purchased?: boolean; meate?: string }) {
   const n = useMemo(() => {

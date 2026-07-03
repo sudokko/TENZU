@@ -4,10 +4,10 @@
 import { NextRequest } from "next/server";
 import { devGuard, readCandidates, safeSku, writeCandidates } from "../io";
 import {
-  normalizeEdges, validateProblem,
-  type CandidateStatus, type EdgeT,
+  normalizeEdges, normalizeSolidEdges, validateProblem,
+  type CandidateStatus, type EdgeT, type SolidEdge,
 } from "../../../products/problems/schema";
-import { computeMetrics } from "../../../products/problems/gen/metrics";
+import { computeMetrics, computeSolidMetrics } from "../../../products/problems/gen/metrics";
 import { refreshMeta } from "../../../products/problems/gen/difficulty";
 
 export const dynamic = "force-dynamic";
@@ -32,6 +32,8 @@ export async function POST(req: NextRequest) {
     updates?: {
       id: string; status?: CandidateStatus; order?: number | null;
       edges?: EdgeT[]; motif?: string;
+      /* 立体(solid)の手直し。solidEdges を差し替える（grid は不変） */
+      solidEdges?: SolidEdge[];
       /* 欠け補完(fill)の R 手直し。answer.mode は変えず edges だけ差し替える */
       answerEdges?: EdgeT[];
       /* 難易度の人手 override（手動ティア付け）。number=固定 / null=自動へ戻す */
@@ -63,7 +65,17 @@ export async function POST(req: NextRequest) {
         else delete c.provenance.label;
       }
     }
-    if (u.edges) {
+    if (u.solidEdges && c.grid.type === "solid") {
+      // 立体の手直し: 正規化 → 検証 → metrics 再算出 → edited 印
+      const normalized = normalizeSolidEdges(u.solidEdges);
+      const errs = validateProblem({ ...c, edges: [], solidEdges: normalized });
+      if (errs.length > 0) {
+        return Response.json({ error: "編集が不正です", details: errs }, { status: 400 });
+      }
+      c.solidEdges = normalized;
+      c.metrics = computeSolidMetrics(normalized);
+      c.edited = true;
+    } else if (u.edges && c.grid.type === "square") {
       // 線の手直し: 正規化 → 検証 → metrics 再算出 → edited 印
       const normalized = normalizeEdges(u.edges);
       const errs = validateProblem({ ...c, edges: normalized });
@@ -74,6 +86,7 @@ export async function POST(req: NextRequest) {
       c.metrics = computeMetrics(normalized, c.grid.n);
       c.edited = true;
     }
+    const solidEdited = !!(u.solidEdges && c.grid.type === "solid");
     const answerEdited = !!(u.answerEdges && c.answer?.mode === "explicit");
     if (answerEdited) {
       // R の手直し: 正規化のみ（R は F の部分集合という制約は検品者が目視で担保）
@@ -91,8 +104,8 @@ export async function POST(req: NextRequest) {
         if (typeof u.manualNote === "string") c.difficulty.manualNote = u.manualNote;
       }
     }
-    // edges/解答を変えたら difficulty.auto と provenance を引き直す（manual は保全）
-    if (u.edges || answerEdited) refreshMeta(file.task, c);
+    // edges/解答/立体辺を変えたら difficulty.auto と provenance を引き直す（manual は保全）
+    if (u.edges || answerEdited || solidEdited) refreshMeta(file.task, c);
   }
   await writeCandidates(file);
   return Response.json({ ok: true });

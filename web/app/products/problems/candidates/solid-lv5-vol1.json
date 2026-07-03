@@ -1,0 +1,3998 @@
+{
+ "schemaVersion": 1,
+ "sku": "solid-lv5-vol1",
+ "task": "solid",
+ "candidates": [
+  {
+   "id": "solid-lv5-vol1-m01",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 6,
+    "non45": 4,
+    "diagonalAngleKinds": 5,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [],
+    "hiddenLines": 3
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 58,
+    "auto": 58,
+    "parts": {
+     "lines": 8,
+     "diag": 9,
+     "non45": 32,
+     "hidden": 9
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "四角錐"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 5
+  },
+  {
+   "id": "solid-lv5-vol1-m02",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 6,
+    "non45": 3,
+    "diagonalAngleKinds": 4,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [],
+    "hiddenLines": 3
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 50,
+    "auto": 50,
+    "parts": {
+     "lines": 8,
+     "diag": 9,
+     "non45": 24,
+     "hidden": 9
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "四角錐"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 1
+  },
+  {
+   "id": "solid-lv5-vol1-m03",
+   "grid": {
+    "type": "solid",
+    "cols": 10,
+    "rows": 10
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 6,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 8
+     },
+     "b": {
+      "c": 8,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 8,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 8,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 6,
+    "non45": 4,
+    "diagonalAngleKinds": 5,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [],
+    "hiddenLines": 3
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 58,
+    "auto": 58,
+    "parts": {
+     "lines": 8,
+     "diag": 9,
+     "non45": 32,
+     "hidden": 9
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "四角錐"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "solid-lv5-vol1-m04",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 10
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 3,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 8
+     },
+     "b": {
+      "c": 7,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 5,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 6
+     },
+     "b": {
+      "c": 9,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 5,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 8
+     },
+     "b": {
+      "c": 7,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 8
+     },
+     "b": {
+      "c": 9,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 24,
+    "diagonals": 8,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "hiddenLines": 6
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 54,
+    "auto": 54,
+    "parts": {
+     "lines": 24,
+     "diag": 12,
+     "non45": 0,
+     "hidden": 18
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "空洞・門"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 3
+  },
+  {
+   "id": "solid-lv5-vol1-m05",
+   "grid": {
+    "type": "solid",
+    "cols": 13,
+    "rows": 10
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 4,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 8
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 6
+     },
+     "b": {
+      "c": 11,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 11,
+      "r": 1
+     },
+     "b": {
+      "c": 11,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 11,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 8
+     },
+     "b": {
+      "c": 6,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 8
+     },
+     "b": {
+      "c": 8,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 8
+     },
+     "b": {
+      "c": 11,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 11,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 24,
+    "diagonals": 8,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "hiddenLines": 6
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 54,
+    "auto": 54,
+    "parts": {
+     "lines": 24,
+     "diag": 12,
+     "non45": 0,
+     "hidden": 18
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "空洞・門"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 4
+  },
+  {
+   "id": "solid-lv5-vol1-m06",
+   "grid": {
+    "type": "solid",
+    "cols": 13,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 4,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 7
+     },
+     "b": {
+      "c": 11,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 11,
+      "r": 1
+     },
+     "b": {
+      "c": 11,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 11,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 9
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 9
+     },
+     "b": {
+      "c": 8,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 9
+     },
+     "b": {
+      "c": 11,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 11,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 24,
+    "diagonals": 8,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "hiddenLines": 6
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 54,
+    "auto": 54,
+    "parts": {
+     "lines": 24,
+     "diag": 12,
+     "non45": 0,
+     "hidden": 18
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "空洞・門"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "solid-lv5-vol1-m07",
+   "grid": {
+    "type": "solid",
+    "cols": 13,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 6
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 6
+     },
+     "b": {
+      "c": 9,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 11,
+      "r": 4
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 4
+     },
+     "b": {
+      "c": 11,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 2
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 7
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 6
+     },
+     "b": {
+      "c": 11,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 6
+     },
+     "b": {
+      "c": 9,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 30,
+    "diagonals": 10,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 20,
+    "symmetry": [],
+    "hiddenLines": 8
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 69,
+    "auto": 69,
+    "parts": {
+     "lines": 30,
+     "diag": 15,
+     "non45": 0,
+     "hidden": 24
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "大階段"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 7
+  },
+  {
+   "id": "solid-lv5-vol1-m08",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 6
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 5,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 6
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 30,
+    "diagonals": 10,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 19,
+    "symmetry": [],
+    "hiddenLines": 8
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 69,
+    "auto": 69,
+    "parts": {
+     "lines": 30,
+     "diag": 15,
+     "non45": 0,
+     "hidden": 24
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "大階段"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "solid-lv5-vol1-m09",
+   "grid": {
+    "type": "solid",
+    "cols": 14,
+    "rows": 8
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 10,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 10,
+      "r": 5
+     },
+     "b": {
+      "c": 10,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 10,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 12,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 12,
+      "r": 3
+     },
+     "b": {
+      "c": 12,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 12,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 2
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 2
+     },
+     "b": {
+      "c": 9,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 10,
+      "r": 6
+     },
+     "b": {
+      "c": 12,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 10,
+      "r": 5
+     },
+     "b": {
+      "c": 12,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 4
+     },
+     "b": {
+      "c": 9,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 24,
+    "diagonals": 8,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "hiddenLines": 5
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 51,
+    "auto": 51,
+    "parts": {
+     "lines": 24,
+     "diag": 12,
+     "non45": 0,
+     "hidden": 15
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "大階段"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 2
+  },
+  {
+   "id": "solid-lv5-vol1-m10",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 12
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 10
+     },
+     "b": {
+      "c": 5,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 1,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 7,
+      "r": 8
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 8
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 10
+     },
+     "b": {
+      "c": 3,
+      "r": 8
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 10
+     },
+     "b": {
+      "c": 7,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 16,
+    "diagonals": 8,
+    "non45": 4,
+    "diagonalAngleKinds": 5,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [],
+    "hiddenLines": 4
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 72,
+    "auto": 72,
+    "parts": {
+     "lines": 16,
+     "diag": 12,
+     "non45": 32,
+     "hidden": 12
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "塔・家"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 8
+  },
+  {
+   "id": "solid-lv5-vol1-m11",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 12
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 10
+     },
+     "b": {
+      "c": 7,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 1,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 8
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 10
+     },
+     "b": {
+      "c": 3,
+      "r": 8
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 10
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 16,
+    "diagonals": 8,
+    "non45": 3,
+    "diagonalAngleKinds": 4,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [],
+    "hiddenLines": 4
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 64,
+    "auto": 64,
+    "parts": {
+     "lines": 16,
+     "diag": 12,
+     "non45": 24,
+     "hidden": 12
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "塔・家"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 6
+  },
+  {
+   "id": "solid-lv5-vol1-m12",
+   "grid": {
+    "type": "solid",
+    "cols": 10,
+    "rows": 14
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 12
+     },
+     "b": {
+      "c": 6,
+      "r": 12
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 8
+     },
+     "b": {
+      "c": 6,
+      "r": 12
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 6,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 1,
+      "r": 12
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 10
+     },
+     "b": {
+      "c": 8,
+      "r": 10
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 6
+     },
+     "b": {
+      "c": 8,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 8,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 10
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 12
+     },
+     "b": {
+      "c": 3,
+      "r": 10
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 12
+     },
+     "b": {
+      "c": 8,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 8
+     },
+     "b": {
+      "c": 8,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 8,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 16,
+    "diagonals": 8,
+    "non45": 4,
+    "diagonalAngleKinds": 5,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [],
+    "hiddenLines": 4
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 72,
+    "auto": 72,
+    "parts": {
+     "lines": 16,
+     "diag": 12,
+     "non45": 32,
+     "hidden": 12
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "塔・家"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 9
+  },
+  {
+   "id": "solid-lv5-vol1-m13",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 12
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 10
+     },
+     "b": {
+      "c": 7,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 8
+     },
+     "b": {
+      "c": 7,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 8
+     },
+     "b": {
+      "c": 7,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 1,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 6
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 6
+     },
+     "b": {
+      "c": 9,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 3,
+      "r": 8
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 10
+     },
+     "b": {
+      "c": 3,
+      "r": 8
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 10
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 8
+     },
+     "b": {
+      "c": 9,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 8
+     },
+     "b": {
+      "c": 6,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 22,
+    "diagonals": 9,
+    "non45": 2,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "hiddenLines": 7
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 72.5,
+    "auto": 72.5,
+    "parts": {
+     "lines": 22,
+     "diag": 13.5,
+     "non45": 16,
+     "hidden": 21
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "複合建築"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 10
+  },
+  {
+   "id": "solid-lv5-vol1-m14",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 13
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 11
+     },
+     "b": {
+      "c": 7,
+      "r": 11
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 11
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 1,
+      "r": 11
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 9
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 3,
+      "r": 9
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 11
+     },
+     "b": {
+      "c": 3,
+      "r": 9
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 11
+     },
+     "b": {
+      "c": 9,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 9
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 22,
+    "diagonals": 9,
+    "non45": 2,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "hiddenLines": 7
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 72.5,
+    "auto": 72.5,
+    "parts": {
+     "lines": 22,
+     "diag": 13.5,
+     "non45": 16,
+     "hidden": 21
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "複合建築"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 11
+  },
+  {
+   "id": "solid-lv5-vol1-m15",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 4,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 9
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 4,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 31,
+    "diagonals": 13,
+    "non45": 6,
+    "diagonalAngleKinds": 4,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "hiddenLines": 7
+   },
+   "difficulty": {
+    "task": "solid",
+    "value": 119.5,
+    "auto": 119.5,
+    "parts": {
+     "lines": 31,
+     "diag": 19.5,
+     "non45": 48,
+     "hidden": 21
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "複合建築"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 12
+  }
+ ],
+ "seedCursor": 0
+}

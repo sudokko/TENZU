@@ -5,13 +5,75 @@
    ＝数値の二重定義なし。出典: pack-design §0.2/§11.6/§12-22/§13.7。
    ========================================================================= */
 
-import { lvCounts, firstVol, taskBySlug, volHref, LEVEL_NAMES, LEVEL_AGES } from "./products/data";
+import { Fragment } from "react";
+import { lvCounts, LEVEL_NAMES, LEVEL_AGES } from "./products/data";
 import { isLaunchHidden } from "./products/capabilities";
 import { MAKER_FIG, FigSolid } from "./products/maker-figs";
 
 /* 設問サンプル図は maker-figs.tsx を SSOT として共用（メーカー一覧と完全同一の凡例）。
    solid のみメーカー非対応のため maker-figs 側の FigSolid を流用する。 */
 const TEAL = "#2C6E7F";
+const INK = "#1A1F2A";
+
+/* ===== 3つの力・ミニ図解（visual-identity §6 準拠: 直線＋round cap・格子 0.16・
+   teal は「到達後・完成形」の線のみ。アニメは landing.css .mfig-draw が担う） ===== */
+const MiniDots = ({ ox }: { ox: number }) => (
+  <g fill={INK} opacity={0.16}>
+    {[0, 1, 2].map((r) =>
+      [0, 1, 2].map((c) => <circle key={`${r}${c}`} cx={ox + c * 20} cy={10 + r * 20} r={1.7} />)
+    )}
+  </g>
+);
+const miniStroke = { fill: "none", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+const MiniArrow = () => (
+  <g stroke={INK} opacity={0.45} {...miniStroke}>
+    <path d="M60 30 H73" />
+    <path d="M69 26 L73 30 L69 34" />
+  </g>
+);
+
+/* 見て写す: 見本（ink）→ 隣の格子に写しとられた同じ形（teal＝到達後） */
+function MiniFigCopy() {
+  return (
+    <svg viewBox="0 0 134 60" role="img" aria-label="見本の形を、隣の点格子に写す図">
+      <MiniDots ox={12} /><MiniDots ox={82} />
+      <path d="M12 50 L12 10 L52 30 Z" stroke={INK} {...miniStroke} />
+      <MiniArrow />
+      <path className="mfig-draw" d="M82 50 L82 10 L122 30 Z" stroke={TEAL} {...miniStroke} pathLength={100} />
+    </svg>
+  );
+}
+
+/* かたちを動かす: 鏡の線（点線）ごしに、うつした形（teal＝到達後） */
+function MiniFigMove() {
+  return (
+    <svg viewBox="0 0 134 60" role="img" aria-label="鏡の線の反対側に、形をうつす図">
+      <MiniDots ox={12} /><MiniDots ox={82} />
+      <path d="M67 6 V54" stroke={INK} strokeWidth={1.5} strokeDasharray="4 4" opacity={0.35} strokeLinecap="round" fill="none" />
+      <path d="M32 10 L52 30 L32 50 Z" stroke={INK} {...miniStroke} />
+      <path className="mfig-draw" d="M102 10 L82 30 L102 50 Z" stroke={TEAL} {...miniStroke} pathLength={100} />
+    </svg>
+  );
+}
+
+/* 重ねる・分ける: 四角（ink）＋点線の三角＝重ねる相手 → 重ねた完成形（teal＝到達後）。
+   頂点はすべて格子点（x 12/32/52・y 10/30/50）に一致させる。 */
+function MiniFigOverlay() {
+  return (
+    <svg viewBox="0 0 134 60" role="img" aria-label="2つの形を重ねた姿を描く図">
+      <MiniDots ox={12} /><MiniDots ox={82} />
+      <path d="M12 10 H32 V30 H12 Z" stroke={INK} {...miniStroke} />
+      <path d="M12 50 L52 50 L32 10 Z" stroke={INK} {...miniStroke} strokeDasharray="4 4" opacity={0.5} />
+      <MiniArrow />
+      <g className="mfig-draw" stroke={TEAL} {...miniStroke}>
+        <path d="M82 10 H102 V30 H82 Z" pathLength={50} />
+        <path d="M82 50 L122 50 L102 10 Z" pathLength={50} />
+      </g>
+    </svg>
+  );
+}
+
+const FORCE_FIGS = [MiniFigCopy, MiniFigMove, MiniFigOverlay];
 
 /* slug = products/data.ts のタスク slug（突合キー・/products/{slug} へ配線）
    lv = Lv.1〜5 の各 Vol 数（0＝歯抜け）。data.ts の lvCounts() から導出（手書き禁止）
@@ -29,29 +91,29 @@ const ALL_GROUPS: Group[] = [
         slug: "copy", name: "模写", desc: "見本のとおりに、点をつないで写す。", lv: lvCounts("copy"), Fig: MAKER_FIG.copy,
         notes: [
           "3×3・まっすぐの線だけ",
-          "ななめ（45°）が登場。3×3〜4×4",
+          "ななめ（45°）が登場。3×3",
           "線が増えて交差も。4×4〜5×5",
-          "45°以外の角度へ。5×5〜6×6",
-          "最大7×7で総仕上げ",
+          "45°以外の角度へ。4×4〜5×5",
+          "6×6〜最大7×7で総仕上げ",
         ],
       },
       {
         slug: "solid", name: "模写（立体）", desc: "平面の点から、立体を起こして写す。", lv: lvCounts("solid"), Fig: FigSolid,
         notes: [
           "", "",
-          "立方体を組んだ形・少数ブロック",
-          "階段・テラス→三角柱・四角錐",
-          "橋・中庭・トンネルの抜け構造",
+          "はこ・L字・三角柱・階段（見える辺だけ）",
+          "段差・柱・家・門・小さな錐（隠れ辺すこし）",
+          "錐・空洞・大階段・塔・複合（隠れ辺フル）",
         ],
       },
       {
         slug: "fill", name: "欠け補完", desc: "足りない辺を補って、形を閉じる。", lv: lvCounts("fill"), Fig: MAKER_FIG.fill,
         notes: [
-          "3×3・足りない線を描き足す",
-          "ななめ線入りの欠け。3×3",
-          "4×4・欠け少なめ→多めで推測",
-          "5×5・広い盤面の欠け補完",
-          "6×6・最大盤面の欠け補完",
+          "",
+          "3×3・ななめ入り。欠け1〜2本",
+          "4×4・交差も登場。欠け2〜3本",
+          "5×5・いろいろな角度。欠け3〜4本",
+          "6×6・最大盤面。欠け4〜6本",
         ],
       },
     ],
@@ -64,10 +126,10 @@ const ALL_GROUPS: Group[] = [
         slug: "mirror", name: "鏡", desc: "鏡の反対側に映る形を描く。", lv: lvCounts("mirror"), Fig: MAKER_FIG.mirror,
         notes: [
           "",
-          "縦軸（左右の鏡うつし）。3×3",
-          "縦軸＋交差。4×4",
-          "横軸（上下反転）が登場",
-          "斜め軸（ななめの鏡）へ",
+          "3×3・やさしい形の鏡うつし",
+          "4×4・線が増えて交差も",
+          "5×5・広い盤面で対応づけ",
+          "6×6・最大盤面で総仕上げ",
         ],
       },
       {
@@ -154,13 +216,23 @@ export const GROUPS: Group[] = ALL_GROUPS.map((g) => ({
 
 export const LEVELS = LEVEL_NAMES;
 
+/* レベル別 can-do 一行（「選ぶための物差し」＝おすすめではなく到達内容の事実記述）。
+   Lv.1→5 順・LEVEL_NAMES/LEVEL_AGES と同順。 */
+export const LEVEL_CANDO = [
+  "たて・よこのまっすぐな線を、見て写せる",
+  "ななめの線も、見失わずにたどれる",
+  "線が交差しても、一本ずつほどいて追える",
+  "見慣れない傾きや、広い盤面にも対応できる",
+  "複雑な形を、全体の構造から読み解ける",
+];
+
 /* レベル＝発達段階インデックス。年齢はめやす（§12.7 基準尺）。 */
 const LEVEL_GRAPH = [
   { name: "発展編", from: 8, to: 10, label: LEVEL_AGES[4] },
   { name: "応用編", from: 6, to: 9, label: LEVEL_AGES[3] },
   { name: "基礎編", from: 5, to: 8, label: LEVEL_AGES[2] },
-  { name: "入門編", from: 4, to: 7, label: LEVEL_AGES[1] },
-  { name: "はじめの一歩", from: 4, to: 6, label: LEVEL_AGES[0] },
+  { name: "初級編", from: 4, to: 7, label: LEVEL_AGES[1] },
+  { name: "入門編", from: 4, to: 6, label: LEVEL_AGES[0] },
 ];
 const AGE_MIN = 4, AGE_MAX = 10, GX0 = 130, GX1 = 504, NAMEX = 118;
 const gxa = (a: number) => GX0 + ((a - AGE_MIN) / (AGE_MAX - AGE_MIN)) * (GX1 - GX0);
@@ -223,36 +295,47 @@ export const ARTICLES = [
   { title: "「図形が苦手」を、どう戻すか", note: "つまずき" },
 ];
 
-/* ===================== カタログ本体（帯グラフ＋3群×タスク＋shelf band） ===================== */
+/* ===================== 3つの力・地図カード（/products と TOP 予告編で共用） =====================
+   hrefBase 省略時＝同一ページ内アンカー（/products）。TOP からは hrefBase="/products" で棚へ飛ばす。 */
+export function ForceMapCards({ hrefBase = "", goLabel }: { hrefBase?: string; goLabel: string }) {
+  return (
+    <nav className="cat-map" aria-label="3つの力の一覧">
+      {GROUPS.map((g, gi) => {
+        const Fig = FORCE_FIGS[gi] ?? FORCE_FIGS[0];
+        return (
+          <a className="cat-map-card" href={`${hrefBase}#cat-g${gi + 1}`} key={g.label}>
+            <span className="cat-map-text">
+              <span className="cat-map-title">{g.label}</span>
+              <span className="cat-map-tasks">{g.tasks.map((t) => t.name).join("・")}</span>
+              <span className="cat-map-go">{goLabel}</span>
+            </span>
+            <span className="cat-map-fig" aria-hidden="true"><Fig /></span>
+          </a>
+        );
+      })}
+    </nav>
+  );
+}
+
+/* ===================== カタログ本体（3つの力の地図＋3群×タスク＋帯グラフ＋shelf band）
+   構成＝地図（どの力か）→ 棚（どの巻か・チップは #lv アンカーへ直行）→ レベルの見方（絞り込み軸）。
+   レベル別の内容解説はタスクページ（/products/{slug}）の Lv セクションが SSOT＝ここでは持たない。 ===================== */
 export function CatalogSection() {
   return (
     <section className="s">
       <div className="wrap">
-        {/* レベル 5 段階 × 対象年齢のめやす（帯グラフ） */}
-        <div className="level-guide">
-          <p className="level-guide-label">レベルは、ぜんぶで 5 段階。年齢はめやすです。</p>
-          <div className="lvgraph-wrap"><LevelGraph /></div>
-          <p className="level-guide-note">
-            どのレベルも年齢のはばを広めにとっています。学年ではなく「いまの手ごたえ」で選んでください。
-          </p>
-          <a className="level-guide-cta" href="/level-guide">
-            <span className="level-guide-cta-main">どこから始めるか迷ったら、<b>レベル選びガイド</b>へ。</span>
-            <span className="level-guide-cta-sub">5〜7 問の質問に答えると、はじめる位置の目安とおすすめの一冊が出ます →</span>
-          </a>
-        </div>
+        {/* 3つの力・地図（棚の目次。タップで下の群へ） */}
+        <ForceMapCards goLabel="↓ この力の棚へ" />
 
         <div className="catalog">
           {GROUPS.map((g, gi) => (
-            <div className="cat-group" key={g.label}>
+            <div className="cat-group" id={`cat-g${gi + 1}`} key={g.label}>
               <div className="cat-group-head">
-                <p className="cat-group-no">分類 {String(gi + 1).padStart(2, "0")} / 03</p>
                 <h3 className="cat-group-title">{g.label}</h3>
                 <p className="cat-group-sub">{g.sub}</p>
               </div>
               <div className="cat-rows">
-                {g.tasks.map((t) => {
-                  const firstIdx = t.lv.findIndex((v) => v > 0);
-                  return (
+                {g.tasks.map((t) => (
                   <div className="cat-row" key={t.name}>
                     <div className="cat-main">
                       <div className="cat-name-row">
@@ -264,56 +347,78 @@ export function CatalogSection() {
                       {/* 一覧で圧縮：チップは各レベルへの直接リンク（A 案・直接到達を維持） */}
                       <div className="cat-levels-block">
                         <p className="cat-levels-label">レベルを選ぶ</p>
+                        {/* 存在するレベルだけ表示（0巻は棚では見せず、全体マップ側で「—」表示） */}
                         <div className="cat-levels">
                           {LEVELS.map((lv, i) =>
                             t.lv[i] > 0 ? (
                               <a className="cat-level" href={`/products/${t.slug}#lv${i + 1}`} key={lv}>
                                 {lv}<span className="cat-level-vol">{t.lv[i]}巻</span>
                               </a>
-                            ) : (
-                              <span className="cat-level is-off" key={lv} aria-disabled="true">{lv}</span>
-                            )
+                            ) : null
                           )}
                         </div>
                       </div>
-
-                      {/* 詳細はあとで：トグルで各編の内容解説＋最初の1冊（チップとは独立・開閉だけを担う） */}
-                      <details className="cat-detail">
-                        <summary className="cat-detail-toggle">各編の内容を見る</summary>
-                        <ul className="lvlist-b cat-detail-body">
-                          {LEVELS.map((lv, i) =>
-                            t.lv[i] > 0 ? (
-                              <li className="lvrow-b" key={lv}>
-                                <span className="lvchip-b lvchip-b-static">
-                                  {lv}<span className="lvchip-b-vol">{t.lv[i]}巻</span>
-                                </span>
-                                <span className="lvnote-b">
-                                  {t.notes[i]}
-                                  {i === firstIdx && (() => {
-                                    const task = taskBySlug(t.slug);
-                                    const fv = task && firstVol(task);
-                                    return task && fv ? (
-                                      <a className="cat-firststar" href={volHref(task, fv)}> ★ 最初の1冊 →</a>
-                                    ) : (
-                                      <span className="cat-firststar"> ★ 最初の1冊</span>
-                                    );
-                                  })()}
-                                </span>
-                              </li>
-                            ) : null
-                          )}
-                        </ul>
-                      </details>
                     </div>
                     <div className="cat-fig">
                       <t.Fig />
                     </div>
                   </div>
-                  );
-                })}
+                ))}
               </div>
             </div>
           ))}
+        </div>
+
+        {/* レベルの見方（選ぶための物差し）: can-do 一行 × 5 段階＋ガイド CTA */}
+        <div className="level-guide">
+          <p className="level-guide-label">レベルは、ぜんぶで 5 段階。年齢はめやすです。</p>
+          <ul className="lv-cando">
+            {LEVELS.map((name, i) => (
+              <li className="lv-cando-row" key={name}>
+                <span className="lv-cando-name">Lv.{i + 1} {name}</span>
+                <span className="lv-cando-age">{LEVEL_AGES[i]}</span>
+                <span className="lv-cando-text">{LEVEL_CANDO[i]}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="level-guide-note">
+            どのレベルも年齢のはばを広めにとっています。学年ではなく「いまの手ごたえ」で選んでください。
+          </p>
+        </div>
+
+        {/* 全体マップ（俯瞰専用）: 種類 × レベルの巻数マトリクス。0巻はここでだけ「—」で構造を見せる */}
+        <div className="cat-matrix-block">
+          <p className="cat-matrix-label">全体マップ — 種類 × レベルの巻数</p>
+          <div className="cat-matrix-wrap">
+            <table className="cat-matrix">
+              <thead>
+                <tr>
+                  <th scope="col" aria-label="種類"></th>
+                  {LEVELS.map((_, i) => <th scope="col" key={i}>Lv.{i + 1}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {GROUPS.map((g) => (
+                  <Fragment key={g.label}>
+                    <tr className="cat-matrix-group"><th scope="rowgroup" colSpan={6}>{g.label}</th></tr>
+                    {g.tasks.map((t) => (
+                      <tr key={t.slug}>
+                        <th scope="row">{t.name}</th>
+                        {t.lv.map((n, i) =>
+                          n > 0 ? (
+                            <td key={i}><a href={`/products/${t.slug}#lv${i + 1}`}>{n}</a></td>
+                          ) : (
+                            <td className="is-none" key={i}>—</td>
+                          )
+                        )}
+                      </tr>
+                    ))}
+                  </Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="cat-matrix-note">数字は巻数。「—」は今はない組み合わせです。数字を押すと、その棚へ移動します。</p>
         </div>
 
         <div className="shelf-band">

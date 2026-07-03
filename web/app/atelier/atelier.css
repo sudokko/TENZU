@@ -103,6 +103,22 @@
 .atl-vm-hidden { border-top: 1px solid #e6e9ee; padding-top: 12px; margin-top: 8px; }
 .atl-vm-hidden h3 { font-size: 14px; margin: 0 0 8px; color: #6b7280; }
 
+/* ローンチ非公開タスク（拡大・縮小）— 公開分と視覚的に区分けする。データは温存。 */
+.atl-vm-launchhidden { border-top: 2px dashed #d6c08a; margin-top: 22px; padding-top: 14px; }
+.atl-vm-lh-title {
+  font-size: 14px; margin: 0 0 4px; color: #8a6d1f;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.atl-vm-lh-title::before {
+  content: "非公開"; font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  color: #8a6d1f; background: #fbf3dc; border: 1px solid #e8d9a6;
+  border-radius: 999px; padding: 2px 8px;
+}
+.atl-vm-launchhidden .atl-vm-task { opacity: 0.72; }
+.atl-vm-launchhidden code { font-size: 11px; background: #f3f4f6; border-radius: 3px; padding: 1px 4px; }
+/* 概要表の非公開グループ見出し */
+.atl-ovt-grp--hidden th { background: #fbf3dc; color: #8a6d1f; }
+
 /* この巻の基準（COPY_LADDER のゲートをタイトル直下にチップ表示） */
 .atl-spec {
   display: flex; flex-wrap: wrap; gap: 8px;

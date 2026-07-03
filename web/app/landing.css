@@ -252,10 +252,69 @@ header.site {
   margin: 16px 0 0;
 }
 
+/* ---- 3つの力・地図（棚の目次。/products 冒頭・下の群へアンカージャンプ） ---- */
+.cat-map {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 26px 0 8px;
+}
+@media (max-width: 720px) { .cat-map { grid-template-columns: 1fr; gap: 8px; } }
+.cat-map-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--line-thin);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-soft);
+  text-decoration: none;
+  transition: border-color var(--dur-fast) var(--ease-line),
+              background var(--dur-fast) var(--ease-line);
+}
+.cat-map-card:hover { border-color: var(--accent); background: var(--accent-mute, rgba(44,110,127,0.06)); }
+.cat-map-text { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.cat-map-fig { flex: 0 0 auto; }
+.cat-map-fig svg { display: block; width: 112px; height: auto; }
+@media (min-width: 721px) and (max-width: 1000px) { .cat-map-fig svg { width: 92px; } }
+
+/* ミニ図解の「到達後（teal）」線描アニメ: 1回だけ・pathLength=100 前提 */
+.mfig-draw, .mfig-draw path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: mfigDraw 1.0s var(--ease-line, ease-out) 0.4s forwards;
+}
+g.mfig-draw { stroke-dasharray: none; stroke-dashoffset: 0; animation: none; }
+@keyframes mfigDraw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .mfig-draw, .mfig-draw path { animation: none; stroke-dashoffset: 0; }
+}
+.cat-map-title {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.3;
+  color: var(--fg);
+}
+.cat-map-tasks {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--fg-2);
+}
+.cat-map-go {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-top: 2px;
+}
+
 /* 9 種類カタログ（設問サンプル図 × レベル名・全リンク） */
 .catalog { margin-top: 8px; }
 /* ---- 3 分類の見出し（強調） ---- */
-.cat-group { margin-top: 56px; }
+.cat-group { margin-top: 56px; scroll-margin-top: 84px; }
 .cat-group:first-child { margin-top: 24px; }
 .cat-group-head {
   padding: 22px 28px;
@@ -263,14 +322,6 @@ header.site {
   border-left: 3px solid var(--accent);
   border-radius: var(--radius-soft);
   margin-bottom: 8px;
-}
-.cat-group-no {
-  font-family: var(--font-tier3-mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 6px;
 }
 .cat-group-title {
   font-family: var(--font-tier1-klee);
@@ -365,72 +416,12 @@ header.site {
   margin-left: 6px;
   letter-spacing: 0;
 }
-/* 歯抜け（このタスクに存在しないレベル）: 非クリック・淡色 */
-.cat-level.is-off {
-  color: var(--fg-3);
-  border-style: dashed;
-  border-color: var(--line-thin);
-  opacity: 0.5;
-  cursor: default;
-  text-decoration: line-through;
-  text-decoration-color: var(--line-thin);
-}
-
-/* ==== レベル詳細アコーディオン（チップは上に据置／トグルで各編の内容を開く） ==== */
-.cat-detail { margin-top: 10px; }
-/* summary 自身がトグル（.cat-detail-toggle）。チップは summary の外＝従属させない */
-.cat-detail-toggle {
-  list-style: none;
-  cursor: pointer;
-  display: inline-block;
-  font-family: var(--font-tier3-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  border-bottom: 1px solid var(--line-thin);
-  padding-bottom: 1px;
-  transition: color var(--dur-fast) var(--ease-line), border-color var(--dur-fast) var(--ease-line);
-}
-.cat-detail-toggle::-webkit-details-marker { display: none; }
-.cat-detail-toggle::before { content: "＋ "; }
-.cat-detail[open] .cat-detail-toggle::before { content: "− "; }
-.cat-detail[open] .cat-detail-toggle { color: var(--fg-3); border-color: transparent; }
-.cat-detail-toggle:hover { color: var(--accent); border-color: var(--accent); }
-.cat-detail-body { margin-top: 12px; }
-.cat-firststar {
-  font-family: var(--font-tier3-mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-  margin-left: 6px;
-  white-space: nowrap;
-}
-a.cat-firststar { text-decoration: none; }
-a.cat-firststar:hover { text-decoration: underline; }
-
-/* ==== レベル詳細リスト（各レベル横に内容解説） ==== */
-.lvlist-b { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
-.lvrow-b { display: grid; grid-template-columns: 128px 1fr; gap: 14px; align-items: baseline; }
-@media (max-width: 420px) { .lvrow-b { grid-template-columns: 104px 1fr; gap: 10px; } }
-.lvchip-b {
-  font-family: var(--font-tier3-sans); font-size: 13px; text-align: center;
-  color: var(--accent); text-decoration: none;
-  border: 1px solid var(--line-thin); border-radius: var(--radius-soft);
-  padding: 6px 8px;
-  transition: border-color var(--dur-fast) var(--ease-line), background var(--dur-fast) var(--ease-line);
-}
-.lvchip-b:hover { border-color: var(--accent); background: var(--accent-mute); color: var(--accent-ink); }
-/* 本文左カラムは「ラベル」。実リンクは上のチップ一覧側にあるため、ここは非リンクの静的表示 */
-.lvchip-b-static { color: var(--fg-2); cursor: default; }
-.lvchip-b-vol { font-family: var(--font-tier3-mono); font-size: 10px; color: var(--fg-3); margin-left: 5px; }
-.lvnote-b { font-family: var(--font-tier2-pencil); font-size: 14px; line-height: 1.55; color: var(--fg-2); }
-
-/* ---- レベル 5 段階の簡単な解説（カタログ冒頭） ---- */
+/* ---- レベル 5 段階の簡単な解説（棚のあと・絞り込み軸の説明） ---- */
 .level-guide {
   border: 1px dashed var(--line-thin);
   border-radius: var(--radius-soft);
   padding: 16px 22px 18px;
-  margin-bottom: 8px;
+  margin: 48px 0 8px;
 }
 .level-guide-label {
   font-family: var(--font-tier1-klee);
@@ -439,12 +430,116 @@ a.cat-firststar:hover { text-decoration: underline; }
   color: var(--fg);
   margin: 0 0 6px;
 }
+/* can-do 一行 × 5 段階（帯グラフの代替＝選ぶための物差し） */
+.lv-cando { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; }
+.lv-cando-row {
+  display: grid;
+  grid-template-columns: 150px 68px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 9px 2px;
+  border-bottom: 1px dashed var(--line-thin);
+}
+.lv-cando-row:last-child { border-bottom: none; }
+@media (max-width: 560px) {
+  .lv-cando-row { grid-template-columns: 1fr auto; gap: 4px 12px; }
+  .lv-cando-text { grid-column: 1 / -1; }
+}
+.lv-cando-name {
+  font-family: var(--font-tier3-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+}
+.lv-cando-age {
+  font-family: var(--font-tier3-mono);
+  font-size: 12px;
+  color: var(--fg-3);
+  white-space: nowrap;
+}
+.lv-cando-text {
+  font-family: var(--font-tier2-pencil);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--fg-2);
+}
+
+/* 全体マップ（種類 × レベルの巻数マトリクス・俯瞰専用） */
+.cat-matrix-block { margin: 28px 0 8px; }
+.cat-matrix-label {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--fg);
+  margin: 0 0 10px;
+}
+.cat-matrix-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.cat-matrix {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 640px;
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+}
+.cat-matrix th, .cat-matrix td {
+  padding: 7px 10px;
+  text-align: center;
+  border-bottom: 1px dashed var(--line-thin);
+}
+@media (max-width: 480px) {
+  .cat-matrix th, .cat-matrix td { padding: 7px 4px; }
+  .cat-matrix tbody th[scope="row"] { font-size: 12px; }
+}
+.cat-matrix thead th {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+  font-weight: 400;
+}
+.cat-matrix tbody th[scope="row"] {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--fg);
+  text-align: left;
+  white-space: nowrap;
+}
+.cat-matrix-group th {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--accent-ink);
+  text-align: left;
+  padding-top: 14px;
+  border-bottom: 1px solid var(--line-thin);
+}
+.cat-matrix td a {
+  display: inline-block;
+  min-width: 26px;
+  padding: 2px 4px;
+  color: var(--accent);
+  text-decoration: none;
+  border-radius: var(--radius-soft);
+  transition: background var(--dur-fast) var(--ease-line);
+}
+.cat-matrix td a:hover { background: var(--accent-mute, rgba(44,110,127,0.06)); }
+.cat-matrix td.is-none { color: var(--fg-3); opacity: 0.45; }
+.cat-matrix-note {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--fg-3);
+  margin: 10px 0 0;
+}
+
 .lvgraph-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .lvgraph { display: block; width: 100%; height: auto; max-width: 560px; }
-.lvg-name { font-family: var(--font-tier3-sans); font-size: 17px; fill: var(--fg); }
-.lvg-age { font-family: var(--font-tier3-mono); font-size: 15px; fill: #FFFFFF; letter-spacing: 0.02em; }
-.lvg-tick { font-family: var(--font-tier3-mono); font-size: 18px; fill: var(--fg-3); }
-.lvg-axis { font-family: var(--font-tier3-mono); font-size: 12px; fill: var(--fg-3); letter-spacing: 0.04em; }
+/* SVG 内テキスト（viewBox 528 基準で縮小されるため、実表示より大きめに取る） */
+.lvg-name { font-family: var(--font-tier3-sans); font-size: 21px; fill: var(--fg); }
+.lvg-age { font-family: var(--font-tier3-mono); font-size: 17px; fill: #FFFFFF; letter-spacing: 0.02em; }
+.lvg-tick { font-family: var(--font-tier3-mono); font-size: 20px; fill: var(--fg-3); }
+.lvg-axis { font-family: var(--font-tier3-mono); font-size: 14px; fill: var(--fg-3); letter-spacing: 0.04em; }
 .level-guide-note {
   font-family: var(--font-tier2-pencil);
   font-size: 14px;

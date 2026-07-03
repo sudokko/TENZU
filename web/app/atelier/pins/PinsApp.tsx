@@ -62,7 +62,11 @@ function downloadBlob(blob: Blob, name: string) {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export default function PinsApp() {
-  const publishedSkus = useMemo(() => Object.keys(PUBLISHED), []);
+  // 立体（solid）は Pinterest テンプレ（正方格子前提）非対応のため一覧から除外。
+  const publishedSkus = useMemo(
+    () => Object.keys(PUBLISHED).filter((s) => PUBLISHED[s].task !== "solid"),
+    [],
+  );
   const [sku, setSku] = useState(publishedSkus[0] ?? "");
   const [template, setTemplate] = useState<PinTemplate>("p1");
   const [busy, setBusy] = useState(false);

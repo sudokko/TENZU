@@ -12,7 +12,7 @@ import type {
   CandidateFile, Difficulty, DifficultyParts, Problem, ProblemMetrics,
   Provenance, SkuProblemSet,
 } from "../schema";
-import { computeMetrics, mergedSegments } from "./metrics";
+import { computeMetrics, computeSolidMetrics, mergedSegments } from "./metrics";
 
 /* ---- 土台スコア（= 旧 copyDifficulty・2026-06-30 再校正）----
    D = 1.0·lines + 1.5·diagonals + 8·non45。盤面サイズは入れない
@@ -79,11 +79,16 @@ function scaleDifficulty(p: Problem): { value: number; parts: DifficultyParts } 
   return { value: lineLoad + angleLoad + shrinkLoad, parts: { lineLoad, angleLoad, shrinkLoad } };
 }
 
-/* 立体模写（3D 等角投影・iso 盤面が未実装）。今回は型と式の口だけ。
-   生成器実装時に blocks/hiddenFaces 主導へ差し替える。暫定は線分量を代理負荷にする。 */
+/* 立体模写（斜投影＝キャビネット図・矩形点格子）。平面の基礎式を土台に、
+   隠れ辺（点線）本数を最大ドライバーとして加算＝「見えない構造を推して写す」負荷。
+   D = lines + 1.5·diagonals + 8·non45 + 3·hiddenLines（= baseDifficulty + 3·隠れ辺）。 */
 function solidDifficulty(p: Problem): { value: number; parts: DifficultyParts } {
   const m = p.metrics;
-  return { value: m.lines + 2 * m.diagonals, parts: { lines: m.lines, diag: 2 * m.diagonals } };
+  const hidden = m.hiddenLines ?? 0;
+  return {
+    value: baseDifficulty(m) + 3 * hidden,
+    parts: { lines: m.lines, diag: 1.5 * m.diagonals, non45: 8 * m.non45, hidden: 3 * hidden },
+  };
 }
 
 /* 実効値の解決：人手 override があればそれ・無ければ機械算出。読み手はこれ一本でよい。 */
@@ -114,10 +119,13 @@ function provenanceFromGen(p: Problem): Provenance {
 
 export function migrateProblem(task: string, p: Problem): Problem {
   // 旧 metrics は non45 を持たない（=式が NaN になる）ため、欠けていれば edges から引き直す。
-  // computeMetrics は純粋・edges から決定的なので再計算しても値はぶれない。
+  // computeMetrics/computeSolidMetrics は純粋・辺から決定的なので再計算しても値はぶれない。
   const metrics =
     p.metrics && typeof p.metrics.non45 === "number"
-      ? p.metrics : computeMetrics(p.edges, p.grid.n);
+      ? p.metrics
+      : p.grid.type === "solid"
+        ? computeSolidMetrics(p.solidEdges ?? [])
+        : computeMetrics(p.edges, p.grid.n);
   const out: Problem = { ...p, metrics };
   if (!out.difficulty) {
     const d = taskDifficulty(task, out);
@@ -135,6 +143,8 @@ export function migrateSet(set: SkuProblemSet): SkuProblemSet {
    provenance を edited 状態に合わせて再導出する。candidates 編集 API が edges/解答を変えた後に呼ぶ。
    ＝「edges を直したのに難易度が古いまま」を防ぐ。 */
 export function refreshMeta(task: string, p: Problem): void {
+  // solid は辺（solidEdges）から metrics を引き直してから難易度を出す（edges 経路は呼び出し側が更新）。
+  if (p.grid.type === "solid") p.metrics = computeSolidMetrics(p.solidEdges ?? []);
   const d = taskDifficulty(task, p);
   const manual = p.difficulty?.manual;
   p.difficulty = {

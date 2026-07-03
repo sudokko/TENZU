@@ -9,7 +9,7 @@
 
 import SiteHeader from "../SiteHeader";
 import AddToCartButton from "../cart/AddToCartButton";
-import SkuPrintPreview, { type RenderProblem } from "./SkuPrintPreview";
+import SkuPrintPreview, { type RenderProblem, type SolidRenderProblem } from "./SkuPrintPreview";
 import { PURCHASE_FAQ } from "./purchase-faq";
 import { publishedSet } from "./problems/published";
 import { metricsLabel } from "./problems/schema";
@@ -32,12 +32,22 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
   const revisions = vol.revisions ?? [];
   const latest = revisions[0]
     ?? (problemSet ? { ver: "v1.0", date: problemSet.publishedAt, note: "初版" } : undefined);
-  const renderProblems: RenderProblem[] | undefined = problemSet?.problems.map((p) => ({
-    n: p.grid.n, edges: p.edges,
-    ...(p.answer?.mode === "explicit" && { answerEdges: p.answer.edges }),
-    ...(p.answer?.mode === "derived" && p.answer.transform.type === "mirror"
-      && { mirrorAxis: p.answer.transform.axis }),
-  }));
+  const isSolid = task.slug === "solid";
+  const renderProblems: RenderProblem[] | undefined = isSolid ? undefined
+    : problemSet?.problems.map((p) => ({
+      n: p.grid.type === "square" ? p.grid.n : 4, edges: p.edges,
+      ...(p.answer?.mode === "explicit" && { answerEdges: p.answer.edges }),
+      ...(p.answer?.mode === "derived" && p.answer.transform.type === "mirror"
+        && { mirrorAxis: p.answer.transform.axis }),
+    }));
+  const solidProblems: SolidRenderProblem[] | undefined = isSolid
+    ? problemSet?.problems
+        .filter((p) => p.grid.type === "solid")
+        .map((p) => {
+          const g = p.grid as { type: "solid"; cols: number; rows: number };
+          return { cols: g.cols, rows: g.rows, edges: p.solidEdges ?? [] };
+        })
+    : undefined;
 
   /* ラダー: タスクの存在 Lv ごとに 1 段（グリッドは Lv 内の巻から集約・各巻へのリンク付き） */
   const ladder = LEVELS.map((name, i) => {
@@ -103,6 +113,7 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
             </header>
 
             <SkuPrintPreview sku={vol.sku} grid={vol.grid} problems={renderProblems}
+              solidProblems={solidProblems}
               meate={vol.meate}
               buySlot={
             <div className="sku-buy">

@@ -2,27 +2,28 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, SCREEN_DOT,
+  PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "../products/print";
 import { PairChipIcon } from "../products/SkuPrintPreview";
 import {
   buildSolidPageSvg, svgToPng, loadLogo,
-  type SEdge, type SPoint, type LineStyle,
+  type LineStyle,
 } from "./solid-print";
+import { SolidPaperSVG, editorVB, type Point, type Edge } from "./SolidPaperSVG";
 import { ModeToggle } from "../maker/erase";
+import { useAuth } from "../AuthContext";
+import { ownsMaker } from "../products/capabilities";
+import { buyMaker } from "../maker/buyMaker";
 
 // =========================================================================
-// 立体模写メーカー（自由線エディタ・オーナー専用 / 本番未連携）
+// 立体模写メーカー（自由線エディタ・買い切り ¥980）
 // 模写メーカーの「点クリック→任意方向の線分」描画機構をフォークし、
 //   ① 横長の矩形点格子（cols×rows・点間隔は縦横で等しく＝セルは正方形）
 //   ② 実線＝見える辺 / 点線＝隠れ辺
 // を足したもの。AI 生成を捨て、四角すい・八角柱・切り欠き立方体などの
-// 立体作品を手描きするためのツール。課金ゲート・所有判定・商品配線はなし（全開放）。
+// 立体作品を手描きするためのツール。PDF 書き出しは所有ゲート（capabilities "solid"）。
 // =========================================================================
-type Point = SPoint;
-type Edge = SEdge;
-
 type SolidWork = {
   id: string;
   title: string;
@@ -32,26 +33,17 @@ type SolidWork = {
   selected: boolean;    // PDF に含めるか
 };
 
-const INK = "#3A424E";        // 線（見える辺・点線）はしっかり濃く
-const ACCENT = "#2C6E7F";     // 格子ドットは SCREEN_DOT（products/print.ts 共通 SSOT）
-// 横長の盤面。横（cols）と縦（rows）を別々に選ぶ。横・縦とも 8〜18。既定は横長の 16×12。
-const COLS_SIZES = [8, 10, 12, 14, 16, 18];
-const ROWS_SIZES = [8, 10, 12, 14, 16, 18];
-const DEFAULT_COLS = 16;
-const DEFAULT_ROWS = 12;
+// 横長の盤面。横（cols）と縦（rows）を別々に選ぶ。横・縦とも 7〜15 を 1 刻み。
+// 横は左右対称の立体を中心に置きやすいよう奇数推し（既定 7×7）。
+const COLS_SIZES = [7, 8, 9, 10, 11, 12, 13, 14, 15];
+const ROWS_SIZES = [7, 8, 9, 10, 11, 12, 13, 14, 15];
+const DEFAULT_COLS = 7;
+const DEFAULT_ROWS = 7;
 const STORE_KEY = "tenzu_solid_works";
-// 盤面 SVG（viewBox）の 1 セル幅と外周余白。点間隔は固定なので、cols/rows が増えると
-// viewBox が広がり画面上で自動的に縮む（点の見た目比率は一定）。
-const E_STEP = 12;
-const E_INSET = 14;
-function editorVB(cols: number, rows: number) {
-  return { vw: E_INSET * 2 + (cols - 1) * E_STEP, vh: E_INSET * 2 + (rows - 1) * E_STEP };
-}
 // 立体は格子が密なので、模写の点サイズ階調（DOT_SCALE 1/1.8/2.8）より一段小さい独自階調。
 // 小＝もう一周り小さい新サイズ・中＝既定（r=1.6）・大＝中よりほんのり大きい程度（開きすぎ回避）。
 const SOLID_DOT_SCALE: Record<DotSize, number> = { s: 0.6, m: 1.0, l: 1.3 };
 
-function pointKey(p: Point) { return `${p.c},${p.r}`; }
 function samePoint(a: Point | null, b: Point | null) {
   return !!a && !!b && a.c === b.c && a.r === b.r;
 }
@@ -67,99 +59,6 @@ function edgesEqual(a: Edge[], b: Edge[]) {
 function uid() { return `s_${Math.random().toString(36).slice(2, 9)}`; }
 
 // =========================================================================
-// 対話盤面 — cols×rows の点・辺（実線/点線）・選択点ハイライト・辺クリック反転
-// =========================================================================
-function SolidPaperSVG({
-  cols, rows, edges, selected, tool = "draw", onDotClick, onEdgeClick, showLines, interactive, dotScale = 1,
-}: {
-  cols: number;
-  rows: number;
-  edges: Edge[];
-  selected?: Point | null;
-  tool?: "draw" | "erase";
-  onDotClick?: (p: Point) => void;
-  onEdgeClick?: (i: number) => void;
-  showLines: boolean;
-  interactive?: boolean;
-  dotScale?: number;
-}) {
-  const erasing = tool === "erase";
-  const { vw, vh } = editorVB(cols, rows);
-  const step = E_STEP;
-  const pos = (c: number, r: number) => ({ x: E_INSET + c * step, y: E_INSET + r * step });
-  const hitR = Math.max(3, Math.min(9, step * 0.45));
-  // 点・選択点・ハイライト輪は模写メーカー（PaperSVG）と同じ基準（1.6·scale / 4 / 7）。
-  const dotR = Math.min(1.6 * dotScale, step * 0.42);
-  const selR = Math.min(4, step * 0.5);
-  const ringR = Math.min(7, step * 0.9);
-  const dash = `${(step * 0.55).toFixed(2)} ${(step * 0.4).toFixed(2)}`;
-  const points: Point[] = [];
-  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) points.push({ c, r });
-  // 消すモード＝常に辺クリック可（線の削除）。描くモード＝線分の途中でないときだけ（スタイル反転）。
-  const canEdgeClick = !!(interactive && onEdgeClick && (erasing || !selected));
-  // 描くモードのときだけ点で線を引く。消すモードでは点は触れない（クリックは線へ通す）。
-  const canDotClick = !!(interactive && onDotClick && !erasing);
-
-  return (
-    <svg
-      viewBox={`0 0 ${vw} ${vh}`}
-      preserveAspectRatio="xMidYMid meet"
-      role={interactive ? "application" : "img"}
-      aria-label="立体模写の盤面"
-    >
-      {/* 1. 格子ドット（薄灰）— 最下層。線が上に来るのでドットで線が途切れない。 */}
-      {points.map((p) => {
-        const ps = pos(p.c, p.r);
-        return <circle key={pointKey(p)} cx={ps.x} cy={ps.y} r={dotR} fill={SCREEN_DOT} />;
-      })}
-      {/* 2. 線（見える辺・点線）— ドットの上 */}
-      {showLines && edges.map((e, i) => {
-        const a = pos(e.a.c, e.a.r), b = pos(e.b.c, e.b.r);
-        return (
-          <line key={i}
-            x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-            stroke={INK} strokeWidth="1.6"
-            strokeLinecap="round" strokeLinejoin="round"
-            strokeDasharray={e.style === "dashed" ? dash : undefined}
-          />
-        );
-      })}
-      {/* 3. 選択中の点のハイライト — 線の上（操作の焦点を見せる） */}
-      {selected && (() => {
-        const ps = pos(selected.c, selected.r);
-        return (
-          <>
-            <circle cx={ps.x} cy={ps.y} r={ringR} fill={ACCENT} opacity={0.18} />
-            <circle cx={ps.x} cy={ps.y} r={selR} fill={ACCENT} />
-          </>
-        );
-      })()}
-      {/* 4. クリック判定（透明）— 最前面。辺クリック（消す/反転）＋点クリック（描く）。 */}
-      {canEdgeClick && edges.map((e, i) => {
-        const a = pos(e.a.c, e.a.r), b = pos(e.b.c, e.b.r);
-        return (
-          <line key={`hit${i}`}
-            className={erasing ? "erase-hit" : undefined}
-            x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-            stroke="transparent" strokeWidth={Math.max(erasing ? 6 : 4, step * (erasing ? 0.7 : 0.5))}
-            strokeLinecap="round"
-            style={{ cursor: "pointer" }}
-            onClick={() => onEdgeClick?.(i)}
-          />
-        );
-      })}
-      {canDotClick && points.map((p) => {
-        const ps = pos(p.c, p.r);
-        return (
-          <circle key={`dh${pointKey(p)}`} cx={ps.x} cy={ps.y} r={hitR} fill="transparent"
-            style={{ cursor: "pointer" }} onClick={() => onDotClick?.(p)} />
-        );
-      })}
-    </svg>
-  );
-}
-
-// =========================================================================
 // MakerSolidApp
 // =========================================================================
 export default function MakerSolidApp() {
@@ -167,6 +66,10 @@ export default function MakerSolidApp() {
     document.body.classList.add("maker-page", "maker-solid");
     return () => document.body.classList.remove("maker-page", "maker-solid");
   }, []);
+
+  // 所有判定（PDF 書き出しは買い切り ¥980 のゲート・他 9 メーカーと同じ）
+  const { owned, ready } = useAuth();
+  const isOwned = ownsMaker(owned, "solid");
 
   // ---- 作図中の状態 ----
   const [cols, setCols] = useState<number>(DEFAULT_COLS);
@@ -177,6 +80,8 @@ export default function MakerSolidApp() {
   const [oneStroke, setOneStroke] = useState(true);
   const [tool, setTool] = useState<"draw" | "erase">("draw"); // 描く / 消す（消しゴム）
   function changeTool(t: "draw" | "erase") { setTool(t); setSelected(null); }
+  // 線スタイルを切り替えたら作図中の選択点も解除（引きかけの線が別スタイルへ流れないように）
+  function changeDrawStyle(s: LineStyle) { setDrawStyle(s); setSelected(null); }
   const [editingId, setEditingId] = useState<string | null>(null);
   const isEditing = editingId != null;
 
@@ -318,9 +223,6 @@ export default function MakerSolidApp() {
     setEditingId(id); rerender();
   }
   function cancelEdit() { setEditingId(null); resetCanvas(); }
-  function renameWork(id: string, title: string) {
-    setWorks((s) => s.map((w) => (w.id === id ? { ...w, title } : w)));
-  }
   function toggleSelectWork(id: string) {
     setWorks((s) => s.map((w) => (w.id === id ? { ...w, selected: !w.selected } : w)));
   }
@@ -383,6 +285,7 @@ export default function MakerSolidApp() {
   const [doneMsg, setDoneMsg] = useState<string | null>(null);
   async function doExport() {
     if (selectedWorks.length === 0 || exporting) return;
+    if (ready && !isOwned) { buyMaker("solid").catch(() => {}); return; }
     setExporting(true); setDoneMsg(null);
     try {
       const { jsPDF } = await import("jspdf");
@@ -424,7 +327,7 @@ export default function MakerSolidApp() {
       <header className="maker-header">
         <div className="logo-cluster">
           <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
-          <div className="app-name">立体模写メーカー<span className="app-tag">試作・オーナー専用</span></div>
+          <div className="app-name">立体模写メーカー</div>
         </div>
         <div className="maker-auth">
           <a className="ma-link" href="/maker">模写メーカー</a>
@@ -459,9 +362,9 @@ export default function MakerSolidApp() {
               <span className="qb-label">線</span>
               <div className="seg qb-seg linestyle" role="group" aria-label="線のスタイル">
                 <button type="button" aria-pressed={drawStyle === "solid"} disabled={tool === "erase"}
-                  onClick={() => setDrawStyle("solid")}>実線</button>
+                  onClick={() => changeDrawStyle("solid")}>実線</button>
                 <button type="button" aria-pressed={drawStyle === "dashed"} disabled={tool === "erase"}
-                  onClick={() => setDrawStyle("dashed")}>点線</button>
+                  onClick={() => changeDrawStyle("dashed")}>点線</button>
               </div>
             </div>
             <div className="qb-group">
@@ -575,15 +478,12 @@ export default function MakerSolidApp() {
                   return (
                     <div className={`saved-cell${w.selected ? " sel" : ""}${beingEdited ? " editing" : ""}`} key={w.id}>
                       <button className="thumb" type="button" role="checkbox" aria-checked={w.selected}
-                        aria-label={`${w.title} を PDF に含める`} onClick={() => toggleSelectWork(w.id)}>
+                        aria-label={`作品 ${num} を PDF に含める`} onClick={() => toggleSelectWork(w.id)}>
                         <SolidPaperSVG cols={w.cols} rows={w.rows} edges={w.edges} showLines />
                       </button>
                       {w.selected && <span className="sel-mark" aria-hidden="true">✓</span>}
                       {beingEdited && <span className="edit-mark" aria-hidden="true">編集中</span>}
                       <span className="cnum">{num}</span>
-                      <input className="solid-title" type="text" value={w.title}
-                        aria-label={`作品 ${num} のなまえ`}
-                        onChange={(e) => renameWork(w.id, e.target.value)} />
                       <div className="cell-actions">
                         <button className="act-edit" type="button" aria-label={`作品 ${num} を編集`}
                           aria-pressed={beingEdited} onClick={() => startEdit(w.id)}>
@@ -718,7 +618,7 @@ export default function MakerSolidApp() {
 
           <div className="warning" data-system="warning" role="note">
             <strong>NOTE</strong>
-            これはオーナー専用の試作ツールです（本番未連携）。作品はこのブラウザにのみ保存されます。
+            作った作品はこのブラウザにのみ保存されます。PDF の書き出しは買い切り（¥980）で解放されます。
           </div>
         </aside>
       </div>

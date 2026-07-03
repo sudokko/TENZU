@@ -298,7 +298,7 @@ function FigTranslate() {
 }
 
 export const MAKER_FIG: Record<MakerKey, () => React.ReactElement> = {
-  copy: FigCopy, mirror: FigMirror, rotate: FigRotate, fill: FigFill,
+  copy: FigCopy, solid: FigSolid, mirror: FigMirror, rotate: FigRotate, fill: FigFill,
   overlay: FigOverlay, fold: FigFold, decompose: FigDecompose,
   scale: FigScale, shrink: FigShrink, translate: FigTranslate,
 };

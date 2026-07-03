@@ -6,6 +6,7 @@
 import { Fragment } from "react";
 import { notFound } from "next/navigation";
 import { PRODUCT_TASKS, LEVEL_NAMES, LEVEL_AGES } from "../products/data";
+import { isLaunchHidden } from "../products/capabilities";
 import { generatorFor } from "../products/problems/gen";
 import { PUBLISHED } from "../products/problems/published";
 import { readCatalogExtra } from "../api/atelier/io";
@@ -41,12 +42,31 @@ export default async function AtelierIndex() {
     return `${vols.length}巻 · ${grids.join(" / ")}`;
   };
   const overview = PRODUCT_TASKS.map((task) => ({
+    slug: task.slug,
     name: task.name,
     groupIdx: task.groupIdx,
     auto: Boolean(generatorFor(task.vols[0]?.sku ?? "")),
     total: task.vols.length,
     byLv: [1, 2, 3, 4, 5].map((lv) => ovCell(task.vols.filter((v) => v.lv === lv))),
   }));
+
+  // 今回のローンチから外したタスク（LAUNCH_HIDDEN＝拡大・縮小）を公開分と区分けする。
+  // データは温存し、atelier では末尾に「ローンチ非公開」として別建てで並べる。
+  const hiddenOverview = overview.filter((o) => isLaunchHidden(o.slug));
+  const publicTasks = tasks.filter((t) => !isLaunchHidden(t.slug));
+  const launchHiddenTasks = tasks.filter((t) => isLaunchHidden(t.slug));
+
+  // 概要表の 1 行（公開群・非公開群で共用）。
+  const ovRow = (o: (typeof overview)[number]) => (
+    <tr key={o.name}>
+      <td className="atl-ovt-name">{o.name}</td>
+      {o.byLv.map((c, i) => (
+        <td key={i} className={c === "—" ? "atl-ovt-empty" : undefined}>{c}</td>
+      ))}
+      <td className="atl-ovt-total">{o.total}</td>
+      <td>{o.auto ? <em className="atl-badge atl-badge--gen">自動</em> : <em className="atl-badge">手設計</em>}</td>
+    </tr>
+  );
 
   return (
     <main className="atl-wrap">
@@ -80,24 +100,25 @@ export default async function AtelierIndex() {
               {[0, 1, 2].map((gi) => (
                 <Fragment key={gi}>
                   <tr className="atl-ovt-grp"><th colSpan={8}>{GROUP_LABELS[gi]}</th></tr>
-                  {overview.filter((o) => o.groupIdx === gi).map((o) => (
-                    <tr key={o.name}>
-                      <td className="atl-ovt-name">{o.name}</td>
-                      {o.byLv.map((c, i) => (
-                        <td key={i} className={c === "—" ? "atl-ovt-empty" : undefined}>{c}</td>
-                      ))}
-                      <td className="atl-ovt-total">{o.total}</td>
-                      <td>{o.auto ? <em className="atl-badge atl-badge--gen">自動</em> : <em className="atl-badge">手設計</em>}</td>
-                    </tr>
-                  ))}
+                  {overview
+                    .filter((o) => o.groupIdx === gi && !isLaunchHidden(o.slug))
+                    .map((o) => ovRow(o))}
                 </Fragment>
               ))}
+              {hiddenOverview.length > 0 && (
+                <Fragment>
+                  <tr className="atl-ovt-grp atl-ovt-grp--hidden">
+                    <th colSpan={8}>ローンチ非公開（データ温存・再投入可）</th>
+                  </tr>
+                  {hiddenOverview.map((o) => ovRow(o))}
+                </Fragment>
+              )}
             </tbody>
           </table>
         </div>
       </section>
 
-      <VolManager tasks={tasks} hidden={hidden} />
+      <VolManager tasks={publicTasks} launchHiddenTasks={launchHiddenTasks} hidden={hidden} />
     </main>
   );
 }

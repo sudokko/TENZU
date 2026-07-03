@@ -1,7 +1,7 @@
 /* =========================================================================
    /products/[slug] ディスパッチャ
    - slug がタスク（copy/mirror/…）→ タスク別一覧（TaskListPage）
-   - slug が live SKU（copy-lv2-vol2 等）→ 商品詳細（SkuDetailPage）
+   - slug が live SKU（copy-lv3-vol1 等）→ 商品詳細（SkuDetailPage）
    - 旧グリッド表記 slug（copy-lv2-4x4）→ 正本 SKU へリダイレクト
    scaffold SKU は params に含めない＝404（商品ページなし）。
    ========================================================================= */

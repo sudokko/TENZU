@@ -671,8 +671,121 @@ a.lv-link:hover { text-decoration: underline; }
    plp- : タスク別一覧ページ（TaskListPage）＋ /products ハブ
    ========================================================================= */
 
-/* hub head */
+/* hub head（見出しは1行・plp-desc と同じ見た目の静かなリード） */
 .plp-hub-head { padding: 36px 0 0; }
+.plp-hub-lead {
+  font-family: var(--font-tier2-pencil);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--fg);
+  margin: 0;
+}
+
+/* ==== 一覧リスト（標準 /products）: 一行リード → 帯グラフ → 3群×タスク行 ==== */
+/* 帯グラフ枠は landing.css .level-guide を共用し、位置だけ hero 直下用に上書き */
+.plpc-levelband { margin: 26px 0 0; }
+
+.plpc-list { margin-top: 12px; }
+/* 群パネル（案A: bg-2 の面で 3 つの力を区切る） */
+.plpc-group {
+  scroll-margin-top: 84px;
+  background: var(--bg-2);
+  border-radius: var(--radius-soft);
+  padding: 2px 14px 6px;
+  margin-top: 22px;
+}
+/* 力スタンプ見出し（漢字一字 × teal・ずらし影） */
+.plpc-force-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 4px 13px;
+}
+.plpc-stamp {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-soft);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 27px;
+  box-shadow: 3px 3px 0 var(--accent-mute);
+}
+.plpc-force-title {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.3;
+  color: var(--fg);
+  margin: 0;
+}
+.plpc-force-sub {
+  font-family: var(--font-tier2-pencil);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--fg-3);
+  margin: 3px 0 0;
+}
+/* タスク行＝白カード（図版は右・チップは下段全幅） */
+.plpc-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 14px;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 13px 14px;
+  margin-bottom: 10px;
+}
+.plpc-row:last-child { margin-bottom: 14px; }
+.plpc-row-main { min-width: 0; }
+.plpc-fig { justify-self: end; }
+.plpc-fig svg { display: block; height: 34px; width: auto; }
+.plpc-name {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--fg);
+  margin: 0;
+}
+.plpc-desc {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--fg-2);
+  margin: 2px 0 0;
+}
+.plpc-lvs { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.plpc-lv {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 5px 10px;
+  white-space: nowrap;
+  transition: border-color var(--dur-fast) var(--ease-line),
+              background var(--dur-fast) var(--ease-line);
+}
+a.plpc-lv:hover { border-color: var(--accent); background: var(--accent-mute, rgba(44,110,127,0.06)); }
+/* 存在しないレベル＝非クリック・淡色（構造は見せるが誘導しない） */
+.plpc-lv.is-off {
+  color: var(--fg-3);
+  border-style: dashed;
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* 棚の下のガイド導線（.level-guide-cta を単独使用・余白のみ上書き） */
+.plpc-guide-cta { margin: 26px 0 56px; }
 
 /* task head */
 .plp-head {
@@ -721,6 +834,30 @@ a.lv-link:hover { text-decoration: underline; }
   color: var(--fg-2);
   margin: 0;
 }
+
+/* レベルジャンプ（タスクヘッド直下・#lv{n} アンカーへ） */
+.plp-lvnav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.plp-lvnav-chip {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 7px 14px;
+  transition: border-color var(--dur-fast) var(--ease-line),
+              background var(--dur-fast) var(--ease-line);
+}
+.plp-lvnav-chip:hover { border-color: var(--accent); background: var(--accent-mute, rgba(44,110,127,0.06)); }
+.plp-lvnav-vol {
+  font-family: var(--font-tier3-mono);
+  font-size: 10px;
+  color: var(--fg-3);
+  margin-left: 6px;
+}
+/* チップ着地時にヘッダー分の余白を確保 */
+section.s[id^="lv"] { scroll-margin-top: 84px; }
 
 /* Lv セクション内の Vol カード */
 .plp-cards {

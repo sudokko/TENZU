@@ -6,12 +6,20 @@ import { NextRequest } from "next/server";
 import { devGuard, readCandidates, safeSku, writeCandidates } from "../../io";
 import { volBySku } from "../../../../products/data";
 import {
-  normalizeEdges, validateProblem, TASK_ANSWER_MODE,
-  type CandidateFile, type EdgeT, type GridSpec, type Problem,
+  normalizeEdges, normalizeSolidEdges, validateProblem, TASK_ANSWER_MODE,
+  type CandidateFile, type EdgeT, type GridSpec, type Problem, type SolidEdge,
 } from "../../../../products/problems/schema";
-import { computeMetrics } from "../../../../products/problems/gen/metrics";
+import { computeMetrics, computeSolidMetrics } from "../../../../products/problems/gen/metrics";
 import { migrateProblem } from "../../../../products/problems/gen/difficulty";
-import { MIRROR_LADDER } from "../../../../products/problems/gen/ladder";
+
+/* 既存候補から手作り採番 m{連番} の次番号を返す（s{seed}-NN と衝突しない） */
+function nextManualId(file: CandidateFile, sku: string): string {
+  const maxM = file.candidates.reduce((mx, c) => {
+    const k = parseInt(c.id.match(/-m(\d+)$/)?.[1] ?? "0", 10);
+    return Math.max(mx, k);
+  }, 0);
+  return `${sku}-m${String(maxM + 1).padStart(2, "0")}`;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -30,12 +38,46 @@ export async function POST(req: NextRequest) {
   const body = await req.json() as {
     sku?: string; edges?: EdgeT[]; answerEdges?: EdgeT[]; title?: string;
     inputB?: EdgeT[];   // 2図目（fold の問題2 等）
+    cols?: number; rows?: number; solidEdges?: SolidEdge[];   // 立体（solid）専用
   };
   const sku = safeSku(body.sku);
   if (!sku) return Response.json({ error: "bad sku" }, { status: 400 });
 
   const hit = volBySku(sku);
   if (!hit) return Response.json({ error: `未知の sku: ${sku}` }, { status: 400 });
+
+  const task = sku.split("-")[0];
+
+  /* ---- 立体（solid）: cols×rows の矩形点格子＋隠れ線付き solidEdges で作問 ---- */
+  if (task === "solid") {
+    const cols = Number(body.cols), rows = Number(body.rows);
+    if (![cols, rows].every((x) => Number.isInteger(x) && x >= 3 && x <= 20)) {
+      return Response.json({ error: "盤面サイズが不正です（3〜20）" }, { status: 400 });
+    }
+    const solidEdges = normalizeSolidEdges(body.solidEdges ?? []);
+    if (solidEdges.length === 0) return Response.json({ error: "線が空です" }, { status: 400 });
+    const today = new Date().toISOString().slice(0, 10);
+    const base: Problem = {
+      id: "__pending__",
+      grid: { type: "solid", cols, rows },
+      edges: [],
+      solidEdges,
+      metrics: computeSolidMetrics(solidEdges),
+      provenance: { source: "blank", createdAt: today, ...(body.title?.trim() ? { label: body.title.trim() } : {}) },
+      gen: { kind: "manual" },
+    };
+    const problem = migrateProblem(task, base);
+    const errs = validateProblem(problem);
+    if (errs.length > 0) return Response.json({ error: "問題が不正です", details: errs }, { status: 400 });
+    const file: CandidateFile = (await readCandidates(sku)) ?? {
+      schemaVersion: 1, sku, task, candidates: [], seedCursor: 0,
+    };
+    problem.id = nextManualId(file, sku);
+    file.candidates.push({ ...problem, status: "pending" });
+    await writeCandidates(file);
+    return Response.json({ ok: true, id: problem.id, total: file.candidates.length });
+  }
+
   const n = squareGridN(hit.vol.grid);
   if (!n) {
     return Response.json({ error: `この巻は正方盤面でないため白紙作成に未対応です（${hit.vol.grid}）` }, { status: 400 });
@@ -44,7 +86,6 @@ export async function POST(req: NextRequest) {
   const edges = normalizeEdges(body.edges ?? []);
   if (edges.length === 0) return Response.json({ error: "線が空です" }, { status: 400 });
 
-  const task = sku.split("-")[0];
   const mode = TASK_ANSWER_MODE[task] ?? "none";
 
   /* answer 組み立て（解答モード別） */
@@ -54,11 +95,11 @@ export async function POST(req: NextRequest) {
     if (r.length === 0) return Response.json({ error: "抜く線（解答）が空です" }, { status: 400 });
     answer = { mode: "explicit", edges: r };
   } else if (mode === "derived") {
-    const axis = MIRROR_LADDER[sku]?.axis;
-    if (task !== "mirror" || !axis) {
+    if (task !== "mirror") {
       return Response.json({ error: `${task} の白紙作成は未対応です（AI 生成を使ってください）` }, { status: 400 });
     }
-    answer = { mode: "derived", transform: { type: "mirror", axis } };
+    // 鏡は軸レス（軸＝印刷時の並び選択・decisions §3.59）。代表値 v を焼く
+    answer = { mode: "derived", transform: { type: "mirror", axis: "v" } };
   }
 
   const inputB = body.inputB ? normalizeEdges(body.inputB) : undefined;

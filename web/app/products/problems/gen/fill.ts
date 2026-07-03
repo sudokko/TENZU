@@ -1,25 +1,31 @@
 /* =========================================================================
-   欠け補完ジェネレータ（seed 決定的）
-   完全な図形 F（＝みほん）を copy 流のランダムウォークで作り、その「見た目の
+   欠け補完ジェネレータ（seed 決定的・v2＝ライブラリ方式）
+   完全な図形 F（＝みほん）を copy と同じ検証済み変種プール（静的ライブラリ＋
+   対称構築/Truchet/ランダム系エンジン・allVariants）から引き、その「見た目の
    線分」から 1〜missing 本を抜いて欠け図 G＝F∖R を作る。子は左の F を見ながら
    右の G に足りない線（R）を描き足す。
      - edges  … F（完全な図形・みほん／出題図）。metrics も F で算出
      - answer … { explicit, edges: R }＝抜いた線分（子が描き足す＝解答）
      - G（右ペインの欠け図）は描画時に F∖R で導出する
    公平性ルール: 抜いた線分の両端点は G 側に必ず残す（＝つなぐべき 2 点が見えて
-   いる）。これで Lv1 でも「どこが足りないか」が自明になる。
+   いる）。これで入門でも「どこが足りないか」が自明になる。
+   v1（copy 流ランダムウォーク）は開いた形・破片・非45°の乱線が出て検品に耐えず
+   撤去（2026-07-01）。欠け補完は「残りから完成形が推定できる」ことが本質なので、
+   F は閉じて整ったキュレート済み図形であることが copy 以上に効く。
    FILL_LADDER のパラメータ内で count 問生成。同 (sku, seed) なら同じ候補列。
    ========================================================================= */
 
-import type { EdgeT, Problem, Pt } from "../schema";
+import type { EdgeT, Problem } from "../schema";
 import { difficultyScore, edgeKey, normalizeEdges, splitAtLattice } from "../schema";
 import { computeMetrics, mergedSegments } from "./metrics";
-import { bboxOk, hasNon45, jaccard, paramsOk } from "./filters";
-import type { CopyParams, SlopeRule } from "./ladder";
+import { closedLoops, danglingCount, jaccard, paramsOk } from "./filters";
+import { publishedCopySignatures, shapeSignature } from "./dedupe";
+import { allVariants, type ShapeVariant } from "./copy";
+import type { CopyParams } from "./ladder";
 import { FILL_LADDER } from "./ladder";
-import { pick, randInt, seededRng, type Rng } from "./rng";
+import { randInt, seededRng, type Rng } from "./rng";
 
-export const FILL_GENERATOR_VERSION = "1";
+export const FILL_GENERATOR_VERSION = "2"; // 2＝ライブラリ方式（1＝旧ランダムウォーク・撤去）
 
 /* CopyParams（＝F の生成仕様）＋ missing（抜く線分の本数レンジ）。
    lines は「完成図 F の見た目の線分数」。missing は「そこから抜く本数」。 */
@@ -29,77 +35,43 @@ export type FillParams = CopyParams & { missing: [number, number] };
    （SSOT・atelier から編集/Vol追加）。読み取りは gen/ladder.ts 経由。ここでは再 export する。 */
 export { FILL_LADDER };
 
-const pkey = (p: Pt) => `${p[0]},${p[1]}`;
+const pkey = (p: [number, number]) => `${p[0]},${p[1]}`;
 
-/* ---- F（完全な図形）の生成: copy のランダムウォークを縮約再掲 ---- */
-function moves(slopes: SlopeRule, rnd: Rng): Pt[] {
-  const base: Pt[] = [[1, 0], [-1, 0], [0, 1], [0, -1]];
-  const d45: Pt[] = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
-  const knight: Pt[] = [[1, 2], [2, 1], [-1, 2], [-2, 1], [1, -2], [2, -1], [-1, -2], [-2, -1]];
-  let out = slopes === "ortho" ? base : [...base, ...d45];
-  if (slopes === "any") out = [...out, ...knight];
-  if (rnd() < 0.25) {
-    const longs: Pt[] = (slopes === "ortho" ? base : [...base, ...d45])
-      .map(([c, r]) => [c * 2, r * 2] as Pt);
-    out = [...out, ...longs];
+/* ---- F（完全な図形）の供給: copy と同じ検証済み変種プール ----
+   静的ライブラリ（copy-shapes）＋生成エンジン（対称構築・Truchet・ランダム系）を
+   盤面中央へ寄せて配置し、fill のパラメータ帯（lines/diagonals/crossings/components/
+   bbox/slopes・整いゲート含む paramsOk）で濾す。slopes:any の巻は非45°を必須
+   （copy Lv.4 の壁と同思想）。 */
+type PoolItem = { key: string; family: string; edges: EdgeT[]; lines: number };
+
+function centerPlace(v: ShapeVariant, n: number): EdgeT[] {
+  const offC = Math.floor((n - 1 - v.spanC) / 2);
+  const offR = Math.floor((n - 1 - v.spanR) / 2);
+  return normalizeEdges(v.edges.map((e) => [
+    [e[0][0] + offC, e[0][1] + offR], [e[1][0] + offC, e[1][1] + offR],
+  ] as EdgeT));
+}
+
+function fillVariantPool(params: FillParams, strictTidy: boolean): PoolItem[] {
+  const n = params.grid;
+  const out: PoolItem[] = [];
+  for (const v of allVariants()) {
+    if (v.spanC > n - 1 || v.spanR > n - 1) continue;
+    const placed = centerPlace(v, n);
+    const m = computeMetrics(placed, n);
+    if (params.slopes === "any" && !m.hasNon45) continue;
+    // fill の本質ゲート（relax でも外さない）:
+    //   閉路≥1 … 純ツリー形（ジグザグ・T・X の散らばり）を排除。「残りから完成形が
+    //             推定できる」には輪郭の閉じた骨格が要る
+    //   ヒゲ≤2 … 開いた端点だらけの形を排除（とって等の突起は 2 本まで許容）
+    if (closedLoops(placed, m.components) < 1) continue;
+    if (danglingCount(placed) > 2) continue;
+    // かぶり除外: 模写で公開済みの図形は欠け補完に再出題しない（gen/dedupe.ts）
+    if (publishedCopySignatures().has(shapeSignature(placed))) continue;
+    if (!paramsOk(placed, m, params, strictTidy)) continue;
+    out.push({ key: v.key, family: v.family, edges: placed, lines: m.lines });
   }
   return out;
-}
-
-function walkComponent(
-  rnd: Rng, p: FillParams, edgeBudget: number,
-  unitKeys: Set<string>, allEdges: EdgeT[],
-): boolean {
-  const n = p.grid;
-  const start: Pt = [randInt(rnd, 0, n - 1), randInt(rnd, 0, n - 1)];
-  const verts = new Map<string, Pt>([[pkey(start), start]]);
-  let added = 0;
-  let guard = 0;
-
-  while (added < edgeBudget && guard++ < edgeBudget * 30) {
-    const v = pick(rnd, [...verts.values()]);
-    const cand = moves(p.slopes, rnd)
-      .map(([dc, dr]) => [v[0] + dc, v[1] + dr] as Pt)
-      .filter((t) => t[0] >= 0 && t[0] < n && t[1] >= 0 && t[1] < n);
-    if (cand.length === 0) continue;
-
-    let pool = cand;
-    if (verts.size >= 3 && rnd() < p.closedBias) {
-      const closing = cand.filter((t) => verts.has(pkey(t)));
-      if (closing.length > 0) pool = closing;
-    }
-    const t = pick(rnd, pool);
-
-    const units = splitAtLattice([v, t]);
-    if (units.some((u) => unitKeys.has(edgeKey(u)))) continue;
-    for (const u of units) {
-      unitKeys.add(edgeKey(u));
-      verts.set(pkey(u[0]), u[0]);
-      verts.set(pkey(u[1]), u[1]);
-    }
-    allEdges.push([v, t]);
-    added++;
-  }
-  return added >= Math.max(2, Math.floor(edgeBudget * 0.7));
-}
-
-function buildFigure(rnd: Rng, p: FillParams, targetLines: number): EdgeT[] | null {
-  const comps = rnd() < 0.75
-    ? p.components[0]
-    : randInt(rnd, p.components[0], p.components[1]);
-  const budgets: number[] = [];
-  let rest = Math.max(targetLines, comps * 2);
-  for (let i = 0; i < comps; i++) {
-    const share = i === comps - 1 ? rest : Math.max(2, Math.round(rest / (comps - i)));
-    budgets.push(share);
-    rest -= share;
-  }
-  const unitKeys = new Set<string>();
-  const raw: EdgeT[] = [];
-  for (const b of budgets) {
-    if (!walkComponent(rnd, p, b, unitKeys, raw)) return null;
-  }
-  return normalizeEdges(raw);
 }
 
 /* ---- 欠けの抽出 ----
@@ -162,46 +134,37 @@ export function generateFillCandidates(
 
   const rnd = seededRng(`${sku}#${seed}`);
   const accepted: { edges: EdgeT[]; problem: Problem }[] = [];
-  const simThreshold = params.grid <= 3 ? 0.62 : 0.5;
-  let attempts = 0;
-  const maxAttempts = count * 300; // 欠け抽出の失敗ぶん試行を厚めに
+  // キュレート形は辺を共有しやすい（盤面枠・対称構築の骨格）ので walk 時代より緩め。
+  // 完全一致・準一致（>閾値）だけ弾き、多様性は famCap と検品に委ねる。
+  const simThreshold = params.grid <= 3 ? 0.78 : 0.62;
+  const FAM_CAP = 6; // 同族（同 family）の上限。エンジン族（sym/truchet/rand…）は1族が大きい
 
-  /* 完成図 F の線本数で帯域クォータ（図形サイズに多様性を持たせる） */
-  const [lineMin, lineMax] = params.lines;
-  const quota = Math.ceil(count / (lineMax - lineMin + 1));
-  const bandCount = new Map<number, number>();
+  /* プール＝厳格（整いゲートあり）→ 足りなければ緩和（relax）を継ぎ足す */
+  const strictPool = fillVariantPool(params, true);
+  const relaxPool = fillVariantPool(params, false)
+    .filter((p) => !strictPool.some((s) => s.key === p.key));
+  const famCount = new Map<string, number>();
+  const usedKeys = new Set<string>();
 
-  while (accepted.length < count && attempts++ < maxAttempts) {
-    const relax = attempts > maxAttempts * 0.6;
-    let target = randInt(rnd, lineMin, lineMax);
-    if (!relax) {
-      for (let L = lineMin; L <= lineMax; L++) {
-        if ((bandCount.get(L) ?? 0) < quota) { target = L; break; }
-      }
-    }
-
-    const F = buildFigure(rnd, params, target);
-    if (!F) continue;
-    if (!bboxOk(F, params.bbox)) continue;
-
+  const tryAccept = (item: PoolItem): boolean => {
+    if (usedKeys.has(item.key)) return false;
+    if ((famCount.get(item.family) ?? 0) >= FAM_CAP) return false;
+    const F = item.edges;
     const m = computeMetrics(F, params.grid);
-    if (!paramsOk(F, m, params)) continue;
-    if (params.slopes === "any" && !hasNon45(F)) continue;
-    if (!relax && (bandCount.get(m.lines) ?? 0) >= quota) continue;
 
     // 欠け本数は「見た目の線分数 − 1」を超えられない（G に最低 1 本残す）。
-    // 線分2本×欠け3本のような無理な指定でも 1 本に丸めて成立させる。
     const wantGap = gapOverride ?? randInt(rnd, params.missing[0], params.missing[1]);
     const gap = Math.max(1, Math.min(wantGap, m.lines - 1));
     const R = deriveGap(F, gap, rnd);
-    if (!R) continue;
+    if (!R) return false;
 
     const tooSimilar =
       accepted.some((a) => jaccard(a.edges, F) > simThreshold) ||
       existing.some((e) => jaccard(e, F) > simThreshold);
-    if (tooSimilar) continue;
+    if (tooSimilar) return false;
 
-    bandCount.set(m.lines, (bandCount.get(m.lines) ?? 0) + 1);
+    usedKeys.add(item.key);
+    famCount.set(item.family, (famCount.get(item.family) ?? 0) + 1);
     accepted.push({
       edges: F,
       problem: {
@@ -210,9 +173,21 @@ export function generateFillCandidates(
         edges: F,
         answer: { mode: "explicit", edges: R },
         metrics: m,
-        gen: { kind: "auto", generator: "fill", version: FILL_GENERATOR_VERSION, seed },
+        gen: {
+          kind: "auto", generator: "fill", version: FILL_GENERATOR_VERSION, seed,
+          variant: item.key,
+        },
       },
     });
+    return true;
+  };
+
+  for (const pool of [strictPool, relaxPool]) {
+    if (accepted.length >= count) break;
+    for (const item of shuffled(pool, rnd)) {
+      if (accepted.length >= count) break;
+      tryAccept(item);
+    }
   }
 
   return accepted

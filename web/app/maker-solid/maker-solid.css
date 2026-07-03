@@ -41,23 +41,6 @@
 .maker-solid svg .erase-hit:hover { stroke: rgba(214, 69, 69, 0.28); }
 .maker-solid .qb-seg.tool button[aria-pressed="true"] { font-weight: 700; }
 
-/* 作品名の入力欄 */
-.maker-solid .solid-title {
-  width: 100%;
-  margin-top: 4px;
-  padding: 3px 6px;
-  font-family: var(--font-tier3-sans, sans-serif);
-  font-size: 12px;
-  color: var(--fg, #1a1f2a);
-  background: #fff;
-  border: 1px solid var(--line-thin, #e2e2e2);
-  border-radius: 6px;
-}
-.maker-solid .solid-title:focus {
-  outline: none;
-  border-color: var(--accent, #2c6e7f);
-}
-
 /* PDF 完了メッセージ */
 .maker-solid .solid-done {
   margin: 8px 0 0;

@@ -22,7 +22,9 @@ const STATUS_OPTS = [
   { value: "live", label: "live（公開）" },
 ];
 
-export default function VolManager({ tasks, hidden }: { tasks: MTask[]; hidden: string[] }) {
+export default function VolManager({
+  tasks, launchHiddenTasks = [], hidden,
+}: { tasks: MTask[]; launchHiddenTasks?: MTask[]; hidden: string[] }) {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const [editing, setEditing] = useState<string | null>(null);   // 編集中の sku
@@ -47,6 +49,67 @@ export default function VolManager({ tasks, hidden }: { tasks: MTask[]; hidden: 
     }
   }
 
+  const renderTask = (task: MTask) => (
+    <div key={task.slug} className="atl-vm-task">
+      <div className="atl-vm-taskhead">
+        <h3>{task.name} <span className="atl-slug">/{task.slug}</span></h3>
+        <button type="button" className="atl-btn" disabled={busy}
+          onClick={() => { setCreating(creating === task.slug ? null : task.slug); setEditing(null); }}>
+          ＋ Vol を追加
+        </button>
+      </div>
+
+      {creating === task.slug && (
+        <CreateForm task={task} busy={busy}
+          onCancel={() => setCreating(null)}
+          onCreate={(payload) => call({ action: "create", task: task.slug, ...payload }, "Vol を追加しました")} />
+      )}
+
+      <div className="atl-vm-rows">
+        {task.vols.map((v) => (
+          <div key={v.sku} className="atl-vm-row">
+            {editing === v.sku ? (
+              <EditForm vol={v} busy={busy}
+                onCancel={() => setEditing(null)}
+                onSave={(patch) => call({ action: "update", sku: v.sku, patch }, "メタを更新しました")} />
+            ) : (
+              <>
+                <div className="atl-vm-rowmain">
+                  <span className="atl-vm-name">
+                    Lv.{v.lv} {LEVEL_NAMES[v.lv - 1]} Vol.{v.volNo} · {v.grid}
+                    {v.variant && <em className="atl-vm-variant">（{v.variant}）</em>}
+                  </span>
+                  <span className="atl-vm-sku">{v.sku}</span>
+                  <span className="atl-vm-blurb">{v.blurb}</span>
+                  <span className="atl-vm-badges">
+                    {v.isPub && <em className="atl-badge atl-badge--pub">公開済</em>}
+                    {v.hasGen ? <em className="atl-badge atl-badge--gen">自動生成</em> : <em className="atl-badge">手設計</em>}
+                    {v.status === "scaffold" && <em className="atl-badge">scaffold</em>}
+                    {v.isExtra && <em className="atl-badge">追加</em>}
+                    {v.ageLabel && <em className="atl-badge">{v.ageLabel}</em>}
+                  </span>
+                </div>
+                <div className="atl-vm-rowacts">
+                  <a className="atl-vm-open" href={`/atelier/${v.sku}`}>開く</a>
+                  <button type="button" disabled={busy} onClick={() => { setEditing(v.sku); setCreating(null); }}>編集</button>
+                  <button type="button" disabled={busy} className="atl-vm-del"
+                    onClick={() => {
+                      const confirmMsg = v.isExtra
+                        ? `追加した ${v.sku} を完全に削除しますか？（candidates は残ります）`
+                        : `既存の ${v.sku} を非表示にしますか？（公開・一覧から消えます・後で復活可）`;
+                      if (window.confirm(confirmMsg)) call({ action: "delete", sku: v.sku }, v.isExtra ? "削除しました" : "非表示にしました");
+                    }}>
+                    {v.isExtra ? "削除" : "非表示"}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <section className="atl-vm">
       <h2 className="atl-vm-title">Vol 管理</h2>
@@ -56,66 +119,18 @@ export default function VolManager({ tasks, hidden }: { tasks: MTask[]; hidden: 
       </p>
       {msg && <p className="atl-vm-msg">{msg}</p>}
 
-      {tasks.map((task) => (
-        <div key={task.slug} className="atl-vm-task">
-          <div className="atl-vm-taskhead">
-            <h3>{task.name} <span className="atl-slug">/{task.slug}</span></h3>
-            <button type="button" className="atl-btn" disabled={busy}
-              onClick={() => { setCreating(creating === task.slug ? null : task.slug); setEditing(null); }}>
-              ＋ Vol を追加
-            </button>
-          </div>
+      {tasks.map(renderTask)}
 
-          {creating === task.slug && (
-            <CreateForm task={task} busy={busy}
-              onCancel={() => setCreating(null)}
-              onCreate={(payload) => call({ action: "create", task: task.slug, ...payload }, "Vol を追加しました")} />
-          )}
-
-          <div className="atl-vm-rows">
-            {task.vols.map((v) => (
-              <div key={v.sku} className="atl-vm-row">
-                {editing === v.sku ? (
-                  <EditForm vol={v} busy={busy}
-                    onCancel={() => setEditing(null)}
-                    onSave={(patch) => call({ action: "update", sku: v.sku, patch }, "メタを更新しました")} />
-                ) : (
-                  <>
-                    <div className="atl-vm-rowmain">
-                      <span className="atl-vm-name">
-                        Lv.{v.lv} {LEVEL_NAMES[v.lv - 1]} Vol.{v.volNo} · {v.grid}
-                        {v.variant && <em className="atl-vm-variant">（{v.variant}）</em>}
-                      </span>
-                      <span className="atl-vm-sku">{v.sku}</span>
-                      <span className="atl-vm-blurb">{v.blurb}</span>
-                      <span className="atl-vm-badges">
-                        {v.isPub && <em className="atl-badge atl-badge--pub">公開済</em>}
-                        {v.hasGen ? <em className="atl-badge atl-badge--gen">自動生成</em> : <em className="atl-badge">手設計</em>}
-                        {v.status === "scaffold" && <em className="atl-badge">scaffold</em>}
-                        {v.isExtra && <em className="atl-badge">追加</em>}
-                        {v.ageLabel && <em className="atl-badge">{v.ageLabel}</em>}
-                      </span>
-                    </div>
-                    <div className="atl-vm-rowacts">
-                      <a className="atl-vm-open" href={`/atelier/${v.sku}`}>開く</a>
-                      <button type="button" disabled={busy} onClick={() => { setEditing(v.sku); setCreating(null); }}>編集</button>
-                      <button type="button" disabled={busy} className="atl-vm-del"
-                        onClick={() => {
-                          const confirmMsg = v.isExtra
-                            ? `追加した ${v.sku} を完全に削除しますか？（candidates は残ります）`
-                            : `既存の ${v.sku} を非表示にしますか？（公開・一覧から消えます・後で復活可）`;
-                          if (window.confirm(confirmMsg)) call({ action: "delete", sku: v.sku }, v.isExtra ? "削除しました" : "非表示にしました");
-                        }}>
-                        {v.isExtra ? "削除" : "非表示"}
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
+      {launchHiddenTasks.length > 0 && (
+        <div className="atl-vm-launchhidden">
+          <h3 className="atl-vm-lh-title">ローンチ非公開（データ温存・再投入可）</h3>
+          <p className="atl-vm-note">
+            今回のローンチ公開から外したタスク（拡大・縮小）。データは保持しています。
+            capabilities.ts の <code>LAUNCH_HIDDEN</code> から外せば公開に戻せます。
+          </p>
+          {launchHiddenTasks.map(renderTask)}
         </div>
-      ))}
+      )}
 
       {hidden.length > 0 && (
         <div className="atl-vm-hidden">

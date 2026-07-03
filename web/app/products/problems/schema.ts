@@ -11,12 +11,24 @@
    ========================================================================= */
 
 /* ---- 盤面 ----
-   discriminated union: 将来の立体（iso）・拡大縮小（square-pair）を
-   既存 JSON を壊さず追加できる形にしておく。 */
-export type GridSpec = { type: "square"; n: 3 | 4 | 5 | 6 | 7 };
+   discriminated union: 将来の拡大縮小（square-pair）も既存 JSON を壊さず追加できる形。
+   square = 正方格子（模写・鏡ほか全 square タスク）／solid = 立体模写の矩形点格子。 */
+export type SquareGrid = { type: "square"; n: 3 | 4 | 5 | 6 | 7 };
+/* 立体模写の盤面（横 cols × 縦 rows・maker-solid の 7〜15 と同系）。 */
+export type SolidGrid = { type: "solid"; cols: number; rows: number };
+export type GridSpec = SquareGrid | SolidGrid;
 
 export type Pt = [number, number];   // [c, r]（列・行）
 export type EdgeT = [Pt, Pt];        // 正規化済み: a < b（辞書順）
+
+/* ---- 立体の辺（隠れ線を style で表現）----
+   maker-solid/solid-print.ts の SEdge / SPoint / LineStyle と構造的に同型
+   （buildSolidPageSvg・SolidPaperSVG にそのまま渡せる）。
+   solid 問題は Problem.edges を [] とし、実体をこの solidEdges に持つ
+   （EdgeT は整数格子＋辞書順正規化＋格子点分割が全前提のため共用しない）。 */
+export type SolidLineStyle = "solid" | "dashed";
+export type SolidPoint = { c: number; r: number };
+export type SolidEdge = { a: SolidPoint; b: SolidPoint; style: SolidLineStyle };
 
 export type AnswerMode = "none" | "derived" | "explicit";
 
@@ -39,6 +51,7 @@ export type ProblemMetrics = {
   components: number;          // 連結成分数（構成要素数）
   pointsUsed: number;          // 使用格子点数
   symmetry: SymmetryKind[];    // 成立している対称性
+  hiddenLines?: number;        // 立体（solid）専用: 隠れ辺（点線）の本数。solidDifficulty の最大ドライバー。square は未設定
 };
 
 /* ---- 難易度（全9タスク横断・一級市民）----
@@ -67,7 +80,8 @@ export type Provenance =
 export type Problem = {
   id: string;                  // "copy-lv1-vol1-s1-03"（sku-seed-連番）/ 手設計 "…-m01"
   grid: GridSpec;
-  edges: EdgeT[];              // みほん（出題図）。fold/2図タスクでは図形A
+  edges: EdgeT[];              // みほん（出題図）。fold/2図タスクでは図形A。solid では [] 固定
+  solidEdges?: SolidEdge[];    // 立体タスク専用（grid.type==="solid" のとき実体・隠れ線 style 付き）
   inputB?: EdgeT[];            // 2図目（折り重ね fold の問題2 等）。単一図タスクは持たない
   answer?:
     | { mode: "explicit"; edges: EdgeT[] }
@@ -197,7 +211,52 @@ function inGrid(p: Pt, n: number): boolean {
     p[0] >= 0 && p[0] < n && p[1] >= 0 && p[1] < n;
 }
 
+/* ---- 立体の辺ヘルパ（正規化・重複除去・キー化）----
+   端点を辞書順（c 優先・次に r）に並べてキー化。style は別次元なので
+   同一線分の実線/点線違いは別辺として扱わず「同一辺・後勝ちで style 上書き」される
+   （normalizeSolidEdges は最初の出現を採用）。validate・API の重複検出で使う。 */
+export function solidEdgeKey(e: SolidEdge): string {
+  const [a, b] = [e.a, e.b].sort((x, y) => x.c - y.c || x.r - y.r);
+  return `${a.c},${a.r}-${b.c},${b.r}`;
+}
+
+export function normalizeSolidEdges(edges: SolidEdge[]): SolidEdge[] {
+  const seen = new Set<string>();
+  const out: SolidEdge[] = [];
+  for (const e of edges) {
+    const k = solidEdgeKey(e);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    const [a, b] = [e.a, e.b].sort((x, y) => x.c - y.c || x.r - y.r);
+    out.push({ a, b, style: e.style });
+  }
+  return out;
+}
+
+function validateSolidProblem(p: Problem): string[] {
+  const errs: string[] = [];
+  const g = p.grid;
+  if (g.type !== "solid") return errs;
+  const edges = p.solidEdges ?? [];
+  if (edges.length === 0) errs.push(`${p.id}: 立体の辺が空`);
+  if (p.edges.length > 0) errs.push(`${p.id}: 立体問題は edges を [] にする（実体は solidEdges）`);
+  const inSolid = (pt: SolidPoint): boolean =>
+    Number.isInteger(pt.c) && Number.isInteger(pt.r) &&
+    pt.c >= 0 && pt.c < g.cols && pt.r >= 0 && pt.r < g.rows;
+  const seen = new Set<string>();
+  for (const e of edges) {
+    if (!inSolid(e.a) || !inSolid(e.b)) errs.push(`${p.id}: 盤面外の端点 ${solidEdgeKey(e)}`);
+    if (e.a.c === e.b.c && e.a.r === e.b.r) errs.push(`${p.id}: 長さ 0 の辺`);
+    if (e.style !== "solid" && e.style !== "dashed") errs.push(`${p.id}: 不正な線種 ${e.style}`);
+    const k = solidEdgeKey(e);
+    if (seen.has(k)) errs.push(`${p.id}: 重複辺 ${k}`);
+    seen.add(k);
+  }
+  return errs;
+}
+
 export function validateProblem(p: Problem): string[] {
+  if (p.grid.type === "solid") return validateSolidProblem(p);
   const errs: string[] = [];
   const n = p.grid.n;
   if (p.edges.length === 0) errs.push(`${p.id}: 辺が空`);
@@ -233,7 +292,16 @@ export function validateProblemSet(set: SkuProblemSet, expectQuestions = 12): st
    表示ヘルパ（§10.3 厳選公開メタデータ → 日本語ラベル）
    atelier の候補バッジと商品ページの figcaption が共用する。
    ========================================================================= */
+function solidMetricsLabel(m: ProblemMetrics, grid: SolidGrid): string {
+  const parts = [`${grid.cols}×${grid.rows}`, `線${m.lines}本`];
+  if (m.diagonals > 0) parts.push(`ななめ${m.diagonals}本`);
+  if ((m.hiddenLines ?? 0) > 0) parts.push(`隠れ辺${m.hiddenLines}本`);
+  if (m.components > 1) parts.push(`かたち${m.components}つ`);
+  return parts.join("・");
+}
+
 export function metricsLabel(m: ProblemMetrics, grid: GridSpec): string {
+  if (grid.type === "solid") return solidMetricsLabel(m, grid);
   const parts = [`${grid.n}×${grid.n}`, `線${m.lines}本`];
   parts.push(m.diagonals > 0 ? `ななめ${m.diagonals}本` : "ななめなし");
   if (m.crossings > 0) parts.push(`交差${m.crossings}か所`);

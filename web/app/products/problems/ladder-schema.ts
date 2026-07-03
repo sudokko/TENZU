@@ -64,6 +64,12 @@ const DENSITY = [
   { value: "sparse", label: "線少なめ" },
   { value: "dense", label: "線多め" },
 ];
+/* 立体（solid）専用: 隠れ辺（点線）の段階＝巻＝難易度レジーム。中身は形カタログの混合。 */
+const SOLID_HIDDEN = [
+  { value: "none", label: "なし（見える辺だけ）" },
+  { value: "some", label: "すこし" },
+  { value: "full", label: "フル" },
+];
 
 const gridField: LadderField = { key: "grid", label: "盤面", kind: "grid" };
 const linesField: LadderField = { key: "lines", label: "線の本数", kind: "range", min: 1 };
@@ -91,16 +97,15 @@ export const LADDER_FIELDS: Record<string, LadderField[]> = {
     { key: "bbox", label: "最小スパン", kind: "int", min: 1 },
     { key: "closedBias", label: "閉じ確率", kind: "float" },
   ],
+  /* 鏡は軸レス（軸＝印刷時の並び選択・decisions §3.59）。レベルは図形の複雑さのみ */
   mirror: [
     gridField,
-    { key: "axis", label: "対称軸", kind: "select", options: AXIS },
     { key: "slopes", label: "線の向き", kind: "select", options: SLOPES_COPY },
     { key: "lines", label: "線の本数", kind: "range", min: 1 },
     { key: "diagonals", label: "ななめ線分", kind: "range", min: 0 },
     { key: "crossings", label: "交差数", kind: "range", min: 0 },
     { key: "components", label: "構成要素", kind: "range", min: 1 },
     { key: "bbox", label: "最小スパン", kind: "int", min: 1 },
-    { key: "closedBias", label: "閉じ確率", kind: "float" },
   ],
   motif: [
     gridField,
@@ -110,9 +115,11 @@ export const LADDER_FIELDS: Record<string, LadderField[]> = {
     { key: "crossings", label: "交差数", kind: "range", min: 0 },
     { key: "components", label: "構成要素", kind: "range", min: 1 },
   ],
-  /* ---- 生成器の無い手設計タスク（params は当面メタ＝検品の目安・将来の生成器の仕様） ---- */
+  /* ---- 生成器の無い手設計タスク（params は当面メタ＝検品の目安） ----
+     立体は「ブロック数」を廃止（斜投影・キャビネット図）。巻＝隠れ辺レジーム／中身は5かたち混合。 */
   solid: [
-    { key: "blocks", label: "ブロック数", kind: "range", min: 1 },
+    { key: "hidden", label: "隠れ辺", kind: "select", options: SOLID_HIDDEN },
+    { key: "D", label: "難易度窓 D", kind: "range", min: 0 },
   ],
   rotate: [
     gridField,
@@ -254,16 +261,14 @@ export function ladderChips(task: string, entry: LadderEntry): { k: string; v: s
 }
 
 /* エントリ → カタログ表示用の grid 文字列（data.ts の "N×N" 等を ladder から再構成）。
-   scale/shrink は "N×N → M×M"・solid は "ブロック N〜M"・他は "N×N"。同期できなければ null。 */
+   scale/shrink は "N×N → M×M"・他は "N×N"。solid は巻＝混合のため grid 文字列は data.ts 側が正
+   （ladder から再構成しない＝null）。 */
 export function displayGridFor(task: string, entry: LadderEntry): string | null {
   if (task === "scale" || task === "shrink") {
     const a = Number(entry.gridFrom), b = Number(entry.gridTo);
     return Number.isFinite(a) && Number.isFinite(b) ? `${a}×${a} → ${b}×${b}` : null;
   }
-  if (task === "solid") {
-    const bl = entry.blocks;
-    return Array.isArray(bl) ? `ブロック ${bl[0]}〜${bl[1]}` : null;
-  }
+  if (task === "solid") return null;
   const n = Number(entry.grid);
   return Number.isFinite(n) ? `${n}×${n}` : null;
 }
@@ -276,10 +281,12 @@ const arrow = (g: string): [number, number] | null => {
   const m = g.match(/^(\d+)×\d+\s*→\s*(\d+)×\d+$/);
   return m ? [Number(m[1]), Number(m[2])] : null;
 };
-const blocksOf = (g: string): [number, number] | null => {
-  const m = g.match(/(\d+)\s*[〜~]\s*(\d+)/);
-  return m ? [Number(m[1]), Number(m[2])] : null;
-};
+/* 立体: variant（「見える辺だけ／すこし／フル」）→ 隠れ辺レジーム。 */
+function solidHiddenOf(variant: string): string {
+  if (/フル/.test(variant)) return "full";
+  if (/すこし|少し/.test(variant)) return "some";
+  return "none"; // 「見える辺だけ」ほか
+}
 
 /* ladder.json に未定義の手設計タスク向けに、data.ts の grid 文字列＋variant から
    既定のレベル定義を合成する（panel の初期値）。保存時に ladder.json へ実体が作られる。 */
@@ -287,7 +294,7 @@ export function defaultLadderEntry(task: string, grid: string, variant?: string)
   const fields = ladderFieldsFor(task);
   if (!fields) return null;
   const g = grid ?? "";
-  const square = sq(g), ar = arrow(g), bl = blocksOf(g);
+  const square = sq(g), ar = arrow(g);
   const n = square ?? ar?.[1] ?? 4;
   const v = variant ?? "";
   const e: LadderEntry = {};
@@ -296,13 +303,14 @@ export function defaultLadderEntry(task: string, grid: string, variant?: string)
       case "grid": e.grid = square ?? 3; break;
       case "gridFrom": e.gridFrom = ar?.[0] ?? 3; break;
       case "gridTo": e.gridTo = ar?.[1] ?? 5; break;
-      case "blocks": e.blocks = bl ?? [2, 5]; break;
+      case "hidden": e.hidden = solidHiddenOf(v); break;
       case "angle": e.angle = v.includes("左") ? "90ccw" : v.includes("180") ? "180" : "90cw"; break;
       case "dir": e.dir = v.includes("縦") ? "v" : v.includes("斜") ? "diag" : v.includes("複合") ? "compound" : "h"; break;
       case "ratio": e.ratio = task === "shrink" ? (v.includes("1/3") ? "third" : "half") : (v.includes("3") ? "x3" : "x2"); break;
       case "density": e.density = v.includes("多") ? "dense" : "sparse"; break;
       case "axis": e.axis = "v"; break;
       case "lines": e.lines = [Math.max(2, n - 1), n * 2]; break;
+      case "D": e.D = [9, 15]; break; // 立体 D窓の既定（atelier で実測較正）
       default: break;
     }
   }

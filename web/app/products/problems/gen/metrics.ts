@@ -8,7 +8,7 @@
    - symmetry: 8 変換（鏡映4・回転2）で辺集合が不変か
    ========================================================================= */
 
-import type { EdgeT, Pt, ProblemMetrics, SymmetryKind } from "../schema";
+import type { EdgeT, Pt, ProblemMetrics, SolidEdge, SymmetryKind } from "../schema";
 import { edgeKey, normalizeEdge } from "../schema";
 
 /* ---- 見た目の線分への併合 ---- */
@@ -150,5 +150,59 @@ export function computeMetrics(edges: EdgeT[], n: number): ProblemMetrics {
     components: countComponents(edges),
     pointsUsed: pts.size,
     symmetry: detectSymmetry(edges, n),
+  };
+}
+
+/* =========================================================================
+   立体模写のメトリクス（solid 専用）
+   立体は隠れ線を含む手描きなので square 用の線分併合・格子点分割は通さない。
+   引いた辺（solidEdges）をそのまま数える。lines＝辺数、diagonals＝縦横以外、
+   non45＝|dc|≠|dr|、crossings＝0（立体は交差を難易度に数えない）、symmetry＝[]。
+   ========================================================================= */
+export function computeSolidMetrics(edges: SolidEdge[]): ProblemMetrics {
+  let diagonals = 0;
+  let non45 = 0;
+  const angleKinds = new Set<string>();
+  const parent = new Map<string, string>();
+  const pts = new Set<string>();
+  const find = (x: string): string => {
+    let r = x;
+    while (parent.get(r) !== r) r = parent.get(r)!;
+    let c = x;
+    while (parent.get(c) !== c) { const nx = parent.get(c)!; parent.set(c, r); c = nx; }
+    return r;
+  };
+  const key = (p: { c: number; r: number }) => `${p.c},${p.r}`;
+  let hiddenLines = 0;
+  for (const e of edges) {
+    if (e.style === "dashed") hiddenLines++;
+    const dc = e.b.c - e.a.c;
+    const dr = e.b.r - e.a.r;
+    if (dc !== 0 && dr !== 0) {
+      diagonals++;
+      const g = Math.max(1, gcd(Math.abs(dc), Math.abs(dr)));
+      const kind = `${Math.abs(dc / g)}:${Math.abs(dr / g)}`;
+      angleKinds.add(kind);
+      if (kind !== "1:1") non45++;
+    }
+    const a = key(e.a), b = key(e.b);
+    pts.add(a); pts.add(b);
+    if (!parent.has(a)) parent.set(a, a);
+    if (!parent.has(b)) parent.set(b, b);
+    parent.set(find(a), find(b));
+  }
+  const roots = new Set<string>();
+  for (const k of parent.keys()) roots.add(find(k));
+  return {
+    lines: edges.length,
+    diagonals,
+    non45,
+    diagonalAngleKinds: angleKinds.size,
+    hasNon45: non45 > 0,
+    crossings: 0,
+    components: roots.size,
+    pointsUsed: pts.size,
+    symmetry: [],
+    hiddenLines,
   };
 }
