@@ -23,6 +23,87 @@
 
 > 一次ソース: [pack-design.md](./product/pack-design.md)
 
+### 3.61 レベル名リネーム：Lv.1「はじめの一歩」→「入門編」／Lv.2「入門編」→「初級編」（2026-07-03）
+
+/products 一覧のレベルチップ短縮表記で、Lv.1「はじめの一歩」だけ6文字で他4レベル（◯◯編＝2文字＋編）から浮くことが判明。オーナー指示で「入門と基礎の間」を埋める語を検討し、**Lv.1を入門編・Lv.2を初級編**へ変更。「入門→初級→基礎→応用→発展」で階段の言葉として統一され、チップ短縮も「入門／初級／基礎／応用／発展」で2文字に揃う。Lv.3〜5（基礎編／応用編／発展編）は不変。
+
+- **SSOT**: `LEVEL_NAMES`（[web/app/products/data.ts](./web/app/products/data.ts)）。ここ経由で `volTitle()`・`LEVELS`（catalog.tsx）・TaskListPage・level-guide・atelier 各画面は自動追従
+- **手修正が要る箇所**（LEVEL_NAMES を参照しないハードコード）: catalog.tsx の `LEVEL_GRAPH`（帯グラフ）・products/page.tsx の `LV_SHORT`（チップ短縮）
+- **設計書**: [pack-design.md §0.3/§0.3.1/§12.5/§12.7](./product/pack-design.md)・[pack-tasks.md](./product/pack-tasks.md)（Lv.2 表記10箇所・Lv.1 歯抜け表記2箇所）・[content/templates.md §7.3-bis](./content/templates.md)・[design/navigation/pages-overview.html](./design/navigation/pages-overview.html) を現行仕様として更新
+- **対象外**: SKU/slug（`copy-lv1-vol1` 等・数字ベースのため無影響）・journal/archive/design handoff の凍結済み記録（当時の呼称のまま保存）
+
+### 3.60 生成のかぶり除外：模写の公開済み図形を fill/mirror/モチーフ注入から排除（2026-07-01）
+
+fill・mirror が copy と同じ形ライブラリ（`allVariants()`）から F を引くため、**模写で公開済み（published/copy-*）の図形が別タスクの候補に再登場**し得る。オーナー指示「公開済みのかぶりは省く・公開済み以外のかぶりは許容」。
+
+- **恒久対策（生成器レベル）**: [gen/dedupe.ts](./web/app/products/problems/gen/dedupe.ts) 新設＝**形シグネチャ（原点寄せ＝平行移動不変・盤面サイズ非依存）**で published/copy-* の全図形集合を作り、fill / mirror のプールと [seed-motif-inspo](./web/app/api/atelier/seed-motif-inspo/route.ts)（モチーフ注入・採用済みモチーフの再出題を防ぐ）で除外。**鏡は鏡像側も照合**（こたえペインに公開済み図形が印字されるかぶりも弾く）。
+- **既存候補の掃除（実測）**: かぶり14件を検出・削除＝fill-lv2 9件（大半はモチーフ由来＝copy-lv2-vol1 に採用済みのモチーフ）・fill-lv3 1件・mirror-lv2 4件。adopted への衝突ゼロ。
+- **副作用と調整**: 3×3 はライブラリの大半が模写 Lv1-2 の公開に使われており、除外後のプールが構造的に薄い。mirror-lv2 は①**閉路ゲートを 3×3 で緩和**（鏡は「裏返して写す」＝閉じた骨格が本質ではない。オーナー採用済みの2問も開いた形）②帯を入門仕様へ（lines[2,6]・diagonals[0,3]・bbox1）で計9問まで回復。12問には白紙作成で補完する想定。
+- 関連: [§3.58](#358-欠け補完ラダー再構成模写ベース4巻化モチーフ入り2026-07-01)・[§3.59](#359-鏡ラダー再構成軸レス4巻化全盤面モデルmaker-mirror-完全整合2026-07-01)。
+
+### 3.59 鏡ラダー再構成：軸レス4巻化＝全盤面モデル（maker-mirror 完全整合）（2026-07-01）
+
+鏡（mirror）を旧6巻（縦3/縦4・横3/横4・斜3/斜4）から **Lv.2〜5 各編 Vol.1 のみ＝全4巻**へ再構成。当初は軸（縦→横→斜め）をレベルドライバーにしたが、**オーナー差し戻しで軸レスへ再々設計**：①maker-mirror では軸はユーザーが「並び」で選ぶもの（横並び=左右反転／縦並び=上下反転）＝**軸は難易度ではなく出力時の選択**。②旧生成器の「軸の片側＝半盤面」制約で 4×4 の左2列/上2行しか使わず狭い——maker の F は盤面全体に描ける。
+
+- **出題モデル（確定）**: 鏡の問題＝**全盤面の図形 F だけが本質**。子への課題（左右反転か上下反転か）は**印刷時の並び選択で決まる**＝maker-mirror と同一 UX（商品 PDF の鏡面点線は元々 pair 追従）。候補の answer には代表値 `derived(mirror, axis:"v")` を焼く（サムネ・D計算用。軸で D は変わらない）。
+- **斜め軸（d1）は廃止**: maker に存在せず（v/h のみ）・紙面の鏡面はペイン間の点線なので対角の鏡面は表現不能。斜めの反転は将来別タスクで検討。
+- **新ラダー（軸レス・図形の複雑さのみ）**: 模写連動のグリッド梯子＝**lv2 3×3／lv3 4×4／lv4 5×5／lv5 6×6**（maker-mirror の盤面上限 6×6 と一致）。slopes は全巻 ortho45（非45°は鏡うつしの読み取りが崩れるため不使用）。`axis`/`closedBias` パラメータ撤去（[ladder-schema](./web/app/products/problems/ladder-schema.ts) の mirror フィールドからも除去）。
+- **生成器 v3＝ライブラリ方式**（fill v2 と同型・[gen/mirror.ts](./web/app/products/problems/gen/mirror.ts) `MIRROR_GENERATOR_VERSION="3"`）: 半盤面ウォーク（v1/v2）を撤去し `allVariants()` プール抽出へ。品質ゲート＝閉路≥1・ヒゲ≤2・非45°除外＋**鏡固有＝v/h 対称の図形を除外**（鏡像＝原形になり左右/上下どちらの印刷でも退化）。取れ高 8/20/14/12（lv2 は 3×3 プールが対称除外で構造的に薄い・adopted 2件温存で計10）。
+- **解答 PDF を2ペイン化**: 旧「F∪mirror(F) を1盤面合成＋盤面内軸線」は全盤面 F では読めない → **maker と同じ「みほんF｜こたえ mirror(F)＋ペイン間の鏡面点線」**へ（[SkuPrintPreview](./web/app/products/SkuPrintPreview.tsx) `downloadAnswerPdf`・atelier の解答PDF確認も同関数）。
+- **実装**: ladder.json mirror 4エントリ（軸レス）・data.ts 4巻（variant=軸表記撤去・blurb/meate 軸ニュートラル）・catalog notes 図形梯子へ・AtelierApp/create API の白紙作成は axis:"v" 固定。
+- 一次ソース: [pack-tasks §15](./product/pack-tasks.md)。関連: [§3.58](#358-欠け補完ラダー再構成模写ベース4巻化モチーフ入り2026-07-01)・[§3.53](#353-ローンチ公開スコープ縮小拡大縮小を非公開平行移動は公開2026-06-29)。
+
+### 3.58 欠け補完ラダー再構成：模写ベース4巻化＋モチーフ入り（2026-07-01）
+
+欠け補完（fill）を旧8巻（Lv.1〜5・各Lv「欠け少なめ/多め」ペア）から、**模写の再校正ラダー（§3.55）をベースに Lv.2〜5 各編 Vol.1 のみ＝全4巻**へ再構成。オーナー指示「はじめの一歩は不要・各編 vol1 でよい」。あわせて **AI 候補を量産**（抽象図形＝既存生成器・各巻20問）し、**モチーフ入り欠け補完**（かさ・いえ・さかな等）を新設した。
+
+- **新ラダー（ladder.json・fill 4エントリ）**: 主ドライバー＝**欠け本数（missing）**の単調増。grid 梯子は 3→4→5→6・**Lv.4 で非45°解禁**（`slopes:any`＝許可のみ。模写の「4×4 非45°必須の壁」は fill 生成器に requireNon45 ゲートが無いため不採用＝生成器無改修で回す判断）。
+  - fill-lv2-vol1: 3×3・ortho45・**欠け1–2**（Lv.1廃止に伴い入口を緩める）／lv3: 4×4・交差・**欠け2–3**／lv4: 5×5・any・**欠け3–4**／lv5: 6×6・any・**欠け4–6**。lines/diagonals/crossings 等は実績値踏襲。
+- **生成結果（各巻20問）**: grid 全一致・R 帯内・D＝base+2·gaps で **6.5–11.5 → 13–19 → 39–67 → 47–89** の単調（Lv.4 の跳ねは非45°×8 の帰結＝模写と同思想）。
+- **モチーフ入り fill（新設）**: 旧絵柄ラインの形状ライブラリ（[gen/motif-shapes.ts](./web/app/products/problems/gen/motif-shapes.ts)・かさ=umbrella5 等 3×3〜7×7 現存）を流用。[seed-motif-inspo](./web/app/api/atelier/seed-motif-inspo/route.ts) を **task-aware に拡張**＝fill のときモチーフ完成図 F から**欠け R を seeded RNG で抜く**（本数=巻の missing 帯・公平性ルール＝R の両端点が G=F∖R に残る貪欲選択・満たせない形はスキップ）→ `answer:{explicit,R}`＋`refreshMeta`。盤面一致マップ＝fill-lv2→motif-lv2-vol1(3)/lv3→motif-lv3-vol1(4)/lv4→motif-lv4-vol1(5・かさ)/lv5→motif-lv4-vol2(6)。`MOTIF_INSPO_SKUS` に fill 4 SKU 追加＝atelier に「候補（模様）」レーン。各巻17–20個注入（いぬ・きりん・かみひこうき・ほし・テント…）・公平性違反ゼロを検証済。
+- **実装**: [ladder.json](./web/app/products/problems/ladder.json)・[data.ts](./web/app/products/data.ts)（fill 4巻・variant=欠け本数表記・meate 書き直し・旧4 SKU 削除＝プレローンチにつき alias なし）・[catalog.tsx](./web/app/catalog.tsx) notes。旧 candidates 8ファイル削除→再生成。
+- **検証**: tsc 緑・/products/fill 4巻（Lv.1 と旧 vol2 消滅）・atelier 4巻＋基準チップ新値・候補20＋模様17–20・copy/solid 回帰なし・stale 参照ゼロ。
+- **生成器 v2＝ライブラリ方式へ差し替え（同日・検品差し戻し対応）**: 初回生成（v1＝copy 流ランダムウォーク）はオーナー検品で「図形版の出来が悪い」＝開いた折れ線・破片の散らばり・非45°の乱線。原因＝copy は「キュレート済みライブラリ＋整いゲート」へ進化済みなのに fill だけ旧走査だった。**F の供給を copy と同じ検証済み変種プール（`allVariants()`＝静的ライブラリ＋対称構築/Truchet/ランダム系エンジン）に差し替え**（[gen/fill.ts](./web/app/products/problems/gen/fill.ts) `FILL_GENERATOR_VERSION="2"`・walk 3関数撤去）。fill の本質ゲートを追加＝**閉路≥1**（純ツリー形を排除・「残りから完成形が推定できる」には閉じた骨格が要る）＋**ヒゲ≤2**。帯も現実化（components 下限1・lines 3-7/5-10/7-13/9-16・交差/斜め下限緩和）・同族上限6・類似閾値 0.78/0.62。取れ高＝**6/20/14/8**（＋モチーフ 18/20/17/18＝計 24/40/31/26・12問選抜に十分。3×3 はモチーフとライブラリの形が重複しやすく生成分は構造的に少なめ＝白紙作成で補える）。
+- **残作業**: オーナーが atelier で検品→12問 publish（fill は published 未入稿のままサンプル表示中）。一次ソース: [pack-design §13.7.7](./product/pack-design.md)。関連: [§3.55](#355-模写ラダー再校正4×4-一本化非45を小盤面から基礎応用を対構造化2026-07-01)・[§3.57](#357-立体模写のレベル分けをゼロベース再設計ブロック概念を全廃2026-07-01)。
+
+### 3.57 立体模写のレベル分けをゼロベース再設計（「ブロック」概念を全廃）（2026-07-01）
+
+立体（solid）の難易度を刻んでいた旧 AI 概念**「ブロック N〜M」**（積み木の個数）を全廃し、レベル分けをゼロベースで再設計した。メーカーの実体（矩形点格子・実線=見える辺／点線=隠れ辺の手描き自由線エディタ）と一般的な立体図形学習の順序に合わせ、**測れて手描きできるドライバー**で刻む。
+
+- **投影の家スタイル＝斜投影（キャビネット図）**: 前面は格子に沿う正方形/長方形、奥行きは右上へ 45° 一定。箱・段差は 45° の奥行き線だけで描け格子と相性良し。**錐（Lv.5）だけ非45°**（頂点集約）。難易度が既存 `diagonals`/`non45` に素直に乗る。
+- **難易度式（solid）**: `baseDifficulty + 3·hiddenLines`（= `lines + 1.5·diag + 8·non45 + 3·隠れ辺`）。旧暫定 `lines+2·diag` を置換。**隠れ辺（点線）本数が最大ドライバー**＝「見えない構造を推して写す」最難ステップ。[schema.ts](./web/app/products/problems/schema.ts) `ProblemMetrics.hiddenLines?`（optional・square 未設定）新設、[gen/metrics.ts](./web/app/products/problems/gen/metrics.ts) `computeSolidMetrics` が dashed 本数を算出、[gen/difficulty.ts](./web/app/products/problems/gen/difficulty.ts) `solidDifficulty` を更新。
+- **巻＝難易度（隠れ辺レジーム）／中身は形カタログの混合**（最終形・2026-07-01）。当初は「1形＝1巻」で刻んだが**単調**とオーナー判断＝廃止し、**各巻を 5かたち×3変種＝15問の詰め合わせ**に。各Lv 1巻＝**全3巻**（形別に増やした巻を統合）。難易度は Lv で段階、巻内は形ごとに D が散る（D窓は広め）。形カタログ（箱/直方体/L字/三角柱/家/門/階段/錐/塔/複合）を各Lvの隠れ辺レジームで描き分ける。
+  - **Lv.3 基礎（5〜8才）「はこ・きほんの形」**: 立方体・直方体・L字・三角柱・階段を**見える辺だけ**で。D≈13-30。
+  - **Lv.4 応用（6〜9才）「組む・柱・屋根」**: 段差L字・三角柱・家(gable)・門/空洞・小さな錐を**隠れ辺すこし**（cap 1-2）。D≈17-45。
+  - **Lv.5 発展（8才〜）「錐・空洞・複合」**: 四角錐・空洞門∏・大階段・塔家(非45°)・複合建築(L字ビル/連棟)を**隠れ辺フル**。D≈50-120。
+- **実装**: [ladder-schema.ts](./web/app/products/problems/ladder-schema.ts) `LADDER_FIELDS.solid` を `blocks` → `hidden`(レジームselect)＋`D`(窓range) に（`shape`/`edges` は混合化で撤去・`blocksOf`/`solidShapeOf` 削除・`displayGridFor` solid=null）。[data.ts](./web/app/products/data.ts) solid を混合3巻（テーマ grid ラベル）へ。[catalog.tsx](./web/app/catalog.tsx) の solid `notes` 更新。[AtelierApp.tsx](./web/app/atelier/AtelierApp.tsx) `dFormulaLabel` に solid ケース＋D窓を solid へ拡張。**AI推奨候補45問**（各巻15＝5形×3・Python押し出しジェネレータ・法線で隠線自動判定・matplotlib目視レビュー）を candidates 直書き。stale `catalog-extra.json` の solid-lv3-vol2(旧ブロック)も除去。
+- **検証**: tsc 緑・copy 回帰なし。`/atelier/solid-lv4-vol1` でチップが「形=段差・L字／隠れ辺すこし／総辺数／D窓」・「ブロック」表記消滅、点線1本を含む2辺作成で `hiddenLines=1`・**D=5（base2+3·1）** を実機確認。`/products`・`/products/solid` も新ラベルで「ブロック」ゼロ。
+- **残作業**: D窓は暫定（式からの目安）。オーナーが atelier で 12問×6巻を手描き publish→実測で D窓較正→data.ts 該当巻を live 化。一次ソース: [pack-design §13.7.7/§23.9](./product/pack-design.md)。関連: [§3.56](#356-立体模写を正式メーカー化atelier-問題パイプライン統合2026-07-01)。
+
+### 3.56 立体模写を正式メーカー化＋atelier 問題パイプライン統合（2026-07-01）
+
+「立体模写メーカー」を試作・オーナー専用から**正式メーカーへ格上げ**し、あわせて立体を **atelier の問題データパイプライン**（白紙手描き→検品→publish→商品ページ描画）へ組み込んだ。§3.53 の「立体模写はメーカー無し・copy 共用の商品ライン・別系統枝」を更新＝立体は**独立メーカー＋独立商品ライン**になる。
+
+- **(A) メーカー格上げ**: 公開メーカー **8→9 種**（見て写す群に立体模写を追加）。他 9 と同じ **per-maker 買い切り ¥980**・PDF 書き出しゲート。[capabilities.ts](./web/app/products/capabilities.ts) `MakerKey`/`PAID_MAKERS` に `solid` 追加、[makers.ts](./web/app/products/makers.ts) `MAKERS`、[maker-figs.tsx](./web/app/products/maker-figs.tsx) `MAKER_FIG` に登録。件数は `VISIBLE_MAKERS.length` から自動導出（/makers が「9 種類」に自動更新）。[maker-solid/page.tsx](./web/app/maker-solid/page.tsx) を `MakerGate` でラップ・「試作・オーナー専用」表記撤去・`doExport` に所有ゲート。盤面上限（7〜15）は square 用 `GridSize(3-8)` と別系統なので MakerSolidApp ローカル制御（capabilities は書き出し可否のみ）。
+- **(B) atelier 統合**: 立体は**自動生成せず手描き取り込み**。[schema.ts](./web/app/products/problems/schema.ts) `GridSpec` を discriminated union 化（`square`＋`{type:"solid";cols;rows}`）し、`Problem.solidEdges?`（隠れ線 style 付き）を別フィールドで持つ（`edges` は共用しない＝正規化前提の square 経路を汚さない）。metrics/difficulty/validate/metricsLabel に solid 分岐、atelier に立体エディタ（抽出した `SolidPaperSVG` 共有＋`SolidEditOverlay`）とサムネ（`SolidThumb`）、商品描画は `buildSolidPageSvg`（solid-print.ts）を流用（`SolidPrintPreview`）。publish/io は無変更で通る。
+- **設計の肝**: union 化で `p.grid.n` 無ガード参照を tsc が全件エラー化＝取りこぼしゼロ。実装は依存順（schema→metrics/difficulty→エディタ抽出→atelier UI→create/candidates API→商品描画→メーカー格上げ）。
+- **検証**: tsc 緑・lint 新規コードクリーン。実機で /makers 9 種・/maker-solid 正式化・/atelier/solid-lv3-vol1 で白紙作成→手描き→保存→候補サムネ→D 算出（lines+2·diag）を確認。既存 square（copy atelier 28 候補）回帰なし。※副作用で顕在化した `published/copy-lv4-vol2.json` の BOM 破損（全ページ 500 原因）を除去。
+- **要オーナー作業**: solid 5 巻は現 scaffold。atelier で 12 問ずつ手描き publish → data.ts の該当巻を live 化で商品公開（未入稿 live は不可＝サンプルフォールバックは square 専用）。
+- 一次ソース: [pack-design §23.9/§13.7](./product/pack-design.md)。関連: [§3.53](#353-ローンチ公開スコープ縮小拡大縮小を非公開平行移動は公開2026-06-29)。
+
+### 3.55 模写ラダー再校正：4×4 一本化・非45°を小盤面から・基礎/応用を対構造化（2026-07-01）
+
+模写（copy）のレベル構成を見直し。計 8 巻は不変のまま、構造を **1/2/2/2/1 → 1/1/2/2/2** へ。オーナー判断（「非45°はかなり難しいので、まず小盤面で角度だけ練習させたい」）に基づく難度カーブの緩和と 4×4 の重複整理。実装は **「既存巻を1つ上の Lv×Vol へ横滑り＋4×4非45°を新設＋4×4疎を削除」** で、オーナーの手校正（作問・D窓）は捨てずに正しいグリッドの巻へ引き継ぐ。
+
+**最終ラダー（grid・種類ゲート）**: ①3×3直交 ②3×3・45°(壁) ③4×4・45°+交差 ④5×5・45° ⑤**4×4・非45°(壁・新設)** ⑥5×5・非45° ⑦6×6 ⑧7×7。**基礎編 Lv.3（4×4→5×5・45°系）と応用編 Lv.4（4×4→5×5・非45°系）が同グリッドで角度だけ上がる対構造**になった。
+
+- **4×4 を Lv.3 Vol.1 に一本化**: 旧 Lv.2 Vol.2（交差なしの疎な 4×4・`copy-lv2-vol2`）を**廃止**し、交差ありの 4×4（Lv.3 Vol.1）へ集約。同一 4×4 が 2 巻に分かれる冗長を解消。早期の 3×3ななめ（Lv.2 Vol.1）は温存。
+- **非45°の壁を小盤面から**: Lv.4 応用編 Vol.1（`copy-lv4-vol1`）に **4×4・非45°必須** を新設（前段 Lv.3 Vol.2 の 5×5 より盤面を縮小）。負荷の高い非45°を点の少ない盤面で「角度だけ」に集中して練習させる。壁の方針を「壁はグリッド据え置き」から「**非45°の壁はあえて盤面を縮小**」へ改訂（§12.3）。
+- **横滑り（作問・D窓を丸ごと継承）**: 5×5非45°（旧 `copy-lv4-vol1`・published12+候補43+D[16,94]）→ **`copy-lv4-vol2`**／6×6（旧 `copy-lv4-vol2`・候補66+D[12,43]）→ **`copy-lv5-vol1`**／7×7（旧 `copy-lv5-vol1`・候補48+D[11,54]）→ **`copy-lv5-vol2`**。grid・種類ゲートが同一なので published/candidates とも **sku 改番のみで継承**（内部 sku/id を置換）。
+- **実装（構造 SSOT）**: [data.ts](./web/app/products/data.ts)＋[ladder.json](./web/app/products/problems/ladder.json)＋[catalog.tsx](./web/app/catalog.tsx)＋[published/index.ts](./web/app/products/problems/published/index.ts)。`copy-lv2-vol2` は published/candidates とも削除、alias `copy-lv2-4x4` は正本を `copy-lv3-vol1` へ付け替え、dev の atelier/seed-motif-inspo 参照も掃除。私の変更ファイルは tsc クリーン（別途、並行作業の schema.ts `GridSpec` union 化で無関係な立体系の型エラーがツリーに出ているが本件外）。
+- **要オーナー作業は 1 巻だけ**: `copy-lv4-vol1`〔4×4 非45°・新設〕を **atelier で新規生成**（現 scaffold＝準備中）。D 窓 `[14,40]` は式からの**暫定**＝供給 ≥12 と単調を実測し curated 確定時に引き直す。他 3 巻（#6/#7/#8）は横滑りで作問温存済＝再生成不要。
+- 一次ソース: [pack-design §12.2/§12.3/§12.7/§12.12](./product/pack-design.md)。関連: [§3.54](#354-難易度スコア-d-再校正交差を撤去斜め本数非45本数へ寄せる2026-06-30)。
+
 ### 3.54 難易度スコア D 再校正：交差を撤去・斜め本数／非45°本数へ寄せる（2026-06-30）
 
 atelier 全タスクの土台難易度式 `baseDifficulty` から**交差項を撤去**し、その重みを斜め線の本数へ移した。オーナーの実作判断（「交差は難易度への寄与が薄い／斜め・特に非45°の本数のほうが効く」）に基づく係数移設。
@@ -42,7 +123,7 @@ atelier 全タスクの土台難易度式 `baseDifficulty` から**交差項を�
 - **外す根拠（拡大・縮小）**: 拡大（×2）・縮小（1/2）＝倍率・分数の概念依存が重く、対象（年中〜小2）には腑に落ちにくい・優先度低。3AI 整理（DR）でも縮小は最終段・拡大は概念依存と一致。
 - **戻す根拠（平行移動）**: 形を変えず位置だけずらす＝**作図の認知負荷が最も軽い変換**。鏡・回転の前段の入口として自然で、「かたちを動かす」群の難度の底を作る。商品価値は地味だが公開の害は無い。
 - **残す根拠（折り重ね）**: 認知負荷は高い（心的折り畳み）が、**小学校受験で実出題されニーズが実在**するため公開維持。
-- **公開後の構成**: メーカー＝**8種**（模写・欠け補完・鏡・平行移動・回転・重ね・分解・折り重ね）。商品ライン＝**9種**（上記＋模写（立体）。立体模写はメーカー無し・copy 共用の商品ライン）。3群は維持（「かたちを動かす」＝鏡・平行移動・回転＝向き＋位置の変換でまとまる）。
+- **公開後の構成**: メーカー＝**8種**（模写・欠け補完・鏡・平行移動・回転・重ね・分解・折り重ね）。商品ライン＝**9種**（上記＋模写（立体）。立体模写はメーカー無し・copy 共用の商品ライン）。3群は維持（「かたちを動かす」＝鏡・平行移動・回転＝向き＋位置の変換でまとまる）。※**2026-07-01 [§3.56](#356-立体模写を正式メーカー化atelier-問題パイプライン統合2026-07-01) で更新**：立体模写を正式メーカー化（メーカー 8→9 種）＋独立商品ライン＋atelier 問題化。「メーカー無し・別枝」は撤回。
 - **学習ラダー（公開セット・確定）**: 模写 → 欠け補完 → 鏡 → 平行移動 → 回転 → 重ね → 分解 → 折り重ね。立体模写は別系統枝（2D⇄3D・具体物伴走で早期可）。主軸＝**作図の認知負荷**（描かせるツールゆえ知覚発達より出力負荷を優先）。外した2種が DR で割れていた論点（拡大の置き場）だったため、残りの隣接は全て AI 一致のロック領域。
 - **群内順（鏡 → 平行移動 → 回転）の根拠**: 平行移動と回転は向きが裏返らない同族の剛体移動。最軽量の平行移動を回転（capstone＝心的回転）の直前に置いて助走にし、裏返る異端の鏡は群の入口へ。平行移動が鏡↔回転の取り違え（裏返し vs 180°）の緩衝にもなる。純・易→難なら平行→鏡→回転だが、群内の作図負荷差は小さく概念連続性を優先。
 - **実装（単一レバー）**: [capabilities.ts](./web/app/products/capabilities.ts) `LAUNCH_HIDDEN=["scale","shrink"]`。効く範囲＝メーカー表示（`makersInGroup`/`VISIBLE_MAKERS`）・商品カタログ（catalog `GROUPS`）・商品ルート（`products/[slug]` `generateStaticParams`→隠しタスクは 404）。効かない範囲＝`makerByKey`/`PURCHASABLE_MAKERS`（所有判定）は全件維持＝購入済みは継続使用可。`/maker-index`（noindex 内部用）から隠しメーカーへは到達可。**件数表記は TOTAL_KINDS / VISIBLE_MAKERS から自動導出に統一**（旧ハードコード「9種類」のドリフトを根絶）。
@@ -1343,6 +1424,15 @@ Flipdesk 等の Web 接客 SaaS は契約せず、**React コンポーネント�
 - **判断基準 5 つ**（リンク摩擦／勝ち実例／時間単価／ストック性／ターゲット濃度）は今後の媒体判断に再利用する
 
 → 調査・判断の経緯詳細: [archive/sessions/2026-06/2026-06-12-maker-channel-study.md](./archive/sessions/2026-06/2026-06-12-maker-channel-study.md)
+
+### 5.9 「じぶんで選ぶ店」原則＝棚に万人向けおすすめを置かない／店頭は /products・TOP は予告編（2026-07-03）
+
+商品一覧の再構成（三層＝入口で導く・一覧で圧縮・詳細はあとで見る）にあたり、外部調査（ABRSM/Busuu/Headspace/HackerRank 等のスパースカタログ実例）の「編集推薦（★おすすめ）」だけはコンセプト不適合としてオーナーが棄却。
+
+- **原則**: TENZU に万人向けの「おすすめ」は存在しない。**ユーザーが好きなものを選ぶ**のが商品コンセプト。パーソナルな推薦は**レベル選びガイド（/level-guide）の結果だけ**が出す（棚には置かない）
+- **実装への翻訳**: ①/products 冒頭に宣言「決まったおすすめは置いていません」＋ガイドへの従導線 ②旧「★ 最初の1冊」→**「★ いちばんやさしい巻」**（最小 Lv＝データから決まる事実表示・推薦ではない）③レベルの説明は can-do 一行（到達内容の事実記述＝「選ぶための物差し」）④0巻セルは棚では非表示・全体マップ（9種×5Lv 巻数マトリクス）でのみ「—」表示
+- **店頭の一本化**: 商品棚の実体は /products（地図→棚→物差し→全体マップ）。**TOP の品ぞろえ節は予告編**（3つの力カード＋CTA のみ・旧 coverage タブ機構は撤去）。§5.5 の「TOP が玄関兼カタログ」はこの範囲で改定
+- ビジュアル: 冒頭の図解はコード生成の幾何 SVG（visual-identity §6/§11 準拠・AI 画像不使用）
 
 ---
 
