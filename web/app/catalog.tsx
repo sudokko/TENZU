@@ -5,7 +5,6 @@
    ＝数値の二重定義なし。出典: pack-design §0.2/§11.6/§12-22/§13.7。
    ========================================================================= */
 
-import { Fragment } from "react";
 import { lvCounts, LEVEL_NAMES, LEVEL_AGES } from "./products/data";
 import { isLaunchHidden } from "./products/capabilities";
 import { MAKER_FIG, FigSolid } from "./products/maker-figs";
@@ -216,16 +215,6 @@ export const GROUPS: Group[] = ALL_GROUPS.map((g) => ({
 
 export const LEVELS = LEVEL_NAMES;
 
-/* レベル別 can-do 一行（「選ぶための物差し」＝おすすめではなく到達内容の事実記述）。
-   Lv.1→5 順・LEVEL_NAMES/LEVEL_AGES と同順。 */
-export const LEVEL_CANDO = [
-  "たて・よこのまっすぐな線を、見て写せる",
-  "ななめの線も、見失わずにたどれる",
-  "線が交差しても、一本ずつほどいて追える",
-  "見慣れない傾きや、広い盤面にも対応できる",
-  "複雑な形を、全体の構造から読み解ける",
-];
-
 /* レベル＝発達段階インデックス。年齢はめやす（§12.7 基準尺）。 */
 const LEVEL_GRAPH = [
   { name: "発展編", from: 8, to: 10, label: LEVEL_AGES[4] },
@@ -314,120 +303,6 @@ export function ForceMapCards({ hrefBase = "", goLabel }: { hrefBase?: string; g
         );
       })}
     </nav>
-  );
-}
-
-/* ===================== カタログ本体（3つの力の地図＋3群×タスク＋帯グラフ＋shelf band）
-   構成＝地図（どの力か）→ 棚（どの巻か・チップは #lv アンカーへ直行）→ レベルの見方（絞り込み軸）。
-   レベル別の内容解説はタスクページ（/products/{slug}）の Lv セクションが SSOT＝ここでは持たない。 ===================== */
-export function CatalogSection() {
-  return (
-    <section className="s">
-      <div className="wrap">
-        {/* 3つの力・地図（棚の目次。タップで下の群へ） */}
-        <ForceMapCards goLabel="↓ この力の棚へ" />
-
-        <div className="catalog">
-          {GROUPS.map((g, gi) => (
-            <div className="cat-group" id={`cat-g${gi + 1}`} key={g.label}>
-              <div className="cat-group-head">
-                <h3 className="cat-group-title">{g.label}</h3>
-                <p className="cat-group-sub">{g.sub}</p>
-              </div>
-              <div className="cat-rows">
-                {g.tasks.map((t) => (
-                  <div className="cat-row" key={t.name}>
-                    <div className="cat-main">
-                      <div className="cat-name-row">
-                        <span className="cat-name">{t.name}</span>
-                        <span className="cat-count">全 {volOf(t.lv)} 巻</span>
-                      </div>
-                      <p className="cat-desc">{t.desc}</p>
-
-                      {/* 一覧で圧縮：チップは各レベルへの直接リンク（A 案・直接到達を維持） */}
-                      <div className="cat-levels-block">
-                        <p className="cat-levels-label">レベルを選ぶ</p>
-                        {/* 存在するレベルだけ表示（0巻は棚では見せず、全体マップ側で「—」表示） */}
-                        <div className="cat-levels">
-                          {LEVELS.map((lv, i) =>
-                            t.lv[i] > 0 ? (
-                              <a className="cat-level" href={`/products/${t.slug}#lv${i + 1}`} key={lv}>
-                                {lv}<span className="cat-level-vol">{t.lv[i]}巻</span>
-                              </a>
-                            ) : null
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="cat-fig">
-                      <t.Fig />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* レベルの見方（選ぶための物差し）: can-do 一行 × 5 段階＋ガイド CTA */}
-        <div className="level-guide">
-          <p className="level-guide-label">レベルは、ぜんぶで 5 段階。年齢はめやすです。</p>
-          <ul className="lv-cando">
-            {LEVELS.map((name, i) => (
-              <li className="lv-cando-row" key={name}>
-                <span className="lv-cando-name">Lv.{i + 1} {name}</span>
-                <span className="lv-cando-age">{LEVEL_AGES[i]}</span>
-                <span className="lv-cando-text">{LEVEL_CANDO[i]}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="level-guide-note">
-            どのレベルも年齢のはばを広めにとっています。学年ではなく「いまの手ごたえ」で選んでください。
-          </p>
-        </div>
-
-        {/* 全体マップ（俯瞰専用）: 種類 × レベルの巻数マトリクス。0巻はここでだけ「—」で構造を見せる */}
-        <div className="cat-matrix-block">
-          <p className="cat-matrix-label">全体マップ — 種類 × レベルの巻数</p>
-          <div className="cat-matrix-wrap">
-            <table className="cat-matrix">
-              <thead>
-                <tr>
-                  <th scope="col" aria-label="種類"></th>
-                  {LEVELS.map((_, i) => <th scope="col" key={i}>Lv.{i + 1}</th>)}
-                </tr>
-              </thead>
-              <tbody>
-                {GROUPS.map((g) => (
-                  <Fragment key={g.label}>
-                    <tr className="cat-matrix-group"><th scope="rowgroup" colSpan={6}>{g.label}</th></tr>
-                    {g.tasks.map((t) => (
-                      <tr key={t.slug}>
-                        <th scope="row">{t.name}</th>
-                        {t.lv.map((n, i) =>
-                          n > 0 ? (
-                            <td key={i}><a href={`/products/${t.slug}#lv${i + 1}`}>{n}</a></td>
-                          ) : (
-                            <td className="is-none" key={i}>—</td>
-                          )
-                        )}
-                      </tr>
-                    ))}
-                  </Fragment>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="cat-matrix-note">数字は巻数。「—」は今はない組み合わせです。数字を押すと、その棚へ移動します。</p>
-        </div>
-
-        <div className="shelf-band">
-          <div className="shelf-band-stat">
-            {TOTAL_KINDS} 種類 ・ 計 {TOTAL_VOL} 巻 <span className="sep">／</span> ¥200 一律・サブスクなし
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 
