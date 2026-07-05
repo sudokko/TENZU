@@ -16,7 +16,6 @@ import { difficultyScore, normalizeEdges, validateProblem } from "../schema";
 import { computeMetrics } from "./metrics";
 import { hasNon45, jaccard } from "./filters";
 import { MOTIFS, parsePaths, type MotifDef } from "./motif-shapes";
-import { MOTIF_LADDER } from "./ladder";
 import { randInt, seededRng } from "./rng";
 
 export const MOTIF_GENERATOR_VERSION = "1";
@@ -32,9 +31,16 @@ export type MotifParams = {
   components: [number, number];
 };
 
-/* 7 巻の難易度帯（pack-design §11 絵柄ライン Lv.2〜5・data.ts の grid と同期）。実体は
-   ladder.json（SSOT）。読み取りは gen/ladder.ts 経由。絵柄ラインは廃止済だが seed 用に温存。 */
-export { MOTIF_LADDER };
+/* 絵柄ライン廃止済み（2026-06-19）。seed-motif-inspo（模写/欠け補完への
+   「候補（模様）」注入）専用に、参照される 5 巻分の難易度帯だけをここへ温存
+   （旧 ladder.json motif 節から移設・値は verbatim）。 */
+export const MOTIF_LADDER: Record<string, MotifParams> = {
+  "motif-lv2-vol1": { grid: 3, slopes: "ortho45", lines: [3, 7], crossings: [0, 1], components: [1, 1] },
+  "motif-lv3-vol1": { grid: 4, slopes: "ortho45", lines: [7, 13], crossings: [0, 2], components: [1, 2] },
+  "motif-lv3-vol2": { grid: 5, slopes: "ortho45", lines: [6, 13], crossings: [0, 3], components: [1, 2] },
+  "motif-lv4-vol1": { grid: 5, slopes: "any", requireNon45: true, lines: [4, 14], crossings: [0, 5], components: [1, 2] },
+  "motif-lv4-vol2": { grid: 6, slopes: "any", lines: [9, 16], crossings: [0, 5], components: [1, 3] },
+};
 
 /* 同一モチーフの変種は 1 巻に最大いくつまで出すか（候補・採用・保留を通算） */
 const MAX_PER_MOTIF = 2;

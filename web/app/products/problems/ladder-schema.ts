@@ -3,7 +3,7 @@
    atelier の基準編集 UI（AtelierApp）と編集 API（api/atelier/ladder）が
    この単一定義を共有する＝「何が編集できるか」の SSOT。
    ladder.json の各タスクのエントリ構造に対応（gen/copy.ts CopyShapeParams・
-   fill.ts FillParams・mirror.ts MirrorParams・motif.ts MotifParams）。
+   fill.ts FillParams・mirror.ts MirrorParams）。
    純データのみ（fs/React 非依存）＝client/server 両方から import 可。
    ========================================================================= */
 
@@ -23,10 +23,6 @@ export const GRID_MAX = 7;
 
 const SLOPES_COPY = [
   { value: "ortho", label: "タテヨコのみ" },
-  { value: "ortho45", label: "45°まで" },
-  { value: "any", label: "非45°許可" },
-];
-const SLOPES_MOTIF = [
   { value: "ortho45", label: "45°まで" },
   { value: "any", label: "非45°許可" },
 ];
@@ -106,14 +102,6 @@ export const LADDER_FIELDS: Record<string, LadderField[]> = {
     { key: "crossings", label: "交差数", kind: "range", min: 0 },
     { key: "components", label: "構成要素", kind: "range", min: 1 },
     { key: "bbox", label: "最小スパン", kind: "int", min: 1 },
-  ],
-  motif: [
-    gridField,
-    { key: "slopes", label: "線の向き", kind: "select", options: SLOPES_MOTIF },
-    { key: "requireNon45", label: "非45°を必須", kind: "bool", optional: true },
-    { key: "lines", label: "線の本数", kind: "range", min: 1 },
-    { key: "crossings", label: "交差数", kind: "range", min: 0 },
-    { key: "components", label: "構成要素", kind: "range", min: 1 },
   ],
   /* ---- 生成器の無い手設計タスク（params は当面メタ＝検品の目安） ----
      立体は「ブロック数」を廃止（斜投影・キャビネット図）。巻＝隠れ辺レジーム／中身は5かたち混合。 */

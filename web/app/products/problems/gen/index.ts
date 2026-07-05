@@ -7,7 +7,6 @@
 
 import type { Candidate, Problem } from "../schema";
 import { generateCopyCandidates, COPY_LADDER } from "./copy";
-import { generateMotifCandidates, MOTIF_LADDER } from "./motif";
 import { generateMirrorCandidates, MIRROR_LADDER } from "./mirror";
 import { generateFillCandidates, FILL_LADDER } from "./fill";
 
@@ -47,21 +46,6 @@ export function generatorFor(sku: string): SkuGenerator | null {
         generateCopyCandidates(
           s, seed, count,
           opts?.existing ?? [],          // gen/status 込みで渡す（変種重複排除のため）
-          opts?.linesOverride,
-          opts?.excludeVariants,
-        ),
-    };
-  }
-  const motif = MOTIF_LADDER[sku];
-  if (motif) {
-    return {
-      kind: "motif",
-      lines: motif.lines,
-      crossVolExclusive: true,
-      generate: (s, seed, count, opts) =>
-        generateMotifCandidates(
-          s, seed, count,
-          opts?.existing ?? [],
           opts?.linesOverride,
           opts?.excludeVariants,
         ),

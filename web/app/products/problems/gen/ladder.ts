@@ -41,9 +41,7 @@ import ladderData from "../ladder.json";
 import type { CopyShapeParams } from "./copy";
 import type { FillParams } from "./fill";
 import type { MirrorParams } from "./mirror";
-import type { MotifParams } from "./motif";
 
 export const COPY_LADDER = (ladderData.copy ?? {}) as unknown as Record<string, CopyShapeParams>;
 export const FILL_LADDER = (ladderData.fill ?? {}) as unknown as Record<string, FillParams>;
 export const MIRROR_LADDER = (ladderData.mirror ?? {}) as unknown as Record<string, MirrorParams>;
-export const MOTIF_LADDER = (ladderData.motif ?? {}) as unknown as Record<string, MotifParams>;
