@@ -14,27 +14,40 @@
    - 出題 PDF と解答 PDF を別々に書き出す（解答ページ上端に「かいとう」見出し）。
    - 並びは答えに影響しない（紙面レイアウトだけ）。
    ヘッダー・LP・フッターから動線なし。robots noindex。
+   共通実装（盤面・ページ SVG・PDF・保存パネル等）は maker/core/ を参照。
    ========================================================================= */
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-  PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
-  KGAP, CELL_PAD, PRINT_INK, SCREEN_DOT, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
-  type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
+  PAPER, paperMax, PRINT_INK, SCREEN_DOT, dotRadius, edgeWidth,
+  type PaperKey, type PairLayout,
 } from "../products/print";
 import { PairChipIcon } from "../products/SkuPrintPreview";
 import { useAuth } from "../AuthContext";
 import { ownsMaker } from "../products/capabilities";
 import { buyMaker } from "../maker/buyMaker";
 import { EdgeHitLayer, ModeToggle } from "../maker/erase";
+import {
+  INK, VIEW, dotPos, edgeKey, edgesEqual, pointKey, samePoint, uid,
+  type Edge, type Point,
+} from "../maker/core/geometry";
+import {
+  arrowSvgString, buildPageSvgFrame, type LogoInfo,
+} from "../maker/core/page-svg";
+import { exportPdf } from "../maker/core/pdf-export";
+import { ArrowSVG, PreviewPage, PrintPage } from "../maker/core/PaperSVG";
+import {
+  chunkPages, editorTitle, useEditorHistory, useSavedList,
+} from "../maker/core/useMakerEditor";
+import { usePaperLayout } from "../maker/core/usePaperLayout";
+import {
+  DotSizeSeg, EditActions, MakerHeader, NameFieldGroup, NoteBox, OneStrokeSeg,
+  PaperGroup, PerPageGroup, PreviewShell, SettingsFold,
+} from "../maker/core/chrome";
 
 // =========================================================================
-// Types & constants
-// レイアウトエンジン（PAPER/gridFor/paneSize 等）は products/print.ts（SSOT）から import
+// Types
 // =========================================================================
-type Point = { c: number; r: number };
-type Edge = { a: Point; b: Point };
-
 type GridSize = 3 | 4 | 5 | 6; // 平行移動は family 標準（3×3〜6×6・商品の 3×3/4×4 に整合）
 
 type Problem = {
@@ -46,6 +59,8 @@ type Problem = {
   dr: number;
   selected: boolean;
 };
+
+type Snap = { edges: Edge[] };
 
 /* 各点を (dc,dr) だけ平行移動。形・向き・大きさは変えない */
 function translatePoint(p: Point, dc: number, dr: number): Point {
@@ -93,64 +108,13 @@ function starPathD(cx: number, cy: number, outer: number): string {
   return d + "Z";
 }
 
-const VIEW = 200;
-// Soft ink color — used for all drawn dots/lines/labels in panes (printable side).
-// UI chrome (toolbar buttons, etc.) stays at the original --fg.
-const INK = "#3A424E";
-
-// Outlined block arrow — used between もとの図 / かくマス
-// 細線＋小さな矢じり（案A・2026-06-12）。x,y は線の始点。
-function ArrowSVG({ x, y, size, dir, color }: {
-  x: number; y: number; size: number; dir: "right" | "down"; color: string;
-}) {
-  const hd = size * 0.3; // 矢じりの開き
-  const sw = Math.max(0.35, size * 0.04);
-  const d = dir === "right"
-    ? `M0 0 L${size} 0 M${size - hd} ${-hd} L${size} 0 L${size - hd} ${hd}`
-    : `M0 0 L0 ${size} M${-hd} ${size - hd} L0 ${size} L${hd} ${size - hd}`;
-  return (
-    <path
-      d={d}
-      transform={`translate(${x},${y})`}
-      fill="none" stroke={color} strokeWidth={sw}
-      strokeLinejoin="round" strokeLinecap="round"
-    />
-  );
-}
-
-function pointKey(p: Point) { return `${p.c},${p.r}`; }
-function samePoint(a: Point | null, b: Point | null) {
-  return !!a && !!b && a.c === b.c && a.r === b.r;
-}
-function edgeKey(e: Edge) {
-  const [a, b] = [e.a, e.b].sort((p, q) => p.c - q.c || p.r - q.r);
-  return `${a.c},${a.r}-${b.c},${b.r}`;
-}
-// 2つの辺集合が同一か（順序無視）。編集中の「未保存変更あり」判定に使う。
-function edgesEqual(a: Edge[], b: Edge[]) {
-  if (a.length !== b.length) return false;
-  const ka = new Set(a.map(edgeKey));
-  return b.every((e) => ka.has(edgeKey(e)));
-}
-function dotPos(c: number, r: number, dots: number) {
-  if (dots <= 1) return { x: VIEW / 2, y: VIEW / 2 };
-  const inset = VIEW * 0.10;
-  const step = (VIEW - inset * 2) / (dots - 1);
-  return { x: inset + c * step, y: inset + r * step };
-}
-function uid() {
-  return `p_${Math.random().toString(36).slice(2, 9)}`;
-}
-
 /* 内部用ツールのため完了画面のレコメンドは省略（copy 側のみ） */
 
 // =========================================================================
-// PDF 生成 — jsPDF ＋ ページ SVG → 300dpi PNG 焼き込み。
-// window.print() はスマホで使いものにならないため、ファイルとして
-// ダウンロードさせる（コンビニ印刷・プリンタアプリにもそのまま渡せる）。
-// レイアウトは印刷系と同じ gridFor / paneSize / KGAP を共有。
+// PDF ページ生成 — 共通フレーム（maker/core/page-svg）＋平行移動固有のセル描画。
+// ★（きてん）・●（ここへ）マーカーが点を置換するため、ペイン描画は
+// メーカー固有実装を維持する。
 // =========================================================================
-const PX_PER_MM = 300 / 25.4; // 300dpi
 
 // 1ペイン（盤面）を mm 座標の SVG 断片で描く。比率は PaperSVG（r=1.6/VIEW200）準拠。
 // starAt=起点★（「きてん」）／ targetAt=移動先●（「ここへ」・中空リング）
@@ -195,24 +159,7 @@ function paneSvgString(
   return s;
 }
 
-/* もとの図⇔かくマスの境界に細線矢印（模写と同じ）。移動方向は ★(起点)→●(移動先) で示す */
-function arrowSvgString(
-  cx: number, cy: number, pane: number, gap: number, pair: PairLayout,
-): string {
-  const aSize = gap * 0.9;
-  const hd = aSize * 0.3;
-  const sw = Math.max(0.35, aSize * 0.04);
-  if (pair === "horizontal") {
-    return `<path d="M0 0 L${aSize} 0 M${aSize - hd} ${-hd} L${aSize} 0 L${aSize - hd} ${hd}" transform="translate(${cx + pane + (gap - aSize) / 2},${cy + pane / 2})" fill="none" stroke="${PRINT_INK}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>`;
-  }
-  return `<path d="M0 0 L0 ${aSize} M${-hd} ${aSize - hd} L0 ${aSize} L${hd} ${aSize - hd}" transform="translate(${cx + pane / 2},${cy + pane + (gap - aSize) / 2})" fill="none" stroke="${PRINT_INK}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round"/>`;
-}
-
-type LogoInfo = { url: string; w: number; h: number };
-
-// なまえ・日付の記入欄 SVG は products/print.ts（nameBandSvgString）を共用。
-
-function buildPageSvg(opts: {
+export function buildPageSvg(opts: {
   paper: typeof PAPER[PaperKey];
   problems: Problem[];
   pageNo: number;
@@ -225,119 +172,628 @@ function buildPageSvg(opts: {
   logo: LogoInfo | null;
   answer?: boolean; // true=解答ページ群（かくマス側に R 描画）
 }): string {
-  const { paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale, logo } = opts;
-  const W = paper.w, H = paper.h;
-  const footerH = 12;   // フッター帯（ロゴ＋ページ番号）
-  const nameH = nameField ? NAME_BAND_MM : 0;
-  // 解答ページのみ「かいとう」見出し帯を確保（上端）
-  const titleH = opts.answer ? 12 : 0;
-  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - footerH - nameH - titleH, marginMm);
-  const cellW = (W - marginMm * 2) / cols;
-  const cellH = (H - marginMm * 2 - footerH - nameH - titleH) / rows;
-  const pad = Math.min(cellW, cellH) * CELL_PAD;
-  const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout);
-  const gap = pane * KGAP;
-  const jpFont = "'Hiragino Sans','Yu Gothic','Meiryo',sans-serif";
+  return buildPageSvgFrame<Problem>({
+    ...opts,
+    renderCell: (p, ctx) => {
+      const { cx, cy, cellW, cellH, pane, gap, pairLayout, dotScale } = ctx;
+      const areaY = cy;
+      const areaH = cellH;
+      /* 出題と解答で同じペアレイアウトを共用。違いはかくマスペインの中身だけ。
+         出題: もとの図=F＋★(起点)／かくマス=空欄＋●(移動先・ここへ)
+         解答: もとの図=F＋★／かくマス=R＋★(起点が着地した位置)
+         境界は標準の細線矢印 */
+      const start = p.edges[0]?.a;
+      if (!start) return "";
+      const tgt = { c: start.c + p.dc, r: start.r + p.dr };
+      const answerEdges = opts.answer ? translateEdgesOf(p.edges, p.dc, p.dr) : [];
+      const rightEdges = answerEdges;
+      const rightShow = Boolean(opts.answer);
+      const rightStar = opts.answer ? tgt : undefined;       // 解答=★(着地位置)
+      const rightTarget = opts.answer ? undefined : tgt;     // 出題=●(行き先)
+      const aSize = gap * 0.9;
+      let body = "";
+      if (pairLayout === "horizontal") {
+        const pairW = pane * 2 + gap;
+        const sx = cx + (cellW - pairW) / 2;
+        const sy = areaY + (areaH - pane) / 2;
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined);
+        body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget);
+        body += arrowSvgString(sx + pane + (gap - aSize) / 2, sy + pane / 2, aSize, "right");
+      } else {
+        const pairH = pane * 2 + gap;
+        const sx = cx + (cellW - pane) / 2;
+        const sy = areaY + (areaH - pairH) / 2;
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined);
+        body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget);
+        body += arrowSvgString(sx + pane / 2, sy + pane + (gap - aSize) / 2, aSize, "down");
+      }
+      return body;
+    },
+  });
+}
 
-  let body = "";
-  if (nameField) body += nameBandSvgString(W, marginMm);
-  if (opts.answer) {
-    // 「かいとう」見出し（左寄せ・グレー）。ひらがなで親しみ
-    const ty = marginMm + nameH + 7;
-    body += `<text x="${marginMm}" y="${ty}" font-family="${jpFont}" font-size="6" fill="#3A424E" font-weight="600" letter-spacing="0.8">かいとう</text>`;
+// =========================================================================
+// MakerTranslateApp
+// =========================================================================
+export default function MakerTranslateApp() {
+  // Body class for global background
+  useEffect(() => {
+    document.body.classList.add("maker-page");
+    return () => document.body.classList.remove("maker-page");
+  }, []);
+
+  // PDF 書き出しは買い切り所有が必要（未所有なら購入へ誘導）。
+  const { owned, ready } = useAuth();
+  const isOwned = ownsMaker(owned, "translate");
+
+  // ---- Editor state (current problem) ----
+  const [gridSize, setGridSize] = useState<GridSize>(4);
+  const [edges, setEdges] = useState<Edge[]>([]); // F
+  const [selected, setSelected] = useState<Point | null>(null);
+  // 一筆書きモード（既定 OFF）: ON にすると終点クリック後にその点を次の線の始点として残す。
+  const [oneStroke, setOneStroke] = useState(false);
+  const [erase, setErase] = useState(false);
+  function changeErase(v: boolean) { setErase(v); setSelected(null); }
+  // target は移動先（●・盤面の格子点）。右（結果）盤面のクリックで置く（モード切替なし）。
+  const [target, setTarget] = useState<Point | null>(null);
+  // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const isEditing = editingId != null;
+
+  // history stack — F snapshots
+  function applySnap(s: Snap) {
+    setEdges(s.edges);
+    setSelected(null);
   }
-  problems.forEach((p, idx) => {
-    const col = idx % cols;
-    const row = Math.floor(idx / cols);
-    const cx = marginMm + col * cellW;
-    const cy = marginMm + nameH + titleH + row * cellH;
+  const hist = useEditorHistory<Snap>({ edges: [] }, applySnap);
 
-    const areaY = cy;
-    const areaH = cellH;
-    /* 出題と解答で同じペアレイアウトを共用。違いはかくマスペインの中身だけ。
-       出題: もとの図=F＋★(起点)／かくマス=空欄＋●(移動先・ここへ)
-       解答: もとの図=F＋★／かくマス=R＋★(起点が着地した位置)
-       境界は標準の細線矢印 */
-    const start = p.edges[0]?.a;
-    if (!start) return;
-    const tgt = { c: start.c + p.dc, r: start.r + p.dr };
-    const answerEdges = opts.answer ? translateEdgesOf(p.edges, p.dc, p.dr) : [];
-    const rightEdges = answerEdges;
-    const rightShow = Boolean(opts.answer);
-    const rightStar = opts.answer ? tgt : undefined;       // 解答=★(着地位置)
-    const rightTarget = opts.answer ? undefined : tgt;     // 出題=●(行き先)
-    if (pairLayout === "horizontal") {
-      const pairW = pane * 2 + gap;
-      const sx = cx + (cellW - pairW) / 2;
-      const sy = areaY + (areaH - pane) / 2;
-      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined);
-      body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget);
-      body += arrowSvgString(sx, sy, pane, gap, "horizontal");
-    } else {
-      const pairH = pane * 2 + gap;
-      const sx = cx + (cellW - pane) / 2;
-      const sy = areaY + (areaH - pairH) / 2;
-      body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined);
-      body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget);
-      body += arrowSvgString(sx, sy, pane, gap, "vertical");
+  function clearAll() {
+    hist.pushHistory({ edges: [] });
+    setEdges([]);
+    setSelected(null);
+    setTarget(null);
+  }
+
+  // 移動先を置く（右＝結果盤面のクリック・同点クリックで解除。図形未描画なら無視）
+  function handleTarget(p: Point) {
+    if (edges.length === 0) return;
+    setTarget((t) => (t && samePoint(t, p) ? null : p));
+  }
+
+  // 消すモード: 線をクリック＝その 1 本を削除（pushHistory は Snap 形）
+  function eraseEdge(i: number) {
+    const updated = edges.filter((_, idx) => idx !== i);
+    setEdges(updated);
+    hist.pushHistory({ edges: updated });
+  }
+
+  // 図形を描く（左盤面・拡大メーカーと同じ）
+  function handleDot(p: Point) {
+    if (erase) return;
+    if (!selected) { setSelected(p); return; }
+    if (samePoint(selected, p)) { setSelected(null); return; }
+    const next: Edge = { a: selected, b: p };
+    const k = edgeKey(next);
+    // 一筆書き ON: 線を引いた（消した）後、終点を次の線の始点として残す（連続描画）。
+    const after = oneStroke ? p : null;
+    if (edges.some((e) => edgeKey(e) === k)) {
+      // 既存線をもう一度なぞる→消す
+      const updated = edges.filter((e) => edgeKey(e) !== k);
+      setEdges(updated);
+      hist.pushHistory({ edges: updated });
+      setSelected(after);
+      return;
     }
-  });
-
-  // フッター: ロゴ（左）＋ ページ番号（右）
-  const fy = H - marginMm - 6.5;
-  let footer = "";
-  if (logo) {
-    const lw = 6.5 * (logo.w / logo.h);
-    footer += `<image href="${logo.url}" x="${marginMm}" y="${fy}" width="${lw}" height="6.5"/>`;
+    const updated = [...edges, next];
+    setEdges(updated);
+    hist.pushHistory({ edges: updated });
+    setSelected(after);
   }
-  footer += `<text x="${W - marginMm}" y="${fy + 5}" text-anchor="end" font-family="${jpFont}" font-size="2.8" fill="#888888" letter-spacing="0.3">P ${pageNo} / ${pageCount}</text>`;
 
-  const pxW = Math.round(W * PX_PER_MM);
-  const pxH = Math.round(H * PX_PER_MM);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${pxW}" height="${pxH}"><rect width="${W}" height="${H}" fill="#FFFFFF"/>${body}${footer}</svg>`;
-}
-
-function svgToPng(svg: string, wMm: number, hMm: number): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.round(wMm * PX_PER_MM);
-      canvas.height = Math.round(hMm * PX_PER_MM);
-      const ctx = canvas.getContext("2d")!;
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      URL.revokeObjectURL(url);
-      resolve(canvas.toDataURL("image/png"));
-    };
-    img.onerror = (e) => { URL.revokeObjectURL(url); reject(e); };
-    img.src = url;
-  });
-}
-
-async function loadLogo(): Promise<LogoInfo | null> {
-  try {
-    const res = await fetch("/assets/logo-horizontal.png");
-    if (!res.ok) return null;
-    const blob = await res.blob();
-    const url = await new Promise<string>((ok) => {
-      const fr = new FileReader();
-      fr.onload = () => ok(fr.result as string);
-      fr.readAsDataURL(blob);
-    });
-    const img = new Image();
-    await new Promise((ok, err) => { img.onload = ok; img.onerror = err; img.src = url; });
-    return { url, w: img.naturalWidth, h: img.naturalHeight };
-  } catch {
-    return null; // ロゴが読めなくても PDF 生成は続行
+  function changeGridSize(n: GridSize) {
+    if (editingId) return; // 編集中はグリッド固定（変えると編集中の線が消える事故になる）
+    if (n === gridSize) return;
+    setGridSize(n);
+    setEdges([]);
+    setSelected(null);
+    setTarget(null);
+    hist.resetHistory({ edges: [] });
   }
+
+  // ---- Paper / layout state ----
+  const layout = usePaperLayout();
+  const { paperKey, selectPaper, marginMm, perPage, setPerPage, nameField, setNameField, dotSize, setDotSize, dotScale } = layout;
+  const [pairLayout, setPairLayout] = useState<"auto" | PairLayout>("auto"); // おまかせ=選択数で上下/横を自動
+
+  // ---- Derived: 現在編集中の図形の平行移動結果（ライブ） ----
+  const cur = useMemo(() => computeTranslate(edges, target, gridSize), [edges, target, gridSize]);
+  const resultEdges = cur.edges;
+  const isZeroMove = target !== null && cur.dc === 0 && cur.dr === 0;
+  const canSave = edges.length > 0 && target !== null && !isZeroMove && cur.fits;
+  const startPoint = edges.length > 0 ? edges[0].a : undefined; // 起点（最初に置いた点）
+  const resultStar = cur.fits ? cur.targetMark : undefined;     // 着地位置（けっか）の ★
+
+  // ---- Saved problems ----
+  const list = useSavedList<Problem>();
+  const {
+    saved, setSaved, savingNo, setSavingNo, selectedSaved, selectAllState,
+    toggleSelectSaved, moveSaved, toggleSelectAll,
+  } = list;
+
+  // 編集後/新規保存の共通リセット（キャンバスを空に戻す）
+  function resetCanvas() {
+    setEdges([]);
+    setSelected(null);
+    setTarget(null);
+    hist.resetHistory({ edges: [] });
+  }
+  function saveCurrent() {
+    if (!canSave) return;
+    if (editingId) {
+      // 編集モード: その場で上書き（並び順・PDF 選択・名前は保持）→ 新規モードに戻る
+      // dc,dr は新規保存と同じく cur（computeTranslate の結果）から確定する
+      setSaved((s) => s.map((p) =>
+        (p.id === editingId ? { ...p, gridSize, edges, dc: cur.dc, dr: cur.dr } : p)));
+      setEditingId(null);
+      resetCanvas();
+      return;
+    }
+    const id = uid();
+    const name = `無題 ${savingNo.toString().padStart(2, "0")}`;
+    setSaved((s) => [...s, { id, name, gridSize, edges, dc: cur.dc, dr: cur.dr, selected: true }]);
+    setSavingNo((n) => n + 1);
+    resetCanvas();
+  }
+  // 保存済み問題をエディタに読み込んで編集モードへ。未保存の変更があれば確認。
+  function startEdit(id: string) {
+    if (id === editingId) return; // すでにこれを編集中
+    const p = saved.find((x) => x.id === id);
+    if (!p) return;
+    const dirty = editingId
+      ? (() => { const o = saved.find((x) => x.id === editingId); return !o || !edgesEqual(edges, o.edges); })()
+      : edges.length > 0;
+    if (dirty && !window.confirm(editingId
+      ? "編集中の変更は保存されていません。破棄して別の問題を編集しますか？"
+      : "作りかけの問題があります。破棄して編集しますか？")) return;
+    setGridSize(p.gridSize);
+    setEdges(p.edges);
+    setSelected(null);
+    // 移動先（●）は保存時の dc,dr から復元（起点 edges[0].a + ベクトル）
+    setTarget({ c: p.edges[0].a.c + p.dc, r: p.edges[0].a.r + p.dr });
+    hist.resetHistory({ edges: p.edges });
+    setEditingId(id);
+    hist.rerender();
+  }
+  // 編集をやめて新規モードへ（変更は破棄）
+  function cancelEdit() {
+    setEditingId(null);
+    resetCanvas();
+  }
+  function deleteSaved(id: string) {
+    list.deleteSaved(id, () => { if (id === editingId) cancelEdit(); }); // 編集中の問題を消したら編集モードも解除
+  }
+
+  // ---- Derived: print payload ----
+  // おまかせ = 選択数を 1 ページに（用紙上限でクランプ）。0 問時は 1 扱い。
+  const effectivePerPage = perPage === "auto"
+    ? Math.max(1, Math.min(paperMax(paperKey), selectedSaved.length))
+    : perPage;
+  // おまかせ並び = 選択 2 問以下は上下（1 問でもスカスカに見えない）・3 問以上は横。
+  const effectivePairLayout: PairLayout = pairLayout === "auto"
+    ? (selectedSaved.length <= 2 ? "vertical" : "horizontal")
+    : pairLayout;
+  const pages = useMemo(
+    () => chunkPages(selectedSaved, effectivePerPage),
+    [selectedSaved, effectivePerPage]);
+
+  // ---- PDF ダウンロード（内部用なので完了画面なし） ----
+  const [exporting, setExporting] = useState<false | "q" | "a">(false);
+  /* 出題ページ群 → 解答ページ群 を 1 つの PDF に連結。
+     移動ベクトルは各問題に焼き付けた (dc,dr) を使用（混在可） */
+  async function doExport(mode: "q" | "a") {
+    if (selectedSaved.length === 0 || exporting) return;
+    if (ready && !isOwned) { buyMaker("translate").catch(() => {}); return; }
+    setExporting(mode);
+    try {
+      await exportPdf({
+        paper,
+        pageCount: pages.length,
+        buildPage: (pi, logo) => buildPageSvg({
+          paper, problems: pages[pi],
+          pageNo: pi + 1, pageCount: pages.length,
+          marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
+          answer: mode === "a",
+        }),
+        filename: (stamp) => `tenzu_translate_${mode}_${stamp}.pdf`,
+      });
+    } catch (err) {
+      console.error("PDF export failed:", err);
+      window.alert("PDF の作成に失敗しました。もう一度お試しください。");
+    } finally {
+      setExporting(false);
+    }
+  }
+
+  // 右（結果）盤面のキャプションを状態で出し分け（操作の主役）
+  const resultCap = edges.length === 0
+    ? "うつす先（まず左で図形を描いてね）"
+    : target === null
+      ? "ここをクリックして移動先（●）をおく"
+      : cur.fits
+        ? "うつした図（クリックで移動先を変更）"
+        : "移動先（枠からはみ出します）";
+  const editingTitle = editorTitle(saved, editingId);
+
+  const paper = PAPER[paperKey];
+
+  return (
+    <>
+      {/* dynamic @page size for print */}
+      <style>{`@media print { @page { size: ${paper.cssSize}; margin: 0; } }`}</style>
+
+      {/* ============ HEADER ============ */}
+      <MakerHeader appName="平行移動メーカー（内部用）" />
+
+      {/* 内部用ツールのため完了画面なし */}
+      <>
+      {/* ============ APP SHELL ============ */}
+      <div className="app-shell">
+
+        {/* ---------- CENTER ---------- */}
+        <main className="canvas-area">
+          <div className={`canvas-toolbar${isEditing ? " editing" : ""}`}>
+            <div className="title">
+              {editingTitle}
+            </div>
+          </div>
+
+          {/* 作図の設定（グリッド・点の大きさ・一筆書き）をタイトル直下のコンパクト帯に集約 */}
+          <div className="maker-quickbar" role="group" aria-label="作図の設定">
+            <div className="qb-group">
+              <span className="qb-label">グリッド</span>
+              <select className="qb-select" aria-label="グリッドサイズ" value={gridSize}
+                disabled={isEditing}
+                onChange={(e) => changeGridSize(Number(e.target.value) as GridSize)}>
+                {([3, 4, 5, 6] as GridSize[]).map((n) => (
+                  <option key={n} value={n}>{n}×{n}</option>
+                ))}
+              </select>
+            </div>
+            <ModeToggle erase={erase} onChange={changeErase} />
+            <DotSizeSeg value={dotSize} onChange={setDotSize} />
+            <OneStrokeSeg value={oneStroke} onChange={setOneStroke} />
+            {isEditing
+              ? <span className="qb-note">編集中はグリッドは固定されます。</span>
+              : oneStroke && <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>}
+          </div>
+
+          <div className="canvas-stage">
+            <EditActions
+              onUndo={hist.undo} onRedo={hist.redo} onClear={clearAll}
+              canUndo={hist.canUndo()} canRedo={hist.canRedo()} canClear={edges.length > 0} />
+            {/* もとの図 → うつした図 の 3 要素（重ね/折り/拡大メーカーと同じ overlay-boards を流用） */}
+            <div className="overlay-boards">
+              <div className="overlay-board">
+                <span className="ob-cap">もとの図（★＝起点）</span>
+                <div className="paper-pane problem" aria-label="図形を描く盤面">
+                  <PaperSVG
+                    gridSize={gridSize}
+                    edges={edges}
+                    selected={selected}
+                    onDotClick={handleDot}
+                    showLines={true}
+                    showActiveHighlight={true}
+                    dotScale={dotScale}
+                    starAt={startPoint}
+                    onEdgeErase={eraseEdge}
+                    erase={erase}
+                  />
+                  <div className="pp-stamp">{gridSize}×{gridSize}</div>
+                </div>
+              </div>
+              <div className="overlay-op">ずらす</div>
+              <div className="overlay-board">
+                <span className="ob-cap">{resultCap}</span>
+                <div className="paper-pane" aria-label="移動先を置く盤面（クリックで配置）">
+                  <PaperSVG
+                    gridSize={gridSize}
+                    edges={resultEdges}
+                    onDotClick={handleTarget}
+                    showLines={cur.fits}
+                    ink={INK}
+                    dotScale={dotScale}
+                    starAt={resultStar}
+                    targetAt={target ?? undefined}
+                  />
+                  <div className="pp-stamp">けっか</div>
+                </div>
+              </div>
+            </div>
+
+            {edges.length > 0 && target !== null && !cur.fits && (
+              <div role="alert" style={{
+                width: "100%", maxWidth: 760,
+                background: "#fdecec", border: "1px solid #e3a0a0", color: "#b33a3a",
+                borderRadius: 8, padding: "8px 12px", fontSize: 13, lineHeight: 1.5,
+              }}>
+                この移動先では平行移動した図が枠からはみ出します。<br />
+                もとの図を小さく描く／移動先を起点に近づける／グリッドを大きくしてください。
+              </div>
+            )}
+
+            <div className="canvas-actions">
+              <button className="btn-save" type="button" onClick={saveCurrent} disabled={!canSave}>
+                {isEditing ? "変更を保存" : "この問題を保存する"}
+              </button>
+              {isEditing && (
+                <button className="btn-cancel-edit" type="button" onClick={cancelEdit}>
+                  やめる
+                </button>
+              )}
+            </div>
+            <div className="canvas-help">
+              {isEditing ? (
+                <>保存済みの問題を編集中です。図形や移動先を直して「変更を保存」を押すと、元の問題が上書きされます（並び順と PDF 選択はそのまま）。</>
+              ) : (
+                <>
+                  <strong>① 左で図形を描く</strong>（線を引く＝点を 2 つクリック）。最初に置いた点が「起点」（★）。
+                  <strong> ② 右の盤面をクリック</strong>して移動先（●）をおく。起点 ★ がそこへ移動した図が右に出ます。
+                  はみ出すときは、もとの図を小さく描く／移動先を近くにする／グリッドを大きく。
+                </>
+              )}
+            </div>
+          </div>
+        </main>
+
+        {/* ---------- RIGHT ---------- */}
+        <aside className="sidebar right">
+
+          {/* 保存パネルは共通 SavedPanel でなくローカル実装（サムネが F→R のペア・
+              番号ラベルに移動量「右2・下1」を併記するため） */}
+          <div className="group">
+            <h3>保存済みの問題</h3>
+            {saved.length === 0 ? (
+              <p className="saved-empty">
+                まだ保存された問題はありません。<br />1 問作って「この問題を保存する」を押すと、ここに並びます。
+              </p>
+            ) : (
+              <div className="saved-grid">
+                {saved.map((p, i) => {
+                  const num = (i + 1).toString().padStart(2, "0");
+                  const start = p.edges[0].a;
+                  const tgt = { c: start.c + p.dc, r: start.r + p.dr };
+                  const move = dirText(p.dc, p.dr);
+                  const beingEdited = editingId === p.id;
+                  return (
+                    <div className={`saved-cell${p.selected ? " sel" : ""}${beingEdited ? " editing" : ""}`} key={p.id}>
+                      <button className="thumb" type="button"
+                        role="checkbox"
+                        aria-checked={p.selected}
+                        aria-label={`問題 ${num}（${move}）を PDF に含める`}
+                        onClick={() => toggleSelectSaved(p.id)}>
+                        <span className="thumb-pair">
+                          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true}
+                            starAt={start} starLabel={false} />
+                          <span className="tp-op" aria-hidden="true">→</span>
+                          <PaperSVG gridSize={p.gridSize} edges={translateEdgesOf(p.edges, p.dc, p.dr)}
+                            showLines={true} starAt={tgt} starLabel={false} />
+                        </span>
+                      </button>
+                      {p.selected && <span className="sel-mark" aria-hidden="true">✓</span>}
+                      {beingEdited && <span className="edit-mark" aria-hidden="true">編集中</span>}
+                      <span className="cnum">{num} · {move}</span>
+                      {/* 編集・削除は大きいラベル付きボタンを横並び（角の極小×は廃止＝誤タップ対策・案B 2026-06-21） */}
+                      <div className="cell-actions">
+                        <button className="act-edit" type="button"
+                          aria-label={`問題 ${num} を編集`}
+                          aria-pressed={beingEdited}
+                          onClick={() => startEdit(p.id)}>
+                          <svg viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M10.5 2.5 L13.5 5.5 L5.5 13.5 L2.5 13.5 L2.5 10.5 Z"
+                              fill="none" stroke="currentColor" strokeWidth="1.4"
+                              strokeLinejoin="round" strokeLinecap="round" />
+                          </svg>
+                          <span className="lbl">{beingEdited ? "編集中" : "編集"}</span>
+                        </button>
+                        <button className="act-del" type="button" aria-label={`問題 ${num} を削除`}
+                          onClick={() => {
+                            if (window.confirm(`この問題（#${num}）を削除しますか？`)) deleteSaved(p.id);
+                          }}>
+                          <svg viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M 2.5 4.5 L 13.5 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                            <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="currentColor" strokeWidth="1.4"
+                              strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="currentColor" strokeWidth="1.4"
+                              strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div className="order">
+                        <button type="button" aria-label="ひとつ前へ" disabled={i === 0}
+                          onClick={() => moveSaved(p.id, -1)}>‹</button>
+                        <button type="button" aria-label="ひとつ後へ" disabled={i === saved.length - 1}
+                          onClick={() => moveSaved(p.id, 1)}>›</button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {saved.length > 0 && (
+              <div className="saved-count">
+                <div className="left">
+                  <button className="chk-all" type="button"
+                    role="checkbox" aria-checked={selectAllState}
+                    aria-label="すべて選択" onClick={toggleSelectAll} />
+                  <span>選択中 {selectedSaved.length} / {saved.length} 問</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <SettingsFold
+            current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: ${pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: ${nameField ? "あり" : "なし"}`}>
+            <PaperGroup paperKey={paperKey} onSelect={selectPaper} />
+            <PerPageGroup
+              perPage={perPage}
+              onAuto={() => setPerPage("auto")}
+              onPick={setPerPage}
+              paperKey={paperKey}
+              pair={effectivePairLayout}
+              marginMm={marginMm} />
+
+            <div className="group">
+              <h3>問題と書き込み欄の並び</h3>
+              <div className="seg seg--pair" role="group" aria-label="問題と書き込み欄の並び">
+                <button type="button"
+                  aria-pressed={pairLayout === "auto"}
+                  onClick={() => setPairLayout("auto")}>
+                  おまかせ
+                </button>
+                <button type="button"
+                  aria-pressed={pairLayout === "horizontal"}
+                  onClick={() => setPairLayout("horizontal")}>
+                  <span className="seg-ic"><PairChipIcon pair="horizontal" /></span>
+                  横に並べる
+                </button>
+                <button type="button"
+                  aria-pressed={pairLayout === "vertical"}
+                  onClick={() => setPairLayout("vertical")}>
+                  <span className="seg-ic"><PairChipIcon pair="vertical" /></span>
+                  上下に並べる
+                </button>
+              </div>
+              {pairLayout === "auto" && (
+                <p className="seg-hint">問題が 2 問までは上下、3 問以上は横に自動で並べます。</p>
+              )}
+            </div>
+
+            <NameFieldGroup value={nameField} onChange={setNameField} />
+          </SettingsFold>
+
+          <PreviewShell
+            paperLabel={paper.label} paperW={paper.w} paperH={paper.h}
+            isEmpty={selectedSaved.length === 0}
+            foot={<>
+              <span>合計 <strong>{selectedSaved.length} 問 / {pages.length} ページ</strong></span>
+              <span>{paper.label} · {effectivePerPage} 問 / ページ</span>
+            </>}
+            after={
+              <div className="export-actions">
+                <button className="btn-export" type="button"
+                  onClick={() => doExport("q")} disabled={selectedSaved.length === 0 || exporting !== false}>
+                  {exporting === "q" ? "PDF を作成中…" : "問題をダウンロード"}
+                  {exporting !== "q" && selectedSaved.length > 0 && (
+                    <span className="x">{selectedSaved.length} 問 / {pages.length}p</span>
+                  )}
+                </button>
+                <button className="btn-export" type="button"
+                  onClick={() => doExport("a")} disabled={selectedSaved.length === 0 || exporting !== false}>
+                  {exporting === "a" ? "PDF を作成中…" : "解答をダウンロード"}
+                  {exporting !== "a" && selectedSaved.length > 0 && (
+                    <span className="x">{selectedSaved.length} 問 / {pages.length}p</span>
+                  )}
+                </button>
+              </div>
+            }>
+            {pages.map((page, pi) => (
+              <PreviewPage key={pi}
+                paper={paper}
+                problems={page}
+                pageNo={pi + 1}
+                pageCount={pages.length}
+                marginMm={marginMm}
+                problemsPerPage={effectivePerPage}
+                pairLayout={effectivePairLayout}
+                nameField={nameField}
+                dotScale={dotScale}
+                renderCell={(p, { cellW, cellH, pane, gap, pairLayout: pair, dotScale: ds }) => {
+                  /* 平行移動: 境界に標準の細線矢印（模写と同じ）。移動方向は ★→● で示す */
+                  const start = p.edges[0].a;
+                  const tgt = { c: start.c + p.dc, r: start.r + p.dr };
+                  const aSize = gap * 0.9;
+                  if (pair === "horizontal") {
+                    const pairW = pane * 2 + gap;
+                    const startX = (cellW - pairW) / 2;
+                    const startY = (cellH - pane) / 2;
+                    return (
+                      <>
+                        <PreviewPane x={startX} y={startY} w={pane} h={pane}
+                          gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} starAt={start} />
+                        <PreviewPane x={startX + pane + gap} y={startY} w={pane} h={pane}
+                          gridSize={p.gridSize} edges={[]} showLines={false} dotScale={ds} targetAt={tgt} />
+                        <ArrowSVG x={startX + pane + (gap - aSize) / 2} y={startY + pane / 2}
+                          size={aSize} dir="right" color={PRINT_INK} />
+                      </>
+                    );
+                  }
+                  const pairH = pane * 2 + gap;
+                  const startX = (cellW - pane) / 2;
+                  const startY = (cellH - pairH) / 2;
+                  return (
+                    <>
+                      <PreviewPane x={startX} y={startY} w={pane} h={pane}
+                        gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} starAt={start} />
+                      <PreviewPane x={startX} y={startY + pane + gap} w={pane} h={pane}
+                        gridSize={p.gridSize} edges={[]} showLines={false} dotScale={ds} targetAt={tgt} />
+                      <ArrowSVG x={startX + pane / 2} y={startY + pane + (gap - aSize) / 2}
+                        size={aSize} dir="down" color={PRINT_INK} />
+                    </>
+                  );
+                }} />
+            ))}
+          </PreviewShell>
+
+          <NoteBox />
+
+        </aside>
+      </div>
+
+      {/* モバイル（≤1200px）専用・画面下固定の DL バー */}
+      {selectedSaved.length > 0 && (
+        <div className="mobile-export-bar">
+          <button type="button" onClick={() => doExport("q")} disabled={exporting !== false}>
+            {exporting === "q" ? "PDF を作成中…" : "問題をダウンロード"}
+            {exporting !== "q" && (
+              <span className="x">{selectedSaved.length} 問 / {pages.length} ページ</span>
+            )}
+          </button>
+          <button type="button" onClick={() => doExport("a")} disabled={exporting !== false}>
+            {exporting === "a" ? "PDF を作成中…" : "解答をダウンロード"}
+            {exporting !== "a" && (
+              <span className="x">{selectedSaved.length} 問 / {pages.length} ページ</span>
+            )}
+          </button>
+        </div>
+      )}
+      </>
+
+      {/* ============ PRINT-ONLY SHEETS ============ */}
+      <div className="print-only" aria-hidden="true">
+        {pages.map((page, pi) => (
+          <PrintPage key={pi}
+            paper={paper}
+            problems={page}
+            pageNo={pi + 1}
+            pageCount={pages.length}
+            marginMm={marginMm}
+            problemsPerPage={effectivePerPage}
+            pairLayout={effectivePairLayout}
+            nameField={nameField}
+            renderPair={(p) => <ProblemPair p={p} pairLayout={effectivePairLayout} dotScale={dotScale} />} />
+        ))}
+      </div>
+    </>
+  );
 }
 
 // =========================================================================
+// 平行移動固有の盤面/プレビュー/印刷サブコンポーネント
+// （★「きてん」・●「ここへ」マーカーが点を置換するため、core の
+//   PaperSVG/PreviewPane は使わない）
+// =========================================================================
+
 // Paper pane SVG (used both in canvas and PDF preview)
-// =========================================================================
 function PaperSVG({
   gridSize,
   edges,
@@ -458,872 +914,6 @@ function PaperSVG({
   );
 }
 
-// =========================================================================
-// MakerTranslateApp
-// =========================================================================
-type Snap = { edges: Edge[] };
-
-export default function MakerTranslateApp() {
-  // Body class for global background
-  useEffect(() => {
-    document.body.classList.add("maker-page");
-    return () => document.body.classList.remove("maker-page");
-  }, []);
-
-  // PDF 書き出しは買い切り所有が必要（未所有なら購入へ誘導）。
-  const { owned, ready } = useAuth();
-  const isOwned = ownsMaker(owned, "translate");
-
-  // ---- Editor state (current problem) ----
-  const [gridSize, setGridSize] = useState<GridSize>(4);
-  const [edges, setEdges] = useState<Edge[]>([]); // F
-  const [selected, setSelected] = useState<Point | null>(null);
-  // 一筆書きモード（既定 OFF）: ON にすると終点クリック後にその点を次の線の始点として残す。
-  const [oneStroke, setOneStroke] = useState(false);
-  const [erase, setErase] = useState(false);
-  function changeErase(v: boolean) { setErase(v); setSelected(null); }
-  // target は移動先（●・盤面の格子点）。右（結果）盤面のクリックで置く（モード切替なし）。
-  const [target, setTarget] = useState<Point | null>(null);
-  // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const isEditing = editingId != null;
-
-  // history stack — F snapshots
-  const historyRef = useRef<Snap[]>([{ edges: [] }]);
-  const histIdxRef = useRef<number>(0);
-  const [, forceRender] = useState(0);
-  const rerender = () => forceRender((v) => v + 1);
-
-  function pushHistory(next: Snap) {
-    historyRef.current = historyRef.current.slice(0, histIdxRef.current + 1);
-    historyRef.current.push(next);
-    histIdxRef.current = historyRef.current.length - 1;
-  }
-  function applySnap(s: Snap) {
-    setEdges(s.edges);
-    setSelected(null);
-  }
-  function canUndo() { return histIdxRef.current > 0; }
-  function canRedo() { return histIdxRef.current < historyRef.current.length - 1; }
-  function undo() {
-    if (!canUndo()) return;
-    histIdxRef.current -= 1;
-    applySnap(historyRef.current[histIdxRef.current]);
-    rerender();
-  }
-  function redo() {
-    if (!canRedo()) return;
-    histIdxRef.current += 1;
-    applySnap(historyRef.current[histIdxRef.current]);
-    rerender();
-  }
-  function clearAll() {
-    pushHistory({ edges: [] });
-    setEdges([]);
-    setSelected(null);
-    setTarget(null);
-  }
-
-  // 移動先を置く（右＝結果盤面のクリック・同点クリックで解除。図形未描画なら無視）
-  function handleTarget(p: Point) {
-    if (edges.length === 0) return;
-    setTarget((t) => (t && samePoint(t, p) ? null : p));
-  }
-
-  // 消すモード: 線をクリック＝その 1 本を削除（pushHistory は Snap 形）
-  function eraseEdge(i: number) {
-    const updated = edges.filter((_, idx) => idx !== i);
-    setEdges(updated);
-    pushHistory({ edges: updated });
-  }
-
-  // 図形を描く（左盤面・拡大メーカーと同じ）
-  function handleDot(p: Point) {
-    if (erase) return;
-    if (!selected) { setSelected(p); return; }
-    if (samePoint(selected, p)) { setSelected(null); return; }
-    const next: Edge = { a: selected, b: p };
-    const k = edgeKey(next);
-    // 一筆書き ON: 線を引いた（消した）後、終点を次の線の始点として残す（連続描画）。
-    const after = oneStroke ? p : null;
-    if (edges.some((e) => edgeKey(e) === k)) {
-      // 既存線をもう一度なぞる→消す
-      const updated = edges.filter((e) => edgeKey(e) !== k);
-      setEdges(updated);
-      pushHistory({ edges: updated });
-      setSelected(after);
-      return;
-    }
-    const updated = [...edges, next];
-    setEdges(updated);
-    pushHistory({ edges: updated });
-    setSelected(after);
-  }
-
-  function changeGridSize(n: GridSize) {
-    if (editingId) return; // 編集中はグリッド固定（変えると編集中の線が消える事故になる）
-    if (n === gridSize) return;
-    setGridSize(n);
-    setEdges([]);
-    setSelected(null);
-    setTarget(null);
-    historyRef.current = [{ edges: [] }];
-    histIdxRef.current = 0;
-  }
-
-  // ---- Paper / layout state ----
-  /* 既定: A4 縦・となりに書く・3 問/ページ（商品ページと共通の基本） */
-  const [paperKey, setPaperKey] = useState<PaperKey>("A4-P");
-  const marginMm = 14;
-  // 既定「おまかせ」= 選択した問題数を 1 ページに最適表示（用紙上限超は複数ページ）
-  const [perPage, setPerPage] = useState<"auto" | LayoutPerPage>("auto");
-  const [pairLayout, setPairLayout] = useState<"auto" | PairLayout>("auto"); // おまかせ=選択数で上下/横を自動
-  const [nameField, setNameField] = useState(false); // なまえ・日付欄（既定 OFF）
-  const [dotSize, setDotSize] = useState<DotSize>("m"); // 点の大きさ（既定 中）
-  const dotScale = DOT_SCALE[dotSize];
-
-  // ---- Derived: 現在編集中の図形の平行移動結果（ライブ） ----
-  const cur = useMemo(() => computeTranslate(edges, target, gridSize), [edges, target, gridSize]);
-  const resultEdges = cur.edges;
-  const isZeroMove = target !== null && cur.dc === 0 && cur.dr === 0;
-  const canSave = edges.length > 0 && target !== null && !isZeroMove && cur.fits;
-  const startPoint = edges.length > 0 ? edges[0].a : undefined; // 起点（最初に置いた点）
-  const resultStar = cur.fits ? cur.targetMark : undefined;     // 着地位置（けっか）の ★
-
-  // Switching paper clamps a manual per-page count to that paper's legible maximum.
-  function selectPaper(k: PaperKey) {
-    setPaperKey(k);
-    const max = paperMax(k);
-    setPerPage((p) => (p !== "auto" && p > max ? max : p));
-  }
-
-  // ---- Saved problems ----
-  const [saved, setSaved] = useState<Problem[]>([]);
-  const [savingNo, setSavingNo] = useState(1);
-
-  // 編集後/新規保存の共通リセット（キャンバスを空に戻す）
-  function resetCanvas() {
-    setEdges([]);
-    setSelected(null);
-    setTarget(null);
-    historyRef.current = [{ edges: [] }];
-    histIdxRef.current = 0;
-  }
-  function saveCurrent() {
-    if (!canSave) return;
-    if (editingId) {
-      // 編集モード: その場で上書き（並び順・PDF 選択・名前は保持）→ 新規モードに戻る
-      // dc,dr は新規保存と同じく cur（computeTranslate の結果）から確定する
-      setSaved((s) => s.map((p) =>
-        (p.id === editingId ? { ...p, gridSize, edges, dc: cur.dc, dr: cur.dr } : p)));
-      setEditingId(null);
-      resetCanvas();
-      return;
-    }
-    const id = uid();
-    const name = `無題 ${savingNo.toString().padStart(2, "0")}`;
-    setSaved((s) => [...s, { id, name, gridSize, edges, dc: cur.dc, dr: cur.dr, selected: true }]);
-    setSavingNo((n) => n + 1);
-    resetCanvas();
-  }
-  // 保存済み問題をエディタに読み込んで編集モードへ。未保存の変更があれば確認。
-  function startEdit(id: string) {
-    if (id === editingId) return; // すでにこれを編集中
-    const p = saved.find((x) => x.id === id);
-    if (!p) return;
-    const dirty = editingId
-      ? (() => { const o = saved.find((x) => x.id === editingId); return !o || !edgesEqual(edges, o.edges); })()
-      : edges.length > 0;
-    if (dirty && !window.confirm(editingId
-      ? "編集中の変更は保存されていません。破棄して別の問題を編集しますか？"
-      : "作りかけの問題があります。破棄して編集しますか？")) return;
-    setGridSize(p.gridSize);
-    setEdges(p.edges);
-    setSelected(null);
-    // 移動先（●）は保存時の dc,dr から復元（起点 edges[0].a + ベクトル）
-    setTarget({ c: p.edges[0].a.c + p.dc, r: p.edges[0].a.r + p.dr });
-    historyRef.current = [{ edges: p.edges }];
-    histIdxRef.current = 0;
-    setEditingId(id);
-    rerender();
-  }
-  // 編集をやめて新規モードへ（変更は破棄）
-  function cancelEdit() {
-    setEditingId(null);
-    resetCanvas();
-  }
-  function toggleSelectSaved(id: string) {
-    setSaved((s) => s.map((p) => (p.id === id ? { ...p, selected: !p.selected } : p)));
-  }
-  function deleteSaved(id: string) {
-    setSaved((s) => s.filter((p) => p.id !== id));
-    if (id === editingId) cancelEdit(); // 編集中の問題を消したら編集モードも解除
-  }
-  function moveSaved(id: string, dir: -1 | 1) {
-    setSaved((s) => {
-      const i = s.findIndex((p) => p.id === id);
-      const j = i + dir;
-      if (i < 0 || j < 0 || j >= s.length) return s;
-      const next = s.slice();
-      [next[i], next[j]] = [next[j], next[i]];
-      return next;
-    });
-  }
-  function toggleSelectAll() {
-    const allSel = saved.length > 0 && saved.every((p) => p.selected);
-    setSaved((s) => s.map((p) => ({ ...p, selected: !allSel })));
-  }
-  const selectAllState: "true" | "false" | "mixed" = useMemo(() => {
-    if (saved.length === 0) return "false";
-    const sel = saved.filter((p) => p.selected).length;
-    if (sel === 0) return "false";
-    if (sel === saved.length) return "true";
-    return "mixed";
-  }, [saved]);
-
-  // ---- Derived: print payload ----
-  const selectedSaved = useMemo(() => saved.filter((p) => p.selected), [saved]);
-  // おまかせ = 選択数を 1 ページに（用紙上限でクランプ）。0 問時は 1 扱い。
-  const effectivePerPage = perPage === "auto"
-    ? Math.max(1, Math.min(paperMax(paperKey), selectedSaved.length))
-    : perPage;
-  // おまかせ並び = 選択 2 問以下は上下（1 問でもスカスカに見えない）・3 問以上は横。
-  const effectivePairLayout: PairLayout = pairLayout === "auto"
-    ? (selectedSaved.length <= 2 ? "vertical" : "horizontal")
-    : pairLayout;
-  const pages = useMemo(() => {
-    const ps: Problem[][] = [];
-    for (let i = 0; i < selectedSaved.length; i += effectivePerPage) {
-      ps.push(selectedSaved.slice(i, i + effectivePerPage));
-    }
-    return ps;
-  }, [selectedSaved, effectivePerPage]);
-
-  // ---- PDF ダウンロード（内部用なので完了画面なし） ----
-  const [exporting, setExporting] = useState<false | "q" | "a">(false);
-  /* 出題ページ群 → 解答ページ群 を 1 つの PDF に連結。
-     移動ベクトルは各問題に焼き付けた (dc,dr) を使用（混在可） */
-  async function doExport(mode: "q" | "a") {
-    if (selectedSaved.length === 0 || exporting) return;
-    if (ready && !isOwned) { buyMaker("translate").catch(() => {}); return; }
-    setExporting(mode);
-    try {
-      const { jsPDF } = await import("jspdf");
-      const logo = await loadLogo();
-      const orientation = paper.landscape ? "landscape" : "portrait";
-      const format: [number, number] = [Math.min(paper.w, paper.h), Math.max(paper.w, paper.h)];
-      const doc = new jsPDF({ orientation, unit: "mm", format });
-
-      for (let pi = 0; pi < pages.length; pi++) {
-        if (pi > 0) doc.addPage(format, orientation);
-        const svg = buildPageSvg({
-          paper, problems: pages[pi],
-          pageNo: pi + 1, pageCount: pages.length,
-          marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
-          answer: mode === "a",
-        });
-        const png = await svgToPng(svg, paper.w, paper.h);
-        doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
-      }
-      const d = new Date();
-      const p2 = (n: number) => String(n).padStart(2, "0");
-      const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
-      doc.save(`tenzu_translate_${mode}_${stamp}.pdf`);
-    } catch (err) {
-      console.error("PDF export failed:", err);
-      window.alert("PDF の作成に失敗しました。もう一度お試しください。");
-    } finally {
-      setExporting(false);
-    }
-  }
-
-  // 右（結果）盤面のキャプションを状態で出し分け（操作の主役）
-  const resultCap = edges.length === 0
-    ? "うつす先（まず左で図形を描いてね）"
-    : target === null
-      ? "ここをクリックして移動先（●）をおく"
-      : cur.fits
-        ? "うつした図（クリックで移動先を変更）"
-        : "移動先（枠からはみ出します）";
-  const editingNo = isEditing ? saved.findIndex((p) => p.id === editingId) + 1 : 0;
-  const editingTitle = isEditing
-    ? `問題 #${String(editingNo).padStart(2, "0")} を編集中`
-    : `問題 #${(saved.length + 1).toString().padStart(2, "0")} を作る`;
-
-  const paper = PAPER[paperKey];
-
-  return (
-    <>
-      {/* dynamic @page size for print */}
-      <style>{`@media print { @page { size: ${paper.cssSize}; margin: 0; } }`}</style>
-
-      {/* ============ HEADER ============ */}
-      <header className="maker-header">
-        <div className="logo-cluster">
-          <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
-          <div className="app-name">平行移動メーカー（内部用）</div>
-        </div>
-      </header>
-
-      {/* 内部用ツールのため完了画面なし */}
-      <>
-      {/* ============ APP SHELL ============ */}
-      <div className="app-shell">
-
-        {/* ---------- CENTER ---------- */}
-        <main className="canvas-area">
-          <div className={`canvas-toolbar${isEditing ? " editing" : ""}`}>
-            <div className="title">
-              {editingTitle}
-            </div>
-          </div>
-
-          {/* 作図の設定（グリッド・点の大きさ・一筆書き）をタイトル直下のコンパクト帯に集約 */}
-          <div className="maker-quickbar" role="group" aria-label="作図の設定">
-            <div className="qb-group">
-              <span className="qb-label">グリッド</span>
-              <select className="qb-select" aria-label="グリッドサイズ" value={gridSize}
-                disabled={isEditing}
-                onChange={(e) => changeGridSize(Number(e.target.value) as GridSize)}>
-                {([3, 4, 5, 6] as GridSize[]).map((n) => (
-                  <option key={n} value={n}>{n}×{n}</option>
-                ))}
-              </select>
-            </div>
-            <ModeToggle erase={erase} onChange={changeErase} />
-            <div className="qb-group">
-              <span className="qb-label">点の大きさ</span>
-              <div className="seg qb-seg" role="group" aria-label="点の大きさ">
-                {(["s", "m", "l"] as const).map((k) => (
-                  <button key={k} type="button" aria-pressed={dotSize === k} onClick={() => setDotSize(k)}>
-                    {k === "s" ? "小" : k === "m" ? "中" : "大"}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="qb-group">
-              <span className="qb-label">一筆書き</span>
-              <div className="seg qb-seg" role="group" aria-label="一筆書きモード">
-                <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)}>OFF</button>
-                <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
-              </div>
-            </div>
-            {isEditing
-              ? <span className="qb-note">編集中はグリッドは固定されます。</span>
-              : oneStroke && <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>}
-          </div>
-
-          <div className="canvas-stage">
-            {/* 戻る・進む・全消去 — 作図盤面の真上に（スマホで指の近く・2026-06-25） */}
-            <div className="edit-actions">
-              <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
-                onClick={undo} disabled={!canUndo()}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
-                <span className="lbl">戻る</span>
-              </button>
-              <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
-                onClick={redo} disabled={!canRedo()}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
-                <span className="lbl">進む</span>
-              </button>
-              <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
-                onClick={clearAll} disabled={edges.length === 0}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round"/>
-                  <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
-                    strokeLinecap="round"/>
-                </svg>
-                <span className="lbl">全消去</span>
-              </button>
-            </div>
-            {/* もとの図 → うつした図 の 3 要素（重ね/折り/拡大メーカーと同じ overlay-boards を流用） */}
-            <div className="overlay-boards">
-              <div className="overlay-board">
-                <span className="ob-cap">もとの図（★＝起点）</span>
-                <div className="paper-pane problem" aria-label="図形を描く盤面">
-                  <PaperSVG
-                    gridSize={gridSize}
-                    edges={edges}
-                    selected={selected}
-                    onDotClick={handleDot}
-                    showLines={true}
-                    showActiveHighlight={true}
-                    dotScale={dotScale}
-                    starAt={startPoint}
-                    onEdgeErase={eraseEdge}
-                    erase={erase}
-                  />
-                  <div className="pp-stamp">{gridSize}×{gridSize}</div>
-                </div>
-              </div>
-              <div className="overlay-op">ずらす</div>
-              <div className="overlay-board">
-                <span className="ob-cap">{resultCap}</span>
-                <div className="paper-pane" aria-label="移動先を置く盤面（クリックで配置）">
-                  <PaperSVG
-                    gridSize={gridSize}
-                    edges={resultEdges}
-                    onDotClick={handleTarget}
-                    showLines={cur.fits}
-                    ink={INK}
-                    dotScale={dotScale}
-                    starAt={resultStar}
-                    targetAt={target ?? undefined}
-                  />
-                  <div className="pp-stamp">けっか</div>
-                </div>
-              </div>
-            </div>
-
-            {edges.length > 0 && target !== null && !cur.fits && (
-              <div role="alert" style={{
-                width: "100%", maxWidth: 760,
-                background: "#fdecec", border: "1px solid #e3a0a0", color: "#b33a3a",
-                borderRadius: 8, padding: "8px 12px", fontSize: 13, lineHeight: 1.5,
-              }}>
-                この移動先では平行移動した図が枠からはみ出します。<br />
-                もとの図を小さく描く／移動先を起点に近づける／グリッドを大きくしてください。
-              </div>
-            )}
-
-            <div className="canvas-actions">
-              <button className="btn-save" type="button" onClick={saveCurrent} disabled={!canSave}>
-                {isEditing ? "変更を保存" : "この問題を保存する"}
-              </button>
-              {isEditing && (
-                <button className="btn-cancel-edit" type="button" onClick={cancelEdit}>
-                  やめる
-                </button>
-              )}
-            </div>
-            <div className="canvas-help">
-              {isEditing ? (
-                <>保存済みの問題を編集中です。図形や移動先を直して「変更を保存」を押すと、元の問題が上書きされます（並び順と PDF 選択はそのまま）。</>
-              ) : (
-                <>
-                  <strong>① 左で図形を描く</strong>（線を引く＝点を 2 つクリック）。最初に置いた点が「起点」（★）。
-                  <strong> ② 右の盤面をクリック</strong>して移動先（●）をおく。起点 ★ がそこへ移動した図が右に出ます。
-                  はみ出すときは、もとの図を小さく描く／移動先を近くにする／グリッドを大きく。
-                </>
-              )}
-            </div>
-          </div>
-        </main>
-
-        {/* ---------- RIGHT ---------- */}
-        <aside className="sidebar right">
-
-          <div className="group">
-            <h3>保存済みの問題</h3>
-            {saved.length === 0 ? (
-              <p className="saved-empty">
-                まだ保存された問題はありません。<br />1 問作って「この問題を保存する」を押すと、ここに並びます。
-              </p>
-            ) : (
-              <div className="saved-grid">
-                {saved.map((p, i) => {
-                  const num = (i + 1).toString().padStart(2, "0");
-                  const start = p.edges[0].a;
-                  const tgt = { c: start.c + p.dc, r: start.r + p.dr };
-                  const move = dirText(p.dc, p.dr);
-                  const beingEdited = editingId === p.id;
-                  return (
-                    <div className={`saved-cell${p.selected ? " sel" : ""}${beingEdited ? " editing" : ""}`} key={p.id}>
-                      <button className="thumb" type="button"
-                        role="checkbox"
-                        aria-checked={p.selected}
-                        aria-label={`問題 ${num}（${move}）を PDF に含める`}
-                        onClick={() => toggleSelectSaved(p.id)}>
-                        <span className="thumb-pair">
-                          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true}
-                            starAt={start} starLabel={false} />
-                          <span className="tp-op" aria-hidden="true">→</span>
-                          <PaperSVG gridSize={p.gridSize} edges={translateEdgesOf(p.edges, p.dc, p.dr)}
-                            showLines={true} starAt={tgt} starLabel={false} />
-                        </span>
-                      </button>
-                      {p.selected && <span className="sel-mark" aria-hidden="true">✓</span>}
-                      {beingEdited && <span className="edit-mark" aria-hidden="true">編集中</span>}
-                      <span className="cnum">{num} · {move}</span>
-                      {/* 編集・削除は大きいラベル付きボタンを横並び（角の極小×は廃止＝誤タップ対策・案B 2026-06-21） */}
-                      <div className="cell-actions">
-                        <button className="act-edit" type="button"
-                          aria-label={`問題 ${num} を編集`}
-                          aria-pressed={beingEdited}
-                          onClick={() => startEdit(p.id)}>
-                          <svg viewBox="0 0 16 16" aria-hidden="true">
-                            <path d="M10.5 2.5 L13.5 5.5 L5.5 13.5 L2.5 13.5 L2.5 10.5 Z"
-                              fill="none" stroke="currentColor" strokeWidth="1.4"
-                              strokeLinejoin="round" strokeLinecap="round" />
-                          </svg>
-                          <span className="lbl">{beingEdited ? "編集中" : "編集"}</span>
-                        </button>
-                        <button className="act-del" type="button" aria-label={`問題 ${num} を削除`}
-                          onClick={() => {
-                            if (window.confirm(`この問題（#${num}）を削除しますか？`)) deleteSaved(p.id);
-                          }}>
-                          <svg viewBox="0 0 16 16" aria-hidden="true">
-                            <path d="M 2.5 4.5 L 13.5 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                            <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="currentColor" strokeWidth="1.4"
-                              strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                            <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="currentColor" strokeWidth="1.4"
-                              strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div className="order">
-                        <button type="button" aria-label="ひとつ前へ" disabled={i === 0}
-                          onClick={() => moveSaved(p.id, -1)}>‹</button>
-                        <button type="button" aria-label="ひとつ後へ" disabled={i === saved.length - 1}
-                          onClick={() => moveSaved(p.id, 1)}>›</button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-            {saved.length > 0 && (
-              <div className="saved-count">
-                <div className="left">
-                  <button className="chk-all" type="button"
-                    role="checkbox" aria-checked={selectAllState}
-                    aria-label="すべて選択" onClick={toggleSelectAll} />
-                  <span>選択中 {selectedSaved.length} / {saved.length} 問</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <details className="settings-fold">
-            <summary>
-              <span className="sf-label">詳細設定<span className="sf-chevron" aria-hidden="true" /></span>
-              <span className="sf-current">
-                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: {nameField ? "あり" : "なし"}
-              </span>
-            </summary>
-            <div className="sf-body">
-
-            <div className="group">
-              <h3>用紙</h3>
-              <div className="paper-grid" role="group" aria-label="用紙サイズ">
-                {PAPER_KEYS.map((k) => {
-                  const p = PAPER[k];
-                  return (
-                    <button key={k} type="button"
-                      aria-pressed={paperKey === k}
-                      onClick={() => selectPaper(k)}>
-                      <span className="pname">{p.label}</span>
-                      <span className="pdim">{p.w}×{p.h}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="group">
-              <h3>1 ページに何問</h3>
-              <div className="layout-grid" role="group" aria-label="1ページあたりの問題数">
-                <button type="button"
-                  aria-pressed={perPage === "auto"}
-                  onClick={() => setPerPage("auto")}>
-                  <span className="lauto">おまかせ</span>
-                </button>
-                {COUNT_OPTIONS.filter((v) => v <= paperMax(paperKey)).map((v) => {
-                  const g = gridFor(v, effectivePairLayout, paper.w, paper.h, marginMm);
-                  return (
-                  <button key={v} type="button"
-                    aria-pressed={perPage === v}
-                    onClick={() => setPerPage(v)}>
-                    <span className="ldiagram"
-                      style={{
-                        gridTemplateColumns: `repeat(${g.cols}, 1fr)`,
-                        gridTemplateRows:    `repeat(${g.rows}, 1fr)`,
-                      }}>
-                      {Array.from({ length: g.cols * g.rows }, (_, i) => <span key={i} />)}
-                    </span>
-                    <span className="lnum">{v} 問</span>
-                  </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="group">
-              <h3>問題と書き込み欄の並び</h3>
-              <div className="seg seg--pair" role="group" aria-label="問題と書き込み欄の並び">
-                <button type="button"
-                  aria-pressed={pairLayout === "auto"}
-                  onClick={() => setPairLayout("auto")}>
-                  おまかせ
-                </button>
-                <button type="button"
-                  aria-pressed={pairLayout === "horizontal"}
-                  onClick={() => setPairLayout("horizontal")}>
-                  <span className="seg-ic"><PairChipIcon pair="horizontal" /></span>
-                  横に並べる
-                </button>
-                <button type="button"
-                  aria-pressed={pairLayout === "vertical"}
-                  onClick={() => setPairLayout("vertical")}>
-                  <span className="seg-ic"><PairChipIcon pair="vertical" /></span>
-                  上下に並べる
-                </button>
-              </div>
-              {pairLayout === "auto" && (
-                <p className="seg-hint">問題が 2 問までは上下、3 問以上は横に自動で並べます。</p>
-              )}
-            </div>
-
-            <div className="group">
-              <h3>名前・日付の記入欄</h3>
-              <div className="seg" role="group" aria-label="名前・日付の記入欄">
-                <button type="button"
-                  aria-pressed={!nameField}
-                  onClick={() => setNameField(false)}>
-                  つけない
-                </button>
-                <button type="button"
-                  aria-pressed={nameField}
-                  onClick={() => setNameField(true)}>
-                  つける
-                </button>
-              </div>
-            </div>
-
-            </div>
-          </details>
-
-          <div className="group">
-            <h3>出力プレビュー<span className="pp-paperinfo">{paper.label} · {paper.w}×{paper.h}mm</span></h3>
-            <div className="pdf-preview">
-              {selectedSaved.length === 0 ? (
-                <div className="pp-empty">
-                  選択した問題が、ここに並びます。
-                </div>
-              ) : (
-                <>
-                  <div className="pp-pages">
-                    {pages.map((page, pi) => (
-                      <PreviewPage key={pi}
-                        paper={paper}
-                        problems={page}
-                        pageNo={pi + 1}
-                        pageCount={pages.length}
-                        marginMm={marginMm}
-                        problemsPerPage={effectivePerPage}
-                        pairLayout={effectivePairLayout}
-                        nameField={nameField}
-                        dotScale={dotScale} />
-                    ))}
-                  </div>
-                  <div className="pp-foot">
-                    <span>合計 <strong>{selectedSaved.length} 問 / {pages.length} ページ</strong></span>
-                    <span>{paper.label} · {effectivePerPage} 問 / ページ</span>
-                  </div>
-                </>
-              )}
-            </div>
-            <div className="export-actions">
-              <button className="btn-export" type="button"
-                onClick={() => doExport("q")} disabled={selectedSaved.length === 0 || exporting !== false}>
-                {exporting === "q" ? "PDF を作成中…" : "問題をダウンロード"}
-                {exporting !== "q" && selectedSaved.length > 0 && (
-                  <span className="x">{selectedSaved.length} 問 / {pages.length}p</span>
-                )}
-              </button>
-              <button className="btn-export" type="button"
-                onClick={() => doExport("a")} disabled={selectedSaved.length === 0 || exporting !== false}>
-                {exporting === "a" ? "PDF を作成中…" : "解答をダウンロード"}
-                {exporting !== "a" && selectedSaved.length > 0 && (
-                  <span className="x">{selectedSaved.length} 問 / {pages.length}p</span>
-                )}
-              </button>
-            </div>
-          </div>
-
-          <div className="warning" data-system="warning" role="note">
-            <strong>NOTE</strong>
-            画面で解かせる機能はありません。<br />必ず印刷して、紙の上で練習してください。
-          </div>
-
-        </aside>
-      </div>
-
-      {/* モバイル（≤1200px）専用・画面下固定の DL バー */}
-      {selectedSaved.length > 0 && (
-        <div className="mobile-export-bar">
-          <button type="button" onClick={() => doExport("q")} disabled={exporting !== false}>
-            {exporting === "q" ? "PDF を作成中…" : "問題をダウンロード"}
-            {exporting !== "q" && (
-              <span className="x">{selectedSaved.length} 問 / {pages.length} ページ</span>
-            )}
-          </button>
-          <button type="button" onClick={() => doExport("a")} disabled={exporting !== false}>
-            {exporting === "a" ? "PDF を作成中…" : "解答をダウンロード"}
-            {exporting !== "a" && (
-              <span className="x">{selectedSaved.length} 問 / {pages.length} ページ</span>
-            )}
-          </button>
-        </div>
-      )}
-      </>
-
-      {/* ============ PRINT-ONLY SHEETS ============ */}
-      <div className="print-only" aria-hidden="true">
-        {pages.map((page, pi) => (
-          <PrintPage key={pi}
-            paper={paper}
-            problems={page}
-            pageNo={pi + 1}
-            pageCount={pages.length}
-            marginMm={marginMm}
-            problemsPerPage={effectivePerPage}
-            pairLayout={effectivePairLayout}
-            nameField={nameField}
-            dotScale={dotScale} />
-        ))}
-      </div>
-    </>
-  );
-}
-
-// =========================================================================
-// Sub-components: PreviewPage (sidebar PDF preview) & PrintPage (print sheet)
-// =========================================================================
-function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: PairLayout; dotScale: number }) {
-  const isH = pairLayout === "horizontal";
-  const start = p.edges[0].a;
-  const tgt = { c: start.c + p.dc, r: start.r + p.dr };
-  return (
-    <>
-      <div className="print-cell">
-        <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK} dotScale={dotScale} starAt={start} starInk={PRINT_INK} />
-        </div>
-      </div>
-      {/* 模写と同じ標準の細線矢印（移動方向は ★→● で示す） */}
-      <div className="print-arrow" aria-hidden="true">
-        {isH ? (
-          <svg viewBox="0 0 40 22" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 13 L38 13 M28 6 L38 13 L28 20"
-              fill="none" stroke={PRINT_INK} strokeWidth={1.6}
-              strokeLinejoin="round" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg viewBox="0 0 22 40" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 2 L8 38 M1 28 L8 38 L15 28"
-              fill="none" stroke={PRINT_INK} strokeWidth={1.6}
-              strokeLinejoin="round" strokeLinecap="round" />
-          </svg>
-        )}
-      </div>
-      <div className="print-cell">
-        <div className="print-pane">
-          {/* 出題は解答ペイン空。移動先だけ ● で示す */}
-          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK} dotScale={dotScale} targetAt={tgt} targetInk={PRINT_INK} />
-        </div>
-      </div>
-    </>
-  );
-}
-
-function PreviewPage({
-  paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale,
-}: {
-  paper: typeof PAPER[PaperKey];
-  problems: Problem[];
-  pageNo: number;
-  pageCount: number;
-  marginMm: number;
-  problemsPerPage: number;
-  pairLayout: PairLayout;
-  nameField: boolean;
-  dotScale: number;
-}) {
-  // SVG-based mini preview matching aspect of paper
-  const W = paper.w, H = paper.h;
-  // Page width conveys real paper size: longest selectable side (A3 = 420mm) → full width.
-  const pageScale = Math.max(W, H) / 420;
-  const nameH = nameField ? NAME_BAND_MM : 0;
-  // Use problemsPerPage (not problems.length) so pane size stays consistent across pages.
-  const { cols, rows } = gridFor(problemsPerPage, pairLayout, W, H - nameH, marginMm);
-  const cellW = (W - marginMm * 2) / cols;
-  const cellH = (H - marginMm * 2 - nameH) / rows;
-  // Pane + proportional gap/pad, derived from the same model the optimizer used.
-  const pad = Math.min(cellW, cellH) * CELL_PAD;
-  const pane = paneSize(cellW - pad * 2, cellH - pad * 2, pairLayout);
-  const gap = pane * KGAP;
-  return (
-    <div className="pp-page"
-      style={{ aspectRatio: `${W}/${H}`, width: `${(pageScale * 100).toFixed(1)}%` }}>
-      <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg">
-        {/* なまえ・日付の記入欄（PDF と同じ断片を共用） */}
-        {nameField && (
-          <g dangerouslySetInnerHTML={{ __html: nameBandSvgString(W, marginMm) }} />
-        )}
-        {problems.map((p, idx) => {
-          const col = idx % cols;
-          const row = Math.floor(idx / cols);
-          const cx = marginMm + col * cellW;
-          const cy = marginMm + nameH + row * cellH;
-          let aX: number, aY: number, bX: number, bY: number;
-          /* 平行移動: 境界に標準の細線矢印（模写と同じ）。移動方向は ★→● で示す */
-          let arrowEl: ReactNode;
-          if (pairLayout === "horizontal") {
-            const pairW = pane * 2 + gap;
-            const startX = (cellW - pairW) / 2;
-            const startY = (cellH - pane) / 2;
-            aX = startX;                  aY = startY;
-            bX = startX + pane + gap;     bY = startY;
-            const aSize = gap * 0.9;
-            arrowEl = (
-              <ArrowSVG x={startX + pane + (gap - aSize) / 2} y={startY + pane / 2}
-                size={aSize} dir="right" color={PRINT_INK} />
-            );
-          } else {
-            const pairH = pane * 2 + gap;
-            const startX = (cellW - pane) / 2;
-            const startY = (cellH - pairH) / 2;
-            aX = startX; aY = startY;
-            bX = startX; bY = startY + pane + gap;
-            const aSize = gap * 0.9;
-            arrowEl = (
-              <ArrowSVG x={startX + pane / 2} y={startY + pane + (gap - aSize) / 2}
-                size={aSize} dir="down" color={PRINT_INK} />
-            );
-          }
-          const start = p.edges[0].a;
-          const tgt = { c: start.c + p.dc, r: start.r + p.dr };
-          return (
-            <g key={p.id} transform={`translate(${cx},${cy})`}>
-              <PreviewPane x={aX} y={aY} w={pane} h={pane}
-                gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={dotScale} starAt={start} />
-              <PreviewPane x={bX} y={bY} w={pane} h={pane}
-                gridSize={p.gridSize} edges={[]} showLines={false} dotScale={dotScale} targetAt={tgt} />
-              {arrowEl}
-            </g>
-          );
-        })}
-      </svg>
-      <div className="pageno">P {pageNo} / {pageCount}</div>
-    </div>
-  );
-}
-
 function PreviewPane({
   x, y, w, h, gridSize, edges, showLines, dotScale, starAt, targetAt,
 }: {
@@ -1389,55 +979,39 @@ function PreviewPane({
   );
 }
 
-function PrintPage({
-  paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale,
-}: {
-  paper: typeof PAPER[PaperKey];
-  problems: Problem[];
-  pageNo: number;
-  pageCount: number;
-  marginMm: number;
-  problemsPerPage: number;
-  pairLayout: PairLayout;
-  nameField: boolean;
-  dotScale: number;
-}) {
-  const layout = gridFor(problemsPerPage, pairLayout, paper.w, paper.h, marginMm);
-  // Gaps & arrow shrink as the page gets denser (gap比例化, print side).
-  const dense = problemsPerPage <= 4 ? "8mm" : problemsPerPage <= 8 ? "5mm" : "3mm";
-  const arrowScale = problemsPerPage <= 4 ? 1 : problemsPerPage <= 8 ? 0.7 : 0.5;
+function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: PairLayout; dotScale: number }) {
+  const isH = pairLayout === "horizontal";
+  const start = p.edges[0].a;
+  const tgt = { c: start.c + p.dc, r: start.r + p.dr };
   return (
-    <div className="print-page" style={{
-      width: `${paper.w}mm`,
-      height: `${paper.h}mm`,
-    }}>
-      <div className="print-page-inner">
-        {nameField && (
-          <div className="print-nameband" aria-hidden="true">
-            <span className="nb-line nb-line--date" /><span className="nb-label">がつ</span>
-            <span className="nb-line nb-line--date" /><span className="nb-label">にち</span>
-            <span className="nb-label nb-label--name">なまえ</span><span className="nb-line nb-line--name" />
-          </div>
-        )}
-        <div className="print-grid" style={{
-          gridTemplateColumns: `repeat(${layout.cols}, 1fr)`,
-          gridTemplateRows:    `repeat(${layout.rows}, auto)`,
-          gap: dense,
-          ["--pgap" as string]: dense,
-          ["--pscale" as string]: arrowScale,
-        }}>
-          {problems.map((p) => (
-            <div key={p.id} className={`print-problem pair-${pairLayout}`}>
-              <ProblemPair p={p} pairLayout={pairLayout} dotScale={dotScale} />
-            </div>
-          ))}
-        </div>
-        <div className="print-page-footer">
-          <img className="print-logo" src="/assets/logo-horizontal.png"
-            alt="点描写プリントの専門店 TENZU" />
-          <span>P {pageNo} / {pageCount}</span>
+    <>
+      <div className="print-cell">
+        <div className="print-pane">
+          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK} dotScale={dotScale} starAt={start} starInk={PRINT_INK} />
         </div>
       </div>
-    </div>
+      {/* 模写と同じ標準の細線矢印（移動方向は ★→● で示す） */}
+      <div className="print-arrow" aria-hidden="true">
+        {isH ? (
+          <svg viewBox="0 0 40 22" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 13 L38 13 M28 6 L38 13 L28 20"
+              fill="none" stroke={PRINT_INK} strokeWidth={1.6}
+              strokeLinejoin="round" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 22 40" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 2 L8 38 M1 28 L8 38 L15 28"
+              fill="none" stroke={PRINT_INK} strokeWidth={1.6}
+              strokeLinejoin="round" strokeLinecap="round" />
+          </svg>
+        )}
+      </div>
+      <div className="print-cell">
+        <div className="print-pane">
+          {/* 出題は解答ペイン空。移動先だけ ● で示す */}
+          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK} dotScale={dotScale} targetAt={tgt} targetInk={PRINT_INK} />
+        </div>
+      </div>
+    </>
   );
 }
