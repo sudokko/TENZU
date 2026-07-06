@@ -7,7 +7,7 @@ import {
 } from "../products/print";
 import { PairChipIcon } from "../products/SkuPrintPreview";
 import {
-  buildSolidPageSvg, svgToPng, loadLogo,
+  buildSolidPageSvg,
   type LineStyle,
 } from "./solid-print";
 import { SolidPaperSVG, editorVB, type Point, type Edge } from "./SolidPaperSVG";
@@ -15,6 +15,9 @@ import { ModeToggle } from "../maker/erase";
 import { useAuth } from "../AuthContext";
 import { ownsMaker } from "../products/capabilities";
 import { buyMaker } from "../maker/buyMaker";
+import { samePoint, uid } from "../maker/core/geometry";
+import { exportPdf } from "../maker/core/pdf-export";
+import { DotSizeSeg, EditActions, MakerHeader, OneStrokeSeg } from "../maker/core/chrome";
 
 // =========================================================================
 // 立体模写メーカー（自由線エディタ・買い切り ¥980）
@@ -44,9 +47,8 @@ const STORE_KEY = "tenzu_solid_works";
 // 小＝もう一周り小さい新サイズ・中＝既定（r=1.6）・大＝中よりほんのり大きい程度（開きすぎ回避）。
 const SOLID_DOT_SCALE: Record<DotSize, number> = { s: 0.6, m: 1.0, l: 1.3 };
 
-function samePoint(a: Point | null, b: Point | null) {
-  return !!a && !!b && a.c === b.c && a.r === b.r;
-}
+// samePoint/uid は共通（maker/core/geometry）を流用。edgeKey/edgesEqual は
+// solid の Edge が style を持つ独自型のためスタイル比較込みでここに残す。
 function edgeKey(e: Edge) {
   const [a, b] = [e.a, e.b].sort((p, q) => p.c - q.c || p.r - q.r);
   return `${a.c},${a.r}-${b.c},${b.r}`;
@@ -56,7 +58,6 @@ function edgesEqual(a: Edge[], b: Edge[]) {
   const ka = new Map(a.map((e) => [edgeKey(e), e.style]));
   return b.every((e) => ka.get(edgeKey(e)) === e.style);
 }
-function uid() { return `s_${Math.random().toString(36).slice(2, 9)}`; }
 
 // =========================================================================
 // MakerSolidApp
@@ -203,7 +204,7 @@ export default function MakerSolidApp() {
       setEditingId(null); resetCanvas();
       return;
     }
-    const id = uid();
+    const id = uid("s_");
     const title = `無題 ${(works.length + 1).toString().padStart(2, "0")}`;
     setWorks((s) => [...s, { id, title, cols, rows, edges, selected: true }]);
     resetCanvas();
@@ -288,26 +289,17 @@ export default function MakerSolidApp() {
     if (ready && !isOwned) { buyMaker("solid").catch(() => {}); return; }
     setExporting(true); setDoneMsg(null);
     try {
-      const { jsPDF } = await import("jspdf");
-      const logo = await loadLogo();
-      const orientation = paper.landscape ? "landscape" : "portrait";
-      const format: [number, number] = [Math.min(paper.w, paper.h), Math.max(paper.w, paper.h)];
-      const doc = new jsPDF({ orientation, unit: "mm", format });
-      for (let pi = 0; pi < pages.length; pi++) {
-        if (pi > 0) doc.addPage(format, orientation);
-        const svg = buildSolidPageSvg({
+      await exportPdf({
+        paper,
+        pageCount: pages.length,
+        buildPage: (pi, logo) => buildSolidPageSvg({
           paper, problems: pages[pi].map((w) => ({ cols: w.cols, rows: w.rows, edges: w.edges })),
           pageNo: pi + 1, pageCount: pages.length,
           marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout,
           nameField, dotScale, logo,
-        });
-        const png = await svgToPng(svg, paper.w, paper.h);
-        doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
-      }
-      const d = new Date();
-      const p2 = (x: number) => String(x).padStart(2, "0");
-      const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
-      doc.save(`tenzu_solid_${stamp}.pdf`);
+        }),
+        filename: (stamp) => `tenzu_solid_${stamp}.pdf`,
+      });
       setDoneMsg(`PDF をダウンロードしました（${selectedWorks.length} 問 / ${pages.length} ページ）`);
     } catch (err) {
       console.error("PDF export failed:", err);
@@ -324,16 +316,12 @@ export default function MakerSolidApp() {
 
   return (
     <>
-      <header className="maker-header">
-        <div className="logo-cluster">
-          <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
-          <div className="app-name">立体模写メーカー</div>
-        </div>
+      <MakerHeader appName="立体模写メーカー">
         <div className="maker-auth">
           <a className="ma-link" href="/maker">模写メーカー</a>
           <a className="ma-cta" href="/maker-index">メーカー一覧</a>
         </div>
-      </header>
+      </MakerHeader>
 
       <div className="app-shell">
         {/* ---------- CENTER ---------- */}
@@ -367,24 +355,8 @@ export default function MakerSolidApp() {
                   onClick={() => changeDrawStyle("dashed")}>点線</button>
               </div>
             </div>
-            <div className="qb-group">
-              <span className="qb-label">点の大きさ</span>
-              <div className="seg qb-seg" role="group" aria-label="点の大きさ">
-                {(["s", "m", "l"] as const).map((k) => (
-                  <button key={k} type="button" aria-pressed={dotSize === k}
-                    onClick={() => setDotSize(k)}>
-                    {k === "s" ? "小" : k === "m" ? "中" : "大"}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="qb-group">
-              <span className="qb-label">一筆書き</span>
-              <div className="seg qb-seg" role="group" aria-label="一筆書きモード">
-                <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)}>OFF</button>
-                <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)}>ON</button>
-              </div>
-            </div>
+            <DotSizeSeg value={dotSize} onChange={setDotSize} />
+            <OneStrokeSeg value={oneStroke} onChange={setOneStroke} />
             <span className="qb-note">
               {tool === "erase"
                 ? "消すモード：線をクリックすると、その線だけ消えます。点では描けません。"
@@ -397,41 +369,9 @@ export default function MakerSolidApp() {
           </div>
 
           <div className="canvas-stage">
-            <div className="edit-actions">
-              <button className="iconbtn labeled" type="button" title="一つ戻る" aria-label="一つ戻る"
-                onClick={undo} disabled={!canUndo()}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 6 4 L 3 7 L 6 10" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  <path d="M 3 7 L 10 7 Q 13 7 13 10 L 13 12" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                </svg>
-                <span className="lbl">戻る</span>
-              </button>
-              <button className="iconbtn labeled" type="button" title="一つ進める" aria-label="一つ進める"
-                onClick={redo} disabled={!canRedo()}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 10 4 L 13 7 L 10 10" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  <path d="M 13 7 L 6 7 Q 3 7 3 10 L 3 12" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                </svg>
-                <span className="lbl">進む</span>
-              </button>
-              <button className="iconbtn labeled danger" type="button" title="全消去" aria-label="全消去"
-                onClick={clearAll} disabled={edges.length === 0}>
-                <svg viewBox="0 0 16 16">
-                  <path d="M 2.5 4.5 L 13.5 4.5" stroke="#1A1F2A" strokeWidth="1.5" strokeLinecap="round" />
-                  <path d="M 6 4.5 L 6 3 L 10 3 L 10 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  <path d="M 4 4.5 L 5 13.5 L 11 13.5 L 12 4.5" stroke="#1A1F2A" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  <path d="M 7 7.5 L 7 11.5 M 9 7.5 L 9 11.5" stroke="#1A1F2A" strokeWidth="1.2"
-                    strokeLinecap="round" />
-                </svg>
-                <span className="lbl">全消去</span>
-              </button>
-            </div>
+            <EditActions
+              onUndo={undo} onRedo={redo} onClear={clearAll}
+              canUndo={canUndo()} canRedo={canRedo()} canClear={edges.length > 0} />
             <div className="paper-pair">
               <div className="paper-pane problem" aria-label="編集中の盤面"
                 style={{ aspectRatio: `${editorVB(cols, rows).vw} / ${editorVB(cols, rows).vh}` }}>

@@ -11,13 +11,15 @@ import {
   dotRadius, edgeWidth,
   type PaperKey, type PairLayout,
 } from "../products/print";
+// 300dpi 焼き込み・ロゴ読み込みは全メーカー共通実装（maker/core/page-svg）を流用。
+// MakerSolidApp が "./solid-print" 経由で参照しているため re-export で入口を維持する。
+import { PX_PER_MM, svgToPng, loadLogo, type LogoInfo } from "../maker/core/page-svg";
+
+export { PX_PER_MM, svgToPng, loadLogo, type LogoInfo };
 
 export type LineStyle = "solid" | "dashed";          // 見える辺 / 隠れ辺
 export type SPoint = { c: number; r: number };
 export type SEdge = { a: SPoint; b: SPoint; style: LineStyle };
-
-export const PX_PER_MM = 300 / 25.4; // 300dpi
-export type LogoInfo = { url: string; w: number; h: number };
 
 // 点線パターン。step（点間隔）に比例させ、ペイン寸法が変わっても密度を一定に。
 function dashFor(step: number) {
@@ -157,42 +159,4 @@ export function buildSolidPageSvg(opts: {
   const pxW = Math.round(W * PX_PER_MM);
   const pxH = Math.round(H * PX_PER_MM);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${pxW}" height="${pxH}"><rect width="${W}" height="${H}" fill="#FFFFFF"/>${body}${footer}</svg>`;
-}
-
-export function svgToPng(svg: string, wMm: number, hMm: number): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.round(wMm * PX_PER_MM);
-      canvas.height = Math.round(hMm * PX_PER_MM);
-      const ctx = canvas.getContext("2d")!;
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      URL.revokeObjectURL(url);
-      resolve(canvas.toDataURL("image/png"));
-    };
-    img.onerror = (e) => { URL.revokeObjectURL(url); reject(e); };
-    img.src = url;
-  });
-}
-
-export async function loadLogo(): Promise<LogoInfo | null> {
-  try {
-    const res = await fetch("/assets/logo-horizontal.png");
-    if (!res.ok) return null;
-    const blob = await res.blob();
-    const url = await new Promise<string>((ok) => {
-      const fr = new FileReader();
-      fr.onload = () => ok(fr.result as string);
-      fr.readAsDataURL(blob);
-    });
-    const img = new Image();
-    await new Promise((ok, err) => { img.onload = ok; img.onerror = err; img.src = url; });
-    return { url, w: img.naturalWidth, h: img.naturalHeight };
-  } catch {
-    return null;
-  }
 }
