@@ -4,10 +4,10 @@
 
 - 本ファイルは「見せ方の実装ルール」の SSOT。ブランド哲学・MISSION・Pillar 5 本柱は [../foundation/brand.md](../foundation/brand.md) を参照。実装詳細（CSS・モック・プレビュー）の正は [handoff/maker-import/tenzu-design-system-rev-5/project/](handoff/maker-import/tenzu-design-system-rev-5/project/)（以下「rev-5 bundle」）＋ [../web/app/tokens.css](../web/app/tokens.css)
 - **基板**: 純白 `#FFFFFF` ＋ body 全面の**点格子**（pitch 24px desktop ／ 28px mobile・`#1A1F2A`・opacity 0.16）。配色は `Ink & Slate`、アクセント petroleum teal `#2C6E7F` は**「到達・正解・完成形」のみ**
-- **タイポ 3 階層**: Tier① **Klee One 600**（見出し・プロミス＝意味を運ぶ）／ Tier② **Zen Kurenaido**（温度コピー・店主メモ＝人の温度）／ Tier③ **IBM Plex Sans JP & Plex Mono**（UI・数値・長文＝構造・機能）
+- **タイポ 3 階層**: Tier① **Klee One 600**（見出し・プロミス＝意味を運ぶ）／ Tier② **Klee One 400**（温度コピー・店主メモ＝人の温度・①と同一書体でウェイト違い）／ Tier③ **IBM Plex Sans JP & Plex Mono**（UI・数値・長文＝構造・機能）
 - **罫線は 4 種のみ**（D1 H2 underline ／ D2 dashed 既定 ／ D3 accent 左マーカー ／ D4 fg-2 左マーカー）。solid フル枠・shadow はほぼ無し（`shadow-paper` は商品サムネのみ）。radius-soft 4px。動きは静的が既定
 - **ロゴ**: 鉛筆筆致版が canonical。Symbol = 4-dot floating（点と線分に visible gap）／ Wordmark = Ξ-form E（縦軸なし 3 横線）。Lockup 5 バリアント（D-2 Klee One 版優先）。業態識別句は必須併記・タグライン本体は同梱しない
-- **CTA 4 段階**（弱／中／強／最強）・ディレクトリ別密度・**店主の痕跡 5 種 × 場所別配分表**で温度を構造化
+- **CTA 4 段階**（弱／中／強／最強）・ディレクトリ別密度・**店主の痕跡 5 種 × 場所別配分表**で温度を構造化。加えて **LP Hero に無記名の店主紹介文 1 枠**（§8.1・顔/実名/マスコットなし）
 - **AI 全面活用**（[brand.md §3 V4](../foundation/brand.md)）。端正さの担保は人間レビュー＋パーツライブラリ化
 - キャビアット: フォントは Google Fonts CDN 経由（zip 受領後 `@font-face` へ差し替え予定）
 
@@ -80,8 +80,10 @@ CTA 最強ボタン／モーダル内部／画像・SVG 図形の上／`.parents
 | Tier | 役割 | フォント | ウェイト | 使う場所 |
 |---|---|---|---|---|
 | **①** | 意味を運ぶ | **Klee One** | 600 固定 | H1/H2/H3・タスク名・一文プロミス |
-| **②** | 人の温度 | **Zen Kurenaido** | 400 | 店主メモ本文・lead・blurb・声かけ |
+| **②** | 人の温度 | **Klee One** | 400 | 店主メモ本文・lead・blurb・声かけ |
 | **③** | 構造・機能 | **IBM Plex Sans JP / Plex Mono** | 300-600 | UI・数値・タグ・CTA・長文・警告 |
+
+**①と②は同一書体（Klee One）・ウェイト違い**（見出し 600・本文 400）に統一（2026-07 差し替え・旧②は Zen Kurenaido）。階層は書体の違いではなく太さの違いで判別する。長文プレーンテキストの可読性向上と、サイト全体の書体を実質 Klee One＋Plex の2種へ集約する目的。
 
 迷ったら決定樹（数値・操作 UI？→③ ／ 3 段落以上の連続本文？→③ ／ 警告？→③ ／ 人がそこにいる感？→② ／ 読ませて理解させたい？→①・既定は③）。詳細は [rev-5 bundle specs/typography.md](handoff/maker-import/tenzu-design-system-rev-5/project/specs/typography.md)。
 
@@ -94,7 +96,7 @@ CTA 最強ボタン／モーダル内部／画像・SVG 図形の上／`.parents
 #### §3.2 禁則（必ず守る）
 
 - Klee One①: 16px 未満・3 段落以上の連続本文・`fg-2` 以下の薄色・数値・タグ・CTA・警告では使わない。weight 600 固定
-- Zen Kurenaido②: 15px 未満・5 段落以上・`fg-3` 以下・見出し・数値・ボタン・警告では使わない（**唯一の例外**: カート CTA のサブコピー 1 行・12.5px → §7.1）
+- Klee One②(400): 15px 未満・5 段落以上・`fg-3` 以下・見出し・数値・ボタン・警告では使わない（**唯一の例外**: カート CTA のサブコピー 1 行・12.5px → §7.1）
 - **Plex③ が必ず勝つ場所**: 数値・¥・Lv・Vol・座標／タグ・チップ／CTA・ナビ・パンくず／フォーム／警告・エラー・バリデーション／長文（3 段落以上）／URL・コード（Mono）
 - 越境例外: 店主メモブロック（Klee ラベル＋Pencil 本文＋Mono 日付の 3 階層共存）・商品カード（Mono コード＋Klee 商品名＋Pencil プロミス＋Plex 価格）
 
@@ -160,7 +162,7 @@ spacing は base 4px スケール（`--s-1`〜`--s-24`）。desktop margin 64px 
 - **最小サイズ**: Horizontal は高さ 28px ／ 0.8cm（Ξ-form E が崩れない限界）。それ未満が必要な場面は Symbol に置き換える（Symbol 最小 16px・1:1 固定）。推奨 36-48px（web header）。ヘッダ実機 32-36px で鉛筆質感が見えないのは想定内
 - **safe area**: 周囲に Symbol 高さの 1/2 を最小余白として確保。アスペクト比固定（変形禁止）
 - **業態識別句「点図形（点描写）プリントの専門店」を必ず併記**（Plex Sans JP 400・12px・fg-3。header は水平並列・footer は縦併記）。Symbol 単独使用時は未認知層向け面なら「TENZU」テキストラベル（Plex 500 14px）を添える
-- **タグライン本体（「点と点がつなげるようになったら、点描写を。」）はロゴに同梱しない**。3 段セット（コア＋サブコピー＋業態識別句・[brand.md §12](../foundation/brand.md)）は LP ヒーロー・OG・名刺等のレイアウト側で併記する
+- **タグライン本体（コア「見て、考えて、書く力を、点描写から。」）はロゴに同梱しない**。3 段セット（コア＋サブコピー＋業態識別句・SSOT は [brand.md §12](../foundation/brand.md)）は LP ヒーロー・OG・名刺等のレイアウト側で併記する
 - アンチパターン: effect 追加（shadow/glow）・回転・斜行・グラデ塗り・写真上配置・点線ボックス囲み・Symbol の点と線の接続・アニメーション・4 色トーン以外の色変え。迷ったら「Horizontal／ink／白地」に戻し、レイアウト側を調整する
 - 詳細: [rev-5 bundle specs/logo.md](handoff/maker-import/tenzu-design-system-rev-5/project/specs/logo.md)
 
@@ -207,7 +209,7 @@ spacing は base 4px スケール（`--s-1`〜`--s-24`）。desktop margin 64px 
 
 すべて Plex Sans JP 500・14px・radius-soft。Hero CTA は装飾なし。
 
-- **カート CTA（商品詳細・「強」の具体形）**: 二段構成。上段＝プリンタ icon（inline SVG 18px・依存なし）＋「カートへ」（Plex 500・15px）／下段＝サブコピー「印刷は、おうちのプリンタで」（Zen Kurenaido 12.5px・`#9FE1CB` → hover で白）。地は `--fg` ベタ・hover で `--accent`・買い物カラム内フル幅・radius-soft。サブコピーは購入後体験（家庭で印刷）の予告を兼ねる。**Tier② をボタン内で使う唯一の例外**（§4 タイポ禁則の例外として相互参照）。実装: `web/app/products/product.css` `.btn-cart`
+- **カート CTA（商品詳細・「強」の具体形）**: 二段構成。上段＝プリンタ icon（inline SVG 18px・依存なし）＋「カートへ」（Plex 500・15px）／下段＝サブコピー「印刷は、おうちのプリンタで」（Klee One 400・12.5px・`#9FE1CB` → hover で白）。地は `--fg` ベタ・hover で `--accent`・買い物カラム内フル幅・radius-soft。サブコピーは購入後体験（家庭で印刷）の予告を兼ねる。**Tier② をボタン内で使う唯一の例外**（§4 タイポ禁則の例外として相互参照）。実装: `web/app/products/product.css` `.btn-cart`
 
 #### §7.2 主要部品の約束
 
@@ -224,7 +226,18 @@ bg-3＋radius-soft＋line-height 1.85＋点格子 OFF。D3 左マーカー併用
 
 ### §8. 店主の痕跡（5 種 × 場所別配分）
 
-「個人運営の温度」は痕跡 5 種（T1 観察メモ／T2 改訂履歴／T3 選定理由／T4 親へのひとこと／T5 開発ノート）を**場所別配分表で上限管理**して出す。LP 本体は 0（§「家庭での続け方」のみ T4 を 1）／商品ページ最大 4／PDF L2 最大 3／PDF L1 は 0。一人称は「店主」または無記名（「私たち」「TENZU では」不可）。日付は数値・Plex Mono。配分表・テンプレの正は [rev-5 bundle specs/shopkeeper-traces.md](handoff/maker-import/tenzu-design-system-rev-5/project/specs/shopkeeper-traces.md)。
+「個人運営の温度」は痕跡 5 種（T1 観察メモ／T2 改訂履歴／T3 選定理由／T4 親へのひとこと／T5 開発ノート）を**場所別配分表で上限管理**して出す。痕跡 T1-T5 について LP 本体は 0（§「家庭での続け方」のみ T4 を 1）／商品ページ最大 4／PDF L2 最大 3／PDF L1 は 0。一人称は「店主」または無記名（「私たち」「TENZU では」不可）。日付は数値・Plex Mono。配分表・テンプレの正は [rev-5 bundle specs/shopkeeper-traces.md](handoff/maker-import/tenzu-design-system-rev-5/project/specs/shopkeeper-traces.md)。
+
+#### §8.1 店主紹介文（LP Hero・唯一の例外枠）
+
+T1-T5 とは別枠で、**LP Hero に「店主紹介文」を 1 ブロックだけ**恒久設置する（知育村型の冒頭挨拶に相当）。§8 本体の「LP 本体 0」は T1-T5 の観察・記録系痕跡に対する上限で、この**店を紹介する常設枠はそこに数えない**。目的＝作り手が実在すること・値付けの筋（有料の理由）・「発達に合わせて選べる」中核特徴を、Hero で一度だけ伝えて信用を作る。
+
+- **文体＝無記名の三人称**（店を紹介する）。「TENZU のプリントは〜」で始め、一人称「店主」は名乗らない（T1-T5 の一人称メモとは別物）。締めは招き入れ（「〜見ていってください」）
+- **個人開示は最小**（「二児の父」「IT で新製品企画」程度の 1-2 語まで。実名・顔写真・生活描写・趣味の列挙・肩書の過剰具体は不可＝§6 顔出しなし／キャラ不採用と整合）。**マスコット・人物イラストは付けない**
+- **タイポ＝Tier② Klee One 400**（人の温度）。「店主より」等のラベルは付けない（紹介文自体で店の声と分かる）
+- **面＝淡い teal 敷きカード**（`#EAF2F3`・`--accent-mute` 枠＋`--accent` 3px 左罫・radius-soft）。Hero 白地から浮かせ、コアタグライン（Tier①）とは別レイヤーの「店の声」と分かる形に。強調は `--accent-ink` の太字までに留め、accent ベタは使わない（§7.1 Hero 禁則と整合）
+- **設置は Hero サブ枠に 1 つのみ**（旧サブタグラインの置換）。他ページ・複数設置は不可。実装＝`web/app/page.tsx` `.tr-hero-note`／`web/app/top-rich.css`
+- **未解決（別件）**: 「なぜ、点描写なのか」節の実写 photo（`why-tensha.webp`）は §6「写真不使用」と未整合のまま。本 §8.1（テキストのみの紹介枠）とは切り離し、写真の可否はオーナー判断待ち
 
 ### §9. ディレクトリ別密度・3 軸配分
 

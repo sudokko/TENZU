@@ -13,23 +13,29 @@
   gap: 48px;
   align-items: center;
 }
-@media (max-width: 880px) { .tr-hero-grid { grid-template-columns: 1fr; gap: 32px; } }
-
-.tr-kicker {
-  font-family: var(--font-tier3-mono);
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  color: var(--accent);
-  margin: 0 0 14px;
+@media (max-width: 880px) {
+  .tr-hero-grid { grid-template-columns: 1fr; gap: 24px; }
+  /* スマホ＝署名アニメ（右カラム）を Hero メッセージの上へ */
+  .tr-hero-grid > div:last-child { order: -1; }
 }
+
 .tr-hero h1 {
   font-family: var(--font-tier1-klee);
   font-weight: 600;
-  font-size: clamp(30px, 4.4vw, 46px);
-  line-height: 1.28;
+  font-size: clamp(24px, 4vw, 42px);
+  line-height: 1.32;
   letter-spacing: 0.01em;
   color: var(--fg);
-  margin: 0 0 18px;
+  margin: 0 0 14px;
+}
+/* コアタグライン（brand.md §12・Hero サブ位置） */
+.tr-hero-tagline {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: clamp(19px, 2.4vw, 24px);
+  line-height: 1.5;
+  color: var(--fg);
+  margin: 0 0 12px;
 }
 .tr-hero-sub {
   font-family: var(--font-tier2-pencil);
@@ -39,20 +45,60 @@
   margin: 0 0 10px;
 }
 .tr-hero-sub { margin-bottom: 26px; }
+
+/* スマホは 4vw だと下限張り付きで弱い。ここは base 定義より後段に置いて確実に上書きする
+   （早い段の @media 内に書くと、後段の無条件 .tr-hero h1 に再度潰されるため注意）。
+   Brilliant 級の押し出し＝画面幅に対してかなり大きく・行間を詰める。 */
+@media (max-width: 880px) {
+  .tr-hero h1 {
+    font-size: clamp(34px, 10.5vw, 44px);
+    line-height: 1.18;
+    letter-spacing: 0;
+  }
+  .tr-hero-tagline {
+    font-size: clamp(23px, 7.5vw, 28px);
+    line-height: 1.4;
+  }
+}
+/* ---- 店主紹介文（Hero 畳み込み・知育村型・visual-identity §8.1） ----
+   旧サブタグラインの枠に置換。無記名・ラベルなし。淡い teal 敷き＋accent 左罫で白地から浮かせ、
+   タグラインとは別の「店の紹介＝作り手の声」だと分かる形に。 */
+.tr-hero-note {
+  margin-top: 24px;
+  background: #EAF2F3;                    /* 淡い teal 敷き＝白地 Hero から浮かせて目立たせる */
+  border: 1px solid var(--accent-mute);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-soft);
+  padding: 16px 20px;
+  max-width: 52ch;
+}
+.tr-hero-note-body {
+  font-family: var(--font-tier2-pencil);
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--fg);
+  margin: 0;
+}
+.tr-hero-note-body b { font-weight: 600; color: var(--accent-ink); }
+@media (max-width: 880px) {
+  .tr-hero-note { margin-top: 20px; padding: 14px 16px; }
+  .tr-hero-note-body { font-size: 14.5px; line-height: 1.8; }
+}
+
 .tr-cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
 
 .tr-btn-primary {
   font-family: var(--font-tier3-sans);
   font-size: 15px;
   color: #fff;
-  background: var(--accent);
-  border: 1px solid var(--accent);
+  background: var(--fg);
+  border: 1px solid var(--fg);
   border-radius: var(--radius-soft);
   padding: 13px 22px;
   text-decoration: none;
   transition: background var(--dur-fast) var(--ease-line);
 }
-.tr-btn-primary:hover { background: var(--accent-ink); }
+.tr-btn-primary:hover { background: #10141d; }
 .tr-btn-ghost {
   font-family: var(--font-tier3-sans);
   font-size: 15px;
@@ -107,6 +153,32 @@
   text-align: center;
   margin: 10px 0 0;
 }
+/* 見て→書く の流れ矢印（パネル間・D2 相当の静かな線） */
+.sig-arrow path {
+  fill: none;
+  stroke: var(--fg-3);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* お手本＝最初から描いてある（線を引くアニメをかけず完成状態で常時表示） */
+.sig-static { stroke-dashoffset: 0; }
+/* パネル名（お手本／かいてみる・静的） */
+.sig-panel-label {
+  font-family: var(--font-tier3-mono);
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  fill: var(--fg-3);
+}
+/* かいてみる側の巡回タスク単語（模写・鏡・回転・SVG text・SMIL で表示切替） */
+.sig-word-label {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.04em;
+  fill: var(--fg);
+  opacity: 0; /* 初期＝非表示。SMIL がフェーズ毎に点灯 */
+}
 
 /* ---- セクション見出し（共通・静か） ---- */
 .tr-sec { padding: 56px 0; }
@@ -137,6 +209,34 @@
   margin: 0 0 8px;
 }
 
+/* ---- ② なぜ、点描写なのか（左に大きな絵・右に散文） ---- */
+.tr-why-grid {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: clamp(28px, 4.5vw, 60px);
+  align-items: center;
+}
+@media (max-width: 860px) {
+  .tr-why-grid { grid-template-columns: 1fr; gap: 26px; }
+}
+.tr-why-illus {
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  background-color: var(--bg-3);
+  background-image: radial-gradient(circle, rgba(26, 31, 42, 0.10) 1px, transparent 1.6px);
+  background-size: 22px 22px;
+  background-position: center;
+  border: 1px solid var(--line-thin);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.tr-why-illus .tr-why-svg { width: 84%; height: auto; display: block; }
+.tr-why-illus img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tr-why-copy .tr-sec-head { margin-bottom: 20px; }
+.tr-why-copy .tr-lead { margin-bottom: 0; }
+
 /* ---- 方法カード（5 Pillar） ---- */
 .method-cards {
   display: grid;
@@ -147,8 +247,8 @@
 @media (max-width: 900px) { .method-cards { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .method-cards { grid-template-columns: 1fr; } }
 .method-card {
-  border: 1px solid var(--line-thin);
-  border-left: 2px solid var(--accent);
+  border: 1px dashed var(--line-thin);
+  border-left: 2px solid var(--fg-2);
   border-radius: var(--radius-soft);
   background: #fff;
   padding: 18px 20px;
@@ -174,9 +274,156 @@
   color: var(--fg-2);
   margin: 0;
 }
+.method-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--font-tier3-sans);
+  font-size: 14px;
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity var(--dur-fast) var(--ease-line);
+}
+.method-link:hover { opacity: 0.7; }
 
 /* ---- 品ぞろえ予告編（地図3カード＝landing.css .cat-map 共用・下は CTA のみ） ---- */
 .tr-teaser-foot { display: flex; justify-content: flex-end; margin-top: 20px; }
+
+/* ---- 品ぞろえ Studio（Brilliant 型・力ピル × タスク実演） ---- */
+.cstudio-head { text-align: center; }
+.cstudio-lead {
+  font-family: var(--font-tier2-pencil);
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--fg-2);
+  max-width: 54ch;
+  margin: 14px auto 0;
+}
+.cstudio-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 26px 0 24px;
+}
+.cstudio-pill {
+  font-family: var(--font-tier3-sans);
+  font-size: 15px;
+  padding: 9px 20px;
+  border-radius: 9999px;
+  border: 1px solid var(--line-mid);
+  background: #fff;
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-line), background var(--dur-fast) var(--ease-line);
+}
+.cstudio-pill:hover:not(.on) { border-color: var(--fg-3); }
+.cstudio-pill.on { background: var(--fg); color: #fff; border-color: var(--fg); }
+
+.cstudio-card {
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  border: 1px solid var(--line-thin);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--bg-3);
+}
+@media (max-width: 820px) { .cstudio-card { grid-template-columns: 1fr; } }
+
+.cstudio-list {
+  padding: clamp(18px, 2.6vw, 30px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cstudio-list-cap {
+  font-family: var(--font-tier2-pencil);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--fg-2);
+  margin: 0 0 10px;
+}
+.cstudio-taskbtn {
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  transition: background var(--dur-fast) var(--ease-line), box-shadow var(--dur-fast) var(--ease-line);
+}
+.cstudio-taskbtn:hover:not(.on) { background: rgba(26, 31, 42, 0.035); }
+.cstudio-taskbtn.on { background: #fff; box-shadow: inset 2.5px 0 0 var(--accent); }
+.cstudio-taskname {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--fg);
+}
+.cstudio-taskdesc {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-3);
+}
+.cstudio-taskbtn.on .cstudio-taskdesc { color: var(--fg-2); }
+
+.cstudio-stage {
+  background: #fff;
+  border-left: 1px solid var(--line-thin);
+  padding: clamp(20px, 3vw, 36px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+@media (max-width: 820px) {
+  .cstudio-stage { border-left: none; border-top: 1px solid var(--line-thin); }
+}
+.cstudio-svg { width: 100%; max-width: 440px; height: auto; display: block; }
+.cstudio-meta { text-align: center; }
+.cstudio-meta h3 {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--fg);
+  margin: 0 0 6px;
+}
+.cstudio-meta > p {
+  font-family: var(--font-tier2-pencil);
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--fg-2);
+  margin: 0 0 14px;
+}
+.cstudio-lv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.cstudio-lvchip {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  padding: 4px 9px;
+  border-radius: 9999px;
+  background: #EEF0F2;
+  color: var(--fg-4);
+}
+.cstudio-lvchip.on { background: var(--accent-mute); color: var(--accent-ink); }
+.cstudio-golink {
+  font-family: var(--font-tier3-sans);
+  font-size: 14px;
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity var(--dur-fast) var(--ease-line);
+}
+.cstudio-golink:hover { opacity: 0.7; }
+.cstudio-foot { display: flex; justify-content: center; margin-top: 26px; }
 
 /* ---- 大切にしている 4 つ（図解カード） ---- */
 .val-grid {
@@ -190,8 +437,8 @@
   display: flex;
   gap: 18px;
   align-items: flex-start;
-  border: 1px solid var(--line-thin);
-  border-left: 2px solid var(--accent);
+  border: 1px dashed var(--line-thin);
+  border-left: 2px solid var(--fg-2);
   border-radius: var(--radius-soft);
   background: #fff;
   padding: 20px 22px;
@@ -307,11 +554,11 @@
 
 /* ---- アクセシビリティ: モーション抑制設定を尊重 ---- */
 @media (prefers-reduced-motion: reduce) {
+  /* フェーズ0（模写）の左右ペアだけ完成静止・他フェーズは隠す（重なり回避） */
+  .sig-phase-1, .sig-phase-2 { display: none; }
   .sig-path { animation: none; stroke-dashoffset: 0; }
   .sig-dot { animation: none; opacity: 1; }
   .sig-pencil { animation: none; opacity: 0; }
-  #cov-0:checked ~ .cov-panels .cov-panel:nth-child(1),
-  #cov-1:checked ~ .cov-panels .cov-panel:nth-child(2),
-  #cov-2:checked ~ .cov-panels .cov-panel:nth-child(3),
-  .cov-demo-fig { animation: none !important; }
+  .sig-word-label { opacity: 0; }
+  .sig-word-label.sig-word-0 { opacity: 1; }
 }

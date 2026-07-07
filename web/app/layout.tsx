@@ -7,7 +7,7 @@ import "./landing.css";
 
 const SITE_TITLE = "TENZU — 点図形（点描写）プリントの専門店";
 const SITE_DESCRIPTION =
-  "子供の「空間認知の土台」を、家庭で無理なく育てる。9 タスク × 5 レベル × Vol 細刻みで設計された、点描写プリント。";
+  "見て、考えて、書く力を、点描写から。模写から対称・回転・立体まで、学びの土台を家庭で無理なく育てる、点図形（点描写）プリントの専門店。";
 
 export const metadata: Metadata = {
   // 絶対URLの基点。子セグメントの相対パス（canonical/OG 等）がここから解決される。

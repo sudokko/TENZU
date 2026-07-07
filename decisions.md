@@ -23,13 +23,87 @@
 
 > 一次ソース: [pack-design.md](./product/pack-design.md)
 
+### §3 の読み方 — 現行の背骨（Tier 1）と系譜
+
+64項目の時系列ログ。**今の正**を知るだけなら下の背骨だけ読めばよい。それ以外の項目は後続の判断に上書きされた経緯の記録。
+
+**現行の背骨（Tier 1）**
+
+| テーマ | 現行の判断 |
+|---|---|
+| ブランド軸・タグライン第4世代・主戦場=就学前後 | §3.62 |
+| Tier② 本文フォント（Klee One 400・①と同一書体） | §3.64 |
+| LP Hero 店主紹介文（無記名・§8.1 例外枠） | §3.65 |
+| 外向けレベル名（入門/初級/基礎/応用/発展） | §3.61 |
+| タスクラダー現行 | 模写 §3.55／欠け補完 §3.58／鏡 §3.59／立体 §3.57／かぶり除外 §3.60 |
+| 難易度スコア D（交差撤去・非45°） | §3.54 |
+| タスク構成（絵柄削除・9タスク／メーカー呼称） | §3.51／§3.50 |
+| ローンチ公開スコープ（拡大・縮小メーカー非公開） | §3.53 |
+| 商品導線・SKU slug／TOP／レベル選びガイド／PDF その場生成 | §3.47／§3.45／§3.46／§3.48 |
+| 記事/非記事の振り分け／Phase 構成（3フェーズ） | §3.42／§3.41 |
+
+**主な系譜（上書き済み・経緯を追うときだけ）**
+
+- 戦略軸: §3.20 案F → §3.28 案G → §3.29 案H → §3.30 案H' → §3.31 案H'' → §3.36 案H''' → **§3.62（現行）**
+- 初期ラダー確定群（§3.1〜§3.16・2026-04）→ §3.54〜§3.60 の再校正・再構成で上書き
+- 絵柄: §3.13 → §3.43（1シリーズ化）→ **§3.51（完全削除・現行）**
+- TOP 表示: §3.44 → §3.45（構成・現行）＋ **§3.63（Hero 文言・rev.5 準拠）** ＋ **§3.65（Hero 店主紹介文・現行）**
+
+### 3.65 LP Hero に「店主紹介文」を新設（無記名・chiiku-baby 型・visual-identity §8.1）（2026-07-07）
+
+オーナーが知育系サイト chiiku-baby の冒頭「サイト主コメント」を参照し、**顔は出さないまま「作り手はこう考えている」を伝えたい**という要望。TENZU の「個人カラーを出さない／顔出しなし」方針と、案W「個人運営の温度」の両立点として、**Hero に無記名の店主紹介文を 1 枠だけ**置く形に着地。コピーは対話で反復推敲（マスコット案・`<details>`開閉案は試作後に不採用）。
+
+- **確定＝Hero サブ枠を店主紹介文に置換**: 旧サブタグライン「模写から対称・回転・立体まで〜」を撤去し、その枠へ。確定コピー＝「**TENZU のプリントは、IT 企業で新しい製品を企画してきた二児の父が、数多くの教材を研究して一から設計しました。急に難しくならない、発達に合わせて選べる仕組み、親が使いやすい印刷まで工夫しています。手間をかけているぶん有料ですが、広告は一切入れていません。どうぞ、ゆっくり見ていってください。**」
+- **主軸＝「無料じゃない・でも作り込んでいる」＋作り手の信頼性**: 有料の理由（広告なし・作り込み）を言い切り（謝らない）／作り手の実在は「二児の父・IT で新製品企画」の最小開示のみ（実名・顔・囲碁等の趣味・社名は出さない）／中核特徴「発達に合わせて選べる」を強調。締めは招き入れ
+- **表現ガードレール**: 「診断」語彙は不使用（迷ったら「レベル選びガイド」へ）。一人称「店主」は名乗らず**無記名の三人称**（「TENZU のプリントは」）で T1-T5 の一人称メモと区別。「店主より」ラベルは付けない
+- **面＝淡い teal 敷きカード**（`.tr-hero-note`・`#EAF2F3`＋accent-mute 枠＋accent 3px 左罫）。白地 Hero から浮かせ、コアタグライン（Tier①）とは別レイヤーの店の声と分かる形に。強調は accent-ink の太字まで（accent ベタ禁則と非抵触）。加えて **② 「なぜ、点描写なのか」節を白背景化**（tr-sec-alt 除去）し、色を写真枠だけに残して紹介文カードを際立たせる
+- **SSOT 正式化**: [visual-identity.md §8.1](./design/visual-identity.md) 新設＝「痕跡 T1-T5 の LP 本体 0」とは別枠の唯一の例外として明文化。[design/README.md](./design/README.md) サマリも追補
+- **実装**: `web/app/page.tsx`（Hero）・`web/app/top-rich.css`（`.tr-hero-note`）。試作した実験ルート `/top-b` は正本反映後に削除。tsc 緑
+- **未解決（別件・本項の対象外）**: ② 節の実写 photo（`why-tensha.webp`）は [visual-identity.md §6](./design/visual-identity.md)「写真不使用」と未整合のまま（オーナー判断待ち）。本項はテキストの紹介枠のみを正式化
+
+### 3.64 Tier② 本文フォントを Zen Kurenaido → Klee One 400 へ差し替え（サイト全体・2026-07-07）
+
+オーナーが TOP Hero サブタグラインを読んで、フォントが長文に不向きと指摘。調べると Zen Kurenaido は Hero 単体ではなく [visual-identity.md §3](./design/visual-identity.md) 定義の Tier②「人の温度」フォントとしてサイト全体（店主メモ・カート副文言・商品説明・レベル選びガイド・記事・親向けブロック等）で使われていたため、局所対応でなく SSOT ごと差し替え。
+
+- **候補3案を提示**: Zen Maru Gothic（Zen 系譜で温度感継続）／BIZ UDPGothic（UD 書体・可読性最優先）／Klee One 400ウェイト（新規フォント追加なし）。オーナーが**サイト全体差し替え＋Klee One 400 採用**を選択
+- **確定**: Tier①（見出し・Klee One 600）と Tier②（本文・Klee One 400）が**同一書体・ウェイト違い**に統一。サイト全体の書体を実質 Klee One＋Plex Sans JP/Mono の2種へ集約。階層は太さで判別する
+- **実装**: `web/app/tokens.css` の `--font-tier2-pencil` フォントスタックと Google Fonts `@import`（Klee One に 400 を追加ロード・Zen Kurenaido の import を削除）のみが実質変更点（CSS変数名は不変のため50箇所超の消費側は無変更で反映）。直書きだった `web/app/atelier/story/story.css` の1箇所も変数経由に統一
+- **要確認で温存**: カート CTA サブコピー（`.btn-cart-sub`）と `.plpc-force-sub` は 12.5px という Tier② 禁則フロア（15px）を下回る唯一の例外運用（[visual-identity.md §7.1](./design/visual-identity.md)）。Klee One の書き文字的な曲線がこのサイズで潰れないかは実装後に目視確認
+- 関連: [visual-identity.md §3/§3.2/§7.1](./design/visual-identity.md)・[design/README.md](./design/README.md)
+
+### 3.63 TOP Hero をタグライン第4世代へ配置＋rev.5 CTA/罫線準拠（2026-07-06）
+
+[§3.62](#362-ブランディングコンセプト戴冠タグライン第4世代主戦場を就学前後へ2026-07-05) の残作業「新タグラインの実装配置」のうち TOP 分を実施。TOP 実装（page.tsx / top-rich.css / layout.tsx / SiteHeader / SiteFooter）を [brand.md §12](./foundation/brand.md)・[visual-identity.md](./design/visual-identity.md) rev.5 と照合した監査で、①旧コア「図形の基礎は、点描写から。」が H1 に残存・コアタグライン不在 ②rev.5 CTA/罫線ルール違反 ③死んだ主CTA を検出し、一括是正。
+
+- **確定1＝Hero 3行構成**: H1「**点図形（点描写）プリントの、専門店です。**」（§3.39 の業態主役は維持しつつ、表記階層化の並記を H1 へ統合。kicker 行は「専門店」重複のため廃止）＋ コアタグライン「見て、考えて、書く力を、点描写から。」（サブ位置・Klee One 600）＋ サブタグライン第4世代。業態識別句の定型文はフッターが担保
+- **確定2＝「サンプルを見る」系 CTA を撤去**: Hero・クロージングの主ボタン、フッター「サンプル PDF」リンク（いずれも `href="#"` の死導線）をサンプル閲覧プレビュー実装まで置かない。TOP の主CTA は「レベル選びガイドへ」に一本化
+- **確定3＝rev.5 準拠**: 主CTA `.tr-btn-primary` を accent ベタ→**墨（--fg）ベタ**（accent ベタは「購入確定・達成完了」専用へ温存）／method・val カードを 1px solid フル枠→**D2 破線**・左マーカー accent→**fg-2（D4）**
+- **付随**: ヘッダー ident 並記化（「点図形（点描写）／プリントの専門店」）・layout.tsx meta description をコア＋サブタグライン基調へ・旧タブ実装の `.cov-*` 死CSS除去・H1 長文化に伴い clamp を 24-42px へ微調整
+- **確定4＝Hero 署名アニメを「見て → 書く」2パネル化**（page.tsx `SignatureDraw`）：旧＝1つの図形をひと筆書きするだけで三拍のうち「書く」しか映らず、Veo 動画も進行的作画不能で不採用。新＝左「お手本」／右「写し（teal点＋鉛筆）」を横並置し、右の作り方を **模写→鏡→回転** で巡回（同じお手本・違う規則＝「考えて」を構造化）。SSOT 整合＝鏡は横並び左右反転（縦軸）・回転は 90° 時計回り（[pack-tasks §15/§16](./product/pack-tasks.md)）。実タスク3種の予告も兼ねる。`buildFig`→時間窓版 `buildPanel` に一般化・SMIL チェーンとグラファイト質感フィルタは踏襲。**追改（同日オーナーFB）**：①お手本は静的モデル化＝最初から描いてあり全フェーズ残す（`.sig-static`）②ラベルは用語だけでは伝わらないため平易な言い換えを併記（「そのまま写す（模写）」「左右をさかさまにして写す（鏡）」「回してから写す（回転）」＋パネル名お手本／かいてみる）③右の描画は各辺「迷う(hover 0.5)→引く(draw 0.4)→止まる」で"悩みながら書く"間を付与
+- **対象外（記録のみ）**: OG 画像（アセット未整備）・About/FAQ/改訂履歴の未配線・`.tr-sec-kicker` の accent 文字色（SSOT は kicker=fg-3・全域共通パターンのため別途判断）・§3.45 の「3群タブ＋帯グラフ」記述と実装（地図3カード）の乖離は要オーナー確認
+
+### 3.62 ブランディングコンセプト戴冠＋タグライン第4世代＋主戦場を就学前後へ（2026-07-05）
+
+オーナーが西澤明洋『ブランディングデザイン』を契機に、TENZU に「ブランディングコンセプト」が明示されていないことを確認し、コンセプト戴冠・ターゲット主戦場の再定義・タグライン全面改定を一括確定。検証は H''' と同格の 3-way DR（GPT-5 ＋ Gemini ＋ Claude）で、**新方向 3-0・コア「点描写」単独 3-0 の全会一致**。
+
+- **確定1＝ブランディングコンセプト（[brand.md §0](./foundation/brand.md) 新設）**: 「**考えながら書く力を育てる、点図形（点描写）プリント専門店**」。ロジック＝年長の「かく」は考えないかき（点つなぎ・運筆）→ 小1でひらがな・計算・板書＝考えながら書く行為が爆発 → 点描写はその予行演習。学術裏付け（視覚空間処理→書字・算数）は「空間認知」のまま維持し、コンセプトは**就学前後の親の言葉への翻訳**
+- **確定2＝主戦場「就学前後（年長〜小1前半）」**（年長中心・年中=Lv.1-2 入口フランク・小1後半〜小2=S-c 受けフランク・受動拾い不変）。S-a/S-b/S-c は廃止せず**バンド内の語り分けレイヤー**へ。[pack-tasks §12.7](./product/pack-tasks.md) の Lv.3 基礎編 標準ペース窓（年長前半〜小1前半・5×5=主戦場）と完全一致＝**商品側の変更不要**（ズレていたのはメッセージ側のみ）
+- **確定3＝タグライン第4世代**: コア「**見て、考えて、書く力を、点描写から。**」＋サブ「**模写から対称・回転・立体まで。図形にも文字にもつながる、学びの土台を家庭で無理なく。**」＋業態識別句（不変）。コアは概念語（考えながら書く力）でなく**行為の三拍**でレンダリング（「見て書く」＝視写で作文誤認を構造排除・GPT-5 第一推奨と Claude 案の同型収束）。「ながら」の同時性ニュアンスはコンセプト側（§0）で保持。「書く」は漢字（三拍の視覚パラレル・R4「書く学習は紙とペン」整合・ひらがな「かく」は低温度文脈用）
+- **降格運用**: 旧コア「図形の基礎は、点描写から。」→**図形文脈バリアント**（S-c 図形系 LP・図形系記事ハブ・学校算数/中受近傍。小1後半以降には引き続き最強のため温存）／旧旧コア「点と点が〜」→オンボーディング・FAQ（現行のまま）／「なぞるの次は、考えながら書く」型→運筆系 LP・記事 H1 専用（Hero 禁止）
+- **用途分け改定（[voice-tone.md](./foundation/voice-tone.md)）**: フロント2層化＝**看板（コア）「見て、考えて、書く力」／図形文脈「図形の基礎力」**＋学術 RTB「空間認知」は不変（§3.36 の「フロント＝図形の基礎力」単層を改定）
+- **キーワード戦略**: 「運筆 プリント」5,400 VOL/競合性1 を主戦場外→**隣接地へ解禁**（なぞりの次の階段）・年齢系ブルーオーシャン（年長320/小1 320/年中110）を主入口へ・「入学準備 ドリル」（競合性93）は直接取らない・春スパイク（1-4月）は季節脇役→**ブランド主軸の最需要期**へ再解釈
+- **ガードレール**: 「点つなぎ・運筆は考えていない」を外向けに出さない（§16 階段表現厳守）・「入学までに」型の時間軸煽り禁止（V1）
+- **web 実装への影響**: 即時なし（LP Hero H1=「点描写プリントの、専門店です。」＝業態主役は [§3.39](#339-lp-hero-h1-確定rev4点描写プリントの専門店ですを維持2026-05-27) で確定済み・維持）。新タグラインの実装配置（Hero サブ・OG・about）は別途
+- **残作業**: [clusters.md](./content/clusters.md) 運筆・年齢 Cluster の再設計／[funnel.md](./acquisition/funnel.md) 春 LP の重み付け再調整／クリティカルコア（西澤フレームのもう片翼）の言語化
+- 経緯・3-way DR 全票・棄却案（写す/描く/とらえる/かく開き/GPT-5 ブレンド案）: [ideas/2026-07-05-brand-concept-kangaenagara-kaku.md](./ideas/2026-07-05-brand-concept-kangaenagara-kaku.md)（promoted）
+
 ### 3.61 レベル名リネーム：Lv.1「はじめの一歩」→「入門編」／Lv.2「入門編」→「初級編」（2026-07-03）
 
 /products 一覧のレベルチップ短縮表記で、Lv.1「はじめの一歩」だけ6文字で他4レベル（◯◯編＝2文字＋編）から浮くことが判明。オーナー指示で「入門と基礎の間」を埋める語を検討し、**Lv.1を入門編・Lv.2を初級編**へ変更。「入門→初級→基礎→応用→発展」で階段の言葉として統一され、チップ短縮も「入門／初級／基礎／応用／発展」で2文字に揃う。Lv.3〜5（基礎編／応用編／発展編）は不変。
 
 - **SSOT**: `LEVEL_NAMES`（[web/app/products/data.ts](./web/app/products/data.ts)）。ここ経由で `volTitle()`・`LEVELS`（catalog.tsx）・TaskListPage・level-guide・atelier 各画面は自動追従
 - **手修正が要る箇所**（LEVEL_NAMES を参照しないハードコード）: catalog.tsx の `LEVEL_GRAPH`（帯グラフ）・products/page.tsx の `LV_SHORT`（チップ短縮）
-- **設計書**: [pack-design.md §0.3/§0.3.1/§12.5/§12.7](./product/pack-design.md)・[pack-tasks.md](./product/pack-tasks.md)（Lv.2 表記10箇所・Lv.1 歯抜け表記2箇所）・[content/templates.md §7.3-bis](./content/templates.md)・[design/navigation/pages-overview.html](./design/navigation/pages-overview.html) を現行仕様として更新
+- **設計書**: [pack-design.md §0.3/§0.3.1](./product/pack-design.md)・[pack-tasks.md §12.5/§12.7](./product/pack-tasks.md)（Lv.2 表記10箇所・Lv.1 歯抜け表記2箇所）・[content/templates.md §7.3-bis](./content/templates.md)・[design/navigation/pages-overview.html](./design/navigation/pages-overview.html) を現行仕様として更新
 - **対象外**: SKU/slug（`copy-lv1-vol1` 等・数字ベースのため無影響）・journal/archive/design handoff の凍結済み記録（当時の呼称のまま保存）
 
 ### 3.60 生成のかぶり除外：模写の公開済み図形を fill/mirror/モチーフ注入から排除（2026-07-01）
@@ -64,7 +138,7 @@ fill・mirror が copy と同じ形ライブラリ（`allVariants()`）から F 
 - **実装**: [ladder.json](./web/app/products/problems/ladder.json)・[data.ts](./web/app/products/data.ts)（fill 4巻・variant=欠け本数表記・meate 書き直し・旧4 SKU 削除＝プレローンチにつき alias なし）・[catalog.tsx](./web/app/catalog.tsx) notes。旧 candidates 8ファイル削除→再生成。
 - **検証**: tsc 緑・/products/fill 4巻（Lv.1 と旧 vol2 消滅）・atelier 4巻＋基準チップ新値・候補20＋模様17–20・copy/solid 回帰なし・stale 参照ゼロ。
 - **生成器 v2＝ライブラリ方式へ差し替え（同日・検品差し戻し対応）**: 初回生成（v1＝copy 流ランダムウォーク）はオーナー検品で「図形版の出来が悪い」＝開いた折れ線・破片の散らばり・非45°の乱線。原因＝copy は「キュレート済みライブラリ＋整いゲート」へ進化済みなのに fill だけ旧走査だった。**F の供給を copy と同じ検証済み変種プール（`allVariants()`＝静的ライブラリ＋対称構築/Truchet/ランダム系エンジン）に差し替え**（[gen/fill.ts](./web/app/products/problems/gen/fill.ts) `FILL_GENERATOR_VERSION="2"`・walk 3関数撤去）。fill の本質ゲートを追加＝**閉路≥1**（純ツリー形を排除・「残りから完成形が推定できる」には閉じた骨格が要る）＋**ヒゲ≤2**。帯も現実化（components 下限1・lines 3-7/5-10/7-13/9-16・交差/斜め下限緩和）・同族上限6・類似閾値 0.78/0.62。取れ高＝**6/20/14/8**（＋モチーフ 18/20/17/18＝計 24/40/31/26・12問選抜に十分。3×3 はモチーフとライブラリの形が重複しやすく生成分は構造的に少なめ＝白紙作成で補える）。
-- **残作業**: オーナーが atelier で検品→12問 publish（fill は published 未入稿のままサンプル表示中）。一次ソース: [pack-design §13.7.7](./product/pack-design.md)。関連: [§3.55](#355-模写ラダー再校正4×4-一本化非45を小盤面から基礎応用を対構造化2026-07-01)・[§3.57](#357-立体模写のレベル分けをゼロベース再設計ブロック概念を全廃2026-07-01)。
+- **残作業**: オーナーが atelier で検品→12問 publish（fill は published 未入稿のままサンプル表示中）。一次ソース: [pack-design §13.7.7](./product/pack-design.md)（[pack-tasks §21](./product/pack-tasks.md) も参照）。関連: [§3.55](#355-模写ラダー再校正4×4-一本化非45を小盤面から基礎応用を対構造化2026-07-01)・[§3.57](#357-立体模写のレベル分けをゼロベース再設計ブロック概念を全廃2026-07-01)。
 
 ### 3.57 立体模写のレベル分けをゼロベース再設計（「ブロック」概念を全廃）（2026-07-01）
 
@@ -78,7 +152,7 @@ fill・mirror が copy と同じ形ライブラリ（`allVariants()`）から F 
   - **Lv.5 発展（8才〜）「錐・空洞・複合」**: 四角錐・空洞門∏・大階段・塔家(非45°)・複合建築(L字ビル/連棟)を**隠れ辺フル**。D≈50-120。
 - **実装**: [ladder-schema.ts](./web/app/products/problems/ladder-schema.ts) `LADDER_FIELDS.solid` を `blocks` → `hidden`(レジームselect)＋`D`(窓range) に（`shape`/`edges` は混合化で撤去・`blocksOf`/`solidShapeOf` 削除・`displayGridFor` solid=null）。[data.ts](./web/app/products/data.ts) solid を混合3巻（テーマ grid ラベル）へ。[catalog.tsx](./web/app/catalog.tsx) の solid `notes` 更新。[AtelierApp.tsx](./web/app/atelier/AtelierApp.tsx) `dFormulaLabel` に solid ケース＋D窓を solid へ拡張。**AI推奨候補45問**（各巻15＝5形×3・Python押し出しジェネレータ・法線で隠線自動判定・matplotlib目視レビュー）を candidates 直書き。stale `catalog-extra.json` の solid-lv3-vol2(旧ブロック)も除去。
 - **検証**: tsc 緑・copy 回帰なし。`/atelier/solid-lv4-vol1` でチップが「形=段差・L字／隠れ辺すこし／総辺数／D窓」・「ブロック」表記消滅、点線1本を含む2辺作成で `hiddenLines=1`・**D=5（base2+3·1）** を実機確認。`/products`・`/products/solid` も新ラベルで「ブロック」ゼロ。
-- **残作業**: D窓は暫定（式からの目安）。オーナーが atelier で 12問×6巻を手描き publish→実測で D窓較正→data.ts 該当巻を live 化。一次ソース: [pack-design §13.7.7/§23.9](./product/pack-design.md)。関連: [§3.56](#356-立体模写を正式メーカー化atelier-問題パイプライン統合2026-07-01)。
+- **残作業**: D窓は暫定（式からの目安）。オーナーが atelier で 12問×6巻を手描き publish→実測で D窓較正→data.ts 該当巻を live 化。一次ソース: [pack-design §13.7.7](./product/pack-design.md)・[pack-commerce §23.9](./product/pack-commerce.md)。関連: [§3.56](#356-立体模写を正式メーカー化atelier-問題パイプライン統合2026-07-01)。
 
 ### 3.56 立体模写を正式メーカー化＋atelier 問題パイプライン統合（2026-07-01）
 
@@ -89,7 +163,7 @@ fill・mirror が copy と同じ形ライブラリ（`allVariants()`）から F 
 - **設計の肝**: union 化で `p.grid.n` 無ガード参照を tsc が全件エラー化＝取りこぼしゼロ。実装は依存順（schema→metrics/difficulty→エディタ抽出→atelier UI→create/candidates API→商品描画→メーカー格上げ）。
 - **検証**: tsc 緑・lint 新規コードクリーン。実機で /makers 9 種・/maker-solid 正式化・/atelier/solid-lv3-vol1 で白紙作成→手描き→保存→候補サムネ→D 算出（lines+2·diag）を確認。既存 square（copy atelier 28 候補）回帰なし。※副作用で顕在化した `published/copy-lv4-vol2.json` の BOM 破損（全ページ 500 原因）を除去。
 - **要オーナー作業**: solid 5 巻は現 scaffold。atelier で 12 問ずつ手描き publish → data.ts の該当巻を live 化で商品公開（未入稿 live は不可＝サンプルフォールバックは square 専用）。
-- 一次ソース: [pack-design §23.9/§13.7](./product/pack-design.md)。関連: [§3.53](#353-ローンチ公開スコープ縮小拡大縮小を非公開平行移動は公開2026-06-29)。
+- 一次ソース: [pack-design §13.7](./product/pack-design.md)・[pack-commerce §23.9](./product/pack-commerce.md)。関連: [§3.53](#353-ローンチ公開スコープ縮小拡大縮小を非公開平行移動は公開2026-06-29)。
 
 ### 3.55 模写ラダー再校正：4×4 一本化・非45°を小盤面から・基礎/応用を対構造化（2026-07-01）
 
@@ -102,7 +176,7 @@ fill・mirror が copy と同じ形ライブラリ（`allVariants()`）から F 
 - **横滑り（作問・D窓を丸ごと継承）**: 5×5非45°（旧 `copy-lv4-vol1`・published12+候補43+D[16,94]）→ **`copy-lv4-vol2`**／6×6（旧 `copy-lv4-vol2`・候補66+D[12,43]）→ **`copy-lv5-vol1`**／7×7（旧 `copy-lv5-vol1`・候補48+D[11,54]）→ **`copy-lv5-vol2`**。grid・種類ゲートが同一なので published/candidates とも **sku 改番のみで継承**（内部 sku/id を置換）。
 - **実装（構造 SSOT）**: [data.ts](./web/app/products/data.ts)＋[ladder.json](./web/app/products/problems/ladder.json)＋[catalog.tsx](./web/app/catalog.tsx)＋[published/index.ts](./web/app/products/problems/published/index.ts)。`copy-lv2-vol2` は published/candidates とも削除、alias `copy-lv2-4x4` は正本を `copy-lv3-vol1` へ付け替え、dev の atelier/seed-motif-inspo 参照も掃除。私の変更ファイルは tsc クリーン（別途、並行作業の schema.ts `GridSpec` union 化で無関係な立体系の型エラーがツリーに出ているが本件外）。
 - **要オーナー作業は 1 巻だけ**: `copy-lv4-vol1`〔4×4 非45°・新設〕を **atelier で新規生成**（現 scaffold＝準備中）。D 窓 `[14,40]` は式からの**暫定**＝供給 ≥12 と単調を実測し curated 確定時に引き直す。他 3 巻（#6/#7/#8）は横滑りで作問温存済＝再生成不要。
-- 一次ソース: [pack-design §12.2/§12.3/§12.7/§12.12](./product/pack-design.md)。関連: [§3.54](#354-難易度スコア-d-再校正交差を撤去斜め本数非45本数へ寄せる2026-06-30)。
+- 一次ソース: [pack-tasks §12.2/§12.3/§12.7/§12.12](./product/pack-tasks.md)。関連: [§3.54](#354-難易度スコア-d-再校正交差を撤去斜め本数非45本数へ寄せる2026-06-30)。
 
 ### 3.54 難易度スコア D 再校正：交差を撤去・斜め本数／非45°本数へ寄せる（2026-06-30）
 
@@ -114,7 +188,7 @@ atelier 全タスクの土台難易度式 `baseDifficulty` から**交差項を�
 - **波及**: 巻内ソートキー `difficultyScore`（schema.ts）も交差項を撤去し非45°本数へ。`scale`/`shrink`/`solid` の別式は元から交差非依存で不変。
 - **マイグレーション**: 旧 published JSON の metrics は `non45` 欠落のため、`migrateProblem` が欠落時 edges から再計算（純粋・決定的）。既 publish 済みセットは固定で表示 D が変わるのみ＝実害なし。
 - **D 窓 再較正（同日・完了）**: [ladder.json](./web/app/products/problems/ladder.json) `copy.*.D` を新スケールへ引き直し。public 済み6巻＝公開12問の `[⌊min⌋,⌈max⌉]`（curated 全内包）／未public 2巻（lv4-vol2・lv5-vol1）＝候補プールの `[⌊min⌋,⌈p90⌉]`（**暫定**・公開確定時に再較正）。新窓: lv1[2,6]/lv2v1[4,14]/lv2v2[6,22]/lv3v1[10,23]/lv3v2[10,28]/lv4v1[16,94]/lv4v2[12,43]※/lv5v1[11,54]※。lv4v1 が 16→94 と広いのは非45°本数×8 の素直な帰結（grid ゲートで排他なので可）。**copy のみ D 窓を使う**（fill/mirror/motif は lines/diag/cross/comp バンド＋difficultyScore ソートで D 窓非依存）。壁ゲート（§12.3）は D 非依存で不変。
-- 一次ソース: [pack-design §12.12](./product/pack-design.md)。tsc 緑・published 全6セットで新 D が非NaN・Lv 単調（Lv1≈2-6 → Lv4≈16-94）を確認。
+- 一次ソース: [pack-tasks §12.12](./product/pack-tasks.md)。tsc 緑・published 全6セットで新 D が非NaN・Lv 単調（Lv1≈2-6 → Lv4≈16-94）を確認。
 
 ### 3.53 ローンチ公開スコープ縮小：拡大・縮小を非公開（平行移動は公開）（2026-06-29）
 
@@ -133,12 +207,12 @@ atelier 全タスクの土台難易度式 `baseDifficulty` から**交差項を�
 
 問題制作ツール atelier を再構築。「AI が例題生成 → 人が編集 → 12 問公開」のコンセプトは維持しつつ、難易度を一級要素へ格上げし、巻の基準と Vol を atelier から編集できるようにした。
 
-- **難易度を全9タスクへ拡張**: 旧 `copyDifficulty`（copy 専用）を `baseDifficulty` に改名・土台化し、`taskDifficulty(task, p)`（[gen/difficulty.ts](./web/app/products/problems/gen/difficulty.ts)）で各タスクへ展開（fill=base＋欠け量×2／overlay・decompose=×2／変換系=base／scale・solid=別式の口のみ）。atelier は全タスクで D を内訳付き前面表示＋人手 override（✎・auto 保全）。式・窓は pack-design §12.12 が SSOT。
+- **難易度を全9タスクへ拡張**: 旧 `copyDifficulty`（copy 専用）を `baseDifficulty` に改名・土台化し、`taskDifficulty(task, p)`（[gen/difficulty.ts](./web/app/products/problems/gen/difficulty.ts)）で各タスクへ展開（fill=base＋欠け量×2／overlay・decompose=×2／変換系=base／scale・solid=別式の口のみ）。atelier は全タスクで D を内訳付き前面表示＋人手 override（✎・auto 保全）。式・窓は pack-tasks §12.12 が SSOT。
 - **ラダー/カタログのデータ化**: ハードコードの `COPY_LADDER`/`FILL_LADDER`/`MIRROR_LADDER`/`MOTIF_LADDER` を [ladder.json](./web/app/products/problems/ladder.json) へ外出し（`gen/ladder.ts` が型付きで配る）。atelier から基準（D 窓・種類ゲート）の見直しと Vol 追加が完結（`/api/atelier/ladder`・`add-vol`＝ladder.json＋[catalog-extra.json](./web/app/products/catalog-extra.json) に追記、既存 `PRODUCT_TASKS` は不変のまま data.ts が合流）。
 - **新規作成（白紙）追加**: 空盤面から点クリックで作問（provenance=blank・難易度自動算出）。AI 生成と並ぶ独立入口。
 - **schema v2（後方互換）**: `Problem.difficulty{value, auto, manual, parts}`＋`provenance{ai | blank | ai-edited}` を任意追加。読み取り境界の `migrate` で過去に作った模写 published を無改変で昇格（流用可）・再 publish で焼き込む。下流（商品ページ・PDF・checkout・メーカー）は無回帰を確認。
 - **見送り（後送り）**: scale/solid の生成器（型と式の口のみ・白紙手作りで運用）、商品ページでの難易度表示、AtelierApp のフル component 分割。
-- **実装 SSOT**: [pack-design.md §12.12](./product/pack-design.md)。
+- **実装 SSOT**: [pack-tasks.md §12.12](./product/pack-tasks.md)。
 
 ### 3.51 絵柄ライン完全削除・10→9 タスク（2026-06-19）
 
@@ -158,7 +232,7 @@ atelier 全タスクの土台難易度式 `baseDifficulty` から**交差項を�
 
 - **正式名「おためし点描写メーカー」／種別呼称「Web ジェネレータ」**。単独の「App」表記は設計書本文で使わない（変遷表・附録・本ログの過去エントリは史料として原文維持）
 - ネイティブアプリではない: ブラウザで動く・インストール不要・PDF 印刷専用
-- brand.md §11.3.1 の仕様記述も実装に同期: 「自動生成」ではなく**親が点格子上に線を描いて自作**する方式（実装詳細は [pack-design.md §23](./product/pack-design.md)）
+- brand.md §11.3.1 の仕様記述も実装に同期: 「自動生成」ではなく**親が点格子上に線を描いて自作**する方式（実装詳細は [pack-commerce.md §23](./product/pack-commerce.md)）
 
 ### 3.49 記事執筆の役割分担を再定義・craft 層を構成/本文化/推敲の 3 冊に新設（2026-06-11）
 
@@ -215,7 +289,7 @@ TOP（`/`）を §3.44 の A 基調カタログから **top-rich（Brilliant 寄
 - **家庭での続け方＝縦タイムライン（案B）**: 番号ドット＋アイコン＋短文（サンプル→レベル選ぶ→印刷→次の一枚）。フロー 3 案（横ステッパー／縦タイムライン／カード＋ループ）から案B採用。
 - **年齢帯グラフ（外向け表示）更新**: 「歳」→「**才**」・上限「おとな」を廃止し **10 才打ち止め**・発展編ラベルを「**8 才〜**」。X 軸数字 18px。§12.7 の内部基準表（先取り/標準層・キャッチコピー）は不変で、TOP の外向け表示のみ。
 - **catalog.tsx を共有 SSOT 化**（GROUPS・LevelGraph・ArticlesSection・SiteFooter）。A 案由来の CatalogSection は同ファイルに残置（`/` では未使用）。`top-rich.css` は `web/app/` 直下へ。
-→ 正本 [web/app/page.tsx](./web/app/page.tsx)・[web/app/top-rich.css](./web/app/top-rich.css)／年齢表示 [pack-design.md §12.7](./product/pack-design.md)。※リンク先 URL は未配線（href="#"）。
+→ 正本 [web/app/page.tsx](./web/app/page.tsx)・[web/app/top-rich.css](./web/app/top-rich.css)／年齢表示 [pack-tasks.md §12.7](./product/pack-tasks.md)。※リンク先 URL は未配線（href="#"）。
 
 ### 3.44 TOP レベル表示を A 基調に一本化・B 内容解説は行アコーディオン詳細へ格下げ（2026-06-08）
 
@@ -225,7 +299,7 @@ TOP（`/`）のレベル表示で併存していた **A 案（チップ横並び
 - **①入口で導く = リンクout**。帯グラフ直下に「レベル選びガイド」への誘導CTAのみ設置。Q1/Q2/Q3 のガイド本体は **TOP に内蔵しない**（既存独立ページSSOT [funnel.md §3](./acquisition/funnel.md) の二重化回避＋「診断」語彙の Anti-Brand 化 [voice-tone.md §1](./foundation/voice-tone.md) に抵触させない）。
 - **俯瞰ミニマップ（種類×レベルの大表）は見送り**。3群一覧と重複し、取引意図をファセットLPへ別出し済（§3.42）で TOP 流入が少ない以上、解説ページに重装備は過剰。
 - `/top-b` ルートは削除し [archive/retired-designs/2026-06-08-top-b-level-notes-superseded.tsx](./archive/retired-designs/2026-06-08-top-b-level-notes-superseded.tsx) へ退避（二重ルート解消）。
-→ 正本 [web/app/page.tsx](./web/app/page.tsx)／★最初の1冊ルール [pack-design.md §12](./product/pack-design.md)
+→ 正本 [web/app/page.tsx](./web/app/page.tsx)／★最初の1冊ルール [pack-tasks.md §12](./product/pack-tasks.md)
 
 ### 3.43 絵柄1シリーズ化＋幾何Lv.1復活（2026-06-07）
 
@@ -238,12 +312,12 @@ TOP（`/`）のレベル表示で併存していた **A 案（チップ横並び
 ### 3.1 模写ラダー改定（2026-04-10）
 
 旧7 Vol.→**8 Vol.**に改定。こぐま会「てんずけい１」＋教育図書21のベンチマーク反映。斜め導入をLv.2（3×3）に前倒し、最大グリッド7×7追加。構造は1/2/2/2/1のシンメトリー。壁は2つ（斜め/非45°）。
-→ [pack-design.md §12](./product/pack-design.md)
+→ [pack-tasks.md §12](./product/pack-tasks.md)
 
 ### 3.2 Lv縦串思想＋年齢×キャッチコピー改定（2026-04-10）
 
 Lv.1〜5はブランド全体の発達段階インデックス（歯抜けOK）。模写ラインで8段の年齢めやす＋内部2列（先取り層/標準層）＋キャッチコピーを確定。傷つきにくさ設計（共通フッター文・NGワード・課題性質フレーミング）も統合。
-→ [pack-design.md §0.3.2 / §0.3.3 / §12.7](./product/pack-design.md)
+→ [pack-design.md §0.3.2 / §0.3.3](./product/pack-design.md)・[pack-tasks.md §12.7](./product/pack-tasks.md)
 
 ### 3.3 仕上げ編 廃止（2026-04-25）
 
@@ -253,22 +327,22 @@ Lv.1〜5はブランド全体の発達段階インデックス（歯抜けOK）�
 ### 3.4 線対称ラダー確定（2026-04-12 / 2026-04-25 仕上げ編廃止）
 
 **6 Vol.構成**（—/1/1/2/2）。対称軸方向（縦→横→斜め）が固有ドライバー。
-→ [pack-design.md §15](./product/pack-design.md)
+→ [pack-tasks.md §15](./product/pack-tasks.md)
 
 ### 3.5 回転ラダー確定（2026-04-12 / 2026-04-25 仕上げ編廃止）
 
 **5 Vol.構成**（—/1/2/2/—）。回転角度（90°右→90°左→180°）が固有ドライバー。
-→ [pack-design.md §16](./product/pack-design.md)
+→ [pack-tasks.md §16](./product/pack-tasks.md)
 
 ### 3.6 平行移動ラダー確定（2026-04-12 / 2026-04-25 仕上げ編廃止）
 
 **4 Vol.構成**（—/2/1/1/—）。移動方向（横→縦→斜め→複合）が固有ドライバー。
-→ [pack-design.md §17](./product/pack-design.md)
+→ [pack-tasks.md §17](./product/pack-tasks.md)
 
 ### 3.7 拡大縮小ラダー確定（2026-04-12）
 
 **6 Vol.構成**（—/—/—/3/3/仕上げなし）。上級専門タスク（Lv.4以上のみ）。変換方向×図形対称性×グリッドが固有ドライバー。お手本≠解答グリッドの唯一のタスク。
-→ [pack-design.md §18](./product/pack-design.md)
+→ [pack-tasks.md §18](./product/pack-tasks.md)
 
 ### 3.8 分解をかさねから独立（2026-04-12）
 
@@ -277,17 +351,17 @@ Lv.1〜5はブランド全体の発達段階インデックス（歯抜けOK）�
 ### 3.9 かさね（合成）ラダー確定（2026-04-13）
 
 **7 Vol.構成**（—/入門1/基礎2/応用2/発展2/仕上げなし）。模写Lv完全連動。**線分数（少/多）** が同一Lv内Vol.分けのドライバー。
-→ [pack-design.md §19](./product/pack-design.md)
+→ [pack-tasks.md §19](./product/pack-tasks.md)
 
 ### 3.10 分解ラダー確定（2026-04-13）
 
 **7 Vol.構成**（—/1/2/2/2/仕上げなし）。かさねと構造同一。操作が「引き算（C-A=B）」。
-→ [pack-design.md §20](./product/pack-design.md)
+→ [pack-tasks.md §20](./product/pack-tasks.md)
 
 ### 3.11 欠け補完ラダー確定（2026-04-13）
 
 **8 Vol.構成**（1/1/2/2/2/仕上げなし）。唯一Lv.1スタート・歯抜けなし。固有ドライバー「欠け量」。
-→ [pack-design.md §21](./product/pack-design.md)
+→ [pack-tasks.md §21](./product/pack-tasks.md)
 
 ### 3.12 平面8タスク全確定（2026-04-13）
 
@@ -302,13 +376,13 @@ Step 1完了。合計54 Vol.。
 ### 3.14 立体模写ラダー確定（2026-04-19）
 
 **5 Vol.構成**（—/—/1/2/2、仕上げなし）。**Lv.3スタート**（立体は認知負荷高でLv.1-2不採用）。固有ドライバー「構造タイプ/斜め辺の有無/ブロック数」。柱体・角錐は同格扱い（非格子辺を持つ点で一括）。壁は2つ（斜め辺導入: Lv.4内／抜け構造導入: Lv.4→5）。
-→ [pack-design.md §22](./product/pack-design.md)
+→ [pack-tasks.md §22](./product/pack-tasks.md)
 
 ### 3.15 Step B-1 Step 2 完了（2026-04-19 / 2026-04-25 仕上げ編廃止反映）
 
 立体模写ラダー確定でStep 2終了。**総単品SKU 140**（平面135＋立体5）＋**混在セット9 SKU**、全単品制覇時 **¥28,000**。
 → **改定: §3.43。140 は将来フル展開時の上限。ローンチは 63 Vol.**
-→ [pack-design.md §14.5](./product/pack-design.md)
+→ [pack-commerce.md §14.5](./product/pack-commerce.md)
 
 ### 3.16 Step B-1 完了（2026-04-25）
 
@@ -452,7 +526,7 @@ Step 1完了。合計54 Vol.。
 「点描写」キーワード全数調査（[keyword-research.md §13](./content/keyword-research.md)・164 語）で、**非ゼロ語の約 9 割が取引意図**（点描写 プリント 1,600／プリント無料 260／プリント難しい 210／簡単 170／難しい 140 等）と判明。記事を当てても検索意図不一致で上位化しない。
 
 **決定**: クエリを検索意図で 2 分し受け皿を分ける（[clusters.md §1.5](./content/clusters.md)）。
-- **取引・回遊意図**（プリント／無料／ドリル／簡単／難しい／立体／年齢）→ **記事化しない**。専用ファセットLP・商品タグ/ファセットで拾う（仕様 SSOT: [pack-design.md §25](./product/pack-design.md)）。**※受け皿は §5.6 で改定**＝旧「おためしメーカーで拾う」は撤回（取引LPは有償一本・メーカー非訴求／無料意図は無料LPの絵柄サンプルが受ける）
+- **取引・回遊意図**（プリント／無料／ドリル／簡単／難しい／立体／年齢）→ **記事化しない**。専用ファセットLP・商品タグ/ファセットで拾う（仕様 SSOT: [pack-commerce.md §25](./product/pack-commerce.md)）。**※受け皿は §5.6 で改定**＝旧「おためしメーカーで拾う」は撤回（取引LPは有償一本・メーカー非訴求／無料意図は無料LPの絵柄サンプルが受ける）**※さらに §4.9（2026-07-05）で再改定**＝配る無料全廃・無料LP＝サンプル閲覧＋工房（無料4×4）導線
 - **情報意図**（効果／鍛える／教え方／できない・苦手／つまずき／公文図形／見取り図描き方／とは）→ **記事（Cluster）**
 
 **記事の縮減**: 旧 32 本構成 → **確定 8 記事＋P1 正規ハブ＋学術土台 C3-4＋LLMO 2＋FAQ 3 ＝ 16 ページ**。
@@ -463,7 +537,7 @@ Step 1完了。合計54 Vol.。
 
 **温存**: リサーチ上の全ワード（VOL）は [keyword-research.md](./content/keyword-research.md) に記録として残す。設計（何を記事にするか）と調査（市場に何があるか）を分離。
 
-→ [clusters.md §1.5](./content/clusters.md)・[urls.md](./content/urls.md)・[pack-design.md §25](./product/pack-design.md)
+→ [clusters.md §1.5](./content/clusters.md)・[urls.md](./content/urls.md)・[pack-commerce.md §25](./product/pack-commerce.md)
 
 ### 3.41 Phase 構成 4→3 統合（2026-05-28）
 
@@ -654,7 +728,7 @@ rev.4 LOCKED 項目もすべて再検討対象（**ロゴ含む**）。オーナ
 | [web/app/wireframe/page.tsx](./web/app/wireframe/page.tsx) | §2 二タブ＋ 4 群展開ワイヤー | ✅ proof-of-concept（タブ二択は不採用が確定したが、4 群構造の検証物として保管） |
 | [web/app/preview/page.tsx](./web/app/preview/page.tsx) | 本体 LP に v5 デザインを被せた sample | ✅ proof-of-concept（Design rev.5 への入力素材） |
 | [web/app/tokens.css](./web/app/tokens.css) | Klee One ＋ Zen Kurenaido のフォントトークン追加 | ✅ 完了（rev.5 で正式化） |
-| [design/handoff/rev5-brief.md](./design/handoff/rev5-brief.md) | Design rev.5 セッション用ブリーフ | 🚧 本セッション着手予定 |
+| [design/handoff/.../uploads/rev5-brief.md](./design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/rev5-brief.md) | Design rev.5 セッション用ブリーフ | ✅ 完了（rev-5 bundle に取り込み済） |
 | [design/visual-identity.md](./design/visual-identity.md) | rev.5 正式化 | 🚧 Design rev.5 完了後 |
 | [web/app/page.tsx](./web/app/page.tsx)（本体 LP） | rev.5 反映 | 🚧 Design rev.5 完了後 |
 | 商品ページ・記事ページ・Maker App UI | rev.5 反映 | 🚧 Design rev.5 完了後・5 卒業計画 ③④⑤ |
@@ -678,7 +752,7 @@ Design rev.5 で「全ページに痕跡を散らす」運用方針も含めて�
 | Gemini 推奨「Sensory タグ（#ヒラメキ #ジックリ思考）」（DR 由来） | 既存設計で Sensory 化済・二重タグで情報過多 |
 | Gemini 推奨「想像のトビラがひらく」系コピー（DR 由来） | 煽りに近い瞬間性／voice-tone.md §1 拡張語彙シフトとズレ |
 
-→ [pack-design.md §13.7](./product/pack-design.md) / [design/handoff/rev5-brief.md](./design/handoff/rev5-brief.md) / 関連セッション: 2026-05-26 セッション
+→ [pack-design.md §13.7](./product/pack-design.md) / [design/handoff/.../uploads/rev5-brief.md](./design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/rev5-brief.md) / 関連セッション: 2026-05-26 セッション
 
 ---
 
@@ -1269,12 +1343,15 @@ GPT-5 + Gemini 2 AI 合議でレビュー。観点：(1) 啓蒙と煽りの境�
 ## §4. 配布・認証・サンプル（C-3）
 
 > 一次ソース: [product/service-blueprint.md](./product/service-blueprint.md)
+>
+> **現行の背骨（Tier 1）**: メーカー課金＝§4.6（per-maker 買い切り ¥980）／認証＝§4.7（ログイン廃止・所有モデル）／模写グリッドゲート＝§4.8／無料サンプル＝§4.9（「見せる無料」一本化）。
+> **系譜**: §4.1 → §4.9（無料方針）／§4.3〜§4.5（OTP・サブスク tier 時代）→ §4.6〜§4.8 で撤回・上書き。
 
 ### 4.1 無料サンプル方針確定（2026-04-19）
 
 **独立サンプルPDFは提供しない**。試食は「アプリ」「WEBプレビュー」「記事内サンプル」の3層で代替。**B-2ローンチ要件**: 各タスク（9種）の紹介記事＋サンプル問題必須。
-**※ 2026-06-08 §5.6 で部分改定**: 無料LP に限り「絵柄（模写）の無料サンプルPDF（4Lv×各3問＝12問・印刷可）」を提供。図形ラインは引き続き無料提供しない（本丸はカニバリ回避で有償温存）。
-→ [pack-design.md §14.6](./product/pack-design.md)
+**※ 2026-06-08 §5.6 で部分改定**: 無料LP に限り「絵柄（模写）の無料サンプルPDF（4Lv×各3問＝12問・印刷可）」を提供。図形ラインは引き続き無料提供しない（本丸はカニバリ回避で有償温存）。**※ 2026-07-05 [§4.9](#49-無料サンプル最終方針配る無料全廃見せる無料一本化クリティカルコア設計図ごと全公開戴冠2026-07-05) で最終化**: 絵柄ライン削除（§3.51）に伴い §5.6 の部分改定を廃止。「配る無料」全廃＝原方針へ回帰・強化。
+→ [pack-commerce.md §14.6](./product/pack-commerce.md)
 
 ### 4.2 アカウント機能 Phase 1 不要
 
@@ -1293,11 +1370,11 @@ Stripe Link＋MailerLiteで代替。
 
 **注意**: DR2社が引用したパスキー性能値（成功率 93%/99.9%・サインイン速度）は Claude 反証検証で**却下**＝資料転用禁止（方向のみ採用）。CVE-2025-29927 は web=Next 16.2.6 で対策済（DAL 多重防御の原則のみ採用）。**§4.2「アカウント機能 Phase 1 不要」は本有償化で実質改定。**
 
-→ 詳細は session memory `auth-method-dr-2026-06`。関連 [pack-design.md §24](./product/pack-design.md)（マネタイズ・実装確定時に反映）
+→ 詳細は session memory `auth-method-dr-2026-06`。関連 [pack-commerce.md §24](./product/pack-commerce.md)（マネタイズ・実装確定時に反映）
 
 ### 4.4 メーカー有償化の tier 設計確定（ゲスト/スタンダード/フル・差別化は「全タスク」一点）（2026-06-23）
 
-3 段 tier を実装・確定（コード SSOT＝[web/app/products/capabilities.ts](../web/app/products/capabilities.ts)・コミット `81fcd25`／仕様 [pack-design.md §23.9](./product/pack-design.md)）。無料コア（模写を 1 枚作って印刷）は維持し、絞るのは量産・仕上げ・所有・他タスク。
+3 段 tier を実装・確定（コード SSOT＝[web/app/products/capabilities.ts](../web/app/products/capabilities.ts)・コミット `81fcd25`／仕様 [pack-commerce.md §23.9](./product/pack-commerce.md)）。無料コア（模写を 1 枚作って印刷）は維持し、絞るのは量産・仕上げ・所有・他タスク。
 
 - **3 tier**: ゲスト（無料）/ **スタンダード ¥480/月** / **フル ¥980/月**。旧「模写エントリー」→「**スタンダード**」改名（入口プランが模写の標準である意図・内部 tier 識別子 "entry" は維持）
 - **スタンダード = 模写ぜんぶ**: グリッド 8×8・保存無制限・全用紙・記名欄。模写メーカーの制限を全撤廃＝模写では full と同等
@@ -1309,7 +1386,7 @@ Stripe Link＋MailerLiteで代替。
 
 ### 4.5 メーカーを外部公開（サブスク商品化）＋ Standard 線引き見直し（2026-06-25）
 
-当初「模写以外は内部用」だった 9 メーカー（noindex・ゲート無し＝URL 直打ちで無料使い放題）を、サブスク商品として外部公開。**紹介＋利用**の 2 層を実装（コード SSOT＝[capabilities.ts](../web/app/products/capabilities.ts) `MAKER_MIN_TIER`・[makers.ts](../web/app/products/makers.ts)・仕様 [pack-design.md §23.9](./product/pack-design.md)）。
+当初「模写以外は内部用」だった 9 メーカー（noindex・ゲート無し＝URL 直打ちで無料使い放題）を、サブスク商品として外部公開。**紹介＋利用**の 2 層を実装（コード SSOT＝[capabilities.ts](../web/app/products/capabilities.ts) `MAKER_MIN_TIER`・[makers.ts](../web/app/products/makers.ts)・仕様 [pack-commerce.md §23.9](./product/pack-commerce.md)）。
 
 - **タスク幅の段階解放へ変更**（旧 §4.4「差別化は `allTasks` 一点」を撤回）。**スタンダード ¥480 = 1 図形の操作**（模写・鏡・回転・欠け補完）／**フル ¥980 = ＋2 図形・座標変換**（重ね・折り重ね・分解・拡大・縮小・平行移動）
 - **overlay（重ね）の所属**: オーナー指定の両リストから漏れていたため、同グループ（fold/decompose）に合わせフルへ（`MAKER_MIN_TIER.overlay` 1 行で可変）
@@ -1357,6 +1434,18 @@ Stripe Link＋MailerLiteで代替。
 
 ---
 
+### 4.9 無料サンプル最終方針＝「配る無料」全廃・「見せる無料」一本化＋クリティカルコア「設計図ごと全公開」戴冠（2026-07-05）
+
+西澤明洋フレーム（§3.62 の続き）でクリティカルコアを確定し、その試金石として無料サンプル方針を最終化。
+
+- **クリティカルコア（[brand.md §0.5](./foundation/brand.md) 新設）＝「設計図ごと、全部公開する」**: 難易度メタデータ（D スコア・グリッド・斜め・交差）・レベル判定根拠・サンプル閲覧・一次エビデンスの全面開示。一見非合理（有料の中身を晒す・ノウハウ開示・SKU 毎の整備工数）だが、①情報の非対称性を消し煽り不要化（V1 の構造化）②失敗しない購入→¥200 の信頼→継続 ③LLMO が引用できる唯一の構造化ソース＝カテゴリ教科書ポジション ④**子は「考えながら書く」・親は「考えながら選ぶ」のフラクタル**（§0 コンセプトと相似形）を束ねる要。模倣には D スコアエンジン・9×5 ラダー・生成/検品パイプラインの裏資産が必要で、表面だけのコピーは維持不能
+- **無料サンプル＝「見せる無料」一本化**: サンプルは**閲覧プレビュー**（C3「各 SKU 代表 1 枚の閲覧公開」・funnel F2 メイン CTA「サンプルを見る」）のみ。**DL 可能な独立無料 PDF は全廃**。例外は記事内サンプル（pack-commerce §14.6.2・文脈付き 1-3 問埋込）のみ＝オーナー確定「あるとしたら記事のみでいい」
+- **判断根拠**: 無料の役割は 3 層で分業済み＝**見る**（サンプル閲覧）／**触る**（工房＝模写メーカー無料 4×4）／**試す**（¥200 単品が試食価格）。配る無料は「考えて選ぶ」をスキップさせタダ取り層を呼ぶ＝コンセプトのフラクタルを壊す・ちびむす土俵回避原則（positioning §2.4）とも整合
+- **§14.6.4（無料LP 絵柄サンプル PDF・§5.6 由来）は廃止**: 前提だった絵柄ラインが §3.51（2026-06-19）で完全削除済みのため方針が宙に浮いていた（今回の点検で発見）。「点描写 プリント 無料」260 VOL の無料LP 自体は維持し、餌を「サンプル閲覧＋工房（無料 4×4）導線」へ組み替え。旧「メーカーへは流さない」（§5.6・無料無尽蔵時代の判断）は撤回＝現在の工房はグリッドゲート（無料 4×4 のみ・§4.8）で無料完結リスクが解消済みで、むしろ ¥980 クロスセルの入口として機能
+- **配る要素の残骸掃除**: レベル選びガイドの「サンプル PDF 1 本付与」→「サンプルプレビュー提示」へ・「無料サンプル PDF ダウンロード」文言の除去（funnel.md）
+- 反映: [brand.md §0.5/§8.2 C3](./foundation/brand.md)・[pack-commerce.md §14.6/§25](./product/pack-commerce.md)・[funnel.md §5/§6/§8](./acquisition/funnel.md)・[positioning.md §2.4](./market/positioning.md)
+- 関連: [§4.1](#41-無料サンプル方針確定2026-04-19)（原方針）・§5.6（無料LP 絵柄・本判断で廃止）・[§3.62](#362-ブランディングコンセプト戴冠タグライン第4世代主戦場を就学前後へ2026-07-05)（コンセプト・残作業だったクリティカルコアが本項で完了）。ブランドステイトメント（300-500字）は別途記事化予定＝残作業
+
 ## §5. 集客・GTM
 
 > 一次ソース: [acquisition/channels.md](./acquisition/channels.md) / [acquisition/funnel.md](./acquisition/funnel.md)
@@ -1397,14 +1486,14 @@ Flipdesk 等の Web 接客 SaaS は契約せず、**React コンポーネント�
 「TOP の商品一覧で SEO 取引意図を吸収」案（§5.5 旧確定②）に無理が出たため撤回。**取引意図クエリは TOP でなく専用ファセットLPに直接着地**させる。背景は「TOP の仕事（ブランド・レベル選び・回遊）」と「取引検索者の仕事（早く問題を見て買う）」が性格的に真逆で、1ページに同居させると両方が中途半端になるため。3 AI（Claude DR・Gemini・ChatGPT）合議も「2軸スパース行列をそのまま見せず、入口を分離」で一致。
 
 **決定**:
-- **作る LP（[pack-design.md §25.6](./product/pack-design.md)）**: ①無料LP ②プリント本丸LP（点描写 プリント 1,600）③むずかしいLP ④やさしいLP ⑤年齢LP（年長/小1）⑥立体LP。競合指名（ピグマリオン/ちびむす）は facet LP でなく L-1 比較記事側。LP は量産前提で無理に束ねない
+- **作る LP（[pack-commerce.md §25.6](./product/pack-commerce.md)）**: ①無料LP ②プリント本丸LP（点描写 プリント 1,600）③むずかしいLP ④やさしいLP ⑤年齢LP（年長/小1）⑥立体LP。競合指名（ピグマリオン/ちびむす）は facet LP でなく L-1 比較記事側。LP は量産前提で無理に束ねない
 - **取引LPは有償一本・メーカー非訴求**: 共通テンプレ＝FV に実問題サンプル（クエリ即応）→ 有償商品紹介。**メーカー（無料無尽蔵）へは流さない**（流すとほぼ無料完結し購入に繋がらないため）。メーカーは広告/SNS 入口に役割限定
 - **無料LP のみ「無料の餌」あり = 絵柄（模写）のレベル別サンプル PDF・印刷可**。範囲は **案①＝入門/基礎/応用/発展の4レベル × 各3問 ＝ 12問**（絵柄に はじめの一歩 は商品が無いため対象外）。本丸の図形ラインは無料にせず有償に温存＝カニバリ回避。「見るのは無料、続きは有償」で SEO 無料意図に正直に応えつつ転換へ橋渡し
 - TOP の主軸（レベル主 vs 種類主）は**本決定とは別件で保留中**（オーナーが参照サイト確認後に判断）
 
 **SEO 効果**: クエリ特化 LP の方が何でも載る TOP より intent 一致で上位化する。「SEO は拾いたい／TOP は綺麗に」が分離で両立。
 
-→ フロー/ワイヤー正本 [design/navigation/screen-flow.md §2](./design/navigation/screen-flow.md)・[pages-overview.html](./design/navigation/pages-overview.html)／[pack-design.md §25・§14.6.4](./product/pack-design.md)。§3.42（取引意図の受け皿＝旧「メーカーで拾う」）・§4.1（無料サンプル方針）・§5.5（旧確定②）を本項で改定
+→ フロー/ワイヤー正本 [design/navigation/screen-flow.md §2](./design/navigation/screen-flow.md)・[pages-overview.html](./design/navigation/pages-overview.html)／[pack-commerce.md §25・§14.6.4](./product/pack-commerce.md)。§3.42（取引意図の受け皿＝旧「メーカーで拾う」）・§4.1（無料サンプル方針）・§5.5（旧確定②）を本項で改定
 
 ### 5.8 メーカー送客＝Pinterest パイロット採用・IG バズ増産は凍結（2026-06-12）
 

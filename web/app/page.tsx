@@ -1,6 +1,7 @@
 import "./top-rich.css";
 import SiteHeader from "./SiteHeader";
-import { ForceMapCards, ArticlesSection, SiteFooter, TOTAL_KINDS, TOTAL_VOL } from "./catalog";
+import { ArticlesSection, SiteFooter, TOTAL_KINDS } from "./catalog";
+import CoverageStudio from "./CoverageStudio";
 import { VISIBLE_MAKERS } from "./products/makers";
 
 const MAKER_KINDS = VISIBLE_MAKERS.length;
@@ -9,47 +10,55 @@ const MAKER_KINDS = VISIBLE_MAKERS.length;
    TOP（正本 `/`）— Brilliant 寄せ「1.5」。2026-06-09 に /top-rich から昇格。
    方針（オーナー確定）: rev.5 の静けさを保ったまま、物語・証明・体験・締めの
    セクションを足して平坦さを解消。署名となる動き（点→形の線描）を一つだけ置く。
-   - メーカーは従属的に触れる（funnel §17 更新）。主導線は PDF「サンプルを見る」
-     「レベル選びガイド」。メーカーは Flow 後の補完セクションで案内（PDF 導線を阻害しない）。
-   - 9 種類は coverage 方式で圧縮: 3 群タブ＋種類リスト＋代表デモ＋レベル帯グラフ。
+   - Hero 文言はタグライン第4世代（brand.md §12）: H1=業態主役（表記階層化の並記を
+     統合）＋コアタグライン＋サブタグライン。業態識別句はフッターが担保。
+   - メーカーは従属的に触れる（funnel §17 更新）。主導線は「レベル選びガイド」。
+     メーカーは Flow 後の補完セクションで案内。
+   - 品ぞろえは coverage 方式で圧縮: 地図3カード＋CTA（店頭の実体は /products に一本化）。
    - 「大切にした 3 つ」＝図解カード（①適レベル ②模写だけにしない ③印刷の自由）。
    - 「家庭での続け方」＝縦タイムライン（案B）。
-   動き・タブとも自前 CSS（client JS なし・Server Component 維持）。
+   自前 CSS のみ（client JS なし・Server Component 維持）。
    商品系リンクは配線済（種類→/products/{slug}・すべて見る→/products）。
-   ※サンプル PDF 系リンクのみ未配線（href="#"・PDF 整備待ち）。
+   ※「サンプルを見る」CTA はサンプル閲覧プレビュー実装まで撤去（2026-07-06）。
    変遷: 旧 A 案 → archive/retired-designs/2026-06-09-top-a-storefront-superseded.tsx
    ========================================================================= */
 
+/* インライン SVG 用の色定数（tokens.css の --accent / --fg と同値を維持すること） */
 const TEAL = "#2C6E7F";
 const INK = "#1A1F2A";
 const FAINT = "#C5C9CF";
 
-/* ---- 署名アニメ: 5×5 ドットの上を、図形がひと筆書きされ、描き終えたら次の図形へ ---- */
+/* ---- 署名アニメ Pattern B: 左のお手本（常時表示）を見ながら、右に悩みながら写す ---- */
 const SX0 = 24, SSTEP = 44;
 const sc = (n: number) => SX0 + n * SSTEP; // 24,68,112,156,200
-const SLOT = "12s"; // 1 図形あたりの尺
+const PANEL_DX = 296;  // 右パネルの横オフセット（左 0..224 ／ 右 296..520）
+const SLOT = "7.5s";   // 1 フェーズ（お手本を見て、悩みながら写す 1 巡）の尺
+const FADE = 0.9;      // この比率まで完成を保持し、以降で消去して次フェーズへ
+const RWIN: [number, number] = [0.12, 0.80]; // 右パネルの描画時間窓（残りは保持→消去）
+const HOVER = 0.5, DRAW = 0.4; // 各辺: 迷う(hover)→引く(draw)→止まる(残り)＝"悩みながら"の間
 
-/* ローテーションする図形（閉じたひと筆書き）。verts = [列, 行]（0..4）の描画順。
-   家 → ヨット → 三角＋四角 → 星。点数は図形ごとに可変（buildFig が自動対応）。 */
-const FIGURES: { name: string; verts: number[][] }[] = [
-  // 家：四角＋屋根
-  { name: "house", verts: [[1, 3], [1, 1], [2, 0], [3, 1], [3, 3]] },
-  // ヨット：デッキ左→マスト(縦)→帆(斜め)→デッキ右→台形の船体（7点・全てグリッド点）
-  { name: "yacht", verts: [[0, 3], [1, 3], [1, 0], [3, 3], [4, 3], [3, 4], [1, 4]] },
-  // 三角＋四角：四角の右辺に三角がくっついた図（5点）
-  { name: "boxtri", verts: [[0, 1], [2, 1], [4, 2], [2, 3], [0, 3]] },
-  // 星：格子点だけで作れる 4 方向の星（外＝上下左右の辺中央／内＝対角の格子点・8点）
-  { name: "star", verts: [[2, 0], [3, 1], [4, 2], [3, 3], [2, 4], [1, 3], [0, 2], [1, 1]] },
+/* お手本＝左右にも回転にも非対称なひと筆書き（鏡・回転が判別できる形）。 */
+const BASE: number[][] = [[1, 0], [2, 0], [2, 3], [4, 3], [4, 4], [1, 4]];
+const dOf = (verts: number[][]) =>
+  "M" + verts.map(([c, r]) => `${sc(c)} ${sc(r)}`).join(" L") + " Z";
+
+/* グリッド変換（列 c・行 r ∈ 0..4）。SSOT: 鏡＝左右反転（縦軸・横並び）／回転＝90°時計回り。
+   label＝タスク名／rule＝親子向けの平易な言い換え（用語だけでは伝わらないため併記）。 */
+type Xf = (c: number, r: number) => number[];
+const applyXf = (verts: number[][], xf: Xf) => verts.map(([c, r]) => xf(c, r));
+const PHASES: { key: string; label: string; rule: string; xf: Xf }[] = [
+  { key: "copy", label: "模写", rule: "そのまま写す（模写）", xf: (c, r) => [c, r] },
+  { key: "mirror", label: "鏡", rule: "左右をさかさまにして写す（鏡）", xf: (c, r) => [4 - c, r] },
+  { key: "rotate", label: "回転", rule: "回してから写す（回転）", xf: (c, r) => [4 - r, c] },
 ];
 
-/* 図形の頂点列から SMIL 駆動データを自動生成。
-   各辺は「描く(0.72)→止まる(0.28)」の二拍、最後に完成保持→消去。
-   線(dashoffset) と 鉛筆(keyPoints) は同じ keyTimes を共有し、同一クロックで完全同期。 */
-function buildFig(verts: number[][]) {
+/* 1 図形を時間窓 [t0,t1] で描き、FADE まで保持して消す SMIL データを生成。
+   辺ごと「描く(0.72)→止まる(0.28)」の二拍・線(dashoffset)/点灯/鉛筆(keyPoints) が
+   同一 keyTimes を共有して単一クロックで同期する構造は従来と同じ。 */
+function buildPanel(verts: number[][], t0: number, t1: number) {
   const pts = verts.map(([c, r]) => [sc(c), sc(r)]);
   const n = pts.length;
-  let total = 0;
-  const seg: number[] = [];
+  const seg: number[] = []; let total = 0;
   for (let k = 0; k < n; k++) {
     const a = pts[k], b = pts[(k + 1) % n];
     const L = Math.hypot(b[0] - a[0], b[1] - a[1]);
@@ -57,19 +66,24 @@ function buildFig(verts: number[][]) {
   }
   const cum: number[] = []; let acc = 0;
   for (let k = 0; k < n; k++) { acc += seg[k]; cum.push(acc / total); }
-  const SEGT = 0.85 / n; // draw+pause の各辺持ち時間
-  const kt: number[] = [0], dash: number[] = [360], kp: number[] = [0];
+  const SEGT = (t1 - t0) / n; // 各辺の持ち時間（窓内）
+  const kt: number[] = [0, t0], dash: number[] = [360, 360], kp: number[] = [0, 0];
   for (let k = 0; k < n; k++) {
-    const f = cum[k];
-    const ds = k * SEGT, de = ds + SEGT * 0.72, se = ds + SEGT;
-    const off = +(360 * (1 - f)).toFixed(2), ff = +f.toFixed(5);
-    kt.push(+de.toFixed(4)); dash.push(off); kp.push(ff);       // 頂点へ描く
-    kt.push(+se.toFixed(4)); dash.push(off); kp.push(ff);       // 一拍止まる
+    const sk = t0 + k * SEGT;
+    const hoverEnd = sk + SEGT * HOVER, drawEnd = sk + SEGT * (HOVER + DRAW), segEnd = sk + SEGT;
+    const cumPrev = k === 0 ? 0 : cum[k - 1];
+    const prevOff = +(360 * (1 - cumPrev)).toFixed(2), newOff = +(360 * (1 - cum[k])).toFixed(2);
+    const prevPos = +cumPrev.toFixed(5), newPos = +cum[k].toFixed(5);
+    kt.push(+hoverEnd.toFixed(4)); dash.push(prevOff); kp.push(prevPos); // 迷う：前の頂点で止まって考える
+    kt.push(+drawEnd.toFixed(4)); dash.push(newOff); kp.push(newPos);    // 引く：次の頂点まで一気に
+    kt.push(+segEnd.toFixed(4)); dash.push(newOff); kp.push(newPos);     // 止まる：一拍おく
   }
-  kt.push(0.96); dash.push(0); kp.push(1);  // 完成を保持
-  kt.push(1); dash.push(360); kp.push(1);   // 消去（次へ）
-  const lit = pts.map((_, j) => (j === 0 ? 0.02 : +(((j - 1) * SEGT) + 0.72 * SEGT).toFixed(4)));
-  const d = "M" + pts.map((p) => p.join(" ")).join(" L") + " Z";
+  kt.push(FADE); dash.push(0); kp.push(1);  // 完成を保持
+  kt.push(1); dash.push(360); kp.push(1);   // 消去（次フェーズへ）
+  // 各頂点は「その辺を引き終えた時刻」に点灯（v0 は描き始め）
+  const lit = pts.map((_, j) => (j === 0 ? +(t0 + 0.01).toFixed(4)
+    : +(t0 + (j - 1) * SEGT + SEGT * (HOVER + DRAW)).toFixed(4)));
+  const d = dOf(verts);
   return { d, pts, lit, keyTimes: kt.join(";"), dash: dash.join(";"), keyPoints: kp.join(";") };
 }
 
@@ -92,12 +106,20 @@ function PencilShape() {
   );
 }
 
-/* 1 図形ぶんの描画。begin チェーンで前の図形の終了に連結し、最後→最初でループ。
-   非アクティブ時は線=未描画・点=消灯・鉛筆=非表示（fill=remove で基底へ戻る）。 */
-function FigureGroup({ fig, i, n }: { fig: { name: string; verts: number[][] }; i: number; n: number }) {
-  const g = buildFig(fig.verts);
-  const begin = i === 0 ? `0s;sigClk${n - 1}.end` : `sigClk${i - 1}.end`;
-  const clkId = `sigClk${i}`, pathId = `sigPath${i}`;
+/* 静的な 5×5 ドット格子（1 パネルぶん）。 */
+function DotGrid() {
+  const dots: React.ReactNode[] = [];
+  for (let r = 0; r < 5; r++)
+    for (let c = 0; c < 5; c++)
+      dots.push(<circle key={`${r}-${c}`} cx={sc(c)} cy={sc(r)} r={1.7} fill={INK} opacity={0.32} />);
+  return <>{dots}</>;
+}
+
+/* 1 図形の線を描く。teal 点・鉛筆は右パネル（写す側＝「書く」）のみ true。 */
+function DrawFigure({ g, begin, clkId, pathId, dots, pencil }: {
+  g: ReturnType<typeof buildPanel>; begin: string; clkId?: string; pathId: string;
+  dots: boolean; pencil: boolean;
+}) {
   return (
     <g aria-hidden="true">
       <path className="sig-path sig-bloom" d={g.d} pathLength={360} filter="url(#sig-press)">
@@ -108,34 +130,76 @@ function FigureGroup({ fig, i, n }: { fig: { name: string; verts: number[][] }; 
         <animate id={clkId} attributeName="stroke-dashoffset" values={g.dash} keyTimes={g.keyTimes}
           begin={begin} dur={SLOT} calcMode="linear" />
       </path>
-      {g.pts.map((p, j) => (
-        <circle key={j} className="sig-dot" cx={p[0]} cy={p[1]} r={3.4} fill={TEAL}>
+      {dots && g.pts.map((p, j) => (
+        <circle key={j} className="sig-dot" cx={p[0]} cy={p[1]} r={3.4}>
           <animate attributeName="opacity" values="0;1;0;0"
-            keyTimes={`0;${g.lit[j]};0.97;1`} begin={begin} dur={SLOT} calcMode="discrete" />
+            keyTimes={`0;${g.lit[j]};${FADE};1`} begin={begin} dur={SLOT} calcMode="discrete" />
         </circle>
       ))}
-      <g className="sig-pencil">
-        <animateMotion begin={begin} dur={SLOT} keyPoints={g.keyPoints} keyTimes={g.keyTimes}
-          calcMode="linear" rotate="0">
-          <mpath href={`#${pathId}`} />
-        </animateMotion>
-        <animate attributeName="opacity" values="0;1;1;0;0"
-          keyTimes="0;0.03;0.85;0.93;1" begin={begin} dur={SLOT} calcMode="linear" />
-        <PencilShape />
-      </g>
+      {pencil && (
+        <g className="sig-pencil">
+          <animateMotion begin={begin} dur={SLOT} keyPoints={g.keyPoints} keyTimes={g.keyTimes}
+            calcMode="linear" rotate="0">
+            <mpath href={`#${pathId}`} />
+          </animateMotion>
+          <animate attributeName="opacity" values="0;0;1;1;0;0"
+            keyTimes="0;0.11;0.15;0.80;0.84;1" begin={begin} dur={SLOT} calcMode="linear" />
+          <PencilShape />
+        </g>
+      )}
     </g>
   );
 }
 
+/* 左＝お手本。最初から描いてあり、全フェーズ通して残す静的モデル（アニメなし）。 */
+function StaticModel() {
+  const d = dOf(BASE);
+  return (
+    <g aria-hidden="true">
+      <path className="sig-path sig-bloom sig-static" d={d} pathLength={360} filter="url(#sig-press)" />
+      <path className="sig-path sig-static" d={d} pathLength={360} filter="url(#sig-graphite)" />
+    </g>
+  );
+}
+
+/* 右＝写す側（1 フェーズぶん）。悩みながら描き、begin チェーンでフェーズを巡回。
+   お手本は静的なので位相クロック（sigClk{i}）は右パスに載せる。 */
+function RightPhase({ phase, i, n }: { phase: (typeof PHASES)[number]; i: number; n: number }) {
+  const begin = i === 0 ? `0s;sigClk${n - 1}.end` : `sigClk${i - 1}.end`;
+  const g = buildPanel(applyXf(BASE, phase.xf), RWIN[0], RWIN[1]);
+  return (
+    <g className={`sig-phase sig-phase-${i}`} transform={`translate(${PANEL_DX},0)`}>
+      <DrawFigure g={g} begin={begin} clkId={`sigClk${i}`} pathId={`rPath${i}`} dots pencil />
+    </g>
+  );
+}
+
+/* パネル名。左＝「お手本」（静的）／右＝タスク単語（模写・鏡・回転）をフェーズ同期で巡回表示。 */
+function Labels() {
+  const n = PHASES.length;
+  return (
+    <>
+      <text className="sig-panel-label" x={112} y={258} textAnchor="middle" aria-hidden="true">お手本</text>
+      {PHASES.map((p, i) => {
+        const begin = i === 0 ? `0s;sigClk${n - 1}.end` : `sigClk${i - 1}.end`;
+        return (
+          <text key={p.key} className={`sig-word-label sig-word-${i}`} x={408} y={258}
+            textAnchor="middle" aria-hidden="true">
+            {p.label}
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.88;1"
+              begin={begin} dur={SLOT} calcMode="linear" />
+          </text>
+        );
+      })}
+    </>
+  );
+}
+
 function SignatureDraw() {
-  const grid: React.ReactNode[] = [];
-  for (let r = 0; r < 5; r++)
-    for (let c = 0; c < 5; c++)
-      grid.push(<circle key={`${r}-${c}`} cx={sc(c)} cy={sc(r)} r={1.7} fill={INK} opacity={0.32} />);
   return (
     <div className="sig-wrap">
-      <svg className="sig-draw" viewBox="0 0 224 224" role="img"
-        aria-label="点と点を線でつないで、いろいろな形ができていくアニメーション">
+      <svg className="sig-draw" viewBox="0 0 520 272" role="img"
+        aria-label="左のお手本を見ながら、右のマスに、そのまま写す・左右さかさま・回して写す、を順に書いていくアニメーション">
         <defs>
           {/* グラファイト：擦れ（変位）＋ 紙の目に乗る粒状カスレ */}
           <filter id="sig-graphite" x="-30%" y="-30%" width="160%" height="160%"
@@ -162,22 +226,35 @@ function SignatureDraw() {
             <feGaussianBlur stdDeviation={1.7} />
           </filter>
         </defs>
-        {grid}
-        {FIGURES.map((fig, i) => (
-          <FigureGroup key={fig.name} fig={fig} i={i} n={FIGURES.length} />
-        ))}
+        {/* お手本＝格子ごと 1.25 倍に拡大（みほんを主役に） */}
+        <g className="sig-model" transform="translate(112 118) scale(1.25) translate(-112 -112)">
+          <DotGrid />
+          <StaticModel />
+        </g>
+        {/* かいてみる＝お手本と同スケール（1.25 倍）に揃える */}
+        <g className="sig-copy" transform="translate(408 118) scale(1.25) translate(-408 -112)">
+          <g transform={`translate(${PANEL_DX},0)`}><DotGrid /></g>
+          {PHASES.map((p, i) => (
+            <RightPhase key={p.key} phase={p} i={i} n={PHASES.length} />
+          ))}
+        </g>
+        <g className="sig-arrow" aria-hidden="true">
+          <path d="M250 118 H272" />
+          <path d="M266 112 L272 118 L266 124" />
+        </g>
+        <Labels />
       </svg>
-      <p className="sig-caption">点と点を、線でつなぐ。</p>
     </div>
   );
 }
 
-const PILLARS = [
-  { no: "01", t: "体系", d: `${TOTAL_KINDS} 種類 × 5 段階で整理。今なにを練習しているか、言葉にできる。` },
-  { no: "02", t: "解像度", d: "買う前に、サンプル・難易度・根拠が読める。中身を見せる専門店。" },
-  { no: "03", t: "発見", d: "知っている人だけが得をしない。全種類のサンプルを公開し、手で触れて確かめられる。" },
-  { no: "04", t: "言語化", d: "この問題は何の力に効くか。タスクと能力の対応を、言葉にする。" },
-  { no: "05", t: "継続", d: "親が「次の一手」と「声かけ」に迷わない。続けられる設計。" },
+const BUILD = [
+  { no: "01", t: "階段になっている", d: `模写から対称・回転・立体まで、${TOTAL_KINDS} 種類 × 5 段階。レベルは細かく刻んであり、「いま、ちょうどいい」一枚から始められます。`, link: { href: "/level-guide", label: "レベル選びガイド →" } },
+  { no: "02", t: "中身を見てから買える", d: "線の数・斜めの量・難易度の根拠まで、買う前に読めます。設計図ごと公開する専門店です。", link: undefined },
+  { no: "03", t: "紙とペンで練習する", d: "画面で解かせる機能は作りません。作るのは画面、練習は紙。書く学習は、手を動かしてこそ。", link: undefined },
+  { no: "04", t: "¥200 一律、家庭の印刷機に合わせて", d: "難しさで値段を変えません。用紙は A4〜A3、たて・よこ・1 枚の問題数も選べます。", link: undefined },
+  { no: "05", t: "煽らない", d: "「手遅れになる前に」とは言いません。いつ始めても、休んでもいい練習として渡します。", link: undefined },
+  { no: "06", t: "広告を置かない", d: "サイトにも PDF にも、他社の広告はありません。静かに選んで、静かに机に向かえます。", link: undefined },
 ];
 
 /* ---- ⑤ 続け方フロー用アイコン（40×40・採用: 案B 縦タイムライン） ---- */
@@ -229,80 +306,29 @@ const STEPS = [
   { n: "04", Ic: IcLoop, t: "気が向いた日に、次の一枚", d: "繰り返しても、次へ進んでも。家庭ごとで。" },
 ];
 
-/* ---- 大切にしている 3 つ・図解（採用: ①案C ②現行 ③案C） ---- */
-// ① 階段＋低めの段に旗（合う段から・段差はゆるやか）＝適レベル始動＋つまずきにくさ
-function ValFigLevel() {
-  return (
-    <svg viewBox="0 0 132 84" className="val-svg" aria-hidden="true">
-      <g fill="none" stroke={INK} strokeWidth={1.8} strokeLinejoin="round">
-        <path d="M16 68 L44 68 L44 54 L72 54 L72 40 L100 40 L100 26 L116 26" />
-      </g>
-      <line x1={58} y1={54} x2={58} y2={30} stroke={TEAL} strokeWidth={2} strokeLinecap="round" />
-      <path d="M58 31 L78 36 L58 41 Z" fill={TEAL} />
-      <circle cx={58} cy={54} r={2.6} fill={TEAL} />
-    </svg>
-  );
-}
-// ② 模写 → いろいろ（多様な図形へ広がる・現行ライン）
-function ValFigVariety() {
-  return (
-    <svg viewBox="0 0 132 84" className="val-svg" aria-hidden="true">
-      <polygon points="20,18 36,18 41,34 28,44 15,34" fill="none" stroke={TEAL} strokeWidth={2.2} strokeLinejoin="round" />
-      <text x={28} y={58} textAnchor="middle" fontSize={11} className="val-svg-tag">模写</text>
-      <path d="M48 31 L64 31 M58 26 L64 31 L58 36" fill="none" stroke={INK} strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
-      <polygon points="76,16 90,16 83,28" fill="none" stroke={INK} strokeWidth={1.6} strokeLinejoin="round" />
-      <g stroke={INK} strokeWidth={1.6} fill="none" strokeLinejoin="round">
-        <rect x="102" y="16" width="12" height="12" />
-        <path d="M102 16 L106 12 L118 12 L114 16" />
-        <path d="M114 16 L118 12 L118 24 L114 28" />
-      </g>
-      <polygon points="76,40 84,40 76,50" fill="none" stroke={INK} strokeWidth={1.6} strokeLinejoin="round" />
-      <polygon points="92,40 84,40 92,50" fill="none" stroke={INK} strokeWidth={1.6} strokeLinejoin="round" />
-      <rect x="100" y="40" width="12" height="12" fill="none" stroke={INK} strokeWidth={1.6} />
-      <rect x="107" y="44" width="12" height="12" fill="none" stroke={TEAL} strokeWidth={1.6} />
-    </svg>
-  );
-}
-// ③ プリンターから紙が出る（用紙サイズ・向き・問題数の自由・案C）
-function ValFigPaper() {
-  return (
-    <svg viewBox="0 0 132 84" className="val-svg" aria-hidden="true">
-      <rect x={36} y={20} width={42} height={28} rx={2} fill="#fff" stroke={TEAL} strokeWidth={2} />
-      <text x={57} y={38} textAnchor="middle" fontSize={9} className="val-svg-tag">A4/A3</text>
-      <g fill="none" stroke={INK} strokeWidth={1.8} strokeLinejoin="round">
-        <path d="M28 48 L86 48 L86 66 L28 66 Z" />
-      </g>
-      <circle cx={78} cy={57} r={2.2} fill={TEAL} />
-      <rect x={44} y={56} width={26} height={18} rx={1.5} fill="#fff" stroke={INK} strokeWidth={1.6} />
-      <line x1={48} y1={62} x2={66} y2={62} stroke={FAINT} strokeWidth={1.4} />
-      <line x1={48} y1={67} x2={66} y2={67} stroke={FAINT} strokeWidth={1.4} />
-    </svg>
-  );
-}
+/* ---- ② なぜ用イラスト ----
+   表示パターン切替: "A"=暫定線画（墨＋teal）／"B"=実写真（/assets/top/why-tensha.webp）。
+   フラグ 1 つで A↔B を戻せる。 */
+const WHY_PATTERN: "A" | "B" = "B";
+const WHY_PHOTO_SRC = "/assets/top/why-tensha.webp";
+const WHY_PHOTO_ALT = "鉛筆を持って机に向かい、じっと考えながら手を動かしている子ども";
 
-const VALUES = [
-  { Fig: ValFigLevel, t: "ちょうどいいレベルから、つまずかずに", d: "レベルをできるだけ細かく刻みました。お子さんの発達に合った「いま、ちょうどいい」一冊から始められて、急な段差でつまずくこともありません。" },
-  { Fig: ValFigVariety, t: "模写だけで、終わらせない", d: "よくある点描写は、写すだけ。でも図形の土台は、回す・重ねる・立体に起こす…と広い。だから何種類もの点描写を用意しました。" },
-  { Fig: ValFigPaper, t: "家庭の印刷機に、合わせられる", d: "用紙は A4〜A3、たて・よこも自由。1 枚に入れる問題数も選べます。¥200 一律で、ご家庭のプリンター事情に合わせて印刷できます。" },
-];
-
-/* ---- 品ぞろえ予告編（店頭の実体は /products に一本化・TOP は地図3カード＋CTA のみ） ---- */
-function CoverageSection() {
+function WhyIllus() {
+  const SHAPE = "M60 56 L120 56 L120 128 L156 128 L156 172 L60 172 Z";
   return (
-    <section className="tr-sec">
-      <div className="wrap">
-        <div className="tr-sec-head">
-          <p className="tr-sec-kicker">品ぞろえ</p>
-          <h2>点描写を、3 つの力 × 5 レベルで。</h2>
-        </div>
-        <ForceMapCards hrefBase="/products" goLabel="この力の棚へ →" />
-        <div className="tr-teaser-foot">
-          <a className="tr-btn-ghost" href="/products">
-            商品一覧（{TOTAL_KINDS} 種類 ・ 計 {TOTAL_VOL} 巻）へ →
-          </a>
-        </div>
-      </div>
-    </section>
+    <svg viewBox="0 0 360 240" className="tr-why-svg" aria-hidden="true">
+      <path d={SHAPE} fill="none" stroke={INK} strokeWidth={3} strokeLinejoin="round" />
+      <g>
+        <path d="M182 116 H206" stroke={FAINT} strokeWidth={2.4} fill="none" />
+        <path d="M200 110 L206 116 L200 122" stroke={FAINT} strokeWidth={2.4} fill="none" strokeLinejoin="round" />
+      </g>
+      <g transform="translate(168,0)">
+        <path d={SHAPE} fill="none" stroke={TEAL} strokeWidth={3} strokeLinejoin="round" strokeDasharray="6 7" />
+        <circle cx={60} cy={56} r={4.6} fill={TEAL} />
+        <circle cx={120} cy={56} r={4.6} fill={TEAL} />
+        <circle cx={120} cy={128} r={4.6} fill={TEAL} />
+      </g>
+    </svg>
   );
 }
 
@@ -317,14 +343,19 @@ export default function Home() {
           <div className="wrap">
             <div className="tr-hero-grid">
               <div>
-                <p className="tr-kicker">点描写プリントの専門店</p>
-                <h1>図形の基礎は、点描写から。</h1>
-                <p className="tr-hero-sub">
-                  模写から、対称・回転・立体まで。空間認知の土台を、家庭で着実に育てます。
-                </p>
-                <div className="tr-cta-row">
-                  <a className="tr-btn-primary" href="#">サンプルを見る</a>
-                  <a className="tr-btn-ghost" href="/level-guide">レベル選びガイドへ</a>
+                <h1>点図形（点描写）プリントの、専門店です。</h1>
+                <p className="tr-hero-tagline">見て、考えて、書く力を、点描写から。</p>
+                {/* サイト紹介文＝Hero に畳み込む（知育村型・店を紹介し「見ていってください」で締める）。
+                    旧サブタグライン（模写から〜）は撤去しこの枠に置換。無記名・ラベルなし・淡い teal 敷きで
+                    白地から浮かせる。主軸＝作り手の実在（新製品企画の父）／研究して設計／発達に合わせて
+                    選べる／親目線の印刷／有料（広告なし・作り込み）。visual-identity §8.1 で正式化。 */}
+                <div className="tr-hero-note">
+                  <p className="tr-hero-note-body">
+                    TENZU のプリントは、IT 企業で新しい製品を企画してきた二児の父が、数多くの教材を
+                    研究して一から設計しました。<b>急に難しくならない、発達に合わせて選べる仕組み</b>、
+                    親が使いやすい印刷まで工夫しています。手間をかけているぶん<b>有料</b>ですが、
+                    広告は一切入れていません。どうぞ、ゆっくり見ていってください。
+                  </p>
                 </div>
               </div>
               <div>
@@ -334,53 +365,52 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===================== ③ Why＋方法カード（5 Pillar） ===================== */}
-        <section className="tr-sec tr-sec-alt">
-          <div className="wrap">
-            <div className="tr-sec-head">
-              <p className="tr-sec-kicker">なぜ、点描写なのか</p>
-              <h2>写す前に「どこを見るか」。それが、図形の手前にある力です。</h2>
+        {/* ===================== ② なぜ、点描写なのか（案A・左に大きな絵＋右に散文）
+            背景は白に（tr-sec-alt を外す）。色は写真枠(.tr-why-illus の bg-3)だけに残し、
+            上の店主紹介文（淡い teal 敷き）を際立たせる。 */}
+        <section className="tr-sec">
+          <div className="wrap tr-why-grid">
+            <div className="tr-why-illus">
+              {WHY_PATTERN === "B" ? (
+                <img src={WHY_PHOTO_SRC} alt={WHY_PHOTO_ALT} />
+              ) : (
+                <WhyIllus />
+              )}
             </div>
-            <p className="tr-lead">
-              計算と読み書きはやっているけれど、図形は手薄。点つなぎは楽しんでいるけれど、次が見当たらない。
-              そんな家庭に渡せる「次の一枚」を、{TOTAL_KINDS} 種類 × 5 段階で整えています。TENZU は受験対策の教材ではありません。
-              漢字ドリル・計算ドリルと並ぶ「家庭の当たり前の練習」として、机に向かう数分の中に置きます。
-            </p>
-            <div className="method-cards">
-              {PILLARS.map((p) => (
-                <div className="method-card" key={p.no}>
-                  <p className="method-no">{p.no}</p>
-                  <h3>{p.t}</h3>
-                  <p>{p.d}</p>
-                </div>
-              ))}
+            <div className="tr-why-copy">
+              <div className="tr-sec-head">
+                <h2>なぞるのと、写すのは違う。点描写は「考えて、書く」練習です。</h2>
+              </div>
+              <p className="tr-lead">
+                点つなぎは、番号をたどれば絵になります。図形パズルは、ピースを当てはめれば完成します。
+                タブレットは、指で触れれば反応します。点描写はそのどれとも違い、見本のどこに点があるかを
+                自分で<b>見て</b>、次の一点を<b>考えて</b>、鉛筆で<b>書きます</b>。
+                この「考えながら書く」手の経験が、ひらがなや図形、そして小学校で始まる学びに
+                そのまま生きていきます。
+              </p>
             </div>
           </div>
         </section>
 
-        {/* ===================== ④ 扱う9種類（coverage 圧縮） ===================== */}
-        <CoverageSection />
+        {/* ===================== ③ 品ぞろえ（Brilliant 型・力ピル×タスク実演） ===================== */}
+        <CoverageStudio />
 
-        {/* ===================== ②/⑥ 大切にしている 3 つ（図解カード） ===================== */}
+        {/* ===================== ④ 専門店のつくり（旧②柱＋旧④3つを6枚に統合） ===================== */}
         <section className="tr-sec tr-sec-alt">
           <div className="wrap">
             <div className="tr-sec-head">
-              <p className="tr-sec-kicker">TENZU が大切にしていること</p>
-              <h2>点描写プリントで、いちばん大事にした 3 つ。</h2>
+              <p className="tr-sec-kicker">TENZU のつくり方</p>
+              <h2>点描写プリントで、大事にした 6 つ。</h2>
             </div>
-            <div className="val-grid val-grid-3">
-              {VALUES.map((v) => {
-                const Fig = v.Fig;
-                return (
-                  <div className="val-card" key={v.t}>
-                    <div className="val-fig"><Fig /></div>
-                    <div className="val-body">
-                      <h3>{v.t}</h3>
-                      <p>{v.d}</p>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="method-cards">
+              {BUILD.map((p) => (
+                <div className="method-card" key={p.no}>
+                  <p className="method-no">{p.no}</p>
+                  <h3>{p.t}</h3>
+                  <p>{p.d}</p>
+                  {p.link && <a className="method-link" href={p.link.href}>{p.link.label}</a>}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -414,7 +444,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===================== ⑦ 自分で作る（メーカー・従属的な補完） ===================== */}
+        {/* ===================== ⑥ 自分で作る（メーカー・従属的な補完） ===================== */}
         <section className="tr-sec tr-sec-alt">
           <div className="wrap wrap-narrow">
             <div className="tr-sec-head">
@@ -433,22 +463,21 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===================== ⑧ 感情的クロージング ===================== */}
+        {/* ===================== ⑦ 感情的クロージング ===================== */}
         <section className="tr-close">
           <div className="wrap wrap-narrow">
             <h2>点と点が、つながるように。</h2>
             <p>
-              まずは、気になる一枚のサンプルから。印刷して、机の上で。
+              まずは中身を見て、いまのレベルの一枚から。印刷して、机の上で。
               鉛筆で点と点をつなぐ数分が、図形を読む目を育てます。
             </p>
             <div className="tr-cta-row">
-              <a className="tr-btn-primary" href="#">サンプル PDF を見る</a>
-              <a className="tr-btn-ghost" href="/level-guide">レベル選びガイドへ</a>
+              <a className="tr-btn-primary" href="/level-guide">レベル選びガイドへ</a>
             </div>
           </div>
         </section>
 
-        {/* ===================== 記事 ===================== */}
+        {/* ===================== ⑧ 記事 ===================== */}
         <ArticlesSection />
       </main>
 

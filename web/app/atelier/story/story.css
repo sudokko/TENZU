@@ -89,7 +89,7 @@
 .story-caption {
   margin-top: 2px;
   color: #2c6e7f;
-  font-family: "Zen Kurenaido", var(--font-body);
+  font-family: var(--font-tier2-pencil);
 }
 .story-stats {
   color: #8b929c;

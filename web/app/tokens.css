@@ -15,7 +15,7 @@
    Loaded fonts: Google Fonts CDN (font zip pending re-upload).
    ========================================================================= */
 
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Klee+One:wght@600&family=Zen+Kurenaido&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Klee+One:wght@400;600&display=swap");
 
 :root {
   color-scheme: light;
@@ -46,8 +46,10 @@
   /* ---------------------------------------------------------------------
      TYPE — 3-tier system (rev.5)
      ① meaning carrier:   Klee One 600          → headings + soul text
-     ② human warmth:      Zen Kurenaido         → short prose, memos
+     ② human warmth:      Klee One 400          → short prose, memos
      ③ structure/function: Plex Sans JP / Mono  → UI, data, long-form
+     Tier ①/② now share the same family (Klee One) at different weights —
+     hierarchy reads by weight, not by typeface.
      --------------------------------------------------------------------- */
 
   /* Tier ① — calligraphic / school-shosha. Use for what we want READ. */
@@ -58,7 +60,6 @@
 
   /* Tier ② — pencil stroke. Use for "a person wrote this". */
   --font-tier2-pencil:
-      "Zen Kurenaido",
       "Klee One",
       "Yu Mincho", "Hiragino Mincho ProN",
       serif;
@@ -202,7 +203,7 @@ h3, .h3 {
   color: var(--fg);
 }
 
-/* ---- Tier ② Zen Kurenaido — pencil prose ---- */
+/* ---- Tier ② Klee One 400 — pencil prose (same family as Tier ①, lighter weight) ---- */
 .pencil,
 .shopkeeper-memo,
 .group-promise,

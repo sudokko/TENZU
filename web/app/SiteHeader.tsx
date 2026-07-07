@@ -16,7 +16,7 @@ export default function SiteHeader({ currentNav }: { currentNav?: NavKey }) {
       <div className="wrap header-inner">
         <a className="logo-cluster" href="/" aria-label="TENZU ホーム">
           <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
-          <p className="ident">点描写プリント<br />の専門店</p>
+          <p className="ident">点図形（点描写）<br />プリントの専門店</p>
         </a>
         <nav className="nav-main" aria-label="主要ナビゲーション">
           {NAV_LINKS.map((l) => (

@@ -4,10 +4,12 @@
    （id="lv{n}" アンカー＝TOP/一覧ハブのチップ着地点）→ フッタ導線。
    live 巻＝詳細ページへのカード／scaffold 巻＝「準備中」で陳列のみ
    （棚の全体像は隠さない）。歯抜け Lv はセクション自体を出さない。
+   各カード上部に設問 1 問目のサムネイル（VolThumb・published 連動）。
    ========================================================================= */
 
 import SiteHeader from "../SiteHeader";
 import { catalogTaskBySlug } from "../catalog";
+import VolThumb from "./VolThumb";
 import {
   LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL, firstVol,
   type ProductTask,
@@ -74,6 +76,7 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
                   const isStar = vol.sku === star.sku;
                   const body = (
                     <>
+                      <VolThumb vol={vol} taskSlug={task.slug} />
                       <div className="plp-card-top">
                         <span className="plp-card-vol">Vol.{vol.volNo}</span>
                         <span className="plp-card-grid">{vol.grid}</span>

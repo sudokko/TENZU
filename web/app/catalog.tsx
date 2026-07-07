@@ -352,7 +352,6 @@ export function SiteFooter() {
               <li><a href="/products">商品一覧</a></li>
               <li><a href="/makers">メーカー（自分で作る）</a></li>
               <li><a href="/level-guide">レベル選びガイド</a></li>
-              <li><a href="#">サンプル PDF</a></li>
             </ul>
           </div>
           <div className="foot-col">

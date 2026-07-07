@@ -783,6 +783,15 @@ a.plpc-lv:hover { border-color: var(--accent); background: var(--accent-mute, rg
   opacity: 0.35;
   cursor: default;
 }
+/* PC はアイコン・文字とも一回り大きく（行幅が広がる分、等倍だと貧相に見える） */
+@media (min-width: 801px) {
+  .plpc-fig svg { height: 76px; }
+  .plpc-name { font-size: 18px; }
+  .plpc-desc { font-size: 16px; }
+  .plpc-lv { font-size: 16px; }
+  .plpc-force-sub { font-size: 14px; }
+  .plpc-levelband .lvg-name { font-size: 19px; }
+}
 
 /* 棚の下のガイド導線（.level-guide-cta を単独使用・余白のみ上書き） */
 .plpc-guide-cta { margin: 26px 0 56px; }
@@ -883,6 +892,19 @@ a.plp-card:hover .plp-card-go { color: var(--accent); }
 .plp-card.is-soon { background: var(--bg-3); }
 .plp-card.is-soon .plp-card-blurb,
 .plp-card.is-soon .plp-card-grid { color: var(--fg-3); }
+
+/* 設問サムネイル（1問目のみほん。準備中・未入稿は白紙の点格子＝枠だけ） */
+.plp-card-fig {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 148px;
+  background: #FFFFFF;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+}
+.plp-card-fig svg { height: 118px; width: auto; }
+.plp-card.is-soon .plp-card-fig { border-style: dashed; }
 .plp-card-top {
   display: flex;
   align-items: baseline;
