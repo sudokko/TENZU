@@ -9,6 +9,7 @@ TENZU の **認知を取って CV へ渡す** 動きを扱う。市場の読み�
 | ファイル | 責務 |
 |---|---|
 | [channels.md](channels.md) | 認知獲得チャネル戦略（DM 3通・インフルエンサー・記事ハブ誘導・広告・Pinterest パイロット） |
+| [sns-accounts.md](sns-accounts.md) | SNS アカウント設計 SSOT（表示名・ハンドル・プロフィール実文言・固定ポスト/ボード/ハイライト・開設チェックリスト） |
 | [sns-operations.md](sns-operations.md) | SNS 運用オペ SSOT（開店在庫・週次カレンダー・素材3源泉・季節トラック・90日ゲート） |
 | [sns-operations-guide.md](sns-operations-guide.md) | SNS 運用 方針書（平易版・自己完結の読み物・運用の考え方を最初から平易に説明） |
 | [funnel.md](funnel.md) | CV 導線（レベル選びガイド・LP・クーポン・購入導線） |
@@ -18,9 +19,10 @@ TENZU の **認知を取って CV へ渡す** 動きを扱う。市場の読み�
 ## 読む順序
 
 1. **channels.md** で認知獲得の手段（戦略）を押さえる
-2. **sns-operations.md** で SNS の実務オペ（何を用意し毎週何をするか）を確認。考え方を平易に読むなら **sns-operations-guide.md**
-3. **funnel.md** で連れてきた人をどう SKU に渡すかを確認
-4. **monitor-recruit.md** は Phase 2 M2a 公募時のみ
+2. **sns-accounts.md** で各 SNS アカウントの看板（表示名・bio・固定要素・ハンドル）を確認
+3. **sns-operations.md** で SNS の実務オペ（何を用意し毎週何をするか）を確認。考え方を平易に読むなら **sns-operations-guide.md**
+4. **funnel.md** で連れてきた人をどう SKU に渡すかを確認
+5. **monitor-recruit.md** は Phase 2 M2a 公募時のみ
 
 ## 関連
 

@@ -89,6 +89,8 @@
 
 ### 1.7 ハンドル名・識別子設計（2026-04-30 確定 / P0-1 クローズ）
 
+> SNS 表示名・@ハンドル・プロフィール文の現行 SSOT は [../acquisition/sns-accounts.md](../acquisition/sns-accounts.md)。本節は 2026-04-30 時点の記録で、SNS 表示名「TENZU店主」は無記名の屋号型「TENZU｜点図形（点描写）プリントの専門店」へ更改済み（[decisions.md §5.10](../decisions.md)）。
+
 **三段重ね構造**
 
 ```
@@ -855,7 +857,7 @@ TENZU 店主は、書き手本人より「**少し簡潔・少し読み手配慮
 
 ### 5.6 限定先行SKU（段階1リリース時）
 
-**3〜5 SKU をベータ価格でリリース**（pack-design.md §14と接続・最終確定はB-1再オープン）
+〔撤回〕「先行SKU」概念は廃止済み（[decisions.md §3.18](../decisions.md)・詳細は [archive/retired-designs/2026-05-09-presale-skus.md](../archive/retired-designs/2026-05-09-presale-skus.md)）。現行は全 SKU ¥200 一律（[pack-commerce.md §14](../product/pack-commerce.md)）
 
 | 候補SKU | 役割 |
 |---|---|
