@@ -1,13 +1,13 @@
 "use client";
 
 /* =========================================================================
-   平行移動メーカー（内部用・/maker-translate）
+   移動メーカー（内部用・/maker-translate）
    拡大メーカー（/maker-scale）と同じ scaffolding で、F（もとの図）＋ 移動先（●）から
    R = translate(F, dc, dr) を自動算出。
    - 起点 = 最初に置いた点 edges[0].a（★「きてん」）。拡大の不動点と同じ思想。
    - 移動先 = 盤面を 1 クリックで置く点（●「ここへ」）。起点 ★ がここへ着地するよう
-     図形全体を平行移動する。ベクトル (dc,dr) = 移動先 − 起点（距離入力はしない）。
-   - 平行移動図が n×n 枠に収まるかをライブ判定。はみ出すと保存・PDF を抑止。
+     図形全体を移動する。ベクトル (dc,dr) = 移動先 − 起点（距離入力はしない）。
+   - 移動図が n×n 枠に収まるかをライブ判定。はみ出すと保存・PDF を抑止。
    - 編集画面に「もとの図 → うつした図（けっか）」の 2 ペインを並べてライブ表示。
    - 保存問題は { gridSize, edges: F, dc, dr }（schema の translate と整合）。
    - PDF/プレビューはもとの図ペイン=F＋★／かくマスペイン=出題は空＋●・解答は R＋★。
@@ -48,7 +48,7 @@ import {
 // =========================================================================
 // Types
 // =========================================================================
-type GridSize = 3 | 4 | 5 | 6; // 平行移動は family 標準（3×3〜6×6・商品の 3×3/4×4 に整合）
+type GridSize = 3 | 4 | 5 | 6; // 移動は family 標準（3×3〜6×6・商品の 3×3/4×4 に整合）
 
 type Problem = {
   id: string;
@@ -62,7 +62,7 @@ type Problem = {
 
 type Snap = { edges: Edge[] };
 
-/* 各点を (dc,dr) だけ平行移動。形・向き・大きさは変えない */
+/* 各点を (dc,dr) だけ移動。形・向き・大きさは変えない */
 function translatePoint(p: Point, dc: number, dr: number): Point {
   return { c: p.c + dc, r: p.r + dr };
 }
@@ -73,9 +73,9 @@ function inGrid(edges: Edge[], n: number): boolean {
   return edges.every((e) => [e.a, e.b].every((p) => p.c >= 0 && p.c <= n - 1 && p.r >= 0 && p.r <= n - 1));
 }
 
-/* 起点（最初に置いた点 edges[0].a・★）が移動先 target（●）へ着地するよう全点を平行移動。
+/* 起点（最初に置いた点 edges[0].a・★）が移動先 target（●）へ着地するよう全点を移動。
    target 未指定（クリック前）は移動なし＝ fits=true で警告を出さない。
-   平行移動後が枠を超えるかは判定するが、自動では動かさない（起点・移動先・グリッドで人が調整）。 */
+   移動後が枠を超えるかは判定するが、自動では動かさない（起点・移動先・グリッドで人が調整）。 */
 function computeTranslate(edges: Edge[], target: Point | null, n: number):
   { edges: Edge[]; star?: Point; targetMark?: Point; dc: number; dr: number; fits: boolean } {
   if (edges.length === 0) return { edges: [], dc: 0, dr: 0, fits: true };
@@ -111,7 +111,7 @@ function starPathD(cx: number, cy: number, outer: number): string {
 /* 内部用ツールのため完了画面のレコメンドは省略（copy 側のみ） */
 
 // =========================================================================
-// PDF ページ生成 — 共通フレーム（maker/core/page-svg）＋平行移動固有のセル描画。
+// PDF ページ生成 — 共通フレーム（maker/core/page-svg）＋移動固有のセル描画。
 // ★（きてん）・●（ここへ）マーカーが点を置換するため、ペイン描画は
 // メーカー固有実装を維持する。
 // =========================================================================
@@ -305,7 +305,7 @@ export default function MakerTranslateApp() {
   const { paperKey, selectPaper, marginMm, perPage, setPerPage, nameField, setNameField, dotSize, setDotSize, dotScale } = layout;
   const [pairLayout, setPairLayout] = useState<"auto" | PairLayout>("auto"); // おまかせ=選択数で上下/横を自動
 
-  // ---- Derived: 現在編集中の図形の平行移動結果（ライブ） ----
+  // ---- Derived: 現在編集中の図形の移動結果（ライブ） ----
   const cur = useMemo(() => computeTranslate(edges, target, gridSize), [edges, target, gridSize]);
   const resultEdges = cur.edges;
   const isZeroMove = target !== null && cur.dc === 0 && cur.dr === 0;
@@ -432,7 +432,7 @@ export default function MakerTranslateApp() {
       <style>{`@media print { @page { size: ${paper.cssSize}; margin: 0; } }`}</style>
 
       {/* ============ HEADER ============ */}
-      <MakerHeader appName="平行移動メーカー（内部用）" />
+      <MakerHeader appName="移動メーカー（内部用）" />
 
       {/* 内部用ツールのため完了画面なし */}
       <>
@@ -516,7 +516,7 @@ export default function MakerTranslateApp() {
                 background: "#fdecec", border: "1px solid #e3a0a0", color: "#b33a3a",
                 borderRadius: 8, padding: "8px 12px", fontSize: 13, lineHeight: 1.5,
               }}>
-                この移動先では平行移動した図が枠からはみ出します。<br />
+                この移動先では移動した図が枠からはみ出します。<br />
                 もとの図を小さく描く／移動先を起点に近づける／グリッドを大きくしてください。
               </div>
             )}
@@ -708,7 +708,7 @@ export default function MakerTranslateApp() {
                 nameField={nameField}
                 dotScale={dotScale}
                 renderCell={(p, { cellW, cellH, pane, gap, pairLayout: pair, dotScale: ds }) => {
-                  /* 平行移動: 境界に標準の細線矢印（模写と同じ）。移動方向は ★→● で示す */
+                  /* 移動: 境界に標準の細線矢印（模写と同じ）。移動方向は ★→● で示す */
                   const start = p.edges[0].a;
                   const tgt = { c: start.c + p.dc, r: start.r + p.dr };
                   const aSize = gap * 0.9;
@@ -788,7 +788,7 @@ export default function MakerTranslateApp() {
 }
 
 // =========================================================================
-// 平行移動固有の盤面/プレビュー/印刷サブコンポーネント
+// 移動固有の盤面/プレビュー/印刷サブコンポーネント
 // （★「きてん」・●「ここへ」マーカーが点を置換するため、core の
 //   PaperSVG/PreviewPane は使わない）
 // =========================================================================

@@ -134,10 +134,10 @@ function FigMirror() {
   );
 }
 
-/* 平行移動: 左上の四角を、右下へずらして写す */
+/* 移動: 左上の四角を、右下へずらして写す */
 function FigTranslate() {
   return (
-    <svg viewBox={VB2} role="img" aria-label="平行移動: 形はそのまま位置をずらす">
+    <svg viewBox={VB2} role="img" aria-label="移動: 形はそのまま位置をずらす">
       <Dots x0={P1} /><Dots x0={P2} />
       <path d={d(P1, [[0, 4], [10, 4], [10, 14], [0, 14]])} stroke={INK} {...stroke} />
       <path d={`M${P1 + 12} 16 L${P1 + 18} 22`} stroke={INK} strokeWidth={1}

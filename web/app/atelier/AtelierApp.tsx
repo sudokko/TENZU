@@ -14,7 +14,7 @@ import {
   metricsLabel, normalizeEdges, splitAtLattice, edgeKey, mirrorEdges, TASK_ANSWER_MODE,
   solidEdgeKey, normalizeSolidEdges,
 } from "../products/problems/schema";
-import { computeMetrics, computeSolidMetrics } from "../products/problems/gen/metrics";
+import { computeMetrics, computeSolidMetrics, mergedSegments } from "../products/problems/gen/metrics";
 import {
   ladderChips, ladderFieldsFor, GRID_MIN, GRID_MAX, type LadderField,
 } from "../products/problems/ladder-schema";
@@ -62,10 +62,16 @@ function AxisLineLocal({ axis }: { axis: "v" | "h" | "d1" | "d2" }) {
 }
 
 /* 1 ペイン分の描画（格子点＋辺＋軸線）— 0..100 のローカル座標で完結。
-   ox/oy: viewBox 内の左上原点。across-pane レイアウトでこれを 2 つ並べる */
+   ox/oy: viewBox 内の左上原点。across-pane レイアウトでこれを 2 つ並べる。
+   ghost=辺を薄色点線で（移動の解答プレビュー）／star=★きてん／ring=●ここへ */
 function PaneFig({
-  n, edges, axis, ox = 0, oy = 0,
-}: { n: number; edges: EdgeT[]; axis?: "v" | "h" | "d1" | "d2"; ox?: number; oy?: number }) {
+  n, edges, axis, ox = 0, oy = 0, ghost = false, star, ring, ghostOverlay,
+}: {
+  n: number; edges: EdgeT[]; axis?: "v" | "h" | "d1" | "d2"; ox?: number; oy?: number;
+  ghost?: boolean; star?: Pt; ring?: Pt;
+  /* 実線ペインの上へ薄色点線で重ねる辺（fold＝折り返した問題1のプレビュー） */
+  ghostOverlay?: EdgeT[];
+}) {
   const pos = (i: number) => 10 + (80 * i) / Math.max(1, n - 1);
   return (
     <g transform={`translate(${ox} ${oy})`}>
@@ -77,8 +83,19 @@ function PaneFig({
       {edges.map((e, i) => (
         <line key={i}
           x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
-          stroke={INK} strokeWidth={1.7} strokeLinecap="round" />
+          stroke={ghost ? GHOST : INK} strokeWidth={ghost ? 1.5 : 1.7}
+          {...(ghost ? { strokeDasharray: "3 2" } : {})} strokeLinecap="round" />
       ))}
+      {ghostOverlay?.map((e, i) => (
+        <line key={`go${i}`}
+          x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+          stroke={GHOST} strokeWidth={1.5} strokeDasharray="3 2" strokeLinecap="round" />
+      ))}
+      {star && <circle cx={pos(star[0])} cy={pos(star[1])} r={3.4} fill={ACCENT} opacity={0.9} />}
+      {ring && (
+        <circle cx={pos(ring[0])} cy={pos(ring[1])} r={3.4}
+          fill="none" stroke={ACCENT} strokeWidth={1.2} opacity={0.9} />
+      )}
     </g>
   );
 }
@@ -93,13 +110,14 @@ function ProblemSvg({
   n, edges, answer, inputB, size = 132,
 }: { n: number; edges: EdgeT[]; answer?: Problem["answer"]; inputB?: EdgeT[]; size?: number }) {
   /* 折り重ね（fold）: 問題1(A=edges) ｜ 問題2(B=inputB) の across-pane。
-     解答は mirror(A)∪B で導出可＝サムネは2図の確認に集中する。 */
+     右ペインに折り返した問題1（=mirror(A,v)）を薄色点線で重ねる＝
+     折り重ね結果（実線∪点線）まで一目で検品できる。 */
   if (inputB) {
     return (
       <svg viewBox="0 0 200 100" width={size * 2} height={size}
-        className="atl-thumb" aria-label="折り重ね: 問題1／問題2">
+        className="atl-thumb" aria-label="折り重ね: 左=問題1／右=問題2（うすい線=折り返した問題1）">
         <PaneFig n={n} edges={edges} />
-        <PaneFig n={n} edges={inputB} ox={100} />
+        <PaneFig n={n} edges={inputB} ghostOverlay={mirrorEdges(edges, n, "v")} ox={100} />
       </svg>
     );
   }
@@ -116,6 +134,52 @@ function ProblemSvg({
         <PaneFig n={n} edges={edges} />
         <PaneFig n={n} edges={R}
           ox={stack ? 0 : 100} oy={stack ? 100 : 0} />
+      </svg>
+    );
+  }
+  /* translate: across-pane（左=もとの図 F＋★きてん／右=解答 F'（薄色点線）＋●ここへ）。
+     紙面の右ペインは空＋●だけ＝検品では解答をゴーストで重ねて見せる。
+     ★＝F の辞書順最小点・●＝★+(dc,dr)（gen/translate.ts と同じ導出規約）。
+     縦移動の巻（dc=0）は上下に積む（紙面の並びと同じ読み方向）。 */
+  const tr = answer?.mode === "derived" && answer.transform.type === "translate"
+    ? answer.transform : null;
+  if (tr && edges.length > 0) {
+    const F2 = edges.map((e) => [
+      [e[0][0] + tr.dc, e[0][1] + tr.dr], [e[1][0] + tr.dc, e[1][1] + tr.dr],
+    ] as EdgeT);
+    let anchor: Pt = edges[0][0];
+    for (const e of edges) for (const p of e) {
+      if (p[0] < anchor[0] || (p[0] === anchor[0] && p[1] < anchor[1])) anchor = p;
+    }
+    const target: Pt = [anchor[0] + tr.dc, anchor[1] + tr.dr];
+    const stack = tr.dc === 0;
+    const vbW = stack ? 100 : 200;
+    const vbH = stack ? 200 : 100;
+    return (
+      <svg viewBox={`0 0 ${vbW} ${vbH}`} width={stack ? size : size * 2} height={stack ? size * 2 : size}
+        className="atl-thumb" aria-label="移動: 左=もとの図／右=うつした図（うすい線=こたえ）">
+        <PaneFig n={n} edges={edges} star={anchor} />
+        <PaneFig n={n} edges={F2} ghost ring={target}
+          ox={stack ? 0 : 100} oy={stack ? 100 : 0} />
+      </svg>
+    );
+  }
+  /* rotate: across-pane（左=みほん F／右=解答=盤面中心まわりに回した図・薄色点線）。
+     回転規約は maker-rotate / schema TransformSpec と同一（deg=90 右回り・-90 左回り・180）。 */
+  const rot = answer?.mode === "derived" && answer.transform.type === "rotate"
+    ? answer.transform : null;
+  if (rot && edges.length > 0) {
+    const rp = (p: Pt): Pt =>
+      rot.deg === 90 ? [n - 1 - p[1], p[0]]
+        : rot.deg === -90 ? [p[1], n - 1 - p[0]]
+          : [n - 1 - p[0], n - 1 - p[1]];
+    const R = edges.map((e) => [rp(e[0]), rp(e[1])] as EdgeT);
+    const degLabel = rot.deg === -90 ? "90°左回り" : rot.deg === 90 ? "90°右回り" : "180°";
+    return (
+      <svg viewBox="0 0 200 100" width={size * 2} height={size}
+        className="atl-thumb" aria-label={`回転: 左=みほん／右=解答（${degLabel}・うすい線）`}>
+        <PaneFig n={n} edges={edges} />
+        <PaneFig n={n} edges={R} ghost ox={100} />
       </svg>
     );
   }
@@ -171,6 +235,11 @@ function dFormulaLabel(kind?: string): string {
     case "copy": return "線数 ＋ 斜め本数×1.5 ＋ 非45°本数×8";
     case "fill": return "図形の土台 ＋ 欠け線分×2";
     case "mirror": return "図形の土台難易度（反転の操作負荷は軸ゲートで吸収）";
+    case "translate": return "図形の土台難易度（移動の操作負荷は方向・移動量ゲートで吸収）";
+    case "rotate": return "図形の土台難易度（回転の操作負荷は角度・方向ゲートで吸収）";
+    case "overlay": return "図形Aの土台 ＋ 図形Bの土台 ＋ 絡み×2（A・B間の交差数）";
+    case "decompose": return "こたえの土台 ＋ 引くものの土台 ＋ 絡み×2（A・B間の交差数）";
+    case "fold": return "問題1の土台 ＋ 問題2の土台 ＋ 絡み×2（折り重ね後の交差）";
     case "motif": return "線数 ＋ 斜め本数×1.5 ＋ 非45°本数×8";
     case "solid": return "線 ＋ 斜め×1.5 ＋ 非45°×8 ＋ 隠れ辺×3";
     default: return "タスク別の難易度式（gen/difficulty.ts）";
@@ -222,13 +291,16 @@ type Update = { id: string; status?: Candidate["status"]; order?: number | null 
 export default function AtelierApp({
   sku, title, blurb, meate, hasGenerator, genKind, linesRange, gapRange, motifInspoEnabled = false,
   blankGridN, ladderEntry = null, isSolid = false,
+  prevSku, prevLabel, nextSku, nextLabel,
 }: {
   sku: string; title: string;
+  /* 同一タスク内の前後の Vol（端では undefined）。ヘッダの戻る/進むで移動する。 */
+  prevSku?: string; prevLabel?: string; nextSku?: string; nextLabel?: string;
   /* この巻のキャッチコピー（各巻1文）と めあて（この巻で鍛えたい力）。
      live 商品詳細と同じ Vol メタ。タイトル下に出して検品時に狙いを確認する。 */
   blurb?: string; meate?: string;
   hasGenerator: boolean;
-  genKind?: "copy" | "motif" | "mirror" | "fill";
+  genKind?: "copy" | "motif" | "mirror" | "fill" | "translate" | "rotate" | "overlay" | "decompose" | "fold";
   linesRange?: [number, number]; gapRange?: [number, number];
   /* true なら初回ロード時に /api/atelier/seed-motif-inspo を一度叩いて
      模様候補（gen.generator="motif"）を candidates JSON に注入する。
@@ -353,12 +425,26 @@ export default function AtelierApp({
     if (blankGridN === undefined) return null;
     const n = blankGridN as 3 | 4 | 5 | 6 | 7;
     const mode = TASK_ANSWER_MODE[task] ?? "none";
+    /* 移動の白紙作成: 巻の方向（ladder の dir）に合わせた既定ベクトルを焼く。
+       白紙で描いた F が動く余白を持つかは検品サムネのゴーストで目視確認する。 */
+    const tDir = String(lentry?.dir ?? "h");
+    const tVec = tDir === "v" ? { dc: 0, dr: 1 }
+      : tDir === "diag" ? { dc: 1, dr: 1 }
+        : tDir === "compound" ? { dc: 2, dr: 1 }
+          : { dc: 1, dr: 0 };
+    /* 回転の白紙作成: 巻の回転角（ladder の angle・90cw/90ccw/180）を derived answer に焼く */
+    const rDeg: 90 | -90 | 180 =
+      lentry?.angle === "90ccw" ? -90 : lentry?.angle === "180" ? 180 : 90;
     const answer: Problem["answer"] =
       mode === "explicit" ? { mode: "explicit", edges: [] }
         : mode === "derived" && task === "mirror"
           // 鏡は軸レス（軸＝印刷時の並び選択・decisions §3.59）。代表値 v を焼く
           ? { mode: "derived", transform: { type: "mirror", axis: "v" } }
-          : undefined;
+          : mode === "derived" && task === "translate"
+            ? { mode: "derived", transform: { type: "translate", ...tVec } }
+            : mode === "derived" && task === "rotate"
+              ? { mode: "derived", transform: { type: "rotate", deg: rDeg } }
+              : undefined;
     return {
       id: "__new__",
       grid: { type: "square", n },
@@ -718,7 +804,23 @@ export default function AtelierApp({
   return (
     <main className="atl-wrap">
       <header className="atl-head">
-        <p className="atl-crumb"><a href="/atelier">atelier</a> / {sku}</p>
+        <div className="atl-topbar">
+          <p className="atl-crumb"><a href="/atelier">atelier</a> / {sku}</p>
+          <nav className="atl-volnav" aria-label="前後の Vol へ移動">
+            {prevSku ? (
+              <a className="atl-volnav-btn" href={`/atelier/${prevSku}`}
+                title={`前の巻へ: ${prevLabel}`}>← 戻る{prevLabel && <span className="atl-volnav-lv"> {prevLabel}</span>}</a>
+            ) : (
+              <span className="atl-volnav-btn is-disabled" aria-disabled>← 戻る</span>
+            )}
+            {nextSku ? (
+              <a className="atl-volnav-btn" href={`/atelier/${nextSku}`}
+                title={`次の巻へ: ${nextLabel}`}>{nextLabel && <span className="atl-volnav-lv">{nextLabel} </span>}進む →</a>
+            ) : (
+              <span className="atl-volnav-btn is-disabled" aria-disabled>進む →</span>
+            )}
+          </nav>
+        </div>
         <h1>{title}</h1>
         {blurb && <p className="atl-blurb">{blurb}</p>}
         {meate && (
@@ -764,7 +866,7 @@ export default function AtelierApp({
           {hasGenerator && genKind !== "copy" && (
             <>
               <label className="atl-gen-lines">
-                {genKind === "fill" ? "線分の本数" : "線の本数"}
+                {genKind === "fill" ? "線分の本数" : genKind === "overlay" || genKind === "decompose" || genKind === "fold" ? "1図あたりの線" : "線の本数"}
                 <select value={genLines}
                   onChange={(e) => setGenLines(e.target.value === "" ? "" : Number(e.target.value))}>
                   <option value="">おまかせ</option>
@@ -952,6 +1054,7 @@ export default function AtelierApp({
           key={editing.id}
           candidate={editing}
           busy={busy}
+          task={task}
           onSave={(edges, motif, answerEdges) => saveEdit(editing.id, edges, motif, answerEdges)}
           onClose={() => setEditing(null)}
         />
@@ -971,6 +1074,7 @@ export default function AtelierApp({
           candidate={blankCandidate}
           busy={busy}
           createMode
+          task={task}
           onSave={(edges, title, answerEdges) => createNew(edges, title, answerEdges)}
           onClose={() => setCreating(false)}
         />
@@ -986,17 +1090,25 @@ export default function AtelierApp({
    R をトグル（公平性=「R の両端点が G に残るか」をライブで注記）。
    ========================================================================= */
 function EditOverlay({
-  candidate, busy, onSave, onClose, createMode = false,
+  candidate, busy, onSave, onClose, createMode = false, task = "",
 }: {
   candidate: Candidate;
   busy: boolean;
   onSave: (edges: EdgeT[], motif?: string, answerEdges?: EdgeT[]) => void;
   onClose: () => void;
   createMode?: boolean;
+  /* 呼び出し元 SKU のタスク。explicit 解答の意味がタスクで違う（fill=抜く線 R／
+     overlay=図形B）ため、R モードの文言と公平性チェックの表示を出し分ける */
+  task?: string;
 }) {
   // EditOverlay は square 専用（solid は SolidEditOverlay へ分岐済み）。型を絞る。
   const n = candidate.grid.type === "square" ? candidate.grid.n : 3;
   const isFill = candidate.answer?.mode === "explicit";
+  // explicit の R の呼び名: fill=「抜く線」（公平性チェックあり）／
+  // overlay=「図形B」／decompose=「引くもの（図形B）」
+  const fillWording = task === "fill";
+  const rLabel = task === "fill" ? "抜く線"
+    : task === "decompose" ? "引くもの（図形B）" : "図形B";
   const [edges, setEdges] = useState<EdgeT[]>(candidate.edges);
   const [rEdges, setREdges] = useState<EdgeT[]>(
     isFill && candidate.answer?.mode === "explicit" ? candidate.answer.edges : [],
@@ -1126,7 +1238,7 @@ function EditOverlay({
   const previewAccent: EdgeT[] =
     previewKind === "fill" ? rEdges.filter((e) => fSet.has(edgeKey(e))) : [];
   const previewLabel =
-    previewKind === "fill" ? "回答ペイン（欠け図＋抜いた線）"
+    previewKind === "fill" ? (fillWording ? "回答ペイン（欠け図＋抜いた線）" : "紙面イメージ（図形A=実線・図形B=点線）")
       : previewKind === "mirror" ? "回答ペイン（折り返した形）"
         : previewKind === "fold" ? "問題2（B）" : "";
   const editSize = previewKind ? 300 : SIZE;
@@ -1139,7 +1251,7 @@ function EditOverlay({
           <p className="atl-editor-hint">
             {mode === "F"
               ? "点を 2 つクリックして線を引く／同じ線をもう一度なぞると消える"
-              : "完成図の線をクリックすると「抜く線」へ／もう一度で戻る"}
+              : `完成図の線をクリックすると「${rLabel}」へ／もう一度で戻る`}
           </p>
         </header>
 
@@ -1157,12 +1269,16 @@ function EditOverlay({
               onClick={() => { setEraseMode(false); setMode("F"); setFirst(null); }}>描く</button>
             {isFill && (
               <button type="button" aria-pressed={!eraseMode && mode === "R"}
-                onClick={() => { setEraseMode(false); setMode("R"); setFirst(null); }}>抜く線を選ぶ</button>
+                onClick={() => { setEraseMode(false); setMode("R"); setFirst(null); }}>{rLabel}を選ぶ</button>
             )}
             <button type="button" aria-pressed={eraseMode}
               onClick={() => { setEraseMode(true); setFirst(null); }}>消す</button>
           </div>
-          {isFill && <span className={`atl-fair${fairness.ok ? "" : " is-bad"}`}>{fairness.msg}</span>}
+          {/* 公平性（R の両端点が G に残るか）は fill 固有。overlay の図形B には適用しない */}
+          {isFill && fillWording && <span className={`atl-fair${fairness.ok ? "" : " is-bad"}`}>{fairness.msg}</span>}
+          {isFill && !fillWording && (
+            <span className="atl-fair">{rLabel} {rEdges.length ? mergedSegments(rEdges).length : 0} 本（点線）・のこり＝実線</span>
+          )}
           {eraseMode && <span className="atl-os-note">線をクリックすると、その線だけ消えます。</span>}
         </div>
 

@@ -23,7 +23,7 @@ export const MAKERS: MakerMeta[] = [
   { key: "solid",     href: "/maker-solid",     name: "立体模写メーカー",     short: "立体",     desc: "見える辺と隠れた辺で、立体を点で写す。",   group: "見て写す" },
   { key: "fill",      href: "/maker-fill",      name: "欠け補完メーカー",     short: "欠け補完", desc: "足りない辺を補って、形を閉じる。",       group: "見て写す" },
   { key: "mirror",    href: "/maker-mirror",    name: "鏡メーカー",           short: "鏡",       desc: "鏡の反対側に映る形を描く。",             group: "かたちを動かす" },
-  { key: "translate", href: "/maker-translate", name: "平行移動メーカー",     short: "平行移動", desc: "形を変えずに、ずらして写す。",           group: "かたちを動かす" },
+  { key: "translate", href: "/maker-translate", name: "移動メーカー",     short: "移動", desc: "形を変えずに、ずらして写す。",           group: "かたちを動かす" },
   { key: "rotate",    href: "/maker-rotate",    name: "回転メーカー",         short: "回転",     desc: "回した形を思いうかべて描く。",           group: "かたちを動かす" },
   { key: "scale",     href: "/maker-scale",     name: "拡大メーカー",         short: "拡大",     desc: "比をそろえて、大きく写す（×2・×3）。",   group: "かたちを動かす" },
   { key: "shrink",    href: "/maker-shrink",    name: "縮小メーカー",         short: "縮小",     desc: "比をそろえて、小さく写す（1/2・1/3）。", group: "かたちを動かす" },
@@ -33,10 +33,10 @@ export const MAKERS: MakerMeta[] = [
 ];
 
 /* グループ表示順＝TOP カタログ (catalog GROUPS) と同一: 見て写す → かたちを動かす → 重ねる・分ける。
-   ローンチ公開後の「かたちを動かす」は鏡・平行移動・回転。拡大・縮小は LAUNCH_HIDDEN。 */
+   ローンチ公開後の「かたちを動かす」は鏡・移動・回転。拡大・縮小は LAUNCH_HIDDEN。 */
 export const MAKER_GROUPS: { key: MakerGroupKey; title: string; sub: string }[] = [
   { key: "見て写す",       title: "見て写す",       sub: "形をそのまま読み取る、いちばんの基礎。" },
-  { key: "かたちを動かす", title: "かたちを動かす", sub: "向きや位置を変えて、頭の中で形をとらえる力。鏡・平行移動・回転。" },
+  { key: "かたちを動かす", title: "かたちを動かす", sub: "向きや位置を変えて、頭の中で形をとらえる力。鏡・移動・回転。" },
   { key: "重ねる・分ける", title: "重ねる・分ける", sub: "複数の形を組み立てたり、分けたりして読みとく力。" },
 ];
 

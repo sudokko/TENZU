@@ -284,7 +284,7 @@ function FigTranslate() {
   const a = [[0, 0], [1, 0], [1, 1], [2, 1], [2, 2], [0, 2]];
   const b = a.map(([c, r]) => [c + 1, r + 1]);
   return (
-    <svg viewBox={VB2} role="img" aria-label="平行移動の設問サンプル">
+    <svg viewBox={VB2} role="img" aria-label="移動の設問サンプル">
       <TL x={LCX} t="もとの図" /><TL x={RCX} t="うつす先" />
       <Grid ox={LOX} oy={OY} s={S} /><Grid ox={ROX} oy={OY} s={S} />
       <Shape ox={LOX} oy={OY} s={S} pts={a} v="ink" />

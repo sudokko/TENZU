@@ -165,12 +165,13 @@ export const PRODUCT_TASKS: ProductTask[] = [
     ],
   },
   {
-    slug: "translate", name: "平行移動", groupIdx: 1,
+    slug: "translate", name: "移動", groupIdx: 1,
     vols: [
       v("translate-lv2-vol1", 2, 1, "3×3", "「ずらす」デビュー。形はそのまま、横にスライドするだけ。", "4〜6才ごろ", "scaffold", "横"),
       v("translate-lv2-vol2", 2, 2, "3×3", "同じ3×3で、こんどは縦にずらす。方向感覚を育てる。", "4〜6才ごろ", "scaffold", "縦"),
       v("translate-lv3-vol1", 3, 1, "4×4", "斜めにもずらせる。4×4でナナメ方向の感覚を養う。", "5〜7才ごろ", "scaffold", "斜め"),
-      v("translate-lv4-vol1", 4, 1, "4×4", "「右に2、下に1」など2方向同時の移動へ。", "6〜8才ごろ", "scaffold", "複合"),
+      v("translate-lv4-vol1", 4, 1, "5×5", "「右に2、下に1」など2方向同時の移動を、5×5の広い盤面で。", "6〜9才ごろ", "scaffold", "複合"),
+      v("translate-lv5-vol1", 5, 1, "6×6", "最大6×6。複数方向の移動を、広い盤面で組み合わせる総仕上げ。", "8才〜", "scaffold", "複合"),
     ],
   },
   {
@@ -181,6 +182,7 @@ export const PRODUCT_TASKS: ProductTask[] = [
       v("rotate-lv3-vol2", 3, 2, "4×4", "左まわりデビュー。同じ枠のまま方向だけ反対へ。", "5〜8才ごろ", "scaffold", "90°左回り"),
       v("rotate-lv4-vol1", 4, 1, "3×3", "180°デビュー。さかさまの世界を、点で読み解く。", "6〜8才ごろ", "scaffold", "180°"),
       v("rotate-lv4-vol2", 4, 2, "4×4", "180°のまま枠を4×4へ。回転マスターまで一歩。", "6〜9才ごろ", "scaffold", "180°"),
+      v("rotate-lv5-vol1", 5, 1, "5×5", "最大5×5の180°。さかさまの世界を、広い盤面で読み解く総仕上げ。", "8才〜", "scaffold", "180°"),
     ],
   },
   {
@@ -201,39 +203,38 @@ export const PRODUCT_TASKS: ProductTask[] = [
   },
   /* ============ C. 重ねる・分ける ============ */
   {
+    /* かさねは模写軸ラダー（decisions §3.71/§3.72）: Lv＝図形要素（45°→45°必須+交差→
+       非45°必須）が模写Lvに同期・絡み（A・B間の交差数）も Lv とともに増え Lv.5 で最大化。
+       各Lv 1巻（Vol.1/Vol.2 の絡み分冊は差が小さく廃止＝§3.72） */
     slug: "overlay", name: "かさね", groupIdx: 2,
     vols: [
       v("overlay-lv2-vol1", 2, 1, "3×3", "「かさねる」デビュー。2つの形を重ねた姿を描いてみよう。", "4〜6才ごろ", "scaffold"),
-      v("overlay-lv3-vol1", 3, 1, "4×4", "4×4で線が増えて交差も。線少なめで合成の型をつかむ。", "5〜7才ごろ", "scaffold", "線少なめ"),
-      v("overlay-lv3-vol2", 3, 2, "4×4", "同じ4×4で線が密に。重なりを読みほぐす力が育つ。", "5〜8才ごろ", "scaffold", "線多め"),
-      v("overlay-lv4-vol1", 4, 1, "5×5", "5×5・ナナメも入る。線少なめで角度に集中。", "6〜8才ごろ", "scaffold", "線少なめ"),
-      v("overlay-lv4-vol2", 4, 2, "5×5", "5×5の密な重なり。2図同時保持の力を試す。", "6〜9才ごろ", "scaffold", "線多め"),
-      v("overlay-lv5-vol1", 5, 1, "6×6", "6×6に拡大。広い盤面で線少なめから始めよう。", "8才〜", "scaffold", "線少なめ"),
-      v("overlay-lv5-vol2", 5, 2, "6×6", "6×6で線も最大密。かさねマスターへ。", "8才〜", "scaffold", "線多め"),
+      v("overlay-lv3-vol1", 3, 1, "4×4", "4×4・ナナメも交差も登場。絡みはひかえめに、合成の型をつかむ。", "5〜8才ごろ", "scaffold"),
+      v("overlay-lv4-vol1", 4, 1, "5×5", "45°じゃないナナメが初登場。絡みはひかえめに、めずらしい角度に集中。", "6〜9才ごろ", "scaffold"),
+      v("overlay-lv5-vol1", 5, 1, "6×6", "6×6・絡み最大。かさねマスターへ。", "8才〜", "scaffold"),
     ],
   },
   {
+    /* 分解はかさねの逆操作＝同じ模写軸ラダー（decisions §3.73）: Lv＝図形要素が
+       模写Lv同期・絡みも Lv とともに増え Lv.5 で最大化。各Lv 1巻 */
     slug: "decompose", name: "分解", groupIdx: 2,
     vols: [
       v("decompose-lv2-vol1", 2, 1, "3×3", "「とりだす」デビュー。重なった形から、片方だけを見つけて描こう。", "4〜6才ごろ", "scaffold"),
-      v("decompose-lv3-vol1", 3, 1, "4×4", "4×4で線が増える。少なめの線から「引き算思考」を育てる。", "5〜7才ごろ", "scaffold", "線少なめ"),
-      v("decompose-lv3-vol2", 3, 2, "4×4", "同じ4×4で線が密に。どの線を取り出す？を見極める力。", "5〜8才ごろ", "scaffold", "線多め"),
-      v("decompose-lv4-vol1", 4, 1, "5×5", "5×5・ナナメ入り。線少なめで広い盤面に慣れる。", "6〜8才ごろ", "scaffold", "線少なめ"),
-      v("decompose-lv4-vol2", 4, 2, "5×5", "5×5の密な重なりから1つを抜き出す。集中力が問われる。", "6〜9才ごろ", "scaffold", "線多め"),
-      v("decompose-lv5-vol1", 5, 1, "6×6", "6×6に拡大。広い盤面で線少なめから始めよう。", "8才〜", "scaffold", "線少なめ"),
-      v("decompose-lv5-vol2", 5, 2, "6×6", "6×6で線も最大密。分解マスターへ。", "8才〜", "scaffold", "線多め"),
+      v("decompose-lv3-vol1", 3, 1, "4×4", "4×4・ナナメも交差も登場。少ない絡みから「引き算思考」を育てる。", "5〜8才ごろ", "scaffold"),
+      v("decompose-lv4-vol1", 4, 1, "5×5", "45°じゃないナナメが初登場。めずらしい角度の線を、正しく引き分ける。", "6〜9才ごろ", "scaffold"),
+      v("decompose-lv5-vol1", 5, 1, "6×6", "6×6・絡み最大。密な重なりから取り出す、分解マスターへ。", "8才〜", "scaffold"),
     ],
   },
   {
+    /* 折り重ねはかさね・分解と同じ模写軸ラダー（decisions §3.74）: 鏡×かさねの
+       ハイブリッド＝能力ラダー最終段。Lv＝図形要素が模写Lv同期・絡みも Lv とともに
+       増え Lv.5 で最大化。各Lv 1巻 */
     slug: "fold", name: "折り重ね", groupIdx: 2,
     vols: [
-      v("fold-lv2-vol1", 2, 1, "3×3", "「折り重ね」デビュー。問題1を折り返して問題2に重ねた形を描こう。", "4〜6才ごろ", "scaffold"),
-      v("fold-lv3-vol1", 3, 1, "4×4", "4×4で線が増える。少なめの線から折り返しの型をつかむ。", "5〜7才ごろ", "scaffold", "線少なめ"),
-      v("fold-lv3-vol2", 3, 2, "4×4", "同じ4×4で線が密に。折って重ねた姿を読みほぐす。", "5〜8才ごろ", "scaffold", "線多め"),
-      v("fold-lv4-vol1", 4, 1, "5×5", "5×5・ナナメも入る。線少なめで折り返しに集中。", "6〜8才ごろ", "scaffold", "線少なめ"),
-      v("fold-lv4-vol2", 4, 2, "5×5", "5×5の密な折り重ね。2図を同時に保持する力を試す。", "6〜9才ごろ", "scaffold", "線多め"),
-      v("fold-lv5-vol1", 5, 1, "6×6", "6×6に拡大。広い盤面で線少なめから。", "8才〜", "scaffold", "線少なめ"),
-      v("fold-lv5-vol2", 5, 2, "6×6", "6×6で線も最大密。折り重ねマスターへ。", "8才〜", "scaffold", "線多め"),
+      v("fold-lv2-vol1", 2, 1, "3×3", "「折り重ね」デビュー。問題1を折り返して、問題2に重ねた形を描こう。", "4〜6才ごろ", "scaffold"),
+      v("fold-lv3-vol1", 3, 1, "4×4", "4×4・ナナメも交差も登場。絡みはひかえめに、折り返しの型をつかむ。", "5〜8才ごろ", "scaffold"),
+      v("fold-lv4-vol1", 4, 1, "5×5", "45°じゃないナナメが初登場。めずらしい角度を、折り返して重ねる。", "6〜9才ごろ", "scaffold"),
+      v("fold-lv5-vol1", 5, 1, "6×6", "6×6・絡み最大。折り重ねマスターへ。", "8才〜", "scaffold"),
     ],
   },
 ];
@@ -289,6 +290,17 @@ export function volBySku(sku: string): { task: ProductTask; vol: Vol } | undefin
     if (vol) return { task, vol };
   }
   return undefined;
+}
+
+/* 同一タスク内で lv→volNo 順に並べたときの前後の Vol（atelier の戻る/進む用）。
+   端では該当側が undefined。task をまたいだ移動はしない。 */
+export function adjacentVols(sku: string): { prev?: Vol; next?: Vol } {
+  const hit = volBySku(sku);
+  if (!hit) return {};
+  const ordered = [...hit.task.vols].sort((a, b) => a.lv - b.lv || a.volNo - b.volNo);
+  const i = ordered.findIndex((v) => v.sku === sku);
+  if (i < 0) return {};
+  return { prev: ordered[i - 1], next: ordered[i + 1] };
 }
 
 /* Lv.1〜5 の各 Vol 数（catalog.tsx GROUPS の lv 配列はここから導出） */

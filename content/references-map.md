@@ -290,13 +290,13 @@ Luquet (1927)【暗黙的基盤・記事には直接引用なし】
   - 読み書き障害と視知覚（JP[23] + No.27 後藤・宇野 2010）
 
 ★☆☆ 論拠が薄め（実践資料・解説資料が中心 — ChatGPT DR が「直接適合論文乏しい」と明示）
-  - 平行移動の位置づけ（純粋な translation 発達研究は乏しい・近接領域のみ）
+  - 移動の位置づけ（純粋な translation 発達研究は乏しい・近接領域のみ）
   - WM訓練→図形模写への直接転移（直接実証RCTは見当たらず）
   - figure-copying を中核カリキュラムにした学校導入研究（実装エビデンス乏しい）
   - タブレット vs 紙の手書き模写比較（厳密RCTは発展途上）
 ```
 
-> **執筆フェーズ（B-3）の注意点**: ★☆☆ 領域では「研究がない」と断定せず、「直接検証はまだ乏しいが隣接エビデンスはある」と記述する。Cluster ①平行移動／Cluster ⑥タブレット vs 紙比較の Cluster 記事では特に重要。
+> **執筆フェーズ（B-3）の注意点**: ★☆☆ 領域では「研究がない」と断定せず、「直接検証はまだ乏しいが隣接エビデンスはある」と記述する。Cluster ①移動／Cluster ⑥タブレット vs 紙比較の Cluster 記事では特に重要。
 
 ---
 
@@ -376,3 +376,27 @@ Luquet (1927)【暗黙的基盤・記事には直接引用なし】
 - 運営者不明の教材販売サイト
 - 医療・発達特性を断定するブログ（「これは◯◯障害」式）
 - 広告主体のキュレーションメディア
+
+---
+
+## §12 啓蒙軸エビデンス登録（evidence.md E系 ↔ 統合連番）
+
+[evidence.md](evidence.md) の E系/M系 ID は啓蒙軸（案H）の引用 SSOT だが、frontmatter `references` は本マップ登録 ID のみ許可（[templates.md §7.5](templates.md)）。そのため E系/M系の掲載文献を統合連番 No.35〜 に登録する。**主張の可否・引用可能範囲・引用テンプレは evidence.md 側が一次ソース**（本表は ID 台帳のみ）。
+
+| No. | evidence.md ID | 文献 | アクセス |
+|---|---|---|---|
+| 35 | E1-1（E1-3 同論文） | Cognitive underpinnings of multidimensional Japanese literacy. Nature Sci Rep 2021 | [PMC7838263](https://pmc.ncbi.nlm.nih.gov/articles/PMC7838263/) |
+| 36 | E1-2 | The multidimensionality of Japanese kanji abilities | [PMC7033238](https://pmc.ncbi.nlm.nih.gov/articles/PMC7033238/) |
+| 37 | E2-1 | Examining the relations between spatial skills and mathematical performance: A meta-analysis. Psychonomic Bulletin & Review 2021 | [Springer](https://link.springer.com/article/10.3758/s13423-021-02012-w) |
+| 38 | E2-2 | Developmental Gains in Visuospatial Memory Predict Gains in Mathematics Achievement | [PMC3729464](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3729464/) |
+| 39 | E2-3 | Mathematical achievement: the role of spatial and motor skills in 6–8 year-old children | [PMC7546220](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7546220/) |
+| 40 | E3-1 | 『図学研究』第34巻（2000）MCT によって評価される空間認識力と一般知能との関係 | 学会誌 |
+| 41 | E3-3 | APA Dictionary of Psychology: spatial cognition | [APA](https://dictionary.apa.org/spatial-cognition) |
+| 42 | E3-4 | APA Dictionary of Psychology: visual-spatial ability | [APA](https://dictionary.apa.org/visual-spatial-ability) |
+| 43 | E4-1 | 三輪書店『コグトレ みる・きく・想像するための認知機能強化トレーニング』 | [公式](https://shop.miwapubl.com/products/detail/1720) |
+| 44 | E4-2 | 東洋館出版社『1日5分！教室で使えるコグトレ』 | [公式](https://www.toyokan.co.jp/products/3280) |
+| 45 | E4-3 | LITALICO 発達ナビ コグトレ解説 | [解説サイト](https://h-navi.jp/column/article/35028591) |
+| 46 | M2 | 『天才ドリル 点描写』（認知工学）累計 20 万部超 | プレスリリース（市場文脈） |
+| 47 | M3 | ピグマリオン能力育成問題集 点描写①〜④ | [PYGLI](https://www.pygli.com/products/detail/49)（市場文脈） |
+
+E3-2（幼児期発達の通説・弱）は一次資料が辿りにくいため登録しない（記事で使う場合は evidence.md 注記どおりクッション表現のみ・frontmatter には載せない）。

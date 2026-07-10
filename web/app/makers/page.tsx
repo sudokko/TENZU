@@ -12,7 +12,7 @@ const MAKER_KINDS = VISIBLE_MAKERS.length;
 export const metadata: Metadata = {
   title: `点描写メーカー — ${MAKER_KINDS} 種類を自分で作る · TENZU`,
   description:
-    `模写・鏡・平行移動・回転・欠け補完・重ね・分解・折り重ね。点描写プリントを ${MAKER_KINDS} 種類、家庭で作って PDF 印刷。模写は無料、ほかは各 ¥980 の買い切り。`,
+    `模写・鏡・移動・回転・欠け補完・重ね・分解・折り重ね。点描写プリントを ${MAKER_KINDS} 種類、家庭で作って PDF 印刷。模写は無料、ほかは各 ¥980 の買い切り。`,
 };
 
 export default function MakersPage() {

@@ -119,7 +119,7 @@ const ALL_GROUPS: Group[] = [
   },
   {
     label: "かたちを動かす",
-    sub: "向きや位置を変えて、頭の中で形をとらえる力。鏡・平行移動・回転。",
+    sub: "向きや位置を変えて、頭の中で形をとらえる力。鏡・移動・回転。",
     tasks: [
       {
         slug: "mirror", name: "鏡", desc: "鏡の反対側に映る形を描く。", lv: lvCounts("mirror"), Fig: MAKER_FIG.mirror,
@@ -132,7 +132,7 @@ const ALL_GROUPS: Group[] = [
         ],
       },
       {
-        slug: "translate", name: "平行移動", desc: "形を変えずに、ずらして写す。", lv: lvCounts("translate"), Fig: MAKER_FIG.translate,
+        slug: "translate", name: "移動", desc: "形を変えずに、ずらして写す。", lv: lvCounts("translate"), Fig: MAKER_FIG.translate,
         notes: [
           "",
           "横→縦にずらす。3×3",

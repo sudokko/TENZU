@@ -36,7 +36,7 @@ const GROUPS: { title: string; items: Item[] }[] = [
     items: [
       { href: "/maker-scale", name: "拡大メーカー", desc: "整数倍（×2／×3）" },
       { href: "/maker-shrink", name: "縮小メーカー", desc: "分数倍（1/2／1/3）" },
-      { href: "/maker-translate", name: "平行移動メーカー", desc: "起点★→移動先●へ平行移動" },
+      { href: "/maker-translate", name: "移動メーカー", desc: "起点★→移動先●へ移動" },
     ],
   },
   {

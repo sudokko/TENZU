@@ -31,7 +31,7 @@ export const PAID_MAKERS: readonly MakerKey[] = [
 export const PURCHASABLE_MAKERS: readonly MakerKey[] = [FREE_MAKER, ...PAID_MAKERS];
 
 // ローンチ非公開（実装済・公開リストから除外・将来そのまま再投入可）。decisions §3.53。
-// 拡大・縮小＝倍率・分数の概念依存が重く優先度低。平行移動はローンチ公開に復帰（2026-06-29）。
+// 拡大・縮小＝倍率・分数の概念依存が重く優先度低。移動はローンチ公開に復帰（2026-06-29）。
 // 効く範囲: メーカー表示（makersInGroup）・商品カタログ（catalog GROUPS）・
 //   商品ルート（products/[slug] generateStaticParams）から除外。
 // 効かない範囲: makerByKey・PURCHASABLE_MAKERS は全件維持＝購入済みユーザーは引き続き使える。

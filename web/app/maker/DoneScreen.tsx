@@ -123,7 +123,7 @@ export function DoneScreen({
         <div className="done-upsell">
           <span className="who">メーカーをもっと使うなら</span>
           <p>
-            鏡・平行移動・回転・欠け補完・重ね・分解・折り重ね。模写の次の一手は、
+            鏡・移動・回転・欠け補完・重ね・分解・折り重ね。模写の次の一手は、
             「動かす・重ねる」メーカー（各 ¥980 の買い切り）。頭の中で形を操る練習へ進めます。
           </p>
           <a className="done-ghost" href="/makers">メーカー一覧を見る →</a>

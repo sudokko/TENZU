@@ -54,11 +54,11 @@
 slug: note-not-copying                   # urls.md の確定スラッグ（既存ドラフト一次ソース）
 title: 板書が苦手な子の図形理解 — 点描写でできる家庭サポート
 description: 板書ノートの線が斜めにずれる、図形が崩れる…の家庭ケア。点描写の段階的トレーニング法を解説。  # 80-120字
-parent_pillar: pillar-c                  # pillar-a | pillar-b | pillar-c | none
-parent_category: symptom-solve           # 5意図グループのID（§2.2 enum）
+parent_pillar: p3                        # p1〜p5 | none（§2.2 enum）
+parent_category: cluster                 # hub | cluster | llmo | faq（§2.2 enum）
 
 # === ペルソナ・難易度（HO-B2-20 必須5項目）===
-target_persona: [P4, P1b]                # §2.2 enum の配列・主従順
+target_persona: [S-c, P-edu]             # §2.2 enum の配列・主従順（先頭=主セグメント）
 target_level: [Lv.1, Lv.2, Lv.3]         # 該当する TENZU Lv.（§2.2 enum）
 reading_time: 6                          # 分（整数・本文1500字=5分換算）
 target_skus: [S07, S05]                  # SKU ID 配列・空配列OK（§2.3 で挙動定義）
@@ -86,11 +86,11 @@ references: [JP24, JP6, No.27]           # references-map.md の ID 配列
 
 | フィールド | 値 | 意味 |
 |---|---|---|
-| `parent_pillar` | `pillar-a` / `pillar-b` / `pillar-c` / **`pillar-d`** / `none` | A=入門・B=中受・C=書く苦手・**D=中受しない家庭向け**。Pillar記事自身は `none` |
-| `parent_category` | `basic-understanding` / `level-choice` / `symptom-solve` / `compare-juken` / `product-faq` / `product-family` / **`non-juken-home`** | 5意図グループ＋商品ファミリー＋**Cluster⑥**（clusters.md §2 と一致） |
-| `target_persona` | `P1a` / `P1b` / `P2a` / `P2b` / `P3a` / `P3b` / `P4` / `P5` / **`P7`** | **9人格**（research.md §1.10）。先頭=主ペルソナ |
+| `parent_pillar` | `p1` / `p2` / `p3` / `p4` / `p5` / `none` | P1=正規ハブ・P2=公文の次・P3=写す力・P4=選び方・P5=親向け（[pillars.md §1](pillars.md)）。Pillar 記事自身と FAQ/LLMO は `none` |
+| `parent_category` | `hub` / `cluster` / `llmo` / `faq` | 記事の系統（[clusters.md §11](clusters.md) の16ページ体系と一致。パンくず判定は [urls.md §7](urls.md)） |
+| `target_persona` | `S-a` / `S-b` / `S-c` / `P3-a` / `P-edu` / `P-pro` | **中核3セグメント＋受動拾い3**（[personas.md](personas.md)）。先頭=主セグメント（1記事1つ固定・personas §6） |
 | `target_level` | `Lv.1`〜`Lv.5` / `pre-Lv.1`（アプリ先行） | pack-design.md と一致 |
-| `article_type` | `pillar` / `cluster-howto` / `cluster-symptom` / `cluster-compare` / `cluster-juken` / **`cluster-non-juken`** / `product-family` / `faq` | CTA強度マップ（§4）と接続 |
+| `article_type` | `pillar` / `cluster-howto` / `cluster-symptom` / `cluster-compare` / `cluster-juken` / **`cluster-non-juken`** / `cluster-academic` / `llmo` / `product-family` / `faq` | CTA強度マップ（§4）と接続。`cluster-academic`＝学術土台（C3-4・weak 運用）／`llmo`＝LLMO 専用（L-1/L-2・FAQPage 前提・mid 運用） |
 | `cta_intensity` | `weak` / `mid` / `strong` | §4.1 で定義 |
 | `phase` | ~~`phase-0`~~（**deprecated**・2026-05-20）／ `phase-1`（仕込み・SKU 非公開）／ `phase-2`（先行リリース・SKU 販売中）／ `phase-3`（本リリース） | [launch/plan.md §2](../launch/plan.md)・[launch/phases.md §1](../launch/phases.md) と一致（2026-05-28 統合反映） |
 | `cta_mode` | ~~`app-only`~~（**deprecated**・2026-05-20）／ `sku-full` | §2.3 で phase との対応表 |
@@ -408,7 +408,7 @@ phase-3（本リリース）で公開（残記事＋既存記事の CTA 書き�
 | **誇張** | 「劇的に」「必ず」「100%」「天才」「最強」 | 「段階的に」「多くの場合」「研究では～と報告」 |
 | **不安煽り** | 「このままでは手遅れ」「○歳までに」「やらないと差がつく」 | 「○歳の発達段階では～」「焦らず段階的に」 |
 | **塾・道場** | 「特訓」「鍛える」「修行」「○級」「○段」「マスター」 | 「練習する」「取り組む」「Lv.X到達」 |
-| **🆕 医療メタファー（案F）** | **「処方箋」「特効薬」「治療」「弱点診断」「健康診断」「穴を埋める」「ピンポイント治療」** | **「練習プラン」「次の一手」「戻り道」「土台チェック」「スタート診断」「レベル相談」「抜けを補う」「ピンポイント練習」** |
+| **🆕 医療メタファー（案F）** | **「処方箋」「特効薬」「治療」「弱点診断」「健康診断」「穴を埋める」「ピンポイント治療」** | **「練習プラン」「次の一手」「戻り道」「レベル選びガイド」「レベル相談」「はじめる位置の目安」「抜けを補う」「ピンポイント練習」** |
 | **断定診断** | 「発達障害」「ADHD」「ディスレクシア」を子に対して断定的に使う | 「○○の特性が見られる場合」「○○が苦手なお子さん」 |
 | **競合貶し** | 競合プリント名を「劣る」「古い」と書く | 中立的事実比較のみ（「○○は△△が特徴／TENZUは□□が特徴」） |
 | **ステマ規制違反** | モニター提供品を「自分で買った」「無料」を伏せる | 「TENZU からモニター提供を受けて」の明示（景表法） |
@@ -445,9 +445,9 @@ phase-3（本リリース）で公開（残記事＋既存記事の CTA 書き�
 
 **例外**: SEO上必要な検索クエリは記事タイトル・H2では使う（「板書 苦手」など）。本文導入で特性フレームに即時転換。
 
-### 7.3-bis Lv 記述の意味付けガイドライン（2026-05-10 追加／2026-05-16 pack-design.md §12.7 一次ソース準拠で全面書き直し）
+### 7.3-bis Lv 記述の意味付けガイドライン（2026-05-10 追加／2026-05-16 pack-tasks.md §12.7 一次ソース準拠で全面書き直し）
 
-**一次ソース**: [pack-design.md §12.7「模写ライン 年齢×キャッチコピー確定表」](../product/pack-design.md)（縦串の基準尺）。本ガイドラインはその要約。記事執筆時は §12.7 原典を参照する。
+**一次ソース**: [pack-tasks.md §12.7「模写ライン 年齢×キャッチコピー確定表」](../product/pack-tasks.md)（縦串の基準尺）。本ガイドラインはその要約。記事執筆時は §12.7 原典を参照する。
 
 | Lv | ラベル | 外向け年齢めやす | 内部 先取り層 | 内部 標準層 | キャッチ・位置づけ |
 |---|---|---|---|---|---|
@@ -458,7 +458,7 @@ phase-3（本リリース）で公開（残記事＋既存記事の CTA 書き�
 | Lv.5 | 発展編 | 8歳〜おとなまで（小2〜） | 小2前半〜 | 小3〜 | 発展・最大7×7・点描写マスター |
 
 **Lv の本質**:
-- Lv.1〜5 は**難易度の縦串インデックス**（pack-design.md §0.3.2「Lv縦串思想」）。「誰が使うか」ではなく「**何が難しいか**」で定義される
+- Lv.1〜5 は**難易度の縦串インデックス**（[pack-design.md §0.3.2](../product/pack-design.md)「Lv縦串思想」）。「誰が使うか」ではなく「**何が難しいか**」で定義される
 - ドライバー変数: グリッドサイズ（3×3→7×7）／斜め線の有無／斜めの角度種類（45°/非45°）／構成要素数
 - 用途（中受層／中受しない図形得意層／大人含む幅広い層）は**読者層次第**であり、Lv の本質定義に埋め込まない
 
@@ -468,7 +468,7 @@ phase-3（本リリース）で公開（残記事＋既存記事の CTA 書き�
 - 「Lv.5 まで到達しないと意味がない」「中受しない家庭は Lv.X までで十分」のような上下評価・到達目標化は禁止（焦り煽り・読者層の二極化）
 - Cluster ④（中受系）記事内で「Lv.4-5 が中受図形の練習帯になる」のように**用途として中受を出す**のは可。ただし Lv 自体の定義としては書かない
 - Lv.5 を語るときは「8歳〜大人まで対象の発展編・最大7×7・点描写マスター」という難易度ベースの表現を一次選択。読者層への接続は「中受層にも、中受しない図形得意層にも、大人にも手応えがあります」のように**並列**で
-- 「歯抜けOK」「迷ったら易しめ」の設計思想（pack-design.md §12.8）を尊重
+- 「歯抜けOK」「迷ったら易しめ」の設計思想（[pack-tasks.md §12.8](../product/pack-tasks.md)）を尊重
 - 「高校受験」を Lv 表に出さない（メイン年齢年長〜小3 には縁遠い・焦り煽り）
 
 **Lv.5 記述の定型句（コピペ可）**:
@@ -491,7 +491,7 @@ LLM（ChatGPT/Claude/Perplexity 等）に引用されやすい構造を必須化
 
 - references-map.md に登録された ID（JP[N]/EN[N]/No.N）のみ使用可
 - 1記事あたり引用 2-4件が標準・最大6件
-- 「直接エビデンス乏しい」4領域（平行移動・WM訓練→図形模写直接転移・figure-copying学校導入・タブレットvs紙）は明記必須（README.md §2.4 申し送り）
+- 「直接エビデンス乏しい」4領域（移動・WM訓練→図形模写直接転移・figure-copying学校導入・タブレットvs紙）は明記必須（README.md §2.4 申し送り）
 - 引用は 1 H2 につき最大2箇所（pillars.md §4.1 と整合）
 
 ### 7.5.1 教育系メディア・受験ブログの引用基準（2026-05-18 追加）
@@ -604,3 +604,4 @@ LLM（ChatGPT/Claude/Perplexity 等）に引用されやすい構造を必須化
 | 2026-05-09 | 新規作成。HO-B2-6/7/11/20/22/23 を統合。旧2値phase モデルを4値モデルに置換 |
 | 2026-05-20 | 案F確定反映: Phase 0 廃止（4値→3値）／NG ワードに医療メタファー追加／表記階層化「点図形（点描写）」追加／予防：対処 比率テンプレ化／CTA 強度マトリクス（cluster-juken/howto）微調整／記事数 53-54本 → 18-20本前後／想定工数を再算出 |
 | 2026-05-28 | **3 フェーズ統合反映**（[decisions.md §3.41](../decisions.md)）: `phase-1` の意味再定義（仕込み・SKU 非公開）／`phase-2` が旧 `phase-1`+旧 `phase-2` を吸収／§3.3 疑似コードに `phase-1` SKU 非表示ガード追加／§5 設計変遷表に新 3 段／§6 状態遷移を Phase 1→2→3 へ／§8 バッチ運用を 4 バッチ構造へ／既存 `phase: phase-1` ドラフトは `phase-2` へ書き換え（派生作業・別タスク） |
+| 2026-07-08 | **§2.2 enum を現行タクソノミへ整合**（decisions §3.40 持ち越し分）: `parent_pillar`→p1〜p5／`parent_category`→hub・cluster・llmo・faq／`target_persona`→S-a/S-b/S-c＋P3-a/P-edu/P-pro（personas.md 現行）／`article_type` に `cluster-academic`（C3-4）・`llmo`（L-1/L-2）追加／§2.1 例文も現行値へ／§7.1 の stale「スタート診断」「土台チェック」を voice-tone §1 準拠（「レベル選びガイド」「はじめる位置の目安」）へ修正 |

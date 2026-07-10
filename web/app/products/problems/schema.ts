@@ -125,7 +125,7 @@ export type CandidateFile = {
    解答要否マトリクス（pack-design §8）
    none     … 手本＝解答（模写系）。解答データを持たない
    explicit … 解答 edges を別持ち（欠け補完・かさね・分解）
-   derived  … TransformSpec から算出（鏡＝旧 線対称・回転・平行移動・拡大縮小）
+   derived  … TransformSpec から算出（鏡＝旧 線対称・回転・移動・拡大縮小）
    ========================================================================= */
 export const TASK_ANSWER_MODE: Record<string, AnswerMode> = {
   copy: "none", motif: "none", solid: "none",
