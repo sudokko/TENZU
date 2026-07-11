@@ -344,7 +344,7 @@ ChatGPT Plus は不採用（無料版で壁打ち十分）。
 
 **合計 ~4-5h/週**＋Pinterest 別枠。広告運用週 1-2h は別枠（[ads.md §7](ads.md)）。
 
-> ⚠️ **運用カレンダー・開店在庫・素材3源泉の SSOT は [sns-operations.md](sns-operations.md) に移管**（2026-06-12）。本表は概要。実務の手順・準備チェックリスト・平易版の方針書（[sns-operations-guide.md](sns-operations-guide.md)）はそちらを正本とする。IG リールは週 1 試行（負荷次第で月 1 へ縮退・[decisions.md §5.12](../decisions.md)）。
+> ⚠️ **運用カレンダー・開店在庫・素材4源泉の SSOT は [sns-operations.md](sns-operations.md) に移管**（2026-06-12）。本表は概要。実務の手順・準備チェックリスト・平易版の方針書（[sns-operations-guide.md](sns-operations-guide.md)）はそちらを正本とする。IG リールは週 1 試行（負荷次第で月 1 へ縮退・[decisions.md §5.12](../decisions.md)）。
 
 #### 7.4 計測 KPI（チャネル別）
 

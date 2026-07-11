@@ -4,7 +4,7 @@
 
 - **3 フェーズ構成（2026-05-28 統合・[decisions.md §3.41](../decisions.md)）**: Phase 1（仕込み・1-2 週）／Phase 2（先行リリース・10 週・M2a+M2b）／Phase 3（本リリース・13 週〜）
 - 全体タイムラインと位置付けは [plan.md §2](plan.md) を参照
-- 公開記事の総数: **25 本**（4 Pillar ＋ 18 Cluster ＋ 3 FAQ・[clusters.md](../content/clusters.md)）＋ 記事カウント外 LP 2 本（受動拾い「図形に、戻り道を。」／**春 LP「入学準備ドリル」**）
+- 公開記事の構成・本数は [clusters.md](../content/clusters.md) が SSOT（確定記事 8 本＋正規ハブ＋学術土台＋LLMO 2 本＋FAQ 3 本へ縮減済・取引意図はファセットLP/商品タグで拾う）＋ 記事カウント外 LP 2 本（受動拾い「図形に、戻り道を。」／**春 LP「入学準備ドリル」**）
 - DM 3 通の SSOT は [../acquisition/channels.md §3](../acquisition/channels.md)。DM 通番と Phase 番号は独立体系
 - 経路分離: インフル DM 経路と先行モニター経路は完全独立
 - **P3 ブルーオーシャン C3-1「見取り図 描き方」は Phase 2 M2a 最優先実装**
@@ -221,7 +221,7 @@ T=0 〜 継続（13 週目以降）
 | プレスリリース（PR TIMES） | 「TENZU 正式オープン」＋先行モニターの声 |
 | LINE／メール 一斉配信 | 登録者へ正式オープン通知 |
 
-**Phase 3 完了時の累計**: 4 Pillar ＋ 18 Cluster ＋ 3 FAQ = **25 本**＋ 記事カウント外 LP 2 本（受動拾い／春 LP）
+**Phase 3 完了時の累計**: [clusters.md](../content/clusters.md) の確定記事一式＋記事カウント外 LP 2 本（受動拾い／春 LP）が出揃う
 
 #### 5.3 集客施策
 
@@ -297,14 +297,14 @@ acquisition のオーガニック 4 チャネル（[../acquisition/channels.md �
 
 | チャネル | Phase 1 | Phase 2 M2a | Phase 2 M2b | Phase 3 |
 |---|---|---|---|---|
-| **LLMO/SEO 自社記事**（35%・幹） | ✅ P1 ハブ＋ C3-1 先置き／OAI-SearchBot 許可／HowTo Schema | ✅ P2/P3 追加・C1-5 年齢別入口／レベル選びガイド | ✅ P4 主力＋ FAQ ＋ LLMO 専用 L-1/L-2 | ✅ P2 配下追加／全 31 本完備 |
+| **LLMO/SEO 自社記事**（35%・幹） | ✅ P1 ハブ＋ C3-1 先置き／OAI-SearchBot 許可／HowTo Schema | ✅ Pillar 追加・年齢別カテゴリ LP／レベル選びガイド | ✅ 主力 Cluster ＋ FAQ ＋ LLMO 専用 L-1/L-2 | ✅ 残 Cluster 追加／確定記事一式完備（[clusters.md](../content/clusters.md)） |
 | **Instagram**（30%・認知） | 土台構築（プロフ・ハイライト4枠・固定 9 投稿グリッド）＋ Web ジェネレータティザー | カルーセル週 2＋リール月 1／ストーリーズ告知（**バズ増産は凍結**） | 春 LP 連動告知 | 広告連動 |
 | **Pinterest**（パイロット・送客主戦場） | アカウント開設・ドメイン認証・ボード設計・**初期ピン20-30本量産** | 通常ピン週 4-8 本・季節先行投下・3ヶ月ゲート開始 | 季節トラック（梅雨・夏休み先行） | 90日ゲート判定で継続/増資/凍結 |
 | **ブロガー DM ＋ UGC 獲得**（15%） | DM 1 通目配信開始（週 5 件・累計 50 件）＋紹介キット整備 | 継続＋紹介発生時 DM 2 通目／UGC 獲得開始 | 集中波（30-50 件） | DM 3 通目（クーポン配布） |
 | **X**（15%・専門家ポジ） | アカウント立て＋ Web ジェネレータ URL 固定ポスト＋専門家ポジ投稿開始 | 論文要約週 3／受動拾い投稿（**リンクはリプ欄**） | 春スパイク連動 | 専門家 RT 獲得 |
 | **note**（5%・思想ハブ） | プロフ整備＋固定記事 | 月 1 本（思想・設計論） | 月 1 本 | 月 1 本 |
 
-> 実務手順・週次カレンダー・開店在庫・素材3源泉の SSOT は [../acquisition/sns-operations.md](../acquisition/sns-operations.md)（平易版の方針書は [sns-operations-guide.md](../acquisition/sns-operations-guide.md)）。Pinterest パイロットの設計・撤退基準は [../acquisition/channels.md §2.6](../acquisition/channels.md)。
+> 実務手順・週次カレンダー・開店在庫・素材4源泉の SSOT は [../acquisition/sns-operations.md](../acquisition/sns-operations.md)（平易版の方針書は [sns-operations-guide.md](../acquisition/sns-operations-guide.md)）。Pinterest パイロットの設計・撤退基準は [../acquisition/channels.md §2.6](../acquisition/channels.md)。
 
 #### 8.2 広告軸 × Phase
 
