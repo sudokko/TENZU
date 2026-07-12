@@ -161,10 +161,10 @@ export default function CoverageStudio() {
       <div className="wrap">
         <div className="tr-sec-head cstudio-head">
           <p className="tr-sec-kicker">品ぞろえ</p>
-          <h2>点描写を、3 つの力 × 5 レベルで。</h2>
+          <h2>9 種類それぞれの中身を、ここで実演します。</h2>
           <p className="cstudio-lead">
             よくある点描写は、写すだけ。でも図形の土台は、回す・重ねる・立体に起こす……と、もっと広い。
-            力を選んで、それぞれの形が「どう変わるか」を見てみて。
+            3 つの力を選んで、それぞれの形が「どう変わるか」を見てみて。
           </p>
         </div>
 

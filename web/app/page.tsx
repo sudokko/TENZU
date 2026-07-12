@@ -1,10 +1,17 @@
 import "./top-rich.css";
 import SiteHeader from "./SiteHeader";
-import { ArticlesSection, SiteFooter, TOTAL_KINDS } from "./catalog";
+import { ArticlesSection, SiteFooter, TOTAL_KINDS, TOTAL_VOL, GROUPS, LEVELS, LevelGraph } from "./catalog";
 import CoverageStudio from "./CoverageStudio";
 import { VISIBLE_MAKERS } from "./products/makers";
+import { QUESTIONS_PER_VOL } from "./products/data";
 
 const MAKER_KINDS = VISIBLE_MAKERS.length;
+/* 総問数はハードコードせず SSOT から導出（巻数 × 1 巻の問数）。
+   巻数・種類数は本日だけで何度も動いたため、必ず GROUPS 由来の値を使う。
+   3 つの力＝群数・9 種類＝タスク数・5 段階＝レベル名の数。 */
+const TOTAL_QUESTIONS = TOTAL_VOL * QUESTIONS_PER_VOL;
+const TOTAL_FORCES = GROUPS.length;      // 3（見て写す／かたちを動かす／重ねる・分ける）
+const TOTAL_LEVELS = LEVELS.length;      // 5（入門〜発展）
 
 /* =========================================================================
    TOP（正本 `/`）— Brilliant 寄せ「1.5」。2026-06-09 に /top-rich から昇格。
@@ -248,14 +255,82 @@ function SignatureDraw() {
   );
 }
 
-const BUILD = [
-  { no: "01", t: "階段になっている", d: `模写から対称・回転・立体まで、${TOTAL_KINDS} 種類 × 5 段階。レベルは細かく刻んであり、「いま、ちょうどいい」一枚から始められます。`, link: { href: "/level-guide", label: "レベル選びガイド →" } },
-  { no: "02", t: "中身を見てから買える", d: "線の数・斜めの量・難易度の根拠まで、買う前に読めます。設計図ごと公開する専門店です。", link: undefined },
-  { no: "03", t: "紙とペンで練習する", d: "画面で解かせる機能は作りません。作るのは画面、練習は紙。書く学習は、手を動かしてこそ。", link: undefined },
-  { no: "04", t: "¥200 一律、家庭の印刷機に合わせて", d: "難しさで値段を変えません。用紙は A4〜A3、たて・よこ・1 枚の問題数も選べます。", link: undefined },
-  { no: "05", t: "煽らない", d: "「手遅れになる前に」とは言いません。いつ始めても、休んでもいい練習として渡します。", link: undefined },
-  { no: "06", t: "広告を置かない", d: "サイトにも PDF にも、他社の広告はありません。静かに選んで、静かに机に向かえます。", link: undefined },
-];
+/* ---- ★ 3 つの特長・ビジュアル（差し替え可能） ----
+   既定はインライン SVG。将来ラスター/別画像に差し替えたくなったら、下の定数に
+   /public 配下のパスを入れるだけで <img> に切り替わる（WHY_PHOTO と同じ流儀）。
+   SVG 自体を差し替えるなら FeatOpenSvg / FeatPrintSvg の中身を書き換える。 */
+const FEAT_OPEN_IMG: string | null = null;   // 特長2: 設計図が見える商品カード
+const FEAT_PRINT_IMG: string | null = null;  // 特長3: 用紙・向き・問数の選択
+
+/* 特長2 ビジュアル: 「買う前に全部読める」＝実際の商品カードに忠実。
+   左＝紙面プレビュー（お手本の点描写＝点格子＋図形）／右＝商品ページと同じ spec
+   （盤面・この巻の特徴・対象目安）を“文字で読める”形に＋¥200。難易度 D などの
+   内部語は出さない（外向け商品ページに合わせる）。viewBox 固定・CSS で幅フィット。 */
+function FeatOpenSvg() {
+  const jp = "'Hiragino Sans','Yu Gothic',sans-serif";
+  const dp = (i: number) => 40 + i * 21;            // 4×4 サムネの点座標（40,61,82,103）
+  const spec = [
+    { lab: "盤面", val: "4×4" },
+    { lab: "この巻の特徴", val: "ななめ入り・交差も" },
+    { lab: "対象目安", val: "6〜9 才ごろ" },
+  ];
+  return (
+    <svg viewBox="0 0 300 150" className="tr-feat-svg" aria-hidden="true">
+      <rect x="16" y="16" width="268" height="118" rx="8" fill="#fff" stroke={INK} strokeWidth="1.4" />
+      {/* 左: 紙面プレビュー（お手本＝実際に子が写す図形） */}
+      <rect x="30" y="32" width="86" height="86" rx="4" fill={TEAL} fillOpacity="0.04" stroke={FAINT} strokeWidth="1" />
+      {[0, 1, 2, 3].map((c) => [0, 1, 2, 3].map((r) => (
+        <circle key={`${c}-${r}`} cx={dp(c)} cy={dp(r)} r="1.6" fill={INK} opacity="0.42" />
+      )))}
+      {/* 非対称なひと筆書き（模写のお手本らしい形・ロ＋対角＋屋根） */}
+      <path d="M40 61 L82 61 L82 103 L40 103 Z" fill="none" stroke={INK} strokeWidth="1.9" strokeLinejoin="round" />
+      <path d="M40 61 L61 40 L82 61" fill="none" stroke={INK} strokeWidth="1.9" strokeLinejoin="round" />
+      <line x1="40" y1="61" x2="82" y2="103" stroke={INK} strokeWidth="1.9" />
+      {/* 右: 商品ページと同じ spec（文字で読める） */}
+      <g fontFamily={jp}>
+        <line x1="132" y1="40" x2="268" y2="40" stroke={FAINT} strokeWidth="0.8" strokeDasharray="2 3" />
+        {spec.map((s, i) => (
+          <g key={s.lab}>
+            <text x="132" y={54 + i * 20} fontSize="8" fill={INK} opacity="0.5">{s.lab}</text>
+            <text x="268" y={54 + i * 20} fontSize="10.5" fill={INK} textAnchor="end" fontWeight="600">{s.val}</text>
+            <line x1="132" y1={60 + i * 20} x2="268" y2={60 + i * 20} stroke={FAINT} strokeWidth="0.8" strokeDasharray="2 3" />
+          </g>
+        ))}
+        <text x="132" y="126" fontSize="9" fill={INK} opacity="0.5">全 12 問</text>
+        <text x="268" y="127" fontSize="15" fontWeight="700" fill={TEAL} textAnchor="end">¥200</text>
+      </g>
+    </svg>
+  );
+}
+
+/* 特長3 ビジュアル: 「家庭の印刷機に合わせる」＝A4/A3・たてよこ・1 枚の問数の選択 UI 抜粋。 */
+function FeatPrintSvg() {
+  return (
+    <svg viewBox="0 0 300 150" className="tr-feat-svg" aria-hidden="true">
+      {/* A4・A3 用紙 */}
+      <rect x="34" y="40" width="52" height="72" rx="3" fill="#fff" stroke={INK} strokeWidth="1.4" />
+      <text x="60" y="126" fontSize="9" fill={INK} opacity="0.5" textAnchor="middle" fontFamily="sans-serif">A4</text>
+      <rect x="96" y="26" width="66" height="92" rx="3" fill="#fff" stroke={TEAL} strokeWidth="1.6" />
+      <text x="129" y="132" fontSize="9" fill={TEAL} textAnchor="middle" fontFamily="sans-serif">A3</text>
+      {/* たて/よこ トグル */}
+      <g fontFamily="sans-serif" fontSize="9">
+        <rect x="188" y="40" width="84" height="22" rx="6" fill="#fff" stroke={FAINT} strokeWidth="1" />
+        <rect x="188" y="40" width="42" height="22" rx="6" fill={INK} />
+        <text x="209" y="54.5" fill="#fff" textAnchor="middle">たて</text>
+        <text x="251" y="54.5" fill={INK} opacity="0.55" textAnchor="middle">よこ</text>
+      </g>
+      {/* 1 枚あたりの問数 */}
+      <g fontFamily="sans-serif" fontSize="8.5">
+        <rect x="188" y="76" width="84" height="22" rx="6" fill="#fff" stroke={FAINT} strokeWidth="1" />
+        <rect x="209" y="76" width="21" height="22" fill={INK} />
+        {["2", "4", "6", "12"].map((n, i) => (
+          <text key={n} x={198.5 + i * 21} y="90.5" fill={i === 1 ? "#fff" : INK} opacity={i === 1 ? 1 : 0.55} textAnchor="middle">{n}</text>
+        ))}
+        <text x="230" y="112" fill={INK} opacity="0.5" textAnchor="middle">1 枚あたりの問数</text>
+      </g>
+    </svg>
+  );
+}
 
 /* ---- ⑤ 続け方フロー用アイコン（40×40・採用: 案B 縦タイムライン） ---- */
 function IcSample() {
@@ -383,39 +458,105 @@ export default function Home() {
               </div>
               <p className="tr-lead">
                 <span className="tr-lead-in">
-                  点つなぎは番号をたどるだけ。図形パズルはピースをはめるだけ。タブレットは指で触れるだけ。
+                  点つなぎは番号をたどるだけ、タブレットは指で触れるだけ。
                 </span>
                 <br />
-                点描写はそのどれとも違い、見本のどこに点があるかを自分で見て、次の一点を考えて、
-                鉛筆で書く。この<span className="tr-mark">考えながら書く経験</span>が、ひらがなや図形、
-                そして小学校で始まる学びにそのまま生きていきます。
+                点描写は、<span className="tr-mark">見て、考えて、鉛筆で書く</span>。
+                この経験が、ひらがなや図形、これからの学びの土台になります。
               </p>
             </div>
           </div>
         </section>
 
-        {/* ===================== ③ 品ぞろえ（Brilliant 型・力ピル×タスク実演） ===================== */}
-        <CoverageStudio />
-
-        {/* ===================== ④ 専門店のつくり（旧②柱＋旧④3つを6枚に統合） ===================== */}
+        {/* ===================== ②.5 TENZU、3 つの特長（数・公開・印刷） =====================
+            ①品ぞろえ＝棚(9種類×5段階×42巻)＋レベル目安表(LevelGraph 再利用)、
+            ②設計図ごと公開＝中を見て¥200から、③家庭の印刷機に合わせる。
+            数字は GROUPS 由来（TOTAL_KINDS/TOTAL_VOL/TOTAL_QUESTIONS）＝ハードコード禁止。 */}
         <section className="tr-sec tr-sec-alt">
           <div className="wrap">
             <div className="tr-sec-head">
-              <p className="tr-sec-kicker">TENZU のつくり方</p>
-              <h2>点描写プリントで、大事にした 6 つ。</h2>
+              <p className="tr-sec-kicker">TENZU の特長</p>
+              <h2>TENZU、3 つの特長。</h2>
             </div>
-            <div className="method-cards">
-              {BUILD.map((p) => (
-                <div className="method-card" key={p.no}>
-                  <p className="method-no">{p.no}</p>
-                  <h3>{p.t}</h3>
-                  <p>{p.d}</p>
-                  {p.link && <a className="method-link" href={p.link.href}>{p.link.label}</a>}
+
+            {/* 特長1: 品ぞろえ＝棚＋レベル目安表 */}
+            <div className="tr-feat tr-feat--shelf">
+              <div className="tr-feat-lead">
+                <span className="tr-feat-no">1</span>
+                <h3 className="tr-feat-name">品ぞろえが、豊富。</h3>
+              </div>
+              <div className="tr-shelf">
+                <div className="tr-shelf-copy">
+                  <p className="tr-shelf-headline">
+                    {TOTAL_FORCES} つの力が {TOTAL_KINDS} 種類のタスクに分かれ、それぞれレベル別に {TOTAL_LEVELS} 段階。
+                    棚にはぜんぶで、<b>{TOTAL_VOL} 巻</b>・<b>{TOTAL_QUESTIONS} 問</b>。
+                  </p>
+                  <p className="tr-shelf-honest">
+                    タスクごとに始まりのレベルが違うので、棚にはあえて空きがあります。むりに埋めていません。
+                  </p>
+                  <div className="tr-taskchips">
+                    {GROUPS.map((g) => (
+                      <div className="tr-tcgroup" key={g.label}>
+                        <span className="tr-tclabel">{g.label}</span>
+                        <span className="tr-tclist">
+                          {g.tasks.map((t) => (
+                            <span className="tr-tc" key={t.slug}>{t.name}</span>
+                          ))}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
+                <div className="tr-shelf-graph">
+                  <p className="tr-shelf-graph-label">レベルは {TOTAL_LEVELS} 段階（対象年齢のめやす）</p>
+                  <div className="lvgraph-wrap"><LevelGraph /></div>
+                </div>
+              </div>
             </div>
+
+            {/* 特長2・3: 設計図公開／印刷 */}
+            <div className="tr-feat-pair">
+              <div className="tr-feat tr-feat--card">
+                <div className="tr-feat-lead">
+                  <span className="tr-feat-no">2</span>
+                  <h3 className="tr-feat-name">買う前に、全部読める専門店。</h3>
+                </div>
+                <div className="tr-feat-visual">
+                  {FEAT_OPEN_IMG
+                    ? <img src={FEAT_OPEN_IMG} alt="商品ページのイメージ。実際の問題・盤面・この巻の特徴・対象目安まで買う前に読める" />
+                    : <FeatOpenSvg />}
+                </div>
+                <p className="tr-feat-point">
+                  どんな形を、どのくらいの線で、どの盤面に書くのか。実際の問題も、対象の目安も、
+                  買う前にぜんぶ読めます。だから、はじめての一枚を外しません。
+                </p>
+                <a className="tr-feat-cta" href="/products">全 {TOTAL_VOL} 巻の中身を見る →</a>
+              </div>
+              <div className="tr-feat tr-feat--card">
+                <div className="tr-feat-lead">
+                  <span className="tr-feat-no">3</span>
+                  <h3 className="tr-feat-name">大きく 1 問も、ぎっしり 12 問も。</h3>
+                </div>
+                <div className="tr-feat-visual">
+                  {FEAT_PRINT_IMG
+                    ? <img src={FEAT_PRINT_IMG} alt="用紙サイズ・向き・1枚あたりの問題数を選べる印刷設定のイメージ" />
+                    : <FeatPrintSvg />}
+                </div>
+                <p className="tr-feat-point">
+                  同じ一枚を、A4 でも A3 でも。たて・よこ、1 枚に何問入れるかまで、
+                  お子さんの手と机に合わせて刷れます。
+                </p>
+              </div>
+            </div>
+
+            <p className="tr-feat-bridge">
+              ↓ {TOTAL_KINDS} 種類それぞれの中身は、すぐ下の「3 つの力」で実演します
+            </p>
           </div>
         </section>
+
+        {/* ===================== ③ 品ぞろえ（Brilliant 型・力ピル×タスク実演） ===================== */}
+        <CoverageStudio />
 
         {/* ===================== ⑤ 家庭での続け方（縦タイムライン・案B） ===================== */}
         <section className="tr-sec">
