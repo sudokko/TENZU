@@ -6,10 +6,12 @@
    ロック表示（copy の無料ゲート）は optional props — 未指定なら通常ボタン。
    ========================================================================= */
 
+import { useEffect } from "react";
 import {
   PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, gridFor,
   type PaperKey, type LayoutPerPage, type PairLayout,
 } from "../../products/print";
+import { makerFromPath, trackToolStart } from "../../analytics";
 
 // 有料機能の鍵アイコン（「奪う」でなく「発見」: ロック要素はプレビューしつつ購入へ誘導）
 export function Lock() {
@@ -23,6 +25,8 @@ export function Lock() {
 
 /* ヘッダー。children = 右側クラスタ（copy のマイページ導線等・不要なら省略） */
 export function MakerHeader({ appName, children }: { appName: string; children?: React.ReactNode }) {
+  // メーカー起動の計測（tool_start）。全メーカーが必ずここを 1 回マウントする。
+  useEffect(() => { trackToolStart(makerFromPath()); }, []);
   return (
     <header className="maker-header">
       <div className="logo-cluster">

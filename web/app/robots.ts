@@ -4,7 +4,7 @@ import { absoluteUrl, SITE_URL } from "./site";
 /* robots.txt。AI クローラ（OAI-SearchBot / GPTBot 等）を明示的に許可し、
    ツール系・アカウント系・API を除外。sitemap を提示する。 */
 
-const DISALLOW = ["/api/", "/atelier", "/account", "/login", "/cart", "/checkout"];
+const DISALLOW = ["/api/", "/admin", "/atelier", "/account", "/login", "/cart", "/checkout"];
 
 export default function robots(): MetadataRoute.Robots {
   return {

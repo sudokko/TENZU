@@ -100,9 +100,9 @@ type CookieSpec = {
   };
 };
 
-function spec(value: string, maxAge: number): CookieSpec {
+function spec(name: string, value: string, maxAge: number): CookieSpec {
   return {
-    name: SESSION_COOKIE,
+    name,
     value,
     options: {
       httpOnly: true,
@@ -115,11 +115,11 @@ function spec(value: string, maxAge: number): CookieSpec {
 }
 
 export function sessionCookie(owned: MakerKey[]): CookieSpec {
-  return spec(signSession(owned), LOGIN_TTL);
+  return spec(SESSION_COOKIE, signSession(owned), LOGIN_TTL);
 }
 
 export function clearedCookie(): CookieSpec {
-  return spec("", 0);
+  return spec(SESSION_COOKIE, "", 0);
 }
 
 // ---- Server Component から現在の所有集合を読む（cookie のみ・Stripe 照会なし）----
@@ -130,6 +130,39 @@ export async function currentSession(): Promise<Session | null> {
 
 export async function readOwned(): Promise<MakerKey[]> {
   return effectiveOwned((await currentSession())?.owned ?? []);
+}
+
+// ---- 管理者 cookie（/admin 配下・合言葉ログイン → 30 日）----
+// 所有 entitlement（typ:"s"）とは独立した管理フラグ。ADMIN_SECRET の照合は
+// /api/admin/login 側の責務で、ここは署名 cookie の mint/verify だけを持つ。
+export const ADMIN_COOKIE = "tenzu_admin";
+
+const ADMIN_TTL = 60 * 60 * 24 * 30; // 30 日
+
+export type Admin = { typ: "a"; exp: number };
+
+export function signAdmin(): string {
+  return pack({ typ: "a", exp: nowSec() + ADMIN_TTL } satisfies Admin);
+}
+
+export function readAdmin(token: string | undefined | null): Admin | null {
+  const p = unpack<Admin>(token);
+  if (!p || p.typ !== "a" || p.exp < nowSec()) return null;
+  return p;
+}
+
+export function adminCookie(): CookieSpec {
+  return spec(ADMIN_COOKIE, signAdmin(), ADMIN_TTL);
+}
+
+export function clearedAdminCookie(): CookieSpec {
+  return spec(ADMIN_COOKIE, "", 0);
+}
+
+// Server Component から管理ログイン状態を読む。
+export async function currentAdmin(): Promise<Admin | null> {
+  const token = (await cookies()).get(ADMIN_COOKIE)?.value;
+  return readAdmin(token);
 }
 
 // ---- 開発専用: メーカー全解放デバッグ（本番は NODE_ENV ガードで常に無効）----

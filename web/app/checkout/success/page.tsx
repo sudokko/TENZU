@@ -9,6 +9,7 @@ import Stripe from "stripe";
 import SiteHeader from "../../SiteHeader";
 import SkuPrintPreview, { type RenderProblem, type SolidRenderProblem } from "../../products/SkuPrintPreview";
 import ClearCartOnSuccess from "./ClearCartOnSuccess";
+import TrackPurchase from "../../TrackPurchase";
 import { volBySku, volTitle, PRICE } from "../../products/data";
 import { publishedSet } from "../../products/problems/published";
 import "../../products/product.css"; // SkuPrintPreview の spv-* スタイル（チップ/設定/レイアウト）
@@ -67,11 +68,13 @@ export default async function CheckoutSuccessPage({
 
   let paid = false;
   let skus: string[] = [];
+  let amountTotal: number | null = null;
   try {
     const stripe = new Stripe(key);
     const session = await stripe.checkout.sessions.retrieve(session_id);
     paid = session.payment_status === "paid";
     skus = (session.metadata?.skus ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+    amountTotal = session.amount_total;
   } catch {
     return <FailShell message="決済の確認に失敗しました。時間をおいて再度お試しください。" />;
   }
@@ -88,6 +91,16 @@ export default async function CheckoutSuccessPage({
   return (
     <>
       <ClearCartOnSuccess />
+      <TrackPurchase
+        transactionId={session_id}
+        value={amountTotal ?? purchased.length * PRICE}
+        kind="paper"
+        items={purchased.map(({ sku, resolved }) => ({
+          id: sku,
+          name: volTitle(resolved!.task, resolved!.vol),
+          price: PRICE,
+        }))}
+      />
       <SiteHeader />
       <main className="wrap success-wrap">
         <div className="success-head">

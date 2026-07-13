@@ -262,42 +262,39 @@ function SignatureDraw() {
 const FEAT_OPEN_IMG: string | null = null;   // 特長2: 設計図が見える商品カード
 const FEAT_PRINT_IMG: string | null = null;  // 特長3: 用紙・向き・問数の選択
 
-/* 特長2 ビジュアル: 「買う前に全部読める」＝実際の商品カードに忠実。
-   左＝紙面プレビュー（お手本の点描写＝点格子＋図形）／右＝商品ページと同じ spec
-   （盤面・この巻の特徴・対象目安）を“文字で読める”形に＋¥200。難易度 D などの
-   内部語は出さない（外向け商品ページに合わせる）。viewBox 固定・CSS で幅フィット。 */
+/* 特長2 ビジュアル（案③・実ページ縮図）: 「買う前に全部読める」＝商品ページの
+   ミニチュア。ブラウザ枠＋サイトヘッダ／左＝紙面プレビュー（お手本の点描写）／
+   右＝spec（盤面・ななめ・対象・全12問）＋¥200＋カートボタン。クリック先の実物が
+   そのまま図になる（証明）。難易度 D などの内部語は出さない。 */
 function FeatOpenSvg() {
   const jp = "'Hiragino Sans','Yu Gothic',sans-serif";
-  const dp = (i: number) => 40 + i * 21;            // 4×4 サムネの点座標（40,61,82,103）
-  const spec = [
-    { lab: "盤面", val: "4×4" },
-    { lab: "この巻の特徴", val: "ななめ入り・交差も" },
-    { lab: "対象目安", val: "6〜9 才ごろ" },
-  ];
+  const dp = (i: number) => 34 + i * 18;   // 左プレビュー 4×4 点座標（34,52,70,88）
   return (
     <svg viewBox="0 0 300 150" className="tr-feat-svg" aria-hidden="true">
-      <rect x="16" y="16" width="268" height="118" rx="8" fill="#fff" stroke={INK} strokeWidth="1.4" />
-      {/* 左: 紙面プレビュー（お手本＝実際に子が写す図形） */}
-      <rect x="30" y="32" width="86" height="86" rx="4" fill={TEAL} fillOpacity="0.04" stroke={FAINT} strokeWidth="1" />
+      {/* ブラウザ／ページ枠 */}
+      <rect x="10" y="8" width="280" height="134" rx="7" fill="#fff" stroke={INK} strokeWidth="1.4" />
+      {/* サイトヘッダ帯 */}
+      <path d="M10 15 a7 7 0 0 1 7-7 h266 a7 7 0 0 1 7 7 v9 H10 Z" fill="#F1EFEA" />
+      <circle cx="22" cy="16" r="3" fill={TEAL} />
+      <rect x="250" y="14" width="28" height="4" rx="2" fill={INK} opacity="0.16" />
+      {/* 左: 紙面プレビュー（実際に子が写すお手本） */}
+      <rect x="20" y="32" width="92" height="98" rx="4" fill={TEAL} fillOpacity="0.04" stroke={FAINT} strokeWidth="1" />
       {[0, 1, 2, 3].map((c) => [0, 1, 2, 3].map((r) => (
-        <circle key={`${c}-${r}`} cx={dp(c)} cy={dp(r)} r="1.6" fill={INK} opacity="0.42" />
+        <circle key={`${c}-${r}`} cx={dp(c)} cy={46 + r * 18} r="1.5" fill={INK} opacity="0.42" />
       )))}
-      {/* 非対称なひと筆書き（模写のお手本らしい形・ロ＋対角＋屋根） */}
-      <path d="M40 61 L82 61 L82 103 L40 103 Z" fill="none" stroke={INK} strokeWidth="1.9" strokeLinejoin="round" />
-      <path d="M40 61 L61 40 L82 61" fill="none" stroke={INK} strokeWidth="1.9" strokeLinejoin="round" />
-      <line x1="40" y1="61" x2="82" y2="103" stroke={INK} strokeWidth="1.9" />
-      {/* 右: 商品ページと同じ spec（文字で読める） */}
+      <path d="M34 64 L70 64 L70 100 L34 100 Z" fill="none" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M34 64 L52 46 L70 64" fill="none" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
+      <line x1="34" y1="64" x2="70" y2="100" stroke={INK} strokeWidth="1.8" />
+      <text x="24" y="44" fontSize="7" fill={INK} opacity="0.42" fontFamily={jp}>みほん</text>
+      {/* 右: 商品ページの spec ＋ 価格 ＋ カート */}
       <g fontFamily={jp}>
-        <line x1="132" y1="40" x2="268" y2="40" stroke={FAINT} strokeWidth="0.8" strokeDasharray="2 3" />
-        {spec.map((s, i) => (
-          <g key={s.lab}>
-            <text x="132" y={54 + i * 20} fontSize="8" fill={INK} opacity="0.5">{s.lab}</text>
-            <text x="268" y={54 + i * 20} fontSize="10.5" fill={INK} textAnchor="end" fontWeight="600">{s.val}</text>
-            <line x1="132" y1={60 + i * 20} x2="268" y2={60 + i * 20} stroke={FAINT} strokeWidth="0.8" strokeDasharray="2 3" />
-          </g>
-        ))}
-        <text x="132" y="126" fontSize="9" fill={INK} opacity="0.5">全 12 問</text>
-        <text x="268" y="127" fontSize="15" fontWeight="700" fill={TEAL} textAnchor="end">¥200</text>
+        <text x="124" y="43" fontSize="9.5" fill={INK} fontWeight="700">模写 基礎編 Vol.1</text>
+        <text x="124" y="59" fontSize="8" fill={INK} opacity="0.55">盤面 4×4 ・ ななめ入り</text>
+        <text x="124" y="72" fontSize="8" fill={INK} opacity="0.55">対象 6〜9 才 ・ 全 12 問</text>
+        <line x1="124" y1="82" x2="278" y2="82" stroke={FAINT} strokeWidth="0.8" strokeDasharray="2 3" />
+        <text x="124" y="105" fontSize="17" fontWeight="700" fill={TEAL}>¥200</text>
+        <rect x="124" y="114" width="154" height="18" rx="4" fill={TEAL} />
+        <text x="201" y="126.5" fontSize="9" fill="#fff" textAnchor="middle" fontWeight="700">カートに入れる</text>
       </g>
     </svg>
   );

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { CartProvider } from "./cart/CartContext";
 import { AuthProvider } from "./AuthContext";
+import Gtm from "./Gtm";
+import OnsiteMessenger from "./components/onsite/OnsiteMessenger";
 import { SITE_URL, SITE_NAME } from "./site";
 import "./tokens.css";
 import "./landing.css";
@@ -56,8 +58,12 @@ export default function RootLayout({
         <meta name="color-scheme" content="light" />
       </head>
       <body>
+        <Gtm />
         <AuthProvider>
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            {children}
+            <OnsiteMessenger />
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

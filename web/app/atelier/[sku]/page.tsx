@@ -1,6 +1,6 @@
 /* 検品ツール SKU 単位ページ — dev 限定（本番は 404） */
 import { notFound } from "next/navigation";
-import { volBySku } from "../../products/data";
+import { volBySku, adjacentVols } from "../../products/data";
 import { generatorFor } from "../../products/problems/gen";
 import { readLadder } from "../../api/atelier/io";
 import { defaultLadderEntry, ladderFieldsFor } from "../../products/problems/ladder-schema";
@@ -36,10 +36,16 @@ export default async function AtelierSku({ params }: { params: Promise<{ sku: st
   const group = ladder[task] as Record<string, unknown> | undefined;
   const ladderEntry = (group?.[sku] as Record<string, unknown> | undefined)
     ?? (ladderFieldsFor(task) ? defaultLadderEntry(task, hit.vol.grid, hit.vol.variant) : null);
+  const { prev, next } = adjacentVols(sku);
+  const volLabel = (v: typeof hit.vol) => `Lv.${v.lv} Vol.${v.volNo}`;
   return (
     <AtelierApp
       sku={sku}
       title={`${hit.task.name} Lv.${hit.vol.lv} Vol.${hit.vol.volNo} · ${hit.vol.grid}`}
+      prevSku={prev?.sku}
+      prevLabel={prev ? volLabel(prev) : undefined}
+      nextSku={next?.sku}
+      nextLabel={next ? volLabel(next) : undefined}
       blurb={hit.vol.blurb}
       meate={hit.vol.meate}
       hasGenerator={Boolean(gen)}
