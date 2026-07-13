@@ -70,6 +70,16 @@ const SOLID_HIDDEN = [
 const gridField: LadderField = { key: "grid", label: "盤面", kind: "grid" };
 const linesField: LadderField = { key: "lines", label: "線の本数", kind: "range", min: 1 };
 
+/* かさね・分解 共用（両者は edges=完成図・answer=図形B の同一データ形） */
+const COMPOSE_FIELDS: LadderField[] = [
+  gridField,
+  { key: "slopes", label: "線の向き", kind: "select", options: SLOPES_COPY },
+  { key: "requireDiag45", label: "45°斜めを必須", kind: "bool", optional: true },
+  { key: "requireNon45", label: "非45°を必須", kind: "bool", optional: true },
+  { key: "entangle", label: "絡み（A・B交差）", kind: "range", min: 0 },
+  { key: "lines", label: "1図の線の本数", kind: "range", min: 1 },
+];
+
 /* タスク別の編集可能フィールド（並び順＝JSON のキー順・編集フォームの表示順）。
    生成器のあるタスクのみ。overlay/scale 等は ladder エントリ無し＝白紙作成で運用。 */
 export const LADDER_FIELDS: Record<string, LadderField[]> = {
@@ -117,6 +127,7 @@ export const LADDER_FIELDS: Record<string, LadderField[]> = {
   translate: [
     gridField,
     { key: "dir", label: "方向", kind: "select", options: DIR },
+    { key: "moves", label: "移動量（マス）", kind: "range", min: 1 },
     linesField,
   ],
   scale: [
@@ -131,22 +142,13 @@ export const LADDER_FIELDS: Record<string, LadderField[]> = {
     { key: "ratio", label: "倍率", kind: "select", options: RATIO_DOWN },
     linesField,
   ],
-  overlay: [
-    gridField,
-    { key: "density", label: "線の密度", kind: "select", options: DENSITY },
-    linesField,
-  ],
-  decompose: [
-    gridField,
-    { key: "density", label: "線の密度", kind: "select", options: DENSITY },
-    linesField,
-  ],
-  fold: [
-    gridField,
-    { key: "axis", label: "折り軸", kind: "select", options: AXIS },
-    { key: "density", label: "線の密度", kind: "select", options: DENSITY },
-    linesField,
-  ],
+  /* かさね・分解は同じ模写軸ラダー（合成/分解＝同一データ形・decisions §3.71〜§3.73）:
+     斜め/非45°＝模写Lv連動・絡み（A・B間の交差数）＝Lv とともに増え Lv.5 で最大化・
+     線本数＝成立窓 */
+  overlay: COMPOSE_FIELDS,
+  decompose: COMPOSE_FIELDS,
+  /* 折り重ねもかさね・分解と同構造（折り方＝印刷時の並び選択・データに焼かない） */
+  fold: COMPOSE_FIELDS,
 };
 
 export function ladderFieldsFor(task: string): LadderField[] | null {
@@ -294,6 +296,10 @@ export function defaultLadderEntry(task: string, grid: string, variant?: string)
       case "hidden": e.hidden = solidHiddenOf(v); break;
       case "angle": e.angle = v.includes("左") ? "90ccw" : v.includes("180") ? "180" : "90cw"; break;
       case "dir": e.dir = v.includes("縦") ? "v" : v.includes("斜") ? "diag" : v.includes("複合") ? "compound" : "h"; break;
+      // 移動量の既定は方向から（横縦=1マス・斜め=(1,1)・複合=(2,1)）。dir は同ループで先に確定済み
+      case "moves": e.moves = e.dir === "diag" ? [2, 2] : e.dir === "compound" ? [3, 3] : [1, 1]; break;
+      case "slopes": e.slopes = "ortho45"; break;
+      case "entangle": e.entangle = [0, 2]; break;
       case "ratio": e.ratio = task === "shrink" ? (v.includes("1/3") ? "third" : "half") : (v.includes("3") ? "x3" : "x2"); break;
       case "density": e.density = v.includes("多") ? "dense" : "sparse"; break;
       case "axis": e.axis = "v"; break;

@@ -267,5 +267,276 @@
       ],
       "bbox": 5
     }
+  },
+  "overlay": {
+    "overlay-lv2-vol1": {
+      "grid": 3,
+      "slopes": "ortho45",
+      "entangle": [
+        0,
+        1
+      ],
+      "lines": [
+        2,
+        4
+      ]
+    },
+    "overlay-lv3-vol1": {
+      "grid": 4,
+      "slopes": "ortho45",
+      "requireDiag45": true,
+      "entangle": [
+        0,
+        1
+      ],
+      "lines": [
+        2,
+        5
+      ]
+    },
+    "overlay-lv4-vol1": {
+      "grid": 5,
+      "slopes": "any",
+      "requireNon45": true,
+      "entangle": [
+        0,
+        2
+      ],
+      "lines": [
+        3,
+        6
+      ]
+    },
+    "overlay-lv5-vol1": {
+      "grid": 6,
+      "slopes": "any",
+      "requireNon45": true,
+      "entangle": [
+        3,
+        10
+      ],
+      "lines": [
+        4,
+        8
+      ]
+    }
+  },
+  "rotate": {
+    "rotate-lv2-vol1": {
+      "grid": 3,
+      "angle": "90cw",
+      "lines": [
+        2,
+        6
+      ]
+    },
+    "rotate-lv3-vol1": {
+      "grid": 4,
+      "angle": "90cw",
+      "lines": [
+        4,
+        9
+      ]
+    },
+    "rotate-lv3-vol2": {
+      "grid": 4,
+      "angle": "90ccw",
+      "lines": [
+        4,
+        9
+      ]
+    },
+    "rotate-lv4-vol1": {
+      "grid": 3,
+      "angle": "180",
+      "lines": [
+        3,
+        7
+      ]
+    },
+    "rotate-lv4-vol2": {
+      "grid": 4,
+      "angle": "180",
+      "lines": [
+        4,
+        9
+      ]
+    },
+    "rotate-lv5-vol1": {
+      "grid": 5,
+      "angle": "180",
+      "lines": [
+        6,
+        12
+      ]
+    }
+  },
+  "translate": {
+    "translate-lv2-vol1": {
+      "grid": 3,
+      "dir": "h",
+      "moves": [
+        1,
+        1
+      ],
+      "lines": [
+        2,
+        4
+      ]
+    },
+    "translate-lv2-vol2": {
+      "grid": 3,
+      "dir": "v",
+      "moves": [
+        1,
+        1
+      ],
+      "lines": [
+        2,
+        4
+      ]
+    },
+    "translate-lv3-vol1": {
+      "grid": 4,
+      "dir": "diag",
+      "moves": [
+        2,
+        2
+      ],
+      "lines": [
+        3,
+        6
+      ]
+    },
+    "translate-lv4-vol1": {
+      "grid": 5,
+      "dir": "compound",
+      "moves": [
+        3,
+        3
+      ],
+      "lines": [
+        4,
+        7
+      ]
+    },
+    "translate-lv5-vol1": {
+      "grid": 6,
+      "dir": "compound",
+      "moves": [
+        3,
+        5
+      ],
+      "lines": [
+        5,
+        9
+      ]
+    }
+  },
+  "decompose": {
+    "decompose-lv2-vol1": {
+      "grid": 3,
+      "slopes": "ortho45",
+      "entangle": [
+        0,
+        1
+      ],
+      "lines": [
+        2,
+        4
+      ]
+    },
+    "decompose-lv3-vol1": {
+      "grid": 4,
+      "slopes": "ortho45",
+      "requireDiag45": true,
+      "entangle": [
+        0,
+        1
+      ],
+      "lines": [
+        2,
+        5
+      ]
+    },
+    "decompose-lv4-vol1": {
+      "grid": 5,
+      "slopes": "any",
+      "requireNon45": true,
+      "entangle": [
+        0,
+        2
+      ],
+      "lines": [
+        3,
+        6
+      ]
+    },
+    "decompose-lv5-vol1": {
+      "grid": 6,
+      "slopes": "any",
+      "requireNon45": true,
+      "entangle": [
+        3,
+        10
+      ],
+      "lines": [
+        4,
+        8
+      ]
+    }
+  },
+  "fold": {
+    "fold-lv2-vol1": {
+      "grid": 3,
+      "slopes": "ortho45",
+      "entangle": [
+        0,
+        1
+      ],
+      "lines": [
+        2,
+        4
+      ]
+    },
+    "fold-lv3-vol1": {
+      "grid": 4,
+      "slopes": "ortho45",
+      "requireDiag45": true,
+      "entangle": [
+        0,
+        1
+      ],
+      "lines": [
+        2,
+        5
+      ]
+    },
+    "fold-lv4-vol1": {
+      "grid": 5,
+      "slopes": "any",
+      "requireNon45": true,
+      "entangle": [
+        0,
+        2
+      ],
+      "lines": [
+        3,
+        6
+      ]
+    },
+    "fold-lv5-vol1": {
+      "grid": 6,
+      "slopes": "any",
+      "requireNon45": true,
+      "entangle": [
+        3,
+        10
+      ],
+      "lines": [
+        4,
+        8
+      ]
+    }
   }
 }

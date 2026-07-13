@@ -95,11 +95,27 @@ export async function POST(req: NextRequest) {
     if (r.length === 0) return Response.json({ error: "抜く線（解答）が空です" }, { status: 400 });
     answer = { mode: "explicit", edges: r };
   } else if (mode === "derived") {
-    if (task !== "mirror") {
+    if (task === "mirror") {
+      // 鏡は軸レス（軸＝印刷時の並び選択・decisions §3.59）。代表値 v を焼く
+      answer = { mode: "derived", transform: { type: "mirror", axis: "v" } };
+    } else if (task === "rotate") {
+      // 回転角は巻定義（data.ts variant「90°右回り/90°左回り/180°」）から。
+      // 盤面中心まわりの回転＝解答は常に盤内（収まり検証不要）
+      const v = hit.vol.variant ?? "";
+      const deg: 90 | -90 | 180 = v.includes("左") ? -90 : v.includes("180") ? 180 : 90;
+      answer = { mode: "derived", transform: { type: "rotate", deg } };
+    } else if (task === "translate") {
+      // 既定ベクトルは巻の方向（variant「横/縦/斜め/複合」）から。F+(dc,dr) が
+      // 盤内に収まるかは検品サムネのゴースト表示で目視確認（editor は F のみ編集）
+      const v = hit.vol.variant ?? "";
+      const vec = v.includes("縦") ? { dc: 0, dr: 1 }
+        : v.includes("斜") ? { dc: 1, dr: 1 }
+          : v.includes("複合") ? { dc: 2, dr: 1 }
+            : { dc: 1, dr: 0 };
+      answer = { mode: "derived", transform: { type: "translate", ...vec } };
+    } else {
       return Response.json({ error: `${task} の白紙作成は未対応です（AI 生成を使ってください）` }, { status: 400 });
     }
-    // 鏡は軸レス（軸＝印刷時の並び選択・decisions §3.59）。代表値 v を焼く
-    answer = { mode: "derived", transform: { type: "mirror", axis: "v" } };
   }
 
   const inputB = body.inputB ? normalizeEdges(body.inputB) : undefined;

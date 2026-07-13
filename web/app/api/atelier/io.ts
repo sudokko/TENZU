@@ -7,9 +7,10 @@ import { promises as fs } from "fs";
 import path from "path";
 import {
   TASK_ANSWER_MODE, validateProblemSet,
-  type CandidateFile, type SkuProblemSet,
+  type CandidateFile, type EdgeT, type SkuProblemSet,
 } from "../../products/problems/schema";
 import { migrateCandidateFile, migrateSet } from "../../products/problems/gen/difficulty";
+import { shapeSignature } from "../../products/problems/gen/dedupe";
 
 export function devGuard(): Response | null {
   if (process.env.NODE_ENV === "production") {
@@ -163,6 +164,39 @@ export function answerModeOf(task: string) {
    motif のようにライブラリが有限なジェネレータの巻またぎ重複防止に使う。
    - candidates: rejected 以外（pending/adopted）を「生きている」とみなす
    - published: 全問対象 */
+/* 兄弟巻（同 task の他 SKU・candidates 非 rejected ＋ published）で使われている
+   図形の形シグネチャ集合。変種キー除外（readSiblingVariantKeys）の補完＝
+   ライブラリと小箱列挙など「別キーが同じ形」を作るケースを塞ぐ（rotate 等が使う）。
+   fold は「重なり図」＝完成図が answer 側にある（edges=問題1ペイン）ため、
+   answer.edges のシグネチャを集める（overlay/decompose とのクロス照合が成立する）。 */
+export async function readSiblingShapeSignatures(task: string, exceptSku: string): Promise<Set<string>> {
+  const sigs = new Set<string>();
+  const collect = (problems: { edges?: EdgeT[]; status?: string; answer?: { mode: string; edges?: EdgeT[] } }[]) => {
+    for (const p of problems) {
+      if (p.status === "rejected") continue;
+      const src = task === "fold" && p.answer?.mode === "explicit" && p.answer.edges?.length
+        ? p.answer.edges
+        : p.edges;
+      if (src && src.length > 0) sigs.add(shapeSignature(src));
+    }
+  };
+  for (const dir of [CAND_DIR(), PUB_DIR()]) {
+    let files: string[] = [];
+    try {
+      files = (await fs.readdir(dir)).filter(
+        (f) => f.startsWith(`${task}-`) && f.endsWith(".json") && f !== `${exceptSku}.json`,
+      );
+    } catch { continue; }
+    for (const f of files) {
+      try {
+        const raw = JSON.parse(await fs.readFile(path.join(dir, f), "utf8"));
+        collect(raw.candidates ?? raw.problems ?? []);
+      } catch { /* 壊れたファイルは無視（publish 時に validate される） */ }
+    }
+  }
+  return sigs;
+}
+
 export async function readSiblingVariantKeys(task: string, exceptSku: string): Promise<Set<string>> {
   const keys = new Set<string>();
   const collect = (problems: { gen?: { variant?: string }; status?: string }[]) => {

@@ -1,13 +1,13 @@
 {
  "schemaVersion": 1,
- "sku": "overlay-lv3-vol1",
- "task": "overlay",
+ "sku": "decompose-lv2-vol1",
+ "task": "decompose",
  "candidates": [
   {
-   "id": "overlay-lv3-vol1-m01",
+   "id": "decompose-lv2-vol1-s1-01",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
@@ -17,7 +17,47 @@
      ],
      [
       1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
       1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
      ]
     ],
     [
@@ -32,91 +72,41 @@
     ],
     [
      [
-      2,
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
       0
      ],
      [
-      3,
+      1,
       1
      ]
     ],
     [
      [
       1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      0,
       1
      ],
      [
       1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
       2
      ]
     ]
@@ -126,250 +116,12 @@
     "edges": [
      [
       [
-       1,
+       0,
        2
       ],
       [
-       2,
-       1
-      ]
-     ],
-     [
-      [
        1,
-       1
-      ],
-      [
-       2,
-       0
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 11,
-    "diagonals": 7,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 2,
-    "pointsUsed": 12,
-    "symmetry": []
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "",
-    "label": "あああ",
-    "edited": true
-   },
-   "gen": {
-    "kind": "manual",
-    "motif": "あああ"
-   },
-   "status": "adopted",
-   "order": 1,
-   "edited": true,
-   "difficulty": {
-    "task": "overlay",
-    "value": 21.5,
-    "auto": 21.5,
-    "parts": {
-     "A": 16.5,
-     "B": 5,
-     "絡み": 0
-    }
-   }
-  },
-  {
-   "id": "overlay-lv3-vol1-s1-01",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       1,
-       0
-      ],
-      [
-       2,
-       0
-      ]
-     ],
-     [
-      [
-       1,
-       1
-      ],
-      [
-       2,
-       1
+       2
       ]
      ],
      [
@@ -384,63 +136,103 @@
      ],
      [
       [
-       2,
+       1,
        1
       ],
       [
-       2,
+       1,
        2
       ]
      ]
     ]
    },
    "metrics": {
-    "lines": 8,
+    "lines": 6,
     "diagonals": 1,
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
-    "pointsUsed": 13,
+    "pointsUsed": 7,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "trishelf4#1/0+micro2x3#75@1,0"
+    "variant": "micro3x3#164039+micro2x3#100@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
-    "value": 12.5,
-    "auto": 12.5,
+    "task": "decompose",
+    "value": 9.5,
+    "auto": 9.5,
     "parts": {
-     "A": 6.5,
-     "B": 4,
+     "A": 5.5,
+     "B": 2,
      "絡み": 2
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "trishelf4#1/0+micro2x3#75@1,0"
+    "variant": "micro3x3#164039+micro2x3#100@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-02",
+   "id": "decompose-lv2-vol1-s1-02",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
+      0,
+      1
+     ],
+     [
       1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
       0
      ],
      [
@@ -454,28 +246,18 @@
       1
      ],
      [
-      1,
+      2,
       2
      ]
     ],
     [
      [
-      2,
+      0,
       0
      ],
      [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
+      1,
+      0
      ]
     ],
     [
@@ -491,7 +273,17 @@
     [
      [
       1,
-      1
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
      ],
      [
       2,
@@ -505,77 +297,7 @@
      ],
      [
       2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
       1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      2
      ]
     ]
    ],
@@ -585,51 +307,41 @@
      [
       [
        0,
-       1
+       0
       ],
       [
        1,
-       1
-      ]
-     ],
-     [
-      [
-       0,
-       3
-      ],
-      [
-       1,
-       3
+       0
       ]
      ],
      [
       [
        1,
-       3
+       0
       ],
       [
        2,
-       3
+       0
       ]
      ],
      [
       [
-       0,
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
        1
-      ],
-      [
-       0,
-       2
-      ]
-     ],
-     [
-      [
-       0,
-       2
-      ],
-      [
-       0,
-       3
       ]
      ],
      [
@@ -638,84 +350,74 @@
        2
       ],
       [
-       1,
-       3
-      ]
-     ],
-     [
-      [
-       0,
-       3
-      ],
-      [
-       1,
-       2
+       2,
+       1
       ]
      ]
     ]
    },
    "metrics": {
-    "lines": 8,
-    "diagonals": 1,
+    "lines": 7,
+    "diagonals": 2,
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
-    "crossings": 1,
+    "crossings": 2,
     "components": 1,
-    "pointsUsed": 11,
+    "pointsUsed": 8,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "grid#1x2/0+micro3x3#131825@0,1"
+    "variant": "micro3x3#268364+micro3x3#525347@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
-    "value": 13.5,
-    "auto": 13.5,
+    "task": "decompose",
+    "value": 13,
+    "auto": 13,
     "parts": {
-     "A": 5,
-     "B": 6.5,
+     "A": 5.5,
+     "B": 5.5,
      "絡み": 2
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "grid#1x2/0+micro3x3#131825@0,1"
+    "variant": "micro3x3#268364+micro3x3#525347@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-03",
+   "id": "decompose-lv2-vol1-s1-03",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
       0,
-      1
+      2
      ],
      [
       1,
-      1
+      2
      ]
     ],
     [
      [
       1,
-      1
+      2
      ],
      [
       2,
-      1
+      2
      ]
     ],
     [
@@ -726,6 +428,46 @@
      [
       1,
       2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
      ]
     ],
     [
@@ -735,87 +477,37 @@
      ],
      [
       1,
-      2
+      1
      ]
     ],
     [
      [
-      1,
-      2
+      0,
+      0
      ],
      [
-      2,
+      0,
       1
      ]
     ],
     [
      [
       1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      2
+      0
      ],
      [
       1,
-      3
-     ]
-    ],
-    [
-     [
-      3,
       1
-     ],
-     [
-      3,
-      2
      ]
     ],
     [
      [
-      3,
-      2
+      0,
+      0
      ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
      [
       1,
-      2
-     ],
-     [
-      2,
-      3
+      1
      ]
     ]
    ],
@@ -824,72 +516,42 @@
     "edges": [
      [
       [
-       1,
-       2
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       2
-      ],
-      [
-       3,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       3
-      ],
-      [
-       3,
-       3
-      ]
-     ],
-     [
-      [
-       1,
-       2
-      ],
-      [
-       1,
-       3
-      ]
-     ],
-     [
-      [
-       3,
+       0,
        1
       ],
       [
-       3,
-       2
+       1,
+       1
       ]
      ],
      [
       [
-       3,
-       2
+       0,
+       0
       ],
       [
-       3,
-       3
+       0,
+       1
       ]
      ],
      [
       [
        1,
-       2
+       0
       ],
       [
-       2,
-       3
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       1
       ]
      ]
     ]
@@ -902,616 +564,96 @@
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 9,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "micro3x2#1187+micro3x3#68780@1,1"
+    "variant": "micro3x3#167472+micro2x2#30@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
-    "value": 15.5,
-    "auto": 15.5,
+    "task": "decompose",
+    "value": 13,
+    "auto": 13,
     "parts": {
-     "A": 7,
-     "B": 6.5,
-     "絡み": 2
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "micro3x2#1187+micro3x3#68780@1,1"
-   }
-  },
-  {
-   "id": "overlay-lv3-vol1-s1-04",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      3,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       2,
-       0
-      ],
-      [
-       3,
-       0
-      ]
-     ],
-     [
-      [
-       1,
-       1
-      ],
-      [
-       2,
-       1
-      ]
-     ],
-     [
-      [
-       2,
-       1
-      ],
-      [
-       3,
-       1
-      ]
-     ],
-     [
-      [
-       1,
-       0
-      ],
-      [
-       1,
-       1
-      ]
-     ],
-     [
-      [
-       3,
-       0
-      ],
-      [
-       3,
-       1
-      ]
-     ],
-     [
-      [
-       2,
-       0
-      ],
-      [
-       3,
-       1
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 9,
-    "diagonals": 2,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 1,
-    "components": 1,
-    "pointsUsed": 11,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "drect#2x2d1/1+micro3x2#606@1,0"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "overlay",
-    "value": 15,
-    "auto": 15,
-    "parts": {
-     "A": 6.5,
-     "B": 6.5,
-     "絡み": 2
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "drect#2x2d1/1+micro3x2#606@1,0"
-   }
-  },
-  {
-   "id": "overlay-lv3-vol1-s1-05",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      3,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       2,
-       1
-      ],
-      [
-       3,
-       1
-      ]
-     ],
-     [
-      [
-       1,
-       2
-      ],
-      [
-       1,
-       3
-      ]
-     ],
-     [
-      [
-       2,
-       1
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       2
-      ],
-      [
-       2,
-       3
-      ]
-     ],
-     [
-      [
-       1,
-       2
-      ],
-      [
-       2,
-       3
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 9,
-    "diagonals": 2,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 1,
-    "components": 1,
-    "pointsUsed": 16,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "drect#3x3d1/0+micro3x3#66434@1,1"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "overlay",
-    "value": 14,
-    "auto": 14,
-    "parts": {
-     "A": 6.5,
+     "A": 5.5,
      "B": 5.5,
      "絡み": 2
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "drect#3x3d1/0+micro3x3#66434@1,1"
+    "variant": "micro3x3#167472+micro2x2#30@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-06",
+   "id": "decompose-lv2-vol1-s1-04",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
       0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
       2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
      ],
      [
       1,
@@ -1530,36 +672,6 @@
     ],
     [
      [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
       0,
       0
      ],
@@ -1580,8 +692,8 @@
     ],
     [
      [
-      0,
-      1
+      1,
+      0
      ],
      [
       1,
@@ -1590,8 +702,8 @@
     ],
     [
      [
-      1,
-      1
+      2,
+      0
      ],
      [
       2,
@@ -1600,32 +712,22 @@
     ],
     [
      [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
+      2,
       1
      ],
      [
-      0,
+      2,
       2
      ]
     ],
     [
      [
       1,
-      0
+      1
      ],
      [
       2,
-      1
+      0
      ]
     ]
    ],
@@ -1654,12 +756,32 @@
      ],
      [
       [
-       0,
-       1
+       1,
+       0
       ],
       [
        1,
        1
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
       ]
      ],
      [
@@ -1669,7 +791,197 @@
       ],
       [
        2,
-       1
+       0
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 2,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#266484+micro3x3#36099@0,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "decompose",
+    "value": 11,
+    "auto": 11,
+    "parts": {
+     "A": 5.5,
+     "B": 5.5,
+     "絡み": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#266484+micro3x3#36099@0,0"
+   }
+  },
+  {
+   "id": "decompose-lv2-vol1-s1-05",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
       ]
      ],
      [
@@ -1689,6 +1001,26 @@
       ],
       [
        0,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       1,
        2
       ]
      ],
@@ -1706,25 +1038,665 @@
    },
    "metrics": {
     "lines": 8,
-    "diagonals": 3,
+    "diagonals": 2,
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
-    "crossings": 0,
+    "crossings": 1,
     "components": 1,
     "pointsUsed": 9,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "tent3#1/0+micro3x3#16591@0,0"
+    "variant": "micro3x3#269323+micro3x3#17360@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
+    "task": "decompose",
+    "value": 13,
+    "auto": 13,
+    "parts": {
+     "A": 5.5,
+     "B": 5.5,
+     "絡み": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#269323+micro3x3#17360@0,0"
+   }
+  },
+  {
+   "id": "decompose-lv2-vol1-s1-06",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 7,
+    "diagonals": 3,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 2,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#164626+micro2x3#1252@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "decompose",
+    "value": 14.5,
+    "auto": 14.5,
+    "parts": {
+     "A": 5.5,
+     "B": 7,
+     "絡み": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#164626+micro2x3#1252@1,0"
+   }
+  },
+  {
+   "id": "decompose-lv2-vol1-s1-07",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 7,
+    "diagonals": 3,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 2,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#268492+micro3x3#540688@0,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "decompose",
+    "value": 13.5,
+    "auto": 13.5,
+    "parts": {
+     "A": 5.5,
+     "B": 6,
+     "絡み": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#268492+micro3x3#540688@0,0"
+   }
+  },
+  {
+   "id": "decompose-lv2-vol1-s1-08",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 3,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#533260+micro3x3#134339@0,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "decompose",
     "value": 12.5,
     "auto": 12.5,
     "parts": {
@@ -1735,57 +1707,27 @@
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "tent3#1/0+micro3x3#16591@0,0"
+    "variant": "micro3x3#533260+micro3x3#134339@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-07",
+   "id": "decompose-lv2-vol1-s1-09",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
-      1,
-      1
+      0,
+      0
      ],
      [
       1,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
+      0
      ]
     ],
     [
@@ -1806,6 +1748,46 @@
      [
       1,
       1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
      ]
     ],
     [
@@ -1815,7 +1797,167 @@
      ],
      [
       1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 3,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#269571+micro3x2#393@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "decompose",
+    "value": 12.5,
+    "auto": 12.5,
+    "parts": {
+     "A": 5.5,
+     "B": 7,
+     "絡み": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#269571+micro3x2#393@0,1"
+   }
+  },
+  {
+   "id": "decompose-lv2-vol1-s1-10",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
       0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
      ]
     ],
     [
@@ -1826,6 +1968,66 @@
      [
       2,
       0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
      ]
     ],
     [
@@ -1844,21 +2046,21 @@
     "edges": [
      [
       [
-       1,
+       0,
        0
       ],
       [
-       2,
+       1,
        0
       ]
      ],
      [
       [
-       1,
+       0,
        0
       ],
       [
-       1,
+       0,
        1
       ]
      ],
@@ -1868,18 +2070,18 @@
        1
       ],
       [
-       1,
-       0
+       0,
+       2
       ]
      ],
      [
       [
        1,
-       1
+       0
       ],
       [
-       2,
-       0
+       1,
+       1
       ]
      ],
      [
@@ -1900,82 +2102,72 @@
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
-    "crossings": 0,
+    "crossings": 1,
     "components": 1,
-    "pointsUsed": 7,
+    "pointsUsed": 9,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "grid#1x1/0+micro3x3#303362@0,0"
+    "variant": "micro3x3#691248+micro3x3#262593@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
-    "value": 13.5,
-    "auto": 13.5,
+    "task": "decompose",
+    "value": 14.5,
+    "auto": 14.5,
     "parts": {
-     "A": 4,
-     "B": 9.5,
-     "絡み": 0
+     "A": 7,
+     "B": 5.5,
+     "絡み": 2
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "grid#1x1/0+micro3x3#303362@0,0"
+    "variant": "micro3x3#691248+micro3x3#262593@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-08",
+   "id": "decompose-lv2-vol1-s1-11",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
       0,
-      1
+      0
      ],
      [
       1,
-      1
+      0
      ]
     ],
     [
      [
       1,
-      1
+      0
      ],
      [
       2,
-      1
+      0
      ]
     ],
     [
      [
       0,
-      2
+      0
      ],
      [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
+      0,
+      1
      ]
     ],
     [
@@ -1990,12 +2182,22 @@
     ],
     [
      [
-      2,
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
       1
      ],
      [
       2,
-      2
+      0
      ]
     ],
     [
@@ -2010,41 +2212,31 @@
     ],
     [
      [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
       2,
       0
      ],
      [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
+      2,
       1
      ]
     ],
     [
      [
-      3,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      3,
+      2,
       1
      ],
      [
-      3,
+      2,
       2
      ]
     ],
@@ -2060,21 +2252,11 @@
     ],
     [
      [
-      2,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      2,
+      1,
       1
      ],
      [
-      3,
+      2,
       2
      ]
     ]
@@ -2084,41 +2266,31 @@
     "edges": [
      [
       [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
        2,
        0
       ],
       [
-       3,
-       0
-      ]
-     ],
-     [
-      [
-       1,
-       0
-      ],
-      [
-       1,
+       2,
        1
       ]
      ],
      [
       [
-       3,
-       0
-      ],
-      [
-       3,
-       1
-      ]
-     ],
-     [
-      [
-       3,
+       2,
        1
       ],
       [
-       3,
+       2,
        2
       ]
      ],
@@ -2134,68 +2306,58 @@
      ],
      [
       [
-       2,
-       0
-      ],
-      [
-       3,
-       1
-      ]
-     ],
-     [
-      [
-       2,
+       1,
        1
       ],
       [
-       3,
+       2,
        2
       ]
      ]
     ]
    },
    "metrics": {
-    "lines": 10,
+    "lines": 8,
     "diagonals": 3,
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
-    "crossings": 0,
+    "crossings": 1,
     "components": 1,
-    "pointsUsed": 11,
+    "pointsUsed": 8,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "micro3x2#351+micro3x3#285762@1,0"
+    "variant": "micro3x3#164291+micro2x3#738@1,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
+    "task": "decompose",
     "value": 14.5,
     "auto": 14.5,
     "parts": {
-     "A": 6.5,
-     "B": 8,
-     "絡み": 0
+     "A": 5.5,
+     "B": 7,
+     "絡み": 2
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "micro3x2#351+micro3x3#285762@1,0"
+    "variant": "micro3x3#164291+micro2x3#738@1,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-09",
+   "id": "decompose-lv2-vol1-s1-12",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
@@ -2204,34 +2366,14 @@
       0
      ],
      [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
       1,
-      1
+      0
      ]
     ],
     [
      [
       1,
-      1
+      0
      ],
      [
       2,
@@ -2240,32 +2382,12 @@
     ],
     [
      [
-      2,
+      1,
       0
      ],
      [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
       1,
       1
-     ],
-     [
-      2,
-      2
      ]
     ],
     [
@@ -2285,17 +2407,47 @@
      ],
      [
       2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
       1
      ]
     ],
     [
      [
-      1,
+      0,
       2
      ],
      [
       1,
-      3
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
      ]
     ],
     [
@@ -2307,21 +2459,191 @@
       2,
       1
      ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 3,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#168195+micro3x2#1108@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "decompose",
+    "value": 12.5,
+    "auto": 12.5,
+    "parts": {
+     "A": 7,
+     "B": 5.5,
+     "絡み": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#168195+micro3x2#1108@0,1"
+   }
+  },
+  {
+   "id": "decompose-lv2-vol1-s1-13",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
     ],
     [
      [
-      2,
-      2
+      1,
+      0
      ],
      [
-      3,
+      2,
       1
      ]
     ],
     [
      [
       1,
-      3
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
      ],
      [
       2,
@@ -2334,22 +2656,12 @@
     "edges": [
      [
       [
-       1,
-       1
-      ],
-      [
-       2,
-       1
-      ]
-     ],
-     [
-      [
-       1,
+       0,
        2
       ],
       [
        1,
-       3
+       2
       ]
      ],
      [
@@ -2359,23 +2671,33 @@
       ],
       [
        2,
-       1
+       2
       ]
      ],
      [
       [
-       2,
-       2
+       0,
+       1
       ],
       [
-       3,
-       1
+       0,
+       2
       ]
      ],
      [
       [
        1,
-       3
+       1
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       1,
+       1
       ],
       [
        2,
@@ -2390,21 +2712,21 @@
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
-    "crossings": 2,
+    "crossings": 1,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 8,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "bowtie#2/0+micro3x3#172161@1,1"
+    "variant": "tent3#1/0+micro3x3#295088@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
+    "task": "decompose",
     "value": 16,
     "auto": 16,
     "parts": {
@@ -2415,126 +2737,36 @@
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "bowtie#2/0+micro3x3#172161@1,1"
+    "variant": "tent3#1/0+micro3x3#295088@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-10",
+   "id": "decompose-lv2-vol1-s1-14",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
       0,
-      0
+      2
      ],
      [
       1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      3,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      3,
       2
      ]
     ],
     [
      [
-      3,
+      1,
       2
      ],
      [
-      3,
-      3
-     ]
-    ],
-    [
-     [
       2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
       2
      ]
     ],
@@ -2554,6 +2786,26 @@
       1
      ],
      [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
       1,
       1
      ]
@@ -2565,67 +2817,47 @@
      ],
      [
       2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
       2
      ]
     ],
     [
      [
       1,
-      2
+      1
      ],
      [
       2,
-      3
+      1
      ]
     ],
     [
      [
-      2,
-      3
+      0,
+      1
      ],
      [
-      3,
-      2
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
      ]
     ]
    ],
@@ -2635,293 +2867,13 @@
      [
       [
        1,
-       2
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       2
-      ],
-      [
-       2,
-       3
-      ]
-     ],
-     [
-      [
-       2,
        1
       ],
       [
-       3,
-       2
-      ]
-     ],
-     [
-      [
-       1,
-       2
-      ],
-      [
        2,
-       3
+       1
       ]
      ],
-     [
-      [
-       2,
-       3
-      ],
-      [
-       3,
-       2
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 10,
-    "diagonals": 3,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 16,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "nichi4#1/0+micro3x3#606724@1,1"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "overlay",
-    "value": 14.5,
-    "auto": 14.5,
-    "parts": {
-     "A": 5,
-     "B": 9.5,
-     "絡み": 0
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "nichi4#1/0+micro3x3#606724@1,1"
-   }
-  },
-  {
-   "id": "overlay-lv3-vol1-s1-11",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      3,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      0
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
      [
       [
        0,
@@ -2929,17 +2881,7 @@
       ],
       [
        1,
-       1
-      ]
-     ],
-     [
-      [
-       1,
-       1
-      ],
-      [
-       2,
-       1
+       0
       ]
      ],
      [
@@ -2948,653 +2890,93 @@
        0
       ],
       [
-       1,
-       1
-      ]
-     ],
-     [
-      [
        2,
        1
+      ]
+     ],
+     [
+      [
+       1,
+       1
       ],
       [
        2,
-       2
-      ]
-     ],
-     [
-      [
-       0,
-       0
-      ],
-      [
-       1,
-       1
-      ]
-     ],
-     [
-      [
-       0,
-       1
-      ],
-      [
-       1,
        0
       ]
      ]
     ]
    },
    "metrics": {
-    "lines": 10,
-    "diagonals": 3,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 1,
-    "components": 1,
-    "pointsUsed": 15,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "cornd4#1/0+micro3x3#14604@0,0"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "overlay",
-    "value": 14.5,
-    "auto": 14.5,
-    "parts": {
-     "A": 6.5,
-     "B": 8,
-     "絡み": 0
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "cornd4#1/0+micro3x3#14604@0,0"
-   }
-  },
-  {
-   "id": "overlay-lv3-vol1-s1-12",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      2,
-      0
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       0,
-       1
-      ],
-      [
-       1,
-       1
-      ]
-     ],
-     [
-      [
-       1,
-       1
-      ],
-      [
-       1,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       0
-      ],
-      [
-       2,
-       1
-      ]
-     ],
-     [
-      [
-       1,
-       1
-      ],
-      [
-       2,
-       0
-      ]
-     ],
-     [
-      [
-       1,
-       2
-      ],
-      [
-       2,
-       1
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 10,
-    "diagonals": 3,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 15,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "cornd4#1/1+micro3x3#558596@0,0"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "overlay",
-    "value": 14.5,
-    "auto": 14.5,
-    "parts": {
-     "A": 6.5,
-     "B": 8,
-     "絡み": 0
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "cornd4#1/1+micro3x3#558596@0,0"
-   }
-  },
-  {
-   "id": "overlay-lv3-vol1-s1-13",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      3,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       0,
-       1
-      ],
-      [
-       1,
-       1
-      ]
-     ],
-     [
-      [
-       0,
-       1
-      ],
-      [
-       1,
-       2
-      ]
-     ],
-     [
-      [
-       0,
-       2
-      ],
-      [
-       1,
-       1
-      ]
-     ],
-     [
-      [
-       0,
-       2
-      ],
-      [
-       1,
-       3
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 9,
+    "lines": 8,
     "diagonals": 4,
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
-    "pointsUsed": 13,
+    "pointsUsed": 9,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "trishelf4#1/1+micro2x3#897@0,1"
+    "variant": "micro3x3#266992+micro3x2#1800@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
-    "value": 17,
-    "auto": 17,
+    "task": "decompose",
+    "value": 16,
+    "auto": 16,
     "parts": {
-     "A": 6.5,
+     "A": 5.5,
      "B": 8.5,
      "絡み": 2
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "trishelf4#1/1+micro2x3#897@0,1"
+    "variant": "micro3x3#266992+micro3x2#1800@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-14",
+   "id": "decompose-lv2-vol1-s1-15",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
       0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
       0
      ],
      [
-      0,
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
       1
      ]
     ],
@@ -3610,71 +2992,51 @@
     ],
     [
      [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
       0,
-      2
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
       1
      ],
      [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
       1,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
       2
      ]
     ]
@@ -3684,38 +3046,28 @@
     "edges": [
      [
       [
+       1,
+       2
+      ],
+      [
        2,
        2
+      ]
+     ],
+     [
+      [
+       2,
+       1
       ],
       [
-       3,
+       2,
        2
       ]
      ],
      [
       [
        1,
-       2
-      ],
-      [
-       1,
-       3
-      ]
-     ],
-     [
-      [
-       3,
-       2
-      ],
-      [
-       3,
-       3
-      ]
-     ],
-     [
-      [
-       1,
-       2
+       0
       ],
       [
        2,
@@ -3724,98 +3076,78 @@
      ],
      [
       [
-       1,
-       3
+       0,
+       1
       ],
       [
-       2,
+       1,
        2
       ]
      ]
     ]
    },
    "metrics": {
-    "lines": 9,
+    "lines": 8,
     "diagonals": 4,
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 8,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "micro3x3#397428+micro3x3#141448@1,1"
+    "variant": "micro3x2#1187+micro3x3#84000@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
-    "value": 18,
-    "auto": 18,
+    "task": "decompose",
+    "value": 16,
+    "auto": 16,
     "parts": {
-     "A": 8,
-     "B": 8,
+     "A": 7,
+     "B": 7,
      "絡み": 2
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "micro3x3#397428+micro3x3#141448@1,1"
+    "variant": "micro3x2#1187+micro3x3#84000@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-15",
+   "id": "decompose-lv2-vol1-s1-16",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
       0,
-      0
+      1
      ],
      [
       1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      2,
       1
      ]
     ],
     [
      [
-      2,
-      1
+      1,
+      0
      ],
      [
-      2,
-      2
+      1,
+      1
      ]
     ],
     [
@@ -3824,78 +3156,68 @@
       1
      ],
      [
-      2,
+      1,
       2
      ]
     ],
     [
      [
       0,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
       1
      ],
      [
-      2,
+      1,
       0
      ]
     ],
     [
      [
-      2,
+      0,
       1
      ],
      [
-      3,
-      1
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
      ]
     ],
     [
      [
       2,
-      2
+      0
      ],
      [
-      3,
-      2
+      2,
+      1
      ]
     ],
     [
      [
       1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
       1
      ],
      [
-      3,
-      2
+      2,
+      0
      ]
     ],
     [
      [
       1,
-      3
+      2
      ],
      [
       2,
-      2
+      1
      ]
     ]
    ],
@@ -3904,108 +3226,158 @@
     "edges": [
      [
       [
-       2,
-       1
+       0,
+       2
       ],
       [
-       3,
-       1
+       1,
+       2
       ]
      ],
      [
       [
        2,
-       2
+       0
       ],
       [
-       3,
-       2
+       2,
+       1
       ]
      ],
      [
       [
        1,
-       3
-      ],
-      [
-       2,
-       3
-      ]
-     ],
-     [
-      [
-       2,
        1
       ],
       [
-       3,
-       2
+       2,
+       0
       ]
      ],
      [
       [
        1,
-       3
+       2
       ],
       [
        2,
-       2
+       1
       ]
      ]
     ]
    },
    "metrics": {
-    "lines": 9,
+    "lines": 8,
     "diagonals": 4,
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 7,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "triH#2/0+micro3x3#147482@1,1"
+    "variant": "micro2x3#866+micro3x3#558096@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
-    "value": 15,
-    "auto": 15,
+    "task": "decompose",
+    "value": 14,
+    "auto": 14,
     "parts": {
      "A": 7,
-     "B": 8,
+     "B": 7,
      "絡み": 0
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "triH#2/0+micro3x3#147482@1,1"
+    "variant": "micro2x3#866+micro3x3#558096@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-16",
+   "id": "decompose-lv2-vol1-s1-17",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
       0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
       1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
      ],
      [
       1,
       1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
      ]
     ],
     [
@@ -4026,16 +3398,6 @@
      [
       1,
       1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
      ]
     ],
     [
@@ -4050,81 +3412,11 @@
     ],
     [
      [
-      1,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
       0,
       1
      ],
      [
       1,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
       2
      ]
     ]
@@ -4134,147 +3426,117 @@
     "edges": [
      [
       [
-       2,
-       2
-      ],
-      [
-       3,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       3
-      ],
-      [
-       3,
-       3
-      ]
-     ],
-     [
-      [
-       2,
+       1,
        1
       ],
       [
        2,
-       2
+       1
       ]
      ],
      [
       [
-       3,
+       1,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       0,
        1
       ],
       [
-       3,
-       2
+       1,
+       0
       ]
      ],
      [
       [
-       3,
-       2
+       0,
+       1
       ],
       [
-       3,
-       3
-      ]
-     ],
-     [
-      [
-       2,
-       3
-      ],
-      [
-       3,
+       1,
        2
       ]
      ]
     ]
    },
    "metrics": {
-    "lines": 10,
+    "lines": 8,
     "diagonals": 4,
     "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 8,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "micro3x3#90892+micro2x3#1134@2,1"
+    "variant": "micro3x3#285699+micro3x3#73992@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
+    "task": "decompose",
     "value": 16,
     "auto": 16,
     "parts": {
-     "A": 9.5,
-     "B": 6.5,
-     "絡み": 0
+     "A": 7,
+     "B": 7,
+     "絡み": 2
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "micro3x3#90892+micro2x3#1134@2,1"
+    "variant": "micro3x3#285699+micro3x3#73992@0,0"
    }
   },
   {
-   "id": "overlay-lv3-vol1-s1-17",
+   "id": "decompose-lv2-vol1-s1-18",
    "grid": {
     "type": "square",
-    "n": 4
+    "n": 3
    },
    "edges": [
     [
      [
       0,
-      0
+      1
      ],
      [
       1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
+      1
      ]
     ],
     [
      [
       0,
-      2
+      0
      ],
      [
-      1,
-      2
+      0,
+      1
      ]
     ],
     [
      [
-      1,
-      2
+      0,
+      1
      ],
      [
-      2,
+      0,
       2
      ]
     ],
@@ -4286,16 +3548,6 @@
      [
       1,
       1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      2
      ]
     ],
     [
@@ -4320,22 +3572,12 @@
     ],
     [
      [
+      1,
+      0
+     ],
+     [
       2,
       0
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      3,
-      0
-     ],
-     [
-      3,
-      1
      ]
     ],
     [
@@ -4344,7 +3586,7 @@
       0
      ],
      [
-      3,
+      2,
       1
      ]
     ],
@@ -4354,8 +3596,158 @@
       1
      ],
      [
-      3,
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
       0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 4,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#168132+micro2x3#1249@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "decompose",
+    "value": 16,
+    "auto": 16,
+    "parts": {
+     "A": 7,
+     "B": 7,
+     "絡み": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#168132+micro2x3#1249@1,0"
+   }
+  },
+  {
+   "id": "decompose-lv2-vol1-s1-19",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
      ]
     ],
     [
@@ -4364,7 +3756,67 @@
       1
      ],
      [
-      3,
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
       2
      ]
     ]
@@ -4374,51 +3826,231 @@
     "edges": [
      [
       [
-       2,
+       1,
        0
       ],
       [
-       3,
+       2,
        0
       ]
      ],
      [
       [
-       3,
-       0
+       1,
+       1
       ],
       [
-       3,
-       1
+       1,
+       2
       ]
      ],
      [
       [
-       2,
-       0
-      ],
-      [
-       3,
-       1
-      ]
-     ],
-     [
-      [
-       2,
+       0,
        1
       ],
       [
-       3,
+       1,
        0
       ]
      ],
      [
       [
-       2,
+       0,
        1
       ],
       [
-       3,
+       1,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 4,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#297996+micro3x3#74242@0,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "decompose",
+    "value": 14,
+    "auto": 14,
+    "parts": {
+     "A": 7,
+     "B": 7,
+     "絡み": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#297996+micro3x3#74242@0,0"
+   }
+  },
+  {
+   "id": "decompose-lv2-vol1-s1-20",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
        2
       ]
      ]
@@ -4432,693 +4064,33 @@
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
-    "pointsUsed": 11,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "hour3#1/0+micro2x3#929@2,0"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "overlay",
-    "value": 16.5,
-    "auto": 16.5,
-    "parts": {
-     "A": 7,
-     "B": 9.5,
-     "絡み": 0
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "hour3#1/0+micro2x3#929@2,0"
-   }
-  },
-  {
-   "id": "overlay-lv3-vol1-s1-18",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      2
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       0,
-       1
-      ],
-      [
-       0,
-       2
-      ]
-     ],
-     [
-      [
-       1,
-       2
-      ],
-      [
-       1,
-       3
-      ]
-     ],
-     [
-      [
-       0,
-       1
-      ],
-      [
-       1,
-       2
-      ]
-     ],
-     [
-      [
-       0,
-       2
-      ],
-      [
-       1,
-       3
-      ]
-     ],
-     [
-      [
-       1,
-       3
-      ],
-      [
-       2,
-       2
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 9,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 8,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "micro2x3#732+micro3x3#594496@0,1"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "overlay",
-    "value": 17.5,
-    "auto": 17.5,
-    "parts": {
-     "A": 8,
-     "B": 9.5,
-     "絡み": 0
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "micro2x3#732+micro3x3#594496@0,1"
-   }
-  },
-  {
-   "id": "overlay-lv3-vol1-s1-19",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       1,
-       2
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
-       1,
-       1
-      ],
-      [
-       1,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       1
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
-       1,
-       1
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       1
-      ],
-      [
-       3,
-       2
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 9,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 1,
-    "components": 1,
     "pointsUsed": 7,
     "symmetry": []
    },
    "gen": {
     "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "diaH3#1/0+micro3x2#692@1,1"
+    "variant": "micro3x3#82700+micro3x3#401536@0,0"
    },
    "status": "pending",
    "difficulty": {
-    "task": "overlay",
-    "value": 21,
-    "auto": 21,
+    "task": "decompose",
+    "value": 17.5,
+    "auto": 17.5,
     "parts": {
-     "A": 11,
-     "B": 8,
+     "A": 7,
+     "B": 8.5,
      "絡み": 2
     }
    },
    "provenance": {
     "source": "ai",
-    "generator": "overlay",
-    "version": "2",
+    "generator": "decompose",
+    "version": "1",
     "seed": 1,
-    "variant": "diaH3#1/0+micro3x2#692@1,1"
-   }
-  },
-  {
-   "id": "overlay-lv3-vol1-s1-20",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       1,
-       3
-      ],
-      [
-       2,
-       3
-      ]
-     ],
-     [
-      [
-       2,
-       1
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       2
-      ],
-      [
-       2,
-       3
-      ]
-     ],
-     [
-      [
-       0,
-       2
-      ],
-      [
-       1,
-       1
-      ]
-     ],
-     [
-      [
-       1,
-       1
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
-       0,
-       2
-      ],
-      [
-       1,
-       3
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 10,
-    "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 2,
-    "components": 1,
-    "pointsUsed": 9,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "micro3x3#549644+micro3x3#93216@0,1"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "overlay",
-    "value": 21,
-    "auto": 21,
-    "parts": {
-     "A": 9.5,
-     "B": 9.5,
-     "絡み": 2
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "overlay",
-    "version": "2",
-    "seed": 1,
-    "variant": "micro3x3#549644+micro3x3#93216@0,1"
+    "variant": "micro3x3#82700+micro3x3#401536@0,0"
    }
   }
  ],

@@ -119,17 +119,37 @@
       2,
       2
      ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
     ]
    ],
    "metrics": {
-    "lines": 7,
+    "lines": 9,
     "diagonals": 0,
     "non45": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 12,
     "symmetry": []
    },
    "gen": {
@@ -167,15 +187,15 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 11,
-    "auto": 11,
+    "value": 13,
+    "auto": 13,
     "parts": {
-     "base": 7,
+     "base": 9,
      "gap": 4
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "motif",
     "version": "1",
     "seed": 1,
@@ -183,7 +203,8 @@
     "label": "トラック"
    },
    "status": "adopted",
-   "order": 1
+   "order": 1,
+   "edited": true
   },
   {
    "id": "fill-lv3-vol1-motif-s1-22",
@@ -1233,8 +1254,7 @@
     "variant": "truck4+1",
     "label": "トラック"
    },
-   "status": "adopted",
-   "order": 4
+   "status": "pending"
   },
   {
    "id": "fill-lv3-vol1-motif-s1-27",
@@ -2072,7 +2092,8 @@
     "variant": "loco4~m+2",
     "label": "きかんしゃ"
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 11
   },
   {
    "id": "fill-lv3-vol1-motif-s1-31",
@@ -2256,7 +2277,7 @@
     "label": "くるま"
    },
    "status": "adopted",
-   "order": 6
+   "order": 4
   },
   {
    "id": "fill-lv3-vol1-motif-s1-32",
@@ -2470,7 +2491,7 @@
     "label": "いえ"
    },
    "status": "adopted",
-   "order": 8
+   "order": 7
   },
   {
    "id": "fill-lv3-vol1-motif-s1-33",
@@ -2652,16 +2673,6 @@
     ],
     [
      [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
       2,
       3
      ],
@@ -2832,7 +2843,7 @@
     ]
    ],
    "metrics": {
-    "lines": 11,
+    "lines": 12,
     "diagonals": 0,
     "non45": 0,
     "diagonalAngleKinds": 0,
@@ -2857,16 +2868,6 @@
     "edges": [
      [
       [
-       1,
-       3
-      ],
-      [
-       2,
-       3
-      ]
-     ],
-     [
-      [
        0,
        3
       ],
@@ -2874,20 +2875,30 @@
        1,
        3
       ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ]
      ]
     ]
    },
    "difficulty": {
     "task": "fill",
-    "value": 13,
-    "auto": 13,
+    "value": 16,
+    "auto": 16,
     "parts": {
-     "base": 11,
-     "gap": 2
+     "base": 12,
+     "gap": 4
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "motif",
     "version": "1",
     "seed": 1,
@@ -2895,7 +2906,8 @@
     "label": "おしろ"
    },
    "status": "adopted",
-   "order": 5
+   "order": 5,
+   "edited": true
   },
   {
    "id": "fill-lv3-vol1-motif-s1-35",
@@ -3067,7 +3079,7 @@
     "label": "きせん"
    },
    "status": "adopted",
-   "order": 7
+   "order": 6
   },
   {
    "id": "fill-lv3-vol1-motif-s1-36",
@@ -3607,20 +3619,30 @@
        1,
        0
       ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       3
+      ]
      ]
     ]
    },
    "difficulty": {
     "task": "fill",
-    "value": 19,
-    "auto": 19,
+    "value": 21,
+    "auto": 21,
     "parts": {
      "base": 15,
-     "gap": 4
+     "gap": 6
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "motif",
     "version": "1",
     "seed": 1,
@@ -3628,7 +3650,8 @@
     "label": "ヨット"
    },
    "status": "adopted",
-   "order": 12
+   "order": 12,
+   "edited": true
   },
   {
    "id": "fill-lv3-vol1-motif-s1-39",
@@ -5923,7 +5946,7 @@
     "seed": 1,
     "variant": "rand#4#1-180"
    },
-   "order": 9
+   "order": 8
   },
   {
    "id": "fill-lv3-vol1-s1-50",
@@ -7246,7 +7269,7 @@
     "seed": 1,
     "variant": "oct#3/0"
    },
-   "order": 11
+   "order": 9
   },
   {
    "id": "fill-lv3-vol1-s1-59",
