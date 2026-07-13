@@ -262,69 +262,75 @@ function SignatureDraw() {
 const FEAT_OPEN_IMG: string | null = null;   // 特長2: 設計図が見える商品カード
 const FEAT_PRINT_IMG: string | null = null;  // 特長3: 用紙・向き・問数の選択
 
-/* 特長2 ビジュアル（案③・実ページ縮図）: 「買う前に全部読める」＝商品ページの
-   ミニチュア。ブラウザ枠＋サイトヘッダ／左＝紙面プレビュー（お手本の点描写）／
-   右＝spec（盤面・ななめ・対象・全12問）＋¥200＋カートボタン。クリック先の実物が
-   そのまま図になる（証明）。難易度 D などの内部語は出さない。 */
+/* 特長2 ビジュアル（案①・実物サムネ）: 「買う前に全部読める」＝1巻12問をぜんぶ
+   サムネで並べた商品カード。ロックもぼかしも無く、全問そのまま見える。上にタイトル・
+   下に spec＋¥200。難易度 D などの内部語は出さない。 */
 function FeatOpenSvg() {
   const jp = "'Hiragino Sans','Yu Gothic',sans-serif";
-  const dp = (i: number) => 34 + i * 18;   // 左プレビュー 4×4 点座標（34,52,70,88）
+  const tiles = [
+    "M4 16 L4 6 L16 6 L16 16 Z",
+    "M4 16 L10 4 L16 16 Z",
+    "M4 4 L16 4 L16 16 L4 16 Z M4 4 L16 16",
+    "M4 10 L10 4 L16 10 L10 16 Z",
+    "M4 16 L4 8 L10 4 L16 8 L16 16",
+    "M4 16 L10 6 L16 16 M7 11 L13 11",
+    "M4 4 L16 4 L10 16 Z",
+    "M4 12 L8 4 L16 8 L12 16 Z",
+    "M4 16 L4 4 L16 4 M4 10 L12 10",
+    "M4 10 L16 10 M10 4 L10 16",
+    "M4 14 L10 4 L16 14 Z",
+    "M4 4 L16 4 L16 16 L4 16 Z M10 4 L10 16",
+  ];
   return (
     <svg viewBox="0 0 300 150" className="tr-feat-svg" aria-hidden="true">
-      {/* ブラウザ／ページ枠 */}
-      <rect x="10" y="8" width="280" height="134" rx="7" fill="#fff" stroke={INK} strokeWidth="1.4" />
-      {/* サイトヘッダ帯 */}
-      <path d="M10 15 a7 7 0 0 1 7-7 h266 a7 7 0 0 1 7 7 v9 H10 Z" fill="#F1EFEA" />
-      <circle cx="22" cy="16" r="3" fill={TEAL} />
-      <rect x="250" y="14" width="28" height="4" rx="2" fill={INK} opacity="0.16" />
-      {/* 左: 紙面プレビュー（実際に子が写すお手本） */}
-      <rect x="20" y="32" width="92" height="98" rx="4" fill={TEAL} fillOpacity="0.04" stroke={FAINT} strokeWidth="1" />
-      {[0, 1, 2, 3].map((c) => [0, 1, 2, 3].map((r) => (
-        <circle key={`${c}-${r}`} cx={dp(c)} cy={46 + r * 18} r="1.5" fill={INK} opacity="0.42" />
-      )))}
-      <path d="M34 64 L70 64 L70 100 L34 100 Z" fill="none" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
-      <path d="M34 64 L52 46 L70 64" fill="none" stroke={INK} strokeWidth="1.8" strokeLinejoin="round" />
-      <line x1="34" y1="64" x2="70" y2="100" stroke={INK} strokeWidth="1.8" />
-      <text x="24" y="44" fontSize="7" fill={INK} opacity="0.42" fontFamily={jp}>みほん</text>
-      {/* 右: 商品ページの spec ＋ 価格 ＋ カート */}
-      <g fontFamily={jp}>
-        <text x="124" y="43" fontSize="9.5" fill={INK} fontWeight="700">模写 基礎編 Vol.1</text>
-        <text x="124" y="59" fontSize="8" fill={INK} opacity="0.55">盤面 4×4 ・ ななめ入り</text>
-        <text x="124" y="72" fontSize="8" fill={INK} opacity="0.55">対象 6〜9 才 ・ 全 12 問</text>
-        <line x1="124" y1="82" x2="278" y2="82" stroke={FAINT} strokeWidth="0.8" strokeDasharray="2 3" />
-        <text x="124" y="105" fontSize="17" fontWeight="700" fill={TEAL}>¥200</text>
-        <rect x="124" y="114" width="154" height="18" rx="4" fill={TEAL} />
-        <text x="201" y="126.5" fontSize="9" fill="#fff" textAnchor="middle" fontWeight="700">カートに入れる</text>
-      </g>
+      <rect x="8" y="8" width="284" height="134" rx="8" fill="#fff" stroke={INK} strokeWidth="1.4" />
+      <text x="20" y="27" fontSize="9.5" fill={INK} fontWeight="700" fontFamily={jp}>模写 基礎編 Vol.1</text>
+      <text x="280" y="27" fontSize="8.5" fill={INK} opacity="0.5" textAnchor="end" fontFamily={jp}>全 12 問</text>
+      {tiles.map((d, k) => {
+        const col = k % 6, row = Math.floor(k / 6);
+        return (
+          <g key={k} transform={`translate(${20 + col * 44} ${36 + row * 40})`}>
+            <rect x="0" y="0" width="34" height="34" rx="3" fill={TEAL} fillOpacity="0.03" stroke={FAINT} strokeWidth="0.7" />
+            <g transform="translate(3 3) scale(1.4)">
+              <path d={d} fill="none" stroke={INK} strokeWidth="1.1" strokeLinejoin="round" />
+            </g>
+          </g>
+        );
+      })}
+      <text x="20" y="130" fontSize="8" fill={INK} opacity="0.55" fontFamily={jp}>4×4 ・ ななめ入り ・ 6〜9 才ごろ</text>
+      <text x="280" y="131" fontSize="15" fontWeight="700" fill={TEAL} textAnchor="end" fontFamily={jp}>¥200</text>
     </svg>
   );
 }
 
-/* 特長3 ビジュアル: 「家庭の印刷機に合わせる」＝A4/A3・たてよこ・1 枚の問数の選択 UI 抜粋。 */
+/* 特長3 ビジュアル（案①・紙2枚）: 「大きく1問も、ぎっしり12問も」を用紙の中身で。
+   左＝A3 に大きく 1 問（お手本の点描写）／右＝A4 に小さく 12 問（3×4）。同じ問題を
+   紙サイズと1枚の問数で刷り分けられることが図で伝わる。 */
 function FeatPrintSvg() {
+  const jp = "'Hiragino Sans','Yu Gothic',sans-serif";
+  const g = (c: number) => 42 + c * 20;
   return (
     <svg viewBox="0 0 300 150" className="tr-feat-svg" aria-hidden="true">
-      {/* A4・A3 用紙 */}
-      <rect x="34" y="40" width="52" height="72" rx="3" fill="#fff" stroke={INK} strokeWidth="1.4" />
-      <text x="60" y="126" fontSize="9" fill={INK} opacity="0.5" textAnchor="middle" fontFamily="sans-serif">A4</text>
-      <rect x="96" y="26" width="66" height="92" rx="3" fill="#fff" stroke={TEAL} strokeWidth="1.6" />
-      <text x="129" y="132" fontSize="9" fill={TEAL} textAnchor="middle" fontFamily="sans-serif">A3</text>
-      {/* たて/よこ トグル */}
-      <g fontFamily="sans-serif" fontSize="9">
-        <rect x="188" y="40" width="84" height="22" rx="6" fill="#fff" stroke={FAINT} strokeWidth="1" />
-        <rect x="188" y="40" width="42" height="22" rx="6" fill={INK} />
-        <text x="209" y="54.5" fill="#fff" textAnchor="middle">たて</text>
-        <text x="251" y="54.5" fill={INK} opacity="0.55" textAnchor="middle">よこ</text>
-      </g>
-      {/* 1 枚あたりの問数 */}
-      <g fontFamily="sans-serif" fontSize="8.5">
-        <rect x="188" y="76" width="84" height="22" rx="6" fill="#fff" stroke={FAINT} strokeWidth="1" />
-        <rect x="209" y="76" width="21" height="22" fill={INK} />
-        {["2", "4", "6", "12"].map((n, i) => (
-          <text key={n} x={198.5 + i * 21} y="90.5" fill={i === 1 ? "#fff" : INK} opacity={i === 1 ? 1 : 0.55} textAnchor="middle">{n}</text>
-        ))}
-        <text x="230" y="112" fill={INK} opacity="0.5" textAnchor="middle">1 枚あたりの問数</text>
-      </g>
+      {/* 左: A3 に大きく 1 問 */}
+      <text x="66" y="16" fontSize="9" fontWeight="700" fill={INK} textAnchor="middle" fontFamily={jp}>大きく 1 問</text>
+      <rect x="24" y="22" width="86" height="112" rx="3" fill="#fff" stroke={TEAL} strokeWidth="1.6" />
+      {[0, 1, 2, 3].map((c) => [0, 1, 2, 3].map((r) => (
+        <circle key={`${c}-${r}`} cx={g(c)} cy={44 + r * 21} r="1.7" fill={INK} opacity="0.4" />
+      )))}
+      <path d="M42 65 L82 65 L82 107 L42 107 Z" fill="none" stroke={INK} strokeWidth="1.9" strokeLinejoin="round" />
+      <path d="M42 65 L62 44 L82 65" fill="none" stroke={INK} strokeWidth="1.9" strokeLinejoin="round" />
+      <line x1="42" y1="65" x2="82" y2="107" stroke={INK} strokeWidth="1.9" />
+      <text x="67" y="128" fontSize="8" fill={TEAL} textAnchor="middle" fontWeight="700" fontFamily={jp}>A3</text>
+      {/* 中: 刷り分け */}
+      <text x="145" y="82" fontSize="14" fill={INK} opacity="0.4" textAnchor="middle" fontFamily={jp}>⇄</text>
+      {/* 右: A4 にぎっしり 12 問 */}
+      <text x="218" y="30" fontSize="9" fontWeight="700" fill={INK} textAnchor="middle" fontFamily={jp}>ぎっしり 12 問</text>
+      <rect x="180" y="36" width="76" height="96" rx="3" fill="#fff" stroke={INK} strokeWidth="1.4" />
+      {[0, 1, 2, 3].map((row) => [0, 1, 2].map((col) => (
+        <rect key={`${row}-${col}`} x={186 + col * 23} y={42 + row * 22} width="19" height="19" rx="2"
+          fill={TEAL} fillOpacity="0.04" stroke={FAINT} strokeWidth="0.8" />
+      )))}
+      <text x="218" y="128" fontSize="8" fill={INK} opacity="0.55" textAnchor="middle" fontFamily={jp}>A4</text>
     </svg>
   );
 }
@@ -524,8 +530,8 @@ export default function Home() {
                     : <FeatOpenSvg />}
                 </div>
                 <p className="tr-feat-point">
-                  どんな形を、どのくらいの線で、どの盤面に書くのか。実際の問題も、対象の目安も、
-                  買う前にぜんぶ読めます。だから、はじめての一枚を外しません。
+                  表紙だけでは、売りません。1 巻 12 問、その中身をぜんぶ、そのまま並べて見せます。
+                  だから、はじめての一枚を外しません。
                 </p>
                 <a className="tr-feat-cta" href="/products">全 {TOTAL_VOL} 巻の中身を見る →</a>
               </div>
@@ -540,8 +546,8 @@ export default function Home() {
                     : <FeatPrintSvg />}
                 </div>
                 <p className="tr-feat-point">
-                  同じ一枚を、A4 でも A3 でも。たて・よこ、1 枚に何問入れるかまで、
-                  お子さんの手と机に合わせて刷れます。
+                  同じ一巻を、その日の子に合わせて。大きく書きたい日も、たっぷり解きたい日も。
+                  A4・A3、たて・よこも、選べます。
                 </p>
               </div>
             </div>
