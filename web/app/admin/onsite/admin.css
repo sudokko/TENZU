@@ -1,0 +1,416 @@
+/* =========================================================================
+   オンサイトメッセージ管理画面（/admin/onsite）
+   内部向け UI のため rev.5 の Tier ③（Plex）だけで組む。装飾は線とスペーシング。
+   ========================================================================= */
+
+.adm-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px 96px;
+  font-family: var(--font-tier3-sans);
+}
+
+/* ---- ヘッダー・タブ ---- */
+
+.adm-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-mid);
+  margin-bottom: 20px;
+}
+
+.adm-title {
+  font-family: var(--font-tier3-sans);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin: 0;
+  flex: 1;
+}
+
+.adm-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.adm-tab {
+  border: 1px solid var(--line-mid);
+  background: var(--bg);
+  color: var(--fg-2);
+  font-family: inherit;
+  font-size: 13.5px;
+  padding: 6px 14px;
+  border-radius: var(--r-control);
+  cursor: pointer;
+}
+
+.adm-tab.is-active {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+
+.adm-h2 {
+  font-family: var(--font-tier3-sans);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 28px 0 10px;
+}
+
+/* ---- フィードバック ---- */
+
+.adm-msg {
+  margin: 10px 0;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+}
+
+.adm-error {
+  margin: 10px 0;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  color: #7c2d24;
+  background: #fbf1ef;
+  border: 1px solid #e5c4bd;
+  border-radius: var(--radius-soft);
+}
+
+.adm-warn {
+  margin: 8px 0 0;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #6d5406;
+  background: #fbf6e4;
+  border: 1px solid #e7d9a8;
+  border-radius: var(--radius-soft);
+}
+
+.adm-hint {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--fg-3);
+}
+
+/* ---- 一覧 ---- */
+
+.adm-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.adm-list-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.adm-table-scroll {
+  overflow-x: auto;
+}
+
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.adm-table th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--fg-3);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line-mid);
+  white-space: nowrap;
+}
+
+.adm-table td {
+  padding: 10px;
+  border-bottom: 1px dashed var(--line-thin);
+  vertical-align: middle;
+}
+
+.adm-table tr.is-inactive td {
+  color: var(--fg-3);
+}
+
+.adm-td-id {
+  font-family: var(--font-tier3-mono);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.adm-td-pages {
+  font-family: var(--font-tier3-mono);
+  font-size: 12px;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.adm-td-num {
+  font-family: var(--font-tier3-mono);
+  font-feature-settings: "tnum" 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.adm-td-actions {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.adm-badge {
+  display: inline-block;
+  font-size: 11.5px;
+  padding: 2px 8px;
+  border: 1px solid var(--line-mid);
+  border-radius: 9999px;
+  color: var(--fg-2);
+  white-space: nowrap;
+}
+
+.adm-toggle {
+  font-family: inherit;
+  font-size: 12.5px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--line-mid);
+  background: var(--bg);
+  color: var(--fg-3);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.adm-toggle.is-on {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.adm-link {
+  font-size: 13px;
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
+.adm-link + .adm-link,
+.adm-link + .adm-link-btn {
+  margin-left: 12px;
+}
+
+.adm-link:hover {
+  color: var(--accent);
+}
+
+/* ---- ボタン ---- */
+
+.adm-btn {
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 1px solid var(--line-mid);
+  border-radius: var(--r-control);
+  background: var(--bg);
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.adm-btn:hover {
+  background: var(--bg-2);
+}
+
+.adm-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.adm-btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.adm-btn-primary:hover {
+  background: var(--accent-ink);
+  border-color: var(--accent-ink);
+}
+
+.adm-btn-danger {
+  color: #7c2d24;
+  border-color: #d8b1aa;
+}
+
+.adm-btn-danger:hover {
+  background: #fbf1ef;
+}
+
+.adm-btn-ghost {
+  border-color: transparent;
+  color: var(--fg-3);
+}
+
+/* ---- フォーム ---- */
+
+.adm-form {
+  margin-top: 28px;
+  padding: 20px;
+  border: 1px solid var(--line-mid);
+  border-radius: var(--radius-soft);
+  background: var(--bg);
+}
+
+.adm-form .adm-h2 {
+  margin-top: 0;
+}
+
+.adm-field {
+  margin: 14px 0;
+}
+
+.adm-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.adm-row .adm-field {
+  flex: 1;
+  min-width: 220px;
+}
+
+.adm-label {
+  display: block;
+  font-size: 12.5px;
+  color: var(--fg-2);
+  margin-bottom: 4px;
+}
+
+.adm-input,
+.adm-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 8px 10px;
+  border: 1px solid var(--line-mid);
+  border-radius: var(--r-control);
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.adm-textarea {
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+  resize: vertical;
+}
+
+.adm-input:focus-visible,
+.adm-textarea:focus-visible,
+.adm-btn:focus-visible,
+.adm-tab:focus-visible,
+.adm-toggle:focus-visible,
+.adm-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.adm-input:disabled {
+  background: var(--bg-2);
+  color: var(--fg-3);
+}
+
+.adm-input-date {
+  width: auto;
+}
+
+.adm-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.adm-image-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.adm-thumb {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: var(--radius-soft);
+  border: 1px solid var(--line-mid);
+}
+
+.adm-file {
+  font-size: 13px;
+}
+
+.adm-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line-thin);
+}
+
+/* ---- 統計 ---- */
+
+.adm-stats-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.adm-stats-controls .adm-label {
+  margin-bottom: 0;
+}
+
+/* ---- ログイン ---- */
+
+.adm-login {
+  max-width: 360px;
+  margin: 15vh auto 0;
+  padding: 0 24px;
+  font-family: var(--font-tier3-sans);
+}
+
+.adm-login-title {
+  font-family: var(--font-tier3-sans);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+
+.adm-login-form {
+  display: flex;
+  gap: 8px;
+}
+
+.adm-login-form .adm-input {
+  flex: 1;
+}
