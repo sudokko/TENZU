@@ -3,7 +3,7 @@
 ## サマリ
 
 - TENZU の記事コンテンツ（Pillar / Cluster / FAQ / LLMO）を扱う設計領域
-- **大原則（2026-06-03・[clusters.md §1.5](clusters.md)／受け皿改定 2026-06-08 [decisions.md §5.6](../decisions.md)）**: 記事は**情報意図のクエリだけ**を拾う。取引意図（プリント／無料／簡単／難しい／立体／年齢）は記事化せず**専用ファセットLP・商品タグ・カテゴリページ**へ（**メーカーは受け皿から除外**＝取引LPは有償一本／無料意図は無料LPの絵柄サンプル・仕様 [pack-design.md §25.6](../product/pack-design.md)）
+- **大原則（2026-06-03・[clusters.md §1.5](clusters.md)／受け皿改定 2026-06-08 [decisions.md §5.6](../decisions.md)）**: 記事は**情報意図のクエリだけ**を拾う。取引意図（プリント／無料／簡単／難しい／立体／年齢）は記事化せず**専用ファセットLP・商品タグ・カテゴリページ**へ（**メーカーは受け皿から除外**＝取引LPは有償一本／無料意図は無料LPのサンプル閲覧＋工房導線＝「見せる無料」・仕様 [pack-commerce.md §25.6](../product/pack-commerce.md)・[decisions.md §4.9](../decisions.md)）
 - これにより**実際に書く記事は 16 ページ**: 正規ハブ P1 ＋ 確定 8 記事 ＋ 学術土台 C3-4 ＋ LLMO 2 ＋ FAQ 3。降格・削除は [clusters.md](clusters.md) 各表の「種別」参照
 - 構造: **正規ハブ P1 ＋ 用途ハブ P2/P3/P4/P5**（5 Pillar）。Pillar 構造 SSOT は [decisions.md §3.32](../decisions.md)、本縮減は [decisions.md §3.42](../decisions.md)
 - **執筆の役割分担**: 構成・目次＝AI 提案→**オーナー確定**（[structure-craft.md](structure-craft.md)）／本文化＝AI（[writing-craft.md](writing-craft.md)）／リード・TLDR＝AI 下書き→オーナー仕上げ（[decisions.md §3.49](../decisions.md)）
@@ -27,6 +27,7 @@
 | [writing-craft.md](writing-craft.md) | **本文化 craft の SSOT**（構成メモ入力フォーマット・膨らませの境界線・文章術・リード/TLDR 作法） |
 | [revision-craft.md](revision-craft.md) | **推敲 craft の SSOT**（推敲の境界線＝表現レベルのみ・推敲手順・変更点リスト形式） |
 | [external-output.md](external-output.md) | **note/アメブロ整形規約の SSOT**（貼付用テキスト生成・ネイティブ要素翻訳・画像/alt・`/article-export` が参照） |
+| [note-devlog-craft.md](note-devlog-craft.md) | **個人 note 開発実録連載の執筆 craft の SSOT**（公式記事とは別枠。実録スタンス・回テンプレ・タブー・検証3点セット・小モデル運用の5工程） |
 | [research.md](research.md) | B-2 リサーチ Phase 0（**本ファイル独自のリサーチフェーズ名・ローンチ Phase とは別概念**）・著者/読者ペルソナ・Voice・KW 候補・競合トピック構造 |
 | [references-map.md](references-map.md) | 5系譜文献マップ・引用論文の正確な帰属・教育系メディアソース |
 
@@ -44,7 +45,9 @@
 
 ## 重要な状態
 
-**記事リスト確定（2026-06-03）**: 検索意図ベースで記事を 16 ページに縮減（[clusters.md §1.5](clusters.md)・[decisions.md §3.42](../decisions.md)）。取引意図クエリは専用ファセットLP・商品タグ/カテゴリ側（メーカー除外・[pack-design.md §25.6](../product/pack-design.md)・[decisions.md §5.6](../decisions.md)）。執筆は確定 8 記事＋P1 から着手可能。
+**記事リスト確定（2026-06-03）**: 検索意図ベースで記事を 16 ページに縮減（[clusters.md §1.5](clusters.md)・[decisions.md §3.42](../decisions.md)）。取引意図クエリは専用ファセットLP・商品タグ/カテゴリ側（メーカー除外・[pack-commerce.md §25.6](../product/pack-commerce.md)・[decisions.md §5.6](../decisions.md)）。執筆は確定 8 記事＋P1 から着手可能。
+
+**正規記事バッチ執筆済み（2026-07-08）**: 正規タクソノミ全記事（Pillar 5＋Cluster 9＋LLMO 2＋FAQ 3）＋ブランドステイトメントの計 20 本を `docs/drafts/articles/` にドラフト納品（構成メモ・検品レポート `_batch-report.md` 併置）。NG grep・llmo-check 全通過・article-reviewer 反映済み。**公開昇格はオーナーレビュー後**（残存【要確認】は同レポート参照）。
 
 ## 附録
 

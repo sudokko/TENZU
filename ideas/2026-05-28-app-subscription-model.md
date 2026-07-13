@@ -1,6 +1,7 @@
 ---
-status: alive
+status: rejected
 created: 2026-05-28
+rejected: 2026-06-26 メーカー有償化はサブスクでなく per-maker 買い切り ¥980 で確定（decisions.md §4.6）。サブスクモデル自体を撤回
 related:
   - foundation/brand.md
   - foundation/voice-tone.md
@@ -203,7 +204,7 @@ related:
    - PDF 購入 CVR が想定範囲なら、ピボット急がず PDF 単発モデルで進む
    - CVR が想定の 50% 以下なら、ピボット必要性が高い
 2. **モニターから「サブスク化なら払う」声の蓄積**: 有料待機リスト登録率 ≥ 5% が目安
-3. **春LPバンドル SKU 設計時**（[pack-design.md §24](../product/pack-design.md)）: バンドル価格設計の延長で「メンバーシップ」を組み込むか判断
+3. **春LPバンドル SKU 設計時**（[pack-commerce.md §24](../product/pack-commerce.md)）: バンドル価格設計の延長で「メンバーシップ」を組み込むか判断
 
 ## DR 結果サマリ（2026-05-28 実施）
 

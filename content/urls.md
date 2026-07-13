@@ -217,7 +217,7 @@
 - **Cluster** C4-3「空間認知を育てる家庭プリント」: ItemList Schema（年齢別 SKU リスト）＋ Product Schema 連携
 - **FAQ 3 本＋LLMO 2 本**: FAQPage Schema 厳密実装
 - **robots.txt**: OAI-SearchBot を Allow（ChatGPT search の入口確保）／その他 AI クローラーは [engineering/](../engineering/) で個別判定
-- 実装詳細とテンプレートは [engineering/](../engineering/) で別途定義（Phase 1 仕込み着手時）
+- 実装詳細とテンプレートは [engineering/](../engineering/) で別途定義（準備期着手時）
 
 ---
 

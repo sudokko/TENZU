@@ -36,7 +36,7 @@ description: TENZU の記事本文から、内容に応じて装飾ブロック�
 [writing-craft.md §3](../../../content/writing-craft.md) の閾値:
 
 - **散文優先**: 箇条書きは「3項目以上の並列」か「手順」だけ。2項目や説明文をリスト化しない
-- **表は3行以上**かつ比較軸が明確なときだけ（templates §7.6）
+- **表は3行以上**かつ比較軸が明確なときだけ（research.md §1.8補足2）
 - **`<Quote>` は記事に原則1つ**（キメの乱発はリズムを壊す）
 - **`<Diagram>` は意味のある可視化のみ**。飾りSVG・アニメ・グラデ・影は不可（visual-identity §4.1/§4.3）
 - 箇条書き比率が本文の 30% を超えたら散文へ戻す（templates §7.6）
@@ -45,7 +45,7 @@ description: TENZU の記事本文から、内容に応じて装飾ブロック�
 
 1. 本文を H2 セクションごとに読み、各所で「散文のままが最善か／ブロックが読者を助けるか」を判断する
 2. 上記ガード内で `<LeadGraf>` `<Diagram>` `<TenzuTranslate>` `<Quote>` `<SideNote>` を挿入する。`<Diagram>` の SVG は本文にある構造（点格子・段階・図形）を素朴に描く（色は ink `#1A1F2A`・accent `#2C6E7F`・点格子 opacity 0.16／visual-identity §1-2）
-3. 挿入後 `node web/scripts/llmo-check.mjs <file>` を回し、H2 に箇条書き/表が無い（`LLMO-LIST`）等が装飾で解消したか確認する
+3. 挿入後 `node web/scripts/llmo-check.mjs <file>` を回し、frontmatter を壊していないか確認する（このスクリプトが検査するのは frontmatter のみ。本文構造＝H2 配下の箇条書き/表の確認は article-reviewer §H の担当）
 4. 変更点を「位置 → 使ったブロック → なぜそこか（writing-craft/visual-identity の根拠）」で列挙する
 
 ## target=note / ameba のとき（ネイティブ翻訳）

@@ -8,12 +8,14 @@ TENZU の商品（問題パック）の設計と、購入〜配布〜利用〜�
 
 | ファイル | 責務 |
 |---|---|
-| [pack-design.md](pack-design.md) | 問題パック設計・**9タスク仕様の SSOT**・SKU 構成・価格設計・モチーフカテゴリ・各タスクラダー・**§23 メーカー（§23.9 有償化 3 tier・10種を外部公開＝公開ハブ /makers・§23.10 作図設定）**・**§25 検索意図対応の商品タグ/ファセット＋§25.6 SEO取引LP**（取引意図クエリを記事でなく専用ファセットLP・商品側で拾う＝有償一本・メーカー非訴求／無料LPは絵柄サンプル・[content/clusters.md §1.5](../content/clusters.md)・[decisions.md §5.6](../decisions.md) と対） |
-| [pack-tasks.md](pack-tasks.md) | 9タスクの個別仕様・出題ルール・難易度ドライバー |
+| [pack-design.md](pack-design.md) | 問題パック設計・**9タスク仕様の SSOT**・ブランド方針・SKU 構成・5レイヤー構造・モチーフカテゴリ・成立性マトリクス・3群グルーピング |
+| [pack-tasks.md](pack-tasks.md) | 9タスク（模写含む）の個別仕様・出題ルール・難易度ドライバー・難易度スコア D 実装 SSOT |
+| [pack-commerce.md](pack-commerce.md) | 価格・課金設計／メーカー有償化（per-maker 買い切り ¥980・公開9種＝公開ハブ /makers・拡大縮小はローンチ非公開）／広告連動バンドルSKU／検索意図対応の商品タグ・ファセット＋SEO取引LP（取引意図クエリを記事でなく専用ファセットLP・商品側で拾う＝有償一本／無料LP＝サンプル閲覧＋工房導線・配る無料PDFなし・[content/clusters.md §1.5](../content/clusters.md)・[decisions.md §4.9](../decisions.md) と対） |
 | [service-blueprint.md](service-blueprint.md) | サービスブループリント（7フェーズ × 4レイヤー）・配布・認証・補填フロー |
 
 ## 読む順序
 
-1. **pack-design.md** で商品ラインナップ全体（ローンチ63 SKU＝幾何ライン＋絵柄1シリーズ・模写のみ／将来上限140＋混在セット9）と価格戦略をつかむ
-2. タスク個別仕様を見るなら **pack-tasks.md**
-3. 購入〜配布〜利用の全体フロー → **service-blueprint.md**
+1. **pack-design.md** で商品ラインナップ全体（ローンチ公開42 SKU＝平面9タスク39＋立体3。拡大縮小6は非公開）とブランド方針をつかむ
+2. タスク個別仕様（模写含む）を見るなら **pack-tasks.md**
+3. 価格・課金・メーカー・広告バンドル・検索意図ファセットを見るなら **pack-commerce.md**
+4. 購入〜配布〜利用の全体フロー → **service-blueprint.md**

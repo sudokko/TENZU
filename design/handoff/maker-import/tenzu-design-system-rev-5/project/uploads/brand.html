@@ -139,6 +139,105 @@ footer.doc-footer {
   flex-wrap: wrap;
   gap: 8px;
 }
+details.frontmatter {
+  margin: 0 0 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+details.frontmatter summary {
+  cursor: pointer;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+details.frontmatter pre {
+  margin: 0;
+  border: none;
+  border-top: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+  white-space: pre-wrap;
+}
+.draft-callout {
+  margin: 14px 0;
+  padding: 8px 14px;
+  border-radius: 0 6px 6px 0;
+  border-left: 3px solid #9aa583;
+  background: #eef1e6;
+  color: var(--muted);
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+.draft-callout.flag {
+  border-left-color: #c99a3a;
+  background: #fbf1da;
+  color: #6b5320;
+}
+.tenzu-diagram {
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  text-align: center;
+}
+.tenzu-diagram .diagram-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.tenzu-diagram .diagram-svg svg {
+  max-width: 100%;
+  height: auto;
+}
+.tenzu-diagram figcaption {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.tenzu-translate {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 8px 8px 0;
+}
+.tenzu-translate .tt-src {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.tenzu-translate .tt-cite {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.tenzu-quote {
+  font-size: 17px;
+  border-left-color: var(--accent);
+}
+.tenzu-quote cite {
+  display: block;
+  margin-top: 6px;
+  font-size: 12.5px;
+  font-style: normal;
+  color: var(--muted);
+}
+.tenzu-sidenote {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  background: #f4f2ea;
+}
+.tenzu-sidenote .sn-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
 </style>
 </head>
 <body>
@@ -148,6 +247,7 @@ footer.doc-footer {
   </div>
   <a class="back" href="../../../../../../docs/html-index.html">← 一覧へ戻る</a>
 </header>
+
 <nav class="toc"><h2>目次</h2><ul><li><a href="#サマリ">サマリ</a></li><li><a href="#詳細">詳細</a></li><ul><li><a href="#1-mission">§1. MISSION</a></li><li><a href="#2-vision">§2. Vision</a></li><li><a href="#3-values">§3. Values</a></li><li><a href="#4-brand-story-origin">§4. Brand Story / Origin</a></li><li><a href="#5-顧客インサイト">§5. 顧客インサイト</a></li><li><a href="#6-brand-promise">§6. Brand Promise</a></li><li><a href="#7-brand-pillars">§7. Brand Pillars</a></li><li><a href="#8-rtb-reason-to-believe">§8. RTB（Reason To Believe）</a></li><li><a href="#9-brand-personality">§9. Brand Personality</a></li><li><a href="#10-positioning-statement">§10. Positioning Statement</a></li><li><a href="#11-anti-brand-tenzu-ではないもの">§11. Anti-Brand（TENZU ではないもの）</a></li><li><a href="#12-tagline-h-2026-05-25-夜確定・3-階層構造">§12. Tagline（H''' 2026-05-25 夜確定・3 階層構造）</a></li><li><a href="#13-啓蒙コンテンツ原則-新設">§13. 啓蒙コンテンツ原則（新設）</a></li><li><a href="#14-インフルエンサー連携方針-新設">§14. インフルエンサー連携方針（新設）</a></li><li><a href="#15-専門家監修との関係-新設">§15. 専門家監修との関係（新設）</a></li><li><a href="#16-点つなぎとの関係-新設">§16. 点つなぎとの関係（新設）</a></li></ul><li><a href="#附録">附録</a></li><ul><li><a href="#屋号語源-裏話">屋号語源（裏話）</a></li><li><a href="#田中洋-ブランディング-5フェーズ・ナラティブ-案h-版">田中洋『ブランディング』5フェーズ・ナラティブ（案H' 版）</a></li><li><a href="#変遷">変遷</a></li></ul></ul></nav>
 <main>
 <h1 id="tenzu-ブランド定義"><a class="anchor" href="#tenzu-ブランド定義">#</a>TENZU ブランド定義</h1>
@@ -778,7 +878,7 @@ TENZU サイト内に他社広告・アフィリエイトリンクを一切置�
 </main>
 <footer class="doc-footer">
   <span>design/handoff/maker-import/tenzu-design-system-rev-5/project/uploads/brand.md</span>
-  <span>Generated: 2026-06-25 12:01</span>
+  <span>Generated: 2026-07-10 13:45</span>
 </footer>
 
 </body>

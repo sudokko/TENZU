@@ -1,3 +1,6 @@
+> **凍結スナップショット注記（TENZU リポジトリ管理者より）**
+> このディレクトリは Design System rev-5 取り込み時点の**凍結スナップショット**。中に書かれているブランド定義・タグライン・コピーは取り込み当時のものであり、**現行 SSOT ではない**。現行の正は [foundation/brand.md](../../../../foundation/brand.md)（ブランド定義・タグライン）と [design/visual-identity.md](../../../visual-identity.md)（ビジュアル実装ルール）。中身のファイルは凍結資産のため書き換えないこと。
+
 # CODING AGENTS: READ THIS FIRST
 
 This is a **handoff bundle** from Claude Design (claude.ai/design).

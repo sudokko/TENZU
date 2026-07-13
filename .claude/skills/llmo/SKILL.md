@@ -32,6 +32,7 @@ description: TENZU 記事の「構造化データ(JSON-LD/meta/OG)に食わせ�
    構造層フィーダーの ERROR/WARN を受け取る:
    | ID | 内容 | 対応 |
    |---|---|---|
+   | `FM-000` | frontmatter ブロック自体が無い | frontmatter を新設（templates §2/§2.5） |
    | `FM-REQ` / `FM-YAML` | 必須 frontmatter 欠落 / YAML 破損 | 補修（templates §2/§2.5） |
    | `META-DESC` | description が長い/短い | 60-120字に調整（本文の結論から） |
    | `FM-SLUG` | slug とファイル名が不一致 | どちらかに揃える（urls.md 準拠） |
