@@ -12,6 +12,7 @@ import type {
   CandidateFile, Difficulty, DifficultyParts, Problem, ProblemMetrics,
   Provenance, SkuProblemSet,
 } from "../schema";
+import { edgeKey } from "../schema";
 import { computeMetrics, computeSolidMetrics, mergedSegments } from "./metrics";
 
 /* ---- 土台スコア（= 旧 copyDifficulty・2026-06-30 再校正）----
@@ -51,9 +52,42 @@ export function taskDifficulty(task: string, p: Problem): { value: number; parts
       return { value: base, parts: { base } };
 
     case "overlay":
-    case "decompose":
-    case "fold":
-      return { value: 2 * base, parts: { base, pair: base } };
+    case "decompose": {
+      // かさね・分解 固有式（decisions §3.70/§3.73）: D = base(A) + base(B) + 2×絡み
+      // 絡み＝A・B 間の交差数。交差は A×A / B×B / A×B のいずれかに属すため
+      // cross(F) − cross(A) − cross(B) で求まる（新しい幾何コード不要）。
+      // A＝F∖R・B＝R（answer explicit・両タスク同一データ形＝pack-tasks §19.8/§20）。
+      // answer 不在/空（白紙作成直後・旧データ）は旧式 2×base にフォールバック。
+      if (p.answer?.mode !== "explicit" || p.grid.type !== "square" || p.answer.edges.length === 0) {
+        return { value: 2 * base, parts: { base, pair: base } };
+      }
+      const rk = new Set(p.answer.edges.map(edgeKey));
+      const A = p.edges.filter((e) => !rk.has(edgeKey(e)));
+      const mA = computeMetrics(A, p.grid.n);
+      const mB = computeMetrics(p.answer.edges, p.grid.n);
+      const bA = baseDifficulty(mA);
+      const bB = baseDifficulty(mB);
+      const inter = Math.max(0, m.crossings - mA.crossings - mB.crossings);
+      return { value: bA + bB + 2 * inter, parts: { A: bA, B: bB, 絡み: 2 * inter } };
+    }
+
+    case "fold": {
+      // 折り重ね固有式（decisions §3.74）: かさね系と同じ A+B+絡み。
+      // A＝問題1（折り返す前の姿・鏡映しても数量メトリクスは不変）・B＝問題2・
+      // 絡み＝折り重ね後の A・B 間交差＝cross(完成図) − cross(A) − cross(B)。
+      // 完成図＝answer.edges（=mirror(問題1,v)∪問題2・代表軸 v で焼付済み）。
+      if (p.answer?.mode !== "explicit" || p.grid.type !== "square"
+        || !p.inputB || p.inputB.length === 0 || p.answer.edges.length === 0) {
+        return { value: 2 * base, parts: { base, pair: base } };
+      }
+      const mA = computeMetrics(p.edges, p.grid.n);
+      const mB = computeMetrics(p.inputB, p.grid.n);
+      const mU = computeMetrics(p.answer.edges, p.grid.n);
+      const bA = baseDifficulty(mA);
+      const bB = baseDifficulty(mB);
+      const inter = Math.max(0, mU.crossings - mA.crossings - mB.crossings);
+      return { value: bA + bB + 2 * inter, parts: { A: bA, B: bB, 絡み: 2 * inter } };
+    }
 
     case "scale":
     case "shrink":

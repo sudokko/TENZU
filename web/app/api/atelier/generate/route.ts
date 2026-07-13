@@ -2,7 +2,10 @@
    ジェネレータはレジストリ（gen/index.ts）経由で解決する。
    motif はライブラリが有限なので、兄弟巻で生きている変種を除外して生成する。 */
 import { NextRequest } from "next/server";
-import { devGuard, readCandidates, readSiblingVariantKeys, safeSku, writeCandidates } from "../io";
+import {
+  devGuard, readCandidates, readSiblingShapeSignatures, readSiblingVariantKeys,
+  safeSku, writeCandidates,
+} from "../io";
 import { generatorFor } from "../../../products/problems/gen";
 import { migrateCandidateFile } from "../../../products/problems/gen/difficulty";
 import type { CandidateFile } from "../../../products/problems/schema";
@@ -56,6 +59,21 @@ export async function POST(req: NextRequest) {
   const excludeVariants = gen.crossVolExclusive
     ? await readSiblingVariantKeys(task, sku)
     : undefined;
+  // 変種キーの補完＝別キー同形（ライブラリ×小箱列挙）を形シグネチャで塞ぐ。
+  // かさね・分解・折り重ねは同族タスク（完成図＝重なり図が共通の見た目）なので、
+  // 互いの完成図も除外する（同じ重なり図を 3 タスクで再売しない・decisions §3.73/§3.74）
+  const SIG_TASK_GROUPS: Record<string, string[]> = {
+    overlay: ["overlay", "decompose", "fold"],
+    decompose: ["decompose", "overlay", "fold"],
+    fold: ["fold", "overlay", "decompose"],
+  };
+  let excludeShapeSigs: Set<string> | undefined;
+  if (gen.crossVolExclusive) {
+    excludeShapeSigs = new Set<string>();
+    for (const t of SIG_TASK_GROUPS[task] ?? [task]) {
+      for (const sig of await readSiblingShapeSignatures(t, sku)) excludeShapeSigs.add(sig);
+    }
+  }
 
   // copy はライブラリ全件ロード方式（seed 固定・全件・seedCursor 進めない＝冪等）
   const seed = gen.loadAll ? 1 : file.seedCursor + 1;
@@ -65,6 +83,7 @@ export async function POST(req: NextRequest) {
     linesOverride: lines,
     gapOverride: gap,
     excludeVariants,
+    excludeShapeSigs,
   });
 
   /* id は既存の最大連番から続けて振る。loadAll（copy・seed 固定）は押すたび generator が

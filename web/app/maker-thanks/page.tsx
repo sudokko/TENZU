@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Stripe from "stripe";
 import SiteHeader from "../SiteHeader";
+import TrackPurchase from "../TrackPurchase";
 import { makerByKey } from "../products/makers";
-import { PURCHASABLE_MAKERS, type MakerKey } from "../products/capabilities";
+import { MAKER_PRICE, PURCHASABLE_MAKERS, type MakerKey } from "../products/capabilities";
 import "../membership.css";
 import "./maker-thanks.css";
 
@@ -21,14 +23,36 @@ const PAID = new Set<string>(PURCHASABLE_MAKERS);
 export default async function MakerThanksPage({
   searchParams,
 }: {
-  searchParams: Promise<{ m?: string }>;
+  searchParams: Promise<{ m?: string; sid?: string }>;
 }) {
-  const { m } = await searchParams;
+  const { m, sid } = await searchParams;
   const keys = (m ?? "").split(",").map((s) => s.trim()).filter((k): k is MakerKey => PAID.has(k));
   const makers = keys.map((k) => makerByKey(k)).filter((x): x is NonNullable<typeof x> => Boolean(x));
 
+  // 購入計測（purchase）。sid は verify が付ける Checkout セッション ID。
+  // 金額は Stripe から取り直す（URL の値は信用しない）。失敗しても画面は普通に出す。
+  let purchaseValue: number | null = null;
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if (sid && stripeKey && makers.length > 0) {
+    try {
+      const stripe = new Stripe(stripeKey);
+      const s = await stripe.checkout.sessions.retrieve(sid);
+      if (s.payment_status === "paid") purchaseValue = s.amount_total ?? makers.length * MAKER_PRICE;
+    } catch {
+      /* 計測は諦める（サンクス画面自体は成立させる） */
+    }
+  }
+
   return (
     <>
+      {purchaseValue !== null && sid && (
+        <TrackPurchase
+          transactionId={sid}
+          value={purchaseValue}
+          kind="maker"
+          items={makers.map((mk) => ({ id: `maker-${mk.key}`, name: mk.name, price: MAKER_PRICE }))}
+        />
+      )}
       <SiteHeader />
       <main className="mem-wrap thanks-wrap">
         <div className="thanks-hero">

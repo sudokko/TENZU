@@ -1,0 +1,1824 @@
+{
+ "schemaVersion": 1,
+ "sku": "translate-lv2-vol1",
+ "task": "translate",
+ "candidates": [
+  {
+   "id": "translate-lv2-vol1-s1-01",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "non45": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#28@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 2,
+    "auto": 2,
+    "parts": {
+     "base": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#28@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-02",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "non45": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#25@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 2,
+    "auto": 2,
+    "parts": {
+     "base": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#25@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-03",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "non45": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#97@-1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 2,
+    "auto": 2,
+    "parts": {
+     "base": 2
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#97@-1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-04",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "non45": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#101@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 3,
+    "auto": 3,
+    "parts": {
+     "base": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#101@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-05",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "non45": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#29@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 3,
+    "auto": 3,
+    "parts": {
+     "base": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#29@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-06",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 0,
+    "non45": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#125@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 4,
+    "auto": 4,
+    "parts": {
+     "base": 4
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#125@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-07",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 1,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#152@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 3.5,
+    "auto": 3.5,
+    "parts": {
+     "base": 3.5
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#152@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-08",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 0,
+    "non45": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "grid#1x1/0@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 4,
+    "auto": 4,
+    "parts": {
+     "base": 4
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "grid#1x1/0@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-09",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 1,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#352@-1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 3.5,
+    "auto": 3.5,
+    "parts": {
+     "base": 3.5
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#352@-1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-10",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 0,
+    "non45": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#126@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 4,
+    "auto": 4,
+    "parts": {
+     "base": 4
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#126@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-11",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 1,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#1048@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 3.5,
+    "auto": 3.5,
+    "parts": {
+     "base": 3.5
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#1048@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-12",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 1,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#608@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 3.5,
+    "auto": 3.5,
+    "parts": {
+     "base": 3.5
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#608@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-13",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 1,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 3,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x2#25@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 4.5,
+    "auto": 4.5,
+    "parts": {
+     "base": 4.5
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x2#25@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-14",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 1,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 3,
+    "symmetry": [
+     "d1"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x2#42@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 4.5,
+    "auto": 4.5,
+    "parts": {
+     "base": 4.5
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x2#42@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-15",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 1,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#540@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 4.5,
+    "auto": 4.5,
+    "parts": {
+     "base": 4.5
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#540@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-16",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 1,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#372@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 5.5,
+    "auto": 5.5,
+    "parts": {
+     "base": 5.5
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#372@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-17",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 2,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#1176@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 6,
+    "auto": 6,
+    "parts": {
+     "base": 6
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#1176@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-18",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 2,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#864@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 6,
+    "auto": 6,
+    "parts": {
+     "base": 6
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#864@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-19",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [
+     "h"
+    ]
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#1272@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 7,
+    "auto": 7,
+    "parts": {
+     "base": 7
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#1272@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s1-20",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "non45": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": []
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#712@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "value": 7,
+    "auto": 7,
+    "parts": {
+     "base": 7
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro2x3#712@1,0"
+   }
+  }
+ ],
+ "seedCursor": 1
+}

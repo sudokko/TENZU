@@ -12,6 +12,23 @@
 .atl-head p { color: #6b7280; font-size: 13px; margin: 0; }
 .atl-crumb { font-size: 12px; }
 .atl-crumb a { color: #2c6e7f; }
+/* 前後 Vol への移動（戻る／進む） */
+.atl-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.atl-volnav { display: flex; gap: 8px; }
+.atl-volnav-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 12px; border: 1px solid #d7e4e7; border-radius: 6px;
+  background: #fafdfd; color: #2c6e7f; font-size: 13px; line-height: 1;
+  text-decoration: none; white-space: nowrap;
+}
+.atl-volnav-btn:hover { background: #eef6f7; border-color: #2c6e7f; }
+.atl-volnav-btn.is-disabled {
+  color: #b8c0c8; background: #f5f6f7; border-color: #e5e7eb; cursor: default;
+}
+.atl-volnav-lv { color: #6b7280; font-size: 12px; }
 /* タイトル下の Vol メタ（live 商品詳細と同じ blurb / めあて） */
 .atl-head .atl-blurb { color: #3a424e; font-size: 14px; margin: 2px 0 8px; }
 .atl-head .atl-meate {

@@ -41,7 +41,16 @@ import ladderData from "../ladder.json";
 import type { CopyShapeParams } from "./copy";
 import type { FillParams } from "./fill";
 import type { MirrorParams } from "./mirror";
+import type { TranslateParams } from "./translate";
+import type { RotateParams } from "./rotate";
+import type { OverlayParams } from "./overlay";
 
 export const COPY_LADDER = (ladderData.copy ?? {}) as unknown as Record<string, CopyShapeParams>;
 export const FILL_LADDER = (ladderData.fill ?? {}) as unknown as Record<string, FillParams>;
 export const MIRROR_LADDER = (ladderData.mirror ?? {}) as unknown as Record<string, MirrorParams>;
+export const TRANSLATE_LADDER = (ladderData.translate ?? {}) as unknown as Record<string, TranslateParams>;
+export const ROTATE_LADDER = (ladderData.rotate ?? {}) as unknown as Record<string, RotateParams>;
+export const OVERLAY_LADDER = (ladderData.overlay ?? {}) as unknown as Record<string, OverlayParams>;
+// 分解・折り重ねはかさねとパラメータ形が同一（合成コア共用・decisions §3.73/§3.74）
+export const DECOMPOSE_LADDER = (ladderData.decompose ?? {}) as unknown as Record<string, OverlayParams>;
+export const FOLD_LADDER = (ladderData.fold ?? {}) as unknown as Record<string, OverlayParams>;

@@ -49,8 +49,9 @@ export async function GET(req: NextRequest) {
 
   // 購入直後（session_id）は完了画面 /maker-thanks（買ったメーカーを ?m= で渡す）。
   // 復元（token）は所有一覧の /account へ。
+  // sid は購入計測（purchase イベント）用。金額は maker-thanks 側で Stripe から取り直す。
   const dest = sessionId
-    ? `${base}/maker-thanks?m=${encodeURIComponent(acquired.join(","))}`
+    ? `${base}/maker-thanks?m=${encodeURIComponent(acquired.join(","))}&sid=${encodeURIComponent(sessionId)}`
     : `${base}/account?restored=1`;
   const res = NextResponse.redirect(dest);
   const c = sessionCookie(owned);

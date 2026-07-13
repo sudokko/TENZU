@@ -240,7 +240,7 @@
      [
       [
        1,
-       0
+       1
       ],
       [
        2,
@@ -259,7 +259,7 @@
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "motif",
     "version": "1",
     "seed": 1,
@@ -267,7 +267,8 @@
     "label": "はた"
    },
    "status": "adopted",
-   "order": 2
+   "order": 2,
+   "edited": true
   },
   {
    "id": "fill-lv2-vol1-motif-s1-27",
@@ -895,8 +896,7 @@
     "variant": "tent3+0",
     "label": "テント"
    },
-   "status": "adopted",
-   "order": 10
+   "status": "pending"
   },
   {
    "id": "fill-lv2-vol1-motif-s1-34",
@@ -982,34 +982,46 @@
     "edges": [
      [
       [
+       0,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
        1,
        1
       ],
       [
-       1,
-       2
+       2,
+       0
       ]
      ]
     ]
    },
    "difficulty": {
     "task": "fill",
-    "value": 9,
-    "auto": 9,
+    "value": 11,
+    "auto": 11,
     "parts": {
      "base": 7,
-     "gap": 2
+     "gap": 4
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "motif",
     "version": "1",
     "seed": 1,
     "variant": "glass3+0",
     "label": "コップ"
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 12,
+   "edited": true
   },
   {
    "id": "fill-lv2-vol1-motif-s1-35",
@@ -1122,20 +1134,30 @@
        2,
        1
       ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
      ]
     ]
    },
    "difficulty": {
     "task": "fill",
-    "value": 10,
-    "auto": 10,
+    "value": 12,
+    "auto": 12,
     "parts": {
      "base": 8,
-     "gap": 2
+     "gap": 4
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "motif",
     "version": "1",
     "seed": 1,
@@ -1143,7 +1165,8 @@
     "label": "き"
    },
    "status": "adopted",
-   "order": 9
+   "order": 8,
+   "edited": true
   },
   {
    "id": "fill-lv2-vol1-motif-s1-36",
@@ -1317,7 +1340,7 @@
     "label": "てがみ"
    },
    "status": "adopted",
-   "order": 12
+   "order": 11
   },
   {
    "id": "fill-lv2-vol1-motif-s1-37",
@@ -1440,20 +1463,30 @@
        1,
        0
       ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
+      ]
      ]
     ]
    },
    "difficulty": {
     "task": "fill",
-    "value": 11,
-    "auto": 11,
+    "value": 13,
+    "auto": 13,
     "parts": {
      "base": 9,
-     "gap": 2
+     "gap": 4
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "motif",
     "version": "1",
     "seed": 1,
@@ -1461,7 +1494,8 @@
     "label": "いえ"
    },
    "status": "adopted",
-   "order": 11
+   "order": 10,
+   "edited": true
   },
   {
    "id": "fill-lv2-vol1-s1-40",
@@ -1786,16 +1820,6 @@
     [
      [
       2,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
       1
      ],
      [
@@ -1832,6 +1856,16 @@
       2,
       0
      ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
     ]
    ],
    "answer": {
@@ -1855,6 +1889,16 @@
       [
        2,
        2
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
       ]
      ]
     ]
@@ -1882,21 +1926,22 @@
    "status": "adopted",
    "difficulty": {
     "task": "fill",
-    "value": 9,
-    "auto": 9,
+    "value": 11,
+    "auto": 11,
     "parts": {
      "base": 7,
-     "gap": 2
+     "gap": 4
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "fill",
     "version": "2",
     "seed": 1,
     "variant": "triH#2/0"
    },
-   "order": 8
+   "order": 9,
+   "edited": true
   }
  ],
  "seedCursor": 2
