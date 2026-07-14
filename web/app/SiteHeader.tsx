@@ -7,7 +7,7 @@ const NAV_LINKS: { href: string; label: NavKey }[] = [
   { href: "/makers",   label: "メーカー" },
   { href: "/articles", label: "記事" },
   { href: "/level-guide", label: "レベル選び" },
-  { href: "#",       label: "About" },
+  { href: "/articles/tenzu-concept", label: "About" },
 ];
 
 export default function SiteHeader({ currentNav }: { currentNav?: NavKey }) {
