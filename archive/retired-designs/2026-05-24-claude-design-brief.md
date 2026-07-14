@@ -156,7 +156,7 @@
 | Screen UI | LP・記事・商品ページ・おためし点描写メーカー App | 2 色基調・モバイル 7 割 |
 
 **新規追加（案H''）**:
-- **おためし点描写メーカー App** UI も Dual Application に含める（[brand.md §11.3.1](../foundation/brand.md)・親向け・5×5 上限・「作るのは画面、練習は紙」明示）
+- **おためし点描写メーカー App** UI も Dual Application に含める（[brand.md §11.3.1](../../foundation/brand.md)・親向け・5×5 上限・「作るのは画面、練習は紙」明示）
 
 ---
 
@@ -171,7 +171,7 @@
 
 ## 参照 SSOT
 
-- [foundation/brand.md](../foundation/brand.md) — §7 Pillars / §10 Positioning / §10.1 CEP / §11.3 Brand Architecture / §12 Tagline 3 段
-- [foundation/voice-tone.md](../foundation/voice-tone.md) — Voice NG/OK・場所別温度
-- [design/visual-identity.md](visual-identity.md) — 役割・原則・3 軸コンセプト
-- [archive/retired-designs/2026-05-24-case-w-visual-assets/](../archive/retired-designs/2026-05-24-case-w-visual-assets/) — 旧案W 資産（参照のみ）
+- [foundation/brand.md](../../foundation/brand.md) — §7 Pillars / §10 Positioning / §10.1 CEP / §11.3 Brand Architecture / §12 Tagline 3 段
+- [foundation/voice-tone.md](../../foundation/voice-tone.md) — Voice NG/OK・場所別温度
+- [design/visual-identity.md](../../design/visual-identity.md) — 役割・原則・3 軸コンセプト
+- [archive/retired-designs/2026-05-24-case-w-visual-assets/](../../archive/retired-designs/2026-05-24-case-w-visual-assets/) — 旧案W 資産（参照のみ）

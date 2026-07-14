@@ -3,13 +3,13 @@
 ## サマリ
 
 - 読者ペルソナの **SSOT**（一次ソース）
-- 案 H'' で**「年中〜小2 × 3 セグメント」**へ全面再定義（[brand.md §5.1](../foundation/brand.md)）
+- 3 セグメントは**年齢バンド内の語り分けレイヤー**（[brand.md §5.1](../foundation/brand.md)・[targeting.md §0](../market/targeting.md)）
 - **中核 3 セグメント**:
   - **S-a 先取り知育**（公文家庭はこの代表例）
   - **S-b 紙とペン重視**（タブレット教材から紙へ戻したい層）
   - **S-c 図形・書字に不安**（つまずきの兆候を感じている親）
 - **受動拾い 3**: P3-a 中受対処層／P-edu 療育・発達支援／P-pro 教員・指導者
-- メイン年齢 = **年中〜小2**（旧「年長〜小3」から下方移動）
+- 年齢バンド = **主戦場＝就学前後（年長〜小1前半・年長中心）**・フランク＝年中／小1後半〜小2（[targeting.md §0](../market/targeting.md)）。外向けの年齢表現は広く重ねる（brand 原則）
 - 親が買い手（子は対象でない）
 - 旧 P1-a/b・P2-a/b・P3-a/b・P7 番号系は廃止（[archive/retired-designs/2026-05-22-personas-old-anf.md](../archive/retired-designs/2026-05-22-personas-old-anf.md)）
 - 「自己診断ツール」は廃止・「**レベル選びガイド**」に統一（[voice-tone.md §1](../foundation/voice-tone.md)）

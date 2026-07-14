@@ -39,8 +39,8 @@
 ### 1.2 設計上の制約
 
 1. **B-3 の 18-20本前後を1人で書く**（記事選定は別作業）— テンプレ厳格化＝量産速度の決定要因
-2. **Phase 2 M2a から商品ページが立ち上がる**（新体系・[launch/phases.md §4.1](../launch/phases.md)） — `target_skus` 1-3本・`cta_mode: sku-full` で開始
-3. **`phase-2` → `phase-3` で CTA だけ差し替える** — 本文・メタは触らず CTA ブロックのみ書き換える運用フロー（HO-B2-23）。`phase-1`（仕込み）は SKU 非公開のため、CTA は Web ジェネレータ ／ サンプル PDF ／ メール・LINE 登録のみ
+2. **開店（2026-08-30）時から商品ページが立ち上がる**（[launch/phases.md §3.3](../launch/phases.md)） — `target_skus` 1-3本・`cta_mode: sku-full` で開始
+3. **`phase-2` → `phase-3` で CTA だけ差し替える** — 本文・メタは触らず CTA ブロックのみ書き換える運用フロー（HO-B2-23）。enum 値は互換のため維持し、意味は読み替える：`phase-2`＝開店後（SKU 販売中）／`phase-3`＝本格化後。`phase-1` は旧仕込み期の遺物で **deprecated**（[decisions.md §3.76](../decisions.md)）
 
 ---
 
@@ -65,7 +65,7 @@ target_skus: [S07, S05]                  # SKU ID 配列・空配列OK（§2.3 �
 updated_at: 2026-05-09                   # ISO 8601 date
 
 # === フェーズ運用（HO-B2-23・2026-05-28 統合反映）===
-phase: phase-2                           # phase-1（仕込み・SKU 非公開）| phase-2（先行リリース・SKU 販売）| phase-3（本リリース）
+phase: phase-2                           # phase-2（開店後・SKU 販売中）| phase-3（本格化後）※phase-1 は deprecated
 cta_mode: sku-full                       # sku-full（§2.3 で phase との対応表）。`app-only` は deprecated
 
 # === タイプ・強度（HO-B2-6）===
@@ -92,16 +92,16 @@ references: [JP24, JP6, No.27]           # references-map.md の ID 配列
 | `target_level` | `Lv.1`〜`Lv.5` / `pre-Lv.1`（アプリ先行） | pack-design.md と一致 |
 | `article_type` | `pillar` / `cluster-howto` / `cluster-symptom` / `cluster-compare` / `cluster-juken` / **`cluster-non-juken`** / `cluster-academic` / `llmo` / `product-family` / `faq` | CTA強度マップ（§4）と接続。`cluster-academic`＝学術土台（C3-4・weak 運用）／`llmo`＝LLMO 専用（L-1/L-2・FAQPage 前提・mid 運用） |
 | `cta_intensity` | `weak` / `mid` / `strong` | §4.1 で定義 |
-| `phase` | ~~`phase-0`~~（**deprecated**・2026-05-20）／ `phase-1`（仕込み・SKU 非公開）／ `phase-2`（先行リリース・SKU 販売中）／ `phase-3`（本リリース） | [launch/plan.md §2](../launch/plan.md)・[launch/phases.md §1](../launch/phases.md) と一致（2026-05-28 統合反映） |
+| `phase` | ~~`phase-0`~~・~~`phase-1`~~（**deprecated**・2026-05-20／2026-07-11）／ `phase-2`（開店後・SKU 販売中）／ `phase-3`（本格化後） | enum 値は互換のため維持・意味は [launch/plan.md §2](../launch/plan.md) の期体系へ読み替え（[decisions.md §3.76](../decisions.md)） |
 | `cta_mode` | ~~`app-only`~~（**deprecated**・2026-05-20）／ `sku-full` | §2.3 で phase との対応表 |
 
 ### 2.3 phase × cta_mode 対応表（HO-B2-22 中核・2026-05-28 統合反映）
 
 | phase | デフォルト cta_mode | target_skus | 商品ページ存在 | CTA構成 |
 |---|---|---|---|---|
-| `phase-1`（**仕込み・1-2 週**） | `sku-full` | — | **非公開**（Phase 2 M2a まで） | Web ジェネレータ ／ P1 ハブ ／ サンプル PDF（無料）／ 任意メール・LINE 登録のみ。SKU カード非表示 |
-| `phase-2`（**先行リリース・10 週・M2a+M2b**） | `sku-full` | 関連SKU 1-3本 | **全140 SKU 公開・通常販売** | SEO 記事 → SKU カード → 先行モニター応募窓口（任意）→ サンプルPDF（無料）／M2b では「モニター FB 反映」を Lead で明示 |
-| `phase-3`（**本リリース**） | `sku-full` | 関連SKU 1-3本 | 全140 SKU | 商品ファミリー → SKU カード → 準バンドル → クーポン誘導（読者属性で分岐） |
+| ~~`phase-1`~~（**deprecated**・旧仕込み期） | — | — | — | 使用しない（開店時から SKU 公開のため・[decisions.md §3.76](../decisions.md)） |
+| `phase-2`（**開店後・SKU 販売中**） | `sku-full` | 関連SKU 1-3本 | **全 SKU 公開・通常販売** | SEO 記事 → SKU カード → サンプル閲覧プレビュー |
+| `phase-3`（**本格化後**） | `sku-full` | 関連SKU 1-3本 | 全 SKU | 商品ファミリー → SKU カード → 準バンドル → クーポン誘導（読者属性で分岐） |
 
 **設計判断のポイント**:
 - `phase-2` 以降は **全140 SKU を通常販売**（売上ゼロでも非目的なのでOK）。主動線はモニター無償フルアクセス（10名前後・LP公募）
@@ -275,9 +275,9 @@ function renderSkuCards(frontmatter) {
 
 ---
 
-## §5. 3 フェーズ別 CTA 設計（2026-05-28 統合反映）
+## §5. 期別 CTA 設計（enum 値は phase-2/3 を維持・意味は期体系へ読み替え）
 
-### 5.1 設計変遷
+### 5.1 設計変遷（履歴）
 
 | 項目 | 旧（2026-05-20 案F） | 旧（2026-05-22 案 H''・4 フェーズ） | **新（2026-05-28 統合・3 フェーズ）** |
 |---|---|---|---|
@@ -289,44 +289,34 @@ function renderSkuCards(frontmatter) {
 | DM 構造 | 4 通 → 3 通 | 3 通維持 | 3 通維持 |
 | クーポン訴求 | Phase 3 のみ | Phase 3 のみ | Phase 3 のみ |
 
-### 5.2 Phase 別 CTA 構成
+### 5.2 期別 CTA 構成
 
-#### `phase-1`（仕込み・1-2 週・SKU 非公開）
+#### ~~`phase-1`~~（deprecated）
 
-- 一次: **おためし点描写メーカー** へ誘導（無料・ブラウザで即起動）
-- 二次: **サンプル PDF 1 本（無料）** 直接プレビュー（F2 メイン CTA）
-- 三次: **任意メール／LINE 登録**（本リリース通知用・必須化しない）
-- 四次: P1 正規ハブ「点図形（点描写）とは」への内部リンク
-- 商品ページリンク: **非公開**（SKU カードは表示しない）
-- `<SkuCards />`: 表示なし（疑似コードでガード）
-- `phase-1` 用記事は P1 ハブが主・Cluster 記事は基本 `phase-2` 以降
+旧仕込み期（SKU 非公開）の CTA 構成。開店時から全 SKU 公開のため使用しない（[decisions.md §3.76](../decisions.md)）。
 
-#### `phase-2`（先行リリース・10 週・M2a + M2b・SKU 通常販売中）
+#### `phase-2`（開店後・SKU 通常販売中）
 
 - 一次: 商品ファミリー記事への内部リンク（模写／欠け補完／立体模写／線対称等）
 - 二次: SKU カード 1-3 枚（`target_skus` から自動展開・関連 SKU）
 - 三次: **レベル選びガイド（5-7 問・無料）** への誘導
-- 四次: **TENZU 先行モニター応募**（10 名前後・全 SKU 無償フルアクセス・LP 公募）
-- 五次: サンプル PDF 1 本（無料・記事末尾コンビニ印刷導線）
-- 商品ページリンク: **全 140 SKU 公開・通常販売**
+- 四次: サンプル閲覧プレビュー（見せる無料・記事末尾に印刷ガイド導線）
+- 商品ページリンク: **全 SKU 公開・通常販売**
 - `<SkuCards />`: 関連 SKU 1-3 枚
+- 静かな開店期の運用: ブルーオーシャン C3-1「見取り図 描き方」は開店時公開 12 本に必ず含める。温存 8 本は週 1 で追加公開（[launch/phases.md §3.4](../launch/phases.md)）
 
-**M2a / M2b 差分**:
-- **M2a 前半 6 週**: ブルーオーシャン C3-1「見取り図 描き方」が最優先・Lead 文言にモニター募集を明示
-- **M2b 後半 4 週**: P4 主力 C4-1 ピグマリオン投入・Lead 文言に「モニター FB 反映 Lv. 選び方更新」を明示／春 LP 連動可能
-
-#### `phase-3`（本リリース・残記事＋既存記事の CTA 書き換え）
+#### `phase-3`（本格化後・残記事＋既存記事の CTA 書き換え）
 
 - 一次: 関連商品ファミリー記事への内部リンク
 - 二次: SKU カード 2-3 枚（`target_skus` から自動展開）
 - 三次: 準バンドル（総合ドリル ／ 立体模写スターター ／ 発見力混在セット）
-- 商品ページリンク: 全 140 SKU
+- 商品ページリンク: 全 SKU
 - インフル経由読者向けクーポン（§5.3）
 
-### 5.3 経路分離の影響（インフルDM経路 vs LP公募経路）
+### 5.3 クーポン読者への対応（本格化以降）
 
-- **インフル経由読者**（Phase 3 で DM 3 通目受信時）: Stripe Promotion Code（1 SKU 100% OFF・30回上限・60日有効）を保有してサイト訪問
-- **LP公募経由読者**: クーポン無し・通常価格
+- **インフル経由読者**（本格化で DM 3 通目受信時）: Stripe Promotion Code（1 SKU 100% OFF・30回上限・60日有効）を保有してサイト訪問
+- **一般読者**: クーポン無し・通常価格
 - **記事側の対応**: クーポンの有無で記事内CTAは変えない（記事は読者属性を知らない）。Stripe チェックアウト画面で `discount_code` クエリパラメータが効く設計（service-blueprint.md §5 と接続・要 D-X 技術検証）
 
 ---

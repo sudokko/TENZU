@@ -3,12 +3,14 @@
 ## サマリ
 
 - **サービス名**: 点図形（点描写）プリント専門店 TENZU
-- **MISSION**: 点図形（点描写）の実践を通して、図形力が得意な子を増やす
-- **ブランド短期定義**: 「TENZU は、図形が苦手になる前にも、つまずいた後にも使える点図形（点描写）専門店。9タスク × 5レベル × Vol細刻みで、見る・写す・回す・重ねる力を、戻れるところから育てます」
-- **差別化キーフレーズ**: 戻れる／ピンポイント／解像度
+- **ブランディングコンセプト**: 考えながら書く力を育てる、点図形（点描写）プリント専門店（全施策の判断軸・[foundation/brand.md §0](foundation/brand.md)）
+- **MISSION**: 点描写を家庭の当たり前にして、空間認知の土台を持つ子を増やす
+- **Tagline**: コア「見て、考えて、書く力を、点描写から。」＋サブ＋業態識別句の3段セット（[foundation/brand.md §12](foundation/brand.md)）
+- **クリティカルコア**: 設計図ごと、全部公開する（メタデータ・レベル根拠・サンプル閲覧・一次エビデンス開示・[foundation/brand.md §0.5](foundation/brand.md)）
+- **主戦場**: 就学前後（年長〜小1前半・年長中心）の知育意識のある親層（[market/targeting.md](market/targeting.md)）
 - **提供物**: レベル別 PDF パック（¥200一律・主役）＋**点描写メーカー**（クロスセル商材・per-maker 買い切り ¥980／模写は無料・有料ゲート＝PDF 書き出し・[foundation/brand.md §11.3.1](foundation/brand.md)）
 - **技術スタック**: Next.js / AWS Amplify / Stripe / MailerLite
-- **フェーズ構成**: **3 フェーズ（Phase 1 仕込み / Phase 2 先行リリース[M2a+M2b] / Phase 3 本リリース）**＋春 LP 絶対時刻トラック（2026-05-28 統合・[decisions.md §3.41](decisions.md)）
+- **リリース体系**: **単一ローンチ＋宣伝2段化（T=0=2026-08-30 開店 → 静かな開店期 → 12月第1週 本格化 → 春スパイク期）**＋春 LP 絶対時刻トラック（2026-07-11・[decisions.md §3.76](decisions.md)）
 - **設計書構造**: Foundation Tier 0 ＋ 7領域（M/A/P/C/D/E/L）。ブランド定義・MISSION 等は [foundation/brand.md](foundation/brand.md) を SSOT とする
 - 設計書の書き方ルールは [CLAUDE.md](CLAUDE.md) の5原則を参照
 

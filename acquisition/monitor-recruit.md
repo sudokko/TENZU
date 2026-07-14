@@ -1,25 +1,6 @@
-# 先行モニター公募導線
+# モニター公募導線（退役）
 
-## サマリ
-
-- TENZU 先行モニター制度の **公募 LP・募集導線** を扱う（運用ルールは [../launch/monitor.md](../launch/monitor.md)）
-- 募集規模: 10名前後
-- 募集経路: **LP 公募中心**（インフル DM 経路とは完全独立化）
-- 提供価値: 全 SKU 無償フルアクセス＋本リリース時の「TENZU 開店記念ギフト」
-- 目的: 主＝集客／副＝ブラッシュアップ／非目的＝売上（極論ゼロで OK）
-- 募集タイミング: Phase 2 M2a 着手時
-
-## 詳細
-
-> 🚧 次セッションで公募 LP のコピー・応募フォーム要件・選定基準を肉付けする。本ファイルは骨組みのみ。
-
-### §1. 公募 LP の構成
-
-### §2. 応募フォーム要件
-
-### §3. 選定基準
-
-## 附録
-
-- 運用ルール（一次ソース）: [../launch/monitor.md](../launch/monitor.md)
-- 関連設計書: [channels.md](channels.md) / [../launch/phases.md](../launch/phases.md)
+> このファイルは役目を終えた。事前公募・LP 公募は [decisions.md §3.76](../decisions.md)（2026-07-11）で廃止され、モニター制度は**公開後モニター**（初期購入者・工房ユーザーへの声かけ方式）へ転換した。
+>
+> - 現行 SSOT: [launch/monitor.md](../launch/monitor.md)
+> - 旧公募導線の全文: [archive/retired-designs/2026-07-11-monitor-recruit-old-prelaunch.md](../archive/retired-designs/2026-07-11-monitor-recruit-old-prelaunch.md)

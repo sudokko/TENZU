@@ -1,6 +1,6 @@
 # build-html
 
-TENZU プロジェクト全体の `.md` を見やすい HTML に一括変換するツール。
+TENZU プロジェクト全体の `.md` / `.mdx` を見やすい HTML に一括変換するツール。
 
 ## 使い方
 
@@ -10,11 +10,23 @@ npm install           # 初回のみ（marked が入る）
 node build.mjs
 ```
 
-リポジトリ全体を再帰的に走査し、`.md` の隣に同名 `.html` を生成。ブラウザで `docs/html-index.html` を開くと領域別一覧から全 HTML へジャンプできる。
+リポジトリ全体を再帰的に走査し、`.md` / `.mdx` の隣に同名 `.html` を生成。ブラウザで `docs/html-index.html` を開くと領域別一覧から全 HTML へジャンプできる。
 
 ## 対象
 
-リポジトリ直下から再帰的にすべての `.md` を拾う。**`build.mjs` 内で対象を固定列挙する必要はない**。新規 `.md` を作っても次の実行で自動的に拾われる。
+リポジトリ直下から再帰的にすべての `.md` / `.mdx` を拾う。**`build.mjs` 内で対象を固定列挙する必要はない**。新規ファイルを作っても次の実行で自動的に拾われる。
+
+### .mdx（記事ドラフト・frontmatter）の扱い
+
+`docs/drafts/articles/`・`archive/retired-drafts/`・`web/content/articles/` の `.mdx` は、YAML frontmatter ＋独自コンポーネント（`LeadGraf` / `Diagram` / `TenzuTranslate` / `Quote` / `SideNote`）で書かれている。`build.mjs` はこれを検出し:
+
+- frontmatter は本文から分離し、ヘッダー直下の折りたたみボックス（`<details class="frontmatter">`）に表示
+- 本文に `# H1` が無ければ frontmatter の `title` / `title_main` から補う
+- 独自コンポーネントは対応する静的 HTML（`.tenzu-diagram` / `.tenzu-translate` / `.tenzu-quote` / `.tenzu-sidenote` / `.lead-graf`）へ変換。`Diagram` 内の JSX（`Array.from` の装飾ドット・`{/* */}`・camelCase 属性）も静的 SVG に整形する
+- `{/* ... */}`（.mdx）／`<!-- ... -->`（`docs/drafts/` 配下の .md のみ）のコメントは、内容を消さずに可視のコールアウト（`.draft-callout`。「要確認」「TODO」を含む場合は `.flag` で強調）として表示する
+- 記事内部リンク `/articles/<slug>` は同階層の `<slug>.html` へ書き換え、ローカルでもドラフト間をジャンプできるようにする
+
+これらの変換は複数行の生成 HTML を `marked` に渡す前に一意なプレースホルダへ差し替え、パース後に実 HTML へ戻す方式で行っている（生 HTML をそのまま埋め込むと、内部の空行で CommonMark の HTML ブロック認識が途切れ、インデントコードブロック扱いに化けて壊れるため）。
 
 ### 除外ディレクトリ
 
@@ -31,6 +43,7 @@ node build.mjs
 
 - **GFM 準拠**（テーブル・コードブロック・チェックボックス対応）
 - **`.md` リンクは自動で `.html` に書き換え**（`#anchor` も保持）。プロジェクト内ファイル間のリンクが切れない
+- **.mdx の `/articles/<slug>` リンクは同階層の `<slug>.html` へ書き換え**（記事ドラフト間のローカルジャンプ用）
 - **目次自動生成**：各 HTML 冒頭に h2 / h3 から抽出した目次
 - **見出しアンカー**：h2-h4 にホバーすると `#` リンク表示
 - **「← 一覧へ戻る」**：ディレクトリ階層に応じて `docs/html-index.html` への相対パスを自動算出
@@ -52,10 +65,12 @@ tools/build-html/
 
 ```
 TENZU/
-├── docs/html-index.html   # 領域別一覧（エントリポイント）
+├── docs/html-index.html          # 領域別一覧（エントリポイント）
+├── docs/drafts/articles/*.html   # 記事ドラフト（.mdx・frontmatter/独自コンポーネント変換込み）
+├── docs/drafts/memos/*.html      # 構成メモ（.md・執筆メモのコールアウト表示込み）
 ├── foundation/*.html
 ├── content/*.html
-├── ... (各領域の .md と同じ場所に .html)
+├── ... (各領域の .md/.mdx と同じ場所に .html)
 └── archive/retired-designs/*.html
 ```
 

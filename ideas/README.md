@@ -58,6 +58,10 @@ related: [path/to/file.md, ...]
 | 日付 | タイトル | status | 関連 |
 |---|---|---|---|
 | 2026-05-28 | [App 装飾・再印刷機能の購入者解放](2026-05-28-app-decoration-for-buyers.md) | alive | pack-design.md / funnel.md / engineering/README.md / launch/phases.md |
-| 2026-05-28 | [印刷メンバーシップ（App サブスク）モデル](2026-05-28-app-subscription-model.md) | alive | brand.md / voice-tone.md / pack-design.md / funnel.md / engineering/README.md / launch/plan.md / launch/phases.md |
+| 2026-05-28 | [印刷メンバーシップ（App サブスク）モデル](2026-05-28-app-subscription-model.md) | **rejected**（→ decisions §4.6 per-maker 買い切りで確定） | brand.md / voice-tone.md / pack-design.md / funnel.md / engineering/README.md / launch/plan.md / launch/phases.md |
 | 2026-06-11 | [点つなぎ（番号順点結び）の商品ライン／メーカー機能化](2026-06-11-dot-to-dot-product-line.md) | alive | pack-design.md / targeting.md / competitive.md / launch/phases.md |
-| 2026-06-15 | [物語アーク点描写プリント（第3ライン「ものがたり」構想）](2026-06-15-story-arc-tenzu-line.md) | alive | pack-design.md / personas.md / brand.md / voice-tone.md / competitive.md |
+| 2026-06-15 | [物語アーク点描写プリント（第3ライン「ものがたり」構想）](2026-06-15-story-arc-tenzu-line.md) | **parked**（ローンチ図形を作りきるまで保留） | pack-design.md / personas.md / brand.md / voice-tone.md / competitive.md |
+| 2026-07-05 | [ブランディングコンセプト「考えながら書く力」＋年長主軸シフト](2026-07-05-brand-concept-kangaenagara-kaku.md) | **promoted**（→ decisions §3.62） | brand.md / targeting.md / positioning.md / voice-tone.md / personas.md / decisions.md |
+| 2026-07-06 | [外部発信連載「AIとふたりで、EC サイトを開業する」記事編成案](2026-07-06-ai-ec-knowhow-article-series.md) | alive | journal/（EP-000〜099・themes 3本）＝journal Phase 5 の実体化 |
+| 2026-07-07 | [点描写スキーム転用の第2サイト題材：6候補比較（本命＝積み木）](2026-07-07-second-site-tsumiki.md) | alive | brand.md / competitive.md / targeting.md / pack-tasks.md / 2026-06-11 点つなぎ案 |
+| 2026-07-07 | [TSUMIKI（仮）兄弟サイト構築方針書](2026-07-07-tsumiki-site-policy.md) | **parked**（TENZU ローンチ後・クロスセル MVP 完了で T0 起動判断） | 2026-07-07 6候補比較 / brand.md / voice-tone.md / pack-tasks.md / pack-commerce.md / targeting.md / launch/plan.md |

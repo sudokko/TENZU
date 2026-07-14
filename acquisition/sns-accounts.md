@@ -355,7 +355,7 @@ SNS 立ち上げの成否はアカウントコンセプトでほぼ決まる。�
 
 ### §8. 保留・不採用
 
-- **LINE 公式**: 本リリース通知の配信用途に限る（[../launch/phases.md §5](../launch/phases.md)）。開設は Phase 3 で判断し、SNS 運用チャネルとしては扱わない
+- **LINE 公式**: 新作・本格化の通知配信用途に限る（[../launch/phases.md §2.1](../launch/phases.md)）。静かな開店期に最小実験可（購入完了画面に友だち追加ボタン）・SNS 運用チャネルとしては扱わない
 - **YouTube**: チャンネルは IG リール同投稿（Shorts）の受け皿のみ。単独運用しない
 - その他の不採用チャネル（TikTok・Threads 単独・LINE OpenChat 等）: [channels.md §8](channels.md)
 

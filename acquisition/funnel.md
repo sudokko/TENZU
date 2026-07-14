@@ -5,16 +5,16 @@
 - 点図形（点描写）プリント専門店 TENZU の **CV 導線設計書**
 - **F2 主導線（3 段構造・確定）**: メイン「サンプルを見る」／サブ①「おためし点描写メーカーで作ってみる」／サブ②「レベル選びガイドで自分の子のはじめ方を見る」
 - **メイン CTA = サンプル直接プレビュー**（クリック 1 発・"中身が見える"差別化の最短体現）
-- **Phase 1（仕込み）でおためし点描写メーカー（Web ジェネレータ）投入**（[brand.md §11.3.1](../foundation/brand.md)）
+- **おためし点描写メーカー（Web ジェネレータ）は開店（2026-08-30）時から常設**（[brand.md §11.3.1](../foundation/brand.md)）
 - **F5 「PDF と Web ジェネレータの違い」**: Web ジェネレータ = オリジナルの 1 枚を作れる入口／PDF = レベル順に続ける本練習
 - 「自己診断ツール」「スタート診断」は Anti-Brand 化済（[voice-tone.md §1](../foundation/voice-tone.md)）
-- メアド取得は **Stripe 決済に一本化**。Web ジェネレータ・サンプル・ガイドではメアド取得しない（Phase 2 M2b 以降「任意の追加価値」として案内のみ）
-- クーポンは Phase 3 のみ（[channels.md §4.3](channels.md)）
+- メアド取得は **Stripe 決済に一本化**。Web ジェネレータ・サンプル・ガイドではメアド取得しない（静かな開店期以降「任意の追加価値」として案内のみ）
+- クーポンは本格化（12 月第 1 週〜）のみ（[channels.md §4.3](channels.md)）
 - **季節・年齢ワード第 4 分類（2026-05-23 実測追加）**: 春 LP（入学準備 ドリル 320／春 880）＋ C1-5 年齢別入口（年長 プリント 320／小1 プリント 320） — 通年 SEO ではなく季節限定 LP・年齢別 Cluster で受ける
 - **広告ファネル計測 10 イベント（2026-05-27 新設）**: `lp_view` / `tool_start` / `tool_config` / `generated_pdf` / `download_pdf` / `product_recommend_click` / `view_item` / `add_to_cart` / `purchase` / `repeat_purchase`（§11）
 - **6 リターゲティングオーディエンス（2026-05-27 新設）**: LP 訪問のみ／`tool_start` 済み未出力／`generated_pdf` 済み未購入／商品ページ閲覧未購入／初回購入者／複数購入者（§12）
 - **広告 LP 7 セクション構成**＋**サンクスページ設計**（§13・§14）: Web ジェネレータ体験 → 商品ページ遷移の最重要勝負所
-- **SEO 取引意図の受け皿は専用ファセットLP（メーカー非経由・2026-06-08）**: 「無料／プリント／難しい／簡単／立体／年齢」等の取引クエリは TOP でなく専用ファセットLPに着地＝**有償一本**（無料LP のみ絵柄サンプル印刷可）。**おためしメーカーは取引LPの流し先にしない**＝役割は広告/SNS 入口＋体験ツールに限定（無料完結回避・[../decisions.md §5.6](../decisions.md)・[../product/pack-design.md §25.6](../product/pack-design.md)）
+- **SEO 取引意図の受け皿は専用ファセットLP（メーカー非経由・2026-06-08）**: 「無料／プリント／難しい／簡単／立体／年齢」等の取引クエリは TOP でなく専用ファセットLPに着地＝**有償一本**（無料LP のみ絵柄サンプル印刷可）。**おためしメーカーは取引LPの流し先にしない**＝役割は広告/SNS 入口＋体験ツールに限定（無料完結回避・[../decisions.md §5.6](../decisions.md)・[../product/pack-commerce.md §25.6](../product/pack-commerce.md)）
 - **広告は独立軸 SSOT**: [ads.md](ads.md) を参照
 - **オンサイトメッセージ（自前 Web 接客・CV 導線の補助）**: [onsite-messaging.md](onsite-messaging.md) を参照
 
@@ -40,7 +40,7 @@
 
 ---
 
-### §2. おためし点描写メーカー（Phase 1 仕込みで投入）
+### §2. おためし点描写メーカー（開店時から常設）
 
 #### 2.1 仕様（[brand.md §11.3.1](../foundation/brand.md) SSOT）
 
@@ -81,7 +81,7 @@
 | **軸A はじめる位置（Lv 1-5）** | 帯グラフ上で推奨レベルを強調 | 年齢（めやす補助）＋手ごたえ 2 問（斜め／細かさ・交差） |
 | **軸B どの種類から** | ★最初の一冊（具体 SKU）＋関連 2-3 | 目的・きっかけ 1 問 |
 
-- データは [pack-design §12.7](../product/pack-design.md)・catalog（`GROUPS`/`LEVELS`/`LEVEL_GRAPH`/`LevelGraph`）を**再利用**。ガイド独自のレベル/タスク定義は作らない（SSOT 維持）
+- データは [pack-tasks §12.7](../product/pack-tasks.md)・catalog（`GROUPS`/`LEVELS`/`LEVEL_GRAPH`/`LevelGraph`）を**再利用**。ガイド独自のレベル/タスク定義は作らない（SSOT 維持）
 
 #### 3.2 設問（4 問）
 
@@ -100,8 +100,8 @@
 
 #### 3.5 結果画面
 
-- はじめる位置（帯グラフで推奨レベルをハイライト）／★最初の一冊（タスク名＋レベル名＋内容解説＋設問サンプル SVG＋サンプル PDF＋商品リンク）／そのほかにおすすめ 2-3／逃げ道「ガイドを使わず全部見る」＋「もう一度」。共通フッター文「年齢はめやすです。迷ったときは、ひとつやさしい巻から」
-- **商品リンクの遷移先**（[decisions.md §3.47](../decisions.md)）: ★最初の一冊＝推奨 Lv の Vol.1 が live なら SKU 詳細 `/products/{sku}`、scaffold ならタスク別一覧の該当 Lv アンカー `/products/{task}#lv{n}`。関連タスク＝タスク別一覧 `/products/{task}`。「ガイドを使わず全部見る」＝商品一覧ハブ `/products`。サンプル PDF のみ未配線（PDF 整備待ち）
+- はじめる位置（帯グラフで推奨レベルをハイライト）／★最初の一冊（タスク名＋レベル名＋内容解説＋設問サンプル SVG＋サンプルプレビュー＋商品リンク）／そのほかにおすすめ 2-3／逃げ道「ガイドを使わず全部見る」＋「もう一度」。共通フッター文「年齢はめやすです。迷ったときは、ひとつやさしい巻から」
+- **商品リンクの遷移先**（[decisions.md §3.47](../decisions.md)）: ★最初の一冊＝推奨 Lv の Vol.1 が live なら SKU 詳細 `/products/{sku}`、scaffold ならタスク別一覧の該当 Lv アンカー `/products/{task}#lv{n}`。関連タスク＝タスク別一覧 `/products/{task}`。「ガイドを使わず全部見る」＝商品一覧ハブ `/products`。サンプルプレビューのみ未配線（サンプル閲覧の整備待ち・[decisions.md §4.9](../decisions.md)）
 
 #### 3.6 TOP からの導線
 
@@ -173,14 +173,14 @@
 | おためし点描写メーカー 体験（オリジナル PDF 出力） | ✅ |
 | 商品ページ全点に WEB プレビュー画像 | ✅ |
 | 記事内サンプル（連載コンテンツに 1-3 問埋込） | ✅ |
-| 独立無料体験 PDF | ❌ 不採用 |
+| 独立無料体験 PDF（配る無料） | ❌ 不採用（サンプルは閲覧プレビューに一本化・[decisions.md §4.9](../decisions.md)） |
 
-**ローンチ時の試食要件**:
+**試食要件（開店時に全部揃える）**:
 
-- Phase 1: おためし点描写メーカー＋ P1 正規ハブのサンプルプレビュー
-- Phase 2 M2a: 商品ページ全点に WEB プレビュー画像配置
-- Phase 2 M2a: レベル選びガイド公開（5-7 問・サンプル PDF 1 本付与）
-- Phase 3: 9 タスクの紹介記事＋サンプル問題を全て揃える
+- おためし点描写メーカー＋ P1 正規ハブのサンプルプレビュー
+- 商品ページ全点に WEB プレビュー画像配置
+- レベル選びガイド公開（5-7 問・おすすめ SKU のサンプルプレビュー提示）
+- 9 タスクの紹介記事＋サンプル問題は静かな開店期の週 1 段階公開で出揃う（[../launch/phases.md §3.4](../launch/phases.md)）
 
 ---
 
@@ -200,7 +200,7 @@
   → Stripe 決済
 
 【新規・レベル選びガイド経由】
-流入ワード記事 → ガイド 5-7 問 → おすすめ SKU 提示＋サンプル PDF
+流入ワード記事 → ガイド 5-7 問 → おすすめ SKU 提示＋サンプルプレビュー
   → Stripe 決済
 
 【新規・春 LP 経由（季節限定）】
@@ -225,12 +225,12 @@ MailerLite メール → パックリンク → Stripe 決済（Stripe Link）
 
 ---
 
-### §7. クーポン設計（Phase 3）
+### §7. クーポン設計（本格化）
 
 | 項目 | 設定 |
 |---|---|
-| 配布タイミング | Phase 3（本リリース）のみ |
-| 配布対象 | Phase 1 〜 Phase 2 で実反応をくれたインフル／ブロガー経由の読者 |
+| 配布タイミング | 本格化（12 月第 1 週〜）のみ |
+| 配布対象 | 静かな開店期に実反応をくれたインフル／ブロガー経由の読者 |
 | Coupon 内容 | 100% OFF・1 SKU 限定 |
 | Promotion Code 命名規則 | `[インフル識別子]-FREE` |
 | 使用回数上限 | コードあたり 30 回 |
@@ -249,12 +249,12 @@ DM 3 通目の構造詳細は [channels.md §3.3](channels.md)。
 
 - レベル選びガイドからのメアド取得は **しない**
 - おためし点描写メーカー もメアド不要
-- 無料サンプル PDF ダウンロードもメアド不要
-- LP 上の任意メール／LINE 登録のみ許可（本リリース通知用）
+- サンプル閲覧プレビューもメアド不要（DL 型の無料サンプル PDF は存在しない・[decisions.md §4.9](../decisions.md)）
+- LP 上の任意メール／LINE 登録のみ許可（新作・本格化の通知用）
 
-#### 8.1 アカウント機能は Phase 2 M2a まで不要
+#### 8.1 アカウント機能は当面不要
 
-| 機能 | Phase 2 M2a | 代替手段 |
+| 機能 | 当面 | 代替手段 |
 |---|---|---|
 | ユーザーログイン | 不要 | Stripe Link |
 | 購入履歴確認 | 不要 | MailerLite メールで次パック提案 |
@@ -309,7 +309,7 @@ S-a 親層の春スパイク（[../market/targeting.md §1.4](../market/targetin
 
 #### 10.3 SKU ピックアップ（仮）
 
-春 LP で前面化する SKU は、9 タスクのうち **模写・補完・移動**系の Lv.1-2 を中心に 7 枚程度。詳細選定は Phase 2 M2a 〜 M2b の春仕込み時に [../product/pack-design.md](../product/pack-design.md) と突合。
+春 LP で前面化する SKU は、9 タスクのうち **模写・補完・移動**系の Lv.1-2 を中心に 7 枚程度。詳細選定は春仕込み（10-11 月・[../launch/phases.md §4.3](../launch/phases.md)）時に [../product/pack-design.md](../product/pack-design.md) と突合。
 
 #### 10.4 やらないこと
 
@@ -328,17 +328,17 @@ S-a 親層の春スパイク（[../market/targeting.md §1.4](../market/targetin
 
 #### 11.1 イベント定義
 
-| イベント名 | 意味 | 広告活用 | Phase 別主 CV |
+| イベント名 | 意味 | 広告活用 | 期別主 CV |
 |---|---|---|---|
 | `lp_view` | LP 閲覧 | リターゲティング母集団 | — |
-| `tool_start` | Web ジェネレータ起動 | Phase 1 主 CV | ✅ P1 |
+| `tool_start` | Web ジェネレータ起動 | 静かな開店期 主 CV | ✅ 静かな開店期 |
 | `tool_config` | 点数／難易度選択 | 興味分類 | — |
-| `generated_pdf` | PDF 生成完了 | Phase 1 〜 Phase 2 M2a 主 CV | ✅ P1 / P2-M2a |
+| `generated_pdf` | PDF 生成完了 | 静かな開店期 主 CV | ✅ 静かな開店期 |
 | `download_pdf` | PDF 保存 | 高意欲 | — |
-| `product_recommend_click` | 商品ページ遷移 | 高意欲 | ✅ P2-M2a |
+| `product_recommend_click` | 商品ページ遷移 | 高意欲 | ✅ 静かな開店期後半 |
 | `view_item` | 商品詳細閲覧 | リターゲティング | — |
 | `add_to_cart` | カート投入 | 購入直前 | — |
-| `purchase` | 購入 | Phase 2 M2b 〜 Phase 3 主 CV | ✅ P2-M2b / P3 |
+| `purchase` | 購入 | 本格化以降 主 CV | ✅ 本格化〜春スパイク期 |
 | `repeat_purchase` | 2 回目以降購入 | LTV 分析 | — |
 
 #### 11.2 実装方針
@@ -388,7 +388,7 @@ PDF 生成後の完了画面が**広告回収のほぼ全てを決める**。こ
 | 難易度別 | 「もう少し線の向きを増やすならレベル 2」 |
 | タスク別 | 「模写に慣れたら、左右対称・回転へ」 |
 | 商品ページリンク | 1 枚 ¥200、プレビューあり |
-| セット提案 | 「年長さんのはじめの 5 枚」（バンドル SKU・[../product/pack-design.md §16](../product/pack-design.md)） |
+| セット提案 | 「年長さんのはじめの 5 枚」（バンドル SKU・[../product/pack-commerce.md §24](../product/pack-commerce.md)） |
 | UGC/レビュー | ブロガー・モニターの声（[channels.md §3.4](channels.md) で獲得） |
 | メール任意登録 | 「作った問題をあとで見返したい方へ、PDF リンクとおすすめレベル表をメールで送れます」（ゲートではなく追加価値として置く） |
 
@@ -438,5 +438,5 @@ PDF 生成後の完了画面が**広告回収のほぼ全てを決める**。こ
 - 旧 funnel.md（案 F 時代・Phase 0 廃止前提・自己診断ツール時代の名残あり）: git 履歴で参照
 - 2026-05-28: Phase 構成 4→3 統合（旧 Phase 0/1/2/3 → 新 Phase 1 / Phase 2 M2a / Phase 2 M2b / Phase 3）。[decisions.md §3.41](../decisions.md)
 - 上流: [brand.md §10-§11](../foundation/brand.md) F1-F5 確定（[decisions.md §3.32](../decisions.md)）
-- 関連: [channels.md](channels.md)（4 チャネル＋ DM 3 通 SSOT）／[ads.md](ads.md)（広告運用 SSOT）／[../product/pack-design.md](../product/pack-design.md)（¥200 一律＋バンドル SKU §16）／[../launch/phases.md](../launch/phases.md)（Phase 別公開物＋チャネル統合表 §9）／[../foundation/voice-tone.md](../foundation/voice-tone.md)（§1 NG／§7 acquisition 運用 NG）／[../engineering/README.md](../engineering/README.md)（計測実装 TODO）
+- 関連: [channels.md](channels.md)（4 チャネル＋ DM 3 通 SSOT）／[ads.md](ads.md)（広告運用 SSOT）／[../product/pack-commerce.md](../product/pack-commerce.md)（¥200 一律＋バンドル SKU §24）／[../launch/phases.md](../launch/phases.md)（期別公開物＋チャネル統合表 §8）／[../foundation/voice-tone.md](../foundation/voice-tone.md)（§1 NG／§7 acquisition 運用 NG）／[../engineering/README.md](../engineering/README.md)（計測実装 TODO）
 - 2026-05-27 改訂: §11-§15 新設（acquisition ゼロベース見直しで 10 イベント・6 オーディエンス・LP 7 セクション・サンクスページ・チャネル交差表を追加）。広告 SSOT は [ads.md](ads.md) へ分離
