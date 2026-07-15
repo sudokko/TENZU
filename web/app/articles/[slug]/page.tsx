@@ -140,15 +140,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             {fm.updated_at ? <span className="pdate">· {fm.updated_at}</span> : null}
             {fm.reading_time ? <span className="pdate">· 読了 {fm.reading_time} 分</span> : null}
           </div>
-          <h1>
-            {fm.title_main ?? fm.title}
-            {fm.title_sub ? (
-              <>
-                <br />
-                {fm.title_sub}
-              </>
-            ) : null}
-          </h1>
+          <h1>{(fm.title_main ?? fm.title) + (fm.title_sub ?? "")}</h1>
           {fm.lead ? <p className="lead">{fm.lead}</p> : null}
           <div className="author">
             <span className="by">執筆 · </span>
