@@ -24,3 +24,15 @@
 - コミット、push、本番公開は、オーナーから依頼された範囲で行う。
 - push 前に現在のブランチとリモートとの差分を確認する。公開後は対象URLと公開内容を確認する。
 - 認証情報、環境変数、個人用設定ファイルをコミットしない。
+
+## TENZU 記事の LLMO 公開前チェック
+
+- TENZU 記事の公開昇格・push 前、または `/llmo` を依頼されたときは、Claude / Codex ともに [`.claude/skills/llmo/SKILL.md`](.claude/skills/llmo/SKILL.md) を完全に読み、その手順を使う。
+- LLMO ルールの正本は上記ファイルとし、Codex 用の複製スキルは作らない。検査本体は `web/scripts/llmo-check.mjs` を対象記事だけに実行する。
+- このチェックは構造化データ用 frontmatter に限定する。本文レビューや他の article 系スキルまで自動で広げない。
+
+## TENZU 記事の改訂・プレビュー・公開
+
+- 「タイトル○の記事を改訂して」など、既存記事の改訂から公開までを依頼されたときは、Claude / Codex ともに [`.claude/skills/article-revise-publish/SKILL.md`](.claude/skills/article-revise-publish/SKILL.md) を完全に読んで使う。
+- ローカルプレビューをオーナーへ見せるまでは、LLMO 検査・コミット・push を行わない。オーナーの明示承認後に LLMO 検査を実行し、現在のブランチだけへ push する。
+- 詳細フローの SSOT は [`content/article-revision-publish.md`](content/article-revision-publish.md)。スキル側へ同じ仕様を重複記載しない。
