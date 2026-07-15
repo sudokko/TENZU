@@ -1,5 +1,10 @@
 # TENZU プロジェクト指示
 
+## Claude / Codex 共通ルール
+
+- 共同作業、Git、公開に関する共通ルールは [`AGENTS.md`](AGENTS.md) を必ず読むこと
+- 共通ルールは `AGENTS.md` を SSOT とし、このファイルへ重複記載しない
+
 ## 設計書の読み方
 
 - 会話開始時に必ず `README.md`（プロジェクト全体索引）と `foundation/brand.md`（ブランド土台）を読むこと

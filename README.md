@@ -12,7 +12,7 @@
 - **技術スタック**: Next.js / AWS Amplify / Stripe / MailerLite
 - **リリース体系**: **単一ローンチ＋宣伝2段化（T=0=2026-08-30 開店 → 静かな開店期 → 12月第1週 本格化 → 春スパイク期）**＋春 LP 絶対時刻トラック（2026-07-11・[decisions.md §3.76](decisions.md)）
 - **設計書構造**: Foundation Tier 0 ＋ 7領域（M/A/P/C/D/E/L）。ブランド定義・MISSION 等は [foundation/brand.md](foundation/brand.md) を SSOT とする
-- 設計書の書き方ルールは [CLAUDE.md](CLAUDE.md) の5原則を参照
+- Claude / Codex の共同作業ルールは [AGENTS.md](AGENTS.md)、設計書の書き方ルールは [CLAUDE.md](CLAUDE.md) の5原則を参照
 
 ## 領域索引
 
@@ -38,6 +38,7 @@
 
 | ファイル | 内容 |
 |---|---|
+| [AGENTS.md](AGENTS.md) | Claude / Codex 共同作業ルール（作業場所・競合回避・Git・公開） |
 | [decisions.md](decisions.md) | 横断的な設計判断ログ（Tier 1・最重要） |
 | [CLAUDE.md](CLAUDE.md) | プロジェクト指示・設計書5原則 |
 

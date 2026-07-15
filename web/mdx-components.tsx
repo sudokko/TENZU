@@ -1,4 +1,5 @@
 import type { MDXComponents } from "mdx/types";
+import Image from "next/image";
 import type { ReactNode } from "react";
 
 /* =========================================================================
@@ -78,12 +79,43 @@ function SideNote({ label, children }: { label?: ReactNode; children?: ReactNode
   );
 }
 
+// 記事挿絵。3:2 の公開画像と短い補足を、記事共通の figure 表現で描画する。
+function Illustration({
+  src,
+  alt,
+  number,
+  caption,
+}: {
+  src: string;
+  alt: string;
+  number: string;
+  caption: ReactNode;
+}) {
+  return (
+    <figure className="article-illustration">
+      <Image
+        src={src}
+        alt={alt}
+        width={1536}
+        height={1024}
+        sizes="(max-width: 600px) 100vw, 632px"
+        loading="lazy"
+      />
+      <figcaption>
+        <span className="figure-no">FIG. {number}</span>
+        <span>{caption}</span>
+      </figcaption>
+    </figure>
+  );
+}
+
 const components: MDXComponents = {
   LeadGraf,
   TenzuTranslate,
   Diagram,
   Quote,
   SideNote,
+  Illustration,
 };
 
 export function useMDXComponents(): MDXComponents {
