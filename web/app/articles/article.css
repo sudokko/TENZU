@@ -127,6 +127,7 @@ article.article-body ul li {
   border-bottom: 1px dashed var(--line-thin);
 }
 article.article-body ul li::before { content: "—  "; color: var(--fg-3); }
+article.article-body a { overflow-wrap: anywhere; }
 
 /* 本文挿絵（3:2） */
 .article-illustration {
@@ -167,6 +168,44 @@ article.article-body ul li::before { content: "—  "; color: var(--fg-3); }
   }
   .article-illustration img { border-radius: 0; }
   .article-illustration figcaption { padding: 10px 24px 0; }
+}
+
+/* article table (GFM) */
+article.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 24px;
+  font-family: var(--font-tier3-sans);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--fg);
+}
+article.article-body thead th {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  text-align: left;
+  padding: 8px 14px;
+  border-bottom: 1.5px solid var(--fg-2);
+}
+article.article-body tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px dashed var(--line-thin);
+  vertical-align: top;
+}
+article.article-body th:first-child,
+article.article-body td:first-child { padding-left: 2px; }
+@media (max-width: 600px) {
+  article.article-body table { font-size: 13px; }
+  article.article-body thead th { padding: 8px 10px; }
+  article.article-body tbody td { padding: 8px 10px; }
+  article.article-body th:first-child,
+  article.article-body td:first-child {
+    min-width: 64px;
+    white-space: nowrap;
+  }
 }
 
 /* TENZU 訳ブロック */
