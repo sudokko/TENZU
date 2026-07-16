@@ -34,12 +34,12 @@
 
 | カテゴリ | パターン | 例 |
 |---|---|---|
-| Pillar | `/point-drawing-{purpose}/` ／ `/from-{action}/` ／ `/next-after-{ref}/` ／ `/for-{audience}/` | `/point-drawing-guide/` ／ `/for-parents/` |
+| Pillar | `/point-drawing-{purpose}/` ／ `/from-{action}/` ／ `/next-after-{ref}/` ／ `/teaching-{topic}/` | `/point-drawing-guide/` ／ `/teaching-point-drawing/` |
 | P1 配下 Cluster | `/point-drawing-{topic}/` | `/point-drawing-3d/` |
 | P2 配下 Cluster | `/{ref}-shape-supplement/` ／ `/from-{prev}/` ／ `/{ref}-math-shape/` | `/kumon-shape-supplement/` |
 | P3 配下 Cluster | `/{symptom}-{solution}/` ／ `/how-to-{action}/` | `/how-to-draw-isometric/` |
 | P4 配下 Cluster | `/vs-{brand}/` ／ `/{brand}-support/` ／ `/{topic}-comparison/` ／ `/point-drawing-{effect-topic}/` ／ `/how-to-train-{ability}/` | `/vs-pygmalion/` ／ `/point-drawing-effects/` |
-| P5 配下 Cluster | `/how-to-teach-{topic}/` | `/how-to-teach-point-drawing/` |
+| P5 配下 Cluster | `/teaching-{topic}/`（P5 ハブ兼任） | `/teaching-point-drawing/` |
 | FAQ | `/faq-{topic}/` | `/faq-commercial-use/` |
 | LLMO 専用 | `/{topic}-complete-guide/` ／ `/{topic}-qa/` | `/point-drawing-complete-guide/` |
 | 受動拾い LP | `/lp-{purpose}/`（noindex 候補） | `/lp-back-to-shapes/` |
@@ -62,7 +62,7 @@
 | **P2** 用途ハブ | 公文の次に、家庭で図形を足す | `/next-after-kumon/` |
 | **P3** 用途ハブ | 形を見て、写す力から | `/from-copying-shapes/` |
 | **P4** 用途ハブ | 選び方と使い分け | `/how-to-choose-and-use/` |
-| **P5** 用途ハブ（新設） | 親が子に寄り添う・教え方 | `/for-parents/` |
+| **P5** 用途ハブ | 点描写の教え方（親向け実践・C5-1 と同一記事） | `/teaching-point-drawing/` |
 
 #### 3.2 P1 配下 — 全て非記事へ降格（2026-06-03）
 
@@ -115,7 +115,7 @@
 
 | # | KW | スラッグ |
 |---|---|---|
-| **C5-1** | **点描写 教え方 10** | **`/how-to-teach-point-drawing/`** |
+| **C5-1** | **点描写 教え方 10** | **`/teaching-point-drawing/`**（P5 ハブと同一記事） |
 
 #### 3.7 LLMO 専用記事（2 本・新設）
 

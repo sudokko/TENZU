@@ -88,8 +88,8 @@ export const GENRES: Genre[] = [
     id: "teach",
     emoji: "🤝",
     name: "親の教え方・伴走",
-    lead: "隣に座る人のための実践。",
-    slugs: ["for-parents", "how-to-teach-point-drawing"],
+    lead: "泣いた日・○つけの日の実践。",
+    slugs: ["teaching-point-drawing"],
   },
   {
     id: "rules",
