@@ -64,6 +64,7 @@ export const GENRES: Genre[] = [
     lead: "つまずきに気づいたときの戻り道。",
     slugs: [
       "from-copying-shapes",
+      "figure-copy-vs-point-drawing",
       "how-to-draw-isometric",
       "weak-at-shapes",
       "grade-4-math-stuck",
@@ -82,7 +83,11 @@ export const GENRES: Genre[] = [
     emoji: "🛒",
     name: "教材の選び方",
     lead: "比較・順番・冊数の疑問に。",
-    slugs: ["how-to-choose-and-use", "point-drawing-complete-guide"],
+    slugs: [
+      "how-to-choose-and-use",
+      "point-drawing-complete-guide",
+      "print-settings-guide",
+    ],
   },
   {
     id: "teach",
