@@ -23,6 +23,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 56px;
   align-items: start;
+  scroll-margin-top: 84px; /* #preview アンカー着地（レベル選びガイド→中身プレビュー） */
 }
 @media (max-width: 800px) { .sku-head { grid-template-columns: 1fr; gap: 32px; } }
 
@@ -1039,6 +1040,91 @@ a.plp-card:hover .plp-card-go { color: var(--accent); }
   text-decoration: none;
 }
 .faq-link:hover { text-decoration: underline; }
+
+/* ============ maker cross-sell（送客導線(A)・この種類を自分でも） ============ */
+.xsell-card {
+  display: flex;
+  align-items: stretch;
+  max-width: 620px;
+  border: 1px solid var(--line-mid);
+  background: #FFFFFF;
+  text-decoration: none;
+  transition: border-color .15s ease;
+}
+.xsell-card:hover { border-color: var(--accent); }
+.xsell-fig {
+  flex: none;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-3);
+  border-right: 1px dashed var(--line-thin);
+  padding: 12px 10px;
+}
+.xsell-fig svg { width: 100%; height: auto; display: block; }
+.xsell-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  min-width: 0;
+}
+.xsell-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.xsell-name {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--fg);
+}
+.xsell-badge {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  color: var(--fg-2);
+  border: 1px solid var(--line-mid);
+  padding: 1px 8px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.xsell-badge.is-free { color: var(--accent-ink); border-color: var(--accent); }
+.xsell-desc {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--fg-2);
+}
+.xsell-go {
+  margin-top: auto;
+  padding-top: 6px;
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  color: var(--accent);
+}
+.xsell-card:hover .xsell-go { text-decoration: underline; }
+.xsell-note {
+  margin: 14px 0 0;
+  font-family: var(--font-tier3-sans);
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: var(--fg-3);
+  max-width: 62ch;
+}
+.xsell-note .xsell-all {
+  margin-left: 10px;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.xsell-note .xsell-all:hover { text-decoration: underline; }
+@media (max-width: 560px) {
+  .xsell-card { flex-direction: column; }
+  .xsell-fig {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px dashed var(--line-thin);
+  }
+  .xsell-fig svg { max-width: 280px; margin: 0 auto; }
+}
 
 /* product page mini footer (overrides landing.css footer.site grid) */
 footer.site.footer-mini {

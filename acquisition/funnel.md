@@ -14,7 +14,7 @@
 - **広告ファネル計測 10 イベント（2026-05-27 新設）**: `lp_view` / `tool_start` / `tool_config` / `generated_pdf` / `download_pdf` / `product_recommend_click` / `view_item` / `add_to_cart` / `purchase` / `repeat_purchase`（§11）
 - **6 リターゲティングオーディエンス（2026-05-27 新設）**: LP 訪問のみ／`tool_start` 済み未出力／`generated_pdf` 済み未購入／商品ページ閲覧未購入／初回購入者／複数購入者（§12）
 - **広告 LP 7 セクション構成**＋**サンクスページ設計**（§13・§14）: Web ジェネレータ体験 → 商品ページ遷移の最重要勝負所
-- **SEO 取引意図の受け皿は専用ファセットLP（メーカー非経由・2026-06-08）**: 「無料／プリント／難しい／簡単／立体／年齢」等の取引クエリは TOP でなく専用ファセットLPに着地＝**有償一本**（無料LP のみ絵柄サンプル印刷可）。**おためしメーカーは取引LPの流し先にしない**＝役割は広告/SNS 入口＋体験ツールに限定（無料完結回避・[../decisions.md §5.6](../decisions.md)・[../product/pack-commerce.md §25.6](../product/pack-commerce.md)）
+- **SEO 取引意図の受け皿は専用ファセットLP（メーカー非経由・2026-06-08）**: 「無料／プリント／難しい／簡単／立体／年齢」等の取引クエリは TOP でなく専用ファセットLPに着地＝**有償一本**（無料LP＝サンプル閲覧＋工房 無料4×4 導線・配る無料なし）。**おためしメーカーは取引LPの流し先にしない**＝役割は広告/SNS 入口＋体験ツールに限定（無料完結回避・[../decisions.md §5.6](../decisions.md)・[../product/pack-commerce.md §25.6](../product/pack-commerce.md)）
 - **広告は独立軸 SSOT**: [ads.md](ads.md) を参照
 - **オンサイトメッセージ（自前 Web 接客・CV 導線の補助）**: [onsite-messaging.md](onsite-messaging.md) を参照
 
@@ -101,7 +101,7 @@
 #### 3.5 結果画面
 
 - はじめる位置（帯グラフで推奨レベルをハイライト）／★最初の一冊（タスク名＋レベル名＋内容解説＋設問サンプル SVG＋サンプルプレビュー＋商品リンク）／そのほかにおすすめ 2-3／逃げ道「ガイドを使わず全部見る」＋「もう一度」。共通フッター文「年齢はめやすです。迷ったときは、ひとつやさしい巻から」
-- **商品リンクの遷移先**（[decisions.md §3.47](../decisions.md)）: ★最初の一冊＝推奨 Lv の Vol.1 が live なら SKU 詳細 `/products/{sku}`、scaffold ならタスク別一覧の該当 Lv アンカー `/products/{task}#lv{n}`。関連タスク＝タスク別一覧 `/products/{task}`。「ガイドを使わず全部見る」＝商品一覧ハブ `/products`。サンプルプレビューのみ未配線（サンプル閲覧の整備待ち・[decisions.md §4.9](../decisions.md)）
+- **商品リンクの遷移先**（[decisions.md §3.47](../decisions.md)）: ★最初の一冊＝推奨 Lv の Vol.1 が live なら SKU 詳細 `/products/{sku}`、scaffold ならタスク別一覧の該当 Lv アンカー `/products/{task}#lv{n}`。関連タスク＝タスク別一覧 `/products/{task}`。「ガイドを使わず全部見る」＝商品一覧ハブ `/products`。サンプルプレビュー＝★最初の一冊が live のとき「問題の中身を見る」で SKU 詳細の紙面プレビュー `/products/{sku}#preview` へ（scaffold は非表示・[decisions.md §4.9/§5.13](../decisions.md)）
 
 #### 3.6 TOP からの導線
 
@@ -189,7 +189,7 @@
 ```
 【新規・SEO 経由】
 記事（P1-P4 ／ Cluster） → F2 メイン CTA「サンプルを見る」
-  → サンプル PDF プレビュー
+  → サンプルプレビュー（SKU 詳細の紙面プレビュー）
   → 「全問パックはこちら」または「レベル選びガイドへ」
   → Stripe 決済
 
@@ -235,7 +235,7 @@ MailerLite メール → パックリンク → Stripe 決済（Stripe Link）
 | Promotion Code 命名規則 | `[インフル識別子]-FREE` |
 | 使用回数上限 | コードあたり 30 回 |
 | 有効期限 | 配布から 60 日 |
-| 対象 SKU | 単品全 140 SKU（バンドル除外） |
+| 対象 SKU | 単品全 42 SKU（バンドル除外・[../product/pack-commerce.md §24.6](../product/pack-commerce.md)） |
 
 DM 3 通目の構造詳細は [channels.md §3.3](channels.md)。
 
@@ -289,6 +289,8 @@ F3 併記ルールは [voice-tone.md §1](../foundation/voice-tone.md) を参照
 
 S-a 親層の春スパイク（[../market/targeting.md §1.4](../market/targeting.md)）を受ける季節限定 LP。**記事カウント外・Cluster 群とは別管理**。
 
+構成案・コピー初稿・PR TIMES 文面のドラフト: [docs/drafts/spring-lp/](../docs/drafts/spring-lp/)（確定は春仕込み 10-11 月時）。
+
 #### 10.1 仕様
 
 | 項目 | 設定 |
@@ -307,9 +309,21 @@ S-a 親層の春スパイク（[../market/targeting.md §1.4](../market/targetin
 - 横: C1-5 年齢別入口 Cluster と相互リンク
 - 下流: F2 メイン「サンプルを見る」 → Stripe 決済 ／ ガイド導線 → C1-3 レベル選びガイド
 
-#### 10.3 SKU ピックアップ（仮）
+#### 10.3 SKU ピックアップ（7 巻・本表が正本）
 
-春 LP で前面化する SKU は、9 タスクのうち **模写・補完・移動**系の Lv.1-2 を中心に 7 枚程度。詳細選定は春仕込み（10-11 月・[../launch/phases.md §4.3](../launch/phases.md)）時に [../product/pack-design.md](../product/pack-design.md) と突合。
+春 LP で前面化する 7 巻。**春枠バンドル「入学準備プリント 7 枚セット」（[../product/pack-commerce.md §24](../product/pack-commerce.md)・¥1,100）と同一集合**（バンドル側に重複記載しない）。訴求軸「文字より前に整えたい形と位置」に合わせ、**「形を写す」×「位置を動かす」の二本柱**・模写・補完・移動系の Lv.1-2 中心・全巻 3×3 盤面で構成:
+
+| # | 巻 | ひとこと | 柱 |
+|---|---|---|---|
+| 1 | 模写 入門編（copy-lv1-vol1・3×3） | まっすぐの線だけで、見て写す | 形 |
+| 2 | 模写 初級編（copy-lv2-vol1・3×3） | ななめの線デビュー | 形 |
+| 3 | 欠け補完 初級編（fill-lv2-vol1・3×3） | 足りない線をさがして仕上げる | 形 |
+| 4 | 移動 初級編 Vol.1（translate-lv2-vol1・3×3） | 形はそのまま、横にずらす | 位置 |
+| 5 | 移動 初級編 Vol.2（translate-lv2-vol2・3×3） | こんどは縦にずらす | 位置 |
+| 6 | 鏡 初級編（mirror-lv2-vol1・3×3） | 鏡の反対側に描く | 位置 |
+| 7 | かさね 初級編（overlay-lv2-vol1・3×3） | 2 つの形を重ねた姿を描く | 形＋位置 |
+
+published 状況との最終突合は春仕込み（10-11 月・[../launch/phases.md §4.3](../launch/phases.md)）時に行う。
 
 #### 10.4 やらないこと
 

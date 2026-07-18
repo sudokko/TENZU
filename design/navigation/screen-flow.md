@@ -6,7 +6,7 @@
 - 形式は **Mermaid**（テキスト＝プロンプト編集前提・座標計算なし）。GitHub・VS Code・Claude アーティファクト・`tools/build-html` すべてで描画される。
 - 全ページの**俯瞰ワイヤー**は [pages-overview.html](./pages-overview.html)（同ディレクトリ・単独HTML）。
 - 凡例：🟢実装済 / 🔴未実装P0 / 🟡未実装後続 / ★最重要 / 破線＝ナビ・後続導線。
-- 確定事項：①流入は「直接・ブランド/SEO情報/SEO取引・広告・ブロガーDM/紹介波及」（MailerLite リピーターは当面スコープ外）②**TOP がブランドハブ、商品一覧 `/products` は独立ハブ**（3層構造：TOP → /products → /products/{task} → SKU詳細）。**SEO取引意図は TOP でなく専用ファセットLPが受ける**（無料/プリント本丸/むずかしい/やさしい/年齢/立体・**有償一本**／無料LP＝サンプル閲覧＋工房（無料4×4）導線・配る無料PDFなし・[decisions.md §4.9](../../decisions.md)）③広告は独立LPを持たず **/maker?from=ad モード**で一発着地（取引LPの流し先にはしない）④**購入フロー（/cart → Stripe → /checkout/success）は実装済**（Webhook → SES メール配送まで一気通貫）⑤**レベル選びガイド `/level-guide` は実装済**（6問・2軸出力。商品リンク配線済・サンプルPDFリンクのみ未配線 href="#"）⑥**メーカー完了画面は実装済**（案A・動的レコメンド）⑦**メーカーは公開商品ライン**（公開ハブ `/makers` indexed・公開ツール9種＝`/maker` は indexed（広告着地）／他8は noindex・拡大/縮小はローンチ非公開・ヘッダー/フッター/TOP から到達・§2-3.5）⑧未実装の鍵画面：サンプルPDFプレビュー（modal）・**SEO取引ファセットLP群**。
+- 確定事項：①流入は「直接・ブランド/SEO情報/SEO取引・広告・ブロガーDM/紹介波及」（MailerLite リピーターは当面スコープ外）②**TOP がブランドハブ、商品一覧 `/products` は独立ハブ**（3層構造：TOP → /products → /products/{task} → SKU詳細）。**SEO取引意図は TOP でなく専用ファセットLPが受ける**（無料/プリント本丸/むずかしい/やさしい/年齢/立体・**有償一本**／無料LP＝サンプル閲覧＋工房（無料4×4）導線・配る無料PDFなし・[decisions.md §4.9](../../decisions.md)）③広告は独立LPを持たず **/maker?from=ad モード**で一発着地（取引LPの流し先にはしない）④**購入フロー（/cart → Stripe → /checkout/success）は実装済**（Webhook → SES メール配送まで一気通貫）⑤**レベル選びガイド `/level-guide` は実装済**（6問・2軸出力。商品リンク・中身プレビューとも配線済＝★一冊が live のとき SKU 詳細 `#preview` へ「問題の中身を見る」・scaffold は非表示）⑥**メーカー完了画面は実装済**（案A・動的レコメンド）⑦**メーカーは公開商品ライン**（公開ハブ `/makers` indexed・公開ツール9種＝`/maker` は indexed（広告着地）／他8は noindex・拡大/縮小はローンチ非公開・ヘッダー/フッター/TOP から到達・§2-3.5）⑧未実装の鍵画面：サンプルプレビュー（記事側・実装形態未定）・**SEO取引ファセットLP群**。
 - **メーカー有償化＝per-maker 買い切り ¥980（[§6](#6-メーカー有償化per-maker-買い切りフロー)）**：会員登録・ログインなしの**所有モデル**。購入（`/api/maker-checkout`＝Stripe Checkout payment mode・price_data 直書き → `/api/auth/verify` → `/maker-thanks`）の瞬間に署名cookie `{owned: MakerKey[]}`（HMAC・DBなし）を発行＝ログインの代替。別端末は `/login`（購入の復元・SES マジックリンク）→ `/account`。有料ゲートは**ページ入室でなく PDF 書き出し**（模写のみ例外＝PDF 無料・グリッド 5×5〜8×8 解放が ¥980）。一次定義は [decisions.md §4.6/§4.7/§4.8](../../decisions.md)・[pack-commerce.md §23](../../product/pack-commerce.md)。
 
 ## 詳細
@@ -46,8 +46,8 @@ flowchart LR
 
   subgraph MID[中間（体験・選定）]
     direction TB
-    M_sample["サンプルPDF<br/>プレビュー(modal)<br/>🔴"]
-    M_guide["レベル選びガイド<br/>/level-guide 6問<br/>🟢商品リンク配線済<br/>サンプルPDFのみ未配線"]
+    M_sample["サンプルプレビュー<br/>（記事側・形態未定）<br/>🔴"]
+    M_guide["レベル選びガイド<br/>/level-guide 6問<br/>🟢配線済<br/>★一冊→SKU詳細 #preview"]
     M_makerdone["メーカー完了画面<br/>案A・動的レコメンド<br/>🟢"]
   end
 
@@ -123,6 +123,9 @@ flowchart LR
   O_account -.->|購入済みメーカーへ| M_gated
   P_hub --> P_task
   P_task -->|Lvアンカー→SKU| P_detail
+  P_detail -.->|この種類を自分でも<br/>（送客導線A・G6）| M_maker
+  P_detail -.-> M_gated
+  P_detail -.->|ぜんぶ見る| M_makers
   P_detail -->|add_to_cart| C_cart
   P_bundle --> C_cart
   C_cart --> C_stripe
@@ -144,9 +147,9 @@ flowchart LR
 3. **広告は独立LPを持たない**：`/maker?from=ad` の同一URL・モード出し分けで一発着地。冷たい Meta 流入の補助。X・ブロガーは素の `/maker` で十分。
 3.5. **メーカーは公開商品ライン（公開9種・per-maker 買い切り）**：公開ハブ `/makers`（**indexed**・3群カード＋価格バッジ）が店先。`/maker`（模写）は indexed（広告・ブロガー着地）、他8ツールは noindex（SEO はハブに集約）。導線＝ヘッダー/フッター「メーカー」＋ TOP 従属セクション。**全メーカー入室自由（プレビュー可）**——有料ゲートはページ階層でなく **PDF 書き出し**（模写のみ例外＝PDF 無料・グリッド 5×5〜8×8 の解放が ¥980）。拡大・縮小は `LAUNCH_HIDDEN`（導線・カタログから除外。ルートは存続し購入済みは利用可）。entitlement SSOT は [capabilities.ts](../../web/app/products/capabilities.ts)、価格・ゲートの一次定義は [decisions.md §4.6/§4.7/§4.8](../../decisions.md)。フロー詳細は §6。
 4. **購入フローは実装済**：`/cart`（CartProvider＋複数巻まとめ買い）→ Stripe Checkout（`/api/checkout` でセッション生成）→ `/checkout/success`（Stripe session_id 検証＋SkuPrintPreview でPDF DL＋ClearCartOnSuccess）。Webhook（`/api/stripe/webhook`・checkout.session.completed）→ Amazon SES 配送（プリント＝再DLリンク／メーカー買い切り＝復元マジックリンクの予備送付）。**DBなし・リンク＝既存サンクスURL**。本番化にはオーナー側で SES 検証＋ whsec_ 投入＋ SES サンドボックス脱出が必要。
-5. **レベル選びガイドは実装済**：`/level-guide`（Next.js 自前ページ・6問＝最後任意・2軸出力＝軸A「はじめる位置」Lv1-5＋軸B「最初の一冊」具体SKU）。TOP帯グラフ下CTA・Hero/Close ゴースト・ヘッダー・フッターの5箇所から到達。**商品リンク配線済。サンプルPDFリンクのみ未配線**（href="#"・PDF整備待ち）。設計詳細は [funnel.md §3](../../acquisition/funnel.md)。
+5. **レベル選びガイドは実装済**：`/level-guide`（Next.js 自前ページ・6問＝最後任意・2軸出力＝軸A「はじめる位置」Lv1-5＋軸B「最初の一冊」具体SKU）。TOP帯グラフ下CTA・Hero/Close ゴースト・ヘッダー・フッターの5箇所から到達。**商品リンク・中身プレビューとも配線済**（★一冊が live のとき「問題の中身を見る」で SKU 詳細 `/products/{sku}#preview` へ・scaffold は非表示・[decisions.md §4.9/§5.13](../../decisions.md)）。設計詳細は [funnel.md §3](../../acquisition/funnel.md)。
 6. **メーカー完了画面は実装済**：案A・動的レコメンド方式。PDF書き出し後に模写（図形）ラダーから次の一冊を提案。
-7. **未実装の鍵画面**：サンプルPDFプレビュー（modal）／**SEO取引ファセットLP群**（無料/プリント本丸/ファセット）／**商品ページ→工房（メーカー）のクロスセル導線**。
+7. **未実装の鍵画面**：サンプルプレビュー（記事側・実装形態未定）／**SEO取引ファセットLP群**（無料/プリント本丸/ファセット）。**商品ページ→メーカーのクロスセル導線（送客導線(A)＝G6）は実装済み**（SKU詳細のレベルラダー直下・タスク対応メーカーのカード＋`/makers` リンク・LAUNCH_HIDDEN は非表示）。
 8. **開発専用ツール**（公開サイトには露出しない）：`/atelier`（問題検品・候補生成→採用→publish。本番は notFound()）＋ `/api/atelier/*` ＋ `/maker-solid-proto`（立体メーカー試作C案・本番未連携）。
 
 ### §3. CV イベントと導線の対応
@@ -156,7 +159,7 @@ flowchart LR
 | /maker → メーカー完了画面 | `tool_start` → `generated_pdf` | 静かな開店期の主 CV |
 | 商品詳細 → カート | `add_to_cart` | 本格化以降 |
 | Stripe → サンクス | `purchase` | 本格化以降の主 CV |
-| メーカー → /maker-thanks | メーカー買い切り購入（アタッチ率） | 計測未実装 🔴 |
+| メーカー → /maker-thanks | `purchase`（`purchase_kind=maker`＝アタッチ率の分子・[analytics.md §4](../../engineering/analytics.md)） | 静かな開店期〜 |
 
 ### §4. 全ルート一覧（実装状況）
 
@@ -183,7 +186,7 @@ flowchart LR
 | `/atelier`, `/atelier/{sku}` | 問題検品ツール（dev限定） | 🟢dev |
 | `/maker-solid-proto` | 立体メーカー試作C案（本番未連携・noindex） | 🟢dev |
 | SEO取引ファセットLP群 | 無料/本丸/ファセット | 🔴 |
-| サンプルPDFプレビュー | modal | 🔴 |
+| サンプルプレビュー（記事側） | 形態未定 | 🔴 |
 
 ### §5. API ルート一覧
 
@@ -270,8 +273,6 @@ flowchart TB
 **残務**
 
 - 🟨 **本番化（オーナー作業）**：**SES 脱サンドボックス（★最優先＝復元メールの前提）**／live `STRIPE_SECRET_KEY`・`STRIPE_WEBHOOK_SECRET`／`AUTH_SECRET` 本番値。チェックリスト＝`web/.env.production.example`。
-- 🔴 **クロスセル導線**：商品ページ（`/products/{slug}`）→ 工房（メーカー）の送客導線。
-- 🔴 **アタッチ率計測**：メーカー買い切りの CV 計測（analytics 未実装・§3）。
 
 ## 附録
 

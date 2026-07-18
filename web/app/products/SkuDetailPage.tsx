@@ -2,7 +2,7 @@
    商品詳細テンプレート（全 live SKU 共通・データ駆動）
    旧 /products/copy-lv2-4x4 のハードコード版を一般化。
    構成: パンくず → SKU ヘッド → レベルラダー → 中身 → 店主から →
-         親へのひとこと → 改訂履歴 → 関連 SKU。
+         親へのひとこと → メーカー送客 → 改訂履歴 → 関連 SKU。
    optional フィールド（observeNote/ownerNote/parentNote）が無い SKU では
    該当セクションを出さない。見本図はタスク代表 Fig を流用（Vol 別 SVG は将来）。
    ========================================================================= */
@@ -11,6 +11,9 @@ import SiteHeader from "../SiteHeader";
 import AddToCartButton from "../cart/AddToCartButton";
 import SkuPrintPreview, { type RenderProblem, type SolidRenderProblem } from "./SkuPrintPreview";
 import { PURCHASE_FAQ } from "./purchase-faq";
+import { makerByKey } from "./makers";
+import { MAKER_FIG } from "./maker-figs";
+import { FREE_MAKER, MAKER_PRICE, makerPriceLabel, isLaunchHidden, type MakerKey } from "./capabilities";
 import { publishedSet } from "./problems/published";
 import { metricsLabel } from "./problems/schema";
 import { catalogTaskBySlug, LEVELS } from "../catalog";
@@ -56,6 +59,11 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
     const grids = [...new Set(vols.map((x) => x.grid))].join("・");
     return { lv: i + 1, name, grids, vols, note: cat?.task.notes[i] ?? "", current: vol.lv === i + 1 };
   }).filter(Boolean) as { lv: number; name: string; grids: string; vols: Vol[]; note: string; current: boolean }[];
+
+  /* メーカー送客（送客導線(A)＝開店ゲート G6）: 商品タスクとメーカーは同一識別子。
+     LAUNCH_HIDDEN（拡大・縮小）は導線に出さない（decisions §3.53・§4.6）。 */
+  const maker = isLaunchHidden(task.slug) ? undefined : makerByKey(task.slug as MakerKey);
+  const MakerFig = maker ? MAKER_FIG[maker.key] : undefined;
 
   /* JSON-LD: Product ＋ 収録問題の ItemList（LLMO・templates.md §7.4 の物量提示） */
   const jsonLd = {
@@ -104,9 +112,10 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
       <main>
         {/* ============ SKU HEAD（導入 → 左:紙面プレビュー／右:価格・CTA・spec） ============
             商品を見てからカートへ、の順序（2026-06-12 オーナー指示）。
-            モバイルは 導入 → プレビュー → spec・価格・CTA の縦積み */}
+            モバイルは 導入 → プレビュー → spec・価格・CTA の縦積み
+            #preview＝レベル選びガイド「問題の中身を見る」の着地アンカー */}
         <div className="wrap">
-          <section className="sku-head sku-head--split">
+          <section className="sku-head sku-head--split" id="preview">
             <header className="sku-intro">
               <h1 className="sku-name">{task.name} {lvName} Vol.{vol.volNo}・{vol.grid}</h1>
               <p className="sku-blurb sku-blurb--oneline">{vol.blurb}</p>
@@ -190,6 +199,42 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
 
           </div>
         </section>
+
+        {/* ============ MAKER CROSS-SELL（送客導線(A)＝開店ゲート G6） ============
+            この巻と同じ種類を自作できるメーカーへの橋（クロスセル・decisions §4.6）。
+            「メーカー＝オリジナルの1枚／商品PDF＝レベル順の本練習」の使い分けを崩さない。 */}
+        {maker && MakerFig && (
+          <section className="s">
+            <div className="wrap">
+              <h2 className="h2-product">この種類を、自分でも作れます</h2>
+              <p className="lead">
+                {maker.name}は、この巻と同じ「{task.name}」の問題を自分で作って、PDF で印刷できるツールです。
+                メーカーで作れるのはオリジナルの 1 枚。商品 PDF は、レベル順に続ける本練習——子に合わせて使い分けられます。
+              </p>
+              <a className="xsell-card" href={maker.href}>
+                <span className="xsell-fig" aria-hidden="true"><MakerFig /></span>
+                <span className="xsell-body">
+                  <span className="xsell-head">
+                    <span className="xsell-name">{maker.name}</span>
+                    <span className={`xsell-badge${maker.key === FREE_MAKER ? " is-free" : ""}`}>
+                      {makerPriceLabel(maker.key)}
+                    </span>
+                  </span>
+                  <span className="xsell-desc">{maker.desc}</span>
+                  <span className="xsell-go">
+                    {maker.key === FREE_MAKER ? "無料で作ってみる →" : "触って試す →"}
+                  </span>
+                </span>
+              </a>
+              <p className="xsell-note">
+                {maker.key === FREE_MAKER
+                  ? `模写メーカーは 4×4 までずっと無料（PDF 書き出しも無料）。5×5〜8×8 の解放が ¥${MAKER_PRICE} の買い切りです。`
+                  : `触って試すのは無料。PDF 書き出しは ¥${MAKER_PRICE} の買い切りです（月額なし・無期限）。`}
+                <a className="xsell-all" href="/makers">メーカーをぜんぶ見る →</a>
+              </p>
+            </div>
+          </section>
+        )}
 
         {/* ============ REVISION HISTORY（実改訂が 2 件以上ある巻だけ） ============ */}
         {revisions.length >= 2 && (

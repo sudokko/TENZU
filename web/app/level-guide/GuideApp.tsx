@@ -8,7 +8,8 @@
    データは catalog.tsx の GROUPS/LEVELS/LevelGraph を再利用（SSOT・新規データなし）。
    診断語彙は使わない。提案トーン。メアド取得なし・外部依存なし。
    商品リンクは products/data.ts へ配線済（live=詳細・scaffold=一覧の Lv アンカー）。
-   ※サンプル PDF リンクのみ未配線（href="#"・PDF 整備待ち）。
+   中身プレビューは live 巻のみ SKU 詳細の紙面プレビュー（#preview アンカー）へ
+   「問題の中身を見る」で配線（decisions §4.9/§5.13・scaffold 巻は非表示）。
    ========================================================================= */
 
 import { useState } from "react";
@@ -96,8 +97,8 @@ function computeLevelIndex(a: Record<string, string>): number {
   let lv = anchor[a.age] ?? 1;
   const { naname, komaka } = a;
   // 手ごたえが年齢を上回るなら引き上げ
-  // 斜め・細かさとも最強かつ 8 才以上のときだけ発展編(Lv.5)を許可
-  if (naname === "sui" && komaka === "fun") lv = Math.max(lv, a.age === "8" ? 4 : 3);
+  // 斜め・細かさとも最強かつ 7 才以上のときだけ発展編(Lv.5)を許可
+  if (naname === "sui" && komaka === "fun") lv = Math.max(lv, (a.age === "7" || a.age === "8") ? 4 : 3);
   else if (naname === "sui" || komaka === "fun") lv = Math.max(lv, 2);
   // 床/天井（やさしい側が勝つ）
   if (komaka === "mada") lv = Math.min(lv, 2);
@@ -313,9 +314,11 @@ function Result({
               <a className="btn-medium" href={pickHref}>
                 この一冊を見る →
               </a>
-              <a className="btn-weak" href="#">
-                サンプル PDF を見る
-              </a>
+              {pickVol?.status === "live" && (
+                <a className="btn-weak" href={`/products/${pickVol.sku}#preview`}>
+                  問題の中身を見る →
+                </a>
+              )}
             </div>
           </div>
         </div>

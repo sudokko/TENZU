@@ -10,7 +10,7 @@ TENZU の商品（問題パック）の設計と、購入〜配布〜利用〜�
 |---|---|
 | [pack-design.md](pack-design.md) | 問題パック設計・**9タスク仕様の SSOT**・ブランド方針・SKU 構成・5レイヤー構造・モチーフカテゴリ・成立性マトリクス・3群グルーピング |
 | [pack-tasks.md](pack-tasks.md) | 9タスク（模写含む）の個別仕様・出題ルール・難易度ドライバー・難易度スコア D 実装 SSOT |
-| [pack-commerce.md](pack-commerce.md) | 価格・課金設計／メーカー有償化（per-maker 買い切り ¥980・公開9種＝公開ハブ /makers・拡大縮小はローンチ非公開）／広告連動バンドルSKU／検索意図対応の商品タグ・ファセット＋SEO取引LP（取引意図クエリを記事でなく専用ファセットLP・商品側で拾う＝有償一本／無料LP＝サンプル閲覧＋工房導線・配る無料PDFなし・[content/clusters.md §1.5](../content/clusters.md)・[decisions.md §4.9](../decisions.md) と対） |
+| [pack-commerce.md](pack-commerce.md) | 価格・課金設計／メーカー有償化（per-maker 買い切り ¥980・公開9種＝公開ハブ /makers・拡大縮小はローンチ非公開）／広告連動バンドルSKU（確定2本＋将来枠）／検索意図対応の商品タグ・ファセット＋SEO取引LP（取引意図クエリを記事でなく専用ファセットLP・商品側で拾う＝有償一本／無料LP＝サンプル閲覧＋工房導線・配る無料PDFなし・[content/clusters.md §1.5](../content/clusters.md)・[decisions.md §4.9](../decisions.md) と対） |
 | [service-blueprint.md](service-blueprint.md) | サービスブループリント（7フェーズ × 4レイヤー）・配布・認証・補填フロー |
 
 ## 読む順序

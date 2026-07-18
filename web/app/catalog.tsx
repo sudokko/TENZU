@@ -217,13 +217,13 @@ export const LEVELS = LEVEL_NAMES;
 
 /* レベル＝発達段階インデックス。年齢はめやす（§12.7 基準尺）。 */
 const LEVEL_GRAPH = [
-  { name: "発展編", from: 8, to: 10, label: LEVEL_AGES[4] },
+  { name: "発展編", from: 7, to: 10, label: LEVEL_AGES[4] },
   { name: "応用編", from: 6, to: 9, label: LEVEL_AGES[3] },
   { name: "基礎編", from: 5, to: 8, label: LEVEL_AGES[2] },
   { name: "初級編", from: 4, to: 7, label: LEVEL_AGES[1] },
-  { name: "入門編", from: 4, to: 6, label: LEVEL_AGES[0] },
+  { name: "入門編", from: 3, to: 6, label: LEVEL_AGES[0] },
 ];
-const AGE_MIN = 4, AGE_MAX = 10, GX0 = 130, GX1 = 504, NAMEX = 118;
+const AGE_MIN = 3, AGE_MAX = 10, GX0 = 130, GX1 = 504, NAMEX = 118;
 const gxa = (a: number) => GX0 + ((a - AGE_MIN) / (AGE_MAX - AGE_MIN)) * (GX1 - GX0);
 
 const ACCENT_INK = "#1F5260";
@@ -232,7 +232,7 @@ export function LevelGraph({ highlight }: { highlight?: string } = {}) {
   return (
     <svg className="lvgraph" viewBox="0 0 528 278" role="img"
       aria-label="レベル 5 段階と対象年齢のめやす（年齢の帯グラフ）">
-      {[5, 6, 7, 8, 9].map((a) => (
+      {[4, 5, 6, 7, 8, 9].map((a) => (
         <line key={a} x1={gxa(a)} y1={14} x2={gxa(a)} y2={240}
           stroke="#E6E3DB" strokeWidth={1} strokeDasharray="2 4" />
       ))}
@@ -256,7 +256,7 @@ export function LevelGraph({ highlight }: { highlight?: string } = {}) {
           </g>
         );
       })}
-      {[4, 5, 6, 7, 8, 9, 10].map((a) => (
+      {[3, 4, 5, 6, 7, 8, 9, 10].map((a) => (
         <text key={a} x={gxa(a)} y={259} textAnchor="middle" className="lvg-tick">{a}</text>
       ))}
       <text x={GX0} y={273} textAnchor="start" className="lvg-axis">← 対象年齢のめやす（才）</text>
