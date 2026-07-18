@@ -538,5 +538,49 @@
         8
       ]
     }
+  },
+  "solid": {
+    "solid-lv3-vol1": {
+      "hidden": "none",
+      "D": [
+        13,
+        30
+      ]
+    },
+    "solid-lv4-vol1": {
+      "hidden": "some",
+      "D": [
+        17,
+        45
+      ]
+    },
+    "solid-lv5-vol1": {
+      "hidden": "full",
+      "D": [
+        50,
+        120
+      ]
+    },
+    "solid-lv5-vol2": {
+      "hidden": "full",
+      "D": [
+        110,
+        200
+      ]
+    },
+    "solid-lv5-vol3": {
+      "hidden": "full",
+      "D": [
+        170,
+        280
+      ]
+    },
+    "solid-lv5-vol4": {
+      "hidden": "full",
+      "D": [
+        230,
+        400
+      ]
+    }
   }
 }

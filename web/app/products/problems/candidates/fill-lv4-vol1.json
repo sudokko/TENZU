@@ -2114,7 +2114,8 @@
     "variant": "rocketsharp5+0",
     "label": "するどいロケット"
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 8
   },
   {
    "id": "fill-lv4-vol1-motif-s1-31",
@@ -2346,7 +2347,7 @@
     "label": "かさ"
    },
    "status": "adopted",
-   "order": 8
+   "order": 9
   },
   {
    "id": "fill-lv4-vol1-motif-s1-32",
@@ -5797,7 +5798,7 @@
     "seed": 1,
     "variant": "rand#5#1-467"
    },
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "fill",
     "value": 39.5,
@@ -5813,8 +5814,7 @@
     "version": "2",
     "seed": 1,
     "variant": "rand#5#1-467"
-   },
-   "order": 9
+   }
   },
   {
    "id": "fill-lv4-vol1-s1-47",

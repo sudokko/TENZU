@@ -1,4 +1,4 @@
-﻿{
+{
  "schemaVersion": 1,
  "sku": "copy-lv4-vol2",
  "task": "copy",
@@ -8542,6 +8542,308 @@
     "variant": "hybrid#5#1-38@5",
     "label": "くみあわせ"
    }
+  },
+  {
+   "id": "copy-lv4-vol2-m01",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 4,
+    "non45": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 5,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": [
+     "v"
+    ]
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-17",
+    "label": "ほし"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "copy",
+    "value": 27,
+    "auto": 27,
+    "parts": {
+     "lines": 5,
+     "diag": 6,
+     "non45": 16
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "copy-lv4-vol2-m02",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 6,
+    "non45": 4,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [
+     "v"
+    ]
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-17",
+    "label": "ソフトクリーム"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "copy",
+    "value": 48,
+    "auto": 48,
+    "parts": {
+     "lines": 7,
+     "diag": 9,
+     "non45": 32
+    }
+   },
+   "status": "pending"
   }
  ],
  "seedCursor": 0

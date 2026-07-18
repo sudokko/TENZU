@@ -286,7 +286,12 @@ function lformToPatch(task: string, lform: Record<string, unknown>): Record<stri
   return patch;
 }
 
-type Update = { id: string; status?: Candidate["status"]; order?: number | null };
+type Update = { id: string; status?: Candidate["status"]; order?: number | null; solidEdges?: SolidEdge[] };
+
+/* 点線（隠れ辺）なしモードの補助（立体のみ）。モードの実体は「dashed を物理的に外す」＝
+   スキーマ・印刷・商品ページは無改変で済み、metrics/D はサーバ（refreshMeta）が焼き直す。 */
+const stripDashed = (c: Candidate): SolidEdge[] => (c.solidEdges ?? []).filter((e) => e.style !== "dashed");
+const hasDashed = (c: Candidate): boolean => (c.solidEdges ?? []).some((e) => e.style === "dashed");
 
 export default function AtelierApp({
   sku, title, blurb, meate, hasGenerator, genKind, linesRange, gapRange, motifInspoEnabled = false,
@@ -300,7 +305,7 @@ export default function AtelierApp({
      live 商品詳細と同じ Vol メタ。タイトル下に出して検品時に狙いを確認する。 */
   blurb?: string; meate?: string;
   hasGenerator: boolean;
-  genKind?: "copy" | "motif" | "mirror" | "fill" | "translate" | "rotate" | "overlay" | "decompose" | "fold";
+  genKind?: "copy" | "motif" | "mirror" | "fill" | "translate" | "rotate" | "overlay" | "decompose" | "fold" | "solid";
   linesRange?: [number, number]; gapRange?: [number, number];
   /* true なら初回ロード時に /api/atelier/seed-motif-inspo を一度叩いて
      模様候補（gen.generator="motif"）を candidates JSON に注入する。
@@ -371,6 +376,7 @@ export default function AtelierApp({
           if (u.status) next.status = u.status;
           if (u.order === null) delete next.order;
           else if (typeof u.order === "number") next.order = u.order;
+          if (u.solidEdges) next.solidEdges = u.solidEdges;
           return next;
         }),
       };
@@ -380,7 +386,14 @@ export default function AtelierApp({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sku, updates }),
     });
+    // 辺の編集（点線除去など）を含む保存は、サーバ焼き直しの metrics/難易度を取り直す
+    if (updates.some((u) => u.solidEdges)) await load();
   }
+
+  /* 点線（隠れ辺）なしモード（立体巻のみ）: 表示・難易度とも点線 0 として扱い、
+     採用時に点線を取り除く。採用済みには「点線を外す」ボタンで個別適用。 */
+  const [noDashed, setNoDashed] = useState(false);
+  const noDashOn = noDashed && sku.startsWith("solid-");
 
   const adopted = useMemo(
     () => (file?.candidates ?? [])
@@ -389,10 +402,16 @@ export default function AtelierApp({
     [file],
   );
   const pending = useMemo(
-    () => (file?.candidates ?? [])
-      .filter((c) => c.status === "pending" && c.gen?.generator !== "motif")
-      .sort((a, b) => (a.difficulty?.value ?? 0) - (b.difficulty?.value ?? 0)),
-    [file],
+    () => {
+      // 点線なしモード中は「除去後の D」で一枚壁を並べ直す（表示と整列を一致させる）
+      const d = (c: Candidate) => noDashOn && c.grid.type === "solid"
+        ? baseDifficulty(computeSolidMetrics(stripDashed(c)))
+        : (c.difficulty?.value ?? 0);
+      return (file?.candidates ?? [])
+        .filter((c) => c.status === "pending" && c.gen?.generator !== "motif")
+        .sort((a, b) => d(a) - d(b));
+    },
+    [file, noDashOn],
   );
   const pendingMotif = useMemo(
     () => (file?.candidates ?? [])
@@ -460,7 +479,9 @@ export default function AtelierApp({
 
   function adopt(c: Candidate) {
     const maxOrder = adopted.reduce((m, a) => Math.max(m, a.order ?? 0), 0);
-    save([{ id: c.id, status: "adopted", order: maxOrder + 1 }]);
+    // 点線なしモード: 採用と同時に点線（隠れ辺）を取り除く（D はサーバが焼き直す）
+    const strip = noDashOn && c.grid.type === "solid" && hasDashed(c);
+    save([{ id: c.id, status: "adopted", order: maxOrder + 1, ...(strip ? { solidEdges: stripDashed(c) } : {}) }]);
   }
 
   function unadopt(c: Candidate) {
@@ -701,12 +722,29 @@ export default function AtelierApp({
     return win ? `${body}（窓 D ${win[0]}–${win[1]}）` : body;
   };
   const withDScore = (c: Candidate, fig: ReactNode): ReactNode => {
-    const manual = c.difficulty?.manual != null;
-    const parts = c.difficulty?.parts;
+    /* 点線なしモード: 立体カードは「除去後の姿」で D・内訳をプレビュー（点線ありの実データは不変） */
+    const preview = noDashOn && c.grid.type === "solid" && hasDashed(c)
+      ? (() => {
+          const m = computeSolidMetrics(stripDashed(c));
+          return {
+            value: baseDifficulty(m),
+            parts: { lines: m.lines, diag: 1.5 * m.diagonals, non45: 8 * m.non45, hidden: 0 },
+          };
+        })()
+      : undefined;
+    const manual = !preview && c.difficulty?.manual != null;
+    const parts = preview ? preview.parts : c.difficulty?.parts;
+    const title = preview
+      ? Object.entries(preview.parts).map(([k, v]) => `${k} ${fmtD(v)}`).join("・") + "（点線なしプレビュー）"
+      : partsTitle(c);
     return (
       <div key={c.id} className="atl-cell">
-        <div className={`atl-dscore${manual ? " is-manual" : ""}`} title={partsTitle(c)}>
-          <span className="atl-dval">D {fmtD(dValueOf(c))}{manual && <em className="atl-dman">手動</em>}</span>
+        <div className={`atl-dscore${manual ? " is-manual" : ""}`} title={title}>
+          <span className="atl-dval">
+            D {fmtD(preview ? preview.value : dValueOf(c))}
+            {manual && <em className="atl-dman">手動</em>}
+            {preview && <em className="atl-dman">点線0</em>}
+          </span>
           <span className="atl-dbreak">
             {parts ? Object.values(parts).map((v) => fmtD(v)).join("+") : ""}
             {genKind === "copy" && <span className="atl-deng">{engineLabel(c.gen.variant)}</span>}
@@ -722,7 +760,7 @@ export default function AtelierApp({
   /* 候補サムネ＝立体は SolidThumb・それ以外は ProblemSvg（grid.type で分岐） */
   const renderThumb = (c: Candidate, size?: number): ReactNode =>
     c.grid.type === "solid"
-      ? <SolidThumb grid={c.grid} edges={c.solidEdges ?? []} {...(size ? { size } : {})} />
+      ? <SolidThumb grid={c.grid} edges={noDashOn ? stripDashed(c) : c.solidEdges ?? []} {...(size ? { size } : {})} />
       : <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} {...(size ? { size } : {})} />;
 
   const renderPendingCard = (c: Candidate) => withDScore(c,
@@ -945,6 +983,13 @@ export default function AtelierApp({
           各カードの <strong>✎</strong> で難易度を手動上書き／自動へ戻せる（人手ティア付け・auto は保全）。
           {win && <>　この巻の窓は <strong>D {win[0]}–{win[1]}</strong>。{task === "solid" ? "隠れ辺（点線）が最大ドライバー。" : "非45°が最大ドライバー（ρ=0.878）。"}</>}
         </p>
+        {task === "solid" && (
+          <label className="atl-nodash">
+            <input type="checkbox" checked={noDashed}
+              onChange={(e) => setNoDashed(e.target.checked)} />
+            <span>点線（隠れ辺）なしモード — 表示・難易度とも点線 0 として扱い、<strong>採用時に点線を取り除きます</strong>（採用済みには「点線を外す」ボタン）</span>
+          </label>
+        )}
       </section>
 
       {/* ---- 採用レーン（＝巻内出題順） ---- */}
@@ -967,6 +1012,10 @@ export default function AtelierApp({
                 <button type="button" onClick={() => move(c, -1)} disabled={i === 0}>↑</button>
                 <button type="button" onClick={() => move(c, 1)} disabled={i === adopted.length - 1}>↓</button>
                 <button type="button" onClick={() => setEditing(c)}>編集</button>
+                {noDashOn && hasDashed(c) && (
+                  <button type="button" title="この問題の点線（隠れ辺）を取り除き、難易度を焼き直す"
+                    onClick={() => save([{ id: c.id, solidEdges: stripDashed(c) }])}>点線を外す</button>
+                )}
                 <button type="button" onClick={() => unadopt(c)}>外す</button>
               </div>
             </figure>

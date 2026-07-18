@@ -1,4 +1,4 @@
-﻿{
+{
  "schemaVersion": 1,
  "sku": "copy-lv5-vol2",
  "task": "copy",
@@ -274,7 +274,9 @@
    "metrics": {
     "lines": 9,
     "diagonals": 3,
+    "non45": 3,
     "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 24,
@@ -549,7 +551,9 @@
    "metrics": {
     "lines": 10,
     "diagonals": 3,
+    "non45": 1,
     "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 21,
@@ -864,7 +868,9 @@
    "metrics": {
     "lines": 8,
     "diagonals": 3,
+    "non45": 3,
     "diagonalAngleKinds": 1,
+    "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 26,
@@ -1119,7 +1125,9 @@
    "metrics": {
     "lines": 14,
     "diagonals": 4,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 21,
@@ -1484,7 +1492,9 @@
    "metrics": {
     "lines": 11,
     "diagonals": 3,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 28,
@@ -1729,7 +1739,9 @@
    "metrics": {
     "lines": 15,
     "diagonals": 4,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 20,
@@ -1894,7 +1906,9 @@
    "metrics": {
     "lines": 8,
     "diagonals": 4,
+    "non45": 4,
     "diagonalAngleKinds": 1,
+    "hasNon45": true,
     "crossings": 2,
     "components": 2,
     "pointsUsed": 14,
@@ -2123,7 +2137,9 @@
    "metrics": {
     "lines": 14,
     "diagonals": 5,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 18,
@@ -2568,7 +2584,9 @@
    "metrics": {
     "lines": 15,
     "diagonals": 3,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 37,
@@ -2923,7 +2941,9 @@
    "metrics": {
     "lines": 9,
     "diagonals": 3,
+    "non45": 1,
     "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 30,
@@ -3278,7 +3298,9 @@
    "metrics": {
     "lines": 11,
     "diagonals": 2,
+    "non45": 1,
     "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 29,
@@ -3483,7 +3505,9 @@
    "metrics": {
     "lines": 16,
     "diagonals": 4,
+    "non45": 4,
     "diagonalAngleKinds": 1,
+    "hasNon45": true,
     "crossings": 0,
     "components": 2,
     "pointsUsed": 18,
@@ -3822,7 +3846,9 @@
    "metrics": {
     "lines": 9,
     "diagonals": 2,
+    "non45": 1,
     "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 26,
@@ -4197,7 +4223,9 @@
    "metrics": {
     "lines": 13,
     "diagonals": 3,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 32,
@@ -4382,7 +4410,9 @@
    "metrics": {
     "lines": 14,
     "diagonals": 8,
+    "non45": 8,
     "diagonalAngleKinds": 1,
+    "hasNon45": true,
     "crossings": 0,
     "components": 2,
     "pointsUsed": 16,
@@ -4671,7 +4701,9 @@
    "metrics": {
     "lines": 16,
     "diagonals": 8,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 24,
@@ -5263,7 +5295,9 @@
    "metrics": {
     "lines": 12,
     "diagonals": 6,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 45,
@@ -5430,7 +5464,9 @@
    "metrics": {
     "lines": 12,
     "diagonals": 8,
+    "non45": 4,
     "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 0,
     "components": 2,
     "pointsUsed": 14,
@@ -5639,7 +5675,9 @@
    "metrics": {
     "lines": 10,
     "diagonals": 8,
+    "non45": 8,
     "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 16,
@@ -5888,7 +5926,9 @@
    "metrics": {
     "lines": 20,
     "diagonals": 8,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 0,
     "components": 2,
     "pointsUsed": 22,
@@ -6217,7 +6257,9 @@
    "metrics": {
     "lines": 8,
     "diagonals": 4,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 8,
     "components": 1,
     "pointsUsed": 20,
@@ -6529,7 +6571,9 @@
    "metrics": {
     "lines": 9,
     "diagonals": 9,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 5,
     "components": 1,
     "pointsUsed": 24,
@@ -7094,7 +7138,9 @@
    "metrics": {
     "lines": 12,
     "diagonals": 4,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 8,
     "components": 1,
     "pointsUsed": 40,
@@ -7306,7 +7352,9 @@
    "metrics": {
     "lines": 16,
     "diagonals": 12,
+    "non45": 4,
     "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 0,
     "components": 2,
     "pointsUsed": 18,
@@ -7695,7 +7743,9 @@
    "metrics": {
     "lines": 14,
     "diagonals": 3,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 29,
@@ -8100,7 +8150,9 @@
    "metrics": {
     "lines": 13,
     "diagonals": 3,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 30,
@@ -8465,7 +8517,9 @@
    "metrics": {
     "lines": 12,
     "diagonals": 4,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 30,
@@ -8760,7 +8814,9 @@
    "metrics": {
     "lines": 14,
     "diagonals": 6,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 23,
@@ -9065,7 +9121,9 @@
    "metrics": {
     "lines": 15,
     "diagonals": 7,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 22,
@@ -9480,7 +9538,9 @@
    "metrics": {
     "lines": 15,
     "diagonals": 5,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 30,
@@ -9885,7 +9945,9 @@
    "metrics": {
     "lines": 18,
     "diagonals": 4,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 31,
@@ -10330,7 +10392,9 @@
    "metrics": {
     "lines": 17,
     "diagonals": 7,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 5,
     "components": 1,
     "pointsUsed": 30,
@@ -10805,7 +10869,9 @@
    "metrics": {
     "lines": 16,
     "diagonals": 6,
+    "non45": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 6,
     "components": 1,
     "pointsUsed": 31,
@@ -11010,6 +11076,7 @@
    "metrics": {
     "lines": 14,
     "diagonals": 6,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -11346,6 +11413,7 @@
    "metrics": {
     "lines": 13,
     "diagonals": 4,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
@@ -11442,6 +11510,7 @@
    "metrics": {
     "lines": 4,
     "diagonals": 4,
+    "non45": 4,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 0,
@@ -11568,6 +11637,7 @@
    "metrics": {
     "lines": 4,
     "diagonals": 3,
+    "non45": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 0,
@@ -11814,6 +11884,7 @@
    "metrics": {
     "lines": 16,
     "diagonals": 6,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -12250,6 +12321,7 @@
    "metrics": {
     "lines": 10,
     "diagonals": 1,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 5,
@@ -12656,6 +12728,7 @@
    "metrics": {
     "lines": 16,
     "diagonals": 5,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
@@ -12982,6 +13055,7 @@
    "metrics": {
     "lines": 10,
     "diagonals": 10,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 6,
@@ -13408,6 +13482,7 @@
    "metrics": {
     "lines": 15,
     "diagonals": 4,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 3,
@@ -13854,6 +13929,7 @@
    "metrics": {
     "lines": 20,
     "diagonals": 0,
+    "non45": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
@@ -14067,6 +14143,7 @@
    "metrics": {
     "lines": 12,
     "diagonals": 6,
+    "non45": 6,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 1,
@@ -14437,6 +14514,7 @@
    "metrics": {
     "lines": 20,
     "diagonals": 8,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 4,
@@ -14650,6 +14728,7 @@
    "metrics": {
     "lines": 6,
     "diagonals": 4,
+    "non45": 4,
     "diagonalAngleKinds": 1,
     "hasNon45": true,
     "crossings": 6,
@@ -15100,6 +15179,7 @@
    "metrics": {
     "lines": 28,
     "diagonals": 8,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -15853,6 +15933,7 @@
    "metrics": {
     "lines": 18,
     "diagonals": 10,
+    "non45": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 8,
@@ -15887,6 +15968,298 @@
     "variant": "truchet#7#1-36/0@7",
     "label": "おりもの"
    }
+  },
+  {
+   "id": "copy-lv5-vol2-m01",
+   "grid": {
+    "type": "square",
+    "n": 7
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      6,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      6,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      6,
+      2
+     ],
+     [
+      6,
+      3
+     ]
+    ],
+    [
+     [
+      6,
+      3
+     ],
+     [
+      6,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      6
+     ]
+    ],
+    [
+     [
+      2,
+      6
+     ],
+     [
+      3,
+      6
+     ]
+    ],
+    [
+     [
+      3,
+      6
+     ],
+     [
+      4,
+      6
+     ]
+    ],
+    [
+     [
+      4,
+      6
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 13,
+    "diagonals": 4,
+    "non45": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 4,
+    "pointsUsed": 26,
+    "symmetry": [
+     "v"
+    ]
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-17",
+    "label": "ねこのかお"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "copy",
+    "value": 35,
+    "auto": 35,
+    "parts": {
+     "lines": 13,
+     "diag": 6,
+     "non45": 16
+    }
+   },
+   "status": "adopted",
+   "order": 1
   }
  ],
  "seedCursor": 0

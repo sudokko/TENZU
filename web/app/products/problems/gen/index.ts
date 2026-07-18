@@ -14,9 +14,10 @@ import { generateRotateCandidates, ROTATE_LADDER } from "./rotate";
 import { generateOverlayCandidates, OVERLAY_LADDER } from "./overlay";
 import { generateDecomposeCandidates, DECOMPOSE_LADDER } from "./decompose";
 import { generateFoldCandidates, FOLD_LADDER } from "./fold";
+import { generateSolidCandidates, SOLID_LADDER } from "./solid";
 
 export type GenerateOptions = {
-  existing?: Pick<Candidate, "edges" | "status" | "gen" | "answer">[];
+  existing?: Pick<Candidate, "edges" | "solidEdges" | "status" | "gen" | "answer">[];
   linesOverride?: number;
   /* fill のみ: 抜く線分の本数を固定（linesOverride は完成図の線分本数を指す） */
   gapOverride?: number;
@@ -27,7 +28,7 @@ export type GenerateOptions = {
 };
 
 export type SkuGenerator = {
-  kind: "copy" | "motif" | "mirror" | "fill" | "translate" | "rotate" | "overlay" | "decompose" | "fold";
+  kind: "copy" | "motif" | "mirror" | "fill" | "translate" | "rotate" | "overlay" | "decompose" | "fold" | "solid";
   /* 完成図の線分本数レンジ（検品ツールの「線分の本数」セレクタ範囲） */
   lines: [number, number];
   /* fill のみ: 欠け本数レンジ（「欠けの本数」セレクタ範囲） */
@@ -155,6 +156,22 @@ export function generatorFor(sku: string): SkuGenerator | null {
             .map((c) => (c.answer?.mode === "explicit" && c.answer.edges.length > 0 ? c.answer.edges : c.edges)),
           opts?.linesOverride,
           opts?.excludeShapeSigs,
+        ),
+    };
+  }
+  const solid = SOLID_LADDER[sku];
+  if (solid) {
+    return {
+      kind: "solid",
+      lines: solid.lines, // マージ後の総線分本数帯（実線＋点線）
+      // 兄弟巻排除（shapeSignature）は平面 edges 前提のため solid では使わない。
+      // 巻内かぶりは generateSolidCandidates が existing の solidEdges で除外する。
+      crossVolExclusive: false,
+      generate: (s, seed, count, opts) =>
+        generateSolidCandidates(
+          s, seed, count,
+          opts?.existing ?? [],
+          opts?.linesOverride,
         ),
     };
   }

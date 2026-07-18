@@ -44,6 +44,7 @@ import type { MirrorParams } from "./mirror";
 import type { TranslateParams } from "./translate";
 import type { RotateParams } from "./rotate";
 import type { OverlayParams } from "./overlay";
+import type { SolidLadderEntry } from "./solid";
 
 export const COPY_LADDER = (ladderData.copy ?? {}) as unknown as Record<string, CopyShapeParams>;
 export const FILL_LADDER = (ladderData.fill ?? {}) as unknown as Record<string, FillParams>;
@@ -54,3 +55,6 @@ export const OVERLAY_LADDER = (ladderData.overlay ?? {}) as unknown as Record<st
 // 分解・折り重ねはかさねとパラメータ形が同一（合成コア共用・decisions §3.73/§3.74）
 export const DECOMPOSE_LADDER = (ladderData.decompose ?? {}) as unknown as Record<string, OverlayParams>;
 export const FOLD_LADDER = (ladderData.fold ?? {}) as unknown as Record<string, OverlayParams>;
+// 立体は ladder.json が「隠れ辺レジーム＋D窓」だけを持ち、生成固有パラメータ
+// （ボクセル空間・形族など）は gen/solid.ts の GEN_PROFILES がレジーム別に補完する
+export const SOLID_LADDER_JSON = (ladderData.solid ?? {}) as unknown as Record<string, SolidLadderEntry>;

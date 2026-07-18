@@ -113,8 +113,9 @@ export const LADDER_FIELDS: Record<string, LadderField[]> = {
     { key: "components", label: "構成要素", kind: "range", min: 1 },
     { key: "bbox", label: "最小スパン", kind: "int", min: 1 },
   ],
-  /* ---- 生成器の無い手設計タスク（params は当面メタ＝検品の目安） ----
-     立体は「ブロック数」を廃止（斜投影・キャビネット図）。巻＝隠れ辺レジーム／中身は5かたち混合。 */
+  /* ---- 立体（斜投影・キャビネット図）＝巻は隠れ辺レジーム＋D窓のみ ----
+     ボクセル生成器（gen/solid.ts）がこのエントリを読み、レジーム別プロファイルで
+     形族・盤面・ボクセル空間を補完する。「ブロック数」ドライバーは廃止済み（§3.57）。 */
   solid: [
     { key: "hidden", label: "隠れ辺", kind: "select", options: SOLID_HIDDEN },
     { key: "D", label: "難易度窓 D", kind: "range", min: 0 },
