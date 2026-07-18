@@ -19,7 +19,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  PAPER, COUNT_OPTIONS, paperMax, gridFor, PRINT_INK, SCREEN_DOT,
+  PAPER, COUNT_OPTIONS, paperMax, gridFor, PRINT_INK, SCREEN_DOT, edgeWidth,
   type PaperKey, type LayoutPerPage, type PairLayout,
 } from "../products/print";
 import { PairChipIcon } from "../products/SkuPrintPreview";
@@ -28,10 +28,10 @@ import { ownsMaker } from "../products/capabilities";
 import { buyMaker } from "../maker/buyMaker";
 import { EdgeHitLayer, ModeToggle } from "../maker/erase";
 import {
-  VIEW, INK, dotPos, edgeKey, edgesEqual, pointKey, samePoint, uid,
+  AXIS_INK, VIEW, INK, dotPos, edgeKey, edgesEqual, pointKey, samePoint, uid,
   type Edge, type Point,
 } from "../maker/core/geometry";
-import { buildPageSvgFrame, paneSvgString, type LogoInfo } from "../maker/core/page-svg";
+import { buildPageSvgFrame, paneFrameSvgString, paneSvgString, type LogoInfo } from "../maker/core/page-svg";
 import { exportPdf } from "../maker/core/pdf-export";
 import { PreviewPage, PreviewPane } from "../maker/core/PaperSVG";
 import {
@@ -143,7 +143,9 @@ export function buildPageSvg(opts: {
   dotScale: number;
   logo: LogoInfo | null;
   answer?: boolean; // true=解答ページ群（空欄ペインに C∖B を描画）
+  noDots?: boolean; // true=背景の点をとる（出題時のみ、こたえペインに薄い枠を添える）
 }): string {
+  const showDots = !opts.noDots;
   return buildPageSvgFrame<Problem>({
     ...opts,
     panes: 3,
@@ -156,6 +158,8 @@ export function buildPageSvg(opts: {
          解答: ペイン3に C∖B を描き込み。連結記号は − / ＝（共通） */
       const resultEdges = opts.answer ? diffEdges(p.edgesA, p.edgesB).answer : [];
       const showResult = Boolean(opts.answer);
+      // 枠は「こたえペインが空欄の出題時」のみ（解答時は線で埋まるため不要）。
+      const showFrame = Boolean(opts.noDots) && !opts.answer;
       let body = "";
       if (pairLayout === "horizontal") {
         const blockW = pane * 3 + gap * 2;
@@ -163,9 +167,10 @@ export function buildPageSvg(opts: {
         const sy = areaY + (areaH - pane) / 2;
         const x2 = sx + pane + gap;
         const x3 = sx + 2 * (pane + gap);
-        body += paneSvgString(sx, sy, pane, p.gridSize, p.edgesA, true, dotScale);
-        body += paneSvgString(x2, sy, pane, p.gridSize, p.edgesB, true, dotScale);
-        body += paneSvgString(x3, sy, pane, p.gridSize, resultEdges, showResult, dotScale);
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edgesA, true, dotScale, showDots);
+        body += paneSvgString(x2, sy, pane, p.gridSize, p.edgesB, true, dotScale, showDots);
+        body += paneSvgString(x3, sy, pane, p.gridSize, resultEdges, showResult, dotScale, showDots);
+        if (showFrame) body += paneFrameSvgString(x3, sy, pane);
         body += opGlyphSvgString(sx + pane + gap / 2, sy + pane / 2, opSize, "minus", PRINT_INK);
         body += opGlyphSvgString(x2 + pane + gap / 2, sy + pane / 2, opSize, "eq", PRINT_INK);
       } else {
@@ -174,9 +179,10 @@ export function buildPageSvg(opts: {
         const sy = areaY + (areaH - blockH) / 2;
         const y2 = sy + pane + gap;
         const y3 = sy + 2 * (pane + gap);
-        body += paneSvgString(sx, sy, pane, p.gridSize, p.edgesA, true, dotScale);
-        body += paneSvgString(sx, y2, pane, p.gridSize, p.edgesB, true, dotScale);
-        body += paneSvgString(sx, y3, pane, p.gridSize, resultEdges, showResult, dotScale);
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edgesA, true, dotScale, showDots);
+        body += paneSvgString(sx, y2, pane, p.gridSize, p.edgesB, true, dotScale, showDots);
+        body += paneSvgString(sx, y3, pane, p.gridSize, resultEdges, showResult, dotScale, showDots);
+        if (showFrame) body += paneFrameSvgString(sx, y3, pane);
         body += opGlyphSvgString(sx + pane / 2, sy + pane + gap / 2, opSize, "minus", PRINT_INK, true);
         body += opGlyphSvgString(sx + pane / 2, y2 + pane + gap / 2, opSize, "eq", PRINT_INK, true);
       }
@@ -204,6 +210,8 @@ function PaperSVG({
   ink = INK,
   inkB = INK_B,
   dotScale = 1,
+  showDots = true,
+  overlay,
 }: {
   gridSize: GridSize;
   edges: Edge[];
@@ -218,6 +226,8 @@ function PaperSVG({
   ink?: string;
   inkB?: string;
   dotScale?: number;
+  showDots?: boolean;          // false=背景ドットを描かない（図形模写トライアル）
+  overlay?: React.ReactNode;   // 点を消したときの薄い枠など
 }) {
   const dots = gridSize;
   const points: Point[] = [];
@@ -280,7 +290,7 @@ function PaperSVG({
             {showActiveHighlight && isSel && (
               <circle cx={pos.x} cy={pos.y} r={7} fill="#2C6E7F" opacity={0.18} />
             )}
-            <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />
+            {showDots && <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />}
             {interactive && !erase && (
               <circle
                 cx={pos.x} cy={pos.y} r={9}
@@ -292,6 +302,7 @@ function PaperSVG({
           </g>
         );
       })}
+      {overlay}
       {interactive && erase && onEdgeErase && (
         <EdgeHitLayer edges={edges} pos={(c, r) => dotPos(c, r, dots)} onErase={onEdgeErase} />
       )}
@@ -329,6 +340,8 @@ export default function MakerDecomposeApp() {
   // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
   const [editingId, setEditingId] = useState<string | null>(null);
   const isEditing = editingId != null;
+  // 背景の点をとる（白紙模写形式）。出題時のみこたえペインに薄い枠を残す。
+  const [noDots, setNoDots] = useState(false);
 
   // history stack — { edgesA, edgesB } snapshots（A/B 両ボード共通）
   function applySnap(s: Snap) {
@@ -506,6 +519,7 @@ export default function MakerDecomposeApp() {
           pageNo: pi + 1, pageCount: pages.length,
           marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
           answer: mode === "a",
+          noDots,
         }),
         filename: (stamp) => `tenzu_decompose_${mode}_${stamp}.pdf`,
       });
@@ -519,6 +533,7 @@ export default function MakerDecomposeApp() {
 
   const editingTitle = editorTitle(saved, editingId);
   const paper = PAPER[paperKey];
+  const frameStrokeWidth = Math.max(0.25, edgeWidth(VIEW) * 0.55);
 
   return (
     <>
@@ -670,7 +685,7 @@ export default function MakerDecomposeApp() {
           />
 
           <SettingsFold
-            current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: ${pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横一列" : "縦一列"} · 名前欄: ${nameField ? "あり" : "なし"}`}>
+            current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: ${pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横一列" : "縦一列"} · 名前欄: ${nameField ? "あり" : "なし"} · 背景の点: ${noDots ? "なし" : "あり"}`}>
 
             <PaperGroup paperKey={paperKey} onSelect={selectPaper} />
 
@@ -730,6 +745,18 @@ export default function MakerDecomposeApp() {
             </div>
 
             <NameFieldGroup value={nameField} onChange={setNameField} />
+
+            <div className="group">
+              <h3>背景の点</h3>
+              <label className="chk-row">
+                <input type="checkbox" checked={noDots}
+                  onChange={(e) => setNoDots(e.target.checked)} />
+                <span>背景の点をとる</span>
+              </label>
+              <p className="seg-hint">
+                正解の図・引くもの・こたえの点を消します（出題側）。こたえの欄には薄い枠だけが残ります。解答側は対象外です。
+              </p>
+            </div>
           </SettingsFold>
 
           <div className="group">
@@ -782,11 +809,14 @@ export default function MakerDecomposeApp() {
                           return (
                             <>
                               <PreviewPane x={p1.x} y={p1.y} w={pane} h={pane}
-                                gridSize={p.gridSize} edges={p.edgesA} showLines={true} dotScale={dotScale} />
+                                gridSize={p.gridSize} edges={p.edgesA} showLines={true} dotScale={dotScale}
+                                showDots={!noDots} />
                               <PreviewPane x={p2.x} y={p2.y} w={pane} h={pane}
-                                gridSize={p.gridSize} edges={p.edgesB} showLines={true} dotScale={dotScale} />
+                                gridSize={p.gridSize} edges={p.edgesB} showLines={true} dotScale={dotScale}
+                                showDots={!noDots} />
                               <PreviewPane x={p3.x} y={p3.y} w={pane} h={pane}
-                                gridSize={p.gridSize} edges={answer} showLines={true} dotScale={dotScale} />
+                                gridSize={p.gridSize} edges={answer} showLines={true} dotScale={dotScale}
+                                showDots={!noDots} />
                               <OpGlyph x={minus.x} y={minus.y} size={opSize} kind="minus" color={PRINT_INK} vertical={pairLayout === "vertical"} />
                               <OpGlyph x={eq.x} y={eq.y} size={opSize} kind="eq" color={PRINT_INK} vertical={pairLayout === "vertical"} />
                             </>
@@ -855,7 +885,9 @@ export default function MakerDecomposeApp() {
             problemsPerPage={effectivePerPage}
             pairLayout={effectivePairLayout}
             nameField={nameField}
-            dotScale={dotScale} />
+            dotScale={dotScale}
+            noDots={noDots}
+            frameStrokeWidth={frameStrokeWidth} />
         ))}
       </div>
     </>
@@ -867,25 +899,35 @@ export default function MakerDecomposeApp() {
 // ※ 共通 PrintPage は 2 ペイン（print-problem pair-*）で DOM が異なるため、
 //   3 セル（triple クラス）の印刷シートはメーカー固有のまま残す。
 // =========================================================================
-function ProblemTriple({ p, dotScale }: { p: Problem; dotScale: number }) {
+// noDots=true で背景ドットを省き、こたえペイン（出題＝空欄）にだけ薄い正方形の枠を重ねる。
+function ProblemTriple({ p, dotScale, noDots, frameStrokeWidth }: {
+  p: Problem; dotScale: number; noDots: boolean; frameStrokeWidth: number;
+}) {
   return (
     <>
       <div className="print-cell">
         <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={p.edgesA} showLines={true} ink={PRINT_INK} dotScale={dotScale} />
+          <PaperSVG gridSize={p.gridSize} edges={p.edgesA} showLines={true} ink={PRINT_INK}
+            dotScale={dotScale} showDots={!noDots} />
         </div>
       </div>
       <div className="print-op" aria-hidden="true">−</div>
       <div className="print-cell">
         <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={p.edgesB} showLines={true} ink={PRINT_INK} dotScale={dotScale} />
+          <PaperSVG gridSize={p.gridSize} edges={p.edgesB} showLines={true} ink={PRINT_INK}
+            dotScale={dotScale} showDots={!noDots} />
         </div>
       </div>
       <div className="print-op" aria-hidden="true">＝</div>
       <div className="print-cell">
         <div className="print-pane">
           {/* 出題なので結果ペインは空（子が描く）。解答は PDF 側へ */}
-          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK} dotScale={dotScale} />
+          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK}
+            dotScale={dotScale} showDots={!noDots}
+            overlay={noDots ? (
+              <rect x={VIEW * 0.02} y={VIEW * 0.02} width={VIEW * 0.96} height={VIEW * 0.96}
+                fill="none" stroke={AXIS_INK} strokeWidth={frameStrokeWidth} />
+            ) : undefined} />
         </div>
       </div>
     </>
@@ -894,6 +936,7 @@ function ProblemTriple({ p, dotScale }: { p: Problem; dotScale: number }) {
 
 function PrintPage({
   paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale,
+  noDots, frameStrokeWidth,
 }: {
   paper: typeof PAPER[PaperKey];
   problems: Problem[];
@@ -904,6 +947,8 @@ function PrintPage({
   pairLayout: PairLayout;
   nameField: boolean;
   dotScale: number;
+  noDots: boolean;
+  frameStrokeWidth: number;
 }) {
   const layout = gridFor(problemsPerPage, pairLayout, paper.w, paper.h, marginMm, 3);
   // Gaps shrink as the page gets denser (gap比例化, print side).
@@ -929,7 +974,7 @@ function PrintPage({
         }}>
           {problems.map((p) => (
             <div key={p.id} className={`print-problem triple pair-${pairLayout}`}>
-              <ProblemTriple p={p} dotScale={dotScale} />
+              <ProblemTriple p={p} dotScale={dotScale} noDots={noDots} frameStrokeWidth={frameStrokeWidth} />
             </div>
           ))}
         </div>

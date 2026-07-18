@@ -171,11 +171,11 @@ function thinArrowPath(size: number, dir: "right" | "down"): string {
 
 /* ===================== プレビュー（SVG） ===================== */
 function PreviewPage({
-  paperKey, problems, perPage, pageNo, pageCount, pair, nameField, dotSize,
+  paperKey, problems, perPage, pageNo, pageCount, pair, nameField, dotSize, noDots = false,
 }: {
   paperKey: PaperKey; problems: RenderProblem[];
   perPage: number; pageNo: number; pageCount: number; pair: PairLayout;
-  nameField: boolean; dotSize: DotSize;
+  nameField: boolean; dotSize: DotSize; noDots?: boolean;
 }) {
   const paper = PAPER[paperKey];
   const nameH = nameField ? NAME_BAND_MM : 0;
@@ -186,6 +186,7 @@ function PreviewPage({
   const g = pairGeom(cellW - pad * 2, cellH - pad * 2, pair);
   const dotR = dotRadius(g.pane, DOT_SCALE[dotSize]);
   const lw = edgeWidth(g.pane);
+  const frameSw = Math.max(0.25, lw * 0.55);
   // ページ幅を実寸比でスケール（A3 長辺 420mm 基準・maker と同じ思想）
   const widthPct = (Math.max(paper.w, paper.h) / 420) * 100 * (paper.w / Math.max(paper.w, paper.h));
 
@@ -205,20 +206,30 @@ function PreviewPage({
           const cx = MARGIN_MM + col * cellW + pad + g.ox;
           const cy = MARGIN_MM + nameH + row * cellH + pad + g.oy;
           const dots: React.ReactNode[] = [];
-          for (const side of [0, 1] as const) {
-            const sx = cx + side * g.dx;
-            const sy = cy + side * g.dy;
-            for (let r = 0; r < n; r++)
-              for (let c = 0; c < n; c++)
-                dots.push(<circle key={`${i}-${side}-${r}-${c}`}
-                  cx={sx + g.dot(g.pane, c, n)} cy={sy + g.dot(g.pane, r, n)} r={dotR} fill={PRINT_INK} />);
+          if (!noDots) {
+            for (const side of [0, 1] as const) {
+              const sx = cx + side * g.dx;
+              const sy = cy + side * g.dy;
+              for (let r = 0; r < n; r++)
+                for (let c = 0; c < n; c++)
+                  dots.push(<circle key={`${i}-${side}-${r}-${c}`}
+                    cx={sx + g.dot(g.pane, c, n)} cy={sy + g.dot(g.pane, r, n)} r={dotR} fill={PRINT_INK} />);
+            }
           }
           const arr = arrowProps(g, cx, cy, pair);
           const gap = gapEdgesOf(pb);
+          // 点をとったとき、かくマスが空欄になる設問（模写・鏡・回転・移動）だけに薄い枠を添える。
+          // 欠け補完（gap あり＝かくマスに欠け図がある）には付けない。
+          const showFrame = noDots && !gap;
           const axisDash = Math.max(0.6, g.pane * 0.02).toFixed(2) + " " + Math.max(0.5, g.pane * 0.015).toFixed(2);
           return (
             <g key={i}>
               {dots}
+              {showFrame && (
+                <rect x={cx + g.dx + g.pane * 0.02} y={cy + g.dy + g.pane * 0.02}
+                  width={g.pane * 0.96} height={g.pane * 0.96}
+                  fill="none" stroke={AXIS_INK} strokeWidth={frameSw} />
+              )}
               {/* 鏡面はペイン間の点線（下の矢印置換）一本のみ。ペイン内には軸線を引かない */}
               {pb.edges.map((e, k) => (
                 <line key={k}
@@ -289,7 +300,7 @@ function nameBandPng(wMm: number): Promise<ArrayBuffer> {
 
 export async function downloadPdf(
   sku: string, paperKey: PaperKey, perPage: number, problems: RenderProblem[], pair: PairLayout,
-  nameField = false, dotScale: number = DOT_SCALE.m,
+  nameField = false, dotScale: number = DOT_SCALE.m, noDots = false,
 ) {
   const { PDFDocument, rgb, StandardFonts } = await import("pdf-lib");
   const paper = PAPER[paperKey];
@@ -297,6 +308,7 @@ export async function downloadPdf(
   const font = await doc.embedFont(StandardFonts.Courier);
   const ink = rgb(0x77 / 255, 0x77 / 255, 0x77 / 255); // PRINT_INK
   const gray = rgb(0.6, 0.63, 0.67);
+  const frameInk = rgb(0x9a / 255, 0xa0 / 255, 0xaa / 255); // AXIS_INK（枠）
 
   // フッターロゴ（取得失敗時はテキストのみで続行）
   let logo: Awaited<ReturnType<typeof doc.embedPng>> | null = null;
@@ -345,14 +357,29 @@ export async function downloadPdf(
       const cyTop = margin + nameHpt + row * cellH + pad + g.oy; // 上起点（mm 系と同じ向き）
       const Y = (yTop: number) => H - yTop;                      // PDF は y 上向き → 反転
 
-      for (const side of [0, 1] as const) {
-        const sx = cx + side * g.dx;
-        const syTop = cyTop + side * g.dy;
-        for (let r = 0; r < n; r++)
-          for (let c = 0; c < n; c++)
-            page.drawCircle({
-              x: sx + g.dot(g.pane, c, n), y: Y(syTop + g.dot(g.pane, r, n)), size: dotR, color: ink,
-            });
+      if (!noDots) {
+        for (const side of [0, 1] as const) {
+          const sx = cx + side * g.dx;
+          const syTop = cyTop + side * g.dy;
+          for (let r = 0; r < n; r++)
+            for (let c = 0; c < n; c++)
+              page.drawCircle({
+                x: sx + g.dot(g.pane, c, n), y: Y(syTop + g.dot(g.pane, r, n)), size: dotR, color: ink,
+              });
+        }
+      }
+      // 点をとったとき、かくマスが空欄の設問（模写・鏡・回転・移動）にだけ薄い枠を添える。
+      // 欠け補完（gapEdgesOf ≠ null）には付けない。
+      if (noDots && !gapEdgesOf(pb)) {
+        const fx = cx + g.dx + g.pane * 0.02;
+        const fyTop = cyTop + g.dy + g.pane * 0.02;
+        const fs2 = g.pane * 0.96;
+        const fsw = Math.max(0.25 * MM2PT, lw * 0.55);
+        // 4 辺を線分で（drawRectangle は塗り前提のため線分で枠を描く）
+        page.drawLine({ start: { x: fx, y: Y(fyTop) }, end: { x: fx + fs2, y: Y(fyTop) }, thickness: fsw, color: frameInk });
+        page.drawLine({ start: { x: fx, y: Y(fyTop + fs2) }, end: { x: fx + fs2, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
+        page.drawLine({ start: { x: fx, y: Y(fyTop) }, end: { x: fx, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
+        page.drawLine({ start: { x: fx + fs2, y: Y(fyTop) }, end: { x: fx + fs2, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
       }
       for (const e of pb.edges) {
         page.drawLine({
@@ -455,7 +482,7 @@ export async function downloadPdf(
    代表値・decisions §3.59）。旧「F∪mirror(F) を1盤面合成」は全盤面 F では線が重なって
    読めないため廃止。ヘッダ・フッタはロゴ＋ {sku}・ANSWER・P n/m のみ。 */
 export async function downloadAnswerPdf(
-  sku: string, paperKey: PaperKey, problems: RenderProblem[],
+  sku: string, paperKey: PaperKey, problems: RenderProblem[], noDots = false,
 ) {
   const { PDFDocument, rgb, StandardFonts } = await import("pdf-lib");
   const paper = PAPER[paperKey];
@@ -504,11 +531,13 @@ export async function downloadAnswerPdf(
     const dotR = dotRadius(pane / MM2PT, DOT_SCALE.m) * MM2PT;
     const lw = edgeWidth(pane / MM2PT) * MM2PT;
 
-    // 1 ペイン描画（格子点＋辺）
+    // 1 ペイン描画（格子点＋辺）。noDots のときは格子点を省く（解答は線で埋まる）。
     const drawPane = (ox: number, oyTop: number, edges: EdgeT[]) => {
-      for (let r = 0; r < n; r++) {
-        for (let c = 0; c < n; c++) {
-          page.drawCircle({ x: ox + dot(c), y: Y(oyTop + dot(r)), size: dotR, color: ink });
+      if (!noDots) {
+        for (let r = 0; r < n; r++) {
+          for (let c = 0; c < n; c++) {
+            page.drawCircle({ x: ox + dot(c), y: Y(oyTop + dot(r)), size: dotR, color: ink });
+          }
         }
       }
       for (const e of edges) {
@@ -601,6 +630,7 @@ function SolidPrintPreview({
   const [pair, setPair] = useState<PairLayout>("horizontal");
   const [dotSize, setDotSize] = useState<DotSize>("m");
   const [nameField, setNameField] = useState(false);
+  const [noDots, setNoDots] = useState(false); // 背景の点をとる（白紙模写形式）
   const [downloading, setDownloading] = useState(false);
   const [foldOpen, setFoldOpen] = useState(purchased);
 
@@ -617,7 +647,7 @@ function SolidPrintPreview({
   const pageSvg = (page: SolidRenderProblem[], pageNo: number) =>
     buildSolidPageSvg({
       paper, problems: page, pageNo, pageCount, marginMm: MARGIN_MM,
-      problemsPerPage: effPerPage, pairLayout: pair, nameField, dotScale, logo: null,
+      problemsPerPage: effPerPage, pairLayout: pair, nameField, dotScale, logo: null, noDots,
     });
 
   const selectPaper = (k: PaperKey) => {
@@ -637,7 +667,7 @@ function SolidPrintPreview({
         if (pi > 0) doc.addPage(format, orientation);
         const svg = buildSolidPageSvg({
           paper, problems: pages[pi], pageNo: pi + 1, pageCount: pages.length,
-          marginMm: MARGIN_MM, problemsPerPage: effPerPage, pairLayout: pair, nameField, dotScale, logo,
+          marginMm: MARGIN_MM, problemsPerPage: effPerPage, pairLayout: pair, nameField, dotScale, logo, noDots,
         });
         const png = await svgToPng(svg, paper.w, paper.h);
         doc.addImage(png, "PNG", 0, 0, paper.w, paper.h, undefined, "FAST");
@@ -658,7 +688,7 @@ function SolidPrintPreview({
         <summary>
           <span className="spv-fold-label">詳細設定<span className="spv-fold-chevron" aria-hidden="true" /></span>
           <span className="spv-fold-current">
-            用紙: {paper.label} · 問数: {effPerPage}問/頁（{pageCount}枚） · 並び: {pair === "horizontal" ? "横" : "下"} · 点: {dotSize === "s" ? "小" : dotSize === "m" ? "中" : "大"} · 名前欄: {nameField ? "あり" : "なし"}
+            用紙: {paper.label} · 問数: {effPerPage}問/頁（{pageCount}枚） · 並び: {pair === "horizontal" ? "横" : "下"} · 点: {dotSize === "s" ? "小" : dotSize === "m" ? "中" : "大"} · 名前欄: {nameField ? "あり" : "なし"} · 背景の点: {noDots ? "なし" : "あり"}
           </span>
         </summary>
         <div className="spv-controls">
@@ -716,6 +746,16 @@ function SolidPrintPreview({
               <button type="button" className={`spv-chip${nameField ? " is-sel" : ""}`}
                 onClick={() => setNameField(true)}><span className="spv-chip-main">つける</span></button>
             </div>
+          </div>
+          <div className="spv-group">
+            <p className="spv-label">背景の点</p>
+            <div className="spv-chips">
+              <button type="button" className={`spv-chip${!noDots ? " is-sel" : ""}`}
+                onClick={() => setNoDots(false)}><span className="spv-chip-main">つける</span></button>
+              <button type="button" className={`spv-chip${noDots ? " is-sel" : ""}`}
+                onClick={() => setNoDots(true)}><span className="spv-chip-main">とる</span></button>
+            </div>
+            <p className="spv-dot-note">点を「とる」と、見本・書き込み欄の点が消え、書き込み欄には薄い枠だけが残ります（点線＝かくれた辺は残ります）。</p>
           </div>
         </div>
       </details>
@@ -781,6 +821,7 @@ function SquarePrintPreview({
   const [pair, setPair] = useState<PairLayout>("horizontal");
   const [dotSize, setDotSize] = useState<DotSize>("m");
   const [nameField, setNameField] = useState(false);
+  const [noDots, setNoDots] = useState(false); // 背景の点をとる（白紙模写形式）
   const [focusPg, setFocusPg] = useState(0);
   const [downloading, setDownloading] = useState(false);
   // 購入後（サンクス）は最初から開いた状態に。開閉自体は維持（onToggle で制御）
@@ -820,7 +861,7 @@ function SquarePrintPreview({
         <summary>
           <span className="spv-fold-label">詳細設定<span className="spv-fold-chevron" aria-hidden="true" /></span>
           <span className="spv-fold-current">
-            用紙: {PAPER[paperKey].label} · 問数: {perPage}問/頁（{pageCount}枚） · 並び: {pair === "horizontal" ? "横" : "下"} · 点: {dotSize === "s" ? "小" : dotSize === "m" ? "中" : "大"} · 名前欄: {nameField ? "あり" : "なし"}
+            用紙: {PAPER[paperKey].label} · 問数: {perPage}問/頁（{pageCount}枚） · 並び: {pair === "horizontal" ? "横" : "下"} · 点: {dotSize === "s" ? "小" : dotSize === "m" ? "中" : "大"} · 名前欄: {nameField ? "あり" : "なし"} · 背景の点: {noDots ? "なし" : "あり"}
           </span>
         </summary>
       <div className="spv-controls">
@@ -896,6 +937,22 @@ function SquarePrintPreview({
             </button>
           </div>
         </div>
+        <div className="spv-group">
+          <p className="spv-label">背景の点</p>
+          <div className="spv-chips">
+            <button type="button"
+              className={`spv-chip${!noDots ? " is-sel" : ""}`}
+              onClick={() => setNoDots(false)}>
+              <span className="spv-chip-main">つける</span>
+            </button>
+            <button type="button"
+              className={`spv-chip${noDots ? " is-sel" : ""}`}
+              onClick={() => setNoDots(true)}>
+              <span className="spv-chip-main">とる</span>
+            </button>
+          </div>
+          <p className="spv-dot-note">点を「とる」と、見本・書き込み欄の点が消え、書き込み欄には薄い枠だけが残ります（白紙模写）。</p>
+        </div>
       </div>
       </details>
 
@@ -906,7 +963,7 @@ function SquarePrintPreview({
         <PreviewPage key={`${paperKey}-${perPage}-${pair}-${focus}`}
           paperKey={paperKey} problems={pages[focus]} pair={pair}
           perPage={perPage} pageNo={focus + 1} pageCount={pageCount}
-          nameField={nameField} dotSize={dotSize} />
+          nameField={nameField} dotSize={dotSize} noDots={noDots} />
         {pageCount > 1 && (
           /* 選択中のページは上の大判だけに出す（同じページを二重に見せない） */
           <div className="spv-thumbs" role="tablist" aria-label="ページを選ぶ">
@@ -916,7 +973,7 @@ function SquarePrintPreview({
                 onClick={() => setFocusPg(pg)} aria-label={`${pg + 1} ページ目を大きく表示`}>
                 <PreviewPage paperKey={paperKey} problems={batch} pair={pair}
                   perPage={perPage} pageNo={pg + 1} pageCount={pageCount}
-                  nameField={nameField} dotSize={dotSize} />
+                  nameField={nameField} dotSize={dotSize} noDots={noDots} />
                 <span className="spv-thumb-no">P{pg + 1}</span>
               </button>
             ))}
@@ -943,7 +1000,7 @@ function SquarePrintPreview({
           onClick={async () => {
             setDownloading(true);
             try {
-              await downloadPdf(sku, paperKey, perPage, problems, pair, nameField, DOT_SCALE[dotSize]);
+              await downloadPdf(sku, paperKey, perPage, problems, pair, nameField, DOT_SCALE[dotSize], noDots);
             } finally {
               setDownloading(false);
             }
@@ -961,7 +1018,7 @@ function SquarePrintPreview({
           onClick={async () => {
             setDownloading(true);
             try {
-              await downloadAnswerPdf(sku, paperKey, problems);
+              await downloadAnswerPdf(sku, paperKey, problems, noDots);
             } finally {
               setDownloading(false);
             }

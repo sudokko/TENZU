@@ -23,11 +23,11 @@ import { ownsMaker } from "../products/capabilities";
 import { buyMaker } from "../maker/buyMaker";
 import { ModeToggle } from "../maker/erase";
 import {
-  AXIS_INK, edgeKey, edgesEqual, samePoint, uid,
+  AXIS_INK, VIEW, edgeKey, edgesEqual, samePoint, uid,
   type Edge, type Point,
 } from "../maker/core/geometry";
 import {
-  buildPageSvgFrame, mirrorPlaneSvgString, paneSvgString, type LogoInfo,
+  buildPageSvgFrame, mirrorPlaneSvgString, paneFrameSvgString, paneSvgString, type LogoInfo,
 } from "../maker/core/page-svg";
 import { exportPdf } from "../maker/core/pdf-export";
 import { axisOf, mirrorEdgesOf, type MirrorAxis } from "../maker/core/transforms";
@@ -74,8 +74,10 @@ export function buildPageSvg(opts: {
   dotScale: number;
   logo: LogoInfo | null;
   answer?: boolean; // true=解答ページ群（かくマス側に R 描画）
+  noDots?: boolean; // true=背景の点をとる（出題時のみ、かくマス側に薄い枠を添える）
 }): string {
   const axis: MirrorAxis = opts.pairLayout === "horizontal" ? "v" : "h";
+  const showDots = !opts.noDots;
   return buildPageSvgFrame<Problem>({
     ...opts,
     renderCell: (p, ctx) => {
@@ -88,20 +90,26 @@ export function buildPageSvg(opts: {
          鏡面はペイン間の薄い点線（共通） */
       const answerEdges = opts.answer ? mirrorEdgesOf(p.edges, p.gridSize, axis) : [];
       const rightShow = Boolean(opts.answer);
+      // 枠は「かくマスが空欄の出題時」のみ（解答時は R で埋まるため不要）。
+      const showFrame = Boolean(opts.noDots) && !opts.answer;
       let body = "";
       if (pairLayout === "horizontal") {
         const pairW = pane * 2 + gap;
         const sx = cx + (cellW - pairW) / 2;
         const sy = areaY + (areaH - pane) / 2;
-        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale);
-        body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, answerEdges, rightShow, dotScale);
+        const ax = sx + pane + gap;
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, showDots);
+        body += paneSvgString(ax, sy, pane, p.gridSize, answerEdges, rightShow, dotScale, showDots);
+        if (showFrame) body += paneFrameSvgString(ax, sy, pane);
         body += mirrorPlaneSvgString(sx, sy, pane, gap, "horizontal");
       } else {
         const pairH = pane * 2 + gap;
         const sx = cx + (cellW - pane) / 2;
         const sy = areaY + (areaH - pairH) / 2;
-        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale);
-        body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, answerEdges, rightShow, dotScale);
+        const ay = sy + pane + gap;
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, showDots);
+        body += paneSvgString(sx, ay, pane, p.gridSize, answerEdges, rightShow, dotScale, showDots);
+        if (showFrame) body += paneFrameSvgString(sx, ay, pane);
         body += mirrorPlaneSvgString(sx, sy, pane, gap, "vertical");
       }
       return body;
@@ -135,6 +143,8 @@ export default function MakerMirrorApp() {
   // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
   const [editingId, setEditingId] = useState<string | null>(null);
   const isEditing = editingId != null;
+  // 背景の点をとる（白紙模写形式）。出題時のみかくマス側に薄い枠を残す。
+  const [noDots, setNoDots] = useState(false);
   /* 軸は「並び」と一意対応: 横並び→左右反転(v) / 縦並び→上下反転(h)。
      ユーザーは「並び」だけ選び、軸はそこから導出する */
 
@@ -274,6 +284,7 @@ export default function MakerMirrorApp() {
           pageNo: pi + 1, pageCount: pages.length,
           marginMm, problemsPerPage: effectivePerPage, pairLayout, nameField, dotScale, logo,
           answer: mode === "a",
+          noDots,
         }),
         filename: (stamp) => `tenzu_mirror_${mode}_${stamp}.pdf`,
       });
@@ -287,6 +298,7 @@ export default function MakerMirrorApp() {
 
   const editingTitle = editorTitle(saved, editingId);
   const paper = PAPER[paperKey];
+  const frameStrokeWidth = Math.max(0.25, edgeWidth(VIEW) * 0.55);
 
   return (
     <>
@@ -414,7 +426,7 @@ export default function MakerMirrorApp() {
           </div>
 
           <SettingsFold
-            current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 名前欄: ${nameField ? "あり" : "なし"}`}>
+            current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 名前欄: ${nameField ? "あり" : "なし"} · 背景の点: ${noDots ? "なし" : "あり"}`}>
             <PaperGroup paperKey={paperKey} onSelect={selectPaper} />
             <PerPageGroup
               perPage={perPage}
@@ -424,6 +436,18 @@ export default function MakerMirrorApp() {
               pair={pairLayout}
               marginMm={marginMm} />
             <NameFieldGroup value={nameField} onChange={setNameField} />
+
+            <div className="group">
+              <h3>背景の点</h3>
+              <label className="chk-row">
+                <input type="checkbox" checked={noDots}
+                  onChange={(e) => setNoDots(e.target.checked)} />
+                <span>背景の点をとる</span>
+              </label>
+              <p className="seg-hint">
+                見本・書き込み欄の両方から点を消します（出題側）。書き込み欄には薄い枠だけが残ります。解答側は対象外です。
+              </p>
+            </div>
           </SettingsFold>
 
           <PreviewShell
@@ -473,8 +497,9 @@ export default function MakerMirrorApp() {
                     const mx = startX + pane + gap / 2;
                     return (
                       <>
-                        <PreviewPaneLocal x={startX} y={startY} pane={pane} p={p} ds={ds} />
-                        <PreviewPaneEmpty x={startX + pane + gap} y={startY} pane={pane} p={p} ds={ds} />
+                        <PreviewPaneLocal x={startX} y={startY} pane={pane} p={p} ds={ds} showDots={!noDots} />
+                        <PreviewPaneEmpty x={startX + pane + gap} y={startY} pane={pane} p={p} ds={ds}
+                          showDots={!noDots} frame={noDots} />
                         <line x1={mx} y1={startY - pane * 0.05} x2={mx} y2={startY + pane * 1.05}
                           stroke={AXIS_INK} strokeWidth={Math.max(0.3, edgeWidth(pane) * 0.7)}
                           strokeDasharray={`${(pane * 0.025).toFixed(2)} ${(pane * 0.02).toFixed(2)}`}
@@ -488,8 +513,9 @@ export default function MakerMirrorApp() {
                   const my = startY + pane + gap / 2;
                   return (
                     <>
-                      <PreviewPaneLocal x={startX} y={startY} pane={pane} p={p} ds={ds} />
-                      <PreviewPaneEmpty x={startX} y={startY + pane + gap} pane={pane} p={p} ds={ds} />
+                      <PreviewPaneLocal x={startX} y={startY} pane={pane} p={p} ds={ds} showDots={!noDots} />
+                      <PreviewPaneEmpty x={startX} y={startY + pane + gap} pane={pane} p={p} ds={ds}
+                        showDots={!noDots} frame={noDots} />
                       <line x1={startX - pane * 0.05} y1={my} x2={startX + pane * 1.05} y2={my}
                         stroke={AXIS_INK} strokeWidth={Math.max(0.3, edgeWidth(pane) * 0.7)}
                         strokeDasharray={`${(pane * 0.025).toFixed(2)} ${(pane * 0.02).toFixed(2)}`}
@@ -536,7 +562,10 @@ export default function MakerMirrorApp() {
             problemsPerPage={effectivePerPage}
             pairLayout={pairLayout}
             nameField={nameField}
-            renderPair={(p) => <ProblemPair p={p} pairLayout={pairLayout} dotScale={dotScale} />} />
+            renderPair={(p) => (
+              <ProblemPair p={p} pairLayout={pairLayout} dotScale={dotScale}
+                noDots={noDots} frameStrokeWidth={frameStrokeWidth} />
+            )} />
         ))}
       </div>
     </>
@@ -546,26 +575,30 @@ export default function MakerMirrorApp() {
 // =========================================================================
 // 鏡固有のプレビュー/印刷サブコンポーネント
 // =========================================================================
-function PreviewPaneLocal({ x, y, pane, p, ds }: {
-  x: number; y: number; pane: number; p: Problem; ds: number;
+function PreviewPaneLocal({ x, y, pane, p, ds, showDots }: {
+  x: number; y: number; pane: number; p: Problem; ds: number; showDots: boolean;
 }) {
   return <PreviewPane x={x} y={y} w={pane} h={pane}
-    gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} />;
+    gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} showDots={showDots} />;
 }
-function PreviewPaneEmpty({ x, y, pane, p, ds }: {
-  x: number; y: number; pane: number; p: Problem; ds: number;
+function PreviewPaneEmpty({ x, y, pane, p, ds, showDots, frame }: {
+  x: number; y: number; pane: number; p: Problem; ds: number; showDots: boolean; frame: boolean;
 }) {
   return <PreviewPane x={x} y={y} w={pane} h={pane}
-    gridSize={p.gridSize} edges={[]} showLines={false} dotScale={ds} />;
+    gridSize={p.gridSize} edges={[]} showLines={false} dotScale={ds} showDots={showDots} frame={frame} />;
 }
 
-function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: PairLayout; dotScale: number }) {
+// noDots=true で背景ドットを省き、かくマス側（出題＝空欄）にだけ薄い正方形の枠を重ねる。
+function ProblemPair({ p, pairLayout, dotScale, noDots, frameStrokeWidth }: {
+  p: Problem; pairLayout: PairLayout; dotScale: number; noDots: boolean; frameStrokeWidth: number;
+}) {
   const isH = pairLayout === "horizontal";
   return (
     <>
       <div className="print-cell">
         <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK} dotScale={dotScale} />
+          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK}
+            dotScale={dotScale} showDots={!noDots} />
         </div>
       </div>
       {/* 鏡面: みほん⇔解答の境界を矢印じゃなく薄い点線で */}
@@ -585,7 +618,12 @@ function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: Pair
       <div className="print-cell">
         <div className="print-pane">
           {/* 出題 PDF と同じく解答ペインは空（子が描く）。R は解答 PDF へ */}
-          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK} dotScale={dotScale} />
+          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK}
+            dotScale={dotScale} showDots={!noDots}
+            overlay={noDots ? (
+              <rect x={VIEW * 0.02} y={VIEW * 0.02} width={VIEW * 0.96} height={VIEW * 0.96}
+                fill="none" stroke={AXIS_INK} strokeWidth={frameStrokeWidth} />
+            ) : undefined} />
         </div>
       </div>
     </>

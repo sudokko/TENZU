@@ -1,48 +1,43 @@
 "use client";
 
 /* =========================================================================
-   模写メーカー（/maker・無料の入口）
-   無料で 4×4 まで（decisions §4.6/§4.7）。ゲートはグリッドサイズ 1 本＝
-   用紙・問数・記名欄・保存・DL は無料でも全開放。5×5〜8×8 は ¥980 買い切りで解放。
+   図形模写トライアル（内部限定・実験用・/maker-copy-trial）
+   模写メーカー（/maker・MakerApp.tsx）のフォーク。課金・所有ゲートは持たず、
+   グリッド・用紙・保存・DL は無制限に開放（オーナー検証専用）。
+   追加した検証テーマ:「背景の点をとる」— ON にすると、みほん・かくマス双方の
+   点格子を消し、かくマス側にだけ薄い正方形の枠を残す（白紙模写の練習形式）。
    共通実装（盤面・ページ SVG・PDF・保存パネル等）は maker/core/ を参照。
-   完了画面（動的レコメンド）は DoneScreen.tsx。
    ========================================================================= */
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   PAPER, paperMax, PRINT_INK, edgeWidth,
   type PaperKey, type PairLayout,
 } from "../products/print";
 import { PairChipIcon } from "../products/SkuPrintPreview";
-import {
-  capabilities, ownsMaker, FREE_MAKER, MAKER_PRICE, type MakerKey, type GridSize,
-} from "../products/capabilities";
-import { useAuth } from "../AuthContext";
-import { buyMaker } from "./buyMaker";
-import { ModeToggle } from "./erase";
+import { ModeToggle } from "../maker/erase";
 import {
   AXIS_INK, VIEW, edgeKey, edgesEqual, samePoint, uid,
   type Edge, type Point,
-} from "./core/geometry";
+} from "../maker/core/geometry";
 import {
   arrowSvgString, buildPageSvgFrame, paneFrameSvgString, paneSvgString, type LogoInfo,
-} from "./core/page-svg";
-import { exportPdf } from "./core/pdf-export";
-import { ArrowSVG, PaperSVG, PreviewPage, PreviewPane, PrintPage } from "./core/PaperSVG";
+} from "../maker/core/page-svg";
+import { exportPdf } from "../maker/core/pdf-export";
+import { ArrowSVG, PaperSVG, PreviewPage, PreviewPane, PrintPage } from "../maker/core/PaperSVG";
 import {
   chunkPages, editorTitle, useEditorHistory, useSavedList,
-} from "./core/useMakerEditor";
-import { usePaperLayout } from "./core/usePaperLayout";
+} from "../maker/core/useMakerEditor";
+import { usePaperLayout } from "../maker/core/usePaperLayout";
 import {
   DotSizeSeg, EditActions, MakerHeader, NameFieldGroup, NoteBox, OneStrokeSeg,
   PaperGroup, PerPageGroup, PreviewShell, SavedPanel, SettingsFold,
-} from "./core/chrome";
-import { DoneScreen, hasDiagonal, recommendVols } from "./DoneScreen";
+} from "../maker/core/chrome";
 
 // =========================================================================
-// Types
-// GridSize（3..8）は capabilities.ts（ゲート SSOT）で定義。
+// Types — 模写メーカーと同じ盤面型。所有ゲートがないためグリッドはローカル定義。
 // =========================================================================
+type GridSize = 3 | 4 | 5 | 6 | 7 | 8;
 type Problem = {
   id: string;
   name: string;
@@ -52,8 +47,8 @@ type Problem = {
 };
 
 // =========================================================================
-// PDF ページ生成 — 共通フレーム（maker/core/page-svg）＋模写固有のセル描画
-// （みほん＋空欄ペイン＋矢印）。
+// PDF ページ生成 — 共通フレーム（maker/core/page-svg）＋模写固有のセル描画。
+// noDots=true（背景の点をとる）で盤面ドットを省き、かくマス側に薄い枠を添える。
 // =========================================================================
 export function buildPageSvg(opts: {
   paper: typeof PAPER[PaperKey];
@@ -66,7 +61,7 @@ export function buildPageSvg(opts: {
   nameField: boolean;
   dotScale: number;
   logo: LogoInfo | null;
-  noDots?: boolean; // true=背景の点をとる（かくマス側に薄い枠を添える）
+  noDots: boolean;
 }): string {
   const showDots = !opts.noDots;
   return buildPageSvgFrame<Problem>({
@@ -102,48 +97,14 @@ export function buildPageSvg(opts: {
 }
 
 // =========================================================================
-// MakerApp
+// MakerCopyTrialApp
 // =========================================================================
-export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKey[] }) {
-  // Body class for global background
-  useEffect(() => {
-    document.body.classList.add("maker-page");
-    return () => document.body.classList.remove("maker-page");
-  }, []);
-
-  // ---- capabilities ----
-  // 模写は無料で 4×4 まで（decisions §4.6/§4.7）。ゲートはグリッドサイズ 1 本＝
-  // 用紙・問数・記名欄・保存・DL は無料でも全開放。5×5〜8×8 は ¥980 買い切りで解放。
-  // 初期値は SSR の cookie（initialOwned）→ /api/me 確定値（useAuth）で置換。
-  const { owned: liveOwned, ready } = useAuth();
-  const owned = ready ? liveOwned : initialOwned;
-  const isOwned = ownsMaker(owned, FREE_MAKER);
-  const caps = capabilities(owned, FREE_MAKER);
-
-  // 5×5 以上をクリック → 模写メーカーの買い切り（¥980）へ。owned になれば 8×8 まで解放。
-  const [buying, setBuying] = useState(false);
-  async function buyCopy() {
-    if (buying) return;
-    setBuying(true);
-    try { await buyMaker(FREE_MAKER); }
-    catch (e) { alert(e instanceof Error ? e.message : "購入に進めませんでした"); setBuying(false); }
-  }
-  // 大きい用紙など（COPY_FREE_CAPS では全開放なので未所有でも通常は出ない）の保険導線。
-  function goMakers() {
-    window.location.href = "/makers";
-  }
-  const lockHint = "ほかのメーカー（買い切り ¥980）で使えます";
-
+export default function MakerCopyTrialApp() {
   // ---- Editor state (current problem) ----
-  // 初期グリッド: 所有なら 5×5、無料（4×4 上限）なら 4×4 から（SSR の initialOwned で確定）。
-  const [gridSize, setGridSize] = useState<GridSize>(() => {
-    const c = capabilities(initialOwned, FREE_MAKER);
-    return (c.gridSizes.includes(5) ? 5 : c.gridSizes[c.gridSizes.length - 1]) as GridSize;
-  });
+  const [gridSize, setGridSize] = useState<GridSize>(4);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [selected, setSelected] = useState<Point | null>(null);
   // 一筆書きモード（既定 OFF）: ON にすると終点クリック後にその点を次の線の始点として残す。
-  // 初見は「2 点クリックで 1 本」が直感的なので OFF 既定。細かいグリッドで連打が辛い人が ON にする。
   const [oneStroke, setOneStroke] = useState(false);
   // 消す（消しゴム）モード。ON のあいだは線をクリックでその1本を削除（描画は止まる）。
   const [erase, setErase] = useState(false);
@@ -151,8 +112,9 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
   // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
   const [editingId, setEditingId] = useState<string | null>(null);
   const isEditing = editingId != null;
-  // 背景の点をとる（白紙模写形式）。ON でみほん・かくマスの点格子を消し、
-  // かくマス側に薄い正方形の枠を残す。
+
+  // 検証テーマ:「背景の点をとる」— ON でみほん・かくマスの点格子を消し、
+  // かくマス側に薄い正方形の枠を残す（白紙模写の練習形式）。
   const [noDots, setNoDots] = useState(false);
 
   // history stack of edge arrays — index points at current state
@@ -177,8 +139,6 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
     if (samePoint(selected, p)) { setSelected(null); return; }
     const next: Edge = { a: selected, b: p };
     const k = edgeKey(next);
-    // 一筆書き ON: 線を引いた後、終点を次の線の始点として残す（連続描画）。
-    // OFF: 従来どおり選択解除（線ごとに 2 点クリック）。
     const after = oneStroke ? p : null;
     if (edges.some((e) => edgeKey(e) === k)) {
       setSelected(after);
@@ -201,31 +161,13 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
 
   // ---- Paper / layout state ----
   const layout = usePaperLayout();
-  const { paperKey, marginMm, perPage, setPerPage, nameField, setNameField, dotSize, setDotSize, dotScale } = layout;
-  const [pairLayout, setPairLayout] = useState<"auto" | PairLayout>("auto"); // おまかせ=選択数で上下/横を自動
-
-  // Switching paper clamps a manual per-page count to that paper's legible maximum.
-  function selectPaper(k: PaperKey) {
-    if (!caps.papers.includes(k)) { goMakers(); return; }
-    layout.selectPaper(k);
-  }
-
-  // 所有状態の確定（/api/me）で caps が変わったとき、各設定を現上限へ丸める。
-  // caps は capabilities() が返すモジュール定数＝参照安定なので、所有が変化した時だけ発火する。
-  useEffect(() => {
-    if (!caps.gridSizes.includes(gridSize)) changeGridSize(caps.gridSizes[caps.gridSizes.length - 1]);
-    if (!caps.papers.includes(paperKey)) layout.setPaperKey("A4-P");
-    if (!caps.dotSizes.includes(dotSize)) setDotSize("m");
-    if (!caps.nameField && nameField) setNameField(false);
-    setPerPage((p) => (p !== "auto" && p > caps.perPageMax ? "auto" : p));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [caps]);
+  const { paperKey, selectPaper, marginMm, perPage, setPerPage, nameField, setNameField, dotSize, setDotSize, dotScale } = layout;
+  const [pairLayout, setPairLayout] = useState<"auto" | PairLayout>("auto");
 
   // ---- Saved problems ----
   const list = useSavedList<Problem>();
   const { saved, setSaved, savingNo, setSavingNo, selectedSaved, selectAllState } = list;
 
-  const savedFull = saved.length >= caps.savedMax;
   // 編集後/新規保存の共通リセット（キャンバスを空に戻す）
   function resetCanvas() {
     setEdges([]);
@@ -235,13 +177,11 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
   function saveCurrent() {
     if (edges.length === 0) return;
     if (editingId) {
-      // 編集モード: その場で上書き（並び順・PDF 選択・名前は保持）→ 新規モードに戻る
       setSaved((s) => s.map((p) => (p.id === editingId ? { ...p, gridSize, edges } : p)));
       setEditingId(null);
       resetCanvas();
       return;
     }
-    if (saved.length >= caps.savedMax) { goMakers(); return; } // 保存上限 → アップグレード導線
     const id = uid();
     const name = `無題 ${savingNo.toString().padStart(2, "0")}`;
     setSaved((s) => [...s, { id, name, gridSize, edges, selected: true }]);
@@ -250,7 +190,7 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
   }
   // 保存済み問題をエディタに読み込んで編集モードへ。未保存の変更があれば確認。
   function startEdit(id: string) {
-    if (id === editingId) return; // すでにこれを編集中
+    if (id === editingId) return;
     const p = saved.find((x) => x.id === id);
     if (!p) return;
     const dirty = editingId
@@ -273,13 +213,11 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
   }
 
   // ---- Derived: print payload ----
-  // 1 ページ問数の実上限 = 用紙の上限 ∩ 所有の上限。
-  const perPageCap = Math.min(paperMax(paperKey), caps.perPageMax);
-  // おまかせ = 選択数を 1 ページに（上限でクランプ）。0 問時は 1 扱い。
+  // 実験用ツールにつき所有ゲートなし。ページあたり問数は用紙の物理上限のみでクランプ。
+  const perPageCap = paperMax(paperKey);
   const effectivePerPage = perPage === "auto"
     ? Math.max(1, Math.min(perPageCap, selectedSaved.length))
     : Math.min(perPage, perPageCap);
-  // おまかせ並び = 選択 2 問以下は上下（1 問でもスカスカに見えない）・3 問以上は横。
   const effectivePairLayout: PairLayout = pairLayout === "auto"
     ? (selectedSaved.length <= 2 ? "vertical" : "horizontal")
     : pairLayout;
@@ -287,27 +225,7 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
     () => chunkPages(selectedSaved, effectivePerPage),
     [selectedSaved, effectivePerPage]);
 
-  // ---- 1 日の DL ソフトガード（ゲストのみ・localStorage・回避可能だが「無制限に見せない」）----
-  const [todayExports, setTodayExports] = useState(0);
-  const QUOTA_KEY = "tenzu_maker_quota";
-  function todayStr() { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; }
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(QUOTA_KEY);
-      if (raw) { const q = JSON.parse(raw); if (q && q.date === todayStr()) setTodayExports(q.count || 0); }
-    } catch { /* 壊れた値は無視 */ }
-  }, []);
-  function bumpExports() {
-    setTodayExports((n) => {
-      const next = n + 1;
-      try { localStorage.setItem(QUOTA_KEY, JSON.stringify({ date: todayStr(), count: next })); } catch { /* quota 無視 */ }
-      return next;
-    });
-  }
-  const overDailyLimit = caps.dailyExports != null && todayExports >= caps.dailyExports;
-
-  // ---- PDF ダウンロード → 完了画面 ----
-  const [done, setDone] = useState(false);
+  // ---- PDF ダウンロード（内部用なので完了画面なし） ----
   const [exporting, setExporting] = useState(false);
   async function doExport() {
     if (selectedSaved.length === 0 || exporting) return;
@@ -322,10 +240,8 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
           marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
           noDots,
         }),
-        filename: (stamp) => `tenzu_${stamp}.pdf`,
+        filename: (stamp) => `tenzu_copytrial_${stamp}.pdf`,
       });
-      bumpExports();
-      setDone(true);
     } catch (err) {
       console.error("PDF export failed:", err);
       window.alert("PDF の作成に失敗しました。もう一度お試しください。");
@@ -334,16 +250,7 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
     }
   }
 
-  // 書き出した問題から「最大グリッド」と「斜め線の使用」を判定
-  const reco = useMemo(() => {
-    if (selectedSaved.length === 0) return null;
-    const maxGrid = Math.max(...selectedSaved.map((p) => p.gridSize)) as GridSize;
-    const usedDiag = hasDiagonal(selectedSaved);
-    return { maxGrid, usedDiag, vols: recommendVols(maxGrid, usedDiag) };
-  }, [selectedSaved]);
-
   const editingTitle = editorTitle(saved, editingId);
-
   const paper = PAPER[paperKey];
   const frameStrokeWidth = Math.max(0.25, edgeWidth(VIEW) * 0.55);
 
@@ -353,18 +260,8 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
       <style>{`@media print { @page { size: ${paper.cssSize}; margin: 0; } }`}</style>
 
       {/* ============ HEADER ============ */}
-      <MakerHeader appName="模写メーカー">
-        <div className="maker-auth">
-          <a className="ma-link" href="/account">マイページ</a>
-          <a className="ma-cta" href="/makers">ほかのメーカー</a>
-        </div>
-      </MakerHeader>
+      <MakerHeader appName="図形模写トライアル（内部用）" />
 
-      {/* ============ DONE SCREEN ============ */}
-      {done && reco ? (
-        <DoneScreen reco={reco} count={selectedSaved.length} onBack={() => setDone(false)} />
-      ) : (
-      <>
       {/* ============ APP SHELL ============ */}
       <div className="app-shell">
 
@@ -374,22 +271,15 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
             <div className="title">{editingTitle}</div>
           </div>
 
-          {/* 作図の設定をタイトル直下のコンパクト帯に集約。各ラベル+操作は qb-group で一体折返し */}
           <div className="maker-quickbar" role="group" aria-label="作図の設定">
             <div className="qb-group">
               <span className="qb-label">グリッド</span>
               <select className="qb-select" aria-label="グリッドサイズ"
                 value={gridSize}
                 disabled={isEditing}
-                onChange={(e) => {
-                  const n = Number(e.target.value) as GridSize;
-                  if (!caps.gridSizes.includes(n)) { buyCopy(); return; }
-                  changeGridSize(n);
-                }}>
+                onChange={(e) => changeGridSize(Number(e.target.value) as GridSize)}>
                 {([3, 4, 5, 6, 7, 8] as GridSize[]).map((n) => (
-                  <option key={n} value={n}>
-                    {n}×{n}{caps.gridSizes.includes(n) ? "" : `（¥${MAKER_PRICE}で解放）`}
-                  </option>
+                  <option key={n} value={n}>{n}×{n}</option>
                 ))}
               </select>
             </div>
@@ -400,11 +290,9 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
               ? <span className="qb-note">消すモード：線をクリックすると、その線だけ消えます。</span>
               : isEditing
                 ? <span className="qb-note">編集中はグリッドは固定されます。</span>
-                : oneStroke
-                  ? <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>
-                  : !isOwned && (
-                    <span className="qb-note">無料は 4×4 まで。5×5〜8×8 は ¥{MAKER_PRICE} の買い切りで解放できます。</span>
-                  )}
+                : oneStroke && (
+                  <span className="qb-note">一筆書き ON：点を続けてクリックすると、線がつながります。</span>
+                )}
           </div>
 
           <div className="canvas-stage">
@@ -429,19 +317,13 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
             </div>
             <div className="canvas-actions">
               <button className="btn-save" type="button" onClick={saveCurrent}
-                disabled={isEditing ? edges.length === 0 : (edges.length === 0 && !savedFull)}>
+                disabled={edges.length === 0}>
                 {isEditing ? "変更を保存" : "この問題を保存する"}
               </button>
               {isEditing && (
                 <button className="btn-cancel-edit" type="button" onClick={cancelEdit}>
                   やめる
                 </button>
-              )}
-              {savedFull && !isEditing && (
-                <p className="save-cap-note">
-                  模写メーカーで保存できるのは {caps.savedMax} 問まで。
-                  <a href="/makers">ほかのメーカー（買い切り）は保存無制限 →</a>
-                </p>
               )}
             </div>
             <div className="canvas-help">
@@ -470,21 +352,14 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
 
           <SettingsFold
             current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: ${pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: ${nameField ? "あり" : "なし"} · 背景の点: ${noDots ? "なし" : "あり"}`}>
-            <PaperGroup
-              paperKey={paperKey}
-              onSelect={selectPaper}
-              isLocked={(k) => !caps.papers.includes(k)}
-              lockHint={lockHint} />
+            <PaperGroup paperKey={paperKey} onSelect={selectPaper} />
             <PerPageGroup
               perPage={perPage}
               onAuto={() => setPerPage("auto")}
               onPick={setPerPage}
               paperKey={paperKey}
               pair={effectivePairLayout}
-              marginMm={marginMm}
-              isLocked={(v) => v > caps.perPageMax}
-              onLockedPick={goMakers}
-              lockHint={lockHint} />
+              marginMm={marginMm} />
 
             <div className="group">
               <h3>問題と書き込み欄の並び</h3>
@@ -512,12 +387,7 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
               )}
             </div>
 
-            <NameFieldGroup
-              value={nameField}
-              onChange={setNameField}
-              locked={!caps.nameField}
-              onLockedPick={goMakers}
-              lockHint={lockHint} />
+            <NameFieldGroup value={nameField} onChange={setNameField} />
 
             <div className="group">
               <h3>背景の点</h3>
@@ -539,13 +409,7 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
               <span>合計 <strong>{selectedSaved.length} 問 / {pages.length} ページ</strong></span>
               <span>{paper.label} · {effectivePerPage} 問 / ページ</span>
             </>}
-            after={<>
-              {overDailyLimit && (
-                <p className="daily-nudge">
-                  きょうは {caps.dailyExports} 枚そろいました。もっと作りたくなったら
-                  <a href="/makers"> ほかのメーカーも（買い切り ¥980）→</a>
-                </p>
-              )}
+            after={
               <button className="btn-export" type="button"
                 onClick={doExport} disabled={selectedSaved.length === 0 || exporting}>
                 {exporting ? "PDF を作成中…" : "PDF をダウンロード"}
@@ -553,7 +417,7 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
                   <span className="x">{selectedSaved.length} 問 / {pages.length} ページ</span>
                 )}
               </button>
-            </>}>
+            }>
             {pages.map((page, pi) => (
               <PreviewPage key={pi}
                 paper={paper}
@@ -628,8 +492,6 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
             )}
           </button>
         </div>
-      )}
-      </>
       )}
 
       {/* ============ PRINT-ONLY SHEETS ============ */}

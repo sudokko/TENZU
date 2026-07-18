@@ -37,6 +37,7 @@ export function PaperSVG({
   edgeColor,
   underlay,
   overlay,
+  showDots = true,
 }: {
   gridSize: number;
   edges: Edge[];
@@ -51,6 +52,7 @@ export function PaperSVG({
   edgeColor?: (e: Edge, i: number) => string; // overlay/fold の B 図テールなど
   underlay?: React.ReactNode;                 // decompose のゴースト・鏡の軸線など
   overlay?: React.ReactNode;                  // translate の★マーカーなど
+  showDots?: boolean;                         // false=背景ドットを描かない（図形模写トライアル）
 }) {
   const dots = gridSize;
   const points: Point[] = [];
@@ -91,7 +93,7 @@ export function PaperSVG({
             {showActiveHighlight && isSel && (
               <circle cx={pos.x} cy={pos.y} r={7} fill="#2C6E7F" opacity={0.18} />
             )}
-            <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />
+            {showDots && <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />}
             {interactive && !erase && (
               <circle
                 cx={pos.x} cy={pos.y} r={9}
@@ -135,11 +137,13 @@ export function ArrowSVG({ x, y, size, dir, color }: {
 // PreviewPane — 出力プレビューの 1 ペイン。axis は鏡系のみ（点線の軸を重ねる）
 // =========================================================================
 export function PreviewPane({
-  x, y, w, h, gridSize, edges, showLines, dotScale, axis,
+  x, y, w, h, gridSize, edges, showLines, dotScale, axis, showDots = true, frame = false,
 }: {
   x: number; y: number; w: number; h: number;
   gridSize: number; edges: Edge[]; showLines: boolean; dotScale: number;
   axis?: "v" | "h";
+  showDots?: boolean; // false=背景ドットを描かない（図形模写トライアル）
+  frame?: boolean;    // true=薄い正方形の枠を添える（点を消したかくマス側の目印）
 }) {
   // inner dots
   const dots = gridSize;
@@ -167,14 +171,21 @@ export function PreviewPane({
               strokeDasharray={`${(paneMin * 0.02).toFixed(2)} ${(paneMin * 0.015).toFixed(2)}`}
               strokeLinecap="round" />
       )}
-      <g fill={PRINT_INK}>
-        {Array.from({ length: dots }, (_, r) =>
-          Array.from({ length: dots }, (_, c) => {
-            const p = pos(c, r);
-            return <circle key={`${c}-${r}`} cx={p.x} cy={p.y} r={dotR} />;
-          })
-        )}
-      </g>
+      {showDots && (
+        <g fill={PRINT_INK}>
+          {Array.from({ length: dots }, (_, r) =>
+            Array.from({ length: dots }, (_, c) => {
+              const p = pos(c, r);
+              return <circle key={`${c}-${r}`} cx={p.x} cy={p.y} r={dotR} />;
+            })
+          )}
+        </g>
+      )}
+      {frame && (
+        <rect x={x + paneMin * 0.02} y={y + paneMin * 0.02}
+          width={w - paneMin * 0.04} height={h - paneMin * 0.04}
+          fill="none" stroke={AXIS_INK} strokeWidth={Math.max(0.25, lineW * 0.55)} />
+      )}
       {showLines && edges.map((e, i) => {
         const a = pos(e.a.c, e.a.r);
         const b = pos(e.b.c, e.b.r);

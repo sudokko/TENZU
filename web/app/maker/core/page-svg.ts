@@ -19,9 +19,10 @@ export const PX_PER_MM = 300 / 25.4; // 300dpi
 export type LogoInfo = { url: string; w: number; h: number };
 
 // 1ペイン（盤面）を mm 座標の SVG 断片で描く。比率は PaperSVG（r=1.6/VIEW200）準拠。
+// showDots=false（図形模写トライアル §背景の点をとる）で背景ドットを省く。
 export function paneSvgString(
   x: number, y: number, pane: number, gridSize: number, edges: Edge[], showLines: boolean,
-  dotScale: number,
+  dotScale: number, showDots: boolean = true,
 ): string {
   const inset = pane * 0.10;
   const step = (pane - inset * 2) / (gridSize - 1);
@@ -35,13 +36,24 @@ export function paneSvgString(
       s += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${PRINT_INK}" stroke-width="${lineW}" stroke-linecap="round" stroke-linejoin="round"/>`;
     }
   }
-  for (let r = 0; r < gridSize; r++) {
-    for (let c = 0; c < gridSize; c++) {
-      const p = P(c, r);
-      s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
+  if (showDots) {
+    for (let r = 0; r < gridSize; r++) {
+      for (let c = 0; c < gridSize; c++) {
+        const p = P(c, r);
+        s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
+      }
     }
   }
   return s;
+}
+
+// 点を消したペインの目印（薄い正方形の枠）。「背景の点をとる」ON 時、かくマス側にだけ添える
+// （みほん側は線そのものが目印になるため枠は不要）。
+export function paneFrameSvgString(x: number, y: number, pane: number): string {
+  const inset = pane * 0.02;
+  const sw = Math.max(0.25, pane * 0.006);
+  const s = pane - inset * 2;
+  return `<rect x="${x + inset}" y="${y + inset}" width="${s}" height="${s}" fill="none" stroke="${AXIS_INK}" stroke-width="${sw}"/>`;
 }
 
 /* 出題→解答の矢印（ペイン間）。細線＋小さな矢じり（案A・2026-06-12） */

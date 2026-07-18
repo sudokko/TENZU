@@ -808,6 +808,19 @@ header.maker-header {
   margin: 7px 2px 0; letter-spacing: 0.02em; line-height: 1.5;
 }
 
+/* チェックボックス1行（図形模写トライアル「背景の点をとる」等） */
+.chk-row {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-tier3-sans);
+  font-size: 13px; color: var(--fg);
+  cursor: pointer;
+}
+.chk-row input[type="checkbox"] {
+  width: 16px; height: 16px;
+  accent-color: var(--fg);
+  cursor: pointer;
+}
+
 /* 分解メーカー: 引くものが正解の図に無い線のときの警告 */
 .trace-warn {
   width: 100%; max-width: 440px; margin: 0;

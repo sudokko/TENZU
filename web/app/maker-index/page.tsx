@@ -17,6 +17,12 @@ const GROUPS: { title: string; items: Item[] }[] = [
     ],
   },
   {
+    title: "試作（内部検証）",
+    items: [
+      { href: "/maker-copy-trial", name: "図形模写トライアル", desc: "「背景の点をとる」の初期検証用（本番の全メーカー＋商品PDFへ反映済み）" },
+    ],
+  },
+  {
     title: "向き",
     items: [
       { href: "/maker-mirror", name: "鏡メーカー", desc: "線対称（左右／上下反転・軸は並び連動）" },

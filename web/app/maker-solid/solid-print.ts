@@ -11,6 +11,7 @@ import {
   dotRadius, edgeWidth,
   type PaperKey, type PairLayout,
 } from "../products/print";
+import { AXIS_INK } from "../maker/core/geometry";
 // 300dpi 焼き込み・ロゴ読み込みは全メーカー共通実装（maker/core/page-svg）を流用。
 // MakerSolidApp が "./solid-print" 経由で参照しているため re-export で入口を維持する。
 import { PX_PER_MM, svgToPng, loadLogo, type LogoInfo } from "../maker/core/page-svg";
@@ -59,9 +60,12 @@ export function solidGridFor(
 }
 
 // 1ペイン（矩形盤面）を mm 座標の SVG 断片で描く。点間隔は縦横で等しく中央寄せ。
+// showDots=false（背景の点をとる）で格子ドットを省く。frame=true でかくマス側に薄い矩形枠を添える
+// （枠は AXIS_INK の細い実線＝隠れ辺の点線＝PRINT_INK 破線とは色・線種で区別）。
 export function solidPaneSvgString(
   x: number, y: number, paneW: number, paneH: number,
   cols: number, rows: number, edges: SEdge[], showLines: boolean, dotScale: number,
+  showDots: boolean = true, frame: boolean = false,
 ): string {
   const inset = Math.min(paneW, paneH) * 0.10;
   const step = Math.min(
@@ -82,11 +86,20 @@ export function solidPaneSvgString(
       s += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${PRINT_INK}" stroke-width="${lineW}" stroke-linecap="round" stroke-linejoin="round"${dash}/>`;
     }
   }
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const p = P(c, r);
-      s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
+  if (showDots) {
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const p = P(c, r);
+        s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
+      }
     }
+  }
+  if (frame) {
+    // 格子の外周に少し余白を足した矩形枠（点を消した書き込み欄の目印）。
+    const fx = ox - step * 0.5, fy = oy - step * 0.5;
+    const fw = gw + step, fh = gh + step;
+    const sw = Math.max(0.25, lineW * 0.55);
+    s += `<rect x="${fx}" y="${fy}" width="${fw}" height="${fh}" fill="none" stroke="${AXIS_INK}" stroke-width="${sw}"/>`;
   }
   return s;
 }
@@ -104,8 +117,10 @@ export function buildSolidPageSvg(opts: {
   nameField: boolean;
   dotScale: number;
   logo: LogoInfo | null;
+  noDots?: boolean; // true=背景の点をとる（かくマス側に薄い矩形枠を添える）
 }): string {
   const { paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale, logo } = opts;
+  const showDots = !opts.noDots;
   const W = paper.w, H = paper.h;
   const footerH = 12;
   const nameH = nameField ? NAME_BAND_MM : 0;
@@ -134,15 +149,15 @@ export function buildSolidPageSvg(opts: {
       const pairW = pw * 2 + gap;
       const sx = cx + (cellW - pairW) / 2;
       const sy = cy + (cellH - ph) / 2;
-      body += solidPaneSvgString(sx, sy, pw, ph, p.cols, p.rows, p.edges, true, dotScale);
-      body += solidPaneSvgString(sx + pw + gap, sy, pw, ph, p.cols, p.rows, [], false, dotScale);
+      body += solidPaneSvgString(sx, sy, pw, ph, p.cols, p.rows, p.edges, true, dotScale, showDots);
+      body += solidPaneSvgString(sx + pw + gap, sy, pw, ph, p.cols, p.rows, [], false, dotScale, showDots, opts.noDots);
       body += `<path d="M0 0 L${aSize} 0 M${aSize - hd} ${-hd} L${aSize} 0 L${aSize - hd} ${hd}" transform="translate(${sx + pw + (gap - aSize) / 2},${sy + ph / 2})" fill="none" stroke="${PRINT_INK}" stroke-width="${Math.max(0.35, aSize * 0.04)}" stroke-linejoin="round" stroke-linecap="round"/>`;
     } else {
       const pairH = ph * 2 + gap;
       const sx = cx + (cellW - pw) / 2;
       const sy = cy + (cellH - pairH) / 2;
-      body += solidPaneSvgString(sx, sy, pw, ph, p.cols, p.rows, p.edges, true, dotScale);
-      body += solidPaneSvgString(sx, sy + ph + gap, pw, ph, p.cols, p.rows, [], false, dotScale);
+      body += solidPaneSvgString(sx, sy, pw, ph, p.cols, p.rows, p.edges, true, dotScale, showDots);
+      body += solidPaneSvgString(sx, sy + ph + gap, pw, ph, p.cols, p.rows, [], false, dotScale, showDots, opts.noDots);
       body += `<path d="M0 0 L0 ${aSize} M${-hd} ${aSize - hd} L0 ${aSize} L${hd} ${aSize - hd}" transform="translate(${sx + pw / 2},${sy + ph + (gap - aSize) / 2})" fill="none" stroke="${PRINT_INK}" stroke-width="${Math.max(0.35, aSize * 0.04)}" stroke-linejoin="round" stroke-linecap="round"/>`;
     }
   });

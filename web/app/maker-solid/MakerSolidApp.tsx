@@ -160,6 +160,8 @@ export default function MakerSolidApp() {
   const [nameField, setNameField] = useState(false);
   const [dotSize, setDotSize] = useState<DotSize>("m"); // 模写メーカーと同じ既定（中）
   const dotScale = SOLID_DOT_SCALE[dotSize];
+  // 背景の点をとる（白紙模写形式）。みほん・かくマスの点格子を消し、かくマス側に薄い矩形枠を残す。
+  const [noDots, setNoDots] = useState(false);
   function selectPaper(k: PaperKey) {
     setPaperKey(k);
     const max = paperMax(k);
@@ -277,7 +279,7 @@ export default function MakerSolidApp() {
     return buildSolidPageSvg({
       paper, problems: page.map((w) => ({ cols: w.cols, rows: w.rows, edges: w.edges })),
       pageNo, pageCount, marginMm, problemsPerPage: effectivePerPage,
-      pairLayout: effectivePairLayout, nameField, dotScale, logo: null,
+      pairLayout: effectivePairLayout, nameField, dotScale, logo: null, noDots,
     });
   }
 
@@ -296,7 +298,7 @@ export default function MakerSolidApp() {
           paper, problems: pages[pi].map((w) => ({ cols: w.cols, rows: w.rows, edges: w.edges })),
           pageNo: pi + 1, pageCount: pages.length,
           marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout,
-          nameField, dotScale, logo,
+          nameField, dotScale, logo, noDots,
         }),
         filename: (stamp) => `tenzu_solid_${stamp}.pdf`,
       });
@@ -471,7 +473,7 @@ export default function MakerSolidApp() {
             <summary>
               <span className="sf-label">詳細設定<span className="sf-chevron" aria-hidden="true" /></span>
               <span className="sf-current">
-                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: {nameField ? "あり" : "なし"}
+                用紙: {paper.label} · 問数: {perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: {pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: {nameField ? "あり" : "なし"} · 背景の点: {noDots ? "なし" : "あり"}
               </span>
             </summary>
             <div className="sf-body">
@@ -521,6 +523,17 @@ export default function MakerSolidApp() {
                   <button type="button" aria-pressed={!nameField} onClick={() => setNameField(false)}>つけない</button>
                   <button type="button" aria-pressed={nameField} onClick={() => setNameField(true)}>つける</button>
                 </div>
+              </div>
+              <div className="group">
+                <h3>背景の点</h3>
+                <label className="chk-row">
+                  <input type="checkbox" checked={noDots}
+                    onChange={(e) => setNoDots(e.target.checked)} />
+                  <span>背景の点をとる</span>
+                </label>
+                <p className="seg-hint">
+                  見本・書き込み欄の格子の点を消します。書き込み欄には薄い枠だけが残ります（点線＝かくれた辺は残ります）。
+                </p>
               </div>
             </div>
           </details>

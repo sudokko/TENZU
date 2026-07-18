@@ -28,11 +28,11 @@ import { ownsMaker } from "../products/capabilities";
 import { buyMaker } from "../maker/buyMaker";
 import { EdgeHitLayer, ModeToggle } from "../maker/erase";
 import {
-  INK, VIEW, dotPos, edgeKey, edgesEqual, pointKey, samePoint, uid,
+  AXIS_INK, INK, VIEW, dotPos, edgeKey, edgesEqual, pointKey, samePoint, uid,
   type Edge, type Point,
 } from "../maker/core/geometry";
 import {
-  arrowSvgString, buildPageSvgFrame, type LogoInfo,
+  arrowSvgString, buildPageSvgFrame, paneFrameSvgString, type LogoInfo,
 } from "../maker/core/page-svg";
 import { exportPdf } from "../maker/core/pdf-export";
 import { ArrowSVG, PreviewPage, PrintPage } from "../maker/core/PaperSVG";
@@ -117,10 +117,11 @@ function starPathD(cx: number, cy: number, outer: number): string {
 // =========================================================================
 
 // 1ペイン（盤面）を mm 座標の SVG 断片で描く。比率は PaperSVG（r=1.6/VIEW200）準拠。
-// starAt=起点★（「きてん」）／ targetAt=移動先●（「ここへ」・中空リング）
+// starAt=起点★（「きてん」）／ targetAt=移動先●（「ここへ」・中空リング）。
+// showDots=false でも ★／● は常に描画（位置情報として必須）。
 function paneSvgString(
   x: number, y: number, pane: number, gridSize: GridSize, edges: Edge[], showLines: boolean,
-  dotScale: number, starAt?: Point, targetAt?: Point,
+  dotScale: number, starAt?: Point, targetAt?: Point, showDots: boolean = true,
 ): string {
   const inset = pane * 0.10;
   const step = (pane - inset * 2) / (gridSize - 1);
@@ -151,7 +152,7 @@ function paneSvgString(
         s += `<circle cx="${p.x}" cy="${p.y}" r="${tR}" fill="none" stroke="${PRINT_INK}" stroke-width="${ring}"/>`;
         s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
         s += `<text x="${p.x}" y="${labelY}" text-anchor="middle" font-family="${jpFont}" font-size="${labelFs}" font-weight="700" fill="${PRINT_INK}">ここへ</text>`;
-      } else {
+      } else if (showDots) {
         s += `<circle cx="${p.x}" cy="${p.y}" r="${dotR}" fill="${PRINT_INK}"/>`;
       }
     }
@@ -171,7 +172,9 @@ export function buildPageSvg(opts: {
   dotScale: number;
   logo: LogoInfo | null;
   answer?: boolean; // true=解答ページ群（かくマス側に R 描画）
+  noDots?: boolean; // true=背景の点をとる（出題時のみ、かくマス側に薄い枠を添える）
 }): string {
+  const showDots = !opts.noDots;
   return buildPageSvgFrame<Problem>({
     ...opts,
     renderCell: (p, ctx) => {
@@ -191,20 +194,26 @@ export function buildPageSvg(opts: {
       const rightStar = opts.answer ? tgt : undefined;       // 解答=★(着地位置)
       const rightTarget = opts.answer ? undefined : tgt;     // 出題=●(行き先)
       const aSize = gap * 0.9;
+      // 枠は「かくマスが空欄の出題時」のみ（解答時は R で埋まるため不要）。
+      const showFrame = Boolean(opts.noDots) && !opts.answer;
       let body = "";
       if (pairLayout === "horizontal") {
         const pairW = pane * 2 + gap;
         const sx = cx + (cellW - pairW) / 2;
         const sy = areaY + (areaH - pane) / 2;
-        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined);
-        body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget);
+        const ax = sx + pane + gap;
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined, showDots);
+        body += paneSvgString(ax, sy, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget, showDots);
+        if (showFrame) body += paneFrameSvgString(ax, sy, pane);
         body += arrowSvgString(sx + pane + (gap - aSize) / 2, sy + pane / 2, aSize, "right");
       } else {
         const pairH = pane * 2 + gap;
         const sx = cx + (cellW - pane) / 2;
         const sy = areaY + (areaH - pairH) / 2;
-        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined);
-        body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget);
+        const ay = sy + pane + gap;
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, start, undefined, showDots);
+        body += paneSvgString(sx, ay, pane, p.gridSize, rightEdges, rightShow, dotScale, rightStar, rightTarget, showDots);
+        if (showFrame) body += paneFrameSvgString(sx, ay, pane);
         body += arrowSvgString(sx + pane / 2, sy + pane + (gap - aSize) / 2, aSize, "down");
       }
       return body;
@@ -239,6 +248,8 @@ export default function MakerTranslateApp() {
   // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
   const [editingId, setEditingId] = useState<string | null>(null);
   const isEditing = editingId != null;
+  // 背景の点をとる（白紙模写形式）。★●マーカーは残し、通常の点だけ消す。
+  const [noDots, setNoDots] = useState(false);
 
   // history stack — F snapshots
   function applySnap(s: Snap) {
@@ -403,6 +414,7 @@ export default function MakerTranslateApp() {
           pageNo: pi + 1, pageCount: pages.length,
           marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
           answer: mode === "a",
+          noDots,
         }),
         filename: (stamp) => `tenzu_translate_${mode}_${stamp}.pdf`,
       });
@@ -425,6 +437,7 @@ export default function MakerTranslateApp() {
   const editingTitle = editorTitle(saved, editingId);
 
   const paper = PAPER[paperKey];
+  const frameStrokeWidth = Math.max(0.25, edgeWidth(VIEW) * 0.55);
 
   return (
     <>
@@ -632,7 +645,7 @@ export default function MakerTranslateApp() {
           </div>
 
           <SettingsFold
-            current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: ${pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: ${nameField ? "あり" : "なし"}`}>
+            current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: ${pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: ${nameField ? "あり" : "なし"} · 背景の点: ${noDots ? "なし" : "あり"}`}>
             <PaperGroup paperKey={paperKey} onSelect={selectPaper} />
             <PerPageGroup
               perPage={perPage}
@@ -669,6 +682,18 @@ export default function MakerTranslateApp() {
             </div>
 
             <NameFieldGroup value={nameField} onChange={setNameField} />
+
+            <div className="group">
+              <h3>背景の点</h3>
+              <label className="chk-row">
+                <input type="checkbox" checked={noDots}
+                  onChange={(e) => setNoDots(e.target.checked)} />
+                <span>背景の点をとる</span>
+              </label>
+              <p className="seg-hint">
+                もとの図・かくマスの点を消します（出題側）。★きてん・●ここへは残ります。かくマスには薄い枠だけが残ります。解答側は対象外です。
+              </p>
+            </div>
           </SettingsFold>
 
           <PreviewShell
@@ -719,9 +744,11 @@ export default function MakerTranslateApp() {
                     return (
                       <>
                         <PreviewPane x={startX} y={startY} w={pane} h={pane}
-                          gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} starAt={start} />
+                          gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} starAt={start}
+                          showDots={!noDots} />
                         <PreviewPane x={startX + pane + gap} y={startY} w={pane} h={pane}
-                          gridSize={p.gridSize} edges={[]} showLines={false} dotScale={ds} targetAt={tgt} />
+                          gridSize={p.gridSize} edges={[]} showLines={false} dotScale={ds} targetAt={tgt}
+                          showDots={!noDots} frame={noDots} />
                         <ArrowSVG x={startX + pane + (gap - aSize) / 2} y={startY + pane / 2}
                           size={aSize} dir="right" color={PRINT_INK} />
                       </>
@@ -733,9 +760,11 @@ export default function MakerTranslateApp() {
                   return (
                     <>
                       <PreviewPane x={startX} y={startY} w={pane} h={pane}
-                        gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} starAt={start} />
+                        gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} starAt={start}
+                        showDots={!noDots} />
                       <PreviewPane x={startX} y={startY + pane + gap} w={pane} h={pane}
-                        gridSize={p.gridSize} edges={[]} showLines={false} dotScale={ds} targetAt={tgt} />
+                        gridSize={p.gridSize} edges={[]} showLines={false} dotScale={ds} targetAt={tgt}
+                        showDots={!noDots} frame={noDots} />
                       <ArrowSVG x={startX + pane / 2} y={startY + pane + (gap - aSize) / 2}
                         size={aSize} dir="down" color={PRINT_INK} />
                     </>
@@ -780,7 +809,10 @@ export default function MakerTranslateApp() {
             problemsPerPage={effectivePerPage}
             pairLayout={effectivePairLayout}
             nameField={nameField}
-            renderPair={(p) => <ProblemPair p={p} pairLayout={effectivePairLayout} dotScale={dotScale} />} />
+            renderPair={(p) => (
+              <ProblemPair p={p} pairLayout={effectivePairLayout} dotScale={dotScale}
+                noDots={noDots} frameStrokeWidth={frameStrokeWidth} />
+            )} />
         ))}
       </div>
     </>
@@ -811,6 +843,8 @@ function PaperSVG({
   targetLabel = true,
   onEdgeErase,
   erase = false,
+  showDots = true,
+  overlay,
 }: {
   gridSize: GridSize;
   edges: Edge[];
@@ -828,6 +862,8 @@ function PaperSVG({
   targetLabel?: boolean; // 「ここへ」ラベルを出すか（サムネは false）
   onEdgeErase?: (i: number) => void;
   erase?: boolean;
+  showDots?: boolean;         // false=背景ドットを描かない（★●マーカーは常に描く）
+  overlay?: React.ReactNode;  // 点を消したときの薄い枠など
 }) {
   const dots = gridSize;
   const points: Point[] = [];
@@ -894,7 +930,7 @@ function PaperSVG({
                 )}
               </>
             ) : (
-              <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />
+              showDots && <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />
             )}
             {interactive && !erase && (
               <circle
@@ -907,6 +943,7 @@ function PaperSVG({
           </g>
         );
       })}
+      {overlay}
       {interactive && erase && onEdgeErase && (
         <EdgeHitLayer edges={edges} pos={(c, r) => dotPos(c, r, dots)} onErase={onEdgeErase} />
       )}
@@ -915,11 +952,13 @@ function PaperSVG({
 }
 
 function PreviewPane({
-  x, y, w, h, gridSize, edges, showLines, dotScale, starAt, targetAt,
+  x, y, w, h, gridSize, edges, showLines, dotScale, starAt, targetAt, showDots = true, frame = false,
 }: {
   x: number; y: number; w: number; h: number;
   gridSize: GridSize; edges: Edge[]; showLines: boolean; dotScale: number;
   starAt?: Point; targetAt?: Point;
+  showDots?: boolean; // false=背景ドットを描かない（★●マーカーは常に描く）
+  frame?: boolean;    // true=薄い正方形の枠を添える
 }) {
   // inner dots
   const dots = gridSize;
@@ -964,10 +1003,15 @@ function PreviewPane({
                 </g>
               );
             }
-            return <circle key={`${c}-${r}`} cx={p.x} cy={p.y} r={dotR} />;
+            return showDots ? <circle key={`${c}-${r}`} cx={p.x} cy={p.y} r={dotR} /> : null;
           })
         )}
       </g>
+      {frame && (
+        <rect x={x + paneMin * 0.02} y={y + paneMin * 0.02}
+          width={w - paneMin * 0.04} height={h - paneMin * 0.04}
+          fill="none" stroke={AXIS_INK} strokeWidth={Math.max(0.25, lineW * 0.55)} />
+      )}
       {showLines && edges.map((e, i) => {
         const a = pos(e.a.c, e.a.r);
         const b = pos(e.b.c, e.b.r);
@@ -979,7 +1023,10 @@ function PreviewPane({
   );
 }
 
-function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: PairLayout; dotScale: number }) {
+// noDots=true で背景ドットを省き（★●マーカーは残す）、かくマス側にだけ薄い正方形の枠を重ねる。
+function ProblemPair({ p, pairLayout, dotScale, noDots, frameStrokeWidth }: {
+  p: Problem; pairLayout: PairLayout; dotScale: number; noDots: boolean; frameStrokeWidth: number;
+}) {
   const isH = pairLayout === "horizontal";
   const start = p.edges[0].a;
   const tgt = { c: start.c + p.dc, r: start.r + p.dr };
@@ -987,7 +1034,8 @@ function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: Pair
     <>
       <div className="print-cell">
         <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK} dotScale={dotScale} starAt={start} starInk={PRINT_INK} />
+          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK} dotScale={dotScale} starAt={start} starInk={PRINT_INK}
+            showDots={!noDots} />
         </div>
       </div>
       {/* 模写と同じ標準の細線矢印（移動方向は ★→● で示す） */}
@@ -1009,7 +1057,12 @@ function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: Pair
       <div className="print-cell">
         <div className="print-pane">
           {/* 出題は解答ペイン空。移動先だけ ● で示す */}
-          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK} dotScale={dotScale} targetAt={tgt} targetInk={PRINT_INK} />
+          <PaperSVG gridSize={p.gridSize} edges={[]} showLines={false} ink={PRINT_INK} dotScale={dotScale} targetAt={tgt} targetInk={PRINT_INK}
+            showDots={!noDots}
+            overlay={noDots ? (
+              <rect x={VIEW * 0.02} y={VIEW * 0.02} width={VIEW * 0.96} height={VIEW * 0.96}
+                fill="none" stroke={AXIS_INK} strokeWidth={frameStrokeWidth} />
+            ) : undefined} />
         </div>
       </div>
     </>

@@ -79,7 +79,9 @@ export function buildPageSvg(opts: {
   nameField: boolean;
   dotScale: number;
   logo: LogoInfo | null;
+  noDots?: boolean; // true=背景の点をとる（かくマス側は既に欠け図の線があるため枠は付けない）
 }): string {
+  const showDots = !opts.noDots;
   return buildPageSvgFrame<Problem>({
     ...opts,
     renderCell: (p, ctx) => {
@@ -93,15 +95,15 @@ export function buildPageSvg(opts: {
         const pairW = pane * 2 + gap;
         const sx = cx + (cellW - pairW) / 2;
         const sy = areaY + (areaH - pane) / 2;
-        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale);
-        body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, gapEdges, true, dotScale);
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, showDots);
+        body += paneSvgString(sx + pane + gap, sy, pane, p.gridSize, gapEdges, true, dotScale, showDots);
         body += arrowSvgString(sx + pane + (gap - aSize) / 2, sy + pane / 2, aSize, "right");
       } else {
         const pairH = pane * 2 + gap;
         const sx = cx + (cellW - pane) / 2;
         const sy = areaY + (areaH - pairH) / 2;
-        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale);
-        body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, gapEdges, true, dotScale);
+        body += paneSvgString(sx, sy, pane, p.gridSize, p.edges, true, dotScale, showDots);
+        body += paneSvgString(sx, sy + pane + gap, pane, p.gridSize, gapEdges, true, dotScale, showDots);
         body += arrowSvgString(sx + pane / 2, sy + pane + (gap - aSize) / 2, aSize, "down");
       }
       return body;
@@ -125,6 +127,7 @@ function PaperSVG({
   showActiveHighlight,
   ink = INK,
   dotScale = 1,
+  showDots = true,
 }: {
   gridSize: GridSize;
   edges: Edge[];
@@ -137,6 +140,7 @@ function PaperSVG({
   showActiveHighlight?: boolean;
   ink?: string;
   dotScale?: number;
+  showDots?: boolean; // false=背景ドットを描かない（図形模写トライアル）
 }) {
   const rKeySet = rEdges && rEdges.length > 0 ? new Set(rEdges.map(edgeKey)) : null;
   const dots = gridSize;
@@ -179,7 +183,7 @@ function PaperSVG({
             {showActiveHighlight && isSel && (
               <circle cx={pos.x} cy={pos.y} r={7} fill="#2C6E7F" opacity={0.18} />
             )}
-            <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />
+            {showDots && <circle cx={pos.x} cy={pos.y} r={r} fill={fill} />}
             {interactive && !erase && (
               <circle
                 cx={pos.x} cy={pos.y} r={9}
@@ -231,6 +235,8 @@ export default function MakerFillApp() {
   // 編集中の保存問題 id（null=新規作成モード）。set されると保存ボタンが「変更を保存」に変身。
   const [editingId, setEditingId] = useState<string | null>(null);
   const isEditing = editingId != null;
+  // 背景の点をとる（白紙模写形式）。かくマス側は元々欠け図の線があるため、枠は付けず点だけ消す。
+  const [noDots, setNoDots] = useState(false);
 
   // history stack — both F and R per snapshot
   function applySnap(s: Snap) {
@@ -407,6 +413,7 @@ export default function MakerFillApp() {
           paper, problems: pages[pi],
           pageNo: pi + 1, pageCount: pages.length,
           marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
+          noDots,
         }),
         // tenzu_yyyymmddhhmm.pdf — 2回目以降の上書き事故を防ぐタイムスタンプ命名
         filename: (stamp) => `tenzu_${stamp}.pdf`,
@@ -534,7 +541,7 @@ export default function MakerFillApp() {
           />
 
           <SettingsFold
-            current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: ${pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: ${nameField ? "あり" : "なし"}`}>
+            current={`用紙: ${paper.label} · 問数: ${perPage === "auto" ? "おまかせ" : `${perPage}問/頁`} · 並び: ${pairLayout === "auto" ? "おまかせ" : pairLayout === "horizontal" ? "横" : "上下"} · 名前欄: ${nameField ? "あり" : "なし"} · 背景の点: ${noDots ? "なし" : "あり"}`}>
             <PaperGroup paperKey={paperKey} onSelect={selectPaper} />
             <PerPageGroup
               perPage={perPage}
@@ -571,6 +578,18 @@ export default function MakerFillApp() {
             </div>
 
             <NameFieldGroup value={nameField} onChange={setNameField} />
+
+            <div className="group">
+              <h3>背景の点</h3>
+              <label className="chk-row">
+                <input type="checkbox" checked={noDots}
+                  onChange={(e) => setNoDots(e.target.checked)} />
+                <span>背景の点をとる</span>
+              </label>
+              <p className="seg-hint">
+                完成図・欠け図の両方から点を消します。欠け図は元々線があるため枠は付きません。
+              </p>
+            </div>
           </SettingsFold>
 
           <PreviewShell
@@ -610,9 +629,11 @@ export default function MakerFillApp() {
                     return (
                       <>
                         <PreviewPane x={startX} y={startY} w={pane} h={pane}
-                          gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} />
+                          gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds}
+                          showDots={!noDots} />
                         <PreviewPane x={startX + pane + gap} y={startY} w={pane} h={pane}
-                          gridSize={p.gridSize} edges={gapEdges} showLines={true} dotScale={ds} />
+                          gridSize={p.gridSize} edges={gapEdges} showLines={true} dotScale={ds}
+                          showDots={!noDots} />
                         <ArrowSVG
                           x={startX + pane + (gap - aSize) / 2}
                           y={startY + pane / 2}
@@ -629,9 +650,11 @@ export default function MakerFillApp() {
                   return (
                     <>
                       <PreviewPane x={startX} y={startY} w={pane} h={pane}
-                        gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds} />
+                        gridSize={p.gridSize} edges={p.edges} showLines={true} dotScale={ds}
+                        showDots={!noDots} />
                       <PreviewPane x={startX} y={startY + pane + gap} w={pane} h={pane}
-                        gridSize={p.gridSize} edges={gapEdges} showLines={true} dotScale={ds} />
+                        gridSize={p.gridSize} edges={gapEdges} showLines={true} dotScale={ds}
+                        showDots={!noDots} />
                       <ArrowSVG
                         x={startX + pane / 2}
                         y={startY + pane + (gap - aSize) / 2}
@@ -675,7 +698,7 @@ export default function MakerFillApp() {
             problemsPerPage={effectivePerPage}
             pairLayout={effectivePairLayout}
             nameField={nameField}
-            renderPair={(p) => <ProblemPair p={p} pairLayout={effectivePairLayout} dotScale={dotScale} />} />
+            renderPair={(p) => <ProblemPair p={p} pairLayout={effectivePairLayout} dotScale={dotScale} noDots={noDots} />} />
         ))}
       </div>
     </>
@@ -685,13 +708,16 @@ export default function MakerFillApp() {
 // =========================================================================
 // 欠け補完固有の印刷サブコンポーネント（みほん=F → 矢印 → かくマス=G(=F∖R)）
 // =========================================================================
-function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: PairLayout; dotScale: number }) {
+function ProblemPair({ p, pairLayout, dotScale, noDots }: {
+  p: Problem; pairLayout: PairLayout; dotScale: number; noDots: boolean;
+}) {
   const isH = pairLayout === "horizontal";
   return (
     <>
       <div className="print-cell">
         <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK} dotScale={dotScale} />
+          <PaperSVG gridSize={p.gridSize} edges={p.edges} showLines={true} ink={PRINT_INK}
+            dotScale={dotScale} showDots={!noDots} />
         </div>
       </div>
       <div className="print-arrow" aria-hidden="true">
@@ -711,7 +737,8 @@ function ProblemPair({ p, pairLayout, dotScale }: { p: Problem; pairLayout: Pair
       </div>
       <div className="print-cell">
         <div className="print-pane">
-          <PaperSVG gridSize={p.gridSize} edges={gapOf(p.edges, p.rEdges)} showLines={true} ink={PRINT_INK} dotScale={dotScale} />
+          <PaperSVG gridSize={p.gridSize} edges={gapOf(p.edges, p.rEdges)} showLines={true} ink={PRINT_INK}
+            dotScale={dotScale} showDots={!noDots} />
         </div>
       </div>
     </>
