@@ -44,7 +44,7 @@ export const GENRES: Genre[] = [
     emoji: "🚪",
     name: "はじめての点描写",
     lead: "「点描写って何？」という方の入口。",
-    slugs: ["point-drawing-guide", "visual-spatial-cognition"],
+    slugs: ["point-drawing-guide"],
   },
   {
     id: "effects",
