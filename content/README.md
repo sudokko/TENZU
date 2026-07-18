@@ -4,7 +4,7 @@
 
 - TENZU の記事コンテンツ（Pillar / Cluster / FAQ / LLMO）を扱う設計領域
 - **大原則（2026-06-03・[clusters.md §1.5](clusters.md)／受け皿改定 2026-06-08 [decisions.md §5.6](../decisions.md)）**: 記事は**情報意図のクエリだけ**を拾う。取引意図（プリント／無料／簡単／難しい／立体／年齢）は記事化せず**専用ファセットLP・商品タグ・カテゴリページ**へ（**メーカーは受け皿から除外**＝取引LPは有償一本／無料意図は無料LPのサンプル閲覧＋工房導線＝「見せる無料」・仕様 [pack-commerce.md §25.6](../product/pack-commerce.md)・[decisions.md §4.9](../decisions.md)）
-- これにより**実際に書く記事は 16 ページ**: 正規ハブ P1 ＋ 確定 8 記事 ＋ 学術土台 C3-4 ＋ LLMO 2 ＋ FAQ 3。降格・削除は [clusters.md](clusters.md) 各表の「種別」参照
+- これにより**実際に書く記事は 18 ページ**: 正規ハブ P1 ＋ 用途ハブ P2〜P4（P2 は旧 C2-1/C2-3 統合のハブ兼クラスタ `/kumon-math-shape/`）＋ 確定 Cluster 6（P5 兼任 C5-1 含む）＋ 学術土台 C3-4 ＋ LLMO 2 ＋ FAQ 3 ＋ 商品ガイド C4-10 ＋ 比較 C3-6。降格・削除は [clusters.md](clusters.md) 各表の「種別」参照
 - 構造: **正規ハブ P1 ＋ 用途ハブ P2/P3/P4/P5**（5 Pillar）。Pillar 構造 SSOT は [decisions.md §3.32](../decisions.md)、本縮減は [decisions.md §3.42](../decisions.md)
 - **執筆の役割分担**: 構成・目次＝AI 提案→**オーナー確定**（[structure-craft.md](structure-craft.md)）／本文化＝AI（[writing-craft.md](writing-craft.md)）／リード・TLDR＝AI 下書き→オーナー仕上げ（[decisions.md §3.49](../decisions.md)）
 - 主要 IA: 3 階層フラット URL（全記事 `/{slug}/`）
@@ -49,6 +49,8 @@
 **記事リスト確定（2026-06-03）**: 検索意図ベースで記事を 16 ページに縮減（[clusters.md §1.5](clusters.md)・[decisions.md §3.42](../decisions.md)）。取引意図クエリは専用ファセットLP・商品タグ/カテゴリ側（メーカー除外・[pack-commerce.md §25.6](../product/pack-commerce.md)・[decisions.md §5.6](../decisions.md)）。執筆は確定 8 記事＋P1 から着手可能。
 
 **正規記事バッチ執筆済み（2026-07-08）**: 正規タクソノミ全記事（Pillar 5＋Cluster 9＋LLMO 2＋FAQ 3）＋ブランドステイトメントの計 20 本を `docs/drafts/articles/` にドラフト納品（構成メモ・検品レポート `_batch-report.md` 併置）。NG grep・llmo-check 全通過・article-reviewer 反映済み。**公開昇格はオーナーレビュー後**（残存【要確認】は同レポート参照）。
+
+**C4-10・C3-6 追加（2026-07-18）**: 商品ガイド `print-settings-guide.mdx`（P4 配下・印刷設定ショーケース・960 通り・SKU `#preview` 送客）と比較記事 `figure-copy-vs-point-drawing.mdx`（P3 配下・図形模写と点図形の違い・LLMO 主目的・faq_schema 付き・小受は受動拾い）を新設・ドラフト納品。検品通過済み・公開昇格は同上オーナーレビュー待ち。
 
 ## 附録
 

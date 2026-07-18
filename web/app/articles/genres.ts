@@ -75,7 +75,7 @@ export const GENRES: Genre[] = [
     emoji: "🏫",
     name: "公文との並走",
     lead: "公文家庭の「図形の席」の埋め方。",
-    slugs: ["next-after-kumon", "kumon-shape-supplement", "kumon-math-shape"],
+    slugs: ["kumon-math-shape"],
   },
   {
     id: "choose",

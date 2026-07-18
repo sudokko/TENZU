@@ -34,9 +34,9 @@
 
 | カテゴリ | パターン | 例 |
 |---|---|---|
-| Pillar | `/point-drawing-{purpose}/` ／ `/from-{action}/` ／ `/next-after-{ref}/` ／ `/teaching-{topic}/` | `/point-drawing-guide/` ／ `/teaching-point-drawing/` |
+| Pillar | `/point-drawing-{purpose}/` ／ `/from-{action}/` ／ `/{ref}-math-shape/` ／ `/teaching-{topic}/` | `/point-drawing-guide/` ／ `/kumon-math-shape/` |
 | P1 配下 Cluster | `/point-drawing-{topic}/` | `/point-drawing-3d/` |
-| P2 配下 Cluster | `/{ref}-shape-supplement/` ／ `/from-{prev}/` ／ `/{ref}-math-shape/` | `/kumon-shape-supplement/` |
+| P2 配下 Cluster | `/from-{prev}/`（内部誘導のみ・P2 本体は `/{ref}-math-shape/` でハブ兼任） | `/from-dot-connecting/`（予約） |
 | P3 配下 Cluster | `/{symptom}-{solution}/` ／ `/how-to-{action}/` | `/how-to-draw-isometric/` |
 | P4 配下 Cluster | `/vs-{brand}/` ／ `/{brand}-support/` ／ `/{topic}-comparison/` ／ `/point-drawing-{effect-topic}/` ／ `/how-to-train-{ability}/` | `/vs-pygmalion/` ／ `/point-drawing-effects/` |
 | P5 配下 Cluster | `/teaching-{topic}/`（P5 ハブ兼任） | `/teaching-point-drawing/` |
@@ -59,7 +59,7 @@
 | # | 仮タイトル | スラッグ |
 |---|---|---|
 | **P1** 正規ハブ | 点図形（点描写）とは | `/point-drawing-guide/` |
-| **P2** 用途ハブ | 公文の次に、家庭で図形を足す | `/next-after-kumon/` |
+| **P2** 用途ハブ | 公文の算数で図形が出てこない理由と、家庭での補い方（旧 C2-1/C2-3 統合・ハブ兼クラスタ） | `/kumon-math-shape/` |
 | **P3** 用途ハブ | 形を見て、写す力から | `/from-copying-shapes/` |
 | **P4** 用途ハブ | 選び方と使い分け | `/how-to-choose-and-use/` |
 | **P5** 用途ハブ | 点描写の教え方（親向け実践・C5-1 と同一記事） | `/teaching-point-drawing/` |
@@ -77,15 +77,15 @@
 
 **注**: 旧 C1-1（旧スラッグ `/point-drawing-effects/`）は P4 配下 **C4-1** へ移設（同スラッグ維持・URL 変更なし・SEO 資産そのまま継承）。
 
-#### 3.3 P2 配下 Cluster（3 本）
+#### 3.3 P2 配下 Cluster（P2 本体へ統合済み）
 
 | # | KW | スラッグ |
 |---|---|---|
-| C2-1 | 公文 図形 | `/kumon-shape-supplement/` |
-| C2-2 | 点つなぎ 次（CEP 内部誘導） | `/from-dot-connecting/` |
-| **C2-3** | **公文 算数 図形（新設）** | **`/kumon-math-shape/`** |
+| C2-1 | 公文 図形 | **`/kumon-math-shape/`**（P2 ハブ兼任・本体後半の実務パートで受ける） |
+| C2-2 | 点つなぎ 次（CEP 内部誘導） | `/from-dot-connecting/`（予約・独立記事化しない） |
+| C2-3 | 公文 算数 図形 | **`/kumon-math-shape/`**（P2 ハブ兼任・本体前半の理由パートで受ける） |
 
-#### 3.4 P3 配下 Cluster（記事 4 本）
+#### 3.4 P3 配下 Cluster（記事 5 本）
 
 | # | KW | スラッグ | 種別 |
 |---|---|---|---|
@@ -94,13 +94,15 @@
 | C3-3 | 小4 算数 つまずき | `/grade-4-math-stuck/` | 記事 |
 | C3-4 | 視覚空間 学び（学術背景） | `/visuospatial-and-learning/` | 記事・学術土台 |
 | ~~C3-5~~ | ~~漢字 字形~~ | ~~`/kanji-form-recognition/`~~ | **L-2 へ統合**（VOL 0・独立記事化しない） |
+| **C3-6** | 図形模写 とは／点図形 違い（VOL 未計測・2026-07-18 新設） | **`/figure-copy-vs-point-drawing/`** | **記事・cluster-compare（LLMO 主目的）** |
 
-#### 3.5 P4 配下（記事 2 本＋カテゴリLP／LP）
+#### 3.5 P4 配下（記事 3 本＋カテゴリLP／LP）
 
 | # | KW | スラッグ | 種別 |
 |---|---|---|---|
 | **C4-1** | **点描写 効果 70（P4 旗艦・C1-1 から移設）** | **`/point-drawing-effects/`** | **記事・旗艦** |
 | **C4-2** | **空間認識能力 鍛える 1,300（啓蒙ハブ）** | **`/how-to-train-spatial-recognition/`** | **記事・啓蒙ハブ** |
+| **C4-10** | 指名近接・印刷設定（VOL 期待なし・2026-07-18 新設） | **`/print-settings-guide/`** | **記事・商品ガイド（product-family）** |
 | C4-3 | 空間認知 プリント 320 | `/spatial-awareness-printables/` | **カテゴリLP**（記事でなく商品一覧＋上部ガイド・ItemList/Product Schema） |
 | ~~C4-4~~ | ~~ピグマリオン 点描写 210~~ | ~~`/vs-pygmalion/`~~ | **削除（2026-06-03）** |
 | C4-5 | 天才ドリル 点描写 70 | （`/vs-tensai-drill/` 保留） | 軽量 LP／L-1 統合 |
@@ -149,7 +151,7 @@
 |---|---|
 | P1 正規ハブ | ホーム > 点図形（点描写）とは |
 | P1 配下 Cluster | ホーム > 点図形（点描写）とは > 立体の点描写 |
-| P2 配下 Cluster | ホーム > 公文の次に > 公文の図形が手薄だと感じたら |
+| P2 ハブ兼クラスタ | ホーム > 公文の算数で図形が出てこない理由と、家庭での補い方 |
 | P3 配下 Cluster | ホーム > 形を見て、写す力から > 見取り図の描き方 |
 | P4 配下 Cluster | ホーム > 選び方と使い分け > 点描写で育つ「形の向き・位置・大きさをとらえる力」 |
 | P5 配下 Cluster | ホーム > 親が子に寄り添う > 点描写の教え方 |
@@ -196,7 +198,7 @@
 | Cluster 群 | 親 Pillar |
 |---|---|
 | C1-2 〜 C1-5 | P1 正規ハブ |
-| C2-1 〜 C2-3 | P2 用途ハブ |
+| C2-1 〜 C2-3（P2 本体へ統合済み） | P2 用途ハブ |
 | C3-1 〜 C3-5 | P3 用途ハブ |
 | C4-1 〜 C4-9 | P4 用途ハブ |
 | C5-1 | P5 用途ハブ |

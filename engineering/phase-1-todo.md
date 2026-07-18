@@ -5,7 +5,7 @@
 - ローンチ（本番公開）までに必要な残作業の SSOT。**未了項目のみを載せ、完了した項目は行ごと削除する**（済欄は作らない）
 - **最優先＝SES サンドボックス脱出**（Production access 申請・人間作業）。購入復元マジックリンクが検証済みアドレス以外に届かない状態の解消
 - 本番に必要な env は **STRIPE_SECRET_KEY（live）・STRIPE_WEBHOOK_SECRET・AUTH_SECRET（強ランダム）・SES_\*・SITE_URL・NEXT_PUBLIC_GTM_ID・ADMIN_SECRET・ONSITE_TABLE・ONSITE_IMAGE_BUCKET・APP_AWS_\***。チェックリスト＝[web/.env.production.example](../web/.env.production.example)
-- 残実装は1ピース: **(A) 商品ページ→工房（メーカー）の送客導線**。計測（GA4+GTM・`tool_start`/`generated_pdf`/`purchase`・アタッチ率）は**コード実装済み**＝残りは Google コンソール設定（人間作業・[analytics.md §5](analytics.md)）
+- **残実装（コード）はゼロ**（送客導線(A) 商品→工房まで実装済み・開店ゲート G6 はコード側完了）。計測（GA4+GTM・`tool_start`/`generated_pdf`/`purchase`・アタッチ率）も**コード実装済み**＝残りは Google コンソール設定（人間作業・[analytics.md §5](analytics.md)）
 - Upstash・Stripe Price ID・サブスク・OTP・ログイン・billing-portal は**使わない**（§4）。認証＝所有モデル（署名 cookie）・購入復元＝マジックリンクのみ
 - 優先度: ★＝ローンチブロッカー／P1＝ローンチ直後まで／P2＝運用開始後でよい
 
@@ -59,9 +59,7 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 
 ### §2. 残実装（コード）
 
-| 優先 | 項目 | 詳細 | 上流設計 |
-|---|---|---|---|
-| P1 | **(A) 商品ページ→工房の送客導線** | クロスセル MVP の未実装ピース。`products/[slug]` にメーカー誘導が無い（[screen-flow §6](../design/navigation/screen-flow.md) のバナーは紙商品のみ） | [decisions.md §4.6](../decisions.md) |
+なし。
 
 ### §3. 運用開始後（P2）
 

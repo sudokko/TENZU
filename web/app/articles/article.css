@@ -107,7 +107,7 @@ article.article-body p {
   color: var(--fg);
   margin: 0 0 20px;
 }
-article.article-body p.lead-graf {
+article.article-body .lead-graf p {
   font-family: var(--font-tier2-pencil);
   font-size: 17px;
   line-height: 1.85;

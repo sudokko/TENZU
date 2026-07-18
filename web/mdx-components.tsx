@@ -12,7 +12,7 @@ import type { ReactNode } from "react";
 
 // リード段落（本文冒頭の一段）。.article-body p.lead-graf
 function LeadGraf({ children }: { children?: ReactNode }) {
-  return <p className="lead-graf">{children}</p>;
+  return <div className="lead-graf">{children}</div>;
 }
 
 // 研究引用＋TENZU 訳ブロック。.tenzu-translate
@@ -27,12 +27,12 @@ function TenzuTranslate({
 }) {
   return (
     <div className="tenzu-translate">
-      <p className="src">
+      <div className="src">
         {src}
         {cite ? <span className="cite">{cite}</span> : null}
-      </p>
+      </div>
       <p className="label">TENZU 訳</p>
-      <p className="trans">{children}</p>
+      <div className="trans">{children}</div>
     </div>
   );
 }
@@ -63,7 +63,7 @@ function Diagram({
 function Quote({ author, children }: { author?: ReactNode; children?: ReactNode }) {
   return (
     <div className="article-quote">
-      <p className="q">{children}</p>
+      <div className="q">{children}</div>
       {author ? <p className="a">{author}</p> : null}
     </div>
   );
@@ -74,7 +74,7 @@ function SideNote({ label, children }: { label?: ReactNode; children?: ReactNode
   return (
     <aside className="article-sidenote">
       {label ? <div className="sn-label">{label}</div> : null}
-      <p className="sn-body">{children}</p>
+      <div className="sn-body">{children}</div>
     </aside>
   );
 }
