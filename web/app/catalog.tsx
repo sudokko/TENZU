@@ -360,6 +360,7 @@ export function SiteFooter() {
               <li><a href="/articles">記事ハブ</a></li>
               <li><a href="#">About TENZU</a></li>
               <li><a href="#">FAQ</a></li>
+              <li><a href="/contact">お問い合わせ</a></li>
               <li><a href="#">改訂履歴</a></li>
             </ul>
           </div>

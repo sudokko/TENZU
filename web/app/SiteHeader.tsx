@@ -1,6 +1,6 @@
 import CartBadge from "./cart/CartBadge";
 
-type NavKey = "商品" | "メーカー" | "記事" | "レベル選び" | "About";
+type NavKey = "商品" | "メーカー" | "記事" | "レベル選び" | "About" | "お問い合わせ";
 
 const NAV_LINKS: { href: string; label: NavKey }[] = [
   { href: "/products", label: "商品" },
@@ -8,6 +8,7 @@ const NAV_LINKS: { href: string; label: NavKey }[] = [
   { href: "/articles", label: "記事" },
   { href: "/level-guide", label: "レベル選び" },
   { href: "/articles/tenzu-concept", label: "About" },
+  { href: "/contact", label: "お問い合わせ" },
 ];
 
 export default function SiteHeader({ currentNav }: { currentNav?: NavKey }) {

@@ -89,12 +89,15 @@
 .mem-field label {
   display: block; font-family: var(--font-tier3-sans); font-size: 12px; color: var(--fg-2); margin-bottom: 6px;
 }
-.mem-field input {
+.mem-field input,
+.mem-field textarea {
   width: 100%; font-family: var(--font-tier3-sans); font-size: 15px; color: var(--fg);
   padding: 11px 13px; border: 1px solid var(--line-thin); border-radius: var(--radius-soft);
   background: var(--bg);
 }
-.mem-field input:focus { outline: 1.5px solid var(--accent); border-color: transparent; }
+.mem-field textarea { resize: vertical; line-height: 1.7; }
+.mem-field input:focus,
+.mem-field textarea:focus { outline: 1.5px solid var(--accent); border-color: transparent; }
 .mem-btn {
   width: 100%; cursor: pointer; font-family: var(--font-tier3-sans); font-weight: 600; font-size: 14px;
   padding: 12px 16px; border-radius: var(--radius-soft); border: none;

@@ -71,6 +71,72 @@ export async function sendPurchaseEmail(opts: {
   }));
 }
 
+/* 問い合わせフォーム（/contact）の内容をオーナーへ通知する。
+   宛先は CONTACT_NOTIFY_EMAILS（カンマ区切り）。問い合わせ者のメールがあれば
+   Reply-To に入れて、受信メールからそのまま返信できるようにする。
+   ⚠ SES サンドボックス中は宛先も検証済みである必要がある（ファイル冒頭コメント参照）。 */
+export async function sendContactMail(opts: {
+  company?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+}): Promise<void> {
+  const from = process.env.SES_FROM_EMAIL;
+  if (!from) throw new Error("SES_FROM_EMAIL 未設定");
+  const to = (process.env.CONTACT_NOTIFY_EMAILS ?? "tenzu.info@gmail.com,k-sudou@hotmail.co.jp")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (to.length === 0) throw new Error("CONTACT_NOTIFY_EMAILS 未設定");
+
+  const rows: [string, string][] = [
+    ["会社名", opts.company ?? "（未記入）"],
+    ["お名前", opts.name ?? "（未記入）"],
+    ["メール", opts.email ?? "（未記入）"],
+    ["電話番号", opts.phone ?? "（未記入）"],
+  ];
+  const textBody = [
+    "TENZU サイトの問い合わせフォームから新しい問い合わせが届きました。",
+    "",
+    ...rows.map(([k, v]) => `${k}: ${v}`),
+    "",
+    "問い合わせ内容:",
+    opts.message ?? "（未記入）",
+    "",
+    "— TENZU 問い合わせフォーム（/contact）",
+  ].join("\n");
+
+  const htmlBody = `
+    <div style="font-family:sans-serif;line-height:1.7;color:#3A424E">
+      <p>TENZU サイトの問い合わせフォームから新しい問い合わせが届きました。</p>
+      <table style="border-collapse:collapse">
+        ${rows
+          .map(
+            ([k, v]) =>
+              `<tr><td style="padding:4px 16px 4px 0;color:#9AA0AA;white-space:nowrap">${esc(k)}</td><td style="padding:4px 0">${esc(v)}</td></tr>`,
+          )
+          .join("")}
+      </table>
+      <p style="margin-top:16px;color:#9AA0AA">問い合わせ内容:</p>
+      <p style="white-space:pre-wrap;border-left:3px solid #E4E7EC;padding-left:12px">${esc(opts.message ?? "（未記入）")}</p>
+      <p style="font-size:12px;color:#9AA0AA">— TENZU 問い合わせフォーム（/contact）</p>
+    </div>`;
+
+  await ses.send(new SendEmailCommand({
+    Source: from,
+    Destination: { ToAddresses: to },
+    ...(opts.email && opts.email.includes("@") ? { ReplyToAddresses: [opts.email] } : {}),
+    Message: {
+      Subject: { Data: "【TENZU】問い合わせフォームから新着", Charset: "UTF-8" },
+      Body: {
+        Text: { Data: textBody, Charset: "UTF-8" },
+        Html: { Data: htmlBody, Charset: "UTF-8" },
+      },
+    },
+  }));
+}
+
 /* 購入したメーカーの別端末復元リンク（マジックリンク）。
    買い切り（payment mode）完了時・別端末からの復元時に送る。
    リンク先 = /api/auth/verify?token=...（署名トークンを検証し、Stripe 履歴から所有を再 mint）。 */

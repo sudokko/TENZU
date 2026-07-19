@@ -64,6 +64,7 @@
 |---|---|---|---|
 | キャンペーン定義 | `"CAMPAIGN"` | `{id}` | 下記 Campaign 型の全フィールド＋ `createdAt` / `updatedAt` |
 | 日次カウンタ | `"STAT"` | `"{yyyy-mm-dd}#{id}"`（JST） | `show` / `click` / `dismiss`（`ADD` でアトミック加算）・`date`・`campaignId` |
+| 問い合わせ履歴 | `"CONTACT"` | `"{ISO日時}#{短ID}"` | `company` / `name` / `email` / `phone` / `message`（全部任意）・`id`・`createdAt`。問い合わせフォーム（/contact）が書き、/admin/contact が読む（実装 `web/app/lib/contact-store.ts`・decisions §3.82） |
 
 ```ts
 type Campaign = {
@@ -82,7 +83,7 @@ type Campaign = {
 ```
 
 - 型定義と初期シード配列（`SEED_CAMPAIGNS`）は `web/app/components/onsite/campaigns.ts`。**日常の編集は管理画面 §9 から行い、この配列を書き換えても本番には反映されない**
-- 永続層の実装: `web/app/lib/onsite-store.ts`（Query / atomic ADD / 期間 Range Query）
+- 永続層の実装: `web/app/lib/onsite-store.ts`（Query / atomic ADD / 期間 Range Query）。問い合わせ履歴のみ `web/app/lib/contact-store.ts`（同テーブル相乗り）
 - 全定義取得＝`Query PK="CAMPAIGN"`（常時 5 本規模）。期間統計＝`Query PK="STAT" AND SK BETWEEN`（1 Query）
 
 ### §5. 頻度制御・既読管理

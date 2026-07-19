@@ -4,7 +4,11 @@
    ページを読み直して Server Component（page.tsx）側の分岐に任せる。 */
 import { useState } from "react";
 
-export default function AdminLogin() {
+export default function AdminLogin({
+  title = "オンサイトメッセージ管理",
+}: {
+  title?: string;
+}) {
   const [secret, setSecret] = useState("");
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
@@ -35,7 +39,7 @@ export default function AdminLogin() {
 
   return (
     <main className="adm-login">
-      <h1 className="adm-login-title">オンサイトメッセージ管理</h1>
+      <h1 className="adm-login-title">{title}</h1>
       <form className="adm-login-form" onSubmit={submit}>
         <input
           className="adm-input"
