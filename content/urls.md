@@ -126,13 +126,12 @@
 | **L-1** | **P4 系ゼロ群集約（選び方完全ガイド）** | **`/point-drawing-complete-guide/`** |
 | **L-2** | **J4 啓蒙系＋S-c 書字系ゼロ群集約（育て方 Q&A）** | **`/family-shape-spatial-qa/`** |
 
-#### 3.8 FAQ 独立（3 本）
+#### 3.8 FAQ 独立（2 本）
 
 | # | KW | スラッグ |
 |---|---|---|
 | F-1 | 点描写 商業利用 | `/faq-commercial-use/` |
 | F-2 | 点描写 ライセンス 教員 | `/faq-teacher-license/` |
-| F-3 | 点描写 著作権 | `/faq-copyright/` |
 
 #### 3.9 受動拾い LP（記事カウント外・参考）
 

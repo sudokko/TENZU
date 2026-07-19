@@ -101,6 +101,6 @@ export const GENRES: Genre[] = [
     emoji: "⚖️",
     name: "ご利用のルール",
     lead: "商用利用・教室利用・著作権について。",
-    slugs: ["faq-commercial-use", "faq-teacher-license", "faq-copyright"],
+    slugs: ["faq-commercial-use", "faq-teacher-license"],
   },
 ];
