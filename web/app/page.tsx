@@ -600,9 +600,9 @@ export default function Home() {
                 </div>
                 <p className="tr-feat-point">
                   同じ一巻を、その日の子に合わせて。大きく書きたい日も、たっぷり解きたい日も。
-                  用紙・向き・1 枚の問数・点の大きさ……その組み合わせは、同じ 12 問で 960 通り。
+                  用紙・向き・1 枚の問数・点の大きさまで、その子にちょうどいい一枚に刷り分けられます。
                 </p>
-                <a className="tr-feat-cta" href="/articles/print-settings-guide">印刷設定のすべて — 960 通りの刷り分けを見る →</a>
+                <a className="tr-feat-cta" href="/articles/print-settings-guide">その子にちょうどいい一枚の、刷り方 →</a>
               </div>
             </div>
 
