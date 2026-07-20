@@ -1,6 +1,7 @@
 /* 問い合わせフォーム（/contact）の受け口。
-   - body: { company?, name?, email?, phone?, message?, website? }
-   - 全項目任意だが「全部空」は 400。website はハニーポット（人間には見えない
+   - body: { company?, name?, email, message, phone?, website? }
+   - email（形式チェックあり）と message は必須・欠けると 400。他は任意。
+     website はハニーポット（人間には見えない
      フィールド。埋まっていたら bot とみなし、保存せず ok を返して静かに捨てる。
      rate-limit 基盤を持たないため（api/admin/login/route.ts 参照）これが第一防壁）。
    - DynamoDB 保存（contact-store）→ SES 通知（sendContactMail）。
@@ -46,8 +47,11 @@ export async function POST(req: NextRequest) {
     phone: field(body.phone, LIMITS.phone),
     message: field(body.message, LIMITS.message),
   };
-  if (!input.company && !input.name && !input.email && !input.phone && !input.message) {
-    return Response.json({ error: "いずれかの項目をご入力ください" }, { status: 400 });
+  if (!input.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email)) {
+    return Response.json({ error: "メールアドレスをご確認ください" }, { status: 400 });
+  }
+  if (!input.message) {
+    return Response.json({ error: "お問い合わせ内容をご入力ください" }, { status: 400 });
   }
 
   let saved = false;

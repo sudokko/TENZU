@@ -22,8 +22,16 @@ export default function ContactApp() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (![company, name, email, phone, message].some((v) => v.trim())) {
-      setError("いずれかの項目をご入力ください。");
+    if (!email.trim()) {
+      setError("お返事のためメールアドレスをご入力ください。");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError("メールアドレスの形式をご確認ください。");
+      return;
+    }
+    if (!message.trim()) {
+      setError("お問い合わせ内容をご入力ください。");
       return;
     }
     setBusy(true);
@@ -55,7 +63,7 @@ export default function ContactApp() {
           <p>
             TENZU へのご質問・ご相談はこちらからどうぞ。
             教室・指導の場でのご利用のご相談は、用途と想定される人数を添えていただけると
-            お返事がスムーズです。項目はすべて任意です。
+            お返事がスムーズです。メールアドレスとお問い合わせ内容のみ必須です。
           </p>
         </div>
 
@@ -63,7 +71,7 @@ export default function ContactApp() {
           {sent ? (
             <p className="mem-msg ok">
               お問い合わせを受け付けました。ありがとうございます。<br />
-              内容を確認のうえ、メールアドレスをご記入いただいた場合はお返事いたします。
+              内容を確認のうえ、ご記入のメールアドレスへお返事いたします。
             </p>
           ) : (
             <form onSubmit={submit}>
@@ -78,8 +86,9 @@ export default function ContactApp() {
                   value={name} onChange={(e) => setName(e.target.value)} />
               </div>
               <div className="mem-field">
-                <label htmlFor="ct-email">メールアドレス（任意・お返事に使います）</label>
+                <label htmlFor="ct-email">メールアドレス（必須・お返事に使います）</label>
                 <input id="ct-email" type="email" autoComplete="email" inputMode="email"
+                  required aria-required="true"
                   placeholder="you@example.com"
                   value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
@@ -89,8 +98,9 @@ export default function ContactApp() {
                   value={phone} onChange={(e) => setPhone(e.target.value)} />
               </div>
               <div className="mem-field">
-                <label htmlFor="ct-message">お問い合わせ内容（任意）</label>
+                <label htmlFor="ct-message">お問い合わせ内容（必須）</label>
                 <textarea id="ct-message" rows={3}
+                  required aria-required="true"
                   value={message} onChange={(e) => setMessage(e.target.value)} />
               </div>
               {/* honeypot: 画面外に置き、人間には見えない・触れない */}
