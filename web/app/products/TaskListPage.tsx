@@ -30,7 +30,7 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
 
   return (
     <>
-      <SiteHeader currentNav="商品" />
+      <SiteHeader currentNav="プリントを探す" />
 
       <div className="wrap">
         <nav className="crumb" aria-label="パンくず">

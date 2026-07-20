@@ -99,7 +99,7 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
     <>
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SiteHeader currentNav="商品" />
+      <SiteHeader currentNav="プリントを探す" />
 
       <div className="wrap">
         <nav className="crumb" aria-label="パンくず">

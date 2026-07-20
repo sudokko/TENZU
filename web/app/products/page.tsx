@@ -26,7 +26,7 @@ const FORCE_STAMPS = ["写", "動", "組"];
 export default function ProductsHub() {
   return (
     <>
-      <SiteHeader currentNav="商品" />
+      <SiteHeader currentNav="プリントを探す" />
       <main>
         <div className="wrap">
           <header className="plp-hub-head">

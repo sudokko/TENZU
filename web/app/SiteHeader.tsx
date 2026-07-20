@@ -1,9 +1,10 @@
 import CartBadge from "./cart/CartBadge";
+import PrintsMenu, { type MenuGroup } from "./PrintsMenu";
+import { GROUPS, TOTAL_KINDS, TOTAL_VOL } from "./catalog";
 
-type NavKey = "商品" | "メーカー" | "記事" | "レベル選び" | "About" | "お問い合わせ";
+type NavKey = "プリントを探す" | "メーカー" | "記事" | "レベル選び" | "About" | "お問い合わせ";
 
-const NAV_LINKS: { href: string; label: NavKey }[] = [
-  { href: "/products", label: "商品" },
+const NAV_LINKS: { href: string; label: Exclude<NavKey, "プリントを探す"> }[] = [
   { href: "/makers",   label: "メーカー" },
   { href: "/articles", label: "記事" },
   { href: "/level-guide", label: "レベル選び" },
@@ -12,6 +13,10 @@ const NAV_LINKS: { href: string; label: NavKey }[] = [
 ];
 
 export default function SiteHeader({ currentNav }: { currentNav?: NavKey }) {
+  const menu: MenuGroup[] = GROUPS.map((g) => ({
+    label: g.label,
+    tasks: g.tasks.map((t) => ({ slug: t.slug, name: t.name, desc: t.desc })),
+  }));
   return (
     <header className="site">
       <div className="wrap header-inner">
@@ -20,6 +25,8 @@ export default function SiteHeader({ currentNav }: { currentNav?: NavKey }) {
           <p className="ident">点図形（点描写）<br />プリントの専門店</p>
         </a>
         <nav className="nav-main" aria-label="主要ナビゲーション">
+          <PrintsMenu groups={menu} kinds={TOTAL_KINDS} vol={TOTAL_VOL}
+            active={currentNav === "プリントを探す"} />
           {NAV_LINKS.map((l) => (
             <a key={l.label} href={l.href}
               aria-current={l.label === currentNav ? "page" : undefined}>

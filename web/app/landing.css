@@ -34,8 +34,11 @@ body {
 header.site {
   border-bottom: 1px dashed var(--line-thin);
   padding: 18px 0 14px;
+  position: relative;
+  z-index: 20;
 }
 .header-inner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -87,6 +90,115 @@ header.site {
 @media (max-width: 720px) {
   .header-inner { flex-wrap: wrap; gap: 12px; }
   .nav-main { gap: 16px; font-size: 13px; }
+}
+
+/* ====================================================
+   HEADER — 「プリントを探す」プルダウン（PrintsMenu）
+   ==================================================== */
+.pmenu { position: relative; display: inline-flex; }
+.pmenu-trigger {
+  font-family: var(--font-tier3-sans);
+  font-size: inherit;
+  color: var(--fg);
+  background: none;
+  border: none;
+  border-bottom: 1.5px solid transparent;
+  letter-spacing: 0.01em;
+  padding: 0 0 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: border-color var(--dur-base) var(--ease-line);
+}
+.pmenu-trigger:hover,
+.pmenu.is-open .pmenu-trigger { border-color: var(--accent); }
+.pmenu-trigger[aria-current] { border-color: var(--fg); }
+.pmenu-caret {
+  width: 6px; height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  opacity: 0.65;
+  transition: transform var(--dur-base) var(--ease-line);
+}
+.pmenu.is-open .pmenu-caret { transform: translateY(1px) rotate(225deg); }
+
+.pmenu-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  width: 560px;
+  padding: 14px 16px 16px;
+  background: var(--bg);
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  box-shadow: 0 12px 32px rgba(26, 31, 42, .10);
+  display: none;
+}
+/* トリガーとパネルの隙間を埋める透明ブリッジ（ホバー継続用） */
+.pmenu-panel::before {
+  content: "";
+  position: absolute;
+  top: -10px; left: 0; right: 0; height: 10px;
+}
+.pmenu.is-open .pmenu-panel { display: block; }
+.pmenu-all {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 11px;
+  margin-bottom: 12px;
+  border-radius: var(--r-control);
+  background: var(--accent-mute);
+  text-decoration: none;
+}
+.pmenu-all-t { font-size: 14px; font-weight: var(--wt-emph); color: var(--accent-ink); }
+.pmenu-all-s { font-size: 12px; color: var(--fg-2); }
+.pmenu-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.pmenu-h {
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  font-weight: var(--wt-emph);
+  margin: 0 0 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--line-thin);
+}
+.pmenu-tk {
+  display: block;
+  padding: 5px 7px;
+  border-radius: var(--r-control);
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-line);
+}
+.pmenu-tk:hover { background: var(--bg-2); }
+.pmenu-nm { display: block; font-size: 14px; color: var(--fg); font-weight: var(--wt-emph); }
+.pmenu-ds { display: block; font-size: 11.5px; line-height: 1.4; color: var(--fg-3); margin-top: 1px; }
+.pmenu-mk {
+  display: block;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid var(--line-thin);
+  font-size: 12.5px;
+  color: var(--fg-2);
+  text-decoration: none;
+}
+.pmenu-mk b { color: var(--accent); font-weight: var(--wt-emph); }
+
+@media (max-width: 720px) {
+  .pmenu { position: static; }
+  .pmenu-panel {
+    left: 0; right: 0;
+    width: auto;
+    top: 100%;
+    margin-top: 12px;
+  }
+  .pmenu-cols { grid-template-columns: 1fr; gap: 2px; }
+  .pmenu-col { margin-bottom: 6px; }
 }
 
 /* ====================================================
