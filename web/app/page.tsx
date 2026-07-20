@@ -303,34 +303,87 @@ function FeatOpenSvg() {
   );
 }
 
-/* 特長3 ビジュアル（案①・紙2枚）: 「大きく1問も、ぎっしり12問も」を用紙の中身で。
-   左＝A3 に大きく 1 問（お手本の点描写）／右＝A4 に小さく 12 問（3×4）。同じ問題を
-   紙サイズと1枚の問数で刷り分けられることが図で伝わる。 */
+/* 特長3 ビジュアル（案A・実寸比の紙2枚）: 「大きく1問も、ぎっしり12問も」を用紙の中身で。
+   各問は お手本（点描写あり）→ こたえ欄（かくマス・空欄＋薄枠）の 2 マスペア。
+   左＝A4 に大きく 1 問（縦ペア）／右＝A3 にぎっしり 12 問（3×4 の小ペア）。A4 と A3 の
+   実寸比をそのまま反映し、右（A3）を一回り大きく描く。 */
 function FeatPrintSvg() {
   const jp = "'Hiragino Sans','Yu Gothic',sans-serif";
-  const g = (c: number) => 42 + c * 20;
+  const N = 4;
+  const dpt = (x: number, y: number, P: number, c: number, r: number): [number, number] =>
+    [x + P * (0.1 + (0.8 * c) / (N - 1)), y + P * (0.1 + (0.8 * r) / (N - 1))];
+  // 図＝辺集合（お手本に描く点描写）。house は大ペア用、他は 12 問のバリエーション。
+  const HOUSE: number[][][] = [
+    [[0, 1], [1, 0]], [[1, 0], [2, 0]], [[2, 0], [3, 1]], [[3, 1], [3, 3]],
+    [[3, 3], [0, 3]], [[0, 3], [0, 1]], [[0, 1], [3, 1]],
+  ];
+  const SHAPES: number[][][][] = [
+    HOUSE,
+    [[[0, 3], [3, 3]], [[3, 3], [2, 0]], [[2, 0], [0, 3]]],
+    [[[1, 0], [3, 1]], [[3, 1], [2, 3]], [[2, 3], [0, 2]], [[0, 2], [1, 0]]],
+    [[[0, 0], [3, 0]], [[3, 0], [3, 3]], [[3, 3], [0, 3]], [[0, 3], [0, 0]], [[0, 0], [3, 3]]],
+  ];
+  const dots = (x: number, y: number, P: number) =>
+    Array.from({ length: N * N }, (_, i) => {
+      const [dx, dy] = dpt(x, y, P, i % N, Math.floor(i / N));
+      return <circle key={`d${x}-${y}-${i}`} cx={dx} cy={dy} r={P * 0.024} fill={INK} opacity="0.4" />;
+    });
+  const fig = (x: number, y: number, P: number, shape: number[][][], sw: number, kp: string) =>
+    shape.map((e, k) => {
+      const [ax, ay] = dpt(x, y, P, e[0][0], e[0][1]);
+      const [bx, by] = dpt(x, y, P, e[1][0], e[1][1]);
+      return <line key={`${kp}${k}`} x1={ax} y1={ay} x2={bx} y2={by} stroke={INK} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round" />;
+    });
+  const frame = (x: number, y: number, P: number, key: string) => (
+    <rect key={key} x={x + P * 0.03} y={y + P * 0.03} width={P * 0.94} height={P * 0.94} rx="1.5" fill="none" stroke={FAINT} strokeWidth="0.7" />
+  );
+  const arrowR = (x: number, y: number, l: number, key: string) => {
+    const h = l * 0.34;
+    return <path key={key} d={`M${x} ${y} L${x + l} ${y} M${x + l - h} ${y - h} L${x + l} ${y} L${x + l - h} ${y + h}`} fill="none" stroke={INK} strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />;
+  };
+  const arrowD = (x: number, y: number, l: number, key: string) => {
+    const h = l * 0.34;
+    return <path key={key} d={`M${x} ${y} L${x} ${y + l} M${x - h} ${y + l - h} L${x} ${y + l} L${x + h} ${y + l - h}`} fill="none" stroke={INK} strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />;
+  };
+  // 左: A4 に大きく 1 問（縦ペア＝お手本 → こたえ欄）
+  const bigCx = 54, bigTop = 44, bigP = 32, bigGap = 12, arrD = 8;
+  const bigOx = bigCx - bigP / 2, bigBy = bigTop + bigP + bigGap;
+  // 右: A3 にぎっしり 12 問（3×4 の小ペア）
+  const gx = 182, gy = 34, gw = 84, gh = 98, COLS = 3, ROWS = 4;
+  const cw = gw / COLS, ch = gh / ROWS;
+  const cells = Array.from({ length: COLS * ROWS }, (_, i) => {
+    const c = i % COLS, r = Math.floor(i / COLS);
+    const mp = Math.min(cw * 0.4, ch * 0.6);
+    const gp = Math.max(2.2, mp * 0.28);
+    const fx = gx + c * cw + (cw - (mp * 2 + gp)) / 2;
+    const fy = gy + r * ch + (ch - mp) / 2;
+    return { i, fx, fy, mp, gp, shape: SHAPES[(r + c) % 4] };
+  });
   return (
     <svg viewBox="0 0 300 150" className="tr-feat-svg" aria-hidden="true">
-      {/* 左: A3 に大きく 1 問 */}
-      <text x="66" y="16" fontSize="9" fontWeight="700" fill={INK} textAnchor="middle" fontFamily={jp}>大きく 1 問</text>
-      <rect x="24" y="22" width="86" height="112" rx="3" fill="#fff" stroke={TEAL} strokeWidth="1.6" />
-      {[0, 1, 2, 3].map((c) => [0, 1, 2, 3].map((r) => (
-        <circle key={`${c}-${r}`} cx={g(c)} cy={44 + r * 21} r="1.7" fill={INK} opacity="0.4" />
-      )))}
-      <path d="M42 65 L82 65 L82 107 L42 107 Z" fill="none" stroke={INK} strokeWidth="1.9" strokeLinejoin="round" />
-      <path d="M42 65 L62 44 L82 65" fill="none" stroke={INK} strokeWidth="1.9" strokeLinejoin="round" />
-      <line x1="42" y1="65" x2="82" y2="107" stroke={INK} strokeWidth="1.9" />
-      <text x="67" y="128" fontSize="8" fill={TEAL} textAnchor="middle" fontWeight="700" fontFamily={jp}>A3</text>
+      {/* 左: A4 に大きく 1 問（お手本 → こたえ欄） */}
+      <text x="54" y="22" fontSize="9" fontWeight="700" fill={INK} textAnchor="middle" fontFamily={jp}>大きく 1 問</text>
+      <rect x="22" y="30" width="64" height="102" rx="3" fill="#fff" stroke={TEAL} strokeWidth="1.6" />
+      {dots(bigOx, bigTop, bigP)}
+      {fig(bigOx, bigTop, bigP, HOUSE, 1.7, "bh")}
+      {arrowD(bigCx, bigTop + bigP + (bigGap - arrD) / 2, arrD, "ba")}
+      {dots(bigOx, bigBy, bigP)}
+      {frame(bigOx, bigBy, bigP, "bf")}
+      <text x="54" y="127" fontSize="7.5" fill={TEAL} textAnchor="middle" fontWeight="700" fontFamily={jp}>A4</text>
       {/* 中: 刷り分け */}
-      <text x="145" y="82" fontSize="14" fill={INK} opacity="0.4" textAnchor="middle" fontFamily={jp}>⇄</text>
-      {/* 右: A4 にぎっしり 12 問 */}
-      <text x="218" y="30" fontSize="9" fontWeight="700" fill={INK} textAnchor="middle" fontFamily={jp}>ぎっしり 12 問</text>
-      <rect x="180" y="36" width="76" height="96" rx="3" fill="#fff" stroke={INK} strokeWidth="1.4" />
-      {[0, 1, 2, 3].map((row) => [0, 1, 2].map((col) => (
-        <rect key={`${row}-${col}`} x={186 + col * 23} y={42 + row * 22} width="19" height="19" rx="2"
-          fill={TEAL} fillOpacity="0.04" stroke={FAINT} strokeWidth="0.8" />
-      )))}
-      <text x="218" y="128" fontSize="8" fill={INK} opacity="0.55" textAnchor="middle" fontFamily={jp}>A4</text>
+      <text x="131" y="86" fontSize="13" fill={INK} opacity="0.4" textAnchor="middle" fontFamily={jp}>⇄</text>
+      {/* 右: A3 にぎっしり 12 問 */}
+      <text x="224" y="20" fontSize="9" fontWeight="700" fill={INK} textAnchor="middle" fontFamily={jp}>ぎっしり 12 問</text>
+      <rect x="176" y="26" width="96" height="120" rx="3" fill="#fff" stroke={INK} strokeWidth="1.4" />
+      {cells.map((cell) => (
+        <g key={`c${cell.i}`}>
+          <rect x={cell.fx} y={cell.fy} width={cell.mp} height={cell.mp} rx="1" fill="none" stroke={FAINT} strokeWidth="0.45" />
+          {fig(cell.fx, cell.fy, cell.mp, cell.shape, 0.9, `cf${cell.i}-`)}
+          {arrowR(cell.fx + cell.mp + (cell.gp - 3) / 2, cell.fy + cell.mp / 2, 3, `ca${cell.i}`)}
+          {frame(cell.fx + cell.mp + cell.gp, cell.fy, cell.mp, `cfr${cell.i}`)}
+        </g>
+      ))}
+      <text x="224" y="141" fontSize="7.5" fill={INK} opacity="0.55" textAnchor="middle" fontFamily={jp}>A3</text>
     </svg>
   );
 }
