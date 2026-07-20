@@ -29,9 +29,9 @@
 web/
 ├── app/
 │   ├── page.tsx / top-rich.css   # TOP（ストアフロント）
-│   ├── products/                 # 商品（一覧ハブ・タスク別・SKU 詳細）
+│   ├── products/                 # 商品（一覧まとめ・タスク別・SKU 詳細）
 │   ├── articles/                 # 記事（MDX・JSON-LD・OG 画像）
-│   ├── maker* / makers/          # 点描写メーカー各種＋公開ハブ
+│   ├── maker* / makers/          # 点描写メーカー各種＋公開まとめ
 │   ├── atelier/                  # 問題パイプライン検品（オーナー用・dev 専用）
 │   ├── admin/onsite/             # オンサイトメッセージ管理（オーナー用・本番稼働・合言葉認証）
 │   ├── level-guide/              # レベル選びガイド

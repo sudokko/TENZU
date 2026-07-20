@@ -36,10 +36,10 @@
 |---|---|---|
 | Pillar | `/point-drawing-{purpose}/` ／ `/from-{action}/` ／ `/{ref}-math-shape/` ／ `/teaching-{topic}/` | `/point-drawing-guide/` ／ `/kumon-math-shape/` |
 | P1 配下 Cluster | `/point-drawing-{topic}/` | `/point-drawing-3d/` |
-| P2 配下 Cluster | `/from-{prev}/`（内部誘導のみ・P2 本体は `/{ref}-math-shape/` でハブ兼任） | `/from-dot-connecting/`（予約） |
+| P2 配下 Cluster | `/from-{prev}/`（内部誘導のみ・P2 本体は `/{ref}-math-shape/` でまとめ兼任） | `/from-dot-connecting/`（予約） |
 | P3 配下 Cluster | `/{symptom}-{solution}/` ／ `/how-to-{action}/` | `/how-to-draw-isometric/` |
 | P4 配下 Cluster | `/vs-{brand}/` ／ `/{brand}-support/` ／ `/{topic}-comparison/` ／ `/point-drawing-{effect-topic}/` ／ `/how-to-train-{ability}/` | `/vs-pygmalion/` ／ `/point-drawing-effects/` |
-| P5 配下 Cluster | `/teaching-{topic}/`（P5 ハブ兼任） | `/teaching-point-drawing/` |
+| P5 配下 Cluster | `/teaching-{topic}/`（P5 まとめ兼任） | `/teaching-point-drawing/` |
 | FAQ | `/faq-{topic}/` | `/faq-commercial-use/` |
 | LLMO 専用 | `/{topic}-complete-guide/` ／ `/{topic}-qa/` | `/point-drawing-complete-guide/` |
 | 受動拾い LP | `/lp-{purpose}/`（noindex 候補） | `/lp-back-to-shapes/` |
@@ -58,11 +58,11 @@
 
 | # | 仮タイトル | スラッグ |
 |---|---|---|
-| **P1** 正規ハブ | 点図形（点描写）とは | `/point-drawing-guide/` |
-| **P2** 用途ハブ | 公文の算数で図形が出てこない理由と、家庭での補い方（旧 C2-1/C2-3 統合・ハブ兼クラスタ） | `/kumon-math-shape/` |
-| **P3** 用途ハブ | 形を見て、写す力から | `/from-copying-shapes/` |
-| **P4** 用途ハブ | 選び方と使い分け | `/how-to-choose-and-use/` |
-| **P5** 用途ハブ | 点描写の教え方（親向け実践・C5-1 と同一記事） | `/teaching-point-drawing/` |
+| **P1** 正規まとめ | 点図形（点描写）とは | `/point-drawing-guide/` |
+| **P2** 用途まとめ | 公文の算数で図形が出てこない理由と、家庭での補い方（旧 C2-1/C2-3 統合・まとめ兼クラスタ） | `/kumon-math-shape/` |
+| **P3** 用途まとめ | 形を見て、写す力から | `/from-copying-shapes/` |
+| **P4** 用途まとめ | 選び方と使い分け | `/how-to-choose-and-use/` |
+| **P5** 用途まとめ | 点描写の教え方（親向け実践・C5-1 と同一記事） | `/teaching-point-drawing/` |
 
 #### 3.2 P1 配下 — 全て非記事へ降格（2026-06-03）
 
@@ -81,9 +81,9 @@
 
 | # | KW | スラッグ |
 |---|---|---|
-| C2-1 | 公文 図形 | **`/kumon-math-shape/`**（P2 ハブ兼任・本体後半の実務パートで受ける） |
+| C2-1 | 公文 図形 | **`/kumon-math-shape/`**（P2 まとめ兼任・本体後半の実務パートで受ける） |
 | C2-2 | 点つなぎ 次（CEP 内部誘導） | `/from-dot-connecting/`（予約・独立記事化しない） |
-| C2-3 | 公文 算数 図形 | **`/kumon-math-shape/`**（P2 ハブ兼任・本体前半の理由パートで受ける） |
+| C2-3 | 公文 算数 図形 | **`/kumon-math-shape/`**（P2 まとめ兼任・本体前半の理由パートで受ける） |
 
 #### 3.4 P3 配下 Cluster（記事 5 本）
 
@@ -101,7 +101,7 @@
 | # | KW | スラッグ | 種別 |
 |---|---|---|---|
 | **C4-1** | **点描写 効果 70（P4 旗艦・C1-1 から移設）** | **`/point-drawing-effects/`** | **記事・旗艦** |
-| **C4-2** | **空間認識能力 鍛える 1,300（啓蒙ハブ）** | **`/how-to-train-spatial-recognition/`** | **記事・啓蒙ハブ** |
+| **C4-2** | **空間認識能力 鍛える 1,300（啓蒙まとめ）** | **`/how-to-train-spatial-recognition/`** | **記事・啓蒙まとめ** |
 | **C4-10** | 指名近接・印刷設定（VOL 期待なし・2026-07-18 新設） | **`/print-settings-guide/`** | **記事・商品ガイド（product-family）** |
 | C4-3 | 空間認知 プリント 320 | `/spatial-awareness-printables/` | **カテゴリLP**（記事でなく商品一覧＋上部ガイド・ItemList/Product Schema） |
 | ~~C4-4~~ | ~~ピグマリオン 点描写 210~~ | ~~`/vs-pygmalion/`~~ | **削除（2026-06-03）** |
@@ -117,7 +117,7 @@
 
 | # | KW | スラッグ |
 |---|---|---|
-| **C5-1** | **点描写 教え方 10** | **`/teaching-point-drawing/`**（P5 ハブと同一記事） |
+| **C5-1** | **点描写 教え方 10** | **`/teaching-point-drawing/`**（P5 まとめと同一記事） |
 
 #### 3.7 LLMO 専用記事（2 本・新設）
 
@@ -148,13 +148,13 @@
 
 | 記事タイプ | パンくず例 |
 |---|---|
-| P1 正規ハブ | ホーム > 点図形（点描写）とは |
+| P1 正規まとめ | ホーム > 点図形（点描写）とは |
 | P1 配下 Cluster | ホーム > 点図形（点描写）とは > 立体の点描写 |
-| P2 ハブ兼クラスタ | ホーム > 公文の算数で図形が出てこない理由と、家庭での補い方 |
+| P2 まとめ兼クラスタ | ホーム > 公文の算数で図形が出てこない理由と、家庭での補い方 |
 | P3 配下 Cluster | ホーム > 形を見て、写す力から > 見取り図の描き方 |
 | P4 配下 Cluster | ホーム > 選び方と使い分け > 点描写で育つ「形の向き・位置・大きさをとらえる力」 |
 | P5 配下 Cluster | ホーム > 親が子に寄り添う > 点描写の教え方 |
-| LLMO 専用 | ホーム > 選び方ガイド／育て方 Q&A（FAQ ハブ隣接表示） |
+| LLMO 専用 | ホーム > 選び方ガイド／育て方 Q&A（FAQ まとめ隣接表示） |
 | FAQ | ホーム > FAQ > 商業利用 |
 
 各記事のフロントマターに `parent_pillar` を必須化（FAQ・LLMO のみ `parent_category: faq` または `parent_category: llmo`）。
@@ -196,12 +196,12 @@
 
 | Cluster 群 | 親 Pillar |
 |---|---|
-| C1-2 〜 C1-5 | P1 正規ハブ |
-| C2-1 〜 C2-3（P2 本体へ統合済み） | P2 用途ハブ |
-| C3-1 〜 C3-5 | P3 用途ハブ |
-| C4-1 〜 C4-9 | P4 用途ハブ |
-| C5-1 | P5 用途ハブ |
-| L-1 ／ L-2 | なし（LLMO カテゴリ独立・FAQ ハブ隣接） |
+| C1-2 〜 C1-5 | P1 正規まとめ |
+| C2-1 〜 C2-3（P2 本体へ統合済み） | P2 用途まとめ |
+| C3-1 〜 C3-5 | P3 用途まとめ |
+| C4-1 〜 C4-9 | P4 用途まとめ |
+| C5-1 | P5 用途まとめ |
+| L-1 ／ L-2 | なし（LLMO カテゴリ独立・FAQ まとめ隣接） |
 | F-1 〜 F-3 | なし（FAQ カテゴリ独立） |
 | LP-1 ／ LP-2 | なし（受動拾い専用・サイトマップ非掲載） |
 
@@ -226,7 +226,7 @@
 
 | 既存スラッグ | 処遇 |
 |---|---|
-| `/point-drawing-guide/` | **維持**（P1 正規ハブとして継続・既存ドラフトの SEO 資産保持） |
+| `/point-drawing-guide/` | **維持**（P1 正規まとめとして継続・既存ドラフトの SEO 資産保持） |
 | `/point-drawing-effects/` | **維持・親 Pillar のみ P1 → P4 へ移設**（URL 変更なし・301 不要・記事内容は P4 旗艦「効果論」へ再構成） |
 | `/weak-at-shapes/` | 維持（C3-2 として継続） |
 | `/cannot-draw-isometric/` | C3-1 `/how-to-draw-isometric/` へ統合・旧 URL は 301 リダイレクト |

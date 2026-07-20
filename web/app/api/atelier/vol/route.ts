@@ -1,5 +1,5 @@
 /* dev 限定: Vol の自由な追加・メタ編集・削除/非表示。
-   atelier ハブの VolManager が使う。既存 PRODUCT_TASKS（ハードコード）は data.ts を触らず、
+   atelier まとめの VolManager が使う。既存 PRODUCT_TASKS（ハードコード）は data.ts を触らず、
    catalog-extra.json（追加 Vol＝vols[]／既存上書き＝patches[]）だけで管理する。
    生成器のあるタスク（copy/fill/mirror/motif）は追加時に ladder.json へ基準も複製する。 */
 import { NextRequest } from "next/server";

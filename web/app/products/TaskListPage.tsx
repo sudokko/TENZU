@@ -1,7 +1,7 @@
 /* =========================================================================
    タスク別商品一覧テンプレート（/products/{slug}・9 タスク共通）
    構成: パンくず → タスクヘッド（Fig＋desc＋全 N 巻）→ Lv セクション
-   （id="lv{n}" アンカー＝TOP/一覧ハブのチップ着地点）→ フッタ導線。
+   （id="lv{n}" アンカー＝TOP/一覧まとめのチップ着地点）→ フッタ導線。
    live 巻＝詳細ページへのカード／scaffold 巻＝「準備中」で陳列のみ
    （棚の全体像は隠さない）。歯抜け Lv はセクション自体を出さない。
    各カード上部に設問 1 問目のサムネイル（VolThumb・published 連動）。
@@ -52,7 +52,7 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
               <p className="plp-stat">
                 全 {task.vols.length} 巻 ・ 1 冊 {QUESTIONS_PER_VOL} 問 ・ ¥{PRICE} 一律
               </p>
-              {/* レベルジャンプ（SEO/パンくず直行者向けの棚内ナビ。ハブのチップと同じ着地点） */}
+              {/* レベルジャンプ（SEO/パンくず直行者向けの棚内ナビ。まとめのチップと同じ着地点） */}
               <nav className="plp-lvnav" aria-label="レベルへ移動">
                 {sections.map((s) => (
                   <a className="plp-lvnav-chip" href={`#lv${s.lv}`} key={s.lv}>

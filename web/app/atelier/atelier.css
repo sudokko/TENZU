@@ -42,7 +42,7 @@
   color: #2c6e7f;
 }
 
-/* ===================== 設問タイプ × レベル 一覧（ハブ） ===================== */
+/* ===================== 設問タイプ × レベル 一覧（まとめ） ===================== */
 .atl-ov { margin-top: 18px; }
 .atl-ov-title { font-size: 17px; margin: 0 0 4px; }
 .atl-ov-note { color: #6b7280; font-size: 12px; margin: 0 0 10px; }
@@ -63,7 +63,7 @@
 .atl-ovt-total { text-align: center; font-weight: 600; }
 .atl-ovt-empty { color: #c2c7cf; text-align: center; }
 
-/* ===================== Vol 管理パネル（ハブ） ===================== */
+/* ===================== Vol 管理パネル（まとめ） ===================== */
 .atl-vm { margin-top: 22px; }
 .atl-vm-title { font-size: 17px; margin: 0 0 4px; }
 .atl-vm-note { color: #6b7280; font-size: 12px; line-height: 1.7; margin: 0 0 8px; max-width: 880px; }

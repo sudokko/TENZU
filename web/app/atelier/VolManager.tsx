@@ -1,7 +1,7 @@
 "use client";
 
 /* =========================================================================
-   Vol 管理パネル（dev 限定・/atelier ハブ）
+   Vol 管理パネル（dev 限定・/atelier まとめ）
    任意の Lv・grid で Vol を追加／メタ編集（grid・説明文・対象年齢・variant・status）／
    削除・非表示。書き込みは /api/atelier/vol。既存ハードコード Vol は data.ts を触らず
    catalog-extra.json の上書きレイヤで反映する。変更後はページを再読込して反映を確実にする。

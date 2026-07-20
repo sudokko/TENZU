@@ -4,8 +4,8 @@
 
 - TENZU の記事コンテンツ（Pillar / Cluster / FAQ / LLMO）を扱う設計領域
 - **大原則（2026-06-03・[clusters.md §1.5](clusters.md)／受け皿改定 2026-06-08 [decisions.md §5.6](../decisions.md)）**: 記事は**情報意図のクエリだけ**を拾う。取引意図（プリント／無料／簡単／難しい／立体／年齢）は記事化せず**専用ファセットLP・商品タグ・カテゴリページ**へ（**メーカーは受け皿から除外**＝取引LPは有償一本／無料意図は無料LPのサンプル閲覧＋工房導線＝「見せる無料」・仕様 [pack-commerce.md §25.6](../product/pack-commerce.md)・[decisions.md §4.9](../decisions.md)）
-- これにより**実際に書く記事は 18 ページ**: 正規ハブ P1 ＋ 用途ハブ P2〜P4（P2 は旧 C2-1/C2-3 統合のハブ兼クラスタ `/kumon-math-shape/`）＋ 確定 Cluster 6（P5 兼任 C5-1 含む）＋ 学術土台 C3-4 ＋ LLMO 2 ＋ FAQ 3 ＋ 商品ガイド C4-10 ＋ 比較 C3-6。降格・削除は [clusters.md](clusters.md) 各表の「種別」参照
-- 構造: **正規ハブ P1 ＋ 用途ハブ P2/P3/P4/P5**（5 Pillar）。Pillar 構造 SSOT は [decisions.md §3.32](../decisions.md)、本縮減は [decisions.md §3.42](../decisions.md)
+- これにより**実際に書く記事は 18 ページ**: 正規まとめ P1 ＋ 用途まとめ P2〜P4（P2 は旧 C2-1/C2-3 統合のまとめ兼クラスタ `/kumon-math-shape/`）＋ 確定 Cluster 6（P5 兼任 C5-1 含む）＋ 学術土台 C3-4 ＋ LLMO 2 ＋ FAQ 3 ＋ 商品ガイド C4-10 ＋ 比較 C3-6。降格・削除は [clusters.md](clusters.md) 各表の「種別」参照
+- 構造: **正規まとめ P1 ＋ 用途まとめ P2/P3/P4/P5**（5 Pillar）。Pillar 構造 SSOT は [decisions.md §3.32](../decisions.md)、本縮減は [decisions.md §3.42](../decisions.md)
 - **執筆の役割分担**: 構成・目次＝AI 提案→**オーナー確定**（[structure-craft.md](structure-craft.md)）／本文化＝AI（[writing-craft.md](writing-craft.md)）／リード・TLDR＝AI 下書き→オーナー仕上げ（[decisions.md §3.49](../decisions.md)）
 - 主要 IA: 3 階層フラット URL（全記事 `/{slug}/`）
 - **ペルソナ SSOT は [personas.md](personas.md)**

@@ -1,6 +1,6 @@
 /* =========================================================================
    共有カタログモジュール（表示コピー・Fig・帯グラフの単一ソース）
-   `/`（page.tsx）・`/products`（商品一覧ハブ）・`/level-guide` が共用。
+   `/`（page.tsx）・`/products`（商品一覧まとめ）・`/level-guide` が共用。
    巻数（lv 配列）は products/data.ts（Vol レベル SSOT）から lvCounts() で導出
    ＝数値の二重定義なし。出典: pack-design §0.2/§11.6/§12-22/§13.7。
    ========================================================================= */
@@ -357,7 +357,7 @@ export function SiteFooter() {
           <div className="foot-col">
             <h5>READ</h5>
             <ul>
-              <li><a href="/articles">記事ハブ</a></li>
+              <li><a href="/articles">記事まとめ</a></li>
               <li><a href="#">About TENZU</a></li>
               <li><a href="#">FAQ</a></li>
               <li><a href="/contact">お問い合わせ</a></li>

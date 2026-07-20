@@ -6,7 +6,7 @@
 - 形式は **Mermaid**（テキスト＝プロンプト編集前提・座標計算なし）。GitHub・VS Code・Claude アーティファクト・`tools/build-html` すべてで描画される。
 - 全ページの**俯瞰ワイヤー**は [pages-overview.html](./pages-overview.html)（同ディレクトリ・単独HTML）。
 - 凡例：🟢実装済 / 🔴未実装P0 / 🟡未実装後続 / ★最重要 / 破線＝ナビ・後続導線。
-- 確定事項：①流入は「直接・ブランド/SEO情報/SEO取引・広告・ブロガーDM/紹介波及」（MailerLite リピーターは当面スコープ外）②**TOP がブランドハブ、商品一覧 `/products` は独立ハブ**（3層構造：TOP → /products → /products/{task} → SKU詳細）。**SEO取引意図は TOP でなく専用ファセットLPが受ける**（無料/プリント本丸/むずかしい/やさしい/年齢/立体・**有償一本**／無料LP＝サンプル閲覧＋工房（無料4×4）導線・配る無料PDFなし・[decisions.md §4.9](../../decisions.md)）③広告は独立LPを持たず **/maker?from=ad モード**で一発着地（取引LPの流し先にはしない）④**購入フロー（/cart → Stripe → /checkout/success）は実装済**（Webhook → SES メール配送まで一気通貫）⑤**レベル選びガイド `/level-guide` は実装済**（6問・2軸出力。商品リンク・中身プレビューとも配線済＝★一冊が live のとき SKU 詳細 `#preview` へ「問題の中身を見る」・scaffold は非表示）⑥**メーカー完了画面は実装済**（案A・動的レコメンド）⑦**メーカーは公開商品ライン**（公開ハブ `/makers` indexed・公開ツール9種＝`/maker` は indexed（広告着地）／他8は noindex・拡大/縮小はローンチ非公開・ヘッダー/フッター/TOP から到達・§2-3.5）⑧未実装の鍵画面：サンプルプレビュー（記事側・実装形態未定）・**SEO取引ファセットLP群**。
+- 確定事項：①流入は「直接・ブランド/SEO情報/SEO取引・広告・ブロガーDM/紹介波及」（MailerLite リピーターは当面スコープ外）②**TOP がブランドまとめ、商品一覧 `/products` は独立まとめ**（3層構造：TOP → /products → /products/{task} → SKU詳細）。**SEO取引意図は TOP でなく専用ファセットLPが受ける**（無料/プリント本丸/むずかしい/やさしい/年齢/立体・**有償一本**／無料LP＝サンプル閲覧＋工房（無料4×4）導線・配る無料PDFなし・[decisions.md §4.9](../../decisions.md)）③広告は独立LPを持たず **/maker?from=ad モード**で一発着地（取引LPの流し先にはしない）④**購入フロー（/cart → Stripe → /checkout/success）は実装済**（Webhook → SES メール配送まで一気通貫）⑤**レベル選びガイド `/level-guide` は実装済**（6問・2軸出力。商品リンク・中身プレビューとも配線済＝★一冊が live のとき SKU 詳細 `#preview` へ「問題の中身を見る」・scaffold は非表示）⑥**メーカー完了画面は実装済**（案A・動的レコメンド）⑦**メーカーは公開商品ライン**（公開まとめ `/makers` indexed・公開ツール9種＝`/maker` は indexed（広告着地）／他8は noindex・拡大/縮小はローンチ非公開・ヘッダー/フッター/TOP から到達・§2-3.5）⑧未実装の鍵画面：サンプルプレビュー（記事側・実装形態未定）・**SEO取引ファセットLP群**。
 - **メーカー有償化＝per-maker 買い切り ¥980（[§6](#6-メーカー有償化per-maker-買い切りフロー)）**：会員登録・ログインなしの**所有モデル**。購入（`/api/maker-checkout`＝Stripe Checkout payment mode・price_data 直書き → `/api/auth/verify` → `/maker-thanks`）の瞬間に署名cookie `{owned: MakerKey[]}`（HMAC・DBなし）を発行＝ログインの代替。別端末は `/login`（購入の復元・SES マジックリンク）→ `/account`。有料ゲートは**ページ入室でなく PDF 書き出し**（模写のみ例外＝PDF 無料・グリッド 5×5〜8×8 解放が ¥980）。一次定義は [decisions.md §4.6/§4.7/§4.8](../../decisions.md)・[pack-commerce.md §23](../../product/pack-commerce.md)。
 
 ## 詳細
@@ -33,7 +33,7 @@ flowchart LR
 
   subgraph LAND[着地（玄関）]
     direction TB
-    G_top["TOP<br/>ブランドハブ<br/>🟢"]
+    G_top["TOP<br/>ブランドまとめ<br/>🟢"]
     G_article["記事<br/>Pillar/Cluster<br/>🟢1/16"]
   end
 
@@ -53,14 +53,14 @@ flowchart LR
 
   subgraph MAKER[メーカー（公開 9 種・買い切り商材 §6）]
     direction TB
-    M_makers["★ メーカーハブ<br/>/makers 🟢indexed<br/>9 種カード＋価格バッジ"]
+    M_makers["★ メーカーまとめ<br/>/makers 🟢indexed<br/>9 種カード＋価格バッジ"]
     M_maker["模写メーカー<br/>/maker 🟢無料 4×4<br/>5×5〜8×8 は ¥980"]
     M_gated["他 8 メーカー<br/>/maker-solid … translate<br/>🟢noindex・入室自由<br/>PDF 書き出しは所有制"]
   end
 
   subgraph PROD[商品]
     direction TB
-    P_hub["商品一覧ハブ<br/>/products<br/>🟢"]
+    P_hub["商品一覧まとめ<br/>/products<br/>🟢"]
     P_task["タスク別一覧<br/>/products/{task}<br/>🟢"]
     P_detail["商品詳細<br/>/products/{task}-lv{n}-vol{m}<br/>🟢"]
     P_bundle["バンドルSKU 🟡"]
@@ -142,10 +142,10 @@ flowchart LR
 ### §2. 確定事項
 
 1. **流入チャネル**：直接・ブランド検索・ナビ／SEO情報意図（点描写・公文・入学準備）／SEO取引意図（プリント無料・年長・立体）／Meta・X広告／ブロガーDM／ブロガー紹介の波及。MailerLite リピーター導線は当面スコープ外。
-2. **TOP はブランドハブ、商品一覧は3層構造**：TOP `/` はブランドハブ＋品ぞろえ概観。商品は `/products`（一覧ハブ・リスト一枚型。旧カード型は `/products-b` に比較用退避・noindex）→ `/products/{task}`（タスク別一覧・Lvアンカー着地・準備中巻も非リンク陳列）→ `/products/{task}-lv{n}-vol{m}`（SKU詳細）の3層。SKU 構成・live/scaffold の現況は [pack-design.md §13](../../product/pack-design.md) とカタログ実装（[data.ts](../../web/app/products/data.ts)）を正とする。**SEO取引意図は TOP で受けない**——専用ファセットLP群に直接着地させる（[decisions.md §5.6](../../decisions.md)）。
+2. **TOP はブランドまとめ、商品一覧は3層構造**：TOP `/` はブランドまとめ＋品ぞろえ概観。商品は `/products`（一覧まとめ・リスト一枚型。旧カード型は `/products-b` に比較用退避・noindex）→ `/products/{task}`（タスク別一覧・Lvアンカー着地・準備中巻も非リンク陳列）→ `/products/{task}-lv{n}-vol{m}`（SKU詳細）の3層。SKU 構成・live/scaffold の現況は [pack-design.md §13](../../product/pack-design.md) とカタログ実装（[data.ts](../../web/app/products/data.ts)）を正とする。**SEO取引意図は TOP で受けない**——専用ファセットLP群に直接着地させる（[decisions.md §5.6](../../decisions.md)）。
 2.5. **SEO取引ファセットLPは有償一本**：FV に実問題サンプル（クエリ即応）→ 有償商品紹介、が共通テンプレ。無料完結を避けるためメーカーは非訴求。**無料LP のみ「見せる無料」＝サンプル閲覧＋工房（模写メーカー・無料4×4）導線**で無料意図に応える（配る無料PDFなし・[decisions.md §4.9](../../decisions.md)・[pack-commerce.md §14.6](../../product/pack-commerce.md)）。メーカー自体の公開商品ライン化は §3.5。
 3. **広告は独立LPを持たない**：`/maker?from=ad` の同一URL・モード出し分けで一発着地。冷たい Meta 流入の補助。X・ブロガーは素の `/maker` で十分。
-3.5. **メーカーは公開商品ライン（公開9種・per-maker 買い切り）**：公開ハブ `/makers`（**indexed**・3群カード＋価格バッジ）が店先。`/maker`（模写）は indexed（広告・ブロガー着地）、他8ツールは noindex（SEO はハブに集約）。導線＝ヘッダー/フッター「メーカー」＋ TOP 従属セクション。**全メーカー入室自由（プレビュー可）**——有料ゲートはページ階層でなく **PDF 書き出し**（模写のみ例外＝PDF 無料・グリッド 5×5〜8×8 の解放が ¥980）。拡大・縮小は `LAUNCH_HIDDEN`（導線・カタログから除外。ルートは存続し購入済みは利用可）。entitlement SSOT は [capabilities.ts](../../web/app/products/capabilities.ts)、価格・ゲートの一次定義は [decisions.md §4.6/§4.7/§4.8](../../decisions.md)。フロー詳細は §6。
+3.5. **メーカーは公開商品ライン（公開9種・per-maker 買い切り）**：公開まとめ `/makers`（**indexed**・3群カード＋価格バッジ）が店先。`/maker`（模写）は indexed（広告・ブロガー着地）、他8ツールは noindex（SEO はまとめに集約）。導線＝ヘッダー/フッター「メーカー」＋ TOP 従属セクション。**全メーカー入室自由（プレビュー可）**——有料ゲートはページ階層でなく **PDF 書き出し**（模写のみ例外＝PDF 無料・グリッド 5×5〜8×8 の解放が ¥980）。拡大・縮小は `LAUNCH_HIDDEN`（導線・カタログから除外。ルートは存続し購入済みは利用可）。entitlement SSOT は [capabilities.ts](../../web/app/products/capabilities.ts)、価格・ゲートの一次定義は [decisions.md §4.6/§4.7/§4.8](../../decisions.md)。フロー詳細は §6。
 4. **購入フローは実装済**：`/cart`（CartProvider＋複数巻まとめ買い）→ Stripe Checkout（`/api/checkout` でセッション生成）→ `/checkout/success`（Stripe session_id 検証＋SkuPrintPreview でPDF DL＋ClearCartOnSuccess）。Webhook（`/api/stripe/webhook`・checkout.session.completed）→ Amazon SES 配送（プリント＝再DLリンク／メーカー買い切り＝復元マジックリンクの予備送付）。**DBなし・リンク＝既存サンクスURL**。本番化にはオーナー側で SES 検証＋ whsec_ 投入＋ SES サンドボックス脱出が必要。
 5. **レベル選びガイドは実装済**：`/level-guide`（Next.js 自前ページ・6問＝最後任意・2軸出力＝軸A「はじめる位置」Lv1-5＋軸B「最初の一冊」具体SKU）。TOP帯グラフ下CTA・Hero/Close ゴースト・ヘッダー・フッターの5箇所から到達。**商品リンク・中身プレビューとも配線済**（★一冊が live のとき「問題の中身を見る」で SKU 詳細 `/products/{sku}#preview` へ・scaffold は非表示・[decisions.md §4.9/§5.13](../../decisions.md)）。設計詳細は [funnel.md §3](../../acquisition/funnel.md)。
 6. **メーカー完了画面は実装済**：案A・動的レコメンド方式。PDF書き出し後に模写（図形）ラダーから次の一冊を提案。
@@ -165,13 +165,13 @@ flowchart LR
 
 | ルート | 画面 | 状態 |
 |---|---|---|
-| `/` | TOP（ブランドハブ・品ぞろえ概観） | 🟢 |
-| `/products` | 商品一覧ハブ（リスト一枚型） | 🟢 |
+| `/` | TOP（ブランドまとめ・品ぞろえ概観） | 🟢 |
+| `/products` | 商品一覧まとめ（リスト一枚型） | 🟢 |
 | `/products-b` | 商品一覧 旧カード型（比較用・noindex・不要になれば削除） | 🟢 |
 | `/products/{task}` | タスク別一覧（Lvアンカー・巻カードに設問1問目サムネ＝published 連動・未入稿は白紙点格子） | 🟢 |
 | `/products/{task}-lv{n}-vol{m}` | SKU詳細（live/scaffold は [pack-design.md §13](../../product/pack-design.md) 参照） | 🟢/🚧 |
 | `/level-guide` | レベル選びガイド（6問・2軸出力） | 🟢 |
-| `/makers` | メーカー公開ハブ（店先・9 種カード＋価格バッジ・**indexed**） | 🟢 |
+| `/makers` | メーカー公開まとめ（店先・9 種カード＋価格バッジ・**indexed**） | 🟢 |
 | `/maker` | 模写メーカー（無料 4×4・グリッド 5×5〜8×8 は ¥980・PDF 出力は無料・indexed） | 🟢 |
 | `/maker-{solid,mirror,rotate,fill,overlay,fold,decompose,translate}` | 他 8 メーカー（入室自由・PDF 書き出しは所有制 ¥980・noindex） | 🟢 |
 | `/maker-{scale,shrink}` | 拡大・縮小メーカー（`LAUNCH_HIDDEN`＝導線なし・購入済みは利用可） | 🟢非公開 |
@@ -203,7 +203,7 @@ flowchart LR
 
 ### §6. メーカー有償化（per-maker 買い切り）フロー
 
-メーカー（公開 9 種・ハブ `/makers`）の有償化。模写は無料コア（グリッド 4×4 まで・PDF 出力無料）、それ以外は**メーカー単位の買い切り ¥980**（月額なし・主役 ¥200 プリントのクロスセル商材）。会員登録・ログインは持たない**所有モデル**＝購入の瞬間に署名cookie `{owned: MakerKey[]}` を発行し、それがログインの代替。**DBなし**・信頼ソースは Stripe（復元時に購入履歴から owned を再構成）。有料ゲートは **PDF 書き出し**（模写のみグリッド 5×5〜8×8 の解放）で、**ページ入室はゲートしない**＝全メーカー触ってプレビューできる。価格・ゲート仕様の一次定義は [decisions.md §4.6/§4.7/§4.8](../../decisions.md)・[pack-commerce.md §23](../../product/pack-commerce.md)。ここは画面遷移と API の対応のみを持つ。
+メーカー（公開 9 種・まとめ `/makers`）の有償化。模写は無料コア（グリッド 4×4 まで・PDF 出力無料）、それ以外は**メーカー単位の買い切り ¥980**（月額なし・主役 ¥200 プリントのクロスセル商材）。会員登録・ログインは持たない**所有モデル**＝購入の瞬間に署名cookie `{owned: MakerKey[]}` を発行し、それがログインの代替。**DBなし**・信頼ソースは Stripe（復元時に購入履歴から owned を再構成）。有料ゲートは **PDF 書き出し**（模写のみグリッド 5×5〜8×8 の解放）で、**ページ入室はゲートしない**＝全メーカー触ってプレビューできる。価格・ゲート仕様の一次定義は [decisions.md §4.6/§4.7/§4.8](../../decisions.md)・[pack-commerce.md §23](../../product/pack-commerce.md)。ここは画面遷移と API の対応のみを持つ。
 
 ```mermaid
 flowchart TB
@@ -262,7 +262,7 @@ flowchart TB
 | レイヤ | ファイル | 役割 |
 |---|---|---|
 | entitlement SSOT | [`web/app/products/capabilities.ts`](../../web/app/products/capabilities.ts) | `FREE_MAKER`（copy）・`PAID_MAKERS`（¥980×10 実装・公開9）・`PURCHASABLE_MAKERS`・`COPY_FREE_CAPS`（模写無料＝グリッド 4×4・他機能開放）・`OWNED_CAPS`（8×8・12問・B4/A3・記名・保存∞）・`canExportPdf`・`LAUNCH_HIDDEN`（scale/shrink）・`MAKER_PRICE=980` の単一定義 |
-| メーカーメタ SSOT | [`web/app/products/makers.ts`](../../web/app/products/makers.ts) | 実装 11・ローンチ公開 9（`VISIBLE_MAKERS`＝LAUNCH_HIDDEN 除外）。表示名・説明・3群・ルート（ハブ・MakerGate・導線が共用） |
+| メーカーメタ SSOT | [`web/app/products/makers.ts`](../../web/app/products/makers.ts) | 実装 11・ローンチ公開 9（`VISIBLE_MAKERS`＝LAUNCH_HIDDEN 除外）。表示名・説明・3群・ルート（まとめ・MakerGate・導線が共用） |
 | 文脈バー | [`web/app/maker/MakerGate.tsx`](../../web/app/maker/MakerGate.tsx) | **入室はゲートしない**。introbar に所有状態（無料/購入済み/購入ボタン→buyMaker）を出すだけ。実ゲートは各 App 内の PDF 書き出し |
 | 認証 | [`web/app/lib/auth.ts`](../../web/app/lib/auth.ts) | Node `crypto` の HMAC 署名cookie（**jose 不使用＝依存ゼロ**）。`Session{owned, exp 400日}`・`Magic{email, exp 30分}`・dev 全解放フラグ `MAKER_DEBUG_OWN_ALL` |
 | Stripe 照会 | [`web/app/lib/billing.ts`](../../web/app/lib/billing.ts) | `resolveOwnedByEmail`（購入履歴→owned 再構成）・`parseMakers`（metadata 検証） |

@@ -97,7 +97,7 @@ references: ["No.37", "No.35", "JP6", "JP3"]
 - ※旧ドラフト Q3「1〜2週間で効果実感」は効果断定 NG のため不採用 (src: voice-tone §1)
 
 ## 次に読む
-<!-- chars: 250 / 4ハブへ分岐 (src: pillars §2 H2-9・§7 関係マップ) -->
+<!-- chars: 250 / 4まとめへ分岐 (src: pillars §2 H2-9・§7 関係マップ) -->
 - 公文と並走したい→ P2／図形の苦手が気になる→ P3／教材を比べて選びたい→ P4／教え方・声かけ→ P5 (src: pillars §7)
 - related frontmatter に P4・P3・P2 の3件 {/* 公開順に応じて調整 */} (src: templates §3.2 RelatedPosts 3本)
 

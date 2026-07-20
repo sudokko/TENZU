@@ -69,7 +69,7 @@
 **TENZU での運用**（[voice-tone.md §1 二刀流ルール](../foundation/voice-tone.md)）:
 
 - **ブランド軸（学術 RTB）= 空間認知**（cognition・教育心理学標準語）
-- **SEO 例外（P4 啓蒙ハブ C4-2 / LLMO L-2 のみ）= 空間認識**（recognition・親の検索ボリューム 9,900/月を取りに行く実利運用）
+- **SEO 例外（P4 啓蒙まとめ C4-2 / LLMO L-2 のみ）= 空間認識**（recognition・親の検索ボリューム 9,900/月を取りに行く実利運用）
 - **LLMO 専用 L-2「Q. 空間認知と空間認識の違いは？」FAQ で TENZU が両語を定義する立場を確保**（AI 引用源化）
 
 #### 注記

@@ -32,7 +32,7 @@
 
 ## 横断検証（バッチ最終）
 
-- **内部リンクグラフ**: 全リンク先が正規 19 スラッグ＋実装済みルート（/maker・/level-guide・/products・/products/copy・/products/solid・/articles）のみ。死リンクゼロ。Cluster→親 Pillar 必須 1 本・P1→4 用途ハブ・課題/公文/啓蒙/親向けラインの相互リンク・LLMO→Pillar 各 1 本、すべて充足
+- **内部リンクグラフ**: 全リンク先が正規 19 スラッグ＋実装済みルート（/maker・/level-guide・/products・/products/copy・/products/solid・/articles）のみ。死リンクゼロ。Cluster→親 Pillar 必須 1 本・P1→4 用途まとめ・課題/公文/啓蒙/親向けラインの相互リンク・LLMO→Pillar 各 1 本、すべて充足
 - **NG grep（HARD）**: 全 20 本 0 件（SEO 例外の固定テンプレ使用もゼロ＝クエリ引用なしで書き切った）
 - **llmo-check**: 全 20 本 ERROR 0 / WARN 0
 - **未実装受け皿へのリンク**: 張っていない。LP-1/LP-2・C4-3 カテゴリ LP・SkuCards は `{/* TODO */}` コメントで位置だけ印
@@ -68,7 +68,7 @@
 
 ## SSOT ドリフト所見（今回は触っていない・別途の掃除タスク推奨）
 
-- clusters.md/content/README の「16 ページ」勘定（実 19 本・P2〜P5 ハブ未カウント）
+- clusters.md/content/README の「16 ページ」勘定（実 19 本・P2〜P5 まとめ未カウント）
 - pillars.md §9 フェーズ表・P4 H2-6〜10 の 2026-06-03 縮減前 stale
 - faq.md §2.1/§8 の旧 4 本構成（#60 教室利用・/faq-classroom-use/）→ 現行 3 本（F-1/F-2 に吸収の整理案）
 - FAQ の公開 phase: faq.md §8（M2a/M2b 分割）・urls.md §2.1（F-2/F-3=Phase 3）・templates §8.1（M2b に FAQ 3本）が三様。ドラフトは相互リンク切れ回避のため 3 本とも phase-2 に統一（公開時期の最終判断はオーナー）

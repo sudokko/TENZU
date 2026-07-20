@@ -1,6 +1,6 @@
 /* =========================================================================
    メーカー・カタログ SSOT（メーカーのメタ。実装は 11・ローンチ公開は 9）
-   ハブ（/makers）・各メーカーの MakerGate（introbar）・導線が共用。
+   まとめ（/makers）・各メーカーの MakerGate（introbar）・導線が共用。
    価格・所有判定は capabilities.ts（買い切り ¥980・owned モデル）が一次ソース。
    ここは表示名・説明・グループ・ルートだけを持つ純データ（React 非依存）。
    公開リストは LAUNCH_HIDDEN（capabilities.ts）を除いた集合＝VISIBLE_MAKERS / makersInGroup。

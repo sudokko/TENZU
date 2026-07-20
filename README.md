@@ -27,7 +27,7 @@
 | 領域 | 内容 | 索引 |
 |---|---|---|
 | **M: market/** | 市場分析・ターゲット・ポジショニング・競合 | [market/README.md](market/README.md) |
-| **A: acquisition/** | 認知獲得（DM・インフル・記事ハブ・広告）・CV 導線（レベル選びガイド・LP・クーポン）・モニター公募 | [acquisition/README.md](acquisition/README.md) |
+| **A: acquisition/** | 認知獲得（DM・インフル・記事まとめ・広告）・CV 導線（レベル選びガイド・LP・クーポン）・モニター公募 | [acquisition/README.md](acquisition/README.md) |
 | **P: product/** | 9タスク・5Lv・Vol・SKU・価格・サービス BP | [product/README.md](product/README.md) |
 | **C: content/** | ピラー・クラスター・記事・FAQ・ペルソナ | [content/README.md](content/README.md) |
 | **D: design/** | ロゴ・Design System・サイト UI・ビジュアル実装 | [design/README.md](design/README.md) |

@@ -18,7 +18,7 @@ export const RANKING_WINDOW_DAYS = Number(
  * GA4 切替後はこの定数を fetchPopularSlugs() の結果に置き換える。
  */
 export const POPULAR_SLUGS: string[] = [
-  "point-drawing-guide", // P1 正規ハブ
+  "point-drawing-guide", // P1 正規まとめ
   "how-to-train-spatial-recognition", // C4-2 最大エンジン
   "how-to-draw-isometric", // C3-1 ブルーオーシャン
 ];

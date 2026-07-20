@@ -117,7 +117,7 @@ export function capabilities(owned: readonly MakerKey[], key: MakerKey): Capabil
    価格は全メーカー一律 ¥980 のため tier 別プラン表（旧 PLANS）は廃止。
    ========================================================================= */
 
-// メーカーの価格バッジ（ハブのカード・introbar 用）。
+// メーカーの価格バッジ（まとめのカード・introbar 用）。
 export function makerPriceLabel(key: MakerKey): string {
   // copy（模写）は 4×4 まで無料・5×5〜は ¥980 買い切り。バッジは無料の境界を明示する。
   return key === FREE_MAKER ? "4×4まで無料" : `¥${MAKER_PRICE}`;

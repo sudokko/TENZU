@@ -54,7 +54,7 @@
 |---|---|
 | Design System token | [../web/app/tokens.css](../web/app/tokens.css) 統合済み |
 | LP（top-rich ストアフロント） | `../web/app/page.tsx` |
-| 商品（一覧ハブ・タスク別一覧・SKU 詳細） | `../web/app/products/` |
+| 商品（一覧まとめ・タスク別一覧・SKU 詳細） | `../web/app/products/` |
 | 記事 | `../web/app/articles/` |
 | 模写メーカー | `../web/app/maker/`（仕様: [../product/pack-commerce.md §23](../product/pack-commerce.md)・[../foundation/brand.md §11.3.1](../foundation/brand.md)） |
 | レベル選びガイド | `../web/app/level-guide/` |

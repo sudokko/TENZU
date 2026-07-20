@@ -11,7 +11,7 @@
 - **規模化（春以降・条件付き）**: 広告 ¥100,000+ は移行条件（[ads.md §2.5](../acquisition/ads.md)）を満たしてから
 - 主目的＝集客（カテゴリ資産の先置き・LLM 引用と SEO 評価の土台）／副目的＝実購入データでのブラッシュアップ／静かな開店期は売上を主 KPI にしない（普通シナリオ＝6 ヶ月目 月 ¥6,400・[measurement.md](measurement.md)）
 - モニター＝**公開後モニター 5 名程度**（初期購入者・工房ユーザーへの声かけ・[monitor.md](monitor.md)）。インフル DM との経路分離は消滅（声かけ元が重なってよい）
-- DM 3 通構造（[channels.md §3](../acquisition/channels.md) SSOT）: ①記事ハブ誘導（開店直後〜）／②実反応お礼（随時）／③本格化＋クーポン
+- DM 3 通構造（[channels.md §3](../acquisition/channels.md) SSOT）: ①記事まとめ誘導（開店直後〜）／②実反応お礼（随時）／③本格化＋クーポン
 - 死の谷対策 4 戦術を期別配置（§5）
 - 週次実行・週 3 ブロック制は [operations.md](operations.md)／期別詳細は [phases.md](phases.md)
 
@@ -36,7 +36,7 @@
 |---|---|
 | G1 | [release-testing.md](../engineering/release-testing.md) の **P0 全緑**（実カード ¥200 決済→PDF・メール到達→返金の本番再走を含む） |
 | G2 | 全 42 巻 検品→publish 済み・表記照合済み |
-| G3 | 記事：開店時公開 10 本（C3-1 見取り図・P1 正規ハブ必須）が本番表示確認済み（温存 10 本は順次レビュー中でよい） |
+| G3 | 記事：開店時公開 10 本（C3-1 見取り図・P1 正規まとめ必須）が本番表示確認済み（温存 10 本は順次レビュー中でよい） |
 | G4 | 本番 env 5 点（Stripe live・Webhook・AUTH_SECRET・SES・SITE_URL）＋ tenzu.jp で全導線が動く |
 | G5 | 計測 3 イベント（`tool_start` / `generated_pdf` / `purchase`）本番発火・Search Console 登録 |
 | G6 | 送客導線(A) 商品→工房が本番で機能 |

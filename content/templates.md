@@ -30,7 +30,7 @@
 - **enum 値は `phase-1 | phase-2 | phase-3` の 3 値モデル**を維持（`phase-0` は 2026-05-20 案F で deprecated、本統合で完全廃止扱い）
 - **2026-05-28 統合で `phase-1` の意味が再定義**（[decisions.md §3.41](../decisions.md)・[launch/plan.md](../launch/plan.md)）:
   - 旧 `phase-1` = 初期フェーズ・全 140 SKU 通常販売中
-  - **新 `phase-1` = 仕込み・SKU 非公開・App＋P1 ハブのみ**
+  - **新 `phase-1` = 仕込み・SKU 非公開・App＋P1 まとめのみ**
   - 旧 `phase-2`（修正・P4 主力）と旧 `phase-1`（ソフト開店）を統合 → 新 `phase-2`（先行リリース全体）
   - `phase-3` は維持
 - **既存記事 frontmatter で `phase: phase-1` を持つもの → `phase: phase-2` へ全数書き換え必要**（別タスク棚卸し）
@@ -86,7 +86,7 @@ references: [JP24, JP6, No.27]           # references-map.md の ID 配列
 
 | フィールド | 値 | 意味 |
 |---|---|---|
-| `parent_pillar` | `p1` / `p2` / `p3` / `p4` / `p5` / `none` | P1=正規ハブ・P2=公文の次・P3=写す力・P4=選び方・P5=親向け（[pillars.md §1](pillars.md)）。Pillar 記事自身と FAQ/LLMO は `none` |
+| `parent_pillar` | `p1` / `p2` / `p3` / `p4` / `p5` / `none` | P1=正規まとめ・P2=公文の次・P3=写す力・P4=選び方・P5=親向け（[pillars.md §1](pillars.md)）。Pillar 記事自身と FAQ/LLMO は `none` |
 | `parent_category` | `hub` / `cluster` / `llmo` / `faq` | 記事の系統（[clusters.md §11](clusters.md) の16ページ体系と一致。パンくず判定は [urls.md §7](urls.md)） |
 | `target_persona` | `S-a` / `S-b` / `S-c` / `P3-a` / `P-edu` / `P-pro` | **中核3セグメント＋受動拾い3**（[personas.md](personas.md)）。先頭=主セグメント（1記事1つ固定・personas §6） |
 | `target_level` | `Lv.1`〜`Lv.5` / `pre-Lv.1`（アプリ先行） | pack-design.md と一致 |
@@ -109,7 +109,7 @@ references: [JP24, JP6, No.27]           # references-map.md の ID 配列
 - 「Phase 0 アプリ + アプリLP」概念は廃止（2026-05-20 案F）／2026-05-22 案 H'' で再投入・2026-05-28 統合で新 `phase-1`（仕込み）として位置付け確定
 - 「無料体験」役は **レベル選びガイド（5-7 問・無料）＋ サンプルPDF 1本（無料）＋ Web ジェネレータ（おためし点描写メーカー）** で担保
 - `phase-2`→`phase-3` は cta_mode が同一（`sku-full`）なので、本質的な書き換えは少ない。`phase-1` のみ SKU 非公開のため CTA セットが異なる
-- `phase-1` 用記事は P1 ハブが主。Cluster 記事は基本 `phase-2` 以降で公開
+- `phase-1` 用記事は P1 まとめが主。Cluster 記事は基本 `phase-2` 以降で公開
 
 ### 2.4 enum 値の変遷とマッピング履歴
 
@@ -262,7 +262,7 @@ function renderSkuCards(frontmatter) {
 
 | article_type | デフォルト強度 | 根拠 |
 |---|---|---|
-| `pillar` | **weak** | ハブ記事は権威性優先・売り込み感はSEO/LLMO的にマイナス |
+| `pillar` | **weak** | まとめ記事は権威性優先・売り込み感はSEO/LLMO的にマイナス |
 | `cluster-howto` | **mid** | 学校算数フォロー系のノウハウ提供→自然な商品提案（P3-a 全振りでも対処寄り） |
 | `cluster-symptom` | **strong** | 症状→解決のジャーニーで購入意欲が最も高い（P3-a 中受系含む・案F の初期突破口） |
 | `cluster-compare` | **strong** | 比較記事は購入直前の意思決定段階 |
@@ -326,7 +326,7 @@ function renderSkuCards(frontmatter) {
 ### 6.1 phase 状態遷移（2026-05-28 統合：3 フェーズ）
 
 ```
-phase-1（仕込み）で公開（P1 ハブ・サンプル PDF・Web ジェネレータティザー）
+phase-1（仕込み）で公開（P1 まとめ・サンプル PDF・Web ジェネレータティザー）
   └─ phase-2 移行時: SKU カード追加＋モニター応募 CTA 追加＋レベル選びガイド誘導
 phase-2（先行リリース・SKU 販売中）で公開（記事 18-20 本＋商品ファミリー記事）
   ├─ M2a 前半: ブルーオーシャン C3-1 最優先／モニター募集明示
@@ -544,7 +544,7 @@ LLM（ChatGPT/Claude/Perplexity 等）に引用されやすい構造を必須化
 
 ### 8.1 執筆順序の推奨（2026-05-28 統合反映・**記事選定は別タスク**）
 
-**Phase 1（仕込み）公開分**: P1 ハブ「点図形（点描写）とは」1 本を最優先（`phase-1`）
+**Phase 1（仕込み）公開分**: P1 まとめ「点図形（点描写）とは」1 本を最優先（`phase-1`）
 
 **Phase 2 M2a 公開分を次点最優先**（ブルーオーシャン C3-1 含む）:
 - C3-1「見取り図の描き方」（最優先・140/月競合性 0）
@@ -570,7 +570,7 @@ LLM（ChatGPT/Claude/Perplexity 等）に引用されやすい構造を必須化
 | バッチ | 本数 | 想定工数（1本あたり） | 合計 |
 |---|---|---|---|
 | バッチ 1（既存ドラフトの `phase-2` 化＋ NG 置換） | 10 本 | 0.5-1 時間 | 5-10 時間 |
-| バッチ 2（Phase 1 用記事・P1 ハブ） | 1 本 | 3-4 時間 | 3-4 時間 |
+| バッチ 2（Phase 1 用記事・P1 まとめ） | 1 本 | 3-4 時間 | 3-4 時間 |
 | バッチ 3（Phase 2 追加） | 14-16 本 | 2-3 時間 | 28-48 時間 |
 | バッチ 4（Phase 3 追加） | 3-5 本 | 1.5-2.5 時間 | 5-13 時間 |
 | **合計** | **25 本前後** | — | **41-75 時間** |

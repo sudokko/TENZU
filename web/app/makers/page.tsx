@@ -8,7 +8,7 @@ import "./makers.css";
 
 const MAKER_KINDS = VISIBLE_MAKERS.length;
 
-/* メーカー商品群の公開ハブ（店先）。ここだけ indexed（各ツールは noindex）。 */
+/* メーカー商品群の公開まとめ（店先）。ここだけ indexed（各ツールは noindex）。 */
 export const metadata: Metadata = {
   title: `点描写メーカー — ${MAKER_KINDS} 種類を自分で作る · TENZU`,
   description:
