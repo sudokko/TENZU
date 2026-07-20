@@ -262,43 +262,58 @@ function SignatureDraw() {
 const FEAT_OPEN_IMG: string | null = null;   // 特長2: 設計図が見える商品カード
 const FEAT_PRINT_IMG: string | null = null;  // 特長3: 用紙・向き・問数の選択
 
-/* 特長2 ビジュアル（案①・実物サムネ）: 「買う前に全部読める」＝1巻12問をぜんぶ
-   サムネで並べた商品カード。ロックもぼかしも無く、全問そのまま見える。上にタイトル・
-   下に spec＋¥200。難易度 D などの内部語は出さない。 */
+/* 特長2 ビジュアル（案A・棚差しカード）: 「買う前に全部読める」＝1巻12問を、点格子つきの
+   本物の図でぜんぶ並べた商品カード。ロックもぼかしも無く、全問そのまま見える。上にタイトル＋
+   全12問、下に spec＋¥200。難易度 D などの内部語は出さない。「全 12 問」と spec 行は
+   小さくならないよう、しっかり読める級数で組む。 */
 function FeatOpenSvg() {
   const jp = "'Hiragino Sans','Yu Gothic',sans-serif";
-  const tiles = [
-    "M4 16 L4 6 L16 6 L16 16 Z",
-    "M4 16 L10 4 L16 16 Z",
-    "M4 4 L16 4 L16 16 L4 16 Z M4 4 L16 16",
-    "M4 10 L10 4 L16 10 L10 16 Z",
-    "M4 16 L4 8 L10 4 L16 8 L16 16",
-    "M4 16 L10 6 L16 16 M7 11 L13 11",
-    "M4 4 L16 4 L10 16 Z",
-    "M4 12 L8 4 L16 8 L12 16 Z",
-    "M4 16 L4 4 L16 4 M4 10 L12 10",
-    "M4 10 L16 10 M10 4 L10 16",
-    "M4 14 L10 4 L16 14 Z",
-    "M4 4 L16 4 L16 16 L4 16 Z M10 4 L10 16",
+  const N = 4;
+  const dpt = (x: number, y: number, P: number, c: number, r: number): [number, number] =>
+    [x + P * (0.1 + (0.8 * c) / (N - 1)), y + P * (0.1 + (0.8 * r) / (N - 1))];
+  // 12 問ぶんの図（辺集合）。左上ほど単純、右下ほど線が増える並び。
+  const SHAPES: number[][][][] = [
+    [[[0, 0], [0, 3]], [[0, 3], [2, 3]]],
+    [[[0, 0], [1, 3]], [[1, 3], [2, 0]]],
+    [[[0, 3], [3, 3]], [[3, 3], [1, 0]], [[1, 0], [0, 3]]],
+    [[[0, 1], [1, 0]], [[1, 0], [2, 1]], [[2, 1], [3, 0]]],
+    [[[1, 0], [3, 1]], [[3, 1], [2, 3]], [[2, 3], [0, 2]], [[0, 2], [1, 0]]],
+    [[[1, 0], [3, 2]], [[3, 2], [1, 3]], [[1, 3], [0, 2]], [[0, 2], [1, 0]]],
+    [[[0, 0], [3, 0]], [[3, 0], [3, 3]], [[3, 3], [0, 3]], [[0, 3], [0, 0]]],
+    [[[0, 1], [1, 0]], [[1, 0], [2, 0]], [[2, 0], [3, 1]], [[3, 1], [3, 3]], [[3, 3], [0, 3]], [[0, 3], [0, 1]], [[0, 1], [3, 1]]],
+    [[[0, 0], [3, 0]], [[3, 0], [3, 3]], [[3, 3], [0, 3]], [[0, 3], [0, 0]], [[0, 0], [3, 3]]],
+    [[[1, 0], [3, 1]], [[3, 1], [2, 3]], [[2, 3], [0, 3]], [[0, 3], [0, 1]], [[0, 1], [1, 0]]],
+    [[[0, 0], [3, 0]], [[3, 0], [0, 3]], [[0, 3], [3, 3]], [[3, 3], [0, 0]]],
+    [[[0, 2], [2, 2]], [[2, 2], [2, 3]], [[2, 3], [3, 1]], [[3, 1], [2, 0]], [[2, 0], [2, 1]], [[2, 1], [0, 1]], [[0, 1], [0, 2]]],
   ];
+  const dots = (x: number, y: number, P: number, key: string) =>
+    Array.from({ length: N * N }, (_, i) => {
+      const [dx, dy] = dpt(x, y, P, i % N, Math.floor(i / N));
+      return <circle key={`${key}-${i}`} cx={dx} cy={dy} r={P * 0.026} fill={INK} opacity="0.22" />;
+    });
+  const figEls = (x: number, y: number, P: number, shape: number[][][], key: string) =>
+    shape.map((e, k) => {
+      const [ax, ay] = dpt(x, y, P, e[0][0], e[0][1]);
+      const [bx, by] = dpt(x, y, P, e[1][0], e[1][1]);
+      return <line key={`${key}-${k}`} x1={ax} y1={ay} x2={bx} y2={by} stroke={INK} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />;
+    });
+  const sz = 34, pad = sz * 0.15, P = sz - pad * 2;
+  const tiles = Array.from({ length: 12 }, (_, k) => ({ k, tx: 20 + (k % 6) * 44, ty: 40 + Math.floor(k / 6) * 40 }));
   return (
     <svg viewBox="0 0 300 150" className="tr-feat-svg" aria-hidden="true">
       <rect x="8" y="8" width="284" height="134" rx="8" fill="#fff" stroke={INK} strokeWidth="1.4" />
-      <text x="20" y="27" fontSize="9.5" fill={INK} fontWeight="700" fontFamily={jp}>模写 基礎編 Vol.1</text>
-      <text x="280" y="27" fontSize="8.5" fill={INK} opacity="0.5" textAnchor="end" fontFamily={jp}>全 12 問</text>
-      {tiles.map((d, k) => {
-        const col = k % 6, row = Math.floor(k / 6);
-        return (
-          <g key={k} transform={`translate(${20 + col * 44} ${36 + row * 40})`}>
-            <rect x="0" y="0" width="34" height="34" rx="3" fill={TEAL} fillOpacity="0.03" stroke={FAINT} strokeWidth="0.7" />
-            <g transform="translate(3 3) scale(1.4)">
-              <path d={d} fill="none" stroke={INK} strokeWidth="1.1" strokeLinejoin="round" />
-            </g>
-          </g>
-        );
-      })}
-      <text x="20" y="130" fontSize="8" fill={INK} opacity="0.55" fontFamily={jp}>4×4 ・ ななめ入り ・ 6〜9 才ごろ</text>
-      <text x="280" y="131" fontSize="15" fontWeight="700" fill={TEAL} textAnchor="end" fontFamily={jp}>¥200</text>
+      <text x="20" y="27" fontSize="11" fill={INK} fontWeight="700" fontFamily={jp}>模写 基礎編 Vol.1</text>
+      <text x="280" y="27" fontSize="12" fill={TEAL} fontWeight="700" textAnchor="end" fontFamily={jp}>全 12 問</text>
+      <line x1="20" y1="33" x2="280" y2="33" stroke={FAINT} strokeWidth="0.6" />
+      {tiles.map(({ k, tx, ty }) => (
+        <g key={k}>
+          <rect x={tx} y={ty} width={sz} height={sz} rx="2.5" fill="#fff" stroke={FAINT} strokeWidth="0.7" />
+          {dots(tx + pad, ty + pad, P, `d${k}`)}
+          {figEls(tx + pad, ty + pad, P, SHAPES[k], `f${k}`)}
+        </g>
+      ))}
+      <text x="20" y="132" fontSize="11" fill={INK} opacity="0.72" fontFamily={jp}>4×4 ・ ななめ入り ・ 6〜9 才ごろ</text>
+      <text x="280" y="134" fontSize="16" fontWeight="700" fill={TEAL} textAnchor="end" fontFamily={jp}>¥200</text>
     </svg>
   );
 }
