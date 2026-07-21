@@ -72,7 +72,6 @@ export default function PrintsMenu({
               {g.tasks.map((t) => (
                 <a className="pmenu-tk" href={`/products/${t.slug}`} role="menuitem" key={t.slug}>
                   <span className="pmenu-nm">{t.name}</span>
-                  <span className="pmenu-ds">{t.desc}</span>
                 </a>
               ))}
             </div>
