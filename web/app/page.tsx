@@ -24,6 +24,9 @@ const TOTAL_LEVELS = LEVELS.length;      // 5（入門〜発展）
    - 品ぞろえは coverage 方式で圧縮: 地図3カード＋CTA（店頭の実体は /products に一本化）。
    - 「大切にした 3 つ」＝図解カード（①適レベル ②模写だけにしない ③印刷の自由）。
    - 「家庭での続け方」＝縦タイムライン（案B）。
+   - セクション順（2026-07-21 再編）: 品ぞろえ → レベルで選ぶ（旧クロージングの
+     「点と点が、つながるように。」を昇格・挿絵なし）→ 自分で作る（工房挿絵の
+     2 カラム＝MakerAtelierIllus）→ 家庭での続け方（最後）→ 記事。
    自前 CSS のみ（client JS なし・Server Component 維持）。
    商品系リンクは配線済（種類→/products/{slug}・すべて見る→/products）。
    ※「サンプルを見る」CTA はサンプル閲覧プレビュー実装まで撤去（2026-07-06）。
@@ -452,6 +455,79 @@ const STEPS = [
   { n: "04", Ic: IcLoop, t: "気が向いた日に、次の一枚", d: "繰り返しても、次へ進んでも。家庭ごとで。" },
 ];
 
+/* ---- ⑤ 自分で作る・挿絵（工房の作業台 → 紙）----
+   メーカー画面で風車を描きかけ（鉛筆＝Hero の PencilShape 流用）、それが
+   そのまま印刷用の紙になる流れを 1 枚で。2026-07-21 案 1「棚と工房」採用。 */
+function MakerAtelierIllus() {
+  return (
+    <svg viewBox="0 0 500 322" className="tr-maker-svg" role="img"
+      aria-label="メーカーの画面で形を描くと、そのまま印刷用の紙になる図">
+      <defs>
+        <filter id="mk-paper-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="5" floodColor={INK} floodOpacity="0.18" />
+        </filter>
+      </defs>
+      {/* ブラウザ窓（メーカー画面） */}
+      <g>
+        <rect x="16" y="26" width="278" height="252" rx="12" fill="#fff" stroke={INK} strokeWidth="1.6" />
+        <line x1="16" y1="58" x2="294" y2="58" stroke="var(--line-thin)" strokeWidth="1.2" />
+        <circle cx="36" cy="42" r="4" fill="var(--line-thin)" />
+        <circle cx="50" cy="42" r="4" fill="var(--line-thin)" />
+        <circle cx="64" cy="42" r="4" fill="var(--line-thin)" />
+        <text x="278" y="46" textAnchor="end" fontSize="11" fill="var(--fg-3)"
+          style={{ fontFamily: "var(--font-tier3-sans)" }}>模写メーカー</text>
+        {/* 点格子 5×5 */}
+        <g transform="translate(65,80)" fill={INK} opacity="0.3">
+          {Array.from({ length: 25 }, (_, i) => (
+            <circle key={i} cx={(i % 5) * 30} cy={Math.floor(i / 5) * 30} r={1.8} />
+          ))}
+        </g>
+        {/* 風車＝3 枚は描き済み（墨）・4 枚目の羽根を描いている途中（teal） */}
+        <g transform="translate(65,80)" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M60 60 L60 0 L90 30 Z M60 60 L120 60 L90 90 Z M60 60 L60 120 L30 90 Z"
+            stroke={INK} strokeWidth="2.2" />
+          <path d="M60 60 L0 60 L30 30 L45 45" stroke={TEAL} strokeWidth="2.6" />
+        </g>
+        {/* 鉛筆（描きかけの線の先端に） */}
+        <g transform="translate(110,125)"><PencilShape /></g>
+        {/* 下部 UI: グリッド切替チップ + PDF ボタン */}
+        <g style={{ fontFamily: "var(--font-tier3-sans)" }} fontSize="10.5">
+          <rect x="30" y="234" width="40" height="24" rx="12" fill="#fff" stroke="var(--line-thin)" />
+          <text x="50" y="250" textAnchor="middle" fill="var(--fg-3)">4×4</text>
+          <rect x="76" y="234" width="40" height="24" rx="12" fill={TEAL} />
+          <text x="96" y="250" textAnchor="middle" fill="#fff">5×5</text>
+          <rect x="122" y="234" width="40" height="24" rx="12" fill="#fff" stroke="var(--line-thin)" />
+          <text x="142" y="250" textAnchor="middle" fill="var(--fg-3)">6×6</text>
+          <rect x="186" y="232" width="92" height="28" rx="8" fill={INK} />
+          <text x="232" y="250" textAnchor="middle" fill="#fff" fontSize="11">PDF に書き出す</text>
+        </g>
+      </g>
+      {/* 画面 → 紙 */}
+      <g stroke="var(--fg-3)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.6">
+        <path d="M306 152 H330" />
+        <path d="M324 145 L330 152 L324 159" />
+      </g>
+      {/* 印刷された紙（同じ風車が刷り上がっている） */}
+      <g transform="rotate(2.5 415 170)" filter="url(#mk-paper-shadow)">
+        <rect x="344" y="52" width="142" height="212" rx="4" fill="#fff" stroke="var(--line-thin)" strokeWidth="1" />
+        <text x="358" y="80" fontSize="12" fill={INK}
+          style={{ fontFamily: "var(--font-tier1-klee)", fontWeight: 600 }}>もしゃ ・ 5×5</text>
+        <line x1="358" y1="90" x2="472" y2="90" stroke={INK} strokeWidth="1" />
+        <g transform="translate(374,110)" fill={INK} opacity="0.3">
+          {Array.from({ length: 25 }, (_, i) => (
+            <circle key={i} cx={(i % 5) * 21} cy={Math.floor(i / 5) * 21} r={1.3} />
+          ))}
+        </g>
+        <path transform="translate(374,110) scale(0.7)"
+          d="M60 60 L60 0 L90 30 Z M60 60 L120 60 L90 90 Z M60 60 L60 120 L30 90 Z M60 60 L0 60 L30 30 Z"
+          fill="none" stroke={INK} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="415" y="248" textAnchor="middle" fontSize="9" fill="var(--fg-3)"
+          style={{ fontFamily: "var(--font-tier3-mono)", letterSpacing: "0.12em" }}>TENZU</text>
+      </g>
+    </svg>
+  );
+}
+
 /* ---- ② なぜ用イラスト ----
    表示パターン切替: "A"=暫定線画（墨＋teal）／"B"=実写真（/assets/top/why-tensha.webp）。
    フラグ 1 つで A↔B を戻せる。 */
@@ -630,7 +706,48 @@ export default function Home() {
         {/* ===================== ③ 品ぞろえ（Brilliant 型・力ピル×タスク実演） ===================== */}
         <CoverageStudio />
 
-        {/* ===================== ⑤ 家庭での続け方（縦タイムライン・案B） ===================== */}
+        {/* ===================== ④ レベルで選ぶ（旧クロージングを品ぞろえ直後へ昇格） ===================== */}
+        <section className="tr-close">
+          <div className="wrap wrap-narrow">
+            <p className="tr-sec-kicker">レベルで選ぶ</p>
+            <h2>点と点が、つながるように。</h2>
+            <p>
+              まずは中身を見て、いまのレベルの一枚から。印刷して、机の上で。
+              鉛筆で点と点をつなぐ数分が、図形を読む目を育てます。
+            </p>
+            <div className="tr-cta-row">
+              <a className="tr-btn-primary" href="/level-guide">レベル選びガイドへ</a>
+            </div>
+          </div>
+        </section>
+
+        {/* ===================== ⑤ 自分で作る（メーカー・工房の挿絵つき 2 カラム） ===================== */}
+        <section className="tr-sec tr-sec-alt">
+          <div className="wrap">
+            <div className="tr-maker-grid">
+              <div className="tr-maker-illus">
+                <MakerAtelierIllus />
+              </div>
+              <div className="tr-maker-copy">
+                <div className="tr-sec-head">
+                  <p className="tr-sec-kicker">自分で作る — メーカー</p>
+                  <h2>ぴったりが無ければ、自分で作る。</h2>
+                </div>
+                <p className="tr-lead">
+                  模写・鏡・移動・回転・欠け補完から、重ね・分解・折り重ねまで。
+                  {MAKER_KINDS} 種類のメーカーで、家庭の練習プリントを思いどおりに作って PDF 印刷できます。
+                  模写はいつでも無料。気に入ったメーカーだけ ¥980 の買い切りで。
+                </p>
+                <div className="tr-cta-row">
+                  <a className="tr-btn-primary" href="/makers">メーカーを見る →</a>
+                  <a className="tr-btn-ghost" href="/maker">無料で試す（模写）</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===================== ⑥ 家庭での続け方（縦タイムライン・案B・最後へ） ===================== */}
         <section className="tr-sec">
           <div className="wrap">
             <div className="tr-sec-head">
@@ -659,40 +776,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===================== ⑥ 自分で作る（メーカー・従属的な補完） ===================== */}
-        <section className="tr-sec tr-sec-alt">
-          <div className="wrap wrap-narrow">
-            <div className="tr-sec-head">
-              <p className="tr-sec-kicker">自分で作る — メーカー</p>
-              <h2>ぴったりが無ければ、自分で作る。</h2>
-            </div>
-            <p className="tr-lead">
-              模写・鏡・移動・回転・欠け補完から、重ね・分解・折り重ねまで。
-              {MAKER_KINDS} 種類のメーカーで、家庭の練習プリントを思いどおりに作って PDF 印刷できます。
-              模写はいつでも無料。気に入ったメーカーだけ ¥980 の買い切りで。
-            </p>
-            <div className="tr-cta-row">
-              <a className="tr-btn-primary" href="/makers">メーカーを見る →</a>
-              <a className="tr-btn-ghost" href="/maker">無料で試す（模写）</a>
-            </div>
-          </div>
-        </section>
-
-        {/* ===================== ⑦ 感情的クロージング ===================== */}
-        <section className="tr-close">
-          <div className="wrap wrap-narrow">
-            <h2>点と点が、つながるように。</h2>
-            <p>
-              まずは中身を見て、いまのレベルの一枚から。印刷して、机の上で。
-              鉛筆で点と点をつなぐ数分が、図形を読む目を育てます。
-            </p>
-            <div className="tr-cta-row">
-              <a className="tr-btn-primary" href="/level-guide">レベル選びガイドへ</a>
-            </div>
-          </div>
-        </section>
-
-        {/* ===================== ⑧ 記事 ===================== */}
+        {/* ===================== ⑦ 記事 ===================== */}
         <ArticlesSection />
       </main>
 

@@ -251,6 +251,31 @@
 .tr-why-copy .tr-sec-head { margin-bottom: 20px; }
 .tr-why-copy .tr-lead { margin-bottom: 0; }
 
+/* ---- ⑤ 自分で作る（左＝工房の挿絵・右＝散文の 2 カラム・2026-07-21） ---- */
+.tr-maker-grid {
+  display: grid;
+  grid-template-columns: 1.04fr 0.96fr;
+  gap: clamp(28px, 4.5vw, 60px);
+  align-items: center;
+}
+@media (max-width: 860px) {
+  .tr-maker-grid { grid-template-columns: 1fr; gap: 26px; }
+}
+/* alt 背景（温かい紙）の上に、点格子の白い作業台を浮かせる */
+.tr-maker-illus {
+  border: 1px solid var(--line-thin);
+  border-radius: 8px;
+  background-color: #fff;
+  background-image: radial-gradient(circle, rgba(26, 31, 42, 0.07) 1px, transparent 1.6px);
+  background-size: 22px 22px;
+  background-position: center;
+  padding: clamp(12px, 2vw, 22px);
+}
+.tr-maker-illus svg { display: block; width: 100%; height: auto; }
+.tr-maker-copy .tr-sec-head { margin-bottom: 20px; }
+.tr-maker-copy .tr-lead { margin-bottom: 0; }
+.tr-maker-copy .tr-cta-row { margin-top: 22px; }
+
 /* ---- ★ TENZU 3 つの特長（数・公開・印刷） ---- */
 /* 番号バッジ＝小さな teal 丸。強調は number でなく「棚・公開・印刷」の中身に置く。 */
 .tr-feat-lead {
@@ -524,6 +549,16 @@
   .cstudio-stage { border-left: none; border-top: 1px solid var(--line-thin); }
 }
 .cstudio-svg { width: 100%; max-width: 440px; height: auto; display: block; }
+/* 実演「かく」線＝1 本 1 path（pathLength=100 前提・dasharray は末尾の
+   丸め欠け対策で 101）。基底＝非表示。描き上げ→保持→消去のループは
+   CoverageStudio.tsx の WAAPI が線分ごとに時差を付けて駆動する。 */
+.cstudio-svg .cs-seg {
+  stroke-dasharray: 101;
+  stroke-dashoffset: 101;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cstudio-svg .cs-seg { stroke-dashoffset: 0; }
+}
 .cstudio-meta { text-align: center; }
 .cstudio-meta h3 {
   font-family: var(--font-tier1-klee);
@@ -673,7 +708,7 @@
 }
 .steps-memo b { font-family: var(--font-tier1-klee); font-weight: 600; color: var(--fg); }
 
-/* ---- 締めCTA ---- */
+/* ---- レベルで選ぶ（旧・締めCTA を品ぞろえ直後へ昇格・2026-07-21） ---- */
 .tr-close { padding: 64px 0; text-align: center; }
 .tr-close h2 {
   font-family: var(--font-tier1-klee);
