@@ -77,9 +77,6 @@ export default function PrintsMenu({
             </div>
           ))}
         </div>
-        <a className="pmenu-mk" href="/makers" role="menuitem">
-          ぴったりが無ければ、<b>自分で作る → メーカー</b>
-        </a>
       </div>
     </div>
   );
