@@ -1503,9 +1503,3 @@ footer.site .foot-bottom .copyright {
   color: var(--fg-3);
   letter-spacing: 0.04em;
 }
-footer.site .foot-bottom .revlink {
-  font-family: var(--font-tier3-sans);
-  font-size: 12px;
-  color: var(--accent);
-  text-decoration: none;
-}

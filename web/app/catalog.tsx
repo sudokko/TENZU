@@ -343,31 +343,28 @@ export function SiteFooter() {
             <img src="/assets/logo-horizontal.png" alt="TENZU" />
             <p>
               点図形（点描写）プリントの専門店 TENZU<br />
-              家庭で続ける、図形と空間認知の基礎練習。
+              見て、考えて、書く力を、点描写から。
             </p>
           </div>
           <div className="foot-col">
             <h5>SHOP</h5>
             <ul>
-              <li><a href="/products">商品一覧</a></li>
-              <li><a href="/makers">メーカー（自分で作る）</a></li>
-              <li><a href="/level-guide">レベル選びガイド</a></li>
+              <li><a href="/products">すべてのプリント</a></li>
+              <li><a href="/level-guide">レベルで選ぶ</a></li>
+              <li><a href="/makers">自分でつくる</a></li>
             </ul>
           </div>
           <div className="foot-col">
-            <h5>READ</h5>
+            <h5>ABOUT</h5>
             <ul>
-              <li><a href="/articles">記事まとめ</a></li>
-              <li><a href="#">About TENZU</a></li>
-              <li><a href="#">FAQ</a></li>
+              <li><a href="/articles">読みもの</a></li>
+              <li><a href="/articles/tenzu-concept">お店のこと</a></li>
               <li><a href="/contact">お問い合わせ</a></li>
-              <li><a href="#">改訂履歴</a></li>
             </ul>
           </div>
         </div>
         <div className="foot-bottom">
           <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
-          <a className="revlink" href="#">改訂履歴を読む →</a>
         </div>
       </div>
     </footer>
