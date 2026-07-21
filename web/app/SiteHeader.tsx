@@ -1,5 +1,6 @@
 import CartBadge from "./cart/CartBadge";
 import PrintsMenu, { type MenuGroup } from "./PrintsMenu";
+import MobileNav from "./MobileNav";
 import { GROUPS, TOTAL_KINDS, TOTAL_VOL } from "./catalog";
 
 type NavKey = "プリントを探す" | "メーカー" | "記事" | "レベル選び" | "About" | "お問い合わせ";
@@ -34,7 +35,11 @@ export default function SiteHeader({ currentNav }: { currentNav?: NavKey }) {
             </a>
           ))}
         </nav>
-        <CartBadge />
+        <div className="header-right">
+          <CartBadge />
+          <MobileNav groups={menu} kinds={TOTAL_KINDS} vol={TOTAL_VOL}
+            links={NAV_LINKS} currentNav={currentNav} />
+        </div>
       </div>
     </header>
   );

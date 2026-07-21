@@ -88,9 +88,9 @@ header.site {
   .nav-main { gap: 18px; font-size: 13px; }
 }
 @media (max-width: 720px) {
-  .header-inner { flex-wrap: wrap; gap: 12px; }
-  .nav-main { gap: 16px; font-size: 13px; }
+  .nav-main { display: none; }
 }
+.header-right { display: flex; align-items: center; gap: 14px; }
 
 /* ====================================================
    HEADER — 「プリントを探す」プルダウン（PrintsMenu）
@@ -158,7 +158,9 @@ header.site {
 }
 .pmenu-all-t { font-size: 14px; font-weight: var(--wt-emph); color: var(--accent-ink); }
 .pmenu-all-s { font-size: 12px; color: var(--fg-2); }
-.pmenu-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.pmenu-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.pmenu-col { min-width: 0; }
+.pmenu-nm, .pmenu-ds { overflow-wrap: anywhere; }
 .pmenu-h {
   font-size: 11.5px;
   letter-spacing: 0.04em;
@@ -189,16 +191,75 @@ header.site {
 }
 .pmenu-mk b { color: var(--accent); font-weight: var(--wt-emph); }
 
+/* ====================================================
+   HEADER — モバイル ハンバーガー（MobileNav）
+   カートはドロワーの外＝ヘッダ右に残す。ドロワーはヘッダ直下に全幅で開く。
+   ==================================================== */
+.mnav { display: inline-flex; }
+.nav-burger {
+  display: none;               /* PC は非表示（ドロップダウンを使う） */
+  width: 40px; height: 40px;
+  align-items: center; justify-content: center;
+  background: none; border: none; padding: 0; cursor: pointer;
+}
+.nav-burger-bars { position: relative; width: 22px; height: 2px; }
+.nav-burger-bars,
+.nav-burger-bars::before,
+.nav-burger-bars::after {
+  display: block; width: 22px; height: 2px;
+  background: var(--fg); border-radius: 2px;
+  transition: transform var(--dur-base) var(--ease-line), opacity var(--dur-base);
+}
+.nav-burger-bars::before { content: ""; position: absolute; top: -7px; left: 0; }
+.nav-burger-bars::after  { content: ""; position: absolute; top: 7px;  left: 0; }
+.mnav.is-open .nav-burger-bars { background: transparent; }
+.mnav.is-open .nav-burger-bars::before { transform: translateY(7px) rotate(45deg); }
+.mnav.is-open .nav-burger-bars::after  { transform: translateY(-7px) rotate(-45deg); }
+
+.nav-drawer {
+  display: none;
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  z-index: 60;
+  margin-top: 14px;
+  padding: 14px 16px 18px;
+  background: var(--bg);
+  border-top: 1px solid var(--line-thin);
+  border-bottom: 1px solid var(--line-thin);
+  box-shadow: 0 14px 32px rgba(26, 31, 42, .10);
+}
+.mnav.is-open .nav-drawer { display: block; }
+.nav-drawer-all {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  padding: 11px 12px; margin-bottom: 14px;
+  border-radius: var(--r-control); background: var(--accent-mute); text-decoration: none;
+}
+.nav-drawer-all-t { font-size: 15px; font-weight: var(--wt-emph); color: var(--accent-ink); }
+.nav-drawer-all-s { font-size: 12px; color: var(--fg-2); }
+.nav-drawer-group { margin-bottom: 12px; }
+.nav-drawer-h {
+  font-size: 11.5px; letter-spacing: 0.04em; color: var(--accent); font-weight: var(--wt-emph);
+  margin: 0 0 8px; padding-bottom: 5px; border-bottom: 1px solid var(--line-thin);
+}
+.nav-drawer-tasks { display: flex; flex-wrap: wrap; gap: 8px; }
+.nav-drawer-tasks a {
+  font-size: 14px; color: var(--fg); text-decoration: none;
+  padding: 7px 14px; border: 1px solid var(--line-mid); border-radius: var(--r-token);
+}
+.nav-drawer-links {
+  display: flex; flex-direction: column;
+  margin-top: 12px; padding-top: 6px; border-top: 1px solid var(--line-thin);
+}
+.nav-drawer-links a {
+  font-size: 15px; color: var(--fg); text-decoration: none; padding: 11px 4px;
+  border-bottom: 1px dashed var(--line-thin);
+}
+.nav-drawer-links a:last-child { border-bottom: none; }
+.nav-drawer-links a[aria-current] { color: var(--accent); font-weight: var(--wt-emph); }
+
+/* バーガーは ≤720px でのみ表示（base の display:none より後に置いて確実に上書き） */
 @media (max-width: 720px) {
-  .pmenu { position: static; }
-  .pmenu-panel {
-    left: 0; right: 0;
-    width: auto;
-    top: 100%;
-    margin-top: 12px;
-  }
-  .pmenu-cols { grid-template-columns: 1fr; gap: 2px; }
-  .pmenu-col { margin-bottom: 6px; }
+  .nav-burger { display: inline-flex; }
 }
 
 /* ====================================================

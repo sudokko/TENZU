@@ -14,6 +14,7 @@ export default function PrintsMenu({
 }: { groups: MenuGroup[]; kinds: number; vol: number; active?: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -27,6 +28,17 @@ export default function PrintsMenu({
       document.removeEventListener("pointerdown", onDoc);
       document.removeEventListener("keydown", onKey);
     };
+  }, [open]);
+
+  // 開くたびに、画面右端をはみ出す分だけパネルを左へずらす（トリガー直下を維持したまま溢れ防止）
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+    if (!open || window.innerWidth <= 720) { panel.style.left = ""; return; }
+    panel.style.left = "0px";
+    const margin = 16;
+    const overflow = panel.getBoundingClientRect().right - (window.innerWidth - margin);
+    if (overflow > 0) panel.style.left = `${-overflow}px`;
   }, [open]);
 
   return (
@@ -48,7 +60,7 @@ export default function PrintsMenu({
         <span className="pmenu-caret" aria-hidden="true" />
       </button>
 
-      <div className="pmenu-panel" role="menu" aria-label="プリントを探す">
+      <div className="pmenu-panel" role="menu" aria-label="プリントを探す" ref={panelRef}>
         <a className="pmenu-all" href="/products" role="menuitem">
           <span className="pmenu-all-t">すべてのプリント</span>
           <span className="pmenu-all-s">{kinds} 種 ・ 全 {vol} 巻 ・ ¥200 一律</span>
