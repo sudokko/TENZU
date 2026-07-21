@@ -56,7 +56,7 @@ export default function ContactApp() {
 
   return (
     <>
-      <SiteHeader currentNav="お問い合わせ" />
+      <SiteHeader />
       <main className="mem-wrap">
         <div className="mem-head">
           <h1>お問い合わせ</h1>

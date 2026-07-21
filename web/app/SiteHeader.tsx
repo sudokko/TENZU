@@ -3,14 +3,12 @@ import PrintsMenu, { type MenuGroup } from "./PrintsMenu";
 import MobileNav from "./MobileNav";
 import { GROUPS, TOTAL_KINDS, TOTAL_VOL } from "./catalog";
 
-type NavKey = "プリントを探す" | "メーカー" | "記事" | "レベル選び" | "About" | "お問い合わせ";
+type NavKey = "プリントを探す" | "つくる" | "読みもの" | "お店のこと";
 
 const NAV_LINKS: { href: string; label: Exclude<NavKey, "プリントを探す"> }[] = [
-  { href: "/makers",   label: "メーカー" },
-  { href: "/articles", label: "記事" },
-  { href: "/level-guide", label: "レベル選び" },
-  { href: "/articles/tenzu-concept", label: "About" },
-  { href: "/contact", label: "お問い合わせ" },
+  { href: "/makers",   label: "つくる" },
+  { href: "/articles", label: "読みもの" },
+  { href: "/articles/tenzu-concept", label: "お店のこと" },
 ];
 
 export default function SiteHeader({ currentNav }: { currentNav?: NavKey }) {

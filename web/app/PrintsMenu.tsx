@@ -61,10 +61,16 @@ export default function PrintsMenu({
       </button>
 
       <div className="pmenu-panel" role="menu" aria-label="プリントを探す" ref={panelRef}>
-        <a className="pmenu-all" href="/products" role="menuitem">
-          <span className="pmenu-all-t">すべてのプリント</span>
-          <span className="pmenu-all-s">{kinds} 種 ・ 全 {vol} 巻 ・ ¥200 一律</span>
-        </a>
+        <div className="pmenu-top">
+          <a className="pmenu-all pmenu-all--primary" href="/products" role="menuitem">
+            <span className="pmenu-all-t">すべてのプリント</span>
+            <span className="pmenu-all-s">{kinds} 種 ・ 全 {vol} 巻 ・ ¥200</span>
+          </a>
+          <a className="pmenu-all pmenu-all--ghost" href="/level-guide" role="menuitem">
+            <span className="pmenu-all-t">レベルで選ぶ</span>
+            <span className="pmenu-all-s">年齢・段階のめやすから</span>
+          </a>
+        </div>
         <div className="pmenu-cols">
           {groups.map((g) => (
             <div className="pmenu-col" key={g.label}>

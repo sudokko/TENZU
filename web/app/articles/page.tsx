@@ -40,7 +40,7 @@ export default async function ArticlesIndex() {
 
   return (
     <>
-      <SiteHeader currentNav="記事" />
+      <SiteHeader currentNav="読みもの" />
 
       <div className="wrap-article">
         <header className="article-meta">

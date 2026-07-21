@@ -120,7 +120,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(g) }}
         />
       ))}
-      <SiteHeader currentNav="記事" />
+      <SiteHeader currentNav="読みもの" />
 
       <nav className="crumb-article" aria-label="パンくず">
         {(fm.breadcrumb ?? []).map((c) => (

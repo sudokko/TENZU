@@ -46,10 +46,16 @@ export default function MobileNav({
       </button>
 
       <div id="mobile-drawer" className="nav-drawer" role="menu" aria-label="メニュー">
-        <a className="nav-drawer-all" href="/products" role="menuitem" onClick={close}>
-          <span className="nav-drawer-all-t">すべてのプリント</span>
-          <span className="nav-drawer-all-s">{kinds} 種 ・ 全 {vol} 巻 ・ ¥200</span>
-        </a>
+        <div className="nav-drawer-top">
+          <a className="nav-drawer-all" href="/products" role="menuitem" onClick={close}>
+            <span className="nav-drawer-all-t">すべてのプリント</span>
+            <span className="nav-drawer-all-s">{kinds} 種 ・ 全 {vol} 巻 ・ ¥200</span>
+          </a>
+          <a className="nav-drawer-all nav-drawer-all--ghost" href="/level-guide" role="menuitem" onClick={close}>
+            <span className="nav-drawer-all-t">レベルで選ぶ</span>
+            <span className="nav-drawer-all-s">年齢・段階のめやすから</span>
+          </a>
+        </div>
         {groups.map((g) => (
           <div className="nav-drawer-group" key={g.label}>
             <p className="nav-drawer-h">{g.label}</p>

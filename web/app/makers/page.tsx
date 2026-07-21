@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function MakersPage() {
   return (
     <>
-      <SiteHeader currentNav="メーカー" />
+      <SiteHeader currentNav="つくる" />
       <main className="makers-wrap">
 
         {/* ---- Hero ---- */}

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function LevelGuidePage() {
   return (
     <>
-      <SiteHeader currentNav="レベル選び" />
+      <SiteHeader currentNav="プリントを探す" />
       <GuideApp />
       <SiteFooter />
     </>
