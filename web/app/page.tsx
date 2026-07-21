@@ -1,6 +1,7 @@
 import "./top-rich.css";
 import SiteHeader from "./SiteHeader";
-import { ArticlesSection, SiteFooter, TOTAL_KINDS, TOTAL_VOL, GROUPS, LEVELS, LevelGraph } from "./catalog";
+import { SiteFooter, TOTAL_KINDS, TOTAL_VOL, GROUPS, LEVELS, LevelGraph } from "./catalog";
+import ArticlesSection from "./ArticlesSection";
 import CoverageStudio from "./CoverageStudio";
 import { VISIBLE_MAKERS } from "./products/makers";
 import { QUESTIONS_PER_VOL } from "./products/data";
@@ -23,10 +24,10 @@ const TOTAL_LEVELS = LEVELS.length;      // 5（入門〜発展）
      メーカーは Flow 後の補完セクションで案内。
    - 品ぞろえは coverage 方式で圧縮: 地図3カード＋CTA（店頭の実体は /products に一本化）。
    - 「大切にした 3 つ」＝図解カード（①適レベル ②模写だけにしない ③印刷の自由）。
-   - 「家庭での続け方」＝縦タイムライン（案B）。
+   - 「はじめ方」（購入の流れ）＝縦タイムライン（案B）。
    - セクション順（2026-07-21 再編）: 品ぞろえ → レベルで選ぶ（旧クロージングの
      「点と点が、つながるように。」を昇格・挿絵なし）→ 自分で作る（工房挿絵の
-     2 カラム＝MakerAtelierIllus）→ 家庭での続け方（最後）→ 記事。
+     2 カラム＝MakerAtelierIllus）→ はじめ方（最後）→ 記事。
    自前 CSS のみ（client JS なし・Server Component 維持）。
    商品系リンクは配線済（種類→/products/{slug}・すべて見る→/products）。
    ※「サンプルを見る」CTA はサンプル閲覧プレビュー実装まで撤去（2026-07-06）。
@@ -406,7 +407,7 @@ function FeatPrintSvg() {
   );
 }
 
-/* ---- ⑤ 続け方フロー用アイコン（40×40・採用: 案B 縦タイムライン） ---- */
+/* ---- ⑤ はじめ方フロー用アイコン（40×40・採用: 案B 縦タイムライン） ---- */
 function IcSample() {
   return (
     <svg viewBox="0 0 40 40" className="flow-icon" aria-hidden="true">
@@ -425,6 +426,18 @@ function IcPick() {
       <rect x="13" y="14" width="18" height="22" rx="2" fill="#fff" stroke={INK} strokeWidth="1.6" />
       <rect x="8" y="7" width="18" height="22" rx="2" fill="#fff" stroke={TEAL} strokeWidth="2" />
       <path d="M12 18 L16 22 L23 13" fill="none" stroke={TEAL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function IcBuy() {
+  return (
+    <svg viewBox="0 0 40 40" className="flow-icon" aria-hidden="true">
+      {/* プリント 1 枚がカゴへ入る（紙＝TEAL・カゴ＝INK） */}
+      <rect x="16" y="5" width="12" height="10" rx="1.5" fill="#fff" stroke={TEAL} strokeWidth="2" />
+      <path d="M8 15 H32 L29.4 33 H10.6 Z" fill="#fff" stroke={INK} strokeWidth="1.6" strokeLinejoin="round" />
+      <line x1="15.5" y1="20" x2="16.5" y2="28" stroke={FAINT} strokeWidth="1.4" />
+      <line x1="20" y1="20" x2="20" y2="28" stroke={FAINT} strokeWidth="1.4" />
+      <line x1="24.5" y1="20" x2="23.5" y2="28" stroke={FAINT} strokeWidth="1.4" />
     </svg>
   );
 }
@@ -449,10 +462,11 @@ function IcLoop() {
 }
 
 const STEPS = [
-  { n: "01", Ic: IcSample, t: "サンプルを見る", d: "代表 1 枚を無料公開。中身を見てから。" },
-  { n: "02", Ic: IcPick, t: "今のレベルを選ぶ", d: "¥200 一律。レベル選びガイドで「今」に合う一枚を。" },
-  { n: "03", Ic: IcPrint, t: "印刷して、机で", d: "A4 1 枚。鉛筆で点と点をつなぐ数分。" },
-  { n: "04", Ic: IcLoop, t: "気が向いた日に、次の一枚", d: "繰り返しても、次へ進んでも。家庭ごとで。" },
+  { n: "01", Ic: IcPick, t: "今のレベルを選ぶ", d: "¥200 一律。レベル選びガイドで、はじめる位置の目安を。" },
+  { n: "02", Ic: IcSample, t: "中身をたしかめる", d: "商品ページで紙面プレビューを公開。買う前に見られます。" },
+  { n: "03", Ic: IcBuy, t: "購入する", d: "その場ですぐダウンロード。回数の制限はありません。" },
+  { n: "04", Ic: IcPrint, t: "印刷して、机の上へ", d: "白黒 OK。家のプリンタでも、コンビニのコピー機でも。" },
+  { n: "05", Ic: IcLoop, t: "気が向いた日に、次の一枚", d: "繰り返しても、次へ進んでも、休んでも。家庭ごとで。" },
 ];
 
 /* ---- ⑤ 自分で作る・挿絵（工房の作業台 → 紙）----
@@ -697,9 +711,6 @@ export default function Home() {
               </div>
             </div>
 
-            <p className="tr-feat-bridge">
-              ↓ {TOTAL_KINDS} 種類それぞれの中身は、すぐ下の「3 つの力」で実演します
-            </p>
           </div>
         </section>
 
@@ -740,19 +751,18 @@ export default function Home() {
                 </p>
                 <div className="tr-cta-row">
                   <a className="tr-btn-primary" href="/makers">メーカーを見る →</a>
-                  <a className="tr-btn-ghost" href="/maker">無料で試す（模写）</a>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ===================== ⑥ 家庭での続け方（縦タイムライン・案B・最後へ） ===================== */}
+        {/* ===================== ⑥ はじめ方（購入の流れ・縦タイムライン・案B・最後へ） ===================== */}
         <section className="tr-sec">
           <div className="wrap">
             <div className="tr-sec-head">
-              <p className="tr-sec-kicker">家庭での続け方</p>
-              <h2>いつからでも、休んでも。続け方は、家庭ごとでいい。</h2>
+              <p className="tr-sec-kicker">はじめ方</p>
+              <h2>レベルを選んで、中身を見て、印刷するだけ。</h2>
             </div>
             <div className="flowB">
               {STEPS.map((s) => {
@@ -769,10 +779,6 @@ export default function Home() {
                 );
               })}
             </div>
-            <p className="steps-memo">
-              <b>「毎日続いていますか」と聞かれることがあります。</b>続いていなくても大丈夫です。
-              1 週間休んだ後の一枚も、最初の一枚と同じ価値です。
-            </p>
           </div>
         </section>
 

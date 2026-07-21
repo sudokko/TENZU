@@ -443,14 +443,6 @@
 }
 .tr-feat-cta:hover { opacity: 0.7; }
 /* 品ぞろえ節への橋渡し。9 種類 → 3 つの力 の数字衝突を言葉で接続。 */
-.tr-feat-bridge {
-  font-family: var(--font-tier3-sans);
-  font-size: 12.5px;
-  color: var(--fg-3);
-  text-align: center;
-  margin: 22px 0 0;
-}
-
 /* ---- 品ぞろえ予告編（地図3カード＝landing.css .cat-map 共用・下は CTA のみ） ---- */
 .tr-teaser-foot { display: flex; justify-content: flex-end; margin-top: 20px; }
 
@@ -697,16 +689,6 @@
   color: var(--fg-2);
   margin: 0;
 }
-.steps-memo {
-  font-family: var(--font-tier2-pencil);
-  font-size: 15px;
-  line-height: 1.85;
-  color: var(--fg-2);
-  border-left: 2px solid var(--accent);
-  padding-left: 14px;
-  margin: 26px 0 0;
-}
-.steps-memo b { font-family: var(--font-tier1-klee); font-weight: 600; color: var(--fg); }
 
 /* ---- レベルで選ぶ（旧・締めCTA を品ぞろえ直後へ昇格・2026-07-21） ---- */
 .tr-close { padding: 64px 0; text-align: center; }

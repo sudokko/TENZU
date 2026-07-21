@@ -277,13 +277,6 @@ export function catalogTaskBySlug(slug: string): { task: Task; group: Group; gro
 export const TOTAL_VOL = GROUPS.reduce((s, g) => s + g.tasks.reduce((t, k) => t + volOf(k.lv), 0), 0);
 export const TOTAL_KINDS = GROUPS.reduce((s, g) => s + g.tasks.length, 0);
 
-export const ARTICLES = [
-  { title: "点描写とは——はじめての方へ", note: "まず読むなら" },
-  { title: "点描写の効果。何が育つのか", note: "効果・根拠" },
-  { title: "公文の次に、何をやらせるか", note: "次の一手" },
-  { title: "「図形が苦手」を、どう戻すか", note: "つまずき" },
-];
-
 /* ===================== 3つの力・地図カード（/products と TOP 予告編で共用） =====================
    hrefBase 省略時＝同一ページ内アンカー（/products）。TOP からは hrefBase="/products" で棚へ飛ばす。 */
 export function ForceMapCards({ hrefBase = "", goLabel }: { hrefBase?: string; goLabel: string }) {
@@ -306,32 +299,7 @@ export function ForceMapCards({ hrefBase = "", goLabel }: { hrefBase?: string; g
   );
 }
 
-/* ===================== §2 もっと知る（記事） ===================== */
-export function ArticlesSection() {
-  return (
-    <section className="s">
-      <div className="wrap wrap-narrow">
-        <div className="section-head">
-          <p className="section-kicker">§2 · もっと知る</p>
-          <h2>選ぶ前に、読んでおく。</h2>
-        </div>
-
-        <ul className="more-list">
-          {ARTICLES.map((a) => (
-            <li key={a.title}>
-              <a className="more-item" href="/articles">
-                <span className="more-title">{a.title}</span>
-                <span className="more-note">{a.note}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <a className="btn-weak more-all" href="/articles">記事をすべて見る →</a>
-      </div>
-    </section>
-  );
-}
+/* §2 もっと知る（記事）は app/ArticlesSection.tsx へ分離（Server 専用・fs 依存のため） */
 
 /* ===================== 共通フッター ===================== */
 export function SiteFooter() {
