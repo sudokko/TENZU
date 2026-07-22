@@ -316,6 +316,21 @@ article.article-body td:first-child { padding-left: 2px; }
   max-width: 480px;
 }
 
+/* wide diagram 内のコマ割りグリッド（複数 SVG の紙芝居）。デスクトップ 2 列・スマホ 1 列 */
+.diagram--wide .dgrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 22px;
+}
+.diagram--wide .dgrid svg {
+  display: block;
+  max-width: none;
+}
+@media (max-width: 600px) {
+  .diagram--wide .dgrid { grid-template-columns: 1fr; gap: 2px; }
+}
+
 /* DEV NOTE sidenote (T5) */
 .article-sidenote {
   background: var(--bg-3);

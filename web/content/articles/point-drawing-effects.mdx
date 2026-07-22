@@ -78,22 +78,131 @@ TENZU がこの力を「賢くなる」「学力が上がる」のような大�
 
 点描写は、見た目には「写すだけ」の練習です。それでも力が育つのは、1 問の中で子どもの目と頭と手が、次のように動くからです。
 
-<Diagram title="1 問の中の往復" caption="見本と手元のあいだを、視線が何度も往復する。全体を見る → 起点を決める → 向きと長さを確かめる → 線を引く → 閉じたか確かめる。">
-  <svg viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="見本と手元を視線が往復する図解">
-    <g fill="#1A1F2A" opacity="0.16">
-      {Array.from({ length: 9 }, (_, i) => (
-        <circle key={`a${i}`} cx={30 + (i % 3) * 26} cy={40 + Math.floor(i / 3) * 26} r={1.8} />
-      ))}
-      {Array.from({ length: 9 }, (_, i) => (
-        <circle key={`b${i}`} cx={178 + (i % 3) * 26} cy={40 + Math.floor(i / 3) * 26} r={1.8} />
-      ))}
-    </g>
-    <polyline points="30,40 82,40 30,92 30,40" fill="none" stroke="#1A1F2A" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    <polyline points="178,40 230,40" fill="none" stroke="#1A1F2A" strokeWidth={1.5} strokeLinecap="round" />
-    <path d="M96,34 C120,18 150,18 172,34" fill="none" stroke="#2C6E7F" strokeWidth={1.2} strokeDasharray="3 3" />
-    <path d="M172,98 C150,114 120,114 96,98" fill="none" stroke="#2C6E7F" strokeWidth={1.2} strokeDasharray="3 3" />
-    <circle cx={178} cy={92} r={3} fill="#2C6E7F" />
-  </svg>
+<Diagram wide title="1 問の中の往復" caption="1 問の中で、目と手はこの順に動く。3 と 4 を線の数だけくり返して、最後に、見本と同じに閉じたかを見比べる。">
+  <div className="dgrid">
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="コマ 1。見本の全体をながめる。手元はまだ白紙">
+      <circle cx={16} cy={18} r={10} fill="#1A1F2A" />
+      <text x={16} y={22} fontSize={12} fill="#FFFFFF" textAnchor="middle">1</text>
+      <text x={32} y={22.5} fontSize={13} fill="#1A1F2A">全体を見る</text>
+      <text x={36} y={40} fontSize={11.5} fill="#767D89">見本</text>
+      <text x={180} y={40} fontSize={11.5} fill="#767D89">手元</text>
+      <g fill="#1A1F2A" opacity={0.35}>
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`a${i}`} cx={38 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`b${i}`} cx={182 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+      </g>
+      <polyline points="38,148 118,68 118,148 38,148" fill="none" stroke="#1A1F2A" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
+      <rect x={26} y={56} width={104} height={104} rx={4} fill="none" stroke="#767D89" strokeDasharray="4 4" />
+    </svg>
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="コマ 2。見本で写し始めの点を決めて、手元の同じ位置の点に印をつける">
+      <circle cx={16} cy={18} r={10} fill="#1A1F2A" />
+      <text x={16} y={22} fontSize={12} fill="#FFFFFF" textAnchor="middle">2</text>
+      <text x={32} y={22.5} fontSize={13} fill="#1A1F2A">起点を決める</text>
+      <text x={36} y={40} fontSize={11.5} fill="#767D89">見本</text>
+      <text x={180} y={40} fontSize={11.5} fill="#767D89">手元</text>
+      <g fill="#1A1F2A" opacity={0.35}>
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`a${i}`} cx={38 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`b${i}`} cx={182 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+      </g>
+      <polyline points="38,148 118,68 118,148 38,148" fill="none" stroke="#1A1F2A" opacity={0.22} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx={38} cy={148} r={4.5} fill="#1A1F2A" />
+      <circle cx={182} cy={148} r={4} fill="none" stroke="#1A1F2A" strokeWidth={2} />
+      <circle cx={182} cy={148} r={8.5} fill="none" stroke="#767D89" strokeDasharray="3 3" />
+    </svg>
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="コマ 3。見本の斜めの一辺を、右上へ 2 マスと確かめる">
+      <circle cx={16} cy={18} r={10} fill="#1A1F2A" />
+      <text x={16} y={22} fontSize={12} fill="#FFFFFF" textAnchor="middle">3</text>
+      <text x={32} y={22.5} fontSize={13} fill="#1A1F2A">向きと長さを確かめる</text>
+      <text x={36} y={40} fontSize={11.5} fill="#767D89">見本</text>
+      <text x={180} y={40} fontSize={11.5} fill="#767D89">手元</text>
+      <g fill="#1A1F2A" opacity={0.35}>
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`a${i}`} cx={38 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`b${i}`} cx={182 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+      </g>
+      <polyline points="38,148 118,68 118,148 38,148" fill="none" stroke="#1A1F2A" opacity={0.22} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+      <line x1={38} y1={148} x2={118} y2={68} stroke="#1A1F2A" strokeWidth={2.6} strokeLinecap="round" />
+      <line x1={28} y1={138} x2={108} y2={58} stroke="#424955" strokeWidth={1.2} strokeDasharray="3 3" />
+      <path d="M100.5,60.7 L108,58 L105.3,65.5" fill="none" stroke="#424955" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" />
+      <text x={78} y={170} fontSize={11.5} fill="#424955" textAnchor="middle">右上へ 2 マス</text>
+      <circle cx={182} cy={148} r={4} fill="none" stroke="#1A1F2A" strokeWidth={2} />
+      <circle cx={182} cy={148} r={8.5} fill="none" stroke="#767D89" strokeDasharray="3 3" />
+    </svg>
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="コマ 4。手元の紙に、一本目の線を引く">
+      <circle cx={16} cy={18} r={10} fill="#1A1F2A" />
+      <text x={16} y={22} fontSize={12} fill="#FFFFFF" textAnchor="middle">4</text>
+      <text x={32} y={22.5} fontSize={13} fill="#1A1F2A">線を引く</text>
+      <text x={36} y={40} fontSize={11.5} fill="#767D89">見本</text>
+      <text x={180} y={40} fontSize={11.5} fill="#767D89">手元</text>
+      <g fill="#1A1F2A" opacity={0.35}>
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`a${i}`} cx={38 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`b${i}`} cx={182 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+      </g>
+      <polyline points="38,148 118,68 118,148 38,148" fill="none" stroke="#1A1F2A" opacity={0.22} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+      <line x1={182} y1={148} x2={262} y2={68} stroke="#2C6E7F" strokeWidth={2.6} strokeLinecap="round" />
+      <path d="M262,68 L270,66 L265,59 Z" fill="#1A1F2A" />
+      <line x1={266} y1={62} x2={276} y2={42} stroke="#1A1F2A" strokeWidth={3.6} strokeLinecap="round" />
+    </svg>
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="くり返しのコマ。見本に目を戻し、二本目の線を引いている途中">
+      <circle cx={16} cy={18} r={10} fill="#1A1F2A" />
+      <text x={16} y={22} fontSize={12} fill="#FFFFFF" textAnchor="middle">3</text>
+      <text x={32} y={22.5} fontSize={13} fill="#1A1F2A">と</text>
+      <circle cx={58} cy={18} r={10} fill="#1A1F2A" />
+      <text x={58} y={22} fontSize={12} fill="#FFFFFF" textAnchor="middle">4</text>
+      <text x={74} y={22.5} fontSize={13} fill="#1A1F2A">を、線の数だけくり返す</text>
+      <text x={36} y={40} fontSize={11.5} fill="#767D89">見本</text>
+      <text x={180} y={40} fontSize={11.5} fill="#767D89">手元</text>
+      <g fill="#1A1F2A" opacity={0.35}>
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`a${i}`} cx={38 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`b${i}`} cx={182 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+      </g>
+      <polyline points="38,148 118,68 118,148 38,148" fill="none" stroke="#1A1F2A" opacity={0.22} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+      <line x1={118} y1={68} x2={118} y2={148} stroke="#1A1F2A" strokeWidth={2.6} strokeLinecap="round" />
+      <line x1={182} y1={148} x2={262} y2={68} stroke="#2C6E7F" strokeWidth={2.6} strokeLinecap="round" />
+      <line x1={262} y1={68} x2={262} y2={110} stroke="#2C6E7F" strokeWidth={2.6} strokeLinecap="round" />
+      <path d="M262,110 L270,108 L265,101 Z" fill="#1A1F2A" />
+      <line x1={266} y1={104} x2={276} y2={84} stroke="#1A1F2A" strokeWidth={3.6} strokeLinecap="round" />
+    </svg>
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="コマ 5。見本と見比べて、起点に戻って形が閉じたかを確かめる">
+      <circle cx={16} cy={18} r={10} fill="#1A1F2A" />
+      <text x={16} y={22} fontSize={12} fill="#FFFFFF" textAnchor="middle">5</text>
+      <text x={32} y={22.5} fontSize={13} fill="#1A1F2A">閉じたか確かめる</text>
+      <text x={36} y={40} fontSize={11.5} fill="#767D89">見本</text>
+      <text x={180} y={40} fontSize={11.5} fill="#767D89">手元</text>
+      <g fill="#1A1F2A" opacity={0.35}>
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`a${i}`} cx={38 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+        {Array.from({ length: 9 }, (_, i) => (
+          <circle key={`b${i}`} cx={182 + (i % 3) * 40} cy={68 + Math.floor(i / 3) * 40} r={2.5} />
+        ))}
+      </g>
+      <polyline points="38,148 118,68 118,148 38,148" fill="none" stroke="#1A1F2A" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
+      <polyline points="182,148 262,68 262,148 182,148" fill="none" stroke="#2C6E7F" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx={182} cy={148} r={6} fill="#FFFFFF" stroke="#2C6E7F" strokeWidth={2} />
+      <line x1={88} y1={176} x2={212} y2={176} stroke="#424955" strokeWidth={1.2} strokeDasharray="4 4" />
+      <path d="M95,172.5 L88,176 L95,179.5" fill="none" stroke="#424955" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M205,172.5 L212,176 L205,179.5" fill="none" stroke="#424955" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  </div>
 </Diagram>
 
 まず、見本の全体を一度ながめます。次に、写し始める起点の点を決めます。起点が決まったら、線の向きと長さを見本で確かめて、手元の紙に一本引く。引き終えたら、また見本に目を戻して、次の線へ。最後に、全体が見本と同じに閉じたかを確かめます。
