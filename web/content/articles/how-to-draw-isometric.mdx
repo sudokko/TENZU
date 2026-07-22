@@ -67,34 +67,28 @@ related:
 
 立方体を例にします。どんな箱の形でも、手順は同じです。
 
-<Diagram title="見取り図の 3 ステップ" caption="① 正面の面をそのまま描く → ② 奥行きのななめ線を同じ向き・同じ長さで引く → ③ 奥のかどを結び、見えない辺は点線で閉じる。">
-  <svg viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="見取り図を3ステップで描く図解">
-    <g fill="#1A1F2A" opacity="0.16">
-      {Array.from({ length: 75 }, (_, i) => {
-        const p = Math.floor(i / 25);
-        const k = i % 25;
-        return (
-          <circle key={i} cx={12 + p * 120 + (k % 5) * 22} cy={19 + Math.floor(k / 5) * 22} r={1.5} />
-        );
-      })}
+### ステップ 1: 正面の面を、そのままの形で描く
+
+<Diagram wide caption="立方体なら、まず正方形をひとつ。ゆがめず、そのままの形で描いて、いったん手を止めます。">
+  <svg viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ステップ1の図解。点の並んだ用紙に、正面の正方形だけを描いた状態">
+    <g fill="#1A1F2A" opacity={0.2}>
+      {Array.from({ length: 35 }, (_, i) => (
+        <circle key={i} cx={30 + (i % 7) * 30} cy={34 + Math.floor(i / 7) * 30} r={1.8} />
+      ))}
     </g>
-    <text x={16} y={14} fontSize={9} fill="#1A1F2A">①</text>
-    <text x={136} y={14} fontSize={9} fill="#1A1F2A">②</text>
-    <text x={256} y={14} fontSize={9} fill="#1A1F2A">③</text>
-    {/* ① 正面の面 */}
-    <polyline points="28,57 68,57 68,97 28,97 28,57" fill="none" stroke="#1A1F2A" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    {/* ② 正面＋奥行きのななめ線 */}
-    <polyline points="148,57 188,57 188,97 148,97 148,57" fill="none" stroke="#1A1F2A" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M148,57 L164,41 M188,57 L204,41 M188,97 L204,81" fill="none" stroke="#2C6E7F" strokeWidth={1.5} strokeLinecap="round" />
-    {/* ③ 完成形（見えない辺は点線） */}
-    <polyline points="268,57 308,57 308,97 268,97 268,57" fill="none" stroke="#1A1F2A" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M268,57 L284,41 M308,57 L324,41 M308,97 L324,81" fill="none" stroke="#1A1F2A" strokeWidth={1.5} strokeLinecap="round" />
-    <path d="M284,41 L324,41 M324,41 L324,81" fill="none" stroke="#1A1F2A" strokeWidth={1.5} strokeLinecap="round" />
-    <path d="M268,97 L284,81 M284,81 L324,81 M284,41 L284,81" fill="none" stroke="#1A1F2A" strokeWidth={1.2} strokeLinecap="round" strokeDasharray="3 3" opacity={0.7} />
+    <text x={14} y={22} fontSize={12.5} fill="#1A1F2A">
+      <tspan fontSize={17} fill="#2C6E7F">①</tspan>
+      <tspan dx={6}>正面の面を、そのまま描く</tspan>
+    </text>
+    {/* 今引く線: 正面の正方形 */}
+    <polyline points="60,64 150,64 150,154 60,154 60,64" fill="none" stroke="#2C6E7F" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M154,109 L216,104" fill="none" stroke="#1A1F2A" strokeWidth={1} opacity={0.35} />
+    <g fontSize={11.5} fill="#1A1F2A" opacity={0.75}>
+      <text x={222} y={100}>この面だけで</text>
+      <text x={222} y={117}>いったんストップ</text>
+    </g>
   </svg>
 </Diagram>
-
-### ステップ 1: 正面の面を、そのままの形で描く
 
 最初に描くのは、正面に見える面だけです。立方体なら正方形を 1 つ、ゆがめずにそのまま描きます。
 
@@ -102,11 +96,60 @@ related:
 
 ### ステップ 2: 奥行きのななめ線を、同じ向き・同じ長さで引く
 
+<Diagram wide caption="手前から見える 3 つのかどから、奥へ向かうななめ線。「みぎうえに、おなじだけ」——向きと長さをそろえます。左下のかどの線は、ステップ 3 で点線として描き足します。">
+  <svg viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ステップ2の図解。正方形の手前から見える3つのかどから、右上へ同じ向き・同じ長さのななめ線を引いた状態">
+    <g fill="#1A1F2A" opacity={0.2}>
+      {Array.from({ length: 35 }, (_, i) => (
+        <circle key={i} cx={30 + (i % 7) * 30} cy={34 + Math.floor(i / 7) * 30} r={1.8} />
+      ))}
+    </g>
+    <text x={14} y={22} fontSize={12.5} fill="#1A1F2A">
+      <tspan fontSize={17} fill="#2C6E7F">②</tspan>
+      <tspan dx={6}>ななめ線を、同じ向き・同じ長さで</tspan>
+    </text>
+    {/* ここまでに描いた線: 正面の正方形 */}
+    <polyline points="60,64 150,64 150,154 60,154 60,64" fill="none" stroke="#1A1F2A" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+    {/* 今引く線: 奥行きのななめ線 3 本 */}
+    <path d="M60,64 L90,34 M150,64 L180,34 M150,154 L180,124" fill="none" stroke="#2C6E7F" strokeWidth={2.4} strokeLinecap="round" />
+    <g fontSize={11.5} fill="#1A1F2A" opacity={0.75}>
+      <text x={228} y={62}>みぎうえに、</text>
+      <text x={228} y={79}>おなじだけ</text>
+    </g>
+    <path d="M238,132 L270,100 M270,100 L261,103 M270,100 L267,109" fill="none" stroke="#2C6E7F" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+</Diagram>
+
 正面の面の、手前から見える 3 つのかどから、奥へ向かうななめの線を引きます。残るひとつ（左下）のかどの線は、ステップ 3 で点線として描き足すので、ここでは引きません。守ることは 2 つだけです。すべての線を同じ向きに引くこと。すべての線を同じ長さにすること。
 
 お子さんと引くなら、「みぎうえに、おなじだけ」と唱えながらがおすすめです。点の並んだ用紙なら、「奥は右上へ 1 マスずらす」と数えるだけで、向きも長さも自動的にそろいます。白い紙で長さがばらつくお子さんほど、点のある紙が支えになります。
 
 ### ステップ 3: 奥のかどを結んで閉じる — 見えない辺は点線で
+
+<Diagram wide caption="ななめ線の先端どうしを結んで形を閉じ、かくれて見えない辺は点線で描き足します。実線と点線をあわせて辺が 12 本あれば完成です。">
+  <svg viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ステップ3の図解。奥のかどを結んで立方体が完成し、手前の面にかくれて見えない辺が点線で描かれている状態">
+    <g fill="#1A1F2A" opacity={0.2}>
+      {Array.from({ length: 35 }, (_, i) => (
+        <circle key={i} cx={30 + (i % 7) * 30} cy={34 + Math.floor(i / 7) * 30} r={1.8} />
+      ))}
+    </g>
+    <text x={14} y={22} fontSize={12.5} fill="#1A1F2A">
+      <tspan fontSize={17} fill="#2C6E7F">③</tspan>
+      <tspan dx={6}>奥を結んで閉じる — 見えない辺は点線</tspan>
+    </text>
+    {/* ここまでに描いた線: 正方形＋ななめ線 3 本 */}
+    <polyline points="60,64 150,64 150,154 60,154 60,64" fill="none" stroke="#1A1F2A" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M60,64 L90,34 M150,64 L180,34 M150,154 L180,124" fill="none" stroke="#1A1F2A" strokeWidth={1.8} strokeLinecap="round" />
+    {/* 今引く線: 奥のかどを結ぶ実線 */}
+    <path d="M90,34 L180,34 M180,34 L180,124" fill="none" stroke="#2C6E7F" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
+    {/* 今引く線: 見えない辺の点線 */}
+    <path d="M60,154 L90,124 M90,124 L180,124 M90,34 L90,124" fill="none" stroke="#2C6E7F" strokeWidth={2} strokeLinecap="round" strokeDasharray="4 4" opacity={0.85} />
+    <path d="M182,128 L220,106" fill="none" stroke="#1A1F2A" strokeWidth={1} opacity={0.35} />
+    <g fontSize={11.5} fill="#1A1F2A" opacity={0.75}>
+      <text x={226} y={100}>かくれた辺は</text>
+      <text x={226} y={117}>点線で</text>
+    </g>
+  </svg>
+</Diagram>
 
 ななめ線の先端どうしを結ぶと、奥の面が現れて、立体の形が閉じます。
 

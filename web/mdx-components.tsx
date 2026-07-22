@@ -39,17 +39,21 @@ function TenzuTranslate({
 
 // 図解ブロック（左に SVG・右にキャプション）。.diagram
 // children に <svg> を、title/caption にキャプションを渡す。
+// wide を立てると .diagram--wide（SVG をフル幅で大きく・キャプションは下）になる。
+// 手順図など、図そのものを読ませたいときに使う。
 function Diagram({
   title,
   caption,
+  wide,
   children,
 }: {
   title?: ReactNode;
   caption?: ReactNode;
+  wide?: boolean;
   children?: ReactNode;
 }) {
   return (
-    <div className="diagram">
+    <div className={wide ? "diagram diagram--wide" : "diagram"}>
       {children}
       <div className="dcap">
         {title ? <b>{title}</b> : null}

@@ -300,6 +300,22 @@ article.article-body td:first-child { padding-left: 2px; }
   margin-bottom: 6px;
 }
 
+/* wide diagram — 手順図など、図そのものを読ませるバリアント（SVG フル幅・キャプション下） */
+.diagram--wide {
+  grid-template-columns: 1fr;
+  gap: 14px;
+  justify-items: center;
+}
+.diagram--wide svg {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+}
+.diagram--wide .dcap {
+  width: 100%;
+  max-width: 480px;
+}
+
 /* DEV NOTE sidenote (T5) */
 .article-sidenote {
   background: var(--bg-3);
