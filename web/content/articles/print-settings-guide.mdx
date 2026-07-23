@@ -3,7 +3,7 @@ slug: print-settings-guide
 title: 点描写プリントの印刷設定｜その子にちょうどいい一枚を刷る
 title_main: 点描写プリントの印刷設定
 title_sub: — その子に合わせて、ちょうどいい一枚を刷る
-description: 点描写プリントの印刷設定を、迷ったときの初期設定と子どもの様子別に案内します。点が狙いにくいときは大きく、慣れたら背景の点を外して白紙模写へ。用紙・問題数・点の大きさ・並び・名前欄を、購入前のプレビューで試せます。
+description: 点描写プリントの印刷設定を、迷ったときの初期設定と子どもの様子別に案内します。点が狙いにくいときは大きく、慣れたら背景の点を外して白紙模写へ。用紙・問題数・点の大きさ・並び・名前欄の変え方を、図とあわせてまとめました。
 article_type: product-family
 parent_pillar: p4
 parent_category: cluster
@@ -16,7 +16,7 @@ cta_mode: sku-full
 cta_intensity: strong
 author: 店主
 references: []
-updated_at: 2026-07-22
+updated_at: 2026-07-23
 kicker: 商品ガイド · 印刷設定
 lead: 同じ問題でも、写しやすい紙面は子どもによってちがいます。まずは初期設定で 1 枚。手が止まったら、点・盤面・並びのどれか一つだけ変える。家庭で迷わないための刷り方を、場面ごとにまとめました。
 breadcrumb:
@@ -46,9 +46,9 @@ related:
 
 - 迷ったら、商品ページの初期設定のまま 1 枚刷ればよい
 - 点を狙いにくいときは「点を大きく」し、「1 ページの問題数を減らす」
-- すぐ終わるときは問題数を増やす。問題そのものを難しくするなら、背景の点を外す
+- すぐ終わるときは問題数を増やす
+- 点があると簡単そうなら、背景の点を「とる」— 同じ巻がそのまま白紙模写に変わる
 - 見比べにくいときは、みほんと書き込み欄の並びを変える
-- 設定は購入前にすべて試せて、購入後は変えて何度でも PDF を作り直せる
 - 印刷時は、紙面の大きさを保つため「実際のサイズ」「100%」が基本
 
 根拠: 本記事の各章。いずれも現在実装済みの機能にもとづきます。
@@ -98,11 +98,69 @@ related:
 | 中 | ふだん使いの標準 |
 | 小 | 慣れてきて、細かい図形・大きな盤面に進むとき |
 
-点を大きくしても窮屈そうなら、次は 1 ページの問題数を減らします。A4 のまま 1 ページ 1 問にすると、盤面を紙いっぱいにゆったり使えます。「点が小さい」のではなく、「点どうしの間隔が狭い」こともあるためです。
+点を大きくしても窮屈そうなら、次は 1 ページの問題数を減らします。「点が小さい」のではなく、「点どうしの間隔が狭い」こともあるためです。
 
-大きな紙が必要とは限りません。家庭のプリンターが A4 まででも、問題数を減らせば盤面は大きくできます。B4・A3 は、さらに大きくしたいとき、または複数問を一枚にまとめたいときの選択肢です。
+盤面をいちばん大きくしたいときは、1 ページ 1 問にして、みほんと書き込み欄を「下に並べる」に変えます。A4 縦のまま、初期設定でおよそ 7cm の盤面が、およそ 10cm まで広がります。1 問でも横並びのままだと紙の幅で頭打ちになるので、大きくしたいときは問題数と並びをセットで変えるのがこつです。
 
-## 「すぐ終わる」と「簡単そう」は、変える設定がちがいます
+<Diagram wide title="点を大きく、盤面を大きく" caption="点は小・中・大の 3 段階（大きさの比率は実物どおり）。盤面をいちばん大きく刷るなら、1 ページ 1 問＋「下に並べる」。A4 縦のまま、盤面はおよそ 7cm から 10cm に広がります。">
+  <div className="dgrid">
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="点の大きさの 3 段階。同じ 4×4 の盤面で、点の直径が小、中、大と大きくなる">
+      <text x={10} y={22} fontSize={13} fill="#1A1F2A">点の大きさは 3 段階</text>
+      <g fill="#1A1F2A">
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`s${i}`} cx={21.4 + (i % 4) * 19.7} cy={55.4 + Math.floor(i / 4) * 19.7} r={1.7} />
+        ))}
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`m${i}`} cx={120.4 + (i % 4) * 19.7} cy={55.4 + Math.floor(i / 4) * 19.7} r={3.1} />
+        ))}
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`l${i}`} cx={219.4 + (i % 4) * 19.7} cy={55.4 + Math.floor(i / 4) * 19.7} r={4.8} />
+        ))}
+      </g>
+      <text x={51} y={144} fontSize={12} fill="#1A1F2A" textAnchor="middle">小</text>
+      <text x={150} y={144} fontSize={12} fill="#1A1F2A" textAnchor="middle">中（初期設定）</text>
+      <text x={249} y={144} fontSize={12} fill="#1A1F2A" textAnchor="middle">大</text>
+      <text x={51} y={162} fontSize={10.5} fill="#767D89" textAnchor="middle">なれてきた子に</text>
+      <text x={150} y={162} fontSize={10.5} fill="#767D89" textAnchor="middle">ふだん使い</text>
+      <text x={249} y={162} fontSize={10.5} fill="#767D89" textAnchor="middle">はじめての時期に</text>
+    </svg>
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="盤面の大きさの比較。A4 縦に 3 問を横並びで刷った紙面と、1 問だけを下並びで刷った紙面。1 問＋下並びの盤面が大きい">
+      <text x={10} y={22} fontSize={13} fill="#1A1F2A">1 問＋下に並べると、盤面は最大</text>
+      <rect x={22} y={40} width={88} height={125} fill="#FFFFFF" stroke="#9AA0AA" strokeWidth={1} />
+      <g fill="#1A1F2A" opacity={0.8}>
+        {Array.from({ length: 48 }, (_, i) => (
+          <circle key={`a${i}`} cx={37.4 + (i % 4) * 7.73} cy={49.4 + (Math.floor(i / 4) % 4) * 7.73 + Math.floor(i / 16) * 41} r={0.9} />
+        ))}
+        {Array.from({ length: 48 }, (_, i) => (
+          <circle key={`b${i}`} cx={71.6 + (i % 4) * 7.73} cy={49.4 + (Math.floor(i / 4) % 4) * 7.73 + Math.floor(i / 16) * 41} r={0.9} />
+        ))}
+      </g>
+      <g fill="none" stroke="#777777" strokeWidth={0.9} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M37.4 72.6 L37.4 57.1 L45.1 49.4 L52.9 57.1 L52.9 72.6 Z M37.4 57.1 L52.9 57.1" />
+        <path d="M37.4 113.6 L37.4 98.1 L45.1 90.4 L52.9 98.1 L52.9 113.6 Z M37.4 98.1 L52.9 98.1" />
+        <path d="M37.4 154.6 L37.4 139.1 L45.1 131.4 L52.9 139.1 L52.9 154.6 Z M37.4 139.1 L52.9 139.1" />
+      </g>
+      <path d="M122 102 L180 102 M175 98 L180 102 L175 106" fill="none" stroke="#1A1F2A" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+      <rect x={190} y={40} width={88} height={125} fill="#FFFFFF" stroke="#9AA0AA" strokeWidth={1} />
+      <g fill="#1A1F2A" opacity={0.8}>
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`c${i}`} cx={216.8 + (i % 4) * 11.47} cy={59.9 + Math.floor(i / 4) * 11.47} r={1.35} />
+        ))}
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`d${i}`} cx={216.8 + (i % 4) * 11.47} cy={110.6 + Math.floor(i / 4) * 11.47} r={1.35} />
+        ))}
+      </g>
+      <path d="M216.8 94.3 L216.8 71.4 L228.3 59.9 L239.7 71.4 L239.7 94.3 Z M216.8 71.4 L239.7 71.4" fill="none" stroke="#777777" strokeWidth={1.1} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M234 99.8 L234 105.6 M232 103.8 L234 105.6 L236 103.8" fill="none" stroke="#777777" strokeWidth={0.8} strokeLinecap="round" strokeLinejoin="round" />
+      <text x={66} y={180} fontSize={10.5} fill="#767D89" textAnchor="middle">3 問・横（初期設定）</text>
+      <text x={234} y={180} fontSize={10.5} fill="#767D89" textAnchor="middle">1 問・下に並べる</text>
+    </svg>
+  </div>
+</Diagram>
+
+大きな紙が必要とは限りません。家庭のプリンターが A4 まででも、問題数と並びだけで盤面は大きくできます。B4・A3 は、さらに大きくしたいとき、または複数問を一枚にまとめたいときの選択肢です。
+
+## 「すぐ終わる」— 1 ページの問題数を増やす
 
 一枚がすぐ終わり、「もう少しやりたい」と言うなら、1 ページの問題数を増やします。選べるのは 1・2・3・4・6・8・10・12 問で、用紙ごとに上限があります。
 
@@ -112,13 +170,95 @@ related:
 | B4 | 10 問まで |
 | A3 | 12 問まで |
 
-ただし、問題数を増やすことと、問題そのものを難しくすることは別です。量ではなく「点があると簡単そう」と感じたら、「背景の点」を「とる」にします。見本と書き込み欄から点の格子が消え、書き込み欄には薄い枠だけが残ります。
+ただし、問題数を増やすことと、問題そのものを難しくすることは別です。量はちょうどよいのに「点があると簡単そう」と感じたら、変える設定は問題数ではありません。次の「背景の点」です。
 
-点を手がかりに位置を確かめる模写から、何もない場所へ形を写しとる白紙模写へ。同じ 12 問を使ったまま、見る負荷を一段上げられます。最初から全部を点なしにせず、できそうな 1 問だけ試してもかまいません。
+## 「点があると簡単そう」— 背景の点をとって、白紙模写へ
+
+設定パネルの最後にある「背景の点」は、つける・とるの二択です。「とる」を選ぶと、見本と書き込み欄から点の格子が消えます。書き込み欄に残るのは、薄い枠だけ。点を手がかりに位置を確かめる模写から、何もない場所へ形を写しとる白紙模写へ、同じ 12 問のまま切り替わります。
+
+<Diagram wide title="「とる」で、紙面はこう変わる" caption="同じ問題のまま、「とる」で点の格子が消えます。書き込み欄に残るのは薄い枠だけ。みほんの形だけを見て写す、白紙模写の紙面です。">
+  <div className="dgrid">
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="背景の点を、つけるにした紙面。みほんにも書き込み欄にも 4×4 の点があり、点をたよりに写せる">
+      <rect x={10} y={8} width={64} height={24} rx={12} fill="#1A1F2A" />
+      <text x={42} y={24} fontSize={12} fill="#FFFFFF" textAnchor="middle">つける</text>
+      <text x={84} y={24} fontSize={11.5} fill="#767D89">ふだんの点図形</text>
+      <g fill="#1A1F2A">
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`m${i}`} cx={45.2 + (i % 4) * 24.53} cy={59.2 + Math.floor(i / 4) * 24.53} r={2.5} />
+        ))}
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`k${i}`} cx={181.2 + (i % 4) * 24.53} cy={59.2 + Math.floor(i / 4) * 24.53} r={2.5} />
+        ))}
+      </g>
+      <path d="M45.2 132.8 L45.2 83.7 L69.7 59.2 L94.3 83.7 L94.3 132.8 Z M45.2 83.7 L94.3 83.7" fill="none" stroke="#777777" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M138 96 L166 96 M161 92 L166 96 L161 100" fill="none" stroke="#777777" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+      <text x={82} y={160} fontSize={11} fill="#767D89" textAnchor="middle">みほん</text>
+      <text x={218} y={160} fontSize={11} fill="#767D89" textAnchor="middle">書き込み欄</text>
+      <text x={150} y={180} fontSize={10.5} fill="#424955" textAnchor="middle">点をたよりに、位置をたしかめながら写す</text>
+    </svg>
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="背景の点を、とるにした白紙模写の紙面。みほんは形の線だけになり、書き込み欄は薄い枠だけが残る">
+      <rect x={10} y={8} width={52} height={24} rx={12} fill="#1A1F2A" />
+      <text x={36} y={24} fontSize={12} fill="#FFFFFF" textAnchor="middle">とる</text>
+      <text x={72} y={24} fontSize={11.5} fill="#767D89">白紙模写のかたちに</text>
+      <path d="M45.2 132.8 L45.2 83.7 L69.7 59.2 L94.3 83.7 L94.3 132.8 Z M45.2 83.7 L94.3 83.7" fill="none" stroke="#777777" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M138 96 L166 96 M161 92 L166 96 L161 100" fill="none" stroke="#777777" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+      <rect x={173.8} y={51.8} width={88.4} height={88.4} fill="none" stroke="#9AA0AA" strokeWidth={1} />
+      <text x={82} y={160} fontSize={11} fill="#767D89" textAnchor="middle">みほん</text>
+      <text x={218} y={160} fontSize={11} fill="#767D89" textAnchor="middle">書き込み欄</text>
+      <text x={150} y={180} fontSize={10.5} fill="#424955" textAnchor="middle">何もない場所へ、形を写しとる</text>
+    </svg>
+  </div>
+</Diagram>
+
+チップひとつですが、変わり方は設定のなかでいちばん大きいと言ってよいと思います。用紙や問題数が「刷りやすさ」を変える設定だとすれば、背景の点は問題の性質そのものを変える設定です。点のある巻が、そのまま図形模写のプリントに変わる——白紙模写用の教材を買い足す必要はありません。手持ちのどの巻でも、模写のレベル体系はそのまま、点あり・点なしを行き来できます。
+
+使い方は、少しずつで十分です。最初から一枚まるごと点なしにせず、できそうな 1 問だけ試す。むずかしければ、点ありに戻る。点は、外せる足場です。なぜ点がないと難しくなるのか、点図形と図形模写の関係は[図形模写と点図形（点描写）の違い](/articles/figure-copy-vs-point-drawing)にまとめています。
+
+なお、立体模写では「とる」にしても、かくれた辺を示す点線は残ります。形を読み取るのに必要な線だからです。
 
 ## 「見比べにくそう」— みほんと書き込み欄の並びを変える
 
 見本と写す場所のあいだで視線が迷っているようなら、並びを変えます。左右に並べると、見本を横目に確かめながら写す形。上下に並べると、上を見て下へ写す形です。
+
+<Diagram wide title="みほんと書き込み欄の、ふたつの並び" caption="同じ 1 問でも、横に並べると見本を横目にたしかめる形、下に並べると上を見て下へ写す形。見比べる目の動きが変わります。">
+  <div className="dgrid">
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="横に並べる。左にみほん、右に書き込み欄が並び、視線は左右に往復する">
+      <text x={10} y={22} fontSize={13} fill="#1A1F2A">横に並べる</text>
+      <path d="M88 44 C 110 30, 190 30, 212 44 M92 38 L88 44 L95 45 M208 38 L212 44 L205 45" fill="none" stroke="#424955" strokeWidth={1.2} strokeDasharray="4 3" strokeLinecap="round" strokeLinejoin="round" />
+      <text x={150} y={28} fontSize={10.5} fill="#424955" textAnchor="middle">見くらべる</text>
+      <g fill="#1A1F2A">
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`m${i}`} cx={49.6 + (i % 4) * 25.6} cy={59.6 + Math.floor(i / 4) * 25.6} r={2.6} />
+        ))}
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`k${i}`} cx={173.6 + (i % 4) * 25.6} cy={59.6 + Math.floor(i / 4) * 25.6} r={2.6} />
+        ))}
+      </g>
+      <path d="M49.6 136.4 L49.6 85.2 L75.2 59.6 L100.8 85.2 L100.8 136.4 Z M49.6 85.2 L100.8 85.2" fill="none" stroke="#777777" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M142 98 L158 98 M154 94.5 L158 98 L154 101.5" fill="none" stroke="#777777" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+      <text x={88} y={166} fontSize={11} fill="#767D89" textAnchor="middle">みほん</text>
+      <text x={212} y={166} fontSize={11} fill="#767D89" textAnchor="middle">書き込み欄</text>
+      <text x={150} y={183} fontSize={10.5} fill="#424955" textAnchor="middle">横目でたしかめながら写す</text>
+    </svg>
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="下に並べる。上にみほん、下に書き込み欄が並び、視線は上下に往復する">
+      <text x={10} y={22} fontSize={13} fill="#1A1F2A">下に並べる</text>
+      <path d="M76 52 C 58 78, 58 122, 76 148 M70 56 L76 52 L77 59 M70 144 L76 148 L77 141" fill="none" stroke="#424955" strokeWidth={1.2} strokeDasharray="4 3" strokeLinecap="round" strokeLinejoin="round" />
+      <g fill="#1A1F2A">
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`m${i}`} cx={94 + (i % 4) * 16} cy={38 + Math.floor(i / 4) * 16} r={1.75} />
+        ))}
+        {Array.from({ length: 16 }, (_, i) => (
+          <circle key={`k${i}`} cx={94 + (i % 4) * 16} cy={114 + Math.floor(i / 4) * 16} r={1.75} />
+        ))}
+      </g>
+      <path d="M94 86 L94 54 L110 38 L126 54 L126 86 Z M94 54 L126 54" fill="none" stroke="#777777" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M118 95 L118 105 M114.5 101 L118 105 L121.5 101" fill="none" stroke="#777777" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" />
+      <text x={162} y={66} fontSize={11} fill="#767D89">みほん</text>
+      <text x={162} y={142} fontSize={11} fill="#767D89">書き込み欄</text>
+      <text x={150} y={183} fontSize={10.5} fill="#424955" textAnchor="middle">上を見て、下へ写す</text>
+    </svg>
+  </div>
+</Diagram>
 
 どちらが正解ということはありません。利き手で見本を隠していないか、机の上で紙を置きやすいかも含め、見比べやすいほうを選んでください。
 
@@ -126,37 +266,47 @@ related:
 
 名前・日付の記入欄は、タップひとつで付けられます。「がつ・にち・なまえ」の帯が紙面の上に入り、園や教室のプリントに近い佇まいになります。
 
+<Diagram wide title="名前・日付の記入欄" caption="「つける」を選ぶと、問題はそのままに、紙面の上へ「がつ・にち・なまえ」の一行が入ります。日付を書いてから始める、という小さな区切りに。">
+  <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="名前と日付の記入欄をつけた紙面。A4 の紙面上部に、月、日、名前を書く一行の帯が入り、その帯を右側に拡大表示している">
+    <rect x={28} y={26} width={105} height={148.5} fill="#FFFFFF" stroke="#9AA0AA" strokeWidth={1} />
+    <g stroke="#3A424E" strokeWidth={0.7}>
+      <line x1={67.5} y1={38} x2={73.5} y2={38} />
+      <line x1={79} y1={38} x2={85} y2={38} />
+      <line x1={101} y1={38} x2={126} y2={38} />
+    </g>
+    <rect x={63.5} y={30.5} width={67} height={11} rx={3} fill="none" stroke="#2C6E7F" strokeWidth={1.2} strokeDasharray="4 3" />
+    <g fill="#1A1F2A" opacity={0.8}>
+      {Array.from({ length: 48 }, (_, i) => (
+        <circle key={`a${i}`} cx={51 + (i % 4) * 8} cy={53 + (Math.floor(i / 4) % 4) * 8 + Math.floor(i / 16) * 42} r={0.7} />
+      ))}
+      {Array.from({ length: 48 }, (_, i) => (
+        <circle key={`b${i}`} cx={86 + (i % 4) * 8} cy={53 + (Math.floor(i / 4) % 4) * 8 + Math.floor(i / 16) * 42} r={0.7} />
+      ))}
+    </g>
+    <g fill="none" stroke="#777777" strokeWidth={0.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M51 77 L51 61 L59 53 L67 61 L67 77 Z M51 61 L67 61" />
+      <path d="M51 119 L51 103 L59 95 L67 103 L67 119 Z M51 103 L67 103" />
+      <path d="M51 161 L51 145 L59 137 L67 145 L67 161 Z M51 145 L67 145" />
+    </g>
+    <line x1={130.5} y1={30.5} x2={196} y2={72} stroke="#9AA0AA" strokeWidth={0.8} strokeDasharray="3 3" />
+    <line x1={130.5} y1={41.5} x2={196} y2={128} stroke="#9AA0AA" strokeWidth={0.8} strokeDasharray="3 3" />
+    <rect x={196} y={72} width={256} height={56} rx={6} fill="#FFFFFF" stroke="#9AA0AA" strokeWidth={1} />
+    <g fill="#3A424E" fontSize={11}>
+      <text x={264} y={104} textAnchor="end">がつ</text>
+      <text x={318} y={104} textAnchor="end">にち</text>
+      <text x={356} y={104} textAnchor="end">なまえ</text>
+    </g>
+    <g stroke="#3A424E" strokeWidth={1.1}>
+      <line x1={216} y1={110} x2={240} y2={110} />
+      <line x1={270} y1={110} x2={294} y2={110} />
+      <line x1={360} y1={110} x2={436} y2={110} />
+    </g>
+    <text x={324} y={148} fontSize={11} fill="#767D89" textAnchor="middle">「がつ・にち・なまえ」の一行</text>
+    <text x={80.5} y={190} fontSize={10.5} fill="#767D89" textAnchor="middle">A4 縦・3 問はそのまま</text>
+  </svg>
+</Diagram>
+
 欄を付けること自体が学習効果を決めるわけではありません。ただ、日付を書いてから始める、終わった紙を残しておく、という小さな区切りには使えます。まとめて刷るなら、日付は空けたままにして、その日に一枚ずつ渡す方法もあります。
-
-## 買う前に試せて、買ったあとも作り直せます
-
-ここまでの設定は、購入前の商品ページですべて試せます。チップをタップするたびに、12 問の割付がプレビュー上で組み変わります。購入が必要なのは、設定した PDF をダウンロードする段階です。
-
-刷る前に選べるのは、次の 6 つです。この記事で出てきた「次の一手」は、すべてこの中にあります。
-
-| 設定 | 選べること |
-|---|---|
-| 用紙 | A4・B4・A3 それぞれ縦横の 6 種 |
-| 1 ページの問題数 | 1〜12 問（用紙サイズで上限が変わる） |
-| みほんと書き込み欄の並び | 横に並べる／下に並べる |
-| 点の大きさ | 小・中・大（印刷される実寸を表示） |
-| 名前・日付の記入欄 | つける／つけない |
-| 背景の点 | つける／とる（とると白紙模写に） |
-
-購入後は、設定を変えて何度でも PDF を作り直せます。最初は A4 に 3 問、点は大きめ。慣れてきたら 6 問にまとめる。さらに進んだら背景の点を外す。同じ ¥200 の巻を、成長に合わせて刷り直せます。
-
-印字は真っ黒ではなく、少し薄いグレーです。毎日のように刷る紙だから、インクの使い方も紙面設計に含めました。ダウンロードするファイル名には日時が入り、設定を変えて作り直しても、前の PDF を上書きしにくくなっています。
-
-<Illustration
-  src="/assets/articles/print-settings-guide/03-next-sheet-routine.webp"
-  alt="4×4 の点格子で同じ三問が並ぶ解き直し用の白紙プリントと、三問それぞれの誤線に赤い修正が入った以前のプリント"
-  number="03"
-  caption="間違えた問題は、同じ 4×4 のままもう一度。前の紙を隣に置けば、直す場所を確かめながら取り組めます。"
-/>
-
-これだけ画面の機能を作り込んでいますが、画面で解かせる機能はありません。作って、整えるのは画面。線を引いて練習するのは、紙の上。この分担は、これからも変わりません。
-
-はじめる位置に迷うときは、[レベル選びガイド](/level-guide)でめやすを確かめてください。棚の全体は[プリントの一覧](/products)から。買う前に紙面をさわってみたい方は、たとえば[模写 Lv.3 の商品ページ](/products/copy-lv3-vol1#preview)で、この記事の設定をすべて試せます。
 
 ## 印刷するときは「実際のサイズ」「100%」を基本に
 
@@ -187,7 +337,7 @@ TENZU には、商品のプリントと並んで、親が自分で問題を作�
 
 ### 家のプリンターが A4 までです。B4・A3 がないと使えませんか？
 
-A4 だけで使えます。盤面を大きくしたいときは、まず 1 ページの問題数を減らしてください。B4・A3 は「さらに大きく」「複数問をまとめて」刷りたいときの選択肢です。
+A4 だけで使えます。盤面を大きくしたいときは、1 ページの問題数を減らし、1 問にするなら並びを「下に並べる」へ変えてください。A4 縦のまま盤面はおよそ 10cm まで広がります。B4・A3 は「さらに大きく」「複数問をまとめて」刷りたいときの選択肢です。
 
 ### スマホしかありません。印刷できますか？
 
