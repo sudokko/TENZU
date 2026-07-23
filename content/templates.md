@@ -88,7 +88,7 @@ references: [JP24, JP6, No.27]           # references-map.md の ID 配列
 |---|---|---|
 | `parent_pillar` | `p1` / `p2` / `p3` / `p4` / `p5` / `none` | P1=正規まとめ・P2=公文の次・P3=写す力・P4=選び方・P5=親向け（[pillars.md §1](pillars.md)）。Pillar 記事自身と FAQ/LLMO は `none` |
 | `parent_category` | `hub` / `cluster` / `llmo` / `faq` | 記事の系統（[clusters.md §11](clusters.md) の16ページ体系と一致。パンくず判定は [urls.md §7](urls.md)） |
-| `target_persona` | `S-a` / `S-b` / `S-c` / `P3-a` / `P-edu` / `P-pro` | **中核3セグメント＋受動拾い3**（[personas.md](personas.md)）。先頭=主セグメント（1記事1つ固定・personas §6） |
+| `target_persona` | `S-a` / `S-b` / `S-c` / `P3-a` / `P-edu` / `P-pro` / `P-sj` | **中核3セグメント＋受動拾い4**（[personas.md](personas.md)・P-sj は [decisions.md §3.83](../decisions.md)）。先頭=主セグメント（1記事1つ固定・personas §6） |
 | `target_level` | `Lv.1`〜`Lv.5` / `pre-Lv.1`（アプリ先行） | pack-design.md と一致 |
 | `article_type` | `pillar` / `cluster-howto` / `cluster-symptom` / `cluster-compare` / `cluster-juken` / **`cluster-non-juken`** / `cluster-academic` / `llmo` / `product-family` / `faq` | CTA強度マップ（§4）と接続。`cluster-academic`＝学術土台（C3-4・weak 運用）／`llmo`＝LLMO 専用（L-1/L-2・FAQPage 前提・mid 運用） |
 | `cta_intensity` | `weak` / `mid` / `strong` | §4.1 で定義 |

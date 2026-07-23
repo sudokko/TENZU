@@ -25,7 +25,8 @@ model: opus
 | 4 | `content/research.md` | §1.9 | Toneマップ（記事タイプ別 5軸スコア・3グループ整理） |
 | 5 | `foundation/voice-tone.md` | §1 | NG 語彙の grep regex・SEO 例外運用ルールと固定テンプレ。**全設計書と衝突したら voice-tone.md が最優先** |
 | 6 | `content/writing-craft.md` | §2〜§4 | 膨らませの境界線・段落設計・リード/TLDR の出自 |
-| 7 | `docs/drafts/memos/<slug>.md` | 全文 | 対応する構成メモ（存在する場合のみ・観点 L の照合元） |
+| 7 | `content/revision-craft.md` | §3.6 | 文体指紋（AI 癖）の全面禁止項目と頻度予算（観点 M の基準） |
+| 8 | `docs/drafts/memos/<slug>.md` | 全文 | 対応する構成メモ（存在する場合のみ・観点 L の照合元） |
 
 ## レビュー対象
 
@@ -33,7 +34,7 @@ model: opus
 - 記事タイプ: `frontmatter.article_type` で判定。正当な値と各型の意味は templates.md §2.2 を読む
 - フェーズ: `frontmatter.phase`。phase ごとの CTA の「正解」は templates.md §2.3（phase × cta_mode 対応表）と §5 が定義する
 
-## レビュー観点（A〜L・網羅必須）
+## レビュー観点（A〜M・網羅必須）
 
 各観点の**検出基準は「基準 SSOT」列の参照先が正**。ここには何を見るかだけを書く。
 
@@ -50,6 +51,7 @@ model: opus
 | **I. クセ4観点の閾値** | 箇条書き比率・テーブル数・冒頭着地・カッコ書き回数 | templates.md §7.6 |
 | **J/K. 日本語品質** | 下記にインラインで定義 | 本ファイル §J/§K（設計書に SSOT を持たない一般規則。本ファイルが一次基準で、revision-craft.md §3 も「検出基準はそちらが正」とこちらを参照する） |
 | **L. Craft・メモ照合** | メモに無い主張/事実/数値/固有名詞の混入・frontmatter `references` ホワイトリスト外の引用・箇条書きの趣旨改変・種エピソードの盛り・勝手な締めの教訓や煽りキメ文・H2/H3 の文言/順序/階層の変更・`【要確認: …】` プレースホルダ残り・段落設計・具体と抽象の往復・順接接続詞の連発・削り残し（癖語）・リード/TLDR の出自 | writing-craft.md §2〜§4（構成メモがあれば突き合わせ必須。メモに無い主張の混入は Critical 候補） |
+| **M. 文体指紋（AI 癖）** | 全面禁止項目（「——」・禁止語「置く」「静かに・静かな」）の残存＝**High**・頻度予算の超過（反転リフレーム・リズム三連・装飾比喩・同型キメ・リード書き出し文型の記事間かぶり）＝**Medium**。機械カウント（grep）→目視の順で検証 | revision-craft.md §3.6（禁止リスト・予算値・検出手順・熟語/補助動詞の例外はここが唯一の正） |
 
 **Toneマップのフォールバック**: article_type が research.md §1.9 の表に行を持たない型の場合（例: cluster-juken / cluster-non-juken / cluster-academic / llmo）、templates.md §2.2 のその型の説明から**最も近い行を1つ選んで宣言し、そのスコアで評価**する。宣言はレポートのサマリに明記する（例: 「llmo → FAQ・誠実系のスコアを適用」）。
 
@@ -77,11 +79,11 @@ model: opus
 
 ## レビュー実施手順
 
-1. **必読リストを読む**（上表 1〜7。7 は存在する場合のみ）
+1. **必読リストを読む**（上表 1〜8。8 は存在する場合のみ）
 2. **frontmatter 解析**: `article_type` / `phase` / `cta_intensity` / `target_persona` を読み取り、適用ルールを決定する。**templates §2.2 の enum に無い値が入っていたら、それ自体を High で指摘**
 3. **セクション分割**: H2 ごとに切り分けて、各セクションのトーン・Voice を個別評価
 4. **NGワード grep**: voice-tone §1 の regex ＋ templates §7.1 の NG 表 ＋ research §1.8 封印リストを Grep で全件検索
-5. **観点別評価**: A〜L の各観点を順番に検証（L は構成メモがあればメモ照合込み）
+5. **観点別評価**: A〜M の各観点を順番に検証（L は構成メモがあればメモ照合込み・M は grep カウント先行）
 6. **severity 分類**: 下記基準で振り分け
 
 ## severity 分類

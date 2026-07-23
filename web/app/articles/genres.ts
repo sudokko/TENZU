@@ -79,6 +79,13 @@ export const GENRES: Genre[] = [
     slugs: ["kumon-math-shape"],
   },
   {
+    id: "juken",
+    emoji: "🎓",
+    name: "小学校受験と点図形",
+    lead: "受験ペーパーの定番課題を、家庭の目線で。",
+    slugs: ["point-drawing-elementary-exam"],
+  },
+  {
     id: "choose",
     emoji: "🛒",
     name: "教材の選び方",
