@@ -46,6 +46,7 @@ export const GENRES: Genre[] = [
     lead: "定義から、何が育つのかまで。",
     slugs: [
       "point-drawing-guide",
+      "point-drawing-elementary-exam",
       "figure-copy-vs-point-drawing",
       "point-drawing-effects",
       "visuospatial-and-learning",
@@ -72,7 +73,6 @@ export const GENRES: Genre[] = [
       "weak-at-shapes",
       "grade-4-math-stuck",
       "kumon-math-shape",
-      "point-drawing-elementary-exam",
     ],
   },
   {
