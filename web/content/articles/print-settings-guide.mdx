@@ -74,7 +74,7 @@ related:
 
 | 子どもの様子 | 次に試す刷り方 |
 |---|---|
-| 点に鉛筆を置きにくそう | 点を「大」にして、問題数を減らす |
+| 点に鉛筆を当てにくそう | 点を「大」にして、問題数を減らす |
 | 一枚の量が多そう | 1 ページ 1〜3 問に減らす |
 | すぐ終わって、もう少し解きたそう | 1 ページ 4〜6 問へ増やす |
 | 点があると簡単そう | 背景の点を「とる」にして白紙模写へ |
@@ -98,7 +98,7 @@ related:
 | 中 | ふだん使いの標準 |
 | 小 | 慣れてきて、細かい図形・大きな盤面に進むとき |
 
-点を大きくしても窮屈そうなら、次は 1 ページの問題数を減らします。「点が小さい」のではなく、「点どうしの間隔が狭い」こともあるためです。
+点を大きくしても窮屈そうなら、次は 1 ページの問題数を減らします。「点が小さい」と見えて、じつは点どうしの間隔が狭い、ということもあるためです。
 
 盤面をいちばん大きくしたいときは、1 ページ 1 問にして、みほんと書き込み欄を「下に並べる」に変えます。A4 縦のまま、初期設定でおよそ 7cm の盤面が、およそ 10cm まで広がります。1 問でも横並びのままだと紙の幅で頭打ちになるので、大きくしたいときは問題数と並びをセットで変えるのがこつです。
 
@@ -210,11 +210,48 @@ related:
   </div>
 </Diagram>
 
-チップひとつですが、変わり方は設定のなかでいちばん大きいと言ってよいと思います。用紙や問題数が「刷りやすさ」を変える設定だとすれば、背景の点は問題の性質そのものを変える設定です。点のある巻が、そのまま図形模写のプリントに変わる——白紙模写用の教材を買い足す必要はありません。手持ちのどの巻でも、模写のレベル体系はそのまま、点あり・点なしを行き来できます。
+チップひとつですが、変わり方は設定のなかでいちばん大きいと言ってよいと思います。用紙や問題数が「刷りやすさ」を変える設定だとすれば、背景の点は問題の性質そのものを変える設定です。点のある巻が、そのまま図形模写のプリントに変わる。白紙模写用の教材を買い足す必要はありません。手持ちのどの巻でも、模写のレベル体系はそのまま、点あり・点なしを行き来できます。
 
 使い方は、少しずつで十分です。最初から一枚まるごと点なしにせず、できそうな 1 問だけ試す。むずかしければ、点ありに戻る。点は、外せる足場です。なぜ点がないと難しくなるのか、点図形と図形模写の関係は[図形模写と点図形（点描写）の違い](/articles/figure-copy-vs-point-drawing)にまとめています。
 
 なお、立体模写では「とる」にしても、かくれた辺を示す点線は残ります。形を読み取るのに必要な線だからです。
+
+<Diagram wide title="平面の巻でも、立体模写の巻でも" caption="同じ「とる」でも、巻ごとの紙面はそのまま。平面の巻はみほんが形だけに、立体模写の巻はかくれた辺の点線を残したまま、書き込み欄は薄い枠だけになります。">
+  <div className="dgrid">
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="背景の点をとった平面の巻。ヨットの形のみほんと、薄い枠だけの書き込み欄">
+      <rect x={10} y={8} width={52} height={24} rx={12} fill="#1A1F2A" />
+      <text x={36} y={24} fontSize={12} fill="#FFFFFF" textAnchor="middle">とる</text>
+      <text x={72} y={24.5} fontSize={12.5} fill="#1A1F2A">平面の巻</text>
+      <g fill="none" stroke="#777777" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M69.7 59.2 L69.7 108.3 L118.8 108.3 Z" />
+        <path d="M45.2 108.3 L118.8 108.3 L94.3 132.8 L69.7 132.8 Z" />
+      </g>
+      <path d="M138 96 L166 96 M161 92 L166 96 L161 100" fill="none" stroke="#777777" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+      <rect x={173.8} y={51.8} width={88.4} height={88.4} fill="none" stroke="#9AA0AA" strokeWidth={1} />
+      <text x={82} y={160} fontSize={11} fill="#767D89" textAnchor="middle">みほん</text>
+      <text x={218} y={160} fontSize={11} fill="#767D89" textAnchor="middle">書き込み欄</text>
+      <text x={150} y={180} fontSize={10.5} fill="#424955" textAnchor="middle">形だけを見て写す</text>
+    </svg>
+    <svg viewBox="0 0 300 188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="背景の点をとった立体模写の巻。立方体のみほんは、かくれた辺の点線を残したまま、書き込み欄は薄い枠だけになる">
+      <rect x={10} y={8} width={52} height={24} rx={12} fill="#1A1F2A" />
+      <text x={36} y={24} fontSize={12} fill="#FFFFFF" textAnchor="middle">とる</text>
+      <text x={72} y={24.5} fontSize={12.5} fill="#1A1F2A">立体模写の巻</text>
+      <g fill="none" stroke="#777777" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M54.4 86.8 L91.2 86.8 L91.2 123.6 L54.4 123.6 Z" />
+        <path d="M72.8 68.4 L109.6 68.4 L109.6 105.2" />
+        <path d="M54.4 86.8 L72.8 68.4 M91.2 86.8 L109.6 68.4 M91.2 123.6 L109.6 105.2" />
+      </g>
+      <g fill="none" stroke="#777777" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" strokeDasharray="5.1 3.7">
+        <path d="M72.8 68.4 L72.8 105.2 M72.8 105.2 L109.6 105.2 M54.4 123.6 L72.8 105.2" />
+      </g>
+      <path d="M138 96 L166 96 M161 92 L166 96 L161 100" fill="none" stroke="#777777" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+      <rect x={176.6} y={54.6} width={82.8} height={82.8} fill="none" stroke="#9AA0AA" strokeWidth={1} />
+      <text x={82} y={160} fontSize={11} fill="#767D89" textAnchor="middle">みほん</text>
+      <text x={218} y={160} fontSize={11} fill="#767D89" textAnchor="middle">書き込み欄</text>
+      <text x={150} y={180} fontSize={10.5} fill="#424955" textAnchor="middle">かくれた辺の点線は残る</text>
+    </svg>
+  </div>
+</Diagram>
 
 ## 「見比べにくそう」— みほんと書き込み欄の並びを変える
 
@@ -260,7 +297,7 @@ related:
   </div>
 </Diagram>
 
-どちらが正解ということはありません。利き手で見本を隠していないか、机の上で紙を置きやすいかも含め、見比べやすいほうを選んでください。
+どちらが正解ということはありません。利き手で見本を隠していないか、机の上で紙を広げやすいかも含め、見比べやすいほうを選んでください。
 
 ## 「続けたい」「園のプリントみたいにしたい」— 名前・日付の欄をつける
 
