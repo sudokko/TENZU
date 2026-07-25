@@ -37,14 +37,18 @@ const CROSS = [
   { value: "some", label: "あり" },
 ];
 /* 生成器の無いタスク（手設計）の固有パラメータ用 */
+/* 回転角。mixed＝1 巻の中に 3 角度を混ぜる（1 問 1 角度・decisions §3.87）。
+   紙面は弧の矢印＋目じるし□で問題ごとに角度を示すので、混在しても子が読み取れる。 */
 const ANGLE = [
   { value: "90cw", label: "90°右回り" },
   { value: "90ccw", label: "90°左回り" },
   { value: "180", label: "180°" },
+  { value: "mixed", label: "混在（右・左・180°）" },
 ];
 const DIR = [
   { value: "h", label: "横" },
   { value: "v", label: "縦" },
+  { value: "hv", label: "左右上下" },
   { value: "diag", label: "斜め" },
   { value: "compound", label: "複合" },
 ];
@@ -296,8 +300,8 @@ export function defaultLadderEntry(task: string, grid: string, variant?: string)
       case "gridTo": e.gridTo = ar?.[1] ?? 5; break;
       case "hidden": e.hidden = solidHiddenOf(v); break;
       case "angle": e.angle = v.includes("左") ? "90ccw" : v.includes("180") ? "180" : "90cw"; break;
-      case "dir": e.dir = v.includes("縦") ? "v" : v.includes("斜") ? "diag" : v.includes("複合") ? "compound" : "h"; break;
-      // 移動量の既定は方向から（横縦=1マス・斜め=(1,1)・複合=(2,1)）。dir は同ループで先に確定済み
+      case "dir": e.dir = v.includes("左右上下") ? "hv" : v.includes("縦") ? "v" : v.includes("斜") ? "diag" : v.includes("複合") ? "compound" : "h"; break;
+      // 移動量の既定は方向から（横縦・左右上下=1マス・斜め=(1,1)・複合=(2,1)）。dir は同ループで先に確定済み
       case "moves": e.moves = e.dir === "diag" ? [2, 2] : e.dir === "compound" ? [3, 3] : [1, 1]; break;
       case "slopes": e.slopes = "ortho45"; break;
       case "entangle": e.entangle = [0, 2]; break;

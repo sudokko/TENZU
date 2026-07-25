@@ -42,6 +42,12 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
       ...(p.answer?.mode === "explicit" && { answerEdges: p.answer.edges }),
       ...(p.answer?.mode === "derived" && p.answer.transform.type === "mirror"
         && { mirrorAxis: p.answer.transform.axis }),
+      /* 回転・移動は「どう変換するか」が 1 問ごとに違いうる（角度・方向の巻内混在）。
+         紙面に指示子を出すため transform をそのまま渡す（decisions §3.87） */
+      ...(p.answer?.mode === "derived" && p.answer.transform.type === "rotate"
+        && { rotateDeg: p.answer.transform.deg }),
+      ...(p.answer?.mode === "derived" && p.answer.transform.type === "translate"
+        && { translateVec: { dc: p.answer.transform.dc, dr: p.answer.transform.dr } }),
     }));
   const solidProblems: SolidRenderProblem[] | undefined = isSolid
     ? problemSet?.problems

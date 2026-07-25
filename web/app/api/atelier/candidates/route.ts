@@ -36,6 +36,10 @@ export async function POST(req: NextRequest) {
       solidEdges?: SolidEdge[];
       /* 欠け補完(fill)の R 手直し。answer.mode は変えず edges だけ差し替える */
       answerEdges?: EdgeT[];
+      /* 移動(translate)の移動ベクトル手直し。derived answer の transform を差し替える */
+      transform?: { dc: number; dr: number };
+      /* 回転(rotate)の角度手直し（混在巻＝1 問 1 角度・decisions §3.87） */
+      rotateDeg?: 90 | -90 | 180;
       /* 難易度の人手 override（手動ティア付け）。number=固定 / null=自動へ戻す */
       manual?: number | null; manualNote?: string;
     }[];
@@ -93,6 +97,33 @@ export async function POST(req: NextRequest) {
       c.answer = { mode: "explicit", edges: normalizeEdges(u.answerEdges!) };
       c.edited = true;
     }
+    // 移動ベクトルの手直し（translate のみ）: 移動なし・はみ出しはサーバでも弾く
+    let transformEdited = false;
+    if (u.transform && c.grid.type === "square"
+      && c.answer?.mode === "derived" && c.answer.transform.type === "translate") {
+      const dc = Math.trunc(Number(u.transform.dc)), dr = Math.trunc(Number(u.transform.dr));
+      const gn = c.grid.n;
+      const fits = c.edges.every((e) => e.every((p) =>
+        p[0] + dc >= 0 && p[0] + dc <= gn - 1 && p[1] + dr >= 0 && p[1] + dr <= gn - 1));
+      if ((dc === 0 && dr === 0) || !fits || Number.isNaN(dc) || Number.isNaN(dr)) {
+        return Response.json({ error: "移動先が不正です（移動なし／枠からはみ出し）" }, { status: 400 });
+      }
+      c.answer = { mode: "derived", transform: { type: "translate", dc, dr } };
+      c.edited = true;
+      transformEdited = true;
+    }
+    /* 回転角の手直し（rotate のみ）。混在巻は 1 問 1 角度なので候補ごとに差し替える
+       （decisions §3.87）。盤面中心まわり＝解答は常に盤内なので収まり検証は不要。 */
+    if (u.rotateDeg !== undefined
+      && c.answer?.mode === "derived" && c.answer.transform.type === "rotate") {
+      const d = Number(u.rotateDeg);
+      if (d !== 90 && d !== -90 && d !== 180) {
+        return Response.json({ error: "回転角が不正です（90 / -90 / 180）" }, { status: 400 });
+      }
+      c.answer = { mode: "derived", transform: { type: "rotate", deg: d } };
+      c.edited = true;
+      transformEdited = true;
+    }
     // 難易度の人手 override（手動ティア付け・自動値は auto に保全）
     if (u.manual !== undefined && c.difficulty) {
       if (u.manual === null) {
@@ -105,7 +136,7 @@ export async function POST(req: NextRequest) {
       }
     }
     // edges/解答/立体辺を変えたら difficulty.auto と provenance を引き直す（manual は保全）
-    if (u.edges || answerEdited || solidEdited) refreshMeta(file.task, c);
+    if (u.edges || answerEdited || solidEdited || transformEdited) refreshMeta(file.task, c);
   }
   await writeCandidates(file);
   return Response.json({ ok: true });

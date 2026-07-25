@@ -475,6 +475,7 @@ export default function AtelierApp({
         : tDir === "compound" ? { dc: 2, dr: 1 }
           : { dc: 1, dr: 0 };
     /* 回転の白紙作成: 巻の回転角（ladder の angle・90cw/90ccw/180）を derived answer に焼く */
+    // 混在巻（angle="mixed"）は編集画面の角度ボタンで選ぶ。ここは初期値＝みぎ 90°
     const rDeg: 90 | -90 | 180 =
       lentry?.angle === "90ccw" ? -90 : lentry?.angle === "180" ? 180 : 90;
     const answer: Problem["answer"] =
@@ -581,7 +582,7 @@ export default function AtelierApp({
 
   async function saveEdit(
     id: string, edges: EdgeT[], motif?: string, answerEdges?: EdgeT[],
-    transform?: { dc: number; dr: number },
+    transform?: { dc: number; dr: number }, rotateDeg?: 90 | -90 | 180,
   ) {
     setBusy(true); setMsg("");
     try {
@@ -595,6 +596,7 @@ export default function AtelierApp({
             ...(motif !== undefined && { motif }),
             ...(answerEdges !== undefined && { answerEdges }),
             ...(transform !== undefined && { transform }),
+            ...(rotateDeg !== undefined && { rotateDeg }),
           }],
         }),
       });
@@ -637,7 +639,7 @@ export default function AtelierApp({
   /* 白紙からの新規作成を保存（provenance=blank で candidates に1問追加） */
   async function createNew(
     edges: EdgeT[], title?: string, answerEdges?: EdgeT[],
-    transform?: { dc: number; dr: number },
+    transform?: { dc: number; dr: number }, rotateDeg?: 90 | -90 | 180,
   ) {
     setBusy(true); setMsg("");
     try {
@@ -648,6 +650,7 @@ export default function AtelierApp({
           sku, edges,
           ...(answerEdges !== undefined && { answerEdges }),
           ...(transform !== undefined && { transform }),
+          ...(rotateDeg !== undefined && { rotateDeg }),
           ...(title && { title }),
         }),
       });
@@ -1136,7 +1139,7 @@ export default function AtelierApp({
           candidate={editing}
           busy={busy}
           task={task}
-          onSave={(edges, motif, answerEdges, transform) => saveEdit(editing.id, edges, motif, answerEdges, transform)}
+          onSave={(edges, motif, answerEdges, transform, rotateDeg) => saveEdit(editing.id, edges, motif, answerEdges, transform, rotateDeg)}
           onClose={() => setEditing(null)}
         />
       ))}
@@ -1156,7 +1159,7 @@ export default function AtelierApp({
           busy={busy}
           createMode
           task={task}
-          onSave={(edges, title, answerEdges, transform) => createNew(edges, title, answerEdges, transform)}
+          onSave={(edges, title, answerEdges, transform, rotateDeg) => createNew(edges, title, answerEdges, transform, rotateDeg)}
           onClose={() => setCreating(false)}
         />
       ))}
@@ -1177,7 +1180,7 @@ function EditOverlay({
   busy: boolean;
   onSave: (
     edges: EdgeT[], motif?: string, answerEdges?: EdgeT[],
-    transform?: { dc: number; dr: number },
+    transform?: { dc: number; dr: number }, rotateDeg?: 90 | -90 | 180,
   ) => void;
   onClose: () => void;
   createMode?: boolean;
@@ -1193,6 +1196,12 @@ function EditOverlay({
   const tr0 = candidate.answer?.mode === "derived" && candidate.answer.transform.type === "translate"
     ? candidate.answer.transform : null;
   const isTranslate = tr0 !== null;
+  /* 回転（rotate）: 角度も編集対象にする。混在巻（ladder angle="mixed"）は 1 問 1 角度で
+     3 角度を配るので、候補ごとに右・左・180° を選べる必要がある（decisions §3.87）。 */
+  const rot0 = candidate.answer?.mode === "derived" && candidate.answer.transform.type === "rotate"
+    ? candidate.answer.transform : null;
+  const isRotate = rot0 !== null;
+  const [rDeg, setRDeg] = useState<90 | -90 | 180>(rot0?.deg ?? 90);
   // explicit の R の呼び名: fill=「抜く線」（公平性チェックあり）／
   // overlay=「図形B」／decompose=「引くもの（図形B）」
   const fillWording = task === "fill";
@@ -1216,6 +1225,14 @@ function EditOverlay({
   const liveMetrics = useMemo(() => computeMetrics(edges, n), [edges, n]);
   const axis = mirrorAxisOf(candidate.answer);
   const mirrorGhost = useMemo(() => (axis ? mirrorEdges(edges, n, axis) : []), [axis, edges, n]);
+  /* 回転の回答ペイン（選んだ角度でまわした形）。角度ボタンを押すとその場で結果が見える。
+     回転規約は gen/rotate.ts・schema TransformSpec と同一（盤面中心まわり）。 */
+  const rotated = useMemo<EdgeT[]>(() => {
+    if (!isRotate) return [];
+    const f = (p: Pt): Pt => rDeg === 90 ? [n - 1 - p[1], p[0]]
+      : rDeg === -90 ? [p[1], n - 1 - p[0]] : [n - 1 - p[0], n - 1 - p[1]];
+    return edges.map((e) => [f(e[0]), f(e[1])] as EdgeT);
+  }, [isRotate, edges, n, rDeg]);
 
   /* ---- 移動（translate）: ベクトル編集 ----
      ★きてん＝F の辞書順最小点（gen/translate.ts・サムネと同じ導出規約）。
@@ -1418,12 +1435,14 @@ function EditOverlay({
   /* 「質問＋回答」の2要素があるタスクは、maker 同様に右へ回答ペイン（読取専用ライブプレビュー）を並べる。
      左＝編集中（完成図/抜く線）・右＝子が見る結果。重ね描きの読みにくさを解消する。 */
   const inputB = (candidate as { inputB?: EdgeT[] }).inputB;
-  const previewKind: "fill" | "mirror" | "fold" | "translate" | null =
-    isFill ? "fill" : axis ? "mirror" : isTranslate ? "translate" : Array.isArray(inputB) ? "fold" : null;
+  const previewKind: "fill" | "mirror" | "fold" | "translate" | "rotate" | null =
+    isFill ? "fill" : axis ? "mirror" : isRotate ? "rotate"
+      : isTranslate ? "translate" : Array.isArray(inputB) ? "fold" : null;
   const previewSolid: EdgeT[] =
     previewKind === "fill" ? edges.filter((e) => !rSetView.has(edgeKey(e)))
       : previewKind === "mirror" ? mirrorGhost
-        : previewKind === "translate" ? tMoved
+        : previewKind === "rotate" ? rotated
+          : previewKind === "translate" ? tMoved
           : previewKind === "fold" ? (inputB ?? [])
             : [];
   // fill のみ: 抜いた線（子が描き足す＝解答）をアクセント点線で重ねる
@@ -1432,7 +1451,8 @@ function EditOverlay({
   const previewLabel =
     previewKind === "fill" ? (fillWording ? "回答ペイン（欠け図＋抜いた線）" : "紙面イメージ（図形A=実線・図形B=点線）")
       : previewKind === "mirror" ? "回答ペイン（折り返した形）"
-        : previewKind === "translate" ? "回答ペイン（うつした図）・点をクリックで移動先●"
+        : previewKind === "rotate" ? "回答ペイン（まわした形）"
+          : previewKind === "translate" ? "回答ペイン（うつした図）・点をクリックで移動先●"
           : previewKind === "fold" ? "問題2（B）" : "";
   const editSize = previewKind ? 300 : SIZE;
 
@@ -1479,6 +1499,21 @@ function EditOverlay({
           )}
           {eraseMode && <span className="atl-os-note">線をクリックすると、その線だけ消えます。</span>}
         </div>
+
+        {isRotate && (
+          <div className="atl-editor-onestroke" role="group" aria-label="回転を選ぶ">
+            <span className="atl-os-label">回転を選ぶ</span>
+            <div className="atl-seg">
+              {([[90, "みぎ 90°"], [-90, "ひだり 90°"], [180, "180°"]] as const).map(([d, label]) => (
+                <button key={d} type="button" aria-pressed={rDeg === d}
+                  onClick={() => setRDeg(d)}>{label}</button>
+              ))}
+            </div>
+            <span className="atl-os-note">
+              1 問 1 角度。混在巻はこの選択が問題ごとに散る（紙面は弧の矢印＋目じるしで示す）
+            </span>
+          </div>
+        )}
 
         {isTranslate && (
           <div className="atl-editor-onestroke" role="group" aria-label="移動を選ぶ">
@@ -1668,7 +1703,7 @@ function EditOverlay({
             disabled={busy || edges.length === 0 || (isFill && rEdges.length === 0)
               || (isTranslate && (tZero || !tFits))}
             onClick={() => onSave(edges, title.trim(), isFill ? rEdges : undefined,
-              isTranslate ? tVec : undefined)}>
+              isTranslate ? tVec : undefined, isRotate ? rDeg : undefined)}>
             {edges.length === 0 ? "線が空です"
               : isFill && rEdges.length === 0 ? "抜く線が空です"
               : isTranslate && tZero ? "移動先を選んでください"

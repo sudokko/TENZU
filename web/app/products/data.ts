@@ -50,6 +50,10 @@ export const LEVEL_AGES = ["3〜6才", "4〜7才", "5〜8才", "6〜9才", "7才
    copy-lv2-4x4（旧 Lv.2 の 4×4）は 4×4 を Lv.3 vol1 へ一本化した際に正本を付け替え。 */
 export const SKU_ALIASES: Record<string, string> = {
   "copy-lv2-4x4": "copy-lv3-vol1",
+  // 2026-07-23: 移動 Lv.2 の横/縦 2 巻を「左右上下」1 巻に統合（decisions §3.85）
+  "translate-lv2-vol2": "translate-lv2-vol1",
+  // 2026-07-25: 回転 Lv.4 の 3×3 巻を廃止＝180°デビューは 4×4 の Vol.2 が担う（decisions §3.86）
+  "rotate-lv4-vol1": "rotate-lv4-vol2",
 };
 
 /* 旧タスク slug → 統合後タスク slug（タスク廃止時のリダイレクト用）
@@ -167,8 +171,7 @@ export const PRODUCT_TASKS: ProductTask[] = [
   {
     slug: "translate", name: "移動", groupIdx: 1,
     vols: [
-      v("translate-lv2-vol1", 2, 1, "3×3", "「ずらす」デビュー。形はそのまま、横にスライドするだけ。", "4〜6才ごろ", "scaffold", "横"),
-      v("translate-lv2-vol2", 2, 2, "3×3", "同じ3×3で、こんどは縦にずらす。方向感覚を育てる。", "4〜6才ごろ", "scaffold", "縦"),
+      v("translate-lv2-vol1", 2, 1, "3×3", "「ずらす」デビュー。形はそのまま、左右や上下にスライドするだけ。", "4〜6才ごろ", "scaffold", "左右上下"),
       v("translate-lv3-vol1", 3, 1, "4×4", "斜めにもずらせる。4×4でナナメ方向の感覚を養う。", "5〜7才ごろ", "scaffold", "斜め"),
       v("translate-lv4-vol1", 4, 1, "5×5", "「右に2、下に1」など2方向同時の移動を、5×5の広い盤面で。", "6〜9才ごろ", "scaffold", "複合"),
       v("translate-lv5-vol1", 5, 1, "6×6", "最大6×6。複数方向の移動を、広い盤面で組み合わせる総仕上げ。", "7才〜", "scaffold", "複合"),
@@ -180,9 +183,8 @@ export const PRODUCT_TASKS: ProductTask[] = [
       v("rotate-lv2-vol1", 2, 1, "3×3", "「回す」デビュー。紙をまわした景色を、点でなぞろう。", "4〜6才ごろ", "scaffold", "90°右回り"),
       v("rotate-lv3-vol1", 3, 1, "4×4", "線が増えて交差も。90°右まわりを4×4で深める。", "5〜7才ごろ", "scaffold", "90°右回り"),
       v("rotate-lv3-vol2", 3, 2, "4×4", "左まわりデビュー。同じ枠のまま方向だけ反対へ。", "5〜8才ごろ", "scaffold", "90°左回り"),
-      v("rotate-lv4-vol1", 4, 1, "3×3", "180°デビュー。さかさまの世界を、点で読み解く。", "6〜8才ごろ", "scaffold", "180°"),
-      v("rotate-lv4-vol2", 4, 2, "4×4", "180°のまま枠を4×4へ。回転マスターまで一歩。", "6〜9才ごろ", "scaffold", "180°"),
-      v("rotate-lv5-vol1", 5, 1, "5×5", "最大5×5の180°。さかさまの世界を、広い盤面で読み解く総仕上げ。", "7才〜", "scaffold", "180°"),
+      v("rotate-lv4-vol2", 4, 2, "4×4", "180°デビュー。さかさまの世界を、4×4で読み解く。", "6〜9才ごろ", "scaffold", "180°"),
+      v("rotate-lv5-vol1", 5, 1, "5×5", "最大5×5。右まわり・左まわり・さかさまが1冊に混ざる、回転の総仕上げ。", "7才〜", "scaffold", "右・左・180°混在"),
     ],
   },
   {

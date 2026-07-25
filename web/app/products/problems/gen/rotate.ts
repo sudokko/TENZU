@@ -14,7 +14,7 @@
      乱れ＋seed ジッタ）順 × 線本数バケットのラウンドロビン採用（translate と同じ）。
    ========================================================================= */
 
-import type { EdgeT, Problem, Pt } from "../schema";
+import type { EdgeT, Problem, ProblemMetrics, Pt } from "../schema";
 import { difficultyScore, normalizeEdges, symmetryWeight } from "../schema";
 import { computeMetrics } from "./metrics";
 import { closedLoops, danglingCount, jaccard, paramsOk } from "./filters";
@@ -27,7 +27,12 @@ import { randInt, seededRng } from "./rng";
 
 export const ROTATE_GENERATOR_VERSION = "1";
 
-export type RotateAngle = "90cw" | "90ccw" | "180";
+/* mixed＝1 巻に 3 角度を混ぜる（1 問 1 角度・decisions §3.87）。
+   紙面が問題ごとに角度を示せる（弧の矢印＋目じるし□）ので混在が成立する。 */
+export type RotateAngle = "90cw" | "90ccw" | "180" | "mixed";
+
+/* 混在巻で実際に割り当てる 3 角度。ラウンドロビンで均等に配る。 */
+export const MIXED_ANGLES: Exclude<RotateAngle, "mixed">[] = ["90cw", "90ccw", "180"];
 
 export type RotateParams = {
   grid: 3 | 4 | 5 | 6 | 7;
@@ -64,7 +69,8 @@ function copyParamsFor(p: RotateParams): CopyParams {
   return {
     grid: p.grid,
     lines: p.lines,
-    slopes: p.angle === "180" ? "any" : "ortho45",
+    // 180°帯（Lv.4-5）と混在巻（Lv.5）は非45°解禁。90°帯（Lv.2-3）は 45°まで
+    slopes: p.angle === "180" || p.angle === "mixed" ? "any" : "ortho45",
     diagonals: [0, 9],
     crossings: cross[p.grid],
     components: [1, 1],
@@ -93,6 +99,7 @@ function centerPlace(v: ShapeVariant, n: number): EdgeT[] {
 type PoolItem = {
   key: string; family: string; edges: EdgeT[]; // edges＝配置済み（盤面座標）
   lines: number; quality: number;
+  okDegs: (90 | -90 | 180)[];  // この形を出題してよい角度（退化・かぶりを通過したもの）
 };
 
 export function generateRotateCandidates(
@@ -109,11 +116,25 @@ export function generateRotateCandidates(
     : base;
   const cp = copyParamsFor(params);
   const n = params.grid;
-  const deg = degOf(params.angle);
+  /* 混在巻は 1 問 1 角度で 3 角度を配る。単一角度巻は従来どおり 1 つだけ。
+     退化除外・公開済みかぶりは角度ごとに判定が変わるため、角度は形ごとに持たせる。 */
+  const mixed = params.angle === "mixed";
+  const angles: (90 | -90 | 180)[] = mixed ? MIXED_ANGLES.map(degOf) : [degOf(params.angle)];
   const rnd = seededRng(`${sku}#${seed}`);
 
   const pubSigs = publishedCopySignatures();
   const existingSigs = new Set(existing.map(shapeSignature));
+
+  /* この形をこの角度で出題してよいか。
+     - 退化: その角度で自分に重なる図形は「回さなくても写せる」＝解答＝出題
+     - かぶり: 模写公開済み（みほん側・解答側の両方を照合）
+     混在巻では角度ごとに可否が変わる（例: r180 対称は 180°だけ不可・90°は可）。 */
+  const okForDeg = (placed: EdgeT[], m: ProblemMetrics, sig: string, d: 90 | -90 | 180): boolean => {
+    if (d === 180 ? (m.symmetry.includes("r180") || m.symmetry.includes("r90"))
+      : m.symmetry.includes("r90")) return false;
+    if (pubSigs.has(sig) || pubSigs.has(shapeSignature(rotateEdges(placed, n, d)))) return false;
+    return true;
+  };
 
   /* ---- プール構築（strict → relax の 2 段。退化・ヒゲ・閉路・かぶりは relax でも外さない） ---- */
   const buildPool = (strict: boolean, exclude: Set<string>): PoolItem[] => {
@@ -126,12 +147,9 @@ export function generateRotateCandidates(
       if (exclude.has(sig)) continue;
       if (excludeShapeSigs?.has(sig)) continue; // 兄弟巻に同じ形（キー違い含む）
       const m = computeMetrics(placed, n);
-      // 回転固有: この巻の回転で自分に重なる図形は退化（解答＝出題）。
-      // 180°巻は r180（r90 対称は r180 対称を含意するが、検出は独立なので両方見る）
-      if (deg === 180 ? (m.symmetry.includes("r180") || m.symmetry.includes("r90"))
-        : m.symmetry.includes("r90")) continue;
-      // かぶり除外: 模写公開済み（みほん側・解答側の両方を照合）
-      if (pubSigs.has(sig) || pubSigs.has(shapeSignature(rotateEdges(placed, n, deg)))) continue;
+      // 回転固有の退化・かぶりは角度ごとに判定。1 つも通らない形はここで落とす
+      const okDegs = angles.filter((d) => okForDeg(placed, m, sig, d));
+      if (okDegs.length === 0) continue;
       if (existingSigs.has(sig)) continue;
       // 品質ゲート（relax でも外さない）: 4×4 以上は閉じた骨格・ヒゲ最小限
       if (n >= 4 && closedLoops(placed, m.components) < 1) continue;
@@ -143,7 +161,7 @@ export function generateRotateCandidates(
       exclude.add(sig); // プール内の形重複も一度で除去
       out.push({
         key: v.key, family: v.family, edges: placed,
-        lines: m.lines,
+        lines: m.lines, okDegs,
         // 中央配置なのでグリッド対称の検出が生きる＝symmetryWeight をそのまま品質に使える
         quality: symmetryWeight(m.symmetry)
           + 1.0 * closedLoops(placed, m.components)
@@ -166,6 +184,13 @@ export function generateRotateCandidates(
   const MICRO_CAP = n <= 4 ? 999 : 5; // 3×3/4×4 は小箱プールが主力・5×5 以上は味付け程度
   const simThreshold = n <= 3 ? 0.78 : 0.65;
 
+  /* 角度の割り当て: その形で成立する角度のうち、これまで採用が最も少ないものを選ぶ
+     ＝12 問が 3 角度に均等に散る（単一角度巻は選択肢が 1 つなので素通り）。 */
+  const degCount = new Map<number, number>(angles.map((d) => [d, 0]));
+  const pickDeg = (okDegs: (90 | -90 | 180)[]): 90 | -90 | 180 =>
+    [...okDegs].sort((a, b) => (degCount.get(a) ?? 0) - (degCount.get(b) ?? 0)
+      || angles.indexOf(a) - angles.indexOf(b))[0];
+
   const tryAccept = (item: PoolItem): boolean => {
     const cap = item.family === "micro" ? MICRO_CAP : FAM_CAP;
     if ((famCount.get(item.family) ?? 0) >= cap) return false;
@@ -173,6 +198,8 @@ export function generateRotateCandidates(
     if (accepted.some((a) => jaccard(a.edges, F) > simThreshold)) return false;
     if (existing.some((e) => jaccard(e, F) > simThreshold)) return false;
     const m = computeMetrics(F, n);
+    const deg = pickDeg(item.okDegs);
+    degCount.set(deg, (degCount.get(deg) ?? 0) + 1);
     famCount.set(item.family, (famCount.get(item.family) ?? 0) + 1);
     accepted.push({
       edges: F,

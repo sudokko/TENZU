@@ -227,7 +227,7 @@
     },
     "mirror-lv4-vol1": {
       "grid": 5,
-      "slopes": "ortho45",
+      "slopes": "any",
       "lines": [
         7,
         12
@@ -248,7 +248,7 @@
     },
     "mirror-lv5-vol1": {
       "grid": 6,
-      "slopes": "ortho45",
+      "slopes": "any",
       "lines": [
         9,
         15
@@ -346,14 +346,6 @@
         9
       ]
     },
-    "rotate-lv4-vol1": {
-      "grid": 3,
-      "angle": "180",
-      "lines": [
-        3,
-        7
-      ]
-    },
     "rotate-lv4-vol2": {
       "grid": 4,
       "angle": "180",
@@ -364,7 +356,7 @@
     },
     "rotate-lv5-vol1": {
       "grid": 5,
-      "angle": "180",
+      "angle": "mixed",
       "lines": [
         6,
         12
@@ -374,19 +366,7 @@
   "translate": {
     "translate-lv2-vol1": {
       "grid": 3,
-      "dir": "h",
-      "moves": [
-        1,
-        1
-      ],
-      "lines": [
-        2,
-        4
-      ]
-    },
-    "translate-lv2-vol2": {
-      "grid": 3,
-      "dir": "v",
+      "dir": "hv",
       "moves": [
         1,
         1

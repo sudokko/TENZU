@@ -14,9 +14,10 @@ import { useMemo, useState } from "react";
 import {
   PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
   KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
+  rotMarkPts, translateMarkPts, markRingSegs, rotArcSegs, rotArcRadius, rotArcWidth,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "./print";
-import { edgeKey, mirrorEdges, type EdgeT, type SolidEdge } from "./problems/schema";
+import { edgeKey, mirrorEdges, type EdgeT, type Pt, type SolidEdge } from "./problems/schema";
 import { buildSolidPageSvg, svgToPng, loadLogo } from "../maker-solid/solid-print";
 
 const INK = "#3A424E";
@@ -31,12 +32,21 @@ export type MirrorAxis = "v" | "h" | "d1" | "d2";
    answerEdges: 欠け補完（fill）のとき、抜く線 R を指定する。みほんペインには edges（F）
    をすべて描き、かくマスペインには F∖R（欠け図 G）を事前印字する。
    mirrorAxis: 鏡タスクのとき、軸の種類。両ペインの中央に軸点線を描き、かくマスは空白。
+   rotateDeg / translateVec: 「どう変換するか」が 1 問ごとに違いうるタスクの指示子。
+     紙面に日本語を出せない（PDF は Courier のみ埋め込み）ため、度数や方向の
+     文字は使わず絵記号で示す（decisions §3.87）:
+       回転 = ペイン間に弧の矢印（弧の長さ＝まわす量・矢じり＝向き）
+              ＋ 両ペインの対応する隅に目じるし□（左上がどこへ行くか）
+       移動 = みほんの★（図形の起点）と、かくマスの●（その行き先）を目じるし□で示す
+     この 2 つがあって初めて 1 巻に複数の角度・方向を混在させられる。
    未指定（copy/motif/solid 等）はかくマスを白紙のまま。 */
 export type RenderProblem = {
   n: number;
   edges: EdgeT[];
   answerEdges?: EdgeT[];
   mirrorAxis?: MirrorAxis;
+  rotateDeg?: 90 | -90 | 180;
+  translateVec?: { dc: number; dr: number };
 };
 
 /* fill 用: F から R を除いた G（欠け図）を返す。R 未指定なら null */
@@ -243,7 +253,38 @@ function PreviewPage({
                   x2={cx + g.dx + g.dot(g.pane, e[1][0], n)} y2={cy + g.dy + g.dot(g.pane, e[1][1], n)}
                   stroke={PRINT_INK} strokeWidth={lw} strokeLinecap="round" />
               ))}
-              {/* 鏡 SKU は矢印じゃなく薄い点線（鏡面演出）。それ以外は従来の細線矢印 */}
+              {/* 変換の指示子（回転＝弧の矢印／移動＝★●の目じるし□）。
+                  1 問ごとに角度・方向が違いうるので、巻の見出しではなく設問に描く */}
+              {(() => {
+                const half = g.pane * 0.055;
+                const msw = Math.max(0.3, lw * 0.85);
+                const marks = pb.rotateDeg
+                  ? rotMarkPts(n, pb.rotateDeg)
+                  : pb.translateVec ? translateMarkPts(pb.edges, pb.translateVec) : null;
+                if (!marks) return null;
+                const ring = (p: Pt, ox: number, oy: number, key: string) =>
+                  markRingSegs(ox + g.dot(g.pane, p[0], n), oy + g.dot(g.pane, p[1], n), half)
+                    .map((s, k) => (
+                      <line key={`${key}${k}`} x1={s[0]} y1={s[1]} x2={s[2]} y2={s[3]}
+                        stroke={PRINT_INK} strokeWidth={msw} strokeLinecap="round" />
+                    ));
+                return (
+                  <>
+                    {ring(marks.from, cx, cy, `mf${i}`)}
+                    {ring(marks.to, cx + g.dx, cy + g.dy, `mt${i}`)}
+                  </>
+                );
+              })()}
+              {pb.rotateDeg && rotArcSegs(
+                cx + g.dx / 2 + (pair === "horizontal" ? g.pane / 2 : 0),
+                cy + g.dy / 2 + (pair === "horizontal" ? 0 : g.pane / 2),
+                rotArcRadius(g.pane, g.gap), pb.rotateDeg,
+              ).map((s, k) => (
+                <line key={`ra${k}`} x1={s[0]} y1={s[1]} x2={s[2]} y2={s[3]}
+                  stroke={PRINT_INK} strokeWidth={rotArcWidth(g.pane, g.gap)}
+                  strokeLinecap="round" />
+              ))}
+              {/* 鏡 SKU は矢印じゃなく薄い点線（鏡面演出）。回転は上の弧矢印。それ以外は細線矢印 */}
               {pb.mirrorAxis ? (
                 pair === "horizontal"
                   ? <line x1={cx + g.pane + g.gap / 2} y1={cy - g.pane * 0.05}
@@ -254,7 +295,7 @@ function PreviewPage({
                       x2={cx + g.pane * 1.05} y2={cy + g.pane + g.gap / 2}
                       stroke={AXIS_INK} strokeWidth={Math.max(0.3, lw * 0.7)}
                       strokeDasharray={axisDash} strokeLinecap="round" />
-              ) : (
+              ) : pb.rotateDeg ? null : (
                 <path d={thinArrowPath(arr.size, arr.dir)}
                   transform={`translate(${arr.x},${arr.y})`}
                   fill="none" stroke={PRINT_INK}
@@ -397,6 +438,41 @@ export async function downloadPdf(
           thickness: lw, color: ink, lineCap: 1,
         });
       }
+      /* 変換の指示子（プレビューと同じ数式）: 回転＝弧の矢印／移動＝★●の目じるし□ */
+      {
+        const marks = pb.rotateDeg
+          ? rotMarkPts(n, pb.rotateDeg)
+          : pb.translateVec ? translateMarkPts(pb.edges, pb.translateVec) : null;
+        if (marks) {
+          const half = g.pane * 0.055;
+          const msw = Math.max(0.3 * MM2PT, lw * 0.85);
+          const ring = (p: Pt, ox: number, oyTop: number) => {
+            for (const s of markRingSegs(
+              ox + g.dot(g.pane, p[0], n), oyTop + g.dot(g.pane, p[1], n), half,
+            )) {
+              page.drawLine({
+                start: { x: s[0], y: Y(s[1]) }, end: { x: s[2], y: Y(s[3]) },
+                thickness: msw, color: ink, lineCap: 1,
+              });
+            }
+          };
+          ring(marks.from, cx, cyTop);
+          ring(marks.to, cx + g.dx, cyTop + g.dy);
+        }
+        if (pb.rotateDeg) {
+          const aw = rotArcWidth(g.pane, g.gap);
+          for (const s of rotArcSegs(
+            cx + g.dx / 2 + (pair === "horizontal" ? g.pane / 2 : 0),
+            cyTop + g.dy / 2 + (pair === "horizontal" ? 0 : g.pane / 2),
+            rotArcRadius(g.pane, g.gap), pb.rotateDeg,
+          )) {
+            page.drawLine({
+              start: { x: s[0], y: Y(s[1]) }, end: { x: s[2], y: Y(s[3]) },
+              thickness: aw, color: ink, lineCap: 1,
+            });
+          }
+        }
+      }
       if (pb.mirrorAxis) {
         // 鏡 SKU: みほん→解答 の境界は矢印じゃなく薄い点線（鏡面）
         const planeColor = rgb(0x9a / 255, 0xa0 / 255, 0xaa / 255);
@@ -424,7 +500,7 @@ export async function downloadPdf(
           const my = cyTop + g.pane + g.gap / 2;
           drawDashedPlane(cx - g.pane * 0.05, my, cx + g.pane * 1.05, my);
         }
-      } else {
+      } else if (!pb.rotateDeg) {
         // 矢印（みほん→うつす・細線＋小さな矢じり・向きは pair に追従）
         const arr = arrowProps(g, cx, cyTop, pair);
         const hd = arr.size * 0.3;

@@ -38,6 +38,8 @@ export async function POST(req: NextRequest) {
   const body = await req.json() as {
     sku?: string; edges?: EdgeT[]; answerEdges?: EdgeT[]; title?: string;
     inputB?: EdgeT[];   // 2図目（fold の問題2 等）
+    transform?: { dc: number; dr: number };   // 移動（translate）: 編集画面で選んだ移動先
+    rotateDeg?: 90 | -90 | 180;               // 回転（rotate）: 編集画面で選んだ角度（混在巻）
     cols?: number; rows?: number; solidEdges?: SolidEdge[];   // 立体（solid）専用
   };
   const sku = safeSku(body.sku);
@@ -99,19 +101,30 @@ export async function POST(req: NextRequest) {
       // 鏡は軸レス（軸＝印刷時の並び選択・decisions §3.59）。代表値 v を焼く
       answer = { mode: "derived", transform: { type: "mirror", axis: "v" } };
     } else if (task === "rotate") {
-      // 回転角は巻定義（data.ts variant「90°右回り/90°左回り/180°」）から。
+      // 回転角は編集画面で選んだ deg を優先（混在巻＝1 問 1 角度・decisions §3.87）。
+      // 未指定なら巻定義（data.ts variant「90°右回り/90°左回り/180°」）から既定値を取る。
       // 盤面中心まわりの回転＝解答は常に盤内（収まり検証不要）
       const v = hit.vol.variant ?? "";
-      const deg: 90 | -90 | 180 = v.includes("左") ? -90 : v.includes("180") ? 180 : 90;
+      const picked = body.rotateDeg;
+      const deg: 90 | -90 | 180 = picked === 90 || picked === -90 || picked === 180
+        ? picked
+        : v.includes("左") ? -90 : v.includes("180") ? 180 : 90;
       answer = { mode: "derived", transform: { type: "rotate", deg } };
     } else if (task === "translate") {
-      // 既定ベクトルは巻の方向（variant「横/縦/斜め/複合」）から。F+(dc,dr) が
-      // 盤内に収まるかは検品サムネのゴースト表示で目視確認（editor は F のみ編集）
+      // 移動先は編集画面（回答ペインの●）で選んだ transform を優先。未指定なら
+      // 巻の方向（variant「横/縦/左右上下/斜め/複合」）から既定ベクトルを組む
+      const t = body.transform;
       const v = hit.vol.variant ?? "";
-      const vec = v.includes("縦") ? { dc: 0, dr: 1 }
-        : v.includes("斜") ? { dc: 1, dr: 1 }
-          : v.includes("複合") ? { dc: 2, dr: 1 }
-            : { dc: 1, dr: 0 };
+      const vec = t && Number.isInteger(t.dc) && Number.isInteger(t.dr) && !(t.dc === 0 && t.dr === 0)
+        ? { dc: t.dc, dr: t.dr }
+        : v.includes("縦") ? { dc: 0, dr: 1 }
+          : v.includes("斜") ? { dc: 1, dr: 1 }
+            : v.includes("複合") ? { dc: 2, dr: 1 }
+              : { dc: 1, dr: 0 };
+      // 収まり検証（F+(dc,dr) が盤内か）はサーバでも弾く
+      const fits = edges.every((e) => e.every((p) =>
+        p[0] + vec.dc >= 0 && p[0] + vec.dc <= n - 1 && p[1] + vec.dr >= 0 && p[1] + vec.dr <= n - 1));
+      if (!fits) return Response.json({ error: "移動した図が枠からはみ出します" }, { status: 400 });
       answer = { mode: "derived", transform: { type: "translate", ...vec } };
     } else {
       return Response.json({ error: `${task} の白紙作成は未対応です（AI 生成を使ってください）` }, { status: 400 });

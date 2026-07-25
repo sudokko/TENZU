@@ -7,6 +7,8 @@
    - paneSize/KGAP/KPAD: ペア（みほん→うつす）の幾何定数
    ========================================================================= */
 
+import type { EdgeT, Pt } from "./problems/schema";
+
 export type PaperKey =
   | "A4-P" | "A4-L"
   | "B4-P" | "B4-L"
@@ -118,4 +120,86 @@ export function nameBandSvgString(W: number, marginMm: number): string {
     line(R - 92, R - 80) + label(R - 69, "にち") +
     label(R - 52, "なまえ") + line(R - 50, R)
   );
+}
+
+/* =========================================================================
+   変換の指示子（回転の弧矢印・目じるし□）
+   プレビュー（SVG）と PDF（pdf-lib）が同じ数式を共有する＝画面と印刷がズレない。
+   いずれも「線分の並び」で返し、SVG は polyline・PDF は drawLine 列で描く。
+   ========================================================================= */
+
+/* 盤面中心まわりの回転（gen/rotate.ts・schema TransformSpec と同規約） */
+export function rotPtPrint(p: Pt, n: number, deg: 90 | -90 | 180): Pt {
+  if (deg === 90) return [n - 1 - p[1], p[0]];
+  if (deg === -90) return [p[1], n - 1 - p[0]];
+  return [n - 1 - p[0], n - 1 - p[1]];
+}
+
+/* 回転の目じるし: みほんの左上(0,0) と、その回転後の隅。
+   90°右→右上・90°左→左下・180°→右下 と 3 角度が別々の隅に落ちるため、
+   目じるし 1 個で角度が一意に決まる（度数の文字が要らない理由）。 */
+export function rotMarkPts(n: number, deg: 90 | -90 | 180): { from: Pt; to: Pt } {
+  const from: Pt = [0, 0];
+  return { from, to: rotPtPrint(from, n, deg) };
+}
+
+/* 移動の目じるし: ★＝図形の起点（辞書順最小点・gen/translate.ts と同規約）／
+   ●＝その行き先。巻内で方向が混在しても 1 問ごとに読み取れる。 */
+export function translateMarkPts(
+  edges: EdgeT[], vec: { dc: number; dr: number },
+): { from: Pt; to: Pt } | null {
+  if (edges.length === 0) return null;
+  let a: Pt = edges[0][0];
+  for (const e of edges) for (const p of e) {
+    if (p[0] < a[0] || (p[0] === a[0] && p[1] < a[1])) a = p;
+  }
+  return { from: a, to: [a[0] + vec.dc, a[1] + vec.dr] };
+}
+
+/* 目じるし□（格子点を囲む輪郭だけの四角）。塗り点＝格子 と混同しないよう中は抜く。
+   返り値は 4 辺の線分（[x1,y1,x2,y2]）。 */
+export function markRingSegs(cx: number, cy: number, half: number): [number, number, number, number][] {
+  const l = cx - half, r = cx + half, t = cy - half, b = cy + half;
+  return [[l, t, r, t], [r, t, r, b], [r, b, l, b], [l, b, l, t]];
+}
+
+/* 回転の弧矢印の半径・線幅。ペイン間ギャップ（pane*KGAP）だけだと弧が豆粒になり
+   「1/4 か半周か」を読み分けられない。ドットはペインの 10%〜90% にしか置かれない＝
+   ペイン端の 10% は必ず余白なので、そこまで食い込ませて弧を大きく取る。 */
+export function rotArcRadius(pane: number, gap: number): number {
+  return (gap + pane * 0.18) * 0.45;
+}
+export function rotArcWidth(pane: number, gap: number): number {
+  return Math.max(0.35, rotArcRadius(pane, gap) * 0.13);
+}
+
+/* 回転の弧矢印。中心 (cx,cy) まわりに |deg| ぶんの弧を折れ線で返し、終端に矢じりを付ける。
+   弧は上をまたぐ向きに固定（90°は 1/4・180°は半周）＝弧の長さがそのまま「まわす量」。 */
+export function rotArcSegs(
+  cx: number, cy: number, r: number, deg: 90 | -90 | 180,
+): [number, number, number, number][] {
+  // 画面座標（y 下向き）: 角度が増える向き＝時計回り
+  const [a0, a1] = deg === 90 ? [-135, -45]
+    : deg === -90 ? [-45, -135]
+      : [-180, 0]; // 180°: 左から右へ半周（時計回り）
+  const STEPS = 20;
+  const at = (a: number): [number, number] => {
+    const rad = (a * Math.PI) / 180;
+    return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)];
+  };
+  const segs: [number, number, number, number][] = [];
+  let prev = at(a0);
+  for (let i = 1; i <= STEPS; i++) {
+    const p = at(a0 + ((a1 - a0) * i) / STEPS);
+    segs.push([prev[0], prev[1], p[0], p[1]]);
+    prev = p;
+  }
+  // 矢じり: 終端の接線（進行方向）から左右へ開く
+  const tan = a1 + (a1 > a0 ? 90 : -90);
+  const hd = r * 0.62;
+  for (const off of [26, -26]) {
+    const rad = ((tan + 180 + off) * Math.PI) / 180;
+    segs.push([prev[0], prev[1], prev[0] + hd * Math.cos(rad), prev[1] + hd * Math.sin(rad)]);
+  }
+  return segs;
 }
