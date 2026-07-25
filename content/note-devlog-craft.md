@@ -145,7 +145,7 @@
 ## 附録
 
 - 文体見本（本編5本＋番外編4本＋連載マップ・Notion）: [連載マップ](https://app.notion.com/p/39693b733ffc8177a44ff37e1e8ca2da)／[第1回](https://app.notion.com/p/39693b733ffc81bcbe58e1e7c157536c)／[第2回](https://app.notion.com/p/39693b733ffc81239126e0f48d757752)／[第3回](https://app.notion.com/p/39693b733ffc81aeadf0c01366e5c85c)／[第4回](https://app.notion.com/p/39693b733ffc81709905ddb6033f2d17)／[第5回](https://app.notion.com/p/39693b733ffc81b79827dd94789116d1)／[番外編①](https://app.notion.com/p/39693b733ffc81a68ac5ec3910ea7d90)／[番外編②](https://app.notion.com/p/39693b733ffc811da74bfd2578a1d857)／[番外編③](https://app.notion.com/p/39893b733ffc81d4bad7c18ed3d8988c)／[番外編④](https://app.notion.com/p/39893b733ffc8163b841f67507c51933)／[番外編⑤](https://app.notion.com/p/39893b733ffc8131a786e4a4c89bede7)／[番外編⑥](https://app.notion.com/p/39893b733ffc81cdb32ffa0ef5b893b1)／[番外編⑦](https://app.notion.com/p/39893b733ffc81eabcbaeb3aa0628cfe)
-- 番外編の型: 冒頭あらすじは「本編で書いた○○の、作る側の裏話」形式。素材は journal の機能系 EP（設問=EP-085/086/088・UI=EP-081/090〜099・印刷=EP-082/091/096・サイト=EP-083/084・開発ツール=EP-002＋要件分解の考察・デザイン=EP-072/079/080・インフラ=EP-027/028/087）。時系列注意（当時63巻756問→現行42巻・絵柄ライン撤回済み・サブスクは撤回済み表現）は §5 の原則どおり
+- 番外編の型: 冒頭あらすじは「本編で書いた○○の、作る側の裏話」形式。素材は journal の機能系 EP（設問=EP-085/086/088・UI=EP-081/090〜099・印刷=EP-082/091/096・サイト=EP-083/084・開発ツール=EP-002＋要件分解の考察・デザイン=EP-072/079/080・インフラ=EP-027/028/087）。時系列注意（当時63巻756問→現行40巻・絵柄ライン撤回済み・サブスクは撤回済み表現）は §5 の原則どおり
 - スタック3部作（⑤⑥⑦）の追加規律: 実際に試していないツール（Lovable/v0 等）は「試した・比較した」と書かない（要件からの消去法として書く）。選定理由の一次記録が無いもの（Vercel 比較等）は後付けの理屈で飾らず「土地勘で決めた」等の実態を書く
 - 旧記事（書き直し元・プレースホルダ入り構想版）: Notion「非エンジニアの私が…」（連載マップと同じ親ページ配下・残置）
 - 関連規約: [external-output.md](external-output.md)（note 整形の親規約・公式記事用）／[voice-tone.md](../foundation/voice-tone.md)／[brand.md §0.5](../foundation/brand.md)
