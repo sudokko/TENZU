@@ -229,6 +229,29 @@ function engineLabel(variant?: string): string {
   return "対称・幾何";
 }
 
+/* 移動量の言い回し（右1・下2 など。maker-translate と同じ規約）。
+   カードのラベル・編集ペインの表示・移動マス目の tooltip が共用する。 */
+function moveWords(dc: number, dr: number): string {
+  if (dc === 0 && dr === 0) return "移動なし";
+  return [
+    dc > 0 ? `右${dc}` : dc < 0 ? `左${-dc}` : "",
+    dr > 0 ? `下${dr}` : dr < 0 ? `上${-dr}` : "",
+  ].filter(Boolean).join("・");
+}
+
+/* 移動カードの方向・量ラベル（右1・下1・右2 など）。answer.transform から導出＝
+   一覧で「12 問の方向の散らばり」を一目で検品できる。 */
+function moveLabelOf(c: Candidate): string {
+  const t = c.answer?.mode === "derived" && c.answer.transform.type === "translate"
+    ? c.answer.transform : null;
+  if (!t) return "";
+  if (t.dc === 0 && t.dr === 0) return "移動なし";
+  return [
+    t.dc > 0 ? `右${t.dc}` : t.dc < 0 ? `左${-t.dc}` : "",
+    t.dr > 0 ? `下${t.dr}` : t.dr < 0 ? `上${-t.dr}` : "",
+  ].filter(Boolean).join("・");
+}
+
 /* タスク別の難易度式を1行で（atl-dhelp 見出し用）。式の実体は gen/difficulty.ts。 */
 function dFormulaLabel(kind?: string): string {
   switch (kind) {
@@ -445,7 +468,7 @@ export default function AtelierApp({
     const n = blankGridN as 3 | 4 | 5 | 6 | 7;
     const mode = TASK_ANSWER_MODE[task] ?? "none";
     /* 移動の白紙作成: 巻の方向（ladder の dir）に合わせた既定ベクトルを焼く。
-       白紙で描いた F が動く余白を持つかは検品サムネのゴーストで目視確認する。 */
+       hv（左右上下）は右1を既定に。移動先は編集モーダルの回答ペインで選び直せる。 */
     const tDir = String(lentry?.dir ?? "h");
     const tVec = tDir === "v" ? { dc: 0, dr: 1 }
       : tDir === "diag" ? { dc: 1, dr: 1 }
@@ -556,7 +579,10 @@ export default function AtelierApp({
     } finally { setBusy(false); }
   }
 
-  async function saveEdit(id: string, edges: EdgeT[], motif?: string, answerEdges?: EdgeT[]) {
+  async function saveEdit(
+    id: string, edges: EdgeT[], motif?: string, answerEdges?: EdgeT[],
+    transform?: { dc: number; dr: number },
+  ) {
     setBusy(true); setMsg("");
     try {
       const res = await fetch("/api/atelier/candidates", {
@@ -568,6 +594,7 @@ export default function AtelierApp({
             id, edges,
             ...(motif !== undefined && { motif }),
             ...(answerEdges !== undefined && { answerEdges }),
+            ...(transform !== undefined && { transform }),
           }],
         }),
       });
@@ -608,7 +635,10 @@ export default function AtelierApp({
   }
 
   /* 白紙からの新規作成を保存（provenance=blank で candidates に1問追加） */
-  async function createNew(edges: EdgeT[], title?: string, answerEdges?: EdgeT[]) {
+  async function createNew(
+    edges: EdgeT[], title?: string, answerEdges?: EdgeT[],
+    transform?: { dc: number; dr: number },
+  ) {
     setBusy(true); setMsg("");
     try {
       const res = await fetch("/api/atelier/candidates/create", {
@@ -617,6 +647,7 @@ export default function AtelierApp({
         body: JSON.stringify({
           sku, edges,
           ...(answerEdges !== undefined && { answerEdges }),
+          ...(transform !== undefined && { transform }),
           ...(title && { title }),
         }),
       });
@@ -748,6 +779,7 @@ export default function AtelierApp({
           <span className="atl-dbreak">
             {parts ? Object.values(parts).map((v) => fmtD(v)).join("+") : ""}
             {genKind === "copy" && <span className="atl-deng">{engineLabel(c.gen.variant)}</span>}
+            {genKind === "translate" && <span className="atl-deng atl-dmove">{moveLabelOf(c)}</span>}
           </span>
           <button type="button" className="atl-dedit" title="難易度を手動指定／自動へ戻す"
             onClick={(e) => { e.stopPropagation(); promptManual(c); }}>✎</button>
@@ -1104,7 +1136,7 @@ export default function AtelierApp({
           candidate={editing}
           busy={busy}
           task={task}
-          onSave={(edges, motif, answerEdges) => saveEdit(editing.id, edges, motif, answerEdges)}
+          onSave={(edges, motif, answerEdges, transform) => saveEdit(editing.id, edges, motif, answerEdges, transform)}
           onClose={() => setEditing(null)}
         />
       ))}
@@ -1124,7 +1156,7 @@ export default function AtelierApp({
           busy={busy}
           createMode
           task={task}
-          onSave={(edges, title, answerEdges) => createNew(edges, title, answerEdges)}
+          onSave={(edges, title, answerEdges, transform) => createNew(edges, title, answerEdges, transform)}
           onClose={() => setCreating(false)}
         />
       ))}
@@ -1143,7 +1175,10 @@ function EditOverlay({
 }: {
   candidate: Candidate;
   busy: boolean;
-  onSave: (edges: EdgeT[], motif?: string, answerEdges?: EdgeT[]) => void;
+  onSave: (
+    edges: EdgeT[], motif?: string, answerEdges?: EdgeT[],
+    transform?: { dc: number; dr: number },
+  ) => void;
   onClose: () => void;
   createMode?: boolean;
   /* 呼び出し元 SKU のタスク。explicit 解答の意味がタスクで違う（fill=抜く線 R／
@@ -1153,6 +1188,11 @@ function EditOverlay({
   // EditOverlay は square 専用（solid は SolidEditOverlay へ分岐済み）。型を絞る。
   const n = candidate.grid.type === "square" ? candidate.grid.n : 3;
   const isFill = candidate.answer?.mode === "explicit";
+  /* 移動（translate）: 解答＝derived transform。移動ベクトルも編集対象にする
+     （maker-translate と同じ操作＝回答ペインの点クリックで移動先●を置く） */
+  const tr0 = candidate.answer?.mode === "derived" && candidate.answer.transform.type === "translate"
+    ? candidate.answer.transform : null;
+  const isTranslate = tr0 !== null;
   // explicit の R の呼び名: fill=「抜く線」（公平性チェックあり）／
   // overlay=「図形B」／decompose=「引くもの（図形B）」
   const fillWording = task === "fill";
@@ -1176,6 +1216,108 @@ function EditOverlay({
   const liveMetrics = useMemo(() => computeMetrics(edges, n), [edges, n]);
   const axis = mirrorAxisOf(candidate.answer);
   const mirrorGhost = useMemo(() => (axis ? mirrorEdges(edges, n, axis) : []), [axis, edges, n]);
+
+  /* ---- 移動（translate）: ベクトル編集 ----
+     ★きてん＝F の辞書順最小点（gen/translate.ts・サムネと同じ導出規約）。
+     回答ペインの点クリック＝●ここへ を置く → vec = ● − ★。 */
+  const [tVec, setTVec] = useState<{ dc: number; dr: number }>(
+    tr0 ? { dc: tr0.dc, dr: tr0.dr } : { dc: 0, dr: 0 });
+  const tAnchor = useMemo<Pt | null>(() => {
+    if (!isTranslate || edges.length === 0) return null;
+    let a: Pt = edges[0][0];
+    for (const e of edges) for (const p of e) {
+      if (p[0] < a[0] || (p[0] === a[0] && p[1] < a[1])) a = p;
+    }
+    return a;
+  }, [isTranslate, edges]);
+  const tMoved = useMemo<EdgeT[]>(
+    () => isTranslate ? edges.map((e) => [
+      [e[0][0] + tVec.dc, e[0][1] + tVec.dr], [e[1][0] + tVec.dc, e[1][1] + tVec.dr],
+    ] as EdgeT) : [],
+    [isTranslate, edges, tVec],
+  );
+  const tFits = useMemo(
+    () => tMoved.every((e) => e.every((p) => p[0] >= 0 && p[0] <= n - 1 && p[1] >= 0 && p[1] <= n - 1)),
+    [tMoved, n],
+  );
+  const tZero = tVec.dc === 0 && tVec.dr === 0;
+  const tTarget: Pt | null = tAnchor ? [tAnchor[0] + tVec.dc, tAnchor[1] + tVec.dr] : null;
+  /* 回答ペインの点クリック＝移動先●を置く（同点クリックは何もしない＝移動なしは保存側で弾く） */
+  function clickTargetDot(p: Pt) {
+    if (!tAnchor) return;
+    setTVec({ dc: p[0] - tAnchor[0], dr: p[1] - tAnchor[1] });
+  }
+  /* 移動量ラベル（右1・下2 など。maker-translate と同じ言い回し） */
+  const tMoveLabel = moveWords(tVec.dc, tVec.dr);
+  /* 図形のスパン（c/r 方向の広がり）。盤面いっぱいの方向へは移動の余地がない＝
+     ●もずらしボタンも効かない理由を検品者に明示する（旧 h 生成の縦長形が該当）。 */
+  const tSpan = useMemo(() => {
+    if (!isTranslate || edges.length === 0) return null;
+    let cMin = 99, cMax = -99, rMin = 99, rMax = -99;
+    for (const e of edges) for (const p of e) {
+      cMin = Math.min(cMin, p[0]); cMax = Math.max(cMax, p[0]);
+      rMin = Math.min(rMin, p[1]); rMax = Math.max(rMax, p[1]);
+    }
+    return { c: cMax - cMin, r: rMax - rMin };
+  }, [isTranslate, edges]);
+  const tNoVert = tSpan ? tSpan.r >= n - 1 : false; // 縦いっぱい＝縦移動不可
+  const tNoHorz = tSpan ? tSpan.c >= n - 1 : false; // 横いっぱい＝横移動不可
+
+  /* ---- 移動ワンタッチ選択 ----
+     ボタンで (dc,dr) を選ぶと、今の配置で収まらなければ F∪F' の union bbox を
+     盤面中央へ置き直して成立させる（gen/translate.ts placeWithVector と同じ規約）。
+     「下1にしたい→図形の置き場所は勝手に整う」＝メーカー同様のワンタッチ操作。 */
+  function pickVec(dc: number, dr: number) {
+    if (!tSpan) return;
+    if (tSpan.c + Math.abs(dc) > n - 1 || tSpan.r + Math.abs(dr) > n - 1) return; // 形が大きすぎて不成立
+    const fitsNow = edges.every((e) => e.every((p) =>
+      p[0] >= 0 && p[0] <= n - 1 && p[1] >= 0 && p[1] <= n - 1
+      && p[0] + dc >= 0 && p[0] + dc <= n - 1 && p[1] + dr >= 0 && p[1] + dr <= n - 1));
+    if (!fitsNow) {
+      // union bbox を中央へ（F は負方向移動のとき union の反対側に寄る）
+      let cMin = 99, rMin = 99;
+      for (const e of edges) for (const p of e) {
+        cMin = Math.min(cMin, p[0]); rMin = Math.min(rMin, p[1]);
+      }
+      const uC = tSpan.c + Math.abs(dc), uR = tSpan.r + Math.abs(dr);
+      const offC = Math.floor((n - 1 - uC) / 2) + (dc < 0 ? -dc : 0) - cMin;
+      const offR = Math.floor((n - 1 - uR) / 2) + (dr < 0 ? -dr : 0) - rMin;
+      pushHistory({ edges, rEdges });
+      setEdges(edges.map((e) => [
+        [e[0][0] + offC, e[0][1] + offR], [e[1][0] + offC, e[1][1] + offR],
+      ] as EdgeT));
+      setFirst(null);
+    }
+    setTVec({ dc, dr });
+  }
+  /* 移動の候補＝この形が盤面内で動ける範囲の全域を、そのままマス目に並べる。
+     列＝左右（dc）・行＝上下（dr）で、中央が「移動なし」＝今の位置。
+     量の上限は形の大きさだけが決める（span + |d| ≤ n-1）＝盤面の余白いっぱいまで選べる。 */
+  const tVecGrid = useMemo(() => {
+    if (!tSpan) return null;
+    const hMax = Math.max(0, n - 1 - tSpan.c);
+    const vMax = Math.max(0, n - 1 - tSpan.r);
+    if (hMax === 0 && vMax === 0) return null; // 盤面いっぱい＝動く余地なし
+    const cells: { dc: number; dr: number; label: string }[] = [];
+    for (let dr = -vMax; dr <= vMax; dr++) {
+      for (let dc = -hMax; dc <= hMax; dc++) cells.push({ dc, dr, label: moveWords(dc, dr) });
+    }
+    return { cells, cols: hMax * 2 + 1 };
+  }, [tSpan, n]);
+  /* 図形ごと 1 マスずらす（形は不変・盤面内に収まるときだけ）。
+     生成済みの配置（例: 縦いっぱい）に移動の余白を作るための手当て。
+     ★は F と一緒に動き、●＝★+vec も追従する（vec は保持）。 */
+  const canShiftF = (dc: number, dr: number): boolean =>
+    edges.length > 0 && edges.every((e) => e.every((p) =>
+      p[0] + dc >= 0 && p[0] + dc <= n - 1 && p[1] + dr >= 0 && p[1] + dr <= n - 1));
+  function shiftF(dc: number, dr: number) {
+    if (!canShiftF(dc, dr)) return;
+    pushHistory({ edges, rEdges });
+    setEdges(edges.map((e) => [
+      [e[0][0] + dc, e[0][1] + dr], [e[1][0] + dc, e[1][1] + dr],
+    ] as EdgeT));
+    setFirst(null);
+  }
 
   /* fill の R が F の部分集合か。F の手直しで R が孤立した場合の検品サイン */
   const fSet = useMemo(() => new Set(edges.map(edgeKey)), [edges]);
@@ -1276,20 +1418,22 @@ function EditOverlay({
   /* 「質問＋回答」の2要素があるタスクは、maker 同様に右へ回答ペイン（読取専用ライブプレビュー）を並べる。
      左＝編集中（完成図/抜く線）・右＝子が見る結果。重ね描きの読みにくさを解消する。 */
   const inputB = (candidate as { inputB?: EdgeT[] }).inputB;
-  const previewKind: "fill" | "mirror" | "fold" | null =
-    isFill ? "fill" : axis ? "mirror" : Array.isArray(inputB) ? "fold" : null;
+  const previewKind: "fill" | "mirror" | "fold" | "translate" | null =
+    isFill ? "fill" : axis ? "mirror" : isTranslate ? "translate" : Array.isArray(inputB) ? "fold" : null;
   const previewSolid: EdgeT[] =
     previewKind === "fill" ? edges.filter((e) => !rSetView.has(edgeKey(e)))
       : previewKind === "mirror" ? mirrorGhost
-        : previewKind === "fold" ? (inputB ?? [])
-          : [];
+        : previewKind === "translate" ? tMoved
+          : previewKind === "fold" ? (inputB ?? [])
+            : [];
   // fill のみ: 抜いた線（子が描き足す＝解答）をアクセント点線で重ねる
   const previewAccent: EdgeT[] =
     previewKind === "fill" ? rEdges.filter((e) => fSet.has(edgeKey(e))) : [];
   const previewLabel =
     previewKind === "fill" ? (fillWording ? "回答ペイン（欠け図＋抜いた線）" : "紙面イメージ（図形A=実線・図形B=点線）")
       : previewKind === "mirror" ? "回答ペイン（折り返した形）"
-        : previewKind === "fold" ? "問題2（B）" : "";
+        : previewKind === "translate" ? "回答ペイン（うつした図）・点をクリックで移動先●"
+          : previewKind === "fold" ? "問題2（B）" : "";
   const editSize = previewKind ? 300 : SIZE;
 
   return (
@@ -1328,8 +1472,61 @@ function EditOverlay({
           {isFill && !fillWording && (
             <span className="atl-fair">{rLabel} {rEdges.length ? mergedSegments(rEdges).length : 0} 本（点線）・のこり＝実線</span>
           )}
+          {isTranslate && (
+            <span className={`atl-fair${tZero || !tFits ? " is-bad" : ""}`}>
+              移動: {tMoveLabel}{!tFits ? "（枠からはみ出します）" : ""}
+            </span>
+          )}
           {eraseMode && <span className="atl-os-note">線をクリックすると、その線だけ消えます。</span>}
         </div>
+
+        {isTranslate && (
+          <div className="atl-editor-onestroke" role="group" aria-label="移動を選ぶ">
+            <span className="atl-os-label">移動を選ぶ</span>
+            {tVecGrid ? (
+              <div className="atl-tgrid"
+                style={{ gridTemplateColumns: `repeat(${tVecGrid.cols}, 20px)` }}>
+                {tVecGrid.cells.map((o) => (
+                  <button key={`${o.dc},${o.dr}`} type="button"
+                    className={o.dc === 0 && o.dr === 0 ? "is-origin" : ""}
+                    title={o.label} aria-label={o.label}
+                    aria-pressed={tVec.dc === o.dc && tVec.dr === o.dr}
+                    disabled={o.dc === 0 && o.dr === 0}
+                    onClick={() => pickVec(o.dc, o.dr)} />
+                ))}
+              </div>
+            ) : (
+              <span className="atl-os-note">
+                この形は盤面いっぱいのため移動できません。線を消して形を小さくしてください。
+              </span>
+            )}
+          </div>
+        )}
+
+        {isTranslate && (
+          <div className="atl-editor-onestroke" role="group" aria-label="図形ごと動かす">
+            <span className="atl-os-label">図形ごと動かす</span>
+            <div className="atl-seg">
+              <button type="button" aria-label="図形を左へ1マス" disabled={!canShiftF(-1, 0)}
+                onClick={() => shiftF(-1, 0)}>←</button>
+              <button type="button" aria-label="図形を右へ1マス" disabled={!canShiftF(1, 0)}
+                onClick={() => shiftF(1, 0)}>→</button>
+              <button type="button" aria-label="図形を上へ1マス" disabled={!canShiftF(0, -1)}
+                onClick={() => shiftF(0, -1)}>↑</button>
+              <button type="button" aria-label="図形を下へ1マス" disabled={!canShiftF(0, 1)}
+                onClick={() => shiftF(0, 1)}>↓</button>
+            </div>
+            <span className="atl-os-note">
+              {tNoVert && tNoHorz
+                ? "この形は盤面いっぱいのため移動できません。線を消して形を小さくしてください。"
+                : tNoVert
+                  ? "この形は縦いっぱいのため縦移動はできません（横のみ）。縦に動かすには線を消して形を低くしてください。"
+                  : tNoHorz
+                    ? "この形は横いっぱいのため横移動はできません（縦のみ）。横に動かすには線を消して形を細くしてください。"
+                    : "形はそのまま盤面内で位置だけずらします（移動の余白づくり）。"}
+            </span>
+          </div>
+        )}
 
         <div className="atl-editor-onestroke" role="group" aria-label="一筆書きモード">
           <span className="atl-os-label">一筆書き</span>
@@ -1390,6 +1587,11 @@ function EditOverlay({
               </g>
             );
           })}
+          {/* 移動: ★きてん（F の辞書順最小点・クリックは透過） */}
+          {isTranslate && tAnchor && (
+            <circle cx={pos(tAnchor[0])} cy={pos(tAnchor[1])} r={3.4}
+              fill={ACCENT} opacity={0.9} style={{ pointerEvents: "none" }} />
+          )}
           {eraseMode && (
             <EdgeHitLayer
               edges={edges.map((e) => ({ a: { c: e[0][0], r: e[0][1] }, b: { c: e[1][0], r: e[1][1] } }))}
@@ -1425,7 +1627,23 @@ function EditOverlay({
                 ))}
                 {Array.from({ length: n * n }, (_, i) => {
                   const c = i % n, r = Math.floor(i / n);
-                  return <circle key={i} cx={pos(c)} cy={pos(r)} r={1.8} fill={INK} />;
+                  const isTgt = previewKind === "translate"
+                    && tTarget?.[0] === c && tTarget?.[1] === r;
+                  return (
+                    <g key={i}>
+                      <circle cx={pos(c)} cy={pos(r)} r={1.8} fill={INK} />
+                      {/* 移動: ●ここへ（きてん★の着地点） */}
+                      {isTgt && (
+                        <circle cx={pos(c)} cy={pos(r)} r={3.4}
+                          fill="none" stroke={ACCENT} strokeWidth={1.2} opacity={0.9} />
+                      )}
+                      {/* 移動: 点クリックで移動先を選ぶ（vec = ● − ★） */}
+                      {previewKind === "translate" && (
+                        <circle cx={pos(c)} cy={pos(r)} r={6} fill="transparent"
+                          style={{ cursor: "pointer" }} onClick={() => clickTargetDot([c, r])} />
+                      )}
+                    </g>
+                  );
                 })}
               </svg>
               <span className="atl-pane-label">{previewLabel}</span>
@@ -1447,10 +1665,14 @@ function EditOverlay({
           <span className="atl-editor-spacer" />
           <button type="button" onClick={onClose} disabled={busy}>キャンセル</button>
           <button type="button" className="atl-btn atl-btn--pub"
-            disabled={busy || edges.length === 0 || (isFill && rEdges.length === 0)}
-            onClick={() => onSave(edges, title.trim(), isFill ? rEdges : undefined)}>
+            disabled={busy || edges.length === 0 || (isFill && rEdges.length === 0)
+              || (isTranslate && (tZero || !tFits))}
+            onClick={() => onSave(edges, title.trim(), isFill ? rEdges : undefined,
+              isTranslate ? tVec : undefined)}>
             {edges.length === 0 ? "線が空です"
               : isFill && rEdges.length === 0 ? "抜く線が空です"
+              : isTranslate && tZero ? "移動先を選んでください"
+              : isTranslate && !tFits ? "はみ出しています"
               : "保存する"}
           </button>
         </div>

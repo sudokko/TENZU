@@ -273,6 +273,8 @@
 .atl-dval { font-size: 12px; font-weight: 600; color: #2c6e7f; letter-spacing: 0.02em; }
 .atl-dbreak { display: block; font-size: 10px; font-weight: 400; color: #9aa1ab; font-variant-numeric: tabular-nums; }
 .atl-deng { margin-left: 6px; padding: 0 5px; border-radius: 8px; background: #eef1f4; color: #5f6b7a; font-size: 9.5px; }
+/* 移動の方向・量バッジ（右1・下1 など）。方向の散らばり検品が主目的なので teal で少し目立たせる */
+.atl-dmove { background: #e3eef1; color: #2c6e7f; font-weight: 600; }
 /* 難易度の人手 override（手動ティア付け） */
 .atl-dscore.is-manual .atl-dval { color: #b5532a; }
 .atl-dman { margin-left: 4px; padding: 0 4px; border-radius: 7px; background: #f3e2d8; color: #b5532a; font-size: 9px; font-style: normal; font-weight: 600; }
@@ -385,6 +387,25 @@
 .atl-seg button + button { border-left: 1px solid #cdd4db; }
 .atl-seg button[aria-pressed="true"] { background: #2c6e7f; color: #fff; }
 .atl-seg button:disabled { opacity: 0.45; cursor: not-allowed; }
+/* 移動（translate）の移動先マス目: 動ける範囲の全域を盤面と同じ向きで並べる。
+   中央（is-origin）＝今の位置＝移動なし。1マス＝1つの (dc, dr)。 */
+.atl-tgrid {
+  display: grid; gap: 2px; padding: 3px;
+  border: 1px solid #cdd4db; border-radius: 7px; background: #fff;
+}
+.atl-tgrid button {
+  width: 20px; height: 20px; padding: 0; border: 1px solid #e3e7ec; border-radius: 4px;
+  background: #fff; cursor: pointer;
+}
+.atl-tgrid button::after {
+  content: ""; display: block; width: 4px; height: 4px; margin: auto;
+  border-radius: 50%; background: #c3cad2;
+}
+.atl-tgrid button:hover { border-color: #2c6e7f; }
+.atl-tgrid button[aria-pressed="true"] { background: #2c6e7f; border-color: #2c6e7f; }
+.atl-tgrid button[aria-pressed="true"]::after { background: #fff; width: 6px; height: 6px; }
+.atl-tgrid button.is-origin { cursor: default; border-style: dashed; border-color: #cdd4db; }
+.atl-tgrid button.is-origin::after { background: #8b939d; width: 6px; height: 6px; }
 /* 消すモード: 線にカーソルを合わせると赤帯で削除対象を予告（app/maker/erase.tsx の EdgeHitLayer） */
 .atl-editor-svg .erase-hit:hover { stroke: rgba(214, 69, 69, 0.28); }
 /* カードのタイトル */
