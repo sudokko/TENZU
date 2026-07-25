@@ -16,7 +16,7 @@ cta_mode: sku-full
 cta_intensity: weak
 author: 店主
 references: [No.42, No.39, No.35, No.37]
-updated_at: 2026-07-23
+updated_at: 2026-07-25
 kicker: PILLAR · 写す力のまとめ
 lead: 図形が苦手かもしれない。見取り図が描けない。小4の算数で手が止まった。漢字の形が崩れる。入口の悩みは違っても、たどっていくと同じ場所に着きます。形を見て、写す力。この記事は、その土台を家庭で整えるための、課題から逆引きできるまとめです。
 breadcrumb:
@@ -59,21 +59,70 @@ related:
 - **とらえる** — 読み取った形を頭の中に保ち、動かすところで止まっている
 - **描く** — 狙った点まで線を運ぶところで止まっている
 
-<Diagram title="入口は違っても、土台は同じ" caption="図形の苦手・見取り図・小4 の変わり目・漢字の字形。どの入口から入っても、たどり着くのは「形を見て、写す力」という同じ土台。">
-  <svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="4つの課題が写す力という土台に集まる図解">
-    <g fill="#1A1F2A" opacity="0.16">
-      {Array.from({ length: 9 }, (_, i) => (
-        <circle key={i} cx={122 + (i % 3) * 18} cy={47 + Math.floor(i / 3) * 18} r={1.8} />
+<Diagram wide title="入口は違っても、土台は同じ" caption="図形の苦手・見取り図・小4 の変わり目・漢字の字形。どれも別々の悩みに見えて、下で支えているのは「形を見て、写す力」という 1 枚の土台です。">
+  <svg viewBox="0 0 480 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="図形の苦手・見取り図・小4の変わり目・漢字の字形という4つの課題が、「形を見て、写す力」という1枚の土台の上に載っている図解">
+    <text x={8} y={22} fontSize={15} fill="#767D89" letterSpacing="0.1em">上にのっているのが、入口</text>
+
+    <g fill="#FFFFFF" stroke="#BFBDB5" strokeWidth={1.4}>
+      <path d="M6,52 L22,38 L129,38 L113,52 Z" />
+      <path d="M123,52 L139,38 L246,38 L230,52 Z" />
+      <path d="M240,52 L256,38 L363,38 L347,52 Z" />
+      <path d="M357,52 L373,38 L480,38 L464,52 Z" />
+    </g>
+    <g fill="#FAF8F3" stroke="#1A1F2A" strokeWidth={1.6}>
+      <rect x={6} y={52} width={107} height={118} rx={4} />
+      <rect x={123} y={52} width={107} height={118} rx={4} />
+      <rect x={240} y={52} width={107} height={118} rx={4} />
+      <rect x={357} y={52} width={107} height={118} rx={4} />
+    </g>
+    <g fontSize={19} fill="#1A1F2A" textAnchor="middle">
+      <text x={60} y={105}>図形が</text>
+      <text x={60} y={130}>苦手</text>
+      <text x={177} y={118}>見取り図</text>
+      <text x={294} y={105}>小4の</text>
+      <text x={294} y={130}>変わり目</text>
+      <text x={411} y={105}>漢字の</text>
+      <text x={411} y={130}>字形</text>
+    </g>
+
+    <path d="M60,176 V190 M177,176 V190 M294,176 V190 M411,176 V190" fill="none" stroke="#2C6E7F" strokeWidth={2} />
+
+    <rect x={6} y={196} width={468} height={172} rx={10} fill="#F4F2ED" stroke="#1A1F2A" strokeWidth={2.4} />
+    <g fill="#1A1F2A" opacity="0.1">
+      {Array.from({ length: 108 }, (_, i) => (
+        <circle key={i} cx={18 + (i % 18) * 26} cy={212 + Math.floor(i / 18) * 26} r={1.9} />
       ))}
     </g>
-    <text x={10} y={22} fontSize={9} fill="#1A1F2A">図形の苦手</text>
-    <text x={218} y={22} fontSize={9} fill="#1A1F2A">見取り図</text>
-    <text x={10} y={118} fontSize={9} fill="#1A1F2A">小4の変わり目</text>
-    <text x={214} y={118} fontSize={9} fill="#1A1F2A">漢字の字形</text>
-    <path d="M52,26 L112,48 M226,26 L166,48 M56,106 L112,84 M222,106 L166,84" fill="none" stroke="#2C6E7F" strokeWidth={1.2} strokeDasharray="3 3" />
-    <polyline points="122,47 158,47 122,83 122,47" fill="none" stroke="#1A1F2A" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6,214 H474" stroke="#1A1F2A" strokeWidth={1} opacity="0.25" />
+    <rect x={24} y={226} width={52} height={26} rx={5} fill="#1A1F2A" />
+    <text x={50} y={244} fontSize={15} fill="#FFFFFF" textAnchor="middle" letterSpacing="0.08em">土台</text>
+    <text x={240} y={292} fontSize={31} fontWeight={700} fill="#1A1F2A" textAnchor="middle">形を見て、写す力</text>
+    <g fill="#FFFFFF" stroke="#2C6E7F" strokeWidth={1.6}>
+      <rect x={26} y={310} width={136} height={42} rx={21} />
+      <rect x={172} y={310} width={136} height={42} rx={21} />
+      <rect x={318} y={310} width={136} height={42} rx={21} />
+    </g>
+    <g fontSize={19} fill="#1F5260" textAnchor="middle">
+      <text x={94} y={338}>見る</text>
+      <text x={240} y={338}>とらえる</text>
+      <text x={386} y={338}>描く</text>
+    </g>
+
+    <path d="M0,378 H480" stroke="#BFBDB5" strokeWidth={1.6} />
+    <g stroke="#BFBDB5" strokeWidth={1.2}>
+      {Array.from({ length: 12 }, (_, i) => (
+        <path key={i} d={`M${14 + i * 40},378 L${4 + i * 40},392`} />
+      ))}
+    </g>
   </svg>
 </Diagram>
+
+<Illustration
+  src="/assets/articles/from-copying-shapes/common-foundation-copying.webp"
+  alt="見本の点図形を見ながら同じ形を写す子どもの手元。机には平面図形、立体模型、図形ノート、字形を思わせる線の練習が並んでいる"
+  number="01"
+  caption="入口の課題は違っても、手元で使う土台は同じ。見本を見て、向き・位置・大きさを確かめながら写します。"
+/>
 
 大事な前提をひとつ。どのパターンも欠陥ではなく、発達の途中経過です。そして実際には、どれか 1 つだけにきれいに当てはまるとは限りません。どこで止まっているかの見分け方と、そこからの整え方は、[点描写ができない・図形が苦手な子へ](/articles/weak-at-shapes)で一段深く解説しています。
 
