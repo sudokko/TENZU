@@ -148,7 +148,7 @@ pillars.md §3.2 は本ファイル §2.3 への参照に圧縮済（Layer 2.1 �
 | `breadcrumb` | `[{label, href}]` | パンくず。`href` が実 URL のものだけ BreadcrumbList の item に採用（`#` は除外） | 表示・BreadcrumbList |
 | `related` / `related_heading` | `[{meta, title, lead, href?}]` / string | 末尾の関連記事カードと見出し | 記事末尾セクション |
 | `eyecatch` | string（`/assets/...`） | 手動アイキャッチ（Gemini 生成・public 配下）。未指定なら OG 動的生成にフォールバック | `opengraph-image.tsx` |
-| `faq_schema` | `[{q, a}]` | FAQ 記事の FAQPage JSON-LD 用 Q&A（本文の Q&A を要約・新設問は作らない） | JSON-LD FAQPage |
+| `faq_schema` | `[{q, a}]` | FAQ 記事＋「よくある質問」セクションを持つ記事（LLMO 重視時）の FAQPage JSON-LD 用 Q&A（本文の Q&A を要約・新設問は作らない） | JSON-LD FAQPage |
 
 **注**:
 - 絶対 URL の基点は `SITE_URL` env 一本（`web/app/site.ts`）。frontmatter にドメインを書かない。
