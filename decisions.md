@@ -53,6 +53,7 @@
 | 回転 Lv.4 の 3×3 巻（rotate-lv4-vol1）を廃止＝180°デビューは 4×4 へ | §3.86 |
 | 紙面に変換指示子（回転の弧矢印・移動の目じるし）を導入＋回転 Lv.5 を 3 角度混在へ | §3.87 |
 | 総 SKU 表記を実数 40 巻へ全設計書同期（全巻制覇 ¥8,000・実収 約¥7,712） | §3.88 |
+| プレビュー環境（*.amplifyapp.com）を noindex 化＝インデックス可否は SITE_URL で決まる | §3.89 |
 
 **主な系譜（上書き済み・経緯を追うときだけ）**
 
@@ -61,6 +62,16 @@
 - かさね生成: §3.69（逆算分割 v1）→ §3.71（模写軸＋合成方式 v2）→ **§3.72（4 巻集約・現行）**
 - 絵柄: §3.13 → §3.43（1シリーズ化）→ **§3.51（完全削除・現行）**
 - TOP 表示: §3.44 → §3.45（構成・現行）＋ **§3.63（Hero 文言・rev.5 準拠）** ＋ **§3.65（Hero 店主紹介文・現行）**
+
+### 3.89 プレビュー環境を noindex 化＝インデックス可否は SITE_URL で決まる（2026-07-26）
+
+Amplify のブランチ URL（`content-article-drafts` / `deploy-amplify`）が `Allow: /` かつ `index, follow` で公開されており、開店前に **amplifyapp.com の URL が検索インデックスに載りうる**状態だった。tenzu.jp 公開時に自サイト同士が競合するため、プレビューは検索結果に出さない方針とした。
+
+- **判定**: [site.ts](./web/app/site.ts) の `IS_PREVIEW`＝`SITE_URL` のホストが `localhost` / `127.0.0.1` / `*.amplifyapp.com` なら真。**本番ドメインをコードへ書かない原則**（site.ts 冒頭）を保つため、判定はホスト側に持たせた。`SITE_URL` が壊れているときは検索避け側へ倒す（誤公開より安全）。
+- **効かせ方**: [layout.tsx](./web/app/layout.tsx) の metadata で `index:false / follow:false`。公開ページは robots を上書きしていないため全ページに効く（管理・atelier・maker 系は元から `index:false`）。
+- **`Disallow: /` は使わない**: クロールを止めると noindex を読んでもらえず、**すでにインデックスされた URL が居座り続ける**ため。[robots.ts](./web/app/robots.ts) はプレビューでもクロール可のまま、sitemap を提示しないことでクロールを積極的に誘わない役割分担にした。
+- **開店時の注意**: インデックス可否がこの env に連動するので、**tenzu.jp 接続時に `SITE_URL` を直し忘れると本番が丸ごと noindex で開店する**。開店ゲート G4（[launch/plan.md §1.2](./launch/plan.md)）と [phase-1-todo](./engineering/phase-1-todo.md)・[.env.production.example](./web/.env.production.example) に確認手順つきで明記した。
+- 一次ソース: [web/app/site.ts](./web/app/site.ts)。関連: [§3.76](#376-phase-2-先行リリース廃止単一ローンチ2026-08-30-開店宣伝-2-段化静かな開店本格化2026-07-11)。
 
 ### 3.88 総 SKU 表記を実数 40 巻へ全設計書同期（2026-07-25）
 

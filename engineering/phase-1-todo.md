@@ -20,7 +20,7 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 | ★ | **SES サンドボックス脱出** | Production access 申請。送信元（`no-reply@tenzu.jp` 等）のドメイン検証も併せて実施 |
 | ★ | **Stripe 本番モード化** | live キー取得・本番 Webhook エンドポイント（`/api/stripe/webhook`）作成・`checkout.session.completed` 購読・`STRIPE_WEBHOOK_SECRET` 取得 |
 | ★ | **AUTH_SECRET 生成** | 強ランダム値（例: `openssl rand -base64 48`）。ローテーション＝全所有 cookie 無効化のため安定運用 |
-| ★ | **SITE_URL 設定** | `https://tenzu.jp`。Checkout の success/cancel・メールリンク生成に必須 |
+| ★ | **SITE_URL 設定** | `https://tenzu.jp`。Checkout の success/cancel・メールリンク生成に必須。**検索インデックスの可否もこの値で決まる**（`*.amplifyapp.com` のままだと全ページ noindex＝[site.ts](../web/app/site.ts) の `IS_PREVIEW`）。接続後に `<meta name="robots">` が `index, follow` か確認する |
 | ★ | **tenzu.jp を Amplify Hosting へ接続** | カスタムドメイン・SSL（ドメインは取得済） |
 | ★ | **GTM / GA4 コンソール設定** | 手順書＝[analytics.md §5](analytics.md)（約1時間）。GA4 プロパティ・GTM コンテナ・タグ3本・Search Console 連携・Amplify に `NEXT_PUBLIC_GTM_ID` 登録。**開店前の必須ゲート G5**（無計測の運用は無駄撃ち・[../launch/operations.md §3](../launch/operations.md)） |
 | ★ | **プライバシーポリシーへ外部送信の記載** | GA4/GTM の外部送信規律対応（[analytics.md §6](analytics.md)） |
