@@ -89,19 +89,23 @@ function Illustration({
   alt,
   number,
   caption,
+  ratio = "landscape",
 }: {
   src: string;
   alt: string;
   number: string;
   caption: ReactNode;
+  ratio?: "landscape" | "square";
 }) {
+  const isSquare = ratio === "square";
+
   return (
-    <figure className="article-illustration">
+    <figure className={`article-illustration${isSquare ? " article-illustration--square" : ""}`}>
       <Image
         src={src}
         alt={alt}
-        width={1536}
-        height={1024}
+        width={isSquare ? 1254 : 1536}
+        height={isSquare ? 1254 : 1024}
         sizes="(max-width: 600px) 100vw, 632px"
         loading="lazy"
       />

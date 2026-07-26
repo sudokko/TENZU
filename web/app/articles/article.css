@@ -143,6 +143,10 @@ article.article-body a { overflow-wrap: anywhere; }
   border: 1px solid var(--line-thin);
   border-radius: var(--radius-soft);
 }
+.article-illustration--square img {
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
 .article-illustration figcaption {
   display: grid;
   grid-template-columns: auto 1fr;
