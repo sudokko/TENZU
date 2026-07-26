@@ -69,6 +69,7 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 | MailerLite 連携 | 購入者メアドのリスト化→リピート配信 | [acquisition/funnel.md §8](../acquisition/funnel.md) |
 | 計測基盤の拡張 | GA4・Search Console 等。KPI 定義は launch 領域が SSOT | [launch/measurement.md](../launch/measurement.md) |
 | Merchant Center フィード | Google Shopping への商品データフィード | [acquisition/channels.md](../acquisition/channels.md) |
+| atelier API を本番ビルドから外す | ビルド警告 `Encountered unexpected file in NFT list`（経路＝`next.config.ts` ← `app/api/atelier/io.ts` ← `api/atelier/vol/route.ts`）。`process.cwd()` 経由の fs 操作でトレーサが過剰判定する。**実害は計測済みで軽微**（トレース 3429 ファイル中に設計書・`.git` の混入ゼロ／`.next/server` 49MB は MDX サイトとして妥当）ため開店前には触らない。`turbopackIgnore` は無効・`outputFileTracingExcludes` は症状に蓋をするだけで、**根治は「dev 専用の atelier を本番ビルドに含めない」**こと（`devGuard()` で本番 404 なので実行はされていない） | [engineering/README.md](README.md) |
 
 ### §4. 使わないもの（明示）
 
