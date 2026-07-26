@@ -3,7 +3,7 @@ import { CartProvider } from "./cart/CartContext";
 import { AuthProvider } from "./AuthContext";
 import Gtm from "./Gtm";
 import OnsiteMessenger from "./components/onsite/OnsiteMessenger";
-import { SITE_URL, SITE_NAME } from "./site";
+import { SITE_URL, SITE_NAME, IS_PREVIEW } from "./site";
 import "./tokens.css";
 import "./landing.css";
 
@@ -34,17 +34,25 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
+  // プレビューは検索結果に出さない。robots.txt でクロールを止めないのは、noindex を
+  // 読んでもらえないと既にインデックスされた URL が消えないため（robots.ts 参照）。
+  robots: IS_PREVIEW
+    ? {
+        index: false,
+        follow: false,
+        googleBot: { index: false, follow: false },
+      }
+    : {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+          "max-video-preview": -1,
+        },
+      },
 };
 
 export default function RootLayout({
