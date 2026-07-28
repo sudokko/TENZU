@@ -217,6 +217,93 @@
 - **EP-098** ★★★ 認証方式を3AIで再評価しメール一本へ撤回（3者一致だけ信用・DBなしの根拠・手動リカバリCLI） — [episodes/EP-098-auth-method-3ai-dr.md](episodes/EP-098-auth-method-3ai-dr.md)
 - **EP-099** ★★ スマホUIのquickbar反復（3バー→1quickbar・実機テストで4指摘反映・型安全ネット） — `episodes/EP-099-mobile-quickbar-iteration.md`
 
+## 2026-06-26 メーカー有償化の自己ピボット
+
+- **EP-100** ★★★ メーカー有償化をサブスクから per-maker 買い切り ¥980 へピボット（実装直後の自己撤回・クロスセルの旗「工房付きの唯一の点描写プリント店」） — [episodes/EP-100-maker-buyout-pivot.md](episodes/EP-100-maker-buyout-pivot.md)
+
+## 2026-06-27 認証の実装編
+
+- **EP-101** ★★ OTP 6桁認証の実装と SES サンドボックス診断（メール一本化の着地） — `episodes/EP-101-otp-ses-sandbox.md`
+
+## 2026-06-29〜07-01 問題基盤・難易度・公開スコープの一括再構築
+
+- **EP-102** ★★ 問題データ基盤を schema v2 で再構築（atelier 検品・かぶり除外 dedupe） — `episodes/EP-102-atelier-schema-v2.md`
+- **EP-103** ★★ 難易度スコア D の再校正（交差項撤去・D=線+1.5·斜め+8·非45°）とラダー再構成 — `episodes/EP-103-difficulty-recalibration.md`
+- **EP-104** ★★ 9メーカー外部公開と公開スコープ設計（能力ラダー・グリッドゲート・完了画面レコメンド） — `episodes/EP-104-maker-launch-scope.md`
+
+## 2026-07-02 記事の製造ラインを作る
+
+- **EP-105** ★★ 記事基盤を MDX 公開パイプラインへ（ブラウザ執筆移行・note/ameba マルチ出力・専用ブランチ） — `episodes/EP-105-article-mdx-pipeline.md`
+
+## 2026-07-05 ブランディングコンセプトの確定
+
+- **EP-106** ★★★ ブランディングコンセプト1行の確定とタグライン第4世代（西澤フレーム・主戦場=就学前後） — [episodes/EP-106-brand-tagline-gen4.md](episodes/EP-106-brand-tagline-gen4.md)
+
+## 2026-07-06 core 抽出と設計書の大掃除
+
+- **EP-107** ★★ 全10メーカーの重複 85-90% を core へ抽出（WS3 の1コミット1移行） — `episodes/EP-107-maker-core-extraction.md`
+- **EP-108** ★★ 設計書クリーンアップと pack-design 3分割・スキルの SSOT 参照方式化 — `episodes/EP-108-docs-cleanup-skills-ssot.md`
+
+## 2026-07-07 TOP Hero 再設計
+
+- **EP-109** ★★ TOP Hero 再設計とフォント Tier② 差し替え（オーナーのデザイン反復スタイルの言語化） — `episodes/EP-109-top-hero-redesign.md`
+
+## 2026-07-08 正規記事20本バッチ執筆
+
+- **EP-110** ★★★ 正規記事20本のバッチ執筆（craft 3冊体制の実証） — [episodes/EP-110-articles-20-batch.md](episodes/EP-110-articles-20-batch.md)
+
+## 2026-07-10 ラダーの横展開と SNS 設計
+
+- **EP-111** ★★★ 5タスクの模写軸ラダー再設計と候補461問（開店ゲート G2） — [episodes/EP-111-task-ladders-461.md](episodes/EP-111-task-ladders-461.md)
+- **EP-112** ★★ SNS アカウント設計の SSOT 化と2AI 外部レビュー — `episodes/EP-112-sns-accounts-ssot.md`
+
+## 2026-07-11 ローンチ体系のピボット
+
+- **EP-113** ★★★ プレローンチ廃止と T=0=2026-08-30 単一開店への転換（宣伝2段化） — [episodes/EP-113-launch-single-t0.md](episodes/EP-113-launch-single-t0.md)
+
+## 2026-07-12 オンサイトメッセージの本番化
+
+- **EP-114** ★★ オンサイトメッセージの自前実装（生涯1回・モーダル禁止）と DynamoDB 移行 — `episodes/EP-114-onsite-messaging.md`
+
+## 2026-07-13 開店後の運転を先に設計する
+
+- **EP-115** ★★ ソロ運転計画（週3ブロック・縮退設計）と GTM 計測配線 — `episodes/EP-115-solo-ops-analytics.md`
+
+## 2026-07-16 立体模写の自動生成化
+
+- **EP-116** ★★ 立体模写のボクセル生成器 v1（自由線試作からの脱皮・Lv.5 の6巻化） — `episodes/EP-116-solid-voxel-generator.md`
+
+## 2026-07-17 宣伝の弾込め
+
+- **EP-117** ★★ 広告連動バンドル確定と春 LP/PR TIMES ドラフト前倒し — `episodes/EP-117-spring-bundle-lp.md`
+
+## 2026-07-18 商品射程の拡張と第2サイト起動
+
+- **EP-118** ★★ 「背景の点をとる」白紙模写モード（グリッドなし図形模写の研究を実装へ） — `episodes/EP-118-blank-copy-mode.md`
+- **EP-119** ★★★ 第2サイト TSUMIZU（積図）の起動（クロスセルトリガー成立・屋号 LLMO 比較） — [episodes/EP-119-tsumizu-second-site.md](episodes/EP-119-tsumizu-second-site.md)
+
+## 2026-07-19 問い合わせ窓口と言葉の統治
+
+- **EP-120** ★ 問い合わせフォーム新設と言葉の運用整備（「大先輩」「まとめ」への改称） — `episodes/EP-120-contact-and-language-ops.md`
+
+## 2026-07-21 TOP 品ぞろえ実演の刷新
+
+- **EP-121** ★★ TOP 品ぞろえ実演9種の刷新（線分単位 WAAPI・headless 検証の罠） — `episodes/EP-121-top-coverage-refresh.md`
+
+## 2026-07-23 AI 文体の統治と新しい入口
+
+- **EP-122** ★★★ 文体指紋パスの新設（AI 癖の定量全廃・頻度予算制） — [episodes/EP-122-style-fingerprint-pass.md](episodes/EP-122-style-fingerprint-pass.md)
+- **EP-123** ★★ 小学校受験を受動拾い P-sj に追加（記事21本目・「単元名は教室が育てた文化」） — `episodes/EP-123-elementary-exam-entry.md`
+
+## 2026-07-25 紙面に意図を運ばせる
+
+- **EP-124** ★★ 紙面に変換指示子を導入（回転=弧の矢印・移動=★●）と手設計モチーフの散布 — `episodes/EP-124-print-transform-indicators.md`
+
+## 2026-07-26 障害の解剖と第3サイト
+
+- **EP-125** ★★★ Amplify ビルド8連続失敗＝33時間停止の解剖（手元で通り CI で落ちる・noindex の賭け金） — [episodes/EP-125-amplify-stall-anatomy.md](episodes/EP-125-amplify-stall-anatomy.md)
+- **EP-126** ★★ 第3サイト DANZU（断図）の起動と姉妹店4店構想 — `episodes/EP-126-danzu-third-site.md`
+
 ## 期間横断（特定日付に紐付かないもの）
 
 - **EP-004** ★★ グローバル CLAUDE.md にキャラクター指定を入れた理由（惣流アスカ） — `episodes/EP-004-asuka-character-config.md`
