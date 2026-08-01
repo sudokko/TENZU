@@ -5,7 +5,7 @@
 - ローンチ（本番公開）までに必要な残作業の SSOT。**未了項目のみを載せ、完了した項目は行ごと削除する**（済欄は作らない）
 - **最優先＝SES サンドボックス脱出**（Production access 申請・人間作業）。購入復元マジックリンクが検証済みアドレス以外に届かない状態の解消
 - 本番に必要な env は **STRIPE_SECRET_KEY（live）・STRIPE_WEBHOOK_SECRET・AUTH_SECRET（強ランダム）・SES_\*・SITE_URL・NEXT_PUBLIC_GTM_ID・ADMIN_SECRET・ONSITE_TABLE・ONSITE_IMAGE_BUCKET・APP_AWS_\***。チェックリスト＝[web/.env.production.example](../web/.env.production.example)
-- **残実装（コード）はゼロ**（送客導線(A) 商品→工房まで実装済み・開店ゲート G6 はコード側完了）。計測（GA4+GTM・`tool_start`/`generated_pdf`/`purchase`・アタッチ率）も**コード実装済み**＝残りは Google コンソール設定（人間作業・[analytics.md §5](analytics.md)）
+- **残実装（コード）は 3 件**＝特商法/PP ページ・屋号ページ `/sudo-craft`・法務決済の名義統一（§2）。送客導線(A) 商品→工房は実装済み・開店ゲート G6 はコード側完了。計測（GA4+GTM・`tool_start`/`generated_pdf`/`purchase`・アタッチ率）も**コード実装済み**＝残りは Google コンソール設定（人間作業・[analytics.md §5](analytics.md)）
 - Upstash・Stripe Price ID・サブスク・OTP・ログイン・billing-portal は**使わない**（§4）。認証＝所有モデル（署名 cookie）・購入復元＝マジックリンクのみ
 - 優先度: ★＝ローンチブロッカー／P1＝ローンチ直後まで／P2＝運用開始後でよい
 
@@ -59,7 +59,11 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 
 ### §2. 残実装（コード）
 
-なし。
+| 優先 | 項目 | 詳細 |
+|---|---|---|
+| ★ | **特商法表記・プライバシーポリシーのページ** | `web/app` 配下に該当ルートが存在しない（「特定商取引」の grep が 0 件）。有料販売の必須表記であり、PP は GA4/GTM の外部送信記載の置き場でもある（§1）。名義は下記の確定に従う。日程＝[launch/phases.md](../launch/phases.md) W4（8/3-8/9） |
+| ★ | **屋号ページ `/sudo-craft` 新設** | SUDO CRAFT 名義の SNS 3 アカウント（X・note・Ameba）のプロフィールリンク先＝[sns-accounts.md §3.3](../acquisition/sns-accounts.md)。SNS 開設（W7）の前提。要件＝①屋号の名乗り（SUDO CRAFT・個人事業・2026-07-27 開業）②作っているもの（当面 TENZU のみ・TSUMIZU/DANZU は開店後に追加）③店主の一言（顔出しなし・[visual-identity.md §8](../design/visual-identity.md) の店主の痕跡）④受託の問い合わせ導線（`/contact` へ）⑤特商法・PP へのリンク。**流入 UTM を保持したまま `/maker` へ渡す**こと（屋号ページで計測が切れると SNS 流入が「参照元なし」に落ちる） |
+| ★ | **法務・決済の名義統一** | 屋号 SUDO CRAFT 取得に伴う（[decisions.md §5.16](../decisions.md)）。①特商法表記の「販売業者」②銀行口座名義（8/9 開設）③請求書・領収書の発行名義 を揃える。**ただし Stripe の明細表示名（statement descriptor）は購入者が「TENZU で買った」と分かる形を維持する**——カード明細に見慣れない屋号だけが出ると不審請求の問い合わせとチャージバックの要因になる。Stripe 側の設定可否（アカウント名ベース・支払いごとの suffix）は実装時に確認 |
 
 ### §3. 運用開始後（P2）
 

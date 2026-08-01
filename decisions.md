@@ -35,11 +35,12 @@
 | Tier② 本文フォント（Klee One 400・①と同一書体） | §3.64 |
 | LP Hero 店主紹介文（無記名・§8.1 例外枠） | §3.65 |
 | 外向けレベル名（入門/初級/基礎/応用/発展） | §3.61 |
-| タスクラダー現行 | 模写 §3.55／欠け補完 §3.58／鏡 §3.59／立体 §3.57／移動 §3.66／回転 §3.67／かさね §3.72／分解 §3.73／折り重ね §3.74／かぶり除外 §3.60（公開 copy）・§3.68（兄弟巻） |
+| タスクラダー現行 | 模写 §3.55／欠け補完 §3.58／鏡 §3.59／立体 §3.57／移動 §3.66・§3.91／回転 §3.67／かさね §3.72／分解 §3.73／折り重ね §3.74／かぶり除外 §3.60（公開 copy）・§3.68（兄弟巻） |
 | 難易度スコア D（交差撤去・非45°） | §3.54（base 式）・§3.70（かさね固有式） |
 | タスク構成（絵柄削除・9タスク／メーカー呼称） | §3.51／§3.50 |
 | ローンチ公開スコープ（拡大・縮小メーカー非公開） | §3.53 |
 | **総 SKU＝40**（ローンチ公開ベース・拡大縮小6巻は除く） | §3.88（§3.75 の 42 を上書き） |
+| **公開状態の決まり方＝入稿済み（published/ にある）巻が live**・取り下げは hidden | §3.92 |
 | 広告連動バンドル SKU（確定2本＋将来枠・「枚＝巻」・クーポン非併用） | §3.80 |
 | 商品導線・SKU slug／TOP／レベル選びガイド／PDF その場生成 | §3.47／§3.45／§3.46／§3.48 |
 | 記事/非記事の振り分け | §3.42 |
@@ -54,6 +55,8 @@
 | 紙面に変換指示子（回転の弧矢印・移動の目じるし）を導入＋回転 Lv.5 を 3 角度混在へ | §3.87 |
 | 総 SKU 表記を実数 40 巻へ全設計書同期（全巻制覇 ¥8,000・実収 約¥7,712） | §3.88 |
 | プレビュー環境（*.amplifyapp.com）を noindex 化＝インデックス可否は SITE_URL で決まる | §3.89 |
+| 移動 Lv.3 を 2 巻へ分割＝Vol.1 左右上下 2 マス／Vol.2 斜め (±1,±1) 新設 | §3.91 |
+| 商品の公開状態を published/ の有無から導出＝status フラグ廃止（入稿済み＝公開） | §3.92 |
 
 **主な系譜（上書き済み・経緯を追うときだけ）**
 
@@ -62,6 +65,40 @@
 - かさね生成: §3.69（逆算分割 v1）→ §3.71（模写軸＋合成方式 v2）→ **§3.72（4 巻集約・現行）**
 - 絵柄: §3.13 → §3.43（1シリーズ化）→ **§3.51（完全削除・現行）**
 - TOP 表示: §3.44 → §3.45（構成・現行）＋ **§3.63（Hero 文言・rev.5 準拠）** ＋ **§3.65（Hero 店主紹介文・現行）**
+
+### 3.92 商品の公開状態を published/ の有無から導出＝status フラグ廃止（2026-08-01）
+
+atelier で「公開する」を押しても商品側は「準備中」のまま、`/products/{sku}` が 404——という報告から発覚。**publish は `published/{sku}.json` を書くだけで、公開可否を決めていたのは [data.ts](web/app/products/data.ts) の手書き `status` だった**という二重管理。結果、入稿済み 26 巻のうち **11 巻が準備中のまま陳列**されていた（回転 4・移動 4・copy-lv4-vol1・overlay-lv2-vol1・solid-lv3-vol1）。publish 成功時に「→ /products/{sku}」と案内しながら、その URL が存在しない状態が続いていた。
+
+- **判断**: `status` を手で持つのをやめ、**`published/{sku}.json` の有無を単一ソース**にする。入稿済み＝live／未入稿＝scaffold。フラグが 1 つしか無ければズレようがない、という解き方を採った（publish 時に status も立てる、という対症療法は不採用＝二重管理が残るため）
+- **実装**: `writePublished` が `index.ts`（問題データ本体）に加えて **`skus.ts`（sku 文字列だけの自動生成）** を書き、data.ts の `v()` が `isPublished()` で導出する。**2 ファイルに割るのは必須**——data.ts は全ページから import されるため、`index.ts` を読ませると全 SKU の問題 JSON が TOP のバンドルにまで載る
+- **店から下げるのは `hidden`**（catalog-extra の patch）。VolManager の status セレクト・`/api/atelier/vol` の status 受け口・catalog-extra の status フィールドは全廃した（編集経路を残すと二重管理が復活するため）
+- **事故検知を追加**: atelier に「⚠ 問題データ不在」バッジ。`skus.ts` は live と言うのに `PUBLISHED` に本体が無い＝生成物が古いか JSON が未追跡＝**§3.89 期の Amplify 8 連続失敗と同型**（手元では通り CI で落ちる）。ビルドが落ちる前に画面で気づける
+- **本件で live 化 11 巻＋既存 15 巻＝公開 26 巻**（開店ゲート G2 の分母 40・§3.88）。詳細ページの「この巻のめあて」を新規 10 巻ぶん執筆
+- **§3.91 との噛み合わせ**: 導出方式では「published にある＝売っている」なので、**旧構成のまま published が残っている巻はそのまま店に出る**。§3.91 の translate-lv3-vol1（旧混在構成・再検品待ち）が該当。再公開まで下げるなら `hidden` を使う
+- 一次ソース: [web/app/products/data.ts](web/app/products/data.ts)・[api/atelier/io.ts](web/app/api/atelier/io.ts)
+
+### 3.91 移動 Lv.3 を 2 巻へ分割＝Vol.1 左右上下 2 マス／Vol.2 斜め (±1,±1) 新設（2026-08-01）
+
+旧 Lv.3 Vol.1（4×4・moves 2-2・dir diag）は 1 巻の中に「まっすぐ 2 マス」と「斜め (1,1)」が混在しており、グリッド拡張・移動量増・斜め導入という 3 つの新規負荷が同じ巻に同居していた。オーナー判断で **1 巻 1 新変数** に再編した。
+
+- **Vol.1 ＝ 左右上下 2 マスのみ**（ladder dir:hv・moves 2-2）: 方向は Lv.2 で既知のまま、移動量だけ 1→2 マスへ。上2・下2・右2・左2 の 4 方向に D≈9 の手設計 12 問を候補投入済み（`scripts/seed-translate-lv3vol1-straight2.ts`・純方向 2 マスの変換項＝1）
+- **Vol.2 ＝ 斜め 4 種のみ新設**（ladder dir:diag・moves 2-2）: 右1下1／右1上1／左1下1／左1上1。量は計 2 マスに据え置き、方向だけ新規。gen/translate.ts の dir:diag は元から純斜めだけを生成するため生成側の改修は不要
+- **データ移行**（`scripts/migrate-translate-lv3-split.ts`）: 旧 Vol.1 の斜め 16 問を Vol.2 へ移動（ID -mvNN・採用済みも含め全部 pending へ戻して選び直し）。**「後から 12 問選べるように」4 方向 × 4 問 ＝ 16 問を pending で用意**（右1下1 は既存 8 問から D 散布で 4 選抜・不足 5 枠は手設計 3＋生成プール自動検索 2 で補充・余りは不採用へ退避）。D 帯は方向ごとに約 10〜13.8 を階段配置
+- **公開影響**: published/translate-lv3-vol1.json は旧混在構成のまま＝**Vol.1 の検品→再公開が必要**（＋Vol.2 の検品→公開）。総 SKU は §3.88 の 40 のまま＝Vol.2 を live 化した時点で 41 に増える（価格表・全巻制覇額の同期はその時に行う）
+- 一次ソース: [pack-tasks §17](product/pack-tasks.md)・[ladder.json](web/app/products/problems/ladder.json)・[data.ts](web/app/products/data.ts)
+
+### 3.90 難易度スコア D を v3 へ全面改訂＋設計台帳ページ新設＋SKU 内訳の可視テキスト化（2026-07-29）
+
+LLMO 強化の検討（商品ページが「絵があるだけ」で 12 問の体系が機械に読めない問題）から出発し、3点を確定した。
+
+**① SKU ページ「収録している12問」セクション**（[CoverageSection.tsx](web/app/products/CoverageSection.tsx)）: published から導出した集計文＋巻の但し書きを常時表示、12問の明細は `<details>`（HTML には全問含まれる＝LLM は読める・人間の視界だけ軽い）。JSON-LD hasPart も同じ導出（[coverage.ts](web/app/products/coverage.ts)）に一本化＝本文と構造化データが食い違わない。数値の直書きゼロ＝atelier で差し替えれば自動追随。
+
+**② 設計台帳ページ `/products/design`**: 公開中全巻の設計仕様（ladder.json）・D 窓・実測レンジ・全問明細を1枚で公開。散文（なぜ公開するか／二層設計／D の出し方／1冊ができるまで）を添えて scaled-content 判定を回避。導線はフッター1本。未公開巻は載せない。数値・文言はすべて導出（[ledger.ts](web/app/products/ledger.ts)・式文言は difficulty.ts の定数）。
+
+**③ D 式 v3**（詳細＝[pack-tasks §12.12](product/pack-tasks.md)）: 3AI レビュー（ChatGPT が旧式の**斜め二重計上**を発見＝非45°実効10.5倍・Gemini・Claude）を経てオーナー確定。総重量形式（たてよこ1／45°1.5／非45° 2:1系4・急5）＋盤面項＋画数0.7/画＋対称係数（左右0.70/上下0.75/斜め0.85・bbox軸判定・線の重みのみに掛ける）＋対称くずし＋3/本（罠として加点・上限1.10×非対称値）。アンカー項は不採用（発動1/300問）。公開表示（metricsLabel）も式の語彙に完全一致させ交差・かたちを撤去。**丸めは小数第1位・最後に一度だけ**（当初 0.5 刻み → 同日オーナー判断で改訂。途中丸めを廃したことで「内訳の合計 ≠ D」が上限適用行だけになり、判定が厳密比較でできるようになった）。内訳文字列は `coverage.ts` の `dBreakdown` に一本化し、商品ページ・設計台帳・atelier が共用（atelier は対称係数 k を加算項のように並べていたのを解消）。published 全25巻＋candidates 全41ファイルを強制再計算（`scripts/backfill-difficulty.ts` が両対応）・ladder.json の copy 8巻＋solid 1巻の D 窓を実測較正。**未 publish の立体5巻の D 窓は旧スケール＝再生成時に要較正**。
+
+**④ 設計台帳の D 解説を実例化**: 用語定義リスト（`D_TERM_NOTES`）＋published から条件で自動選定した**実問題2例のステップ解説**（[DWorkedExample.tsx](web/app/products/design/DWorkedExample.tsx)・SVG図つき・対称くずしの上限適用例も含む）。問題 id は直書きせず条件選定＝差し替わっても解説が組み直る。各行に D の内訳（「＝線9.8（0.7×14）＋盤面5＋画数1.4」）を出し、行単位で検算可能にした。**英語版ページは不採用**（LLM は質問言語のドキュメントを優先取得する／機械向け言語中立層は JSON-LD スキーマと数式が担う）。
 
 ### 3.89 プレビュー環境を noindex 化＝インデックス可否は SITE_URL で決まる（2026-07-26）
 
@@ -1874,6 +1911,21 @@ sns-accounts.md（§5.10/§5.11）に対し ChatGPT・Gemini の 2 AI 添削を�
 - **「DB を持たない」（購入フロー）は不変**: DynamoDB/S3 の用途はオンサイトメッセージの定義・計数・画像のみ。購入＝Stripe が真実のソース・所有＝署名 cookie・既読（生涯 1 回）＝引き続き localStorage でサーバーに個人単位の記録は持たない
 - 棄却案: ローカル管理ツール＋コミット反映（atelier 方式）＝切替のたびデプロイが要り季節運用に不向き／画像のリポジトリ配置＝同上／GA4 Data API での計数閲覧＝未接続・遅延・サービスアカウント運用が過剰
 - 反映先: [acquisition/onsite-messaging.md](./acquisition/onsite-messaging.md)（§4 データモデル・§6 計測二重経路・§7 実装形態・§9 管理画面 新設）／[engineering/analytics.md §8](./engineering/analytics.md)／[engineering/phase-1-todo.md §1.1](./engineering/phase-1-todo.md)（オーナー AWS 作業 約 30 分）／`web/.env.production.example`・`amplify.yml`（env 5 件: `ADMIN_SECRET`・`ONSITE_TABLE`・`ONSITE_IMAGE_BUCKET`・`APP_AWS_ACCESS_KEY_ID`・`APP_AWS_SECRET_ACCESS_KEY`）
+
+### 5.16 屋号 SUDO CRAFT 取得に伴う SNS 名義の再設計（面で分ける）（2026-08-01）
+
+2026-07-27 の個人事業主登録で屋号 **SUDO CRAFT** を取得（銀行口座は 8/9）。これにより TENZU は屋号ではなく**屋号の下に並ぶブランドの 1 つ**へ位置づけが変わり、TSUMIZU・DANZU・受託が同格で並ぶ構造が確定した。sns-accounts の前提「屋号一人格＝TENZU」が事実と乖離したため、SNS の名義設計を再定義する。
+
+- **原則＝「検索で見つかる面はブランド名／人で読まれる面は屋号」**。理由は資産の溜まり方が違うこと。**ブランド資産**（検索順位・保存・ボード・ドメイン認証・購買）はサイト単位でしか溜まらず、屋号名では 0 から始まる。**人格資産**（フォロワー・信頼・「この人の作るものは面白い」）は横断でしか溜まらず、ブランド名に閉じ込めると TSUMIZU・DANZU 開店のたびに集め直しになる
+- **名義の帰属**: Pinterest・Instagram＝**TENZU**（ブランド）／X・note・Ameba＝**SUDO CRAFT**（屋号）。TSUMIZU・DANZU 開店時に増設するのは Pinterest のみ（ドメイン認証がサイト単位のため）
+- **note を 1 アカウントへ統合**: 従来の「TENZU 公式 note（思想まとめ）」＋「オーナー個人 note（開発実録連載）」の 2 本立てを廃し、**SUDO CRAFT note のマガジン分割**へ。運用アカウント総数は 6→5 に減る。統合コストはゼロ（連載 9 本は Notion 下書きで note 側は未開設）
+- **X を屋号名義にする理由**: ①現行設計は週 7 本中〜4 本が一人称の「店主メモ」で、店の看板に人が入る不整合を注意書き（声を混ぜない）で抑えていた ②開発実録連載の読者（副業・AI 開発層）は note より X にいるのに X 側の受け皿が無かった ③受託の受注は人と実績で決まるが、TENZU 名義では「点描写の店」としか見えず問い合わせ導線が存在しない
+- **表記**: 屋号は全大文字 **`SUDO CRAFT`**（TENZU/TSUMIZU/DANZU と視覚的に揃える）。**ハンドルは媒体慣例に合わせ小文字 `@sudo_craft`**（繰り下げ `@sudocraft` → `@sudocraft_jp`）。X 表示名は商品寄せ（例「SUDO CRAFT｜点描写プリント TENZU を作ってます」）で SNS 内検索を確保し、TSUMIZU 開店時は表示名だけ差し替える。屋号とブランドが同格に見える弱点は、表示名の文で親子関係を明示して補う
+- **プロフィールリンク**: SUDO CRAFT 系 3 アカウントは **tenzu.jp 内の屋号ページ**へ（新規実装・受託問い合わせの受け皿を兼ねる）。別ドメイン（sudo-craft.jp 等）の取得は開店後に判断。UTM 規則は現行のまま
+- **決定タイミングの根拠**: SNS は 5 アカウントとも**未開設**（sns-accounts §7 が未着手）＝フォロワー 0・ピン 0・被リンク 0 で付け替えコストがゼロ。開店（8/30）後の変更は Pinterest のハンドル変更で URL ごと壊れるため、今が唯一の無償の分岐点
+- **棄却案**: ①**全て TENZU 名義のまま**（屋号は口座・請求・法務の器に徹する）＝手数は最小で開店に集中できるが、TSUMIZU 開店時にフォロワーを引き継げない痛みが確実に来る。受託を当面やらない前提なら合理的だった ②**全て SUDO CRAFT 名義**＝人格資産は最大化するが、Pinterest/Instagram の SNS 内検索（表示名の業態識別句）と tenzu.jp との名義一致が犠牲になる
+- **法務・決済への波及**（W4 = 8/3-8/9 で確定させる）: 特商法表記の販売業者名義・銀行口座名義を SUDO CRAFT へ揃える。ただし **Stripe の明細表示名は購入者が「TENZU で買った」と分かる形を維持する**（カード明細に見慣れない屋号だけが出ると不審請求の問い合わせ・チャージバック要因になる。設定可否は実装時に確認）
+- 反映先: [acquisition/sns-accounts.md](./acquisition/sns-accounts.md)（§1.3・§2・§3・§4.3-4.5・§6・§7）／[acquisition/channels.md](./acquisition/channels.md)（§1.3・§2.4・§2.5・§5）／[acquisition/sns-operations.md](./acquisition/sns-operations.md)／[content/note-devlog-craft.md](./content/note-devlog-craft.md)（§1）／[launch/operations.md](./launch/operations.md)（§5・§7）／[foundation/brand.md](./foundation/brand.md)（語源コラムの「屋号 TENZU」表記）／[design/visual-identity.md §5.4](./design/visual-identity.md)（屋号ロゴ規定 新設）／[engineering/phase-1-todo.md](./engineering/phase-1-todo.md)（屋号ページ `/sudo-craft` 実装・法務名義）
 
 ---
 

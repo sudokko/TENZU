@@ -57,12 +57,12 @@ Foundation は「ステップ」ではなく**全ステップが参照する基�
 | 記事構成 craft（dump→構成・目次案の組み立て方） | `content/structure-craft.md` |
 | 記事本文化 craft（構成メモ→本文の膨らませ方・執筆役割分担） | `content/writing-craft.md` |
 | 記事推敲 craft（書いた後の点検・直し方） | `content/revision-craft.md` |
-| 個人 note 開発実録連載の執筆ルール（実録スタンス・回テンプレ・検証・小モデル運用） | `content/note-devlog-craft.md` |
+| note 開発実録マガジンの執筆ルール（実録スタンス・回テンプレ・検証・小モデル運用） | `content/note-devlog-craft.md` |
 | 競合分析 | `market/competitive.md` |
 | ターゲット中核3／受動拾い4 | `market/targeting.md` |
 | ポジショニング市場展開 | `market/positioning.md` |
 | 認知獲得チャネル（DM・インフル・広告） | `acquisition/channels.md` |
-| SNS アカウント設計（表示名・ハンドル・プロフィール実文言・固定要素） | `acquisition/sns-accounts.md` |
+| SNS アカウント設計（名義の 2 層・表示名・ハンドル・プロフィール実文言・固定要素） | `acquisition/sns-accounts.md` |
 | CV 導線（レベル選びガイド・LP・クーポン） | `acquisition/funnel.md` |
 | 先行モニター公募導線 | `acquisition/monitor-recruit.md` |
 | KPI ・計測 | `launch/measurement.md` |

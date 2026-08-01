@@ -5,7 +5,7 @@
 - ビジュアル実装ルールの SSOT は [visual-identity.md](visual-identity.md)（Design System rev.5）。実装詳細の正は [handoff/maker-import/tenzu-design-system-rev-5/project/](handoff/maker-import/tenzu-design-system-rev-5/project/)（rev-5 bundle）
 - **ブランド哲学・MISSION・Voice 原則は [../foundation/brand.md](../foundation/brand.md) を参照**（本領域の上流）
 - **Design System rev.5**: 純白 `#FFFFFF` ＋ 点格子（24/28px・opacity 0.16）／ 3 階層フォント（Klee One 600 ① ・ Klee One 400 ② ・ Plex Sans JP & Mono ③・①②は同一書体でウェイト違い）／ 罫線 4 種のみ・shadow ほぼ無し・静的既定／ accent `#2C6E7F` は「到達・正解」限定
-- **ロゴ**: 鉛筆筆致版 canonical（Symbol = 4-dot floating ／ Wordmark = Ξ-form E）。マスター原本は `logodesign/`、配信用は `../web/public/assets/`
+- **ロゴ**: 鉛筆筆致版 canonical（Symbol = 4-dot floating ／ Wordmark = Ξ-form E）。マスター原本は `logodesign/`、配信用は `../web/public/assets/`。**屋号 SUDO CRAFT は Wordmark のみ別途用意**（用途＝SNS 3 アカウントのアイコン・屋号ページ・法務表記／visual-identity §5.4）
 - **実装済みサーフェス**: LP・商品ページ・記事ページ・おためし点描写メーカー・レベル選びガイド（[../web/](../web/)・Next.js）。token は [../web/app/tokens.css](../web/app/tokens.css)（= rev-5 bundle colors_and_type.css）
 - ブランドキャラクター不採用。ただし **LP Hero に無記名の店主紹介文 1 枠は許容**（顔・実名・マスコットなし・淡い teal カード・[visual-identity.md §8.1](visual-identity.md)）
 - キャビアット: フォントは Google Fonts CDN 経由（zip 受領後 `@font-face` 差し替え予定）
