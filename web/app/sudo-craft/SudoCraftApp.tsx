@@ -55,6 +55,15 @@ export default function SudoCraftApp() {
         </section>
 
         <section className="legal-sec">
+          <h2>事業の概要</h2>
+          <p>
+            インターネットを利用したデジタルコンテンツの企画、制作、販売並びに
+            マーケティング支援業務に従事しています。お客様の要望に応じた個別の製品の
+            開発も積極的に対応しますので、お気軽にご相談ください。
+          </p>
+        </section>
+
+        <section className="legal-sec">
           <h2>店主のこと</h2>
           <p>
             IT 企業で新しい製品を企画してきた二児の父です。子どもと点描写に取り組んだ
