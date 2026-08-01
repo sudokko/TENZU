@@ -109,6 +109,11 @@
   border: 1px solid #c8cdd4; border-radius: 4px; padding: 6px 8px; font-size: 13px; color: #3a424e; background: #fff;
 }
 .atl-vm-form input:focus, .atl-vm-form select:focus { outline: none; border-color: #2c6e7f; }
+/* 読み取り専用の表示欄（公開状態など・入力欄と同じ高さで並べる） */
+.atl-vm-ro {
+  border: 1px solid #e3e6ea; border-radius: 4px; padding: 6px 8px;
+  font-size: 13px; color: #6b7280; background: #f6f7f8;
+}
 .atl-vm-fwide { width: 100%; }
 .atl-vm-formacts { display: flex; gap: 8px; }
 .atl-vm-formacts button {
@@ -247,6 +252,8 @@
 }
 .atl-badge--pub { color: #fff; background: #2c6e7f; border-color: #2c6e7f; }
 .atl-badge--gen { color: #2c6e7f; border-color: #2c6e7f; }
+/* 公開中なのに問題データ本体が無い＝生成物が古い / JSON が未追跡。ビルドが壊れる合図 */
+.atl-badge--warn { color: #fff; background: #b4441f; border-color: #b4441f; }
 
 /* ---- 検品レーン ---- */
 .atl-lane { margin-top: 34px; }
@@ -286,6 +293,7 @@
   border: 1px solid #d7e4e7; border-left: 3px solid #2c6e7f; border-radius: 4px;
 }
 .atl-dhelp-formula { margin: 0 0 4px; font-size: 13px; color: #2a3a40; }
+.atl-dhelp-base { margin: 0 0 4px; font-size: 11.5px; color: #2a3a40; font-family: ui-monospace, monospace; line-height: 1.6; }
 .atl-dhelp-note { margin: 0; font-size: 11px; color: #6b7280; line-height: 1.6; }
 .atl-dhelp code {
   font-size: 0.92em; background: #fff; border: 1px solid #d7e4e7;
@@ -334,6 +342,7 @@
   background: #fff; border-radius: 6px; padding: 18px 20px 16px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
   display: flex; flex-direction: column; gap: 12px; max-width: 420px;
+  max-height: calc(100vh - 40px); overflow-y: auto;
 }
 .atl-editor-head h2 { font-size: 15px; margin: 0 0 4px; }
 .atl-editor-hint { font-size: 12px; color: #6b7280; margin: 0; line-height: 1.6; }
@@ -356,6 +365,9 @@
   display: flex; align-items: center; justify-content: center;
   gap: 12px; flex-wrap: wrap;
 }
+/* かさね（overlay）は「図形A ＋ 図形B ＝ 重ねた結果」の3ペイン。左2枚とも編集盤面 */
+.atl-editor.has-trio { max-width: 900px; }
+.atl-editor-trio { gap: 8px; }
 .atl-editor-paneblock { display: flex; flex-direction: column; align-items: center; gap: 5px; }
 .atl-editor-arrow { font-size: 22px; color: #9aa0aa; flex: 0 0 auto; }
 .atl-pane-label { font-size: 11px; color: #6b7280; }

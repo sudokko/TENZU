@@ -135,8 +135,8 @@ const ALL_GROUPS: Group[] = [
         slug: "translate", name: "移動", desc: "形を変えずに、ずらして写す。", lv: lvCounts("translate"), Fig: MAKER_FIG.translate,
         notes: [
           "",
-          "横→縦にずらす。3×3",
-          "斜めにずらす。4×4",
+          "左右上下にずらす。3×3",
+          "2マス、そして斜めへ。4×4",
           "複合移動（右2・下1など）",
           "",
         ],
@@ -320,6 +320,7 @@ export function SiteFooter() {
               <li><a href="/products">すべてのプリント</a></li>
               <li><a href="/level-guide">レベルで選ぶ</a></li>
               <li><a href="/makers">自分でつくる</a></li>
+              <li><a href="/products/design">設計台帳</a></li>
             </ul>
           </div>
           <div className="foot-col">

@@ -43,15 +43,23 @@ export type SymmetryKind = "v" | "h" | "d1" | "d2" | "r90" | "r180";
 
 export type ProblemMetrics = {
   lines: number;               // 線本数（正規化後の単位辺数ではなく「見た目の線分」数）
-  diagonals: number;           // 斜め線本数（45°系＋非45°）。難易度Dのドライバー
-  non45: number;               // 非45°斜め（ナイト傾き等）の本数。難易度Dの最大ドライバー（baseDifficulty）。数で効く
+  diagonals: number;           // 斜め線本数（45°系＋非45°）
+  non45: number;               // 非45°斜め（ナイト傾き等）の本数。難易度Dの最大ドライバー。数で効く
+  non45Gentle?: number;        // 非45°のうち 2:1 系（ゆるい傾き）の本数。D式v3で軽い重み（旧データは未設定）
   diagonalAngleKinds: number;  // 斜め角度の種類数（45°系のみ=1・非45°が混ざると増える）
   hasNon45: boolean;           // 非45°を1本でも含むか（= non45 > 0）。生成フィルタ用の真偽値
-  crossings: number;           // 端点以外での交差数。生成フィルタ・情報表示用（難易度Dには非算入）
-  components: number;          // 連結成分数（構成要素数）
+  crossings: number;           // 端点以外での交差数。生成フィルタ用（難易度D・公開表示とも非算入）
+  components: number;          // 連結成分数（生成フィルタ用。公開表示からは撤去済み）
   pointsUsed: number;          // 使用格子点数
-  symmetry: SymmetryKind[];    // 成立している対称性
+  symmetry: SymmetryKind[];    // 盤面中心軸で成立している対称性（生成フィルタ用・D式は symAxis を使う）
   hiddenLines?: number;        // 立体（solid）専用: 隠れ辺（点線）の本数。solidDifficulty の最大ドライバー。square は未設定
+  /* ---- D式 v3 の追加計測（2026-07-29・旧データは未設定→migrateProblem で補完） ---- */
+  boardN?: number;             // 盤面サイズ n（square のみ。D の盤面項の材料）
+  bboxW?: number;              // 図形バウンディングボックスの横幅（点列数）
+  bboxH?: number;              // 同・縦幅（点列数）
+  strokes?: number;            // 最小ストローク数（画数）。離れ小島＋枝分かれの筆離しを1変数で表す
+  symAxis?: "v" | "h" | "d" | "none"; // 図形自身（bbox軸）の対称。v=左右 h=上下 d=斜め
+  symMiss?: number;            // 折り返して重ならない見た目の線分数（0=完全対称・1〜2=対称くずし）
 };
 
 /* ---- 難易度（全9タスク横断・一級市民）----
@@ -291,21 +299,41 @@ export function validateProblemSet(set: SkuProblemSet, expectQuestions = 12): st
 /* =========================================================================
    表示ヘルパ（§10.3 厳選公開メタデータ → 日本語ラベル）
    atelier の候補バッジと商品ページの figcaption が共用する。
+   語彙は難易度 D の式（gen/difficulty.ts）と完全一致させる：
+   たてよこ／45°のななめ／45°でないななめ／画数／対称。
+   交差・かたち（構成要素）は D に入っていないため表示からも撤去（2026-07-29）。
    ========================================================================= */
+function symLabel(m: ProblemMetrics): string | undefined {
+  if (m.symAxis === undefined || m.symMiss === undefined || m.symAxis === "none") return undefined;
+  const axis = m.symAxis === "v" ? "左右対称" : m.symAxis === "h" ? "上下対称" : "ななめ対称";
+  if (m.symMiss === 0) return axis;
+  if (m.symMiss <= 2) return `対称くずし${m.symMiss}本`;
+  return undefined;
+}
+
+function lineParts(m: ProblemMetrics): string[] {
+  const tate = m.lines - m.diagonals;
+  const a45 = m.diagonals - m.non45;
+  const parts: string[] = [];
+  if (tate > 0) parts.push(`たてよこ${tate}本`);
+  if (a45 > 0) parts.push(`45°のななめ${a45}本`);
+  if (m.non45 > 0) parts.push(`45°でないななめ${m.non45}本`);
+  if (m.diagonals === 0) parts.push("ななめなし");
+  return parts;
+}
+
 function solidMetricsLabel(m: ProblemMetrics, grid: SolidGrid): string {
-  const parts = [`${grid.cols}×${grid.rows}`, `線${m.lines}本`];
-  if (m.diagonals > 0) parts.push(`ななめ${m.diagonals}本`);
+  const parts = [`${grid.cols}×${grid.rows}`, ...lineParts(m)];
   if ((m.hiddenLines ?? 0) > 0) parts.push(`隠れ辺${m.hiddenLines}本`);
-  if (m.components > 1) parts.push(`かたち${m.components}つ`);
   return parts.join("・");
 }
 
 export function metricsLabel(m: ProblemMetrics, grid: GridSpec): string {
   if (grid.type === "solid") return solidMetricsLabel(m, grid);
-  const parts = [`${grid.n}×${grid.n}`, `線${m.lines}本`];
-  parts.push(m.diagonals > 0 ? `ななめ${m.diagonals}本` : "ななめなし");
-  if (m.crossings > 0) parts.push(`交差${m.crossings}か所`);
-  if (m.components > 1) parts.push(`かたち${m.components}つ`);
+  const parts = [`${grid.n}×${grid.n}`, ...lineParts(m)];
+  if ((m.strokes ?? 1) >= 2) parts.push(`${m.strokes}画`);
+  const sym = symLabel(m);
+  if (sym) parts.push(sym);
   return parts.join("・");
 }
 

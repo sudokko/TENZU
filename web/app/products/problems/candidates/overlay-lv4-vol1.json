@@ -200,12 +200,19 @@
     "lines": 9,
     "diagonals": 2,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 7
    },
    "gen": {
     "kind": "auto",
@@ -217,12 +224,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 23,
-    "auto": 23,
+    "auto": 20,
+    "value": 20,
     "parts": {
-     "A": 15.5,
-     "B": 5.5,
-     "絡み": 2
+     "A": 9,
+     "B": 4.5,
+     "絡み": 2,
+     "G": 4.5
     }
    },
    "provenance": {
@@ -450,12 +458,19 @@
     "lines": 9,
     "diagonals": 3,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 3,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 7
    },
    "gen": {
     "kind": "auto",
@@ -467,12 +482,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 27.5,
-    "auto": 27.5,
+    "auto": 23.3,
+    "value": 23.3,
     "parts": {
-     "A": 15.5,
-     "B": 8,
-     "絡み": 4
+     "A": 9,
+     "B": 6,
+     "絡み": 4,
+     "G": 4.25
     }
    },
    "provenance": {
@@ -750,12 +766,19 @@
     "lines": 9,
     "diagonals": 3,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 13,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -767,12 +790,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 24.5,
-    "auto": 24.5,
+    "auto": 21,
+    "value": 21,
     "parts": {
-     "A": 9,
-     "B": 13.5,
-     "絡み": 2
+     "A": 7,
+     "B": 7,
+     "絡み": 2,
+     "G": 5
     }
    },
    "provenance": {
@@ -1020,12 +1044,19 @@
     "lines": 10,
     "diagonals": 3,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -1037,12 +1068,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 26.5,
-    "auto": 26.5,
+    "auto": 22.5,
+    "value": 22.5,
     "parts": {
-     "A": 15.5,
-     "B": 9,
-     "絡み": 2
+     "A": 9,
+     "B": 7,
+     "絡み": 2,
+     "G": 4.5
     }
    },
    "provenance": {
@@ -1290,12 +1322,19 @@
     "lines": 10,
     "diagonals": 3,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -1307,12 +1346,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 26.5,
-    "auto": 26.5,
+    "auto": 22.5,
+    "value": 22.5,
     "parts": {
-     "A": 15.5,
-     "B": 9,
-     "絡み": 2
+     "A": 9,
+     "B": 7,
+     "絡み": 2,
+     "G": 4.5
     }
    },
    "provenance": {
@@ -1590,12 +1630,19 @@
     "lines": 10,
     "diagonals": 4,
     "non45": 1,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 17,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -1607,12 +1654,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 28,
-    "auto": 28,
+    "auto": 24.3,
+    "value": 24.3,
     "parts": {
-     "A": 14.5,
-     "B": 9.5,
-     "絡み": 4
+     "A": 9,
+     "B": 6.5,
+     "絡み": 4,
+     "G": 4.75
     }
    },
    "provenance": {
@@ -1820,12 +1868,19 @@
     "lines": 9,
     "diagonals": 3,
     "non45": 2,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 8
    },
    "gen": {
     "kind": "auto",
@@ -1837,12 +1892,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 29.5,
-    "auto": 29.5,
+    "auto": 22.3,
+    "value": 22.3,
     "parts": {
-     "A": 6.5,
-     "B": 23,
-     "絡み": 0
+     "A": 5.5,
+     "B": 12,
+     "絡み": 0,
+     "G": 4.75
     }
    },
    "provenance": {
@@ -2170,12 +2226,19 @@
     "lines": 10,
     "diagonals": 3,
     "non45": 2,
+    "non45Gentle": 2,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 17,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 4,
+    "symAxis": "h",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -2187,12 +2250,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 34.5,
-    "auto": 34.5,
+    "auto": 25.3,
+    "value": 25.3,
     "parts": {
-     "A": 25,
-     "B": 5.5,
-     "絡み": 4
+     "A": 12,
+     "B": 4.5,
+     "絡み": 4,
+     "G": 4.75
     }
    },
    "provenance": {
@@ -2520,12 +2584,19 @@
     "lines": 11,
     "diagonals": 4,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 18,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -2537,12 +2608,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 29,
-    "auto": 29,
+    "auto": 24.3,
+    "value": 24.3,
     "parts": {
      "A": 6,
-     "B": 19,
-     "絡み": 4
+     "B": 9.5,
+     "絡み": 4,
+     "G": 4.75
     }
    },
    "provenance": {
@@ -2790,12 +2862,19 @@
     "lines": 11,
     "diagonals": 4,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 13,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "h",
+    "symMiss": 8
    },
    "gen": {
     "kind": "auto",
@@ -2807,12 +2886,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 25,
-    "auto": 25,
+    "auto": 20.3,
+    "value": 20.3,
     "parts": {
-     "A": 18.5,
-     "B": 6.5,
-     "絡み": 0
+     "A": 10,
+     "B": 5.5,
+     "絡み": 0,
+     "G": 4.75
     }
    },
    "provenance": {
@@ -3100,12 +3180,19 @@
     "lines": 10,
     "diagonals": 4,
     "non45": 2,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 18,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "h",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -3117,12 +3204,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 36,
-    "auto": 36,
+    "auto": 28,
+    "value": 28,
     "parts": {
-     "A": 25,
-     "B": 7,
-     "絡み": 4
+     "A": 14,
+     "B": 5,
+     "絡み": 4,
+     "G": 5
     }
    },
    "provenance": {
@@ -3370,12 +3458,19 @@
     "lines": 10,
     "diagonals": 6,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 7
    },
    "gen": {
     "kind": "auto",
@@ -3387,12 +3482,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 27,
-    "auto": 27,
+    "auto": 20.5,
+    "value": 20.5,
     "parts": {
-     "A": 8,
-     "B": 19,
-     "絡み": 0
+     "A": 6,
+     "B": 9.5,
+     "絡み": 0,
+     "G": 5
     }
    },
    "provenance": {
@@ -3610,12 +3706,19 @@
     "lines": 11,
     "diagonals": 6,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -3627,12 +3730,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 32,
-    "auto": 32,
+    "auto": 25,
+    "value": 25,
     "parts": {
-     "A": 9,
-     "B": 19,
-     "絡み": 4
+     "A": 7,
+     "B": 9.5,
+     "絡み": 4,
+     "G": 4.5
     }
    },
    "provenance": {
@@ -3900,12 +4004,19 @@
     "lines": 10,
     "diagonals": 5,
     "non45": 2,
+    "non45Gentle": 2,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 13,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 8
    },
    "gen": {
     "kind": "auto",
@@ -3917,12 +4028,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 38.5,
-    "auto": 38.5,
+    "auto": 27.3,
+    "value": 27.3,
     "parts": {
-     "A": 6.5,
-     "B": 28,
-     "絡み": 4
+     "A": 5.5,
+     "B": 13,
+     "絡み": 4,
+     "G": 4.75
     }
    },
    "provenance": {
@@ -4190,12 +4302,19 @@
     "lines": 11,
     "diagonals": 5,
     "non45": 2,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 14,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "h",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -4207,12 +4326,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 35.5,
-    "auto": 35.5,
+    "auto": 26,
+    "value": 26,
     "parts": {
-     "A": 25,
-     "B": 10.5,
-     "絡み": 0
+     "A": 14,
+     "B": 7.5,
+     "絡み": 0,
+     "G": 4.5
     }
    },
    "provenance": {
@@ -4460,12 +4580,19 @@
     "lines": 10,
     "diagonals": 7,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 12,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -4477,12 +4604,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 28.5,
-    "auto": 28.5,
+    "auto": 21,
+    "value": 21,
     "parts": {
-     "A": 9.5,
-     "B": 19,
-     "絡み": 0
+     "A": 6.5,
+     "B": 9.5,
+     "絡み": 0,
+     "G": 5
     }
    },
    "provenance": {
@@ -4890,12 +5018,19 @@
     "lines": 11,
     "diagonals": 5,
     "non45": 2,
+    "non45Gentle": 2,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 15,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "h",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -4907,12 +5042,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 36.5,
-    "auto": 36.5,
+    "auto": 25.3,
+    "value": 25.3,
     "parts": {
-     "A": 9.5,
-     "B": 25,
-     "絡み": 2
+     "A": 6.5,
+     "B": 12,
+     "絡み": 2,
+     "G": 4.75
     }
    },
    "provenance": {
@@ -5200,12 +5336,19 @@
     "lines": 11,
     "diagonals": 6,
     "non45": 2,
+    "non45Gentle": 2,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 16,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -5217,12 +5360,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 36,
-    "auto": 36,
+    "auto": 23.8,
+    "value": 23.8,
     "parts": {
-     "A": 25,
-     "B": 11,
-     "絡み": 0
+     "A": 12,
+     "B": 7,
+     "絡み": 0,
+     "G": 4.75
     }
    },
    "provenance": {
@@ -5530,12 +5674,19 @@
     "lines": 12,
     "diagonals": 6,
     "non45": 2,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 4,
     "components": 1,
     "pointsUsed": 18,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -5547,12 +5698,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 41,
-    "auto": 41,
+    "auto": 31,
+    "value": 31,
     "parts": {
-     "A": 25,
-     "B": 12,
-     "絡み": 4
+     "A": 14,
+     "B": 8,
+     "絡み": 4,
+     "G": 5
     }
    },
    "provenance": {
@@ -5840,12 +5992,19 @@
     "lines": 12,
     "diagonals": 7,
     "non45": 2,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 14,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -5857,12 +6016,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "value": 40.5,
-    "auto": 40.5,
+    "auto": 29.3,
+    "value": 29.3,
     "parts": {
-     "A": 28,
-     "B": 10.5,
-     "絡み": 2
+     "A": 15,
+     "B": 7.5,
+     "絡み": 2,
+     "G": 4.75
     }
    },
    "provenance": {
@@ -5872,6 +6032,4304 @@
     "seed": 1,
     "variant": "trapX#1/0+micro3x3#595520@1,1"
    }
+  },
+  {
+   "id": "overlay-lv4-vol1-m01",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ],
+     [
+      [
+       3,
+       0
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 2,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 4,
+    "symAxis": "v",
+    "symMiss": 6
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "くるま（セダン）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 20.8,
+    "auto": 20.8,
+    "parts": {
+     "A": 10,
+     "B": 6,
+     "絡み": 0,
+     "G": 4.75
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "overlay-lv4-vol1-m02",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       0,
+       3
+      ]
+     ],
+     [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       4,
+       2
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       4,
+       1
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       4,
+       0
+      ],
+      [
+       4,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 2,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 18,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 4
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "くるま（トラック）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 21,
+    "auto": 21,
+    "parts": {
+     "A": 11,
+     "B": 5,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "overlay-lv4-vol1-m03",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 2,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 7
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "どうぶつ（ぞう）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 20.3,
+    "auto": 20.3,
+    "parts": {
+     "A": 6,
+     "B": 9.5,
+     "絡み": 0,
+     "G": 4.75
+    }
+   },
+   "status": "adopted",
+   "order": 1
+  },
+  {
+   "id": "overlay-lv4-vol1-m04",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       2
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ]
+     ],
+     [
+      [
+       3,
+       0
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 3,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 5,
+    "symAxis": "v",
+    "symMiss": 5
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "どうぶつ（きりん）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 21,
+    "auto": 21,
+    "parts": {
+     "A": 7,
+     "B": 9,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "overlay-lv4-vol1-m05",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       0
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "どうぶつのかお（うさぎ）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 23,
+    "auto": 23,
+    "parts": {
+     "A": 8,
+     "B": 10,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "overlay-lv4-vol1-m06",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 5,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 1
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "どうぶつのかお（ぶた）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 21,
+    "auto": 21,
+    "parts": {
+     "A": 11,
+     "B": 5,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "overlay-lv4-vol1-m07",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       2,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       4
+      ],
+      [
+       4,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 14,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "き（ひろばのき）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 23,
+    "auto": 23,
+    "parts": {
+     "A": 8,
+     "B": 10,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "overlay-lv4-vol1-m08",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       4
+      ],
+      [
+       4,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       4,
+       3
+      ],
+      [
+       4,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 4,
+    "symAxis": "v",
+    "symMiss": 2
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "き（もみのき）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 25,
+    "auto": 25,
+    "parts": {
+     "A": 13,
+     "B": 5,
+     "絡み": 2,
+     "G": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "overlay-lv4-vol1-m09",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       3,
+       1
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 9,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 1
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "たいよう（あさひ）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 24,
+    "auto": 24,
+    "parts": {
+     "A": 11,
+     "B": 6,
+     "絡み": 2,
+     "G": 5
+    }
+   },
+   "status": "adopted",
+   "order": 3
+  },
+  {
+   "id": "overlay-lv4-vol1-m10",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      3
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       4
+      ],
+      [
+       4,
+       3
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 8,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 2
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "たいよう（うみのひので）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 22.5,
+    "auto": 22.5,
+    "parts": {
+     "A": 10.5,
+     "B": 7,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "overlay-lv4-vol1-m11",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 2,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 4
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "こうじょう（のこぎりやね）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 21,
+    "auto": 21,
+    "parts": {
+     "A": 12,
+     "B": 4,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "adopted",
+   "order": 2
+  },
+  {
+   "id": "overlay-lv4-vol1-m12",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       3,
+       0
+      ],
+      [
+       3,
+       1
+      ]
+     ],
+     [
+      [
+       3,
+       1
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       3,
+       0
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       4
+      ],
+      [
+       4,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 9,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 7
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "こうじょう（クレーン）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 22,
+    "auto": 22,
+    "parts": {
+     "A": 7,
+     "B": 10,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "adopted",
+   "order": 4
+  },
+  {
+   "id": "overlay-lv4-vol1-m13",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       4
+      ],
+      [
+       4,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 2,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 1,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 20,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 5,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "でんしゃ（つうきん）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 21,
+    "auto": 21,
+    "parts": {
+     "A": 11,
+     "B": 5,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "overlay-lv4-vol1-m14",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       4
+      ],
+      [
+       4,
+       4
+      ]
+     ],
+     [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 12,
+    "diagonals": 2,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 20,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 6,
+    "symAxis": "v",
+    "symMiss": 6
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-01",
+    "label": "でんしゃ（とっきゅう）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "overlay",
+    "value": 20.5,
+    "auto": 20.5,
+    "parts": {
+     "A": 9,
+     "B": 6.5,
+     "絡み": 0,
+     "G": 5
+    }
+   },
+   "status": "pending"
   }
  ],
  "seedCursor": 1

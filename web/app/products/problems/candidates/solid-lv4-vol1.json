@@ -80,17 +80,6 @@
     },
     {
      "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
       "c": 7,
       "r": 3
      },
@@ -108,17 +97,6 @@
      "b": {
       "c": 5,
       "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 5
      },
      "style": "solid"
     },
@@ -154,41 +132,99 @@
       "r": 1
      },
      "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 13,
-    "diagonals": 4,
+    "lines": 16,
+    "diagonals": 5,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 12,
     "symmetry": [],
-    "hiddenLines": 1
+    "hiddenLines": 0,
+    "bboxW": 7,
+    "bboxH": 7
    },
    "difficulty": {
     "task": "solid",
-    "value": 22,
-    "auto": 22,
+    "auto": 25.5,
+    "value": 25.5,
     "parts": {
-     "lines": 13,
-     "diag": 6,
-     "non45": 0,
-     "hidden": 3
+     "E": 18.5,
+     "G": 7,
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "段差・L字"
+    "createdAt": "",
+    "edited": true
    },
    "gen": {
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 2
+   "order": 1,
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m02",
@@ -267,28 +303,6 @@
     },
     {
      "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 8,
-      "r": 4
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
       "c": 5,
       "r": 1
      },
@@ -334,17 +348,6 @@
     {
      "a": {
       "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
       "r": 3
      },
      "b": {
@@ -363,249 +366,55 @@
       "r": 1
      },
      "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 15,
-    "diagonals": 5,
+    "lines": 13,
+    "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 11,
     "symmetry": [],
-    "hiddenLines": 1
+    "hiddenLines": 0,
+    "bboxW": 8,
+    "bboxH": 6
    },
    "difficulty": {
     "task": "solid",
-    "value": 25.5,
-    "auto": 25.5,
+    "auto": 22.5,
+    "value": 22.5,
     "parts": {
-     "lines": 15,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 3
+     "E": 15,
+     "G": 7.5,
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "段差・L字"
+    "createdAt": "",
+    "edited": true
    },
    "gen": {
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 4
-  },
-  {
-   "id": "solid-lv4-vol1-m03",
-   "grid": {
-    "type": "solid",
-    "cols": 10,
-    "rows": 10
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 8
-     },
-     "b": {
-      "c": 6,
-      "r": 8
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 8
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 1,
-      "r": 8
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 6
-     },
-     "b": {
-      "c": 8,
-      "r": 6
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 8,
-      "r": 3
-     },
-     "b": {
-      "c": 8,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 8,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 8
-     },
-     "b": {
-      "c": 8,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 5
-     },
-     "b": {
-      "c": 8,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "solid"
-    }
-   ],
-   "metrics": {
-    "lines": 15,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "difficulty": {
-    "task": "solid",
-    "value": 25.5,
-    "auto": 25.5,
-    "parts": {
-     "lines": 15,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "段差・L字"
-   },
-   "gen": {
-    "kind": "manual"
-   },
-   "status": "pending"
+   "order": 2,
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m04",
@@ -698,22 +507,24 @@
     "lines": 7,
     "diagonals": 5,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 5,
     "symmetry": [],
-    "hiddenLines": 1
+    "hiddenLines": 1,
+    "bboxW": 7,
+    "bboxH": 5
    },
    "difficulty": {
     "task": "solid",
-    "value": 17.5,
-    "auto": 17.5,
+    "auto": 19,
+    "value": 19,
     "parts": {
-     "lines": 7,
-     "diag": 7.5,
-     "non45": 0,
+     "E": 9.5,
+     "G": 6.5,
      "hidden": 3
     }
    },
@@ -726,270 +537,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 1
-  },
-  {
-   "id": "solid-lv4-vol1-m05",
-   "grid": {
-    "type": "solid",
-    "cols": 11,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 7,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 6
-     },
-     "b": {
-      "c": 9,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 1
-     },
-     "b": {
-      "c": 9,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 3,
-      "r": 4
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 9,
-      "r": 4
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 8,
-    "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 6,
-    "symmetry": [],
-    "hiddenLines": 2
-   },
-   "difficulty": {
-    "task": "solid",
-    "value": 23,
-    "auto": 23,
-    "parts": {
-     "lines": 8,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "三角柱"
-   },
-   "gen": {
-    "kind": "manual"
-   },
-   "status": "adopted",
-   "order": 3
-  },
-  {
-   "id": "solid-lv4-vol1-m06",
-   "grid": {
-    "type": "solid",
-    "cols": 13,
-    "rows": 9
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 9,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 9,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 9,
-      "r": 7
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 1
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 8,
-    "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 6,
-    "symmetry": [],
-    "hiddenLines": 2
-   },
-   "difficulty": {
-    "task": "solid",
-    "value": 23,
-    "auto": 23,
-    "parts": {
-     "lines": 8,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "三角柱"
-   },
-   "gen": {
-    "kind": "manual"
-   },
-   "status": "pending"
+   "order": 13
   },
   {
    "id": "solid-lv4-vol1-m07",
@@ -1079,17 +627,6 @@
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
       "c": 5,
       "r": 7
      },
@@ -1123,28 +660,6 @@
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
       "c": 5,
       "r": 1
      },
@@ -1153,41 +668,88 @@
       "r": 3
      },
      "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 14,
-    "diagonals": 6,
+    "lines": 15,
+    "diagonals": 7,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 9,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 3,
+    "bboxW": 7,
+    "bboxH": 7
    },
    "difficulty": {
     "task": "solid",
-    "value": 29,
-    "auto": 29,
+    "auto": 34.5,
+    "value": 34.5,
     "parts": {
-     "lines": 14,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 6
+     "E": 18.5,
+     "G": 7,
+     "hidden": 9
     }
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "家（屋根）"
+    "createdAt": "",
+    "edited": true
    },
    "gen": {
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 5
+   "order": 14,
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m08",
@@ -1368,22 +930,24 @@
     "lines": 15,
     "diagonals": 7,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 10,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 2,
+    "bboxW": 9,
+    "bboxH": 8
    },
    "difficulty": {
     "task": "solid",
-    "value": 31.5,
-    "auto": 31.5,
+    "auto": 33.3,
+    "value": 33.3,
     "parts": {
-     "lines": 15,
-     "diag": 10.5,
-     "non45": 0,
+     "E": 18.5,
+     "G": 8.75,
      "hidden": 6
     }
    },
@@ -1396,205 +960,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 7
-  },
-  {
-   "id": "solid-lv4-vol1-m09",
-   "grid": {
-    "type": "solid",
-    "cols": 9,
-    "rows": 10
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 8
-     },
-     "b": {
-      "c": 5,
-      "r": 8
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 8
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 1,
-      "r": 8
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 6
-     },
-     "b": {
-      "c": 7,
-      "r": 6
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 6
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 8
-     },
-     "b": {
-      "c": 7,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 1
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    }
-   ],
-   "metrics": {
-    "lines": 14,
-    "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 9,
-    "symmetry": [],
-    "hiddenLines": 2
-   },
-   "difficulty": {
-    "task": "solid",
-    "value": 29,
-    "auto": 29,
-    "parts": {
-     "lines": 14,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "家（屋根）"
-   },
-   "gen": {
-    "kind": "manual"
-   },
-   "status": "adopted",
-   "order": 6
+   "order": 15
   },
   {
    "id": "solid-lv4-vol1-m10",
@@ -1699,17 +1065,6 @@
       "r": 3
      },
      "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
       "c": 7,
       "r": 3
      },
@@ -1725,17 +1080,6 @@
       "r": 5
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 5
-     },
-     "b": {
-      "c": 9,
-      "r": 5
-     },
-     "style": "dashed"
     },
     {
      "a": {
@@ -1756,39 +1100,6 @@
      "b": {
       "c": 9,
       "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 5
      },
      "style": "solid"
     },
@@ -1824,305 +1135,55 @@
       "r": 1
      },
      "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 20,
-    "diagonals": 6,
+    "lines": 16,
+    "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 13,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 0,
+    "bboxW": 9,
+    "bboxH": 7
    },
    "difficulty": {
     "task": "solid",
-    "value": 35,
-    "auto": 35,
+    "auto": 26.5,
+    "value": 26.5,
     "parts": {
-     "lines": 20,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 6
+     "E": 18,
+     "G": 8.5,
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "門・空洞"
+    "createdAt": "",
+    "edited": true
    },
    "gen": {
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 8
-  },
-  {
-   "id": "solid-lv4-vol1-m11",
-   "grid": {
-    "type": "solid",
-    "cols": 11,
-    "rows": 9
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 3,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 3,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 1,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 7,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 2
-     },
-     "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 9,
-      "r": 1
-     },
-     "b": {
-      "c": 9,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 9,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 7,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 7
-     },
-     "b": {
-      "c": 9,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 3
-     },
-     "b": {
-      "c": 9,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "solid"
-    }
-   ],
-   "metrics": {
-    "lines": 20,
-    "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 16,
-    "symmetry": [],
-    "hiddenLines": 2
-   },
-   "difficulty": {
-    "task": "solid",
-    "value": 35,
-    "auto": 35,
-    "parts": {
-     "lines": 20,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "門・空洞"
-   },
-   "gen": {
-    "kind": "manual"
-   },
-   "status": "adopted",
-   "order": 9
+   "order": 4,
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m12",
@@ -2205,17 +1266,6 @@
       "r": 3
      },
      "b": {
-      "c": 9,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
       "c": 1,
       "r": 7
      },
@@ -2223,17 +1273,6 @@
     },
     {
      "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
       "c": 6,
       "r": 3
      },
@@ -2273,17 +1312,6 @@
      "b": {
       "c": 11,
       "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 11,
-      "r": 1
      },
      "style": "solid"
     },
@@ -2333,8 +1361,41 @@
     },
     {
      "a": {
-      "c": 9,
+      "c": 1,
+      "r": 2
+     },
+     "b": {
+      "c": 1,
       "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 2
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 0
+     },
+     "b": {
+      "c": 11,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 11,
+      "r": 0
      },
      "b": {
       "c": 11,
@@ -2345,48 +1406,83 @@
     {
      "a": {
       "c": 1,
-      "r": 3
+      "r": 2
      },
      "b": {
-      "c": 3,
-      "r": 1
+      "c": 9,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 2
+     },
+     "b": {
+      "c": 11,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 2
+     },
+     "b": {
+      "c": 9,
+      "r": 3
      },
      "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 20,
-    "diagonals": 6,
+    "lines": 23,
+    "diagonals": 7,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 15,
+    "pointsUsed": 17,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 1,
+    "bboxW": 11,
+    "bboxH": 8
    },
    "difficulty": {
     "task": "solid",
-    "value": 35,
-    "auto": 35,
+    "auto": 39.8,
+    "value": 39.8,
     "parts": {
-     "lines": 20,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 6
+     "E": 26.5,
+     "G": 10.25,
+     "hidden": 3
     }
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "門・空洞"
+    "createdAt": "",
+    "edited": true
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "adopted",
-   "order": 10
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m13",
@@ -2473,41 +1569,55 @@
       "r": 3
      },
      "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 7,
-    "diagonals": 5,
-    "non45": 3,
-    "diagonalAngleKinds": 4,
+    "lines": 8,
+    "diagonals": 6,
+    "non45": 4,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 5,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 5,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 3,
+    "bboxW": 7,
+    "bboxH": 5
    },
    "difficulty": {
     "task": "solid",
-    "value": 44.5,
-    "auto": 44.5,
+    "auto": 39.5,
+    "value": 39.5,
     "parts": {
-     "lines": 7,
-     "diag": 7.5,
-     "non45": 24,
-     "hidden": 6
+     "E": 24,
+     "G": 6.5,
+     "hidden": 9
     }
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "小さな錐"
+    "createdAt": "",
+    "edited": true
    },
    "gen": {
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 12
+   "order": 12,
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m14",
@@ -2542,28 +1652,6 @@
     },
     {
      "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 7,
-      "r": 4
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 3,
-      "r": 4
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
       "c": 1,
       "r": 6
      },
@@ -2594,47 +1682,61 @@
       "r": 4
      },
      "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 7,
+    "lines": 6,
     "diagonals": 5,
-    "non45": 2,
-    "diagonalAngleKinds": 3,
+    "non45": 3,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 4,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 5,
+    "pointsUsed": 4,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 1,
+    "bboxW": 7,
+    "bboxH": 6
    },
    "difficulty": {
     "task": "solid",
-    "value": 36.5,
-    "auto": 36.5,
+    "auto": 28.8,
+    "value": 28.8,
     "parts": {
-     "lines": 7,
-     "diag": 7.5,
-     "non45": 16,
-     "hidden": 6
+     "E": 19,
+     "G": 6.75,
+     "hidden": 3
     }
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "小さな錐"
+    "createdAt": "",
+    "edited": true
    },
    "gen": {
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 11
+   "order": 11,
+   "edited": true
   },
   {
-   "id": "solid-lv4-vol1-m15",
+   "id": "solid-lv4-vol1-s2-29",
    "grid": {
     "type": "solid",
-    "cols": 11,
+    "cols": 8,
     "rows": 8
    },
    "edges": [],
@@ -2645,18 +1747,84 @@
       "r": 6
      },
      "b": {
-      "c": 7,
+      "c": 5,
       "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
+      "c": 1,
+      "r": 2
+     },
+     "b": {
+      "c": 1,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
       "r": 6
      },
      "b": {
-      "c": 9,
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
       "r": 4
      },
      "style": "solid"
@@ -2664,86 +1832,405 @@
     {
      "a": {
       "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
       "r": 4
      },
      "b": {
-      "c": 9,
-      "r": 4
+      "c": 6,
+      "r": 3
      },
-     "style": "dashed"
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 6
+      "r": 2
      },
      "b": {
       "c": 3,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
       "r": 4
      },
-     "style": "dashed"
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 6
+      "r": 2
      },
      "b": {
-      "c": 5,
+      "c": 2,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 1
+      "c": 3,
+      "r": 2
      },
      "b": {
-      "c": 7,
-      "r": 6
+      "c": 4,
+      "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 1
+      "c": 3,
+      "r": 2
      },
      "b": {
-      "c": 9,
-      "r": 4
+      "c": 3,
+      "r": 3
      },
      "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 7,
-    "diagonals": 5,
-    "non45": 3,
-    "diagonalAngleKinds": 4,
-    "hasNon45": true,
+    "lines": 21,
+    "diagonals": 7,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 5,
+    "pointsUsed": 15,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 0,
+    "bboxW": 6,
+    "bboxH": 6
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 2,
+    "variant": "stack"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "solid",
+    "auto": 30.5,
+    "value": 30.5,
+    "parts": {
+     "E": 24.5,
+     "G": 6,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 2,
+    "variant": "stack"
+   },
+   "order": 9,
+   "edited": true
+  },
+  {
+   "id": "solid-lv4-vol1-m16",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 3,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 9
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 16,
+    "diagonals": 5,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "hiddenLines": 2,
+    "bboxW": 9,
+    "bboxH": 9
    },
    "difficulty": {
     "task": "solid",
-    "value": 44.5,
-    "auto": 44.5,
+    "auto": 33.5,
+    "value": 33.5,
     "parts": {
-     "lines": 7,
-     "diag": 7.5,
-     "non45": 24,
+     "E": 18.5,
+     "G": 9,
      "hidden": 6
     }
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-01",
-    "label": "小さな錐"
+    "createdAt": "2026-07-25",
+    "label": "門（もん）"
    },
    "gen": {
     "kind": "manual"
@@ -2751,357 +2238,22 @@
    "status": "pending"
   },
   {
-   "id": "solid-lv4-vol1-s1-01",
+   "id": "solid-lv4-vol1-m17",
    "grid": {
     "type": "solid",
-    "cols": 9,
-    "rows": 8
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 6,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 0
-     },
-     "b": {
-      "c": 8,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 6
-     },
-     "b": {
-      "c": 8,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 6
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 2
-     },
-     "b": {
-      "c": 8,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 8,
-      "r": 4
-     },
-     "b": {
-      "c": 8,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 8,
-      "r": 4
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 14,
-    "diagonals": 4,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 23,
-    "auto": 23,
-    "parts": {
-     "lines": 14,
-     "diag": 6,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-02",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 4
-     },
-     "b": {
-      "c": 2,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
       "c": 1,
-      "r": 3
+      "r": 9
      },
      "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 4
-     },
-     "b": {
-      "c": 1,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 2,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 6,
-      "r": 1
+      "c": 7,
+      "r": 9
      },
      "style": "solid"
     },
@@ -3111,425 +2263,30 @@
       "r": 5
      },
      "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 14,
-    "diagonals": 4,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 23,
-    "auto": 23,
-    "parts": {
-     "lines": 14,
-     "diag": 6,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-03",
-   "grid": {
-    "type": "solid",
-    "cols": 9,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 1
-     },
-     "b": {
-      "c": 8,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 8,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 8,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 8,
-      "r": 3
-     },
-     "b": {
-      "c": 8,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 14,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 24.5,
-    "auto": 24.5,
-    "parts": {
-     "lines": 14,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-04",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
       "c": 1,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 2
-     },
-     "b": {
-      "c": 1,
-      "r": 1
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 4
+      "r": 7
      },
      "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 1
+      "c": 5,
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 2
+      "r": 5
      },
      "b": {
-      "c": 4,
-      "r": 1
+      "c": 3,
+      "r": 7
      },
      "style": "solid"
     },
@@ -3539,155 +2296,7 @@
       "r": 5
      },
      "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 16,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 26.5,
-    "auto": 26.5,
-    "parts": {
-     "lines": 16,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-05",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 2
-     },
-     "b": {
       "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 2
-     },
-     "b": {
-      "c": 2,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 0
-     },
-     "b": {
-      "c": 5,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
       "r": 5
      },
      "style": "solid"
@@ -3699,24 +2308,13 @@
      },
      "b": {
       "c": 5,
-      "r": 0
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
       "r": 3
      },
      "b": {
@@ -3727,2228 +2325,1208 @@
     },
     {
      "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 7,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
+      "c": 1,
       "r": 5
      },
      "b": {
-      "c": 7,
+      "c": 3,
       "r": 3
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
-      "r": 4
+      "c": 3,
+      "r": 7
      },
      "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
       "c": 7,
       "r": 3
      },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
      "style": "solid"
     },
     {
      "a": {
-      "c": 2,
-      "r": 4
+      "c": 3,
+      "r": 5
      },
      "b": {
       "c": 7,
-      "r": 4
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 16,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 26.5,
-    "auto": 26.5,
-    "parts": {
-     "lines": 16,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-06",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 0,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 6,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
+      "c": 7,
       "r": 3
      },
      "b": {
-      "c": 5,
-      "r": 3
+      "c": 7,
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
+      "c": 9,
       "r": 1
      },
      "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 2
-     },
-     "b": {
-      "c": 1,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 16,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 26.5,
-    "auto": 26.5,
-    "parts": {
-     "lines": 16,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-07",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 4,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 1,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 6
-     },
-     "b": {
-      "c": 4,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 4,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 5
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 16,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 26.5,
-    "auto": 26.5,
-    "parts": {
-     "lines": 16,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-08",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 4,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 1,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 5
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 16,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "grow"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 26.5,
-    "auto": 26.5,
-    "parts": {
-     "lines": 16,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "grow"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-09",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 1,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 16,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 26.5,
-    "auto": 26.5,
-    "parts": {
-     "lines": 16,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-10",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 0,
-      "r": 7
-     },
-     "b": {
-      "c": 3,
+      "c": 9,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
       "r": 7
      },
-     "b": {
-      "c": 0,
-      "r": 3
-     },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 4
+      "c": 7,
+      "r": 1
      },
      "b": {
-      "c": 4,
+      "c": 9,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
       "c": 1,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 3
+      "r": 9
      },
      "b": {
-      "c": 3,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 4
-     },
-     "b": {
-      "c": 1,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 0
-     },
-     "b": {
-      "c": 4,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 4
-     },
-     "b": {
-      "c": 3,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 1
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
       "c": 3,
       "r": 7
      },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "solid"
+     "style": "dashed"
     },
     {
      "a": {
-      "c": 3,
+      "c": 5,
       "r": 7
      },
      "b": {
-      "c": 3,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
+      "c": 9,
       "r": 7
-     },
-     "b": {
-      "c": 3,
-      "r": 4
      },
      "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 16,
+    "lines": 17,
     "diagonals": 6,
     "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "hiddenLines": 2,
+    "bboxW": 9,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 35,
+    "value": 35,
+    "parts": {
+     "E": 20,
+     "G": 9,
+     "hidden": 6
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "双子の塔"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "solid-lv4-vol1-m18",
+   "grid": {
+    "type": "solid",
+    "cols": 13,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 1
+     },
+     "b": {
+      "c": 11,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 11,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 11,
+      "r": 1
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 17,
+    "diagonals": 5,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 14,
+    "symmetry": [],
+    "hiddenLines": 0,
+    "bboxW": 11,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 30,
+    "value": 30,
+    "parts": {
+     "E": 19.5,
+     "G": 10.5,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending",
+   "edited": true
+  },
+  {
+   "id": "solid-lv4-vol1-m19",
+   "grid": {
+    "type": "solid",
+    "cols": 13,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 11,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 11,
+      "r": 3
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 11,
+      "r": 3
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 17,
+    "diagonals": 5,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "hiddenLines": 0,
+    "bboxW": 11,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 30,
+    "value": 30,
+    "parts": {
+     "E": 19.5,
+     "G": 10.5,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 6,
+   "edited": true
+  },
+  {
+   "id": "solid-lv4-vol1-m20",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 5,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 16,
+    "diagonals": 5,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 11,
     "symmetry": [],
-    "hiddenLines": 1
+    "hiddenLines": 1,
+    "bboxW": 9,
+    "bboxH": 9
    },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   },
-   "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 28,
-    "auto": 28,
+    "auto": 30.5,
+    "value": 30.5,
     "parts": {
-     "lines": 16,
-     "diag": 9,
-     "non45": 0,
+     "E": 18.5,
+     "G": 9,
      "hidden": 3
     }
    },
    "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-11",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 4,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 4,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 6
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 6
-     },
-     "b": {
-      "c": 4,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 2,
-      "r": 4
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 16,
-    "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "いす"
    },
    "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
+    "kind": "manual"
    },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 28,
-    "auto": 28,
-    "parts": {
-     "lines": 16,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   }
+   "status": "adopted",
+   "order": 5
   },
   {
-   "id": "solid-lv4-vol1-s1-12",
+   "id": "solid-lv4-vol1-m21",
    "grid": {
     "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 4,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 0,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 5
-     },
-     "b": {
-      "c": 4,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 4,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 16,
-    "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 11,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 28,
-    "auto": 28,
-    "parts": {
-     "lines": 16,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-13",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 4,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 2
-     },
-     "b": {
-      "c": 1,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 2
-     },
-     "b": {
-      "c": 2,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 1,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 0
-     },
-     "b": {
-      "c": 3,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 3,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 6
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 6
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 2,
-      "r": 4
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 16,
-    "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 28,
-    "auto": 28,
-    "parts": {
-     "lines": 16,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-14",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
+    "cols": 13,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
       "c": 1,
-      "r": 6
+      "r": 9
      },
      "b": {
-      "c": 3,
-      "r": 6
+      "c": 7,
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
       "r": 5
      },
      "b": {
-      "c": 3,
+      "c": 5,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 2,
-      "r": 4
+      "c": 3,
+      "r": 3
      },
      "b": {
-      "c": 4,
-      "r": 4
+      "c": 3,
+      "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 3
+     },
+     "b": {
+      "c": 11,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
       "r": 5
      },
      "b": {
-      "c": 2,
-      "r": 4
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 6
+      "r": 3
      },
      "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 11,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 11,
+      "r": 3
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
       "c": 1,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 6
+      "r": 9
      },
      "b": {
-      "c": 6,
-      "r": 3
+      "c": 5,
+      "r": 5
      },
-     "style": "solid"
+     "style": "dashed"
     },
     {
      "a": {
-      "c": 3,
+      "c": 5,
       "r": 5
      },
      "b": {
-      "c": 4,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 6
-     },
-     "b": {
-      "c": 3,
+      "c": 11,
       "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 1
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 4
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 4,
-      "r": 3
      },
      "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 16,
-    "diagonals": 6,
+    "lines": 22,
+    "diagonals": 8,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 11,
+    "pointsUsed": 15,
     "symmetry": [],
-    "hiddenLines": 1
+    "hiddenLines": 2,
+    "bboxW": 11,
+    "bboxH": 9
    },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   },
-   "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 28,
-    "auto": 28,
+    "auto": 42.5,
+    "value": 42.5,
     "parts": {
-     "lines": 16,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 3
+     "E": 26,
+     "G": 10.5,
+     "hidden": 6
     }
    },
    "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   }
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "三段のやま"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
   },
   {
-   "id": "solid-lv4-vol1-s1-15",
+   "id": "solid-lv4-vol1-m22",
    "grid": {
     "type": "solid",
     "cols": 9,
-    "rows": 8
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 0,
-      "r": 6
+      "c": 1,
+      "r": 9
      },
      "b": {
       "c": 5,
-      "r": 6
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
-      "r": 5
+      "c": 1,
+      "r": 3
      },
      "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 5
+      "c": 1,
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 2
+      "r": 3
      },
      "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
       "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
       "r": 1
      },
      "b": {
-      "c": 8,
-      "r": 1
+      "c": 5,
+      "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 6
+      "r": 7
      },
      "b": {
-      "c": 8,
+      "c": 5,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
       "r": 3
      },
      "style": "solid"
@@ -5956,1604 +3534,1906 @@
     {
      "a": {
       "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 8,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 8,
       "r": 3
      },
      "b": {
-      "c": 8,
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
-      "r": 6
+      "c": 1,
+      "r": 3
      },
      "b": {
       "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
       "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 3,
+      "r": 7
      },
      "style": "dashed"
     },
     {
      "a": {
       "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 3
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 18,
+    "diagonals": 6,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "hiddenLines": 2,
+    "bboxW": 7,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 35.5,
+    "value": 35.5,
+    "parts": {
+     "E": 21,
+     "G": 8.5,
+     "hidden": 6
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "かどの塔"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "solid-lv4-vol1-m23",
+   "grid": {
+    "type": "solid",
+    "cols": 13,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
       "r": 3
      },
      "b": {
-      "c": 8,
+      "c": 1,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
       "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 11,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 11,
+      "r": 1
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 7
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 11,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 5
      },
      "style": "dashed"
     }
    ],
    "metrics": {
     "lines": 15,
-    "diagonals": 5,
+    "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 12,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 1,
+    "bboxW": 11,
+    "bboxH": 7
    },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   },
-   "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 28.5,
-    "auto": 28.5,
+    "auto": 30,
+    "value": 30,
     "parts": {
-     "lines": 15,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 6
+     "E": 17,
+     "G": 10,
+     "hidden": 3
     }
    },
    "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   }
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "橋（はし）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
   },
   {
-   "id": "solid-lv4-vol1-s1-16",
+   "id": "solid-lv4-vol1-m24",
    "grid": {
     "type": "solid",
-    "cols": 9,
-    "rows": 8
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 0,
-      "r": 6
+      "c": 1,
+      "r": 9
      },
      "b": {
-      "c": 6,
-      "r": 6
+      "c": 7,
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
       "r": 5
      },
      "b": {
-      "c": 3,
+      "c": 7,
       "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 5
-     },
-     "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 6,
-      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 0
+      "r": 1
      },
      "b": {
-      "c": 8,
-      "r": 0
+      "c": 7,
+      "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 6,
+      "c": 7,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 11,
+    "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [],
+    "hiddenLines": 1,
+    "bboxW": 9,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 25,
+    "value": 25,
+    "parts": {
+     "E": 13,
+     "G": 9,
+     "hidden": 3
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "角を切った箱"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "solid-lv4-vol1-m25",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 14,
+    "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 2,
+    "pointsUsed": 11,
+    "symmetry": [],
+    "hiddenLines": 0,
+    "bboxW": 9,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 25,
+    "value": 25,
+    "parts": {
+     "E": 16,
+     "G": 9,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 3,
+   "edited": true
+  },
+  {
+   "id": "solid-lv4-vol1-m26",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 3,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 9
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 9,
+      "r": 1
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 21,
+    "diagonals": 6,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 17,
+    "symmetry": [],
+    "hiddenLines": 0,
+    "bboxW": 9,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 33,
+    "value": 33,
+    "parts": {
+     "E": 24,
+     "G": 9,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 8,
+   "edited": true
+  },
+  {
+   "id": "solid-lv4-vol1-m27",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 12
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 10
+     },
+     "b": {
+      "c": 3,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 10
+     },
+     "b": {
+      "c": 7,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 3,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
       "r": 6
      },
      "b": {
-      "c": 8,
+      "c": 1,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 5,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 10
+     },
+     "b": {
+      "c": 5,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 6
+     },
+     "b": {
+      "c": 9,
       "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 6,
+      "c": 1,
       "r": 6
      },
      "b": {
       "c": 6,
-      "r": 2
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 6
+     },
+     "b": {
+      "c": 7,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 8
+     },
+     "b": {
+      "c": 5,
+      "r": 10
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 4
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 10
+     },
+     "b": {
+      "c": 9,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 6,
-      "r": 2
+      "r": 1
      },
      "b": {
-      "c": 8,
-      "r": 0
+      "c": 9,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 8,
-      "r": 4
+      "c": 5,
+      "r": 8
      },
      "b": {
-      "c": 8,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 8,
-      "r": 4
+      "c": 7,
+      "r": 6
      },
      "style": "dashed"
     },
     {
      "a": {
-      "c": 0,
+      "c": 5,
       "r": 6
      },
      "b": {
-      "c": 2,
-      "r": 4
+      "c": 5,
+      "r": 8
      },
      "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 16,
+    "diagonals": 7,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "hiddenLines": 2,
+    "bboxW": 9,
+    "bboxH": 10
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 35.3,
+    "value": 35.3,
+    "parts": {
+     "E": 19.5,
+     "G": 9.75,
+     "hidden": 6
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "屋根つきの門"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "solid-lv4-vol1-m28",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [],
+    "hiddenLines": 1,
+    "bboxW": 9,
+    "bboxH": 7
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 27.5,
+    "value": 27.5,
+    "parts": {
+     "E": 16,
+     "G": 8.5,
+     "hidden": 3
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "くさび"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "solid-lv4-vol1-m29",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 13
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 11
+     },
+     "b": {
+      "c": 5,
+      "r": 11
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 1,
+      "r": 11
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 11
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 11
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 9,
+    "diagonals": 5,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [],
+    "hiddenLines": 0,
+    "bboxW": 7,
+    "bboxH": 11
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 21.5,
+    "value": 21.5,
+    "parts": {
+     "E": 11.5,
+     "G": 10,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 10,
+   "edited": true
+  },
+  {
+   "id": "solid-lv4-vol1-m30",
+   "grid": {
+    "type": "solid",
+    "cols": 13,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 11,
+      "r": 5
+     },
+     "b": {
+      "c": 11,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 9
+     },
+     "b": {
+      "c": 11,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 7
+     },
+     "b": {
+      "c": 11,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
     }
    ],
    "metrics": {
     "lines": 15,
-    "diagonals": 5,
+    "diagonals": 7,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 12,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 0,
+    "bboxW": 11,
+    "bboxH": 9
    },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   },
-   "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 28.5,
-    "auto": 28.5,
+    "auto": 29,
+    "value": 29,
     "parts": {
-     "lines": 15,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 6
+     "E": 18.5,
+     "G": 10.5,
+     "hidden": 0
     }
    },
    "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "compose"
-   }
+    "source": "blank",
+    "createdAt": "",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 7,
+   "edited": true
   },
   {
-   "id": "solid-lv4-vol1-s1-17",
+   "id": "solid-lv4-vol1-m31",
    "grid": {
     "type": "solid",
-    "cols": 8,
-    "rows": 8
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
       "c": 1,
-      "r": 5
+      "r": 9
      },
      "b": {
-      "c": 4,
-      "r": 5
+      "c": 5,
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 5
+      "r": 7
      },
      "b": {
       "c": 1,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 1
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 2
+      "r": 7
      },
      "b": {
-      "c": 2,
+      "c": 7,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
+      "c": 5,
+      "r": 7
      },
      "b": {
-      "c": 4,
-      "r": 2
+      "c": 5,
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 2
+      "c": 5,
+      "r": 9
      },
      "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
+      "c": 9,
       "r": 5
      },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
      "b": {
-      "c": 4,
+      "c": 9,
       "r": 3
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 4,
-      "r": 2
+      "c": 9,
+      "r": 3
      },
      "b": {
-      "c": 4,
-      "r": 1
+      "c": 9,
+      "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 4,
+      "c": 3,
       "r": 5
      },
      "b": {
       "c": 5,
-      "r": 4
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 2,
+      "c": 7,
       "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 5,
+      "r": 5
      },
      "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 17,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 2
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 30.5,
-    "auto": 30.5,
-    "parts": {
-     "lines": 17,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-18",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 1,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 17,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 2
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 30.5,
-    "auto": 30.5,
-    "parts": {
-     "lines": 17,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-19",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 1,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 4
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 17,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 2
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 30.5,
-    "auto": 30.5,
-    "parts": {
-     "lines": 17,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-20",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 1,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 4
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 5
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 17,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [],
-    "hiddenLines": 2
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   },
-   "status": "pending",
-   "difficulty": {
-    "task": "solid",
-    "value": 30.5,
-    "auto": 30.5,
-    "parts": {
-     "lines": 17,
-     "diag": 7.5,
-     "non45": 0,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   }
-  },
-  {
-   "id": "solid-lv4-vol1-s1-21",
-   "grid": {
-    "type": "solid",
-    "cols": 8,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 3,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 1,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 6
-     },
-     "b": {
-      "c": 3,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 3,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 3,
-      "r": 4
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 17,
+    "lines": 10,
     "diagonals": 6,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 11,
+    "pointsUsed": 9,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 1,
+    "bboxW": 9,
+    "bboxH": 9
    },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "grow"
-   },
-   "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 32,
-    "auto": 32,
+    "auto": 25,
+    "value": 25,
     "parts": {
-     "lines": 17,
-     "diag": 9,
-     "non45": 0,
-     "hidden": 6
+     "E": 13,
+     "G": 9,
+     "hidden": 3
     }
    },
    "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "grow"
-   }
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "奥に長い切妻の家"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
   },
   {
-   "id": "solid-lv4-vol1-s1-22",
+   "id": "solid-lv4-vol1-m32",
    "grid": {
     "type": "solid",
-    "cols": 8,
-    "rows": 8
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 0,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
+      "c": 1,
+      "r": 9
      },
      "b": {
       "c": 7,
-      "r": 3
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 7,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
+      "c": 1,
       "r": 5
      },
      "b": {
-      "c": 7,
-      "r": 3
+      "c": 1,
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
+      "c": 1,
       "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
      },
      "b": {
       "c": 5,
@@ -7563,45 +5443,111 @@
     },
     {
      "a": {
-      "c": 7,
-      "r": 4
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 1
-     },
-     "b": {
       "c": 5,
-      "r": 1
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
+      "c": 5,
       "r": 5
      },
      "b": {
-      "c": 3,
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
       "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 5
      },
      "style": "solid"
     },
@@ -7612,198 +5558,183 @@
      },
      "b": {
       "c": 5,
-      "r": 1
+      "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 2,
-      "r": 4
+      "c": 5,
+      "r": 1
      },
      "b": {
       "c": 7,
-      "r": 4
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 7
      },
      "style": "dashed"
     },
     {
      "a": {
-      "c": 0,
-      "r": 6
+      "c": 1,
+      "r": 9
      },
      "b": {
-      "c": 2,
-      "r": 4
+      "c": 3,
+      "r": 7
      },
      "style": "dashed"
     }
    ],
    "metrics": {
     "lines": 17,
-    "diagonals": 6,
+    "diagonals": 8,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 12,
+    "pointsUsed": 13,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 2,
+    "bboxW": 9,
+    "bboxH": 9
    },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   },
-   "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 32,
-    "auto": 32,
+    "auto": 36,
+    "value": 36,
     "parts": {
-     "lines": 17,
-     "diag": 9,
-     "non45": 0,
+     "E": 21,
+     "G": 9,
      "hidden": 6
     }
    },
    "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "stack"
-   }
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "2階建ての家"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
   },
   {
-   "id": "solid-lv4-vol1-s1-23",
+   "id": "solid-lv4-vol1-m33",
    "grid": {
     "type": "solid",
-    "cols": 8,
-    "rows": 8
+    "cols": 11,
+    "rows": 9
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 0,
-      "r": 6
+      "c": 1,
+      "r": 7
      },
      "b": {
-      "c": 3,
-      "r": 6
+      "c": 7,
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
-      "r": 6
+      "c": 1,
+      "r": 5
      },
      "b": {
-      "c": 0,
-      "r": 3
+      "c": 1,
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 0
-     },
-     "b": {
-      "c": 5,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
+      "c": 1,
       "r": 5
      },
      "b": {
       "c": 5,
-      "r": 2
+      "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 2,
+      "c": 7,
       "r": 5
      },
      "b": {
-      "c": 2,
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
       "r": 3
      },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 3
-     },
      "b": {
-      "c": 5,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
+      "c": 9,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 6
+      "c": 7,
+      "r": 7
      },
      "b": {
-      "c": 6,
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
       "r": 3
      },
      "style": "solid"
@@ -7814,342 +5745,401 @@
       "r": 5
      },
      "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 6
-     },
-     "b": {
-      "c": 3,
+      "c": 9,
       "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 6
-     },
-     "b": {
-      "c": 3,
-      "r": 3
      },
      "style": "dashed"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
+      "c": 1,
+      "r": 7
      },
      "b": {
-      "c": 6,
-      "r": 3
+      "c": 3,
+      "r": 5
      },
      "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 17,
+    "lines": 11,
     "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 12,
+    "pointsUsed": 9,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 2,
+    "bboxW": 9,
+    "bboxH": 7
    },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   },
-   "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 32,
-    "auto": 32,
+    "auto": 33.5,
+    "value": 33.5,
     "parts": {
-     "lines": 17,
-     "diag": 9,
-     "non45": 0,
+     "E": 19,
+     "G": 8.5,
      "hidden": 6
     }
    },
    "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   }
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "招き屋根の家"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
   },
   {
-   "id": "solid-lv4-vol1-s1-24",
+   "id": "solid-lv4-vol1-m34",
    "grid": {
     "type": "solid",
-    "cols": 8,
-    "rows": 8
+    "cols": 13,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 0,
-      "r": 5
+      "c": 1,
+      "r": 9
      },
      "b": {
-      "c": 5,
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 11,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
+      "c": 11,
+      "r": 3
+     },
+     "b": {
+      "c": 11,
       "r": 5
      },
-     "b": {
-      "c": 0,
-      "r": 3
-     },
      "style": "solid"
     },
     {
      "a": {
-      "c": 0,
-      "r": 3
+      "c": 7,
+      "r": 7
      },
      "b": {
-      "c": 2,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 0,
-      "r": 3
-     },
-     "b": {
-      "c": 2,
+      "c": 9,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 2,
+      "c": 3,
       "r": 1
      },
      "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
+      "c": 9,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 2,
-      "r": 4
+      "c": 1,
+      "r": 7
      },
      "b": {
-      "c": 2,
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 1
+     },
+     "b": {
+      "c": 11,
       "r": 3
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 4,
-      "r": 2
+      "c": 1,
+      "r": 9
      },
      "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 4
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 2
-     },
-     "b": {
-      "c": 7,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
       "c": 5,
       "r": 5
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 7,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 2,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 3
      },
      "style": "dashed"
     },
     {
      "a": {
-      "c": 0,
+      "c": 5,
       "r": 5
      },
      "b": {
-      "c": 2,
-      "r": 3
+      "c": 11,
+      "r": 5
      },
      "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 17,
-    "diagonals": 6,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
+    "lines": 12,
+    "diagonals": 5,
+    "non45": 2,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 11,
+    "pointsUsed": 9,
     "symmetry": [],
-    "hiddenLines": 2
+    "hiddenLines": 2,
+    "bboxW": 11,
+    "bboxH": 9
    },
-   "gen": {
-    "kind": "auto",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   },
-   "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 32,
-    "auto": 32,
+    "auto": 38,
+    "value": 38,
     "parts": {
-     "lines": 17,
-     "diag": 9,
-     "non45": 0,
+     "E": 21.5,
+     "G": 10.5,
      "hidden": 6
     }
    },
    "provenance": {
-    "source": "ai",
-    "generator": "solid-voxel",
-    "version": "1",
-    "seed": 1,
-    "variant": "carve"
-   }
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "台の上のテント"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
+  },
+  {
+   "id": "solid-lv4-vol1-m35",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 9
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 9,
+      "r": 5
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 9
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 9,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 9,
+      "r": 7
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 11,
+    "diagonals": 5,
+    "non45": 2,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [],
+    "hiddenLines": 2,
+    "bboxW": 9,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 35.5,
+    "value": 35.5,
+    "parts": {
+     "E": 20.5,
+     "G": 9,
+     "hidden": 6
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "片流れ屋根の家"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending"
   }
  ],
- "seedCursor": 1
+ "seedCursor": 5
 }

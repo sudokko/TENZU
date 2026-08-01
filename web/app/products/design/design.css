@@ -1,0 +1,404 @@
+/* =========================================================================
+   /products/design 設計台帳 専用スタイル
+   product.css（.cov-* を含む）の上に載る。rev.5 の語彙（破線区切り・mono 数字・
+   Klee 見出し）だけで組み、新しい色は導入しない。
+   ========================================================================= */
+
+/* ---- head ---- */
+.dl-head { padding: 44px 0 8px; max-width: 860px; }
+.dl-title {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 34px;
+  color: var(--fg);
+  margin: 0 0 14px;
+  letter-spacing: 0.01em;
+}
+.dl-sub {
+  font-family: var(--font-tier3-sans);
+  font-size: 14.5px;
+  line-height: 2;
+  color: var(--fg-2);
+  margin: 0;
+  max-width: 640px;
+}
+.dl-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 40px;
+  margin: 26px 0 0;
+  padding: 18px 0;
+  border-top: var(--divider-dashed);
+  border-bottom: var(--divider-dashed);
+}
+.dl-counts > div { display: flex; align-items: baseline; gap: 10px; }
+.dl-counts dt {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  color: var(--fg-3);
+  letter-spacing: 0.05em;
+}
+.dl-counts dd {
+  font-family: var(--font-tier3-mono);
+  font-size: 22px;
+  color: var(--fg);
+  margin: 0;
+}
+
+/* ---- prose sections ---- */
+.dl-prose .wrap { max-width: 792px; }
+.dl-prose p {
+  font-family: var(--font-tier3-sans);
+  font-size: 14px;
+  line-height: 2.05;
+  color: var(--fg-2);
+  margin: 14px 0 0;
+  max-width: 680px;
+}
+.dl-prose p b, .dl-prose li b { font-weight: var(--wt-strong); color: var(--fg); }
+
+.dl-formula {
+  font-family: var(--font-tier3-mono);
+  font-size: 15px;
+  color: var(--fg);
+  background: var(--bg-3);
+  border-left: var(--memo-marker);
+  border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+  padding: 16px 22px;
+  margin: 18px 0 0;
+  letter-spacing: 0.02em;
+}
+.dl-caveat {
+  border-top: var(--divider-dashed);
+  padding-top: 14px;
+  font-size: 13px;
+  color: var(--fg-3);
+}
+
+.dl-layers, .dl-flow {
+  margin: 18px 0 0;
+  padding: 0 0 0 1.4em;
+}
+.dl-layers li, .dl-flow li {
+  font-family: var(--font-tier3-sans);
+  font-size: 14px;
+  line-height: 2.05;
+  color: var(--fg-2);
+  margin-top: 10px;
+  max-width: 660px;
+}
+
+/* ---- ledger body ---- */
+.dl-task { margin-top: 44px; }
+.dl-task-head {
+  border-bottom: 1.5px solid var(--line-strong);
+  padding-bottom: 12px;
+}
+.dl-task-name {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--fg);
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.dl-task-count {
+  font-family: var(--font-tier3-mono);
+  font-size: 12px;
+  color: var(--fg-3);
+  letter-spacing: 0.06em;
+}
+.dl-task-formula {
+  font-family: var(--font-tier3-sans);
+  font-size: 12.5px;
+  color: var(--fg-3);
+  margin: 8px 0 0;
+  line-height: 1.8;
+}
+
+.dl-rows { display: flex; flex-direction: column; }
+.dl-row {
+  padding: 18px 0 20px;
+  border-bottom: var(--divider-dashed);
+}
+.dl-row-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+}
+.dl-row-name {
+  font-family: var(--font-tier3-sans);
+  font-weight: var(--wt-strong);
+  font-size: 15px;
+  color: var(--fg);
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.dl-row-name:hover { color: var(--accent-ink); text-decoration: underline; }
+.dl-row-lv {
+  font-family: var(--font-tier3-mono);
+  font-size: 10.5px;
+  color: var(--fg-3);
+  letter-spacing: 0.14em;
+}
+.dl-row-grid {
+  font-family: var(--font-tier3-mono);
+  font-size: 12.5px;
+  font-weight: var(--wt-regular);
+  color: var(--fg-3);
+}
+.dl-row-sku {
+  font-family: var(--font-tier3-mono);
+  font-size: 10.5px;
+  color: var(--fg-4);
+  letter-spacing: 0.04em;
+  margin-left: auto;
+}
+
+/* 設計仕様チップ列 */
+.dl-spec {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.dl-spec-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--r-token);
+  padding: 3px 11px;
+}
+.dl-spec-label {
+  font-family: var(--font-tier3-sans);
+  font-size: 11px;
+  color: var(--fg-3);
+  letter-spacing: 0.03em;
+}
+.dl-spec-value {
+  font-family: var(--font-tier3-mono);
+  font-size: 11.5px;
+  color: var(--fg);
+}
+
+/* 設計 vs 実測 */
+.dl-meas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 32px;
+  margin: 12px 0 0;
+}
+.dl-meas > div { display: flex; align-items: baseline; gap: 8px; }
+.dl-meas dt {
+  font-family: var(--font-tier3-sans);
+  font-size: 11.5px;
+  color: var(--fg-3);
+  letter-spacing: 0.03em;
+}
+.dl-meas dd {
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+  color: var(--fg);
+  margin: 0;
+}
+.dl-meas-none {
+  font-family: var(--font-tier3-sans) !important;
+  font-size: 12px !important;
+  color: var(--fg-3) !important;
+}
+
+/* 問粒度の折りたたみ（.cov-fold と同じ見せ方・タスク単位） */
+.dl-detail {
+  margin-top: 10px;
+  border-bottom: var(--divider-dashed);
+}
+.dl-detail > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 0;
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  color: var(--accent-ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dl-detail > summary::-webkit-details-marker { display: none; }
+.dl-detail[open] > summary .cov-chev { transform: rotate(-135deg) translate(-2px, -2px); }
+.dl-detail-vol { padding: 6px 0 14px; }
+.dl-detail-name {
+  font-family: var(--font-tier3-sans);
+  font-weight: var(--wt-strong);
+  font-size: 13px;
+  color: var(--fg);
+  margin: 10px 0 0;
+}
+
+@media (max-width: 560px) {
+  .dl-title { font-size: 27px; }
+  .dl-counts { gap: 10px 24px; }
+  .dl-counts dd { font-size: 18px; }
+  .dl-row-sku { display: none; }
+}
+
+/* タスク別の式一覧（「D の出し方」内・土台の式ブロックの下） */
+.dl-formula-list {
+  margin: 18px 0 0;
+  border-top: var(--divider-dashed);
+}
+.dl-formula-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 18px;
+  padding: 12px 0;
+  border-bottom: var(--divider-dashed);
+  align-items: baseline;
+}
+.dl-formula-row dt {
+  font-family: var(--font-tier3-sans);
+  font-weight: var(--wt-strong);
+  font-size: 13.5px;
+  color: var(--fg);
+}
+.dl-formula-row dd {
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--fg-2);
+  margin: 0;
+}
+@media (max-width: 560px) {
+  .dl-formula-row { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* 用語の定義リスト（「D の出し方」内） */
+.dl-terms {
+  margin: 20px 0 0;
+  border-top: var(--divider-dashed);
+}
+.dl-terms-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 18px;
+  padding: 12px 0;
+  border-bottom: var(--divider-dashed);
+}
+.dl-terms-row dt {
+  font-family: var(--font-tier3-sans);
+  font-weight: var(--wt-strong);
+  font-size: 13.5px;
+  color: var(--fg);
+}
+.dl-terms-row dd {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  line-height: 1.95;
+  color: var(--fg-2);
+  margin: 0;
+}
+@media (max-width: 560px) {
+  .dl-terms-row { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* 実問題での計算例 */
+.dl-ex-head {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--fg);
+  margin: 30px 0 0;
+}
+.dl-ex {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.dl-ex-fig {
+  flex: 0 0 auto;
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 14px 18px 8px;
+  text-align: center;
+  background: #FFFFFF;
+}
+.dl-ex-cap {
+  font-family: var(--font-tier3-mono);
+  font-size: 10.5px;
+  color: var(--fg-3);
+  margin: 6px 0 4px;
+  letter-spacing: 0.03em;
+}
+.dl-ex-steps {
+  flex: 1 1 320px;
+  margin: 0;
+  padding: 0 0 0 1.3em;
+  max-width: 560px;
+}
+.dl-ex-steps li {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--fg-2);
+  padding: 7px 0;
+  border-bottom: var(--divider-dashed);
+}
+.dl-ex-steps li:last-child { border-bottom: none; }
+.dl-ex-steps li b {
+  display: block;
+  font-weight: var(--wt-strong);
+  color: var(--fg);
+  font-size: 13px;
+}
+
+/* 式に添える「使っていない項」の但し書き */
+.dl-formula-note {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  color: var(--fg-3);
+  line-height: 1.8;
+}
+
+/* D の導出（各項がどう出たか・設計台帳の問粒度） */
+.cov-dcalc {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  line-height: 1.85;
+  color: var(--fg-3);
+}
+.cov-dcalc > span { display: block; }
+.cov-dcalc > span:last-child { color: var(--fg-2); }
+
+/* 公開巻がまだ無いタスクの枠 */
+.dl-task-prep {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--fg-3);
+  margin: 14px 0 0;
+  padding: 12px 18px;
+  background: var(--bg-3);
+  border-left: 2px solid var(--line-mid);
+  border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+}
+
+/* 件数の補足（タスク「9（公開中 3）」） */
+.dl-counts dd small {
+  font-family: var(--font-tier3-sans);
+  font-size: 11px;
+  color: var(--fg-3);
+  margin-left: 4px;
+}

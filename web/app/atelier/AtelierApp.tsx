@@ -18,7 +18,11 @@ import { computeMetrics, computeSolidMetrics, mergedSegments } from "../products
 import {
   ladderChips, ladderFieldsFor, GRID_MIN, GRID_MAX, type LadderField,
 } from "../products/problems/ladder-schema";
-import { baseDifficulty } from "../products/problems/gen/difficulty";
+import {
+  baseDifficulty, taskDifficulty, boardTermText,
+  D_BASE_FORMULA, D_TASK_FULL_FORMULA, D_TASK_EXCLUDES,
+} from "../products/problems/gen/difficulty";
+import { dBreakdown } from "../products/coverage";
 import { QUESTIONS_PER_VOL } from "../products/data";
 import { EdgeHitLayer } from "../maker/erase";
 import { SCREEN_DOT } from "../products/print";
@@ -122,25 +126,36 @@ function ProblemSvg({
     );
   }
   const axis = mirrorAxisOf(answer);
-  /* mirror: across-pane（v/d1/d2=横並び 200×100, h=縦並び 100×200） */
+  /* mirror: across-pane（左=みほん F／右=解答 mirror(F)）。
+     ★ 軸によらず必ず横並び（2026-07-31・translate と同じ理由）。以前は h 軸のとき
+       上下に積んでいたが、鏡の軸は問題の性質ではない：
+       ①子が見る軸（左右反転か上下反転か）は印刷時の並び選択で決まり、answer の
+         axis は「サムネ・難易度計算のための代表値」として v を焼いているだけ
+         （gen/mirror.ts の冒頭・decisions §3.59）。ladder にも軸フィールドは無い
+       ②実データは candidates・published とも全問 axis="v"＝縦積みは一度も発動しない
+         死に分岐だった（atelier の作成も axis:"v" 固定・軸を選ぶ UI は無い）
+       ③エディタの回答ペインは元から常に横並び＝サムネだけ食い違っていた */
   if (axis) {
     const R = mirrorEdges(edges, n, axis);
-    const stack = axis === "h";
-    const vbW = stack ? 100 : 200;
-    const vbH = stack ? 200 : 100;
     return (
-      <svg viewBox={`0 0 ${vbW} ${vbH}`} width={stack ? size : size * 2} height={stack ? size * 2 : size}
+      <svg viewBox="0 0 200 100" width={size * 2} height={size}
         className="atl-thumb" aria-label="鏡: 左=みほん／右=解答">
         <PaneFig n={n} edges={edges} />
-        <PaneFig n={n} edges={R}
-          ox={stack ? 0 : 100} oy={stack ? 100 : 0} />
+        <PaneFig n={n} edges={R} ox={100} />
       </svg>
     );
   }
   /* translate: across-pane（左=もとの図 F＋★きてん／右=解答 F'（薄色点線）＋●ここへ）。
      紙面の右ペインは空＋●だけ＝検品では解答をゴーストで重ねて見せる。
      ★＝F の辞書順最小点・●＝★+(dc,dr)（gen/translate.ts と同じ導出規約）。
-     縦移動の巻（dc=0）は上下に積む（紙面の並びと同じ読み方向）。 */
+     ★ 移動の向きによらず必ず横並び（2026-07-31）。以前は縦移動（dc=0）だけ
+       上下に積んでいたが、これは間違いだった：
+       ①紙面の並び（pair）は買った人が印刷時に選ぶ設定で、既定は「横に並べる」。
+         移動ベクトルでは決まらない（SkuPrintPreview）
+       ②lv2 は dir:hv＝1 巻に左右と上下が混在する（decisions §3.85）ため、
+         積むとカードの縦横比が巻の中でバラバラになり一覧が読みにくい
+       ③エディタの回答ペインは元から常に横並び＝サムネだけ食い違っていた
+     移動の向きは ★→● の目じるしで読み取る（紙面と同じ手がかり）。 */
   const tr = answer?.mode === "derived" && answer.transform.type === "translate"
     ? answer.transform : null;
   if (tr && edges.length > 0) {
@@ -152,15 +167,11 @@ function ProblemSvg({
       if (p[0] < anchor[0] || (p[0] === anchor[0] && p[1] < anchor[1])) anchor = p;
     }
     const target: Pt = [anchor[0] + tr.dc, anchor[1] + tr.dr];
-    const stack = tr.dc === 0;
-    const vbW = stack ? 100 : 200;
-    const vbH = stack ? 200 : 100;
     return (
-      <svg viewBox={`0 0 ${vbW} ${vbH}`} width={stack ? size : size * 2} height={stack ? size * 2 : size}
+      <svg viewBox="0 0 200 100" width={size * 2} height={size}
         className="atl-thumb" aria-label="移動: 左=もとの図／右=うつした図（うすい線=こたえ）">
         <PaneFig n={n} edges={edges} star={anchor} />
-        <PaneFig n={n} edges={F2} ghost ring={target}
-          ox={stack ? 0 : 100} oy={stack ? 100 : 0} />
+        <PaneFig n={n} edges={F2} ghost ring={target} ox={100} />
       </svg>
     );
   }
@@ -252,21 +263,12 @@ function moveLabelOf(c: Candidate): string {
   ].filter(Boolean).join("・");
 }
 
-/* タスク別の難易度式を1行で（atl-dhelp 見出し用）。式の実体は gen/difficulty.ts。 */
+/* このタスクの完全な難易度式（atl-dhelp 見出し用）。
+   検品中は「土台の式のまま」と言われても手が止まるので、単体で読める形を出す。
+   文言 SSOT＝gen/difficulty.ts の D_TASK_FULL_FORMULA（式のコードと同居・部品から合成）。
+   ここに式を直書きしない＝式改訂時にここが古いまま残る事故を防ぐ。 */
 function dFormulaLabel(kind?: string): string {
-  switch (kind) {
-    case "copy": return "線数 ＋ 斜め本数×1.5 ＋ 非45°本数×8";
-    case "fill": return "図形の土台 ＋ 欠け線分×2";
-    case "mirror": return "図形の土台難易度（反転の操作負荷は軸ゲートで吸収）";
-    case "translate": return "図形の土台難易度（移動の操作負荷は方向・移動量ゲートで吸収）";
-    case "rotate": return "図形の土台難易度（回転の操作負荷は角度・方向ゲートで吸収）";
-    case "overlay": return "図形Aの土台 ＋ 図形Bの土台 ＋ 絡み×2（A・B間の交差数）";
-    case "decompose": return "こたえの土台 ＋ 引くものの土台 ＋ 絡み×2（A・B間の交差数）";
-    case "fold": return "問題1の土台 ＋ 問題2の土台 ＋ 絡み×2（折り重ね後の交差）";
-    case "motif": return "線数 ＋ 斜め本数×1.5 ＋ 非45°本数×8";
-    case "solid": return "線 ＋ 斜め×1.5 ＋ 非45°×8 ＋ 隠れ辺×3";
-    default: return "タスク別の難易度式（gen/difficulty.ts）";
-  }
+  return (kind && D_TASK_FULL_FORMULA[kind]) ?? D_BASE_FORMULA;
 }
 
 /* カードに出すタイトル。白紙作成＝provenance.label／編集で付けた名前＝gen.motif。全カード共通。 */
@@ -739,9 +741,15 @@ export default function AtelierApp({
      candidates は readCandidates で migrate 済み＝c.difficulty.{value,auto,parts,manual} を持つ。
      value＝実効値（手動 manual があればそれ・無ければ機械算出 auto）。✎ で手動上書き／自動へ戻す。
      式は gen/difficulty.ts（taskDifficulty）。内訳の意味は上部 atl-dhelp で定義。 */
-  // copy のみ「窓」D をカード上に出すのに使う（他タスクは undefined）
-  const win = (task === "copy" || task === "solid") && Array.isArray(lentry?.D)
+  /* D 窓はラダーに窓を持つ巻だけ（現状 copy と solid・他タスクは band で刻む）。
+     タスク名で絞らず「窓を持っているか」で判定＝将来ほかのタスクに窓を足しても出る。 */
+  const win = Array.isArray(lentry?.D) && lentry!.D.length === 2
     ? (lentry!.D as [number, number]) : undefined;
+  /* 盤面の項をこの巻の盤面サイズで具体化するための n（ラダーの grid）。
+     立体は問題ごとに盤面が変わるので一般形のまま出す。 */
+  const dGrid = task !== "solid" && typeof lentry?.grid === "number"
+    ? (lentry.grid as number) : undefined;
+  const dExcludes = D_TASK_EXCLUDES[genKind ?? task];
   const fmtD = (x: number) => (Number.isInteger(x) ? String(x) : x.toFixed(1));
   const dValueOf = (c: Candidate): number =>
     c.difficulty
@@ -749,27 +757,27 @@ export default function AtelierApp({
       : c.grid.type === "solid"
         ? 0
         : baseDifficulty(computeMetrics(c.edges, c.grid.n));
+  /* 内訳の文字列は商品ページ・設計台帳と同じビルダー（products/coverage.ts）を使う。
+     ここで Object.values(parts) を素で並べると、対称係数 k が加算項のように見えてしまう。 */
   const partsTitle = (c: Candidate): string | undefined => {
-    const parts = c.difficulty?.parts;
-    if (!parts) return undefined;
-    const body = Object.entries(parts).map(([k, v]) => `${k} ${fmtD(v)}`).join("・");
+    const body = dBreakdown(c.difficulty?.parts, c.difficulty?.value);
+    if (!body) return undefined;
     return win ? `${body}（窓 D ${win[0]}–${win[1]}）` : body;
   };
   const withDScore = (c: Candidate, fig: ReactNode): ReactNode => {
-    /* 点線なしモード: 立体カードは「除去後の姿」で D・内訳をプレビュー（点線ありの実データは不変） */
+    /* 点線なしモード: 立体カードは「除去後の姿」で D・内訳をプレビュー（点線ありの実データは不変）。
+       式・parts とも taskDifficulty（SSOT）で出す＝ここに式を複製しない */
     const preview = noDashOn && c.grid.type === "solid" && hasDashed(c)
       ? (() => {
-          const m = computeSolidMetrics(stripDashed(c));
-          return {
-            value: baseDifficulty(m),
-            parts: { lines: m.lines, diag: 1.5 * m.diagonals, non45: 8 * m.non45, hidden: 0 },
-          };
+          const stripped = stripDashed(c);
+          const m = computeSolidMetrics(stripped);
+          return taskDifficulty("solid", { ...c, solidEdges: stripped, metrics: m });
         })()
       : undefined;
     const manual = !preview && c.difficulty?.manual != null;
     const parts = preview ? preview.parts : c.difficulty?.parts;
     const title = preview
-      ? Object.entries(preview.parts).map(([k, v]) => `${k} ${fmtD(v)}`).join("・") + "（点線なしプレビュー）"
+      ? `${dBreakdown(preview.parts, preview.value) ?? ""}（点線なしプレビュー）`
       : partsTitle(c);
     return (
       <div key={c.id} className="atl-cell">
@@ -780,7 +788,7 @@ export default function AtelierApp({
             {preview && <em className="atl-dman">点線0</em>}
           </span>
           <span className="atl-dbreak">
-            {parts ? Object.values(parts).map((v) => fmtD(v)).join("+") : ""}
+            {dBreakdown(parts, preview ? preview.value : dValueOf(c)) ?? ""}
             {genKind === "copy" && <span className="atl-deng">{engineLabel(c.gen.variant)}</span>}
             {genKind === "translate" && <span className="atl-deng atl-dmove">{moveLabelOf(c)}</span>}
           </span>
@@ -1010,13 +1018,20 @@ export default function AtelierApp({
       </header>
 
       <section className="atl-dhelp">
+        {/* このタスクの完全な式（SSOT＝difficulty.ts・部品から合成）。
+            「土台の式のまま」では検品中に式が読めないので、単体で読める形を出す。 */}
         <p className="atl-dhelp-formula">
-          難易度 <strong>D</strong>：{dFormulaLabel(genKind ?? task)}
+          <strong>この巻の D の式</strong>：{dFormulaLabel(genKind ?? task)}
+        </p>
+        {/* 盤面の項をこの巻の盤面サイズで具体化＋タスク固有の但し書き */}
+        <p className="atl-dhelp-base">
+          {boardTermText(dGrid)}
+          {dExcludes && <>　／　{dExcludes}</>}
         </p>
         <p className="atl-dhelp-note">
           12 問の中で難易度を散らすための指標（全タスク共通でカード上に前面表示）。
           各カードの <strong>✎</strong> で難易度を手動上書き／自動へ戻せる（人手ティア付け・auto は保全）。
-          {win && <>　この巻の窓は <strong>D {win[0]}–{win[1]}</strong>。{task === "solid" ? "隠れ辺（点線）が最大ドライバー。" : "非45°が最大ドライバー（ρ=0.878）。"}</>}
+          {win && <>　この巻の窓は <strong>D {win[0]}–{win[1]}</strong>。</>}
         </p>
         {task === "solid" && (
           <label className="atl-nodash">
@@ -1168,6 +1183,56 @@ export default function AtelierApp({
 }
 
 /* =========================================================================
+   かさね（overlay）編集の 1 ペイン — 図形A / 図形B を直接描く盤面
+   操作は他モードと同じ（点を 2 つクリックで線／同じ線をなぞると消える／
+   消すモードで線をクリック＝1 本削除）。色分け: A=INK・B=ACCENT。
+   ========================================================================= */
+function ABPane({
+  n, size, edges, ink, first, eraseMode, onPoint, onErase,
+}: {
+  n: number; size: number; edges: EdgeT[]; ink: string;
+  first: Pt | null;   // この盤面で作図中の始点（別の盤面を触っているときは null）
+  eraseMode: boolean;
+  onPoint: (p: Pt) => void;
+  onErase: (index: number) => void;
+}) {
+  const pos = (i: number) => 10 + (80 * i) / Math.max(1, n - 1);
+  return (
+    <svg viewBox="0 0 100 100" width={size} height={size} className="atl-editor-svg">
+      <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
+      {edges.map((e, i) => (
+        <line key={i}
+          x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+          stroke={ink} strokeWidth={1.7} strokeLinecap="round" />
+      ))}
+      {Array.from({ length: n * n }, (_, i) => {
+        const c = i % n, r = Math.floor(i / n);
+        const selected = !!first && first[0] === c && first[1] === r;
+        return (
+          <g key={i}>
+            <circle cx={pos(c)} cy={pos(r)} r={selected ? 3 : 1.8}
+              fill={selected ? ACCENT : SCREEN_DOT} />
+            {/* 当たり判定を広く（タップしやすく）。消すモードでは点は触らせない。 */}
+            {!eraseMode && (
+              <circle cx={pos(c)} cy={pos(r)} r={6} fill="transparent"
+                style={{ cursor: "pointer" }} onClick={() => onPoint([c, r])} />
+            )}
+          </g>
+        );
+      })}
+      {eraseMode && (
+        <EdgeHitLayer
+          edges={edges.map((e) => ({ a: { c: e[0][0], r: e[0][1] }, b: { c: e[1][0], r: e[1][1] } }))}
+          pos={(c, r) => ({ x: pos(c), y: pos(r) })}
+          onErase={onErase}
+          step={80 / Math.max(1, n - 1)}
+        />
+      )}
+    </svg>
+  );
+}
+
+/* =========================================================================
    線の手直しモーダル（点を 2 つクリック → その間の線分をトグル）
    metrics はライブで computeMetrics 表示。保存はサーバ権威で再算出される。
    fill 候補のときは F/R モード切替を出し、R モードでは F の部分集合として
@@ -1207,12 +1272,19 @@ function EditOverlay({
   const fillWording = task === "fill";
   const rLabel = task === "fill" ? "抜く線"
     : task === "decompose" ? "引くもの（図形B）" : "図形B";
+  /* かさね（overlay）は「図形A ＋ 図形B ＝ □」の 3 ペイン編集にする。
+     従来の「完成図から B を拾う」方式では、A に無い線を B に描けなかった（消すしかできない）。
+     データモデルは gen/overlay.ts と同じ F=A∪B・R=B・A=F∖R。A∩B は表現できないので、
+     片方の盤面に描いた線がもう片方にあれば「移る」＝重複を作らせない。
+     分解（decompose）は B ⊂ 完成図 が定義なので、従来の選択方式を残す。 */
+  const isAB = isFill && task === "overlay";
   const [edges, setEdges] = useState<EdgeT[]>(candidate.edges);
   const [rEdges, setREdges] = useState<EdgeT[]>(
     isFill && candidate.answer?.mode === "explicit" ? candidate.answer.edges : [],
   );
   const [mode, setMode] = useState<"F" | "R">("F");
   const [first, setFirst] = useState<Pt | null>(null);
+  const [firstPane, setFirstPane] = useState<"A" | "B" | null>(null); // かさね: 作図中の点がどちらの盤面か
   const [oneStroke, setOneStroke] = useState(false);   // 一筆書き: 線を引いた後、終点を次の始点に残す
   const [eraseMode, setEraseMode] = useState(false);   // 消す（消しゴム）: 線をクリックで1本削除
   const [history, setHistory] = useState<{ edges: EdgeT[]; rEdges: EdgeT[] }[]>([]);
@@ -1411,7 +1483,7 @@ function EditOverlay({
       const prev = h[h.length - 1];
       setEdges(prev.edges);
       setREdges(prev.rEdges);
-      setFirst(null);
+      setFirst(null); setFirstPane(null);
       return h.slice(0, -1);
     });
   }
@@ -1431,6 +1503,69 @@ function EditOverlay({
 
   /* fill の R 集合（描画用） */
   const rSetView = useMemo(() => new Set(rEdges.map(edgeKey)), [rEdges]);
+
+  /* ---- かさね（overlay）の 3 ペイン編集 ----
+     図形A＝F∖R（導出）・図形B＝R。どちらの盤面も「点 2 つで線」で直接描ける。 */
+  const aEdges = useMemo(
+    () => (isAB ? edges.filter((e) => !rSetView.has(edgeKey(e))) : []),
+    [isAB, edges, rSetView],
+  );
+  /* 検品用の内訳。絡み＝A・B 間の交差数（＝Vol 分けドライバー・gen/overlay.ts と同じ導出）。 */
+  const abStats = useMemo(() => {
+    if (!isAB) return null;
+    const mA = computeMetrics(aEdges, n), mB = computeMetrics(rEdges, n);
+    return {
+      aLines: mA.lines, bLines: mB.lines,
+      entangle: liveMetrics.crossings - mA.crossings - mB.crossings,
+    };
+  }, [isAB, aEdges, rEdges, n, liveMetrics]);
+
+  /* 盤面クリック（A / B 共通）。同じ線をもう一度なぞる＝その盤面から消す。
+     A に描いた線が B にあれば B から外す（逆も同じ）＝A∩B を作らせない。 */
+  function clickPointAB(pane: "A" | "B", p: Pt) {
+    if (eraseMode) return;
+    if (!first || firstPane !== pane) { setFirst(p); setFirstPane(pane); return; }
+    if (samePt(first, p)) { setFirst(null); setFirstPane(null); return; } // 同点 = 選択解除
+    const units = splitAtLattice([first, p]);
+    const uKeys = new Set(units.map(edgeKey));
+    const rKeys = new Set(rEdges.map(edgeKey));
+    const fKeys = new Set(edges.map(edgeKey));
+    const inPane = (u: EdgeT) => pane === "B"
+      ? rKeys.has(edgeKey(u))
+      : fKeys.has(edgeKey(u)) && !rKeys.has(edgeKey(u));
+    pushHistory({ edges, rEdges });
+    if (units.every(inPane)) {
+      setEdges(edges.filter((e) => !uKeys.has(edgeKey(e))));
+      if (pane === "B") setREdges(rEdges.filter((e) => !uKeys.has(edgeKey(e))));
+    } else {
+      setEdges(normalizeEdges([...edges, ...units]));
+      setREdges(pane === "B"
+        ? normalizeEdges([...rEdges, ...units])
+        : rEdges.filter((e) => !uKeys.has(edgeKey(e))));
+    }
+    // 一筆書き ON: 終点を次の線の始点として残す（その盤面の中でつながる）
+    setFirst(oneStroke ? p : null);
+    setFirstPane(oneStroke ? pane : null);
+  }
+
+  /* 消すモード: その盤面の線を 1 本削除（F からも外す＝完成図に残骸を残さない） */
+  function eraseAB(pane: "A" | "B", e: EdgeT) {
+    const k = edgeKey(e);
+    pushHistory({ edges, rEdges });
+    setEdges(edges.filter((x) => edgeKey(x) !== k));
+    if (pane === "B") setREdges(rEdges.filter((x) => edgeKey(x) !== k));
+    setFirst(null); setFirstPane(null);
+  }
+
+  function clearPane(pane: "A" | "B") {
+    const target = pane === "A" ? aEdges : rEdges;
+    if (target.length === 0) return;
+    const k = new Set(target.map(edgeKey));
+    pushHistory({ edges, rEdges });
+    setEdges(edges.filter((e) => !k.has(edgeKey(e))));
+    if (pane === "B") setREdges([]);
+    setFirst(null); setFirstPane(null);
+  }
 
   /* 「質問＋回答」の2要素があるタスクは、maker 同様に右へ回答ペイン（読取専用ライブプレビュー）を並べる。
      左＝編集中（完成図/抜く線）・右＝子が見る結果。重ね描きの読みにくさを解消する。 */
@@ -1455,6 +1590,116 @@ function EditOverlay({
           : previewKind === "translate" ? "回答ペイン（うつした図）・点をクリックで移動先●"
           : previewKind === "fold" ? "問題2（B）" : "";
   const editSize = previewKind ? 300 : SIZE;
+
+  /* =======================================================================
+     かさね（overlay）: 「図形A ＋ 図形B ＝ 重ねた結果」の 3 ペイン編集
+     左 2 枚は独立した編集盤面（どちらも直接描ける）・右 1 枚は読取専用の
+     重ね結果（A=実線・B=点線）。紙面の並び（maker-overlay）と同じ読み方向。
+     ======================================================================= */
+  if (isAB) {
+    const AB_SIZE = 236;
+    return (
+      <div className="atl-overlay" role="dialog" aria-modal>
+        <div className="atl-editor has-trio">
+          <header className="atl-editor-head">
+            <h2>{createMode ? "新規作成（かさね・白紙）" : "かさねの手直し"}</h2>
+            <p className="atl-editor-hint">
+              図形A・図形B のどちらの盤面でも、点を 2 つクリックして線を引けます
+              （同じ線をもう一度なぞると、その盤面から消えます）。
+              A と B は同じ線を持てないため、片方に描いた線がもう片方にあると移ります。
+            </p>
+          </header>
+
+          <label className="atl-editor-title">
+            タイトル（名前・任意）
+            <input type="text" value={title}
+              placeholder="かいだん・いえ など"
+              onChange={(e) => setTitle(e.target.value)} />
+          </label>
+
+          <div className="atl-editor-onestroke" role="group" aria-label="モード">
+            <span className="atl-os-label">モード</span>
+            <div className="atl-seg">
+              <button type="button" aria-pressed={!eraseMode}
+                onClick={() => { setEraseMode(false); setFirst(null); setFirstPane(null); }}>描く</button>
+              <button type="button" aria-pressed={eraseMode}
+                onClick={() => { setEraseMode(true); setFirst(null); setFirstPane(null); }}>消す</button>
+            </div>
+            <span className="atl-os-label">一筆書き</span>
+            <div className="atl-seg">
+              <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)} disabled={eraseMode}>OFF</button>
+              <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)} disabled={eraseMode}>ON</button>
+            </div>
+            {abStats && (
+              <span className="atl-fair">
+                図形A {abStats.aLines} 本・図形B {abStats.bLines} 本・絡み {abStats.entangle}
+              </span>
+            )}
+          </div>
+
+          <div className="atl-editor-pair atl-editor-trio">
+            <div className="atl-editor-paneblock">
+              <ABPane n={n} size={AB_SIZE} edges={aEdges} ink={INK}
+                first={firstPane === "A" ? first : null} eraseMode={eraseMode}
+                onPoint={(p) => clickPointAB("A", p)}
+                onErase={(i) => eraseAB("A", aEdges[i])} />
+              <span className="atl-pane-label">図形A（編集できます）</span>
+            </div>
+
+            <span className="atl-editor-arrow" aria-hidden>＋</span>
+
+            <div className="atl-editor-paneblock">
+              <ABPane n={n} size={AB_SIZE} edges={rEdges} ink={ACCENT}
+                first={firstPane === "B" ? first : null} eraseMode={eraseMode}
+                onPoint={(p) => clickPointAB("B", p)}
+                onErase={(i) => eraseAB("B", rEdges[i])} />
+              <span className="atl-pane-label">図形B（編集できます）</span>
+            </div>
+
+            <span className="atl-editor-arrow" aria-hidden>＝</span>
+
+            <div className="atl-editor-paneblock">
+              <svg viewBox="0 0 100 100" width={AB_SIZE} height={AB_SIZE}
+                className="atl-preview-svg" aria-label="重ねた結果（図形A=実線・図形B=点線）">
+                <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
+                {aEdges.map((e, i) => (
+                  <line key={`ra${i}`}
+                    x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+                    stroke={INK} strokeWidth={1.7} strokeLinecap="round" />
+                ))}
+                {rEdges.map((e, i) => (
+                  <line key={`rb${i}`}
+                    x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+                    stroke={ACCENT} strokeWidth={1.9} strokeDasharray="3 2" strokeLinecap="round" />
+                ))}
+                {Array.from({ length: n * n }, (_, i) => (
+                  <circle key={i} cx={pos(i % n)} cy={pos(Math.floor(i / n))} r={1.8} fill={INK} />
+                ))}
+              </svg>
+              <span className="atl-pane-label">重ねた結果（A=実線・B=点線）</span>
+            </div>
+          </div>
+
+          <p className="atl-editor-metrics">{metricsLabel(liveMetrics, candidate.grid)}</p>
+
+          <div className="atl-editor-actions">
+            <button type="button" onClick={undo} disabled={history.length === 0}>ひとつ戻す</button>
+            <button type="button" onClick={() => clearPane("A")} disabled={aEdges.length === 0}>図形Aを全消し</button>
+            <button type="button" onClick={() => clearPane("B")} disabled={rEdges.length === 0}>図形Bを全消し</button>
+            <span className="atl-editor-spacer" />
+            <button type="button" onClick={onClose} disabled={busy}>キャンセル</button>
+            <button type="button" className="atl-btn atl-btn--pub"
+              disabled={busy || aEdges.length === 0 || rEdges.length === 0}
+              onClick={() => onSave(edges, title.trim(), rEdges)}>
+              {aEdges.length === 0 ? "図形Aが空です"
+                : rEdges.length === 0 ? "図形Bが空です"
+                  : "保存する"}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="atl-overlay" role="dialog" aria-modal>

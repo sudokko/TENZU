@@ -42,36 +42,6 @@
     ],
     [
      [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
       0,
       0
      ],
@@ -98,36 +68,6 @@
      [
       1,
       1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
      ]
     ]
    ],
@@ -139,17 +79,24 @@
     }
    },
    "metrics": {
-    "lines": 6,
+    "lines": 4,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
-    "crossings": 1,
+    "crossings": 0,
     "components": 1,
-    "pointsUsed": 9,
+    "pointsUsed": 6,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -158,22 +105,28 @@
     "seed": 1,
     "variant": "grid#2x2/0"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 6,
-    "auto": 6,
+    "auto": 7.6,
+    "value": 7.6,
     "parts": {
-     "base": 6
+     "E": 4,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
     "variant": "grid#2x2/0"
-   }
+   },
+   "order": 1,
+   "edited": true
   },
   {
    "id": "rotate-lv3-vol2-s1-02",
@@ -344,6 +297,7 @@
     "lines": 5,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -353,7 +307,13 @@
      "d1",
      "d2",
      "r180"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -362,13 +322,17 @@
     "seed": 1,
     "variant": "drect#3x3d1/1"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 6.5,
-    "auto": 6.5,
+    "auto": 8.7,
+    "value": 8.7,
     "parts": {
-     "base": 6.5
+     "E": 5.5,
+     "G": 4,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -377,7 +341,8 @@
     "version": "1",
     "seed": 1,
     "variant": "drect#3x3d1/1"
-   }
+   },
+   "order": 3
   },
   {
    "id": "rotate-lv3-vol2-s1-03",
@@ -468,6 +433,7 @@
     "lines": 5,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
@@ -475,7 +441,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -484,13 +456,17 @@
     "seed": 1,
     "variant": "micro3x3#525133"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 6.5,
-    "auto": 6.5,
+    "auto": 8.2,
+    "value": 8.2,
     "parts": {
-     "base": 6.5
+     "E": 5.5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -499,7 +475,8 @@
     "version": "1",
     "seed": 1,
     "variant": "micro3x3#525133"
-   }
+   },
+   "order": 2
   },
   {
    "id": "rotate-lv3-vol2-s1-04",
@@ -590,6 +567,7 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -597,7 +575,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -609,10 +593,14 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "value": 7,
-    "auto": 7,
+    "auto": 7.8,
+    "value": 7.8,
     "parts": {
-     "base": 7
+     "E": 5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -712,6 +700,7 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -719,7 +708,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -728,13 +723,17 @@
     "seed": 1,
     "variant": "micro3x3#691248"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 7,
-    "auto": 7,
+    "auto": 7.8,
+    "value": 7.8,
     "parts": {
-     "base": 7
+     "E": 5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -743,7 +742,8 @@
     "version": "1",
     "seed": 1,
     "variant": "micro3x3#691248"
-   }
+   },
+   "order": 4
   },
   {
    "id": "rotate-lv3-vol2-s1-06",
@@ -764,38 +764,8 @@
     ],
     [
      [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
       0,
       2
-     ]
-    ],
-    [
-     [
-      0,
-      0
      ],
      [
       1,
@@ -808,8 +778,18 @@
       2
      ],
      [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
       1,
-      1
+      2
      ]
     ],
     [
@@ -818,7 +798,7 @@
       1
      ],
      [
-      2,
+      1,
       2
      ]
     ]
@@ -831,15 +811,22 @@
     }
    },
    "metrics": {
-    "lines": 4,
+    "lines": 5,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 6,
-    "symmetry": []
+    "pointsUsed": 4,
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -848,22 +835,28 @@
     "seed": 1,
     "variant": "micro3x3#397552"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 7,
-    "auto": 7,
+    "auto": 9.3,
+    "value": 9.3,
     "parts": {
-     "base": 7
+     "E": 6,
+     "G": 3.25,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
     "variant": "micro3x3#397552"
-   }
+   },
+   "order": 6,
+   "edited": true
   },
   {
    "id": "rotate-lv3-vol2-s1-07",
@@ -954,12 +947,19 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -971,10 +971,14 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "value": 7,
-    "auto": 7,
+    "auto": 7.8,
+    "value": 7.8,
     "parts": {
-     "base": 7
+     "E": 5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1144,12 +1148,19 @@
     "lines": 7,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -1158,13 +1169,17 @@
     "seed": 1,
     "variant": "trishelf4b#1/1"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 8.5,
-    "auto": 8.5,
+    "auto": 14.2,
+    "value": 14.2,
     "parts": {
-     "base": 8.5
+     "E": 7.5,
+     "G": 4,
+     "k": 0.85,
+     "strokes": 1.4,
+     "brk": 6
     }
    },
    "provenance": {
@@ -1173,7 +1188,8 @@
     "version": "1",
     "seed": 1,
     "variant": "trishelf4b#1/1"
-   }
+   },
+   "order": 9
   },
   {
    "id": "rotate-lv3-vol2-s1-09",
@@ -1334,12 +1350,19 @@
     "lines": 7,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -1351,10 +1374,14 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "value": 8.5,
-    "auto": 8.5,
+    "auto": 14.2,
+    "value": 14.2,
     "parts": {
-     "base": 8.5
+     "E": 7.5,
+     "G": 4,
+     "k": 0.85,
+     "strokes": 1.4,
+     "brk": 6
     }
    },
    "provenance": {
@@ -1454,6 +1481,7 @@
     "lines": 6,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1461,7 +1489,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1473,10 +1507,14 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "value": 9,
-    "auto": 9,
+    "auto": 9.5,
+    "value": 9.5,
     "parts": {
-     "base": 9
+     "E": 7,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1500,68 +1538,48 @@
       1
      ],
      [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
+      0,
       2
      ]
     ],
     [
      [
       0,
-      1
+      2
      ],
      [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      1
+      0,
+      3
      ]
     ],
     [
      [
       0,
-      1
+      3
      ],
      [
       1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
       2
+     ],
+     [
+      1,
+      3
      ]
     ]
    ],
@@ -1573,17 +1591,24 @@
     }
    },
    "metrics": {
-    "lines": 5,
-    "diagonals": 3,
+    "lines": 3,
+    "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
-    "crossings": 1,
+    "crossings": 0,
     "components": 1,
     "pointsUsed": 5,
     "symmetry": [
-     "d1"
-    ]
+     "d2"
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1592,22 +1617,28 @@
     "seed": 1,
     "variant": "micro3x3#90892"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 9.5,
-    "auto": 9.5,
+    "auto": 7.2,
+    "value": 7.2,
     "parts": {
-     "base": 9.5
+     "E": 3.5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
     "variant": "micro3x3#90892"
-   }
+   },
+   "order": 5,
+   "edited": true
   },
   {
    "id": "rotate-lv3-vol2-s1-12",
@@ -1618,12 +1649,22 @@
    "edges": [
     [
      [
-      0,
+      2,
       1
      ],
      [
+      3,
+      0
+     ]
+    ],
+    [
+     [
       1,
       1
+     ],
+     [
+      2,
+      2
      ]
     ],
     [
@@ -1638,52 +1679,42 @@
     ],
     [
      [
-      1,
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
       0
      ],
      [
-      1,
+      3,
       1
      ]
     ],
     [
      [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
+      2,
       0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      2
      ],
      [
       2,
       1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
      ]
     ]
    ],
@@ -1698,14 +1729,21 @@
     "lines": 5,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 6,
     "symmetry": [
-     "d1"
-    ]
+     "d2"
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1714,22 +1752,28 @@
     "seed": 1,
     "variant": "micro3x3#537356"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 9.5,
-    "auto": 9.5,
+    "auto": 9,
+    "value": 9,
     "parts": {
-     "base": 9.5
+     "E": 6.5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
     "variant": "micro3x3#537356"
-   }
+   },
+   "order": 8,
+   "edited": true
   },
   {
    "id": "rotate-lv3-vol2-s1-13",
@@ -1890,12 +1934,19 @@
     "lines": 7,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -1904,13 +1955,17 @@
     "seed": 1,
     "variant": "hybrid#4#1-78"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 10,
-    "auto": 10,
+    "auto": 12.7,
+    "value": 12.7,
     "parts": {
-     "base": 10
+     "E": 8,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1919,7 +1974,8 @@
     "version": "1",
     "seed": 1,
     "variant": "hybrid#4#1-78"
-   }
+   },
+   "order": 11
   },
   {
    "id": "rotate-lv3-vol2-s1-14",
@@ -2140,6 +2196,7 @@
     "lines": 8,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -2147,7 +2204,13 @@
     "pointsUsed": 16,
     "symmetry": [
      "r180"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -2156,13 +2219,17 @@
     "seed": 1,
     "variant": "moku2d4#1/1"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 11,
-    "auto": 11,
+    "auto": 15.1,
+    "value": 15.1,
     "parts": {
-     "base": 11
+     "E": 9,
+     "G": 4,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 6
     }
    },
    "provenance": {
@@ -2171,7 +2238,8 @@
     "version": "1",
     "seed": 1,
     "variant": "moku2d4#1/1"
-   }
+   },
+   "order": 10
   },
   {
    "id": "rotate-lv3-vol2-s1-15",
@@ -2332,12 +2400,19 @@
     "lines": 8,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 6
    },
    "gen": {
     "kind": "auto",
@@ -2349,10 +2424,14 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "value": 11,
-    "auto": 11,
+    "auto": 13.7,
+    "value": 13.7,
     "parts": {
-     "base": 11
+     "E": 9,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
@@ -2532,12 +2611,19 @@
     "lines": 9,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -2549,10 +2635,14 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "value": 12,
-    "auto": 12,
+    "auto": 14.7,
+    "value": 14.7,
     "parts": {
-     "base": 12
+     "E": 10,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
@@ -2712,12 +2802,19 @@
     "lines": 9,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 6
    },
    "gen": {
     "kind": "auto",
@@ -2729,10 +2826,14 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "value": 12,
-    "auto": 12,
+    "auto": 14,
+    "value": 14,
     "parts": {
-     "base": 12
+     "E": 10,
+     "G": 4,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -2752,38 +2853,8 @@
    "edges": [
     [
      [
-      0,
-      0
-     ],
-     [
       1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
+      2
      ],
      [
       2,
@@ -2792,11 +2863,11 @@
     ],
     [
      [
-      0,
+      2,
       1
      ],
      [
-      1,
+      3,
       2
      ]
     ],
@@ -2807,7 +2878,37 @@
      ],
      [
       2,
-      1
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
      ]
     ]
    ],
@@ -2822,6 +2923,7 @@
     "lines": 6,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -2829,7 +2931,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -2838,22 +2946,28 @@
     "seed": 1,
     "variant": "micro3x3#614465"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 12,
-    "auto": 12,
+    "auto": 10.3,
+    "value": 10.3,
     "parts": {
-     "base": 12
+     "E": 8,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
     "variant": "micro3x3#614465"
-   }
+   },
+   "order": 7,
+   "edited": true
   },
   {
    "id": "rotate-lv3-vol2-s1-19",
@@ -3004,12 +3118,19 @@
     "lines": 9,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -3021,10 +3142,14 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "value": 13.5,
-    "auto": 13.5,
+    "auto": 15.2,
+    "value": 15.2,
     "parts": {
-     "base": 13.5
+     "E": 10.5,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
@@ -3184,12 +3309,19 @@
     "lines": 8,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -3198,13 +3330,17 @@
     "seed": 1,
     "variant": "hybrid#4#1-371"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "value": 14,
-    "auto": 14,
+    "auto": 14.7,
+    "value": 14.7,
     "parts": {
-     "base": 14
+     "E": 10,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
@@ -3213,7 +3349,8 @@
     "version": "1",
     "seed": 1,
     "variant": "hybrid#4#1-371"
-   }
+   },
+   "order": 12
   }
  ],
  "seedCursor": 1

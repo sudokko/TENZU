@@ -41,16 +41,18 @@ export async function writeLadder(data: LadderFile): Promise<void> {
 /* atelier から追加した Vol の置き場（既存 data.ts PRODUCT_TASKS は不変のまま合流する）。
    add-vol API が書き、data.ts が読み込み時に該当タスクへ append する。 */
 const CATALOG_EXTRA_PATH = () => path.join(process.cwd(), "app", "products", "catalog-extra.json");
+/* status は持たない＝published/{sku}.json の有無から導出する（data.ts）。 */
 export type CatalogExtraVol = {
   task: string; sku: string; lv: number; volNo: number; grid: string;
-  variant?: string; blurb: string; ageLabel: string; status: "live" | "scaffold";
+  variant?: string; blurb: string; ageLabel: string;
 };
 /* 既存 PRODUCT_TASKS（ハードコード TS・API から書き戻せない）の表示メタを
    dev で上書きするレイヤ。grid 編集・メタ編集・非表示を data.ts を触らず反映する。
-   hidden=true は data.ts が PRODUCT_TASKS から除外（公開・atelier 双方から消える）。 */
+   hidden=true は data.ts が PRODUCT_TASKS から除外（公開・atelier 双方から消える）。
+   status は patch できない（＝公開状態の単一ソースは published/ ディレクトリ）。 */
 export type CatalogPatch = {
   sku: string; grid?: string; blurb?: string; ageLabel?: string;
-  variant?: string; status?: "live" | "scaffold"; hidden?: boolean;
+  variant?: string; hidden?: boolean;
 };
 export type CatalogExtra = { vols: CatalogExtraVol[]; patches?: CatalogPatch[] };
 
@@ -78,7 +80,6 @@ export async function upsertCatalogPatch(
     if (partial.blurb != null) inExtra.blurb = partial.blurb;
     if (partial.ageLabel != null) inExtra.ageLabel = partial.ageLabel;
     if (partial.variant != null) inExtra.variant = partial.variant;
-    if (partial.status != null) inExtra.status = partial.status;
   } else {
     const patches = extra.patches ?? (extra.patches = []);
     const cur = patches.find((p) => p.sku === sku);
@@ -127,11 +128,26 @@ export async function writePublished(set: SkuProblemSet): Promise<string[]> {
   return [];
 }
 
-/* published/ の実ファイルから index.ts を機械生成（静的 import 一覧） */
+/* published/ の実ファイルから index.ts と skus.ts を機械生成する。
+   - index.ts … 問題データ本体の静的 import 一覧（重い＝詳細ページ側だけが import する）
+   - skus.ts  … 入稿済み sku の文字列配列だけ（軽い＝カタログ data.ts が公開状態の導出に使う）
+   2 ファイルに割るのは、data.ts が全ページから import されるため。index.ts を読ませると
+   全 SKU の問題 JSON が TOP のバンドルにまで載る。 */
 export async function regenerateIndex(): Promise<void> {
   const files = (await fs.readdir(PUB_DIR()))
     .filter((f) => f.endsWith(".json"))
     .sort();
+  const skus = files.map((f) => f.replace(/\.json$/, ""));
+  await fs.writeFile(path.join(PUB_DIR(), "skus.ts"), `/* eslint-disable */
+/* =========================================================================
+   AUTO-GENERATED — /api/atelier/publish が再生成する。手で編集しない。
+   入稿済み（published/{sku}.json がある）sku の一覧。
+   カタログの公開状態（live / scaffold）はこの配列から導出する（products/data.ts）。
+   ========================================================================= */
+export const PUBLISHED_SKUS: readonly string[] = [
+${skus.map((s) => `  "${s}",`).join("\n")}
+];
+`, "utf8");
   const imports = files
     .map((f, i) => `import j${i} from "./${f}";`)
     .join("\n");

@@ -29,7 +29,7 @@ export type MirrorAxis = "v" | "h";
 export type MirrorParams = {
   grid: 3 | 4 | 5 | 6 | 7;
   lines: [number, number];
-  slopes: SlopeRule;          // 鏡タスクでは "any"(非45°) は使わない
+  slopes: SlopeRule;          // "any"＝非45°許可（Lv.4 以降・模写と同じ Lv 意味論）
   diagonals: [number, number];
   crossings: [number, number];
   components: [number, number];
@@ -58,8 +58,9 @@ function mirrorVariantPool(params: MirrorParams, strictTidy: boolean): PoolItem[
     if (v.spanC > n - 1 || v.spanR > n - 1) continue;
     const placed = centerPlace(v, n);
     const m = computeMetrics(placed, n);
-    // 鏡は非45°を使わない（角度が読めず鏡うつしが崩れる）
-    if (m.hasNon45) continue;
+    // 鏡は既定で非45°を使わない（角度が読めず鏡うつしが崩れる）。
+    // slopes:"any" の巻（Lv.4 以降＝非45°デビュー・模写と同じ Lv 意味論）のみ許可
+    if (params.slopes !== "any" && m.hasNon45) continue;
     // 鏡固有: v/h 対称の図形は鏡像＝原形＝どちらの並びで刷っても問題が退化する
     if (m.symmetry.includes("v") || m.symmetry.includes("h")) continue;
     // 品質ゲート（relax でも外さない）: ヒゲ最小限。閉路は 4×4 以上のみ要求

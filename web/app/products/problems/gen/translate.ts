@@ -27,11 +27,11 @@ import { randInt, seededRng, type Rng } from "./rng";
 
 export const TRANSLATE_GENERATOR_VERSION = "1";
 
-export type TranslateDir = "h" | "v" | "diag" | "compound";
+export type TranslateDir = "h" | "v" | "hv" | "diag" | "compound";
 
 export type TranslateParams = {
   grid: 3 | 4 | 5 | 6 | 7;
-  dir: TranslateDir;          // 横／縦／斜め（45°）／複合（右2下1 等）＝巻の主ドライバー
+  dir: TranslateDir;          // 横／縦／左右上下（1方向ずつ混在）／斜め（45°）／複合（右2下1 等）＝巻の主ドライバー
   moves: [number, number];    // 移動量 |dc|+|dr| の範囲（マンハッタン）
   lines: [number, number];    // みほん F の線本数（併合後の見た目線分）
 };
@@ -142,10 +142,12 @@ export function microShapes(): ShapeVariant[] {
    ========================================================================= */
 type Vec = { dc: number; dr: number };
 
-/* 移動量 m の (|dc|,|dr|) 分解（方向ゲート別） */
+/* 移動量 m の (|dc|,|dr|) 分解（方向ゲート別）。
+   hv=左右上下（1問につき 1 方向・巻内で横縦が混在する＝単調さ回避） */
 function magPairs(dir: TranslateDir, m: number): [number, number][] {
   if (dir === "h") return [[m, 0]];
   if (dir === "v") return [[0, m]];
+  if (dir === "hv") return [[m, 0], [0, m]];
   if (dir === "diag") return m % 2 === 0 && m >= 2 ? [[m / 2, m / 2]] : [];
   // compound: 両軸 ≥1・|dc|≠|dr|（=斜め 45°と区別）
   const out: [number, number][] = [];

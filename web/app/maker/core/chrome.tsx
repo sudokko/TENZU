@@ -23,17 +23,24 @@ export function Lock() {
   );
 }
 
-/* ヘッダー。children = 右側クラスタ（copy のマイページ導線等・不要なら省略） */
+/* ヘッダー。children = 右側クラスタ（copy のマイページ導線等・不要なら省略）。
+   トップへの帰り道はここで標準装備（ロゴ＝リンク＋「お店にもどる」）— メーカーを袋小路にしない。 */
 export function MakerHeader({ appName, children }: { appName: string; children?: React.ReactNode }) {
   // メーカー起動の計測（tool_start）。全メーカーが必ずここを 1 回マウントする。
   useEffect(() => { trackToolStart(makerFromPath()); }, []);
   return (
     <header className="maker-header">
       <div className="logo-cluster">
-        <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
+        <a className="logo-link" href="/" aria-label="TENZU トップへ">
+          <img className="logo-img" src="/assets/logo-horizontal.png" alt="TENZU" />
+        </a>
         <div className="app-name">{appName}</div>
       </div>
-      {children}
+      <div className="header-links">
+        {/* スマホは「← お店へ」に縮めて右クラスタと 1 行同居（縦積み3段化を防ぐ） */}
+        <a className="ma-home" href="/">← お店<span className="ma-home-full">にもどる</span><span className="ma-home-short">へ</span></a>
+        {children}
+      </div>
     </header>
   );
 }

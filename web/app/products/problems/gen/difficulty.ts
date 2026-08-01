@@ -15,18 +15,204 @@ import type {
 import { edgeKey } from "../schema";
 import { computeMetrics, computeSolidMetrics, mergedSegments } from "./metrics";
 
-/* ---- 土台スコア（= 旧 copyDifficulty・2026-06-30 再校正）----
-   D = 1.0·lines + 1.5·diagonals + 8·non45。盤面サイズは入れない
-   （巻のレベルは grid＋ゲートで決まり、D は巻内12問の散らし専用）。
-   交差は実作で難易度への寄与が薄く除外。代わりに斜めの本数（特に非45°の本数）で効かせる。
-   非45°が最大ドライバー（1本で線8本ぶん・本数で増える）。詳細は pack-design §12.12。 */
+/* ---- 土台スコア（D式 v3・2026-07-29 再設計）----
+   総重量形式（旧式は lines に斜めも数えたうえで diagonals を足す二重計上だった）:
+
+     線の重み E ＝ たてよこ ＋ 1.5×45°のななめ ＋ 4×非45°(2:1系) ＋ 5×非45°(急)
+     盤面の項 G ＝ 0.5×盤面 ＋ 0.25×(図形の横幅＋縦幅)   ※点列数
+     D ＝ 対称係数 k × E ＋ G ＋ 0.7×(画数−1) ＋ 3×対称くずしの線(≤2)
+     k：左右0.70／上下0.75／ななめ0.85／なし1.0（図形自身の bbox 軸で判定）
+     対称くずし（ほぼ対称）の上限：D ≤ 1.10 ×（k=1 で計算した値）
+     丸め：小数第1位（最後に一度だけ・途中の項は丸めない＝内訳の足し算が必ず合う）
+
+   設計判断（2026-07-29・3AI レビュー＋オーナー確定）:
+   - 交差は実作で寄与が薄く不採用のまま。かわりに画数（筆離し）を採用
+   - 非45°の隔離は主にゲート（requireNon45）が担い、D 側は 4〜5 の総重量
+   - 対称は「構造を把握する負荷」を減らすだけなので E にのみ掛ける
+   - ほぼ対称は割引でなく罠（子どもは対称に補完して間違える）＝破れに加点
+   - アンカー項（盤面端からの距離）は不採用（現カタログ 300 問中 1 問しか発動しない）
+   旧データ（新フィールド無し）へのフォールバック: 画数=1・対称なし・bbox=盤面。 */
 export function baseDifficulty(m: ProblemMetrics): number {
-  return m.lines + 1.5 * m.diagonals + 8 * m.non45;
+  return roundD(baseRaw(basePartsOf(m)));
+}
+
+/* D の丸め（小数第1位）。式のどこで丸めるかを 1 箇所に集約する。
+   ★ 丸めは「最後に一度だけ」が鉄則。途中で丸めた値を足してまた丸めると、
+   公開している内訳（＝線＋盤面＋画数…）の足し算が D と合わなくなる。 */
+export const roundD = (x: number): number => Math.round(x * 10) / 10;
+
+const SYM_K = { v: 0.70, h: 0.75, d: 0.85, none: 1.0 } as const;
+
+/* E（線の重み）だけを取り出す。かさね系（A+B+絡み）が部品として使う */
+export function edgeLoad(m: ProblemMetrics): number {
+  const tate = m.lines - m.diagonals;
+  const a45 = m.diagonals - m.non45;
+  const gentle = m.non45Gentle ?? 0;            // 旧データは分割不明→全部「急」側で安全に倒す
+  const steep = m.non45 - gentle;
+  return tate + 1.5 * a45 + 4 * gentle + 5 * steep;
+}
+
+function boardTerm(m: ProblemMetrics): number {
+  const n = m.boardN ?? Math.max(m.bboxW ?? 0, m.bboxH ?? 0); // solid は図形の広がりを盤面とみなす
+  const w = m.bboxW ?? n;
+  const h = m.bboxH ?? n;
+  return 0.5 * n + 0.25 * (w + h);
+}
+
+/* ---- 変換そのものの負荷（2026-08-01 追加）----
+   移動・回転は「どの図形か」だけでなく「どう動かすか」でも難しさが変わる。
+   ゲート（ladder の dir/moves/angle）は巻を決めるためのものだが、実データでは
+   1 巻の中に複数の移動量・角度が混ざっている（例: 移動 Lv.3 は (2,0) と (1,1)、
+   回転 Lv.5 は 90°/-90°/180° が同居）。D は「巻内を散らす物差し」なので、
+   ここを見ないと『まっすぐ2マス』と『斜め』が同点になってしまう。
+
+   移動: 1 ×（|dc| ＋ |dr| − 1）＋ 3 ×（たてよこ両方に動くなら）
+     「横に2、縦に1」を同時に数える負荷は、非45°のななめと同じ質の壁。
+     だから 2 軸になった瞬間に段差（＋3）を置き、距離は 1 マスごとに緩く効かせる。
+   回転: 90°（右まわり・左まわり）＝0／180°（さかさま）＝＋2
+     ラダーが 180° を 90° の後（Lv.4）に置いている＝より難しいという設計判断に合わせる。 */
+export function transformLoad(p: Problem): { value: number; label: string } | undefined {
+  const a = p.answer;
+  if (a?.mode !== "derived") return undefined;
+  const t = a.transform;
+  if (t.type === "translate") {
+    const dist = Math.abs(t.dc) + Math.abs(t.dr);
+    const twoAxis = t.dc !== 0 && t.dr !== 0;
+    return {
+      value: Math.max(0, dist - 1) + (twoAxis ? 3 : 0),
+      label: `移動 ＝ 1×（${dist} − 1）${twoAxis ? " ＋ 3（たてよこ両方に動く）" : ""}`,
+    };
+  }
+  if (t.type === "rotate") {
+    return t.deg === 180
+      ? { value: 2, label: "回転 ＝ 2（180°＝さかさま）" }
+      : { value: 0, label: "回転 ＝ 0（90°）" };
+  }
+  return undefined;
 }
 
 function basePartsOf(m: ProblemMetrics): DifficultyParts {
-  return { lines: m.lines, diag: 1.5 * m.diagonals, non45: 8 * m.non45 };
+  const E = edgeLoad(m);
+  const G = boardTerm(m);
+  const strokes = 0.7 * Math.max(0, (m.strokes ?? 1) - 1);
+  const miss = m.symMiss ?? 0;
+  const axis = m.symAxis ?? "none";
+  const k = axis !== "none" && miss <= 2 ? SYM_K[axis] : 1.0;
+  const brk = axis !== "none" && miss >= 1 && miss <= 2 ? 3 * miss : 0;
+  return { E, G, k, strokes, brk };
 }
+
+/* parts → 実効値（丸める前）。ほぼ対称の上限（k=1 計算値の 1.10 倍）はここで効かせる。
+   タスク固有の項（欠け・隠れ辺など）を足す側が、この生値に足してから 1 度だけ丸める。 */
+function baseRaw(p: DifficultyParts): number {
+  const d = p.k * p.E + p.G + p.strokes + p.brk;
+  return p.brk > 0 ? Math.min(d, 1.10 * (p.E + p.G + p.strokes)) : d;
+}
+
+/* =========================================================================
+   ★ 式の人間向け表記（公開ページの文言 SSOT）
+
+   ⚠️ このファイルの式（baseDifficulty / taskDifficulty / scaleDifficulty /
+      solidDifficulty）を変えたら、必ず下の定数も直すこと。
+      設計台帳ページ（/products/design）はここだけを読む。式のコードと公開文言を
+      同じファイルに置いているのは、片方だけ変わって嘘になるのを防ぐため。
+   D_TASK_FORMULA に無いタスクは台帳側で「土台の式のまま」と表示される
+      （新タスク追加時に文言が無くても壊れない）。
+   ========================================================================= */
+/* 式の部品。完全な式（D_TASK_FULL_FORMULA）はここから合成する＝
+   係数を直したとき、複数の文言に書き写し忘れて食い違う事故を起こさない。 */
+const E_TERM =
+  "たてよこの線 ＋ 1.5 × 45°のななめ ＋ 4 × 45°でないななめ(ゆるい2:1) ＋ 5 × 45°でないななめ(急)";
+const G_TERM = "盤面の項";
+const ST_TERM = "0.7 ×（画数 − 1）";
+const BRK_TERM = "3 × 対称くずしの線";
+
+export const D_BASE_FORMULA =
+  `D ＝ 対称係数 ×（${E_TERM}）＋ ${G_TERM} ＋ ${ST_TERM} ＋ ${BRK_TERM}`;
+
+/* 盤面の項を、巻の盤面サイズを入れた具体形にする（atelier の検品画面が使う）。
+   n を渡さなければ一般形のまま。 */
+export function boardTermText(n?: number): string {
+  return n === undefined
+    ? "盤面の項 ＝ 0.5 × 盤面の大きさ ＋ 0.25 ×（図形の横幅 ＋ 縦幅）"
+    : `盤面の項 ＝ 0.5 × ${n} ＋ 0.25 ×（図形の横幅 ＋ 縦幅）＝ ${0.5 * n} ＋ 0.25 ×（横幅 ＋ 縦幅）`;
+}
+
+/* タスクごとの「単体で読める」完全な式。
+   D_TASK_FORMULA（土台からの差分表記）は設計台帳が使う——あちらは土台の式を
+   すぐ上に併記しているため差分で足りる。atelier の検品画面はこちらを使う。 */
+export const D_TASK_FULL_FORMULA: Record<string, string> = {
+  copy: D_BASE_FORMULA,
+  motif: D_BASE_FORMULA,
+  mirror: D_BASE_FORMULA,
+  rotate: `${D_BASE_FORMULA} ＋ 回転の項（90°＝0／180°＝2）`,
+  translate: `${D_BASE_FORMULA} ＋ 移動の項（1 ×（動くマス数の合計 − 1）＋ 3（たてよこ両方に動くとき））`,
+  fill: `D ＝ 対称係数 ×（${E_TERM}）＋ ${G_TERM} ＋ ${ST_TERM} ＋ ${BRK_TERM} ＋ 2 × 欠けている線分の本数`,
+  overlay: `D ＝ 図A（${E_TERM}）＋ 図B（同じ式）＋ 2 × 絡み（A と B の交差数）＋ ${G_TERM}`,
+  decompose: `D ＝ 図A（${E_TERM}）＋ 図B（同じ式）＋ 2 × 絡み（A と B の交差数）＋ ${G_TERM}`,
+  fold: `D ＝ 問題1（${E_TERM}）＋ 問題2（同じ式）＋ 2 × 絡み（折り重ねた後の交差数）＋ ${G_TERM}`,
+  solid: `D ＝ ${E_TERM} ＋ ${G_TERM} ＋ 3 × 隠れ辺（点線で描く、見えない辺）の本数`,
+  scale: "D ＝ 線の本数 ＋ 2 × ななめ ＋（45°でないななめがあれば ＋6）",
+  shrink: "D ＝ 線の本数 ＋ 2 × ななめ ＋（45°でないななめがあれば ＋6）＋ 4（縮小は逆操作のぶん重い）",
+};
+
+/* そのタスクで「使っていない項」の注意書き（atelier の検品画面用）。
+   単図モデル（対称の圧縮・運筆）が成り立たないタスクでは項ごと落としている。 */
+export const D_TASK_EXCLUDES: Record<string, string> = {
+  overlay: "2 図を見比べる課題なので、対称係数と画数は使わない",
+  decompose: "2 図を見比べる課題なので、対称係数と画数は使わない",
+  fold: "2 図を見比べる課題なので、対称係数と画数は使わない",
+  solid: "立体は盤面を図形に合わせて切り出すため、対称係数と画数は使わない",
+  mirror: "図形は見本 F で測る。裏返す軸（左右／上下）は印刷時の並びで決まるため、問題ごとの負荷差にならず項を持たない",
+  rotate: "図形は見本 F で測る。1 巻に複数の角度が混ざるので、回転そのものの負荷を項として足す",
+  translate: "図形は見本 F で測る。1 巻に複数の移動量が混ざるので、移動そのものの負荷を項として足す",
+};
+
+/* 用語ごとの短い説明（設計台帳が定義リストで表示する）。1項目=2〜3文まで */
+export const D_TERM_NOTES: { term: string; note: string }[] = [
+  {
+    term: "線の重み",
+    note: "線1本あたりの点数。たてよこ＝1点、45°のななめ＝1.5点、45°でないななめ（横2マス縦1マスのような傾き）＝ゆるいものは4点・急なものは5点。見なれない傾きほど、どの点からどの点へ向かうかを数えて確かめる手間が増える。",
+  },
+  {
+    term: "対称係数",
+    note: "図形自身が左右対称なら×0.70、上下対称なら×0.75、ななめ対称なら×0.85。半分を見れば残り半分の構造がわかるぶん楽になる。掛かるのは線の重みだけ——盤面の広さや筆を動かす量は、対称でも減らないから。",
+  },
+  {
+    term: "盤面の項",
+    note: "0.5×盤面の大きさ ＋ 0.25×（図形の横幅＋縦幅）。盤面が広く、図形が大きく広がるほど、対応する点を探す範囲が広くなる。",
+  },
+  {
+    term: "画数",
+    note: "全部の線をなぞるのに、筆を何回置くかの最小回数。離れたかたまりや枝分かれが多い図形ほど増える。2画目からは1画につき0.7点。",
+  },
+  {
+    term: "対称くずし",
+    note: "ほとんど対称なのに、1〜2本だけずれている図形。子どもは無意識に「対称のはず」とそろえて描いてしまうため、ずれた線はまちがいが集中する罠になる。割引ではなく、ずれ1本につき＋3点（上限は、対称なしとして計算した値の1.10倍）。",
+  },
+  {
+    term: "移動・回転の項",
+    note: "移動と回転は、図形そのものだけでなく「どう動かすか」でも難しさが変わる。移動は動くマス数の合計から1を引いた数（1マスの移動を基準にする）に、たてよこ両方へ動くときは＋3。「横に2、縦に1」を同時に数える負荷は、45°でないななめと同じ質の壁だから。回転は 90° が0、180°（さかさま）が＋2。鏡は、裏返す軸が印刷時の並びで決まるため項を持たない。",
+  },
+  {
+    term: "式に入れていないもの",
+    note: "線どうしの交差の数は入れていない。実際に紙で解いてみると、交差は見た目ほど難易度に効かなかったため。D の値は、すべての項を足したあと最後に一度だけ小数第1位に丸める。",
+  },
+];
+
+export const D_TASK_FORMULA: Record<string, string> = {
+  copy: "土台の式のまま",
+  fill: "土台の式 ＋ 2 × 欠けている線分の本数",
+  mirror: "土台の式のまま（見本の図形で測る。裏返す軸は印刷時の並びで決まるので、問題ごとの差にはならない）",
+  rotate: "土台の式 ＋ 回転の項（90°＝0／180°＝2）",
+  translate: "土台の式 ＋ 移動の項（1 ×（動くマス数の合計 − 1）＋ 3（たてよこ両方に動くとき））",
+  overlay: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（A と B の交差数）＋ 盤面の項",
+  decompose: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（A と B の交差数）＋ 盤面の項",
+  fold: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（折り重ねた後の A・B 間の交差数）＋ 盤面の項",
+  solid: "線の重み ＋ 盤面の項 ＋ 3 × 隠れ辺（点線で描く、見えない辺）の本数。対称係数と画数は使わない",
+  scale: "別式（線の本数 ＋ 2 × ななめ ＋ 非45°があれば ＋6）",
+  shrink: "別式（拡大の式 ＋ 4。縮小は逆操作のぶん重い）",
+};
 
 /* ---- タスク横断の難易度 ----
    value＝そのタスクの実効難易度・parts＝内訳（UI/監査用）。
@@ -35,58 +221,74 @@ function basePartsOf(m: ProblemMetrics): DifficultyParts {
    fill は base＋欠け量ペナルティ。scale/solid は別式（下）。 */
 export function taskDifficulty(task: string, p: Problem): { value: number; parts: DifficultyParts } {
   const m = p.metrics;
-  const base = baseDifficulty(m);
+  const parts = basePartsOf(m);
+  const raw = baseRaw(parts);        // 丸める前の土台。固有項を足してから 1 度だけ丸める
   switch (task) {
     case "copy":
-      return { value: base, parts: basePartsOf(m) };
+      return { value: roundD(raw), parts };
 
     case "fill": {
       // 欠け量＝解答（補う線）の見た目の線分数。多いほど選別が難しい。係数2は暫定（後校正）。
       const gaps = p.answer?.mode === "explicit" ? mergedSegments(p.answer.edges).length : 0;
-      return { value: base + 2 * gaps, parts: { base, gap: 2 * gaps } };
+      return { value: roundD(raw + 2 * gaps), parts: { ...parts, gap: 2 * gaps } };
     }
 
     case "mirror":
+      /* 鏡は見本 F の base そのまま。軸（左右／上下）は印刷時の並びで決まる
+         ＝問題ごとの負荷差にならないので、変換の項を持たない（decisions §3.59） */
+      return { value: roundD(raw), parts };
+
     case "rotate":
-    case "translate":
-      return { value: base, parts: { base } };
+    case "translate": {
+      /* 移動・回転は見本 F の base ＋ 変換そのものの負荷（移動量・角度）。
+         1 巻に複数の移動量・角度が混在するため、ここを見ないと巻内で同点になる */
+      const tf = transformLoad(p);
+      return tf && tf.value > 0
+        ? { value: roundD(raw + tf.value), parts: { ...parts, 変換: tf.value } }
+        : { value: roundD(raw), parts };
+    }
 
     case "overlay":
     case "decompose": {
-      // かさね・分解 固有式（decisions §3.70/§3.73）: D = base(A) + base(B) + 2×絡み
-      // 絡み＝A・B 間の交差数。交差は A×A / B×B / A×B のいずれかに属すため
-      // cross(F) − cross(A) − cross(B) で求まる（新しい幾何コード不要）。
+      // かさね・分解 固有式（decisions §3.70/§3.73・v3改）: D = E(A) + E(B) + 2×絡み + 盤面項
+      // 2図の同時保持が本質なので、線の重み E を図ごとに足す。対称係数・画数は
+      // 使わない（2図を見比べる課題では単図の圧縮・運筆モデルが成り立たない）。
+      // 絡み＝A・B 間の交差数＝cross(F) − cross(A) − cross(B)（交差の帰属分解）。
       // A＝F∖R・B＝R（answer explicit・両タスク同一データ形＝pack-tasks §19.8/§20）。
-      // answer 不在/空（白紙作成直後・旧データ）は旧式 2×base にフォールバック。
+      // answer 不在/空（白紙作成直後・旧データ）は 2×E(F) + 盤面項 にフォールバック。
+      const G = boardTerm(m);
       if (p.answer?.mode !== "explicit" || p.grid.type !== "square" || p.answer.edges.length === 0) {
-        return { value: 2 * base, parts: { base, pair: base } };
+        const E = edgeLoad(m);
+        return { value: roundD(2 * E + G), parts: { E, pair: E, G } };
       }
       const rk = new Set(p.answer.edges.map(edgeKey));
       const A = p.edges.filter((e) => !rk.has(edgeKey(e)));
       const mA = computeMetrics(A, p.grid.n);
       const mB = computeMetrics(p.answer.edges, p.grid.n);
-      const bA = baseDifficulty(mA);
-      const bB = baseDifficulty(mB);
+      const eA = edgeLoad(mA);
+      const eB = edgeLoad(mB);
       const inter = Math.max(0, m.crossings - mA.crossings - mB.crossings);
-      return { value: bA + bB + 2 * inter, parts: { A: bA, B: bB, 絡み: 2 * inter } };
+      return { value: roundD(eA + eB + 2 * inter + G), parts: { A: eA, B: eB, 絡み: 2 * inter, G } };
     }
 
     case "fold": {
-      // 折り重ね固有式（decisions §3.74）: かさね系と同じ A+B+絡み。
+      // 折り重ね固有式（decisions §3.74・v3改）: かさね系と同じ E(A)+E(B)+絡み+盤面項。
       // A＝問題1（折り返す前の姿・鏡映しても数量メトリクスは不変）・B＝問題2・
       // 絡み＝折り重ね後の A・B 間交差＝cross(完成図) − cross(A) − cross(B)。
       // 完成図＝answer.edges（=mirror(問題1,v)∪問題2・代表軸 v で焼付済み）。
+      const G = boardTerm(m);
       if (p.answer?.mode !== "explicit" || p.grid.type !== "square"
         || !p.inputB || p.inputB.length === 0 || p.answer.edges.length === 0) {
-        return { value: 2 * base, parts: { base, pair: base } };
+        const E = edgeLoad(m);
+        return { value: roundD(2 * E + G), parts: { E, pair: E, G } };
       }
       const mA = computeMetrics(p.edges, p.grid.n);
       const mB = computeMetrics(p.inputB, p.grid.n);
       const mU = computeMetrics(p.answer.edges, p.grid.n);
-      const bA = baseDifficulty(mA);
-      const bB = baseDifficulty(mB);
+      const eA = edgeLoad(mA);
+      const eB = edgeLoad(mB);
       const inter = Math.max(0, mU.crossings - mA.crossings - mB.crossings);
-      return { value: bA + bB + 2 * inter, parts: { A: bA, B: bB, 絡み: 2 * inter } };
+      return { value: roundD(eA + eB + 2 * inter + G), parts: { A: eA, B: eB, 絡み: 2 * inter, G } };
     }
 
     case "scale":
@@ -96,7 +298,7 @@ export function taskDifficulty(task: string, p: Problem): { value: number; parts
       return solidDifficulty(p);
 
     default:
-      return { value: base, parts: { base } };
+      return { value: roundD(raw), parts };
   }
 }
 
@@ -110,18 +312,26 @@ function scaleDifficulty(p: Problem): { value: number; parts: DifficultyParts } 
   const lineLoad = m.lines;
   const angleLoad = 2 * m.diagonals + (m.hasNon45 ? 6 : 0);
   const shrinkLoad = factor < 1 ? 4 : 0;
-  return { value: lineLoad + angleLoad + shrinkLoad, parts: { lineLoad, angleLoad, shrinkLoad } };
+  return {
+    value: roundD(lineLoad + angleLoad + shrinkLoad),
+    parts: { lineLoad, angleLoad, shrinkLoad },
+  };
 }
 
-/* 立体模写（斜投影＝キャビネット図・矩形点格子）。平面の基礎式を土台に、
+/* 立体模写（斜投影＝キャビネット図・矩形点格子）。線の重み＋盤面項を土台に、
    隠れ辺（点線）本数を最大ドライバーとして加算＝「見えない構造を推して写す」負荷。
-   D = lines + 1.5·diagonals + 8·non45 + 3·hiddenLines（= baseDifficulty + 3·隠れ辺）。 */
+   対称係数・画数は使わない（立体の盤面は図形に合わせて切り出されるため、
+   盤面項の材料も図形の広がり＝bbox で持つ。decisions §3.90）。
+   D = E + G + 3·hiddenLines（= baseDifficulty + 3·隠れ辺。solid metrics は
+   symAxis/strokes を持たないので baseDifficulty が自然に E+G に落ちる）。 */
 function solidDifficulty(p: Problem): { value: number; parts: DifficultyParts } {
   const m = p.metrics;
   const hidden = m.hiddenLines ?? 0;
+  const E = edgeLoad(m);
+  const G = boardTerm(m);
   return {
-    value: baseDifficulty(m) + 3 * hidden,
-    parts: { lines: m.lines, diag: 1.5 * m.diagonals, non45: 8 * m.non45, hidden: 3 * hidden },
+    value: roundD(E + G + 3 * hidden),   // 丸めは最後に一度だけ（内訳の足し算と一致させる）
+    parts: { E, G, hidden: 3 * hidden },
   };
 }
 
@@ -152,10 +362,14 @@ function provenanceFromGen(p: Problem): Provenance {
 }
 
 export function migrateProblem(task: string, p: Problem): Problem {
-  // 旧 metrics は non45 を持たない（=式が NaN になる）ため、欠けていれば edges から引き直す。
-  // computeMetrics/computeSolidMetrics は純粋・辺から決定的なので再計算しても値はぶれない。
+  // 旧 metrics は non45（v1）や strokes/symAxis 等（D式v3 の追加計測）を持たない。
+  // 欠けていれば edges から引き直す。computeMetrics/computeSolidMetrics は純粋・
+  // 辺から決定的なので再計算しても値はぶれない。
+  const v3ok = p.grid.type === "solid"
+    ? p.metrics && typeof p.metrics.bboxW === "number"
+    : p.metrics && typeof p.metrics.strokes === "number";
   const metrics =
-    p.metrics && typeof p.metrics.non45 === "number"
+    p.metrics && typeof p.metrics.non45 === "number" && v3ok
       ? p.metrics
       : p.grid.type === "solid"
         ? computeSolidMetrics(p.solidEdges ?? [])

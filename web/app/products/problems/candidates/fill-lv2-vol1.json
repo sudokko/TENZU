@@ -95,6 +95,7 @@
     "lines": 5,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
@@ -102,7 +103,13 @@
     "pointsUsed": 9,
     "symmetry": [
      "r180"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -129,10 +136,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 7,
-    "auto": 7,
+    "auto": 10.8,
+    "value": 10.8,
     "parts": {
-     "base": 5,
+     "E": 5,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6,
      "gap": 2
     }
    },
@@ -145,7 +156,7 @@
     "label": "へび"
    },
    "status": "adopted",
-   "order": 1
+   "order": 7
   },
   {
    "id": "fill-lv2-vol1-motif-s1-24",
@@ -219,12 +230,19 @@
     "lines": 4,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -251,10 +269,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 7.5,
-    "auto": 7.5,
+    "auto": 10.3,
+    "value": 10.3,
     "parts": {
-     "base": 5.5,
+     "E": 4.5,
+     "G": 3,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 6,
      "gap": 2
     }
    },
@@ -267,7 +289,7 @@
     "label": "はた"
    },
    "status": "adopted",
-   "order": 2,
+   "order": 6,
    "edited": true
   },
   {
@@ -322,6 +344,7 @@
     "lines": 3,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -329,7 +352,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "h"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -356,10 +385,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 8,
-    "auto": 8,
+    "auto": 8.7,
+    "value": 8.7,
     "parts": {
-     "base": 6,
+     "E": 4,
+     "G": 3,
+     "k": 0.75,
+     "strokes": 0.7,
+     "brk": 0,
      "gap": 2
     }
    },
@@ -426,6 +459,7 @@
     "lines": 3,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -433,7 +467,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "v"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -460,10 +500,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 8,
-    "auto": 8,
+    "auto": 8.5,
+    "value": 8.5,
     "parts": {
-     "base": 6,
+     "E": 4,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 0,
      "gap": 2
     }
    },
@@ -476,7 +520,7 @@
     "label": "やじるし"
    },
    "status": "adopted",
-   "order": 4
+   "order": 1
   },
   {
    "id": "fill-lv2-vol1-motif-s1-29",
@@ -520,12 +564,19 @@
     "lines": 3,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -552,10 +603,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 8,
-    "auto": 8,
+    "auto": 9.4,
+    "value": 9.4,
     "parts": {
-     "base": 6,
+     "E": 4,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6,
      "gap": 2
     }
    },
@@ -612,12 +667,19 @@
     "lines": 3,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -644,10 +706,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 8,
-    "auto": 8,
+    "auto": 9.4,
+    "value": 9.4,
     "parts": {
-     "base": 6,
+     "E": 4,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6,
      "gap": 2
     }
    },
@@ -723,6 +789,7 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -730,7 +797,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "v"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -757,10 +830,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 9,
-    "auto": 9,
+    "auto": 8.5,
+    "value": 8.5,
     "parts": {
-     "base": 7,
+     "E": 5,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
      "gap": 2
     }
    },
@@ -773,7 +850,7 @@
     "label": "ふね"
    },
    "status": "adopted",
-   "order": 6
+   "order": 2
   },
   {
    "id": "fill-lv2-vol1-motif-s1-33",
@@ -837,6 +914,7 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -844,7 +922,13 @@
     "pointsUsed": 4,
     "symmetry": [
      "v"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -881,10 +965,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 11,
-    "auto": 11,
+    "auto": 10.3,
+    "value": 10.3,
     "parts": {
-     "base": 7,
+     "E": 5,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
      "gap": 4
     }
    },
@@ -960,6 +1048,7 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -967,7 +1056,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "v"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1004,10 +1099,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 11,
-    "auto": 11,
+    "auto": 11.9,
+    "value": 11.9,
     "parts": {
-     "base": 7,
+     "E": 5,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 1.4,
+     "brk": 0,
      "gap": 4
     }
    },
@@ -1020,7 +1119,7 @@
     "label": "コップ"
    },
    "status": "adopted",
-   "order": 12,
+   "order": 11,
    "edited": true
   },
   {
@@ -1105,6 +1204,7 @@
     "lines": 5,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1112,7 +1212,13 @@
     "pointsUsed": 7,
     "symmetry": [
      "v"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1149,10 +1255,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 12,
-    "auto": 12,
+    "auto": 11.9,
+    "value": 11.9,
     "parts": {
-     "base": 8,
+     "E": 6,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 0,
      "gap": 4
     }
    },
@@ -1165,7 +1275,7 @@
     "label": "き"
    },
    "status": "adopted",
-   "order": 8,
+   "order": 12,
    "edited": true
   },
   {
@@ -1280,6 +1390,7 @@
     "lines": 6,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1287,7 +1398,13 @@
     "pointsUsed": 9,
     "symmetry": [
      "v"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1319,20 +1436,44 @@
        2,
        0
       ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
      ]
     ]
    },
    "difficulty": {
     "task": "fill",
-    "value": 13,
-    "auto": 13,
+    "auto": 11.9,
+    "value": 11.9,
     "parts": {
-     "base": 9,
+     "E": 7,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
      "gap": 4
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "motif",
     "version": "1",
     "seed": 1,
@@ -1340,7 +1481,8 @@
     "label": "てがみ"
    },
    "status": "adopted",
-   "order": 11
+   "order": 10,
+   "edited": true
   },
   {
    "id": "fill-lv2-vol1-motif-s1-37",
@@ -1434,6 +1576,7 @@
     "lines": 6,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1441,7 +1584,13 @@
     "pointsUsed": 7,
     "symmetry": [
      "v"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1478,10 +1627,14 @@
    },
    "difficulty": {
     "task": "fill",
-    "value": 13,
-    "auto": 13,
+    "auto": 11.9,
+    "value": 11.9,
     "parts": {
-     "base": 9,
+     "E": 7,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
      "gap": 4
     }
    },
@@ -1494,7 +1647,7 @@
     "label": "いえ"
    },
    "status": "adopted",
-   "order": 10,
+   "order": 9,
    "edited": true
   },
   {
@@ -1614,6 +1767,7 @@
     "lines": 3,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1621,7 +1775,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d2"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1633,10 +1793,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fill",
-    "value": 8.5,
-    "auto": 8.5,
+    "auto": 10,
+    "value": 10,
     "parts": {
-     "base": 4.5,
+     "E": 3.5,
+     "G": 3,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0,
      "gap": 4
     }
    },
@@ -1755,6 +1919,7 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1762,7 +1927,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1774,10 +1945,14 @@
    "status": "adopted",
    "difficulty": {
     "task": "fill",
-    "value": 9,
-    "auto": 9,
+    "auto": 9.3,
+    "value": 9.3,
     "parts": {
-     "base": 7,
+     "E": 5,
+     "G": 3,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0,
      "gap": 2
     }
    },
@@ -1788,7 +1963,7 @@
     "seed": 1,
     "variant": "triH#2/1"
    },
-   "order": 7
+   "order": 4
   },
   {
    "id": "fill-lv2-vol1-s1-42",
@@ -1907,6 +2082,7 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1914,7 +2090,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d2"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1926,10 +2108,14 @@
    "status": "adopted",
    "difficulty": {
     "task": "fill",
-    "value": 11,
-    "auto": 11,
+    "auto": 11.3,
+    "value": 11.3,
     "parts": {
-     "base": 7,
+     "E": 5,
+     "G": 3,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0,
      "gap": 4
     }
    },
@@ -1940,7 +2126,7 @@
     "seed": 1,
     "variant": "triH#2/0"
    },
-   "order": 9,
+   "order": 8,
    "edited": true
   }
  ],

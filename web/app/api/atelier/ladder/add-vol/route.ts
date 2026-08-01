@@ -43,10 +43,11 @@ export async function POST(req: NextRequest) {
     hasLadder = true;
   }
 
-  // カタログに新 Vol を追加（scaffold＝一覧に「準備中」で陳列）
+  // カタログに新 Vol を追加。未入稿なので一覧には「準備中」で陳列される
+  // （公開状態は published/{sku}.json の有無から導出＝フラグは持たせない）
   extra.vols.push({
     task, sku: newSku, lv, volNo: nextVolNo, grid, ageLabel,
-    status: "scaffold", ...(variant ? { variant } : {}),
+    ...(variant ? { variant } : {}),
     blurb: "新しい Vol（atelier で追加）。基準を調整して問題を作成してください。",
   });
   await writeCatalogExtra(extra);

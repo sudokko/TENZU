@@ -567,13 +567,16 @@
     "lines": 50,
     "diagonals": 15,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 43,
     "symmetry": [],
-    "hiddenLines": 0
+    "hiddenLines": 0,
+    "bboxW": 14,
+    "bboxH": 12
    },
    "gen": {
     "kind": "auto",
@@ -585,12 +588,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 72.5,
-    "auto": 72.5,
+    "auto": 71,
+    "value": 71,
     "parts": {
-     "lines": 50,
-     "diag": 22.5,
-     "non45": 0,
+     "E": 57.5,
+     "G": 13.5,
      "hidden": 0
     }
    },
@@ -1288,13 +1290,16 @@
     "lines": 61,
     "diagonals": 22,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 42,
     "symmetry": [],
-    "hiddenLines": 26
+    "hiddenLines": 26,
+    "bboxW": 11,
+    "bboxH": 9
    },
    "gen": {
     "kind": "auto",
@@ -1306,12 +1311,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 172,
-    "auto": 172,
+    "auto": 160.5,
+    "value": 160.5,
     "parts": {
-     "lines": 61,
-     "diag": 33,
-     "non45": 0,
+     "E": 72,
+     "G": 10.5,
      "hidden": 78
     }
    },
@@ -2118,13 +2122,16 @@
     "lines": 71,
     "diagonals": 20,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 48,
     "symmetry": [],
-    "hiddenLines": 25
+    "hiddenLines": 25,
+    "bboxW": 10,
+    "bboxH": 11
    },
    "gen": {
     "kind": "auto",
@@ -2136,12 +2143,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 176,
-    "auto": 176,
+    "auto": 166.8,
+    "value": 166.8,
     "parts": {
-     "lines": 71,
-     "diag": 30,
-     "non45": 0,
+     "E": 81,
+     "G": 10.75,
      "hidden": 75
     }
    },
@@ -2981,13 +2987,16 @@
     "lines": 74,
     "diagonals": 23,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 54,
     "symmetry": [],
-    "hiddenLines": 23
+    "hiddenLines": 23,
+    "bboxW": 13,
+    "bboxH": 10
    },
    "gen": {
     "kind": "auto",
@@ -2999,12 +3008,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 177.5,
-    "auto": 177.5,
+    "auto": 166.8,
+    "value": 166.8,
     "parts": {
-     "lines": 74,
-     "diag": 34.5,
-     "non45": 0,
+     "E": 85.5,
+     "G": 12.25,
      "hidden": 69
     }
    },
@@ -3866,13 +3874,16 @@
     "lines": 76,
     "diagonals": 23,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 47,
     "symmetry": [],
-    "hiddenLines": 23
+    "hiddenLines": 23,
+    "bboxW": 14,
+    "bboxH": 9
    },
    "gen": {
     "kind": "auto",
@@ -3884,12 +3895,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 179.5,
-    "auto": 179.5,
+    "auto": 169.3,
+    "value": 169.3,
     "parts": {
-     "lines": 76,
-     "diag": 34.5,
-     "non45": 0,
+     "E": 87.5,
+     "G": 12.75,
      "hidden": 69
     }
    },
@@ -4674,13 +4684,16 @@
     "lines": 69,
     "diagonals": 24,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 49,
     "symmetry": [],
-    "hiddenLines": 25
+    "hiddenLines": 25,
+    "bboxW": 11,
+    "bboxH": 12
    },
    "gen": {
     "kind": "auto",
@@ -4692,12 +4705,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 180,
-    "auto": 180,
+    "auto": 167.8,
+    "value": 167.8,
     "parts": {
-     "lines": 69,
-     "diag": 36,
-     "non45": 0,
+     "E": 81,
+     "G": 11.75,
      "hidden": 75
     }
    },
@@ -5537,13 +5549,16 @@
     "lines": 74,
     "diagonals": 24,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 50,
     "symmetry": [],
-    "hiddenLines": 25
+    "hiddenLines": 25,
+    "bboxW": 11,
+    "bboxH": 10
    },
    "gen": {
     "kind": "auto",
@@ -5555,12 +5570,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 185,
-    "auto": 185,
+    "auto": 171.8,
+    "value": 171.8,
     "parts": {
-     "lines": 74,
-     "diag": 36,
-     "non45": 0,
+     "E": 86,
+     "G": 10.75,
      "hidden": 75
     }
    },
@@ -6400,13 +6414,16 @@
     "lines": 74,
     "diagonals": 24,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 48,
     "symmetry": [],
-    "hiddenLines": 26
+    "hiddenLines": 26,
+    "bboxW": 14,
+    "bboxH": 13
    },
    "gen": {
     "kind": "auto",
@@ -6418,12 +6435,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 188,
-    "auto": 188,
+    "auto": 177.8,
+    "value": 177.8,
     "parts": {
-     "lines": 74,
-     "diag": 36,
-     "non45": 0,
+     "E": 86,
+     "G": 13.75,
      "hidden": 78
     }
    },
@@ -7296,13 +7312,16 @@
     "lines": 77,
     "diagonals": 28,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 52,
     "symmetry": [],
-    "hiddenLines": 25
+    "hiddenLines": 25,
+    "bboxW": 13,
+    "bboxH": 13
    },
    "gen": {
     "kind": "auto",
@@ -7314,12 +7333,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 194,
-    "auto": 194,
+    "auto": 179,
+    "value": 179,
     "parts": {
-     "lines": 77,
-     "diag": 42,
-     "non45": 0,
+     "E": 91,
+     "G": 13,
      "hidden": 75
     }
    },
@@ -8280,13 +8298,16 @@
     "lines": 85,
     "diagonals": 28,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 58,
     "symmetry": [],
-    "hiddenLines": 26
+    "hiddenLines": 26,
+    "bboxW": 11,
+    "bboxH": 13
    },
    "gen": {
     "kind": "auto",
@@ -8298,12 +8319,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 205,
-    "auto": 205,
+    "auto": 189.5,
+    "value": 189.5,
     "parts": {
-     "lines": 85,
-     "diag": 42,
-     "non45": 0,
+     "E": 99,
+     "G": 12.5,
      "hidden": 78
     }
    },
@@ -9264,13 +9284,16 @@
     "lines": 85,
     "diagonals": 30,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 57,
     "symmetry": [],
-    "hiddenLines": 28
+    "hiddenLines": 28,
+    "bboxW": 11,
+    "bboxH": 11
    },
    "gen": {
     "kind": "auto",
@@ -9282,12 +9305,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 214,
-    "auto": 214,
+    "auto": 195,
+    "value": 195,
     "parts": {
-     "lines": 85,
-     "diag": 45,
-     "non45": 0,
+     "E": 100,
+     "G": 11,
      "hidden": 84
     }
    },
@@ -10116,13 +10138,16 @@
     "lines": 73,
     "diagonals": 23,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 49,
     "symmetry": [],
-    "hiddenLines": 36
+    "hiddenLines": 36,
+    "bboxW": 10,
+    "bboxH": 11
    },
    "gen": {
     "kind": "auto",
@@ -10134,12 +10159,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 215.5,
-    "auto": 215.5,
+    "auto": 203.3,
+    "value": 203.3,
     "parts": {
-     "lines": 73,
-     "diag": 34.5,
-     "non45": 0,
+     "E": 84.5,
+     "G": 10.75,
      "hidden": 108
     }
    },
@@ -10990,13 +11014,16 @@
     "lines": 75,
     "diagonals": 25,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 2,
     "pointsUsed": 53,
     "symmetry": [],
-    "hiddenLines": 35
+    "hiddenLines": 35,
+    "bboxW": 11,
+    "bboxH": 11
    },
    "gen": {
     "kind": "auto",
@@ -11008,12 +11035,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 217.5,
-    "auto": 217.5,
+    "auto": 203.5,
+    "value": 203.5,
     "parts": {
-     "lines": 75,
-     "diag": 37.5,
-     "non45": 0,
+     "E": 87.5,
+     "G": 11,
      "hidden": 105
     }
    },
@@ -11699,13 +11725,16 @@
     "lines": 60,
     "diagonals": 22,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 41,
     "symmetry": [],
-    "hiddenLines": 26
+    "hiddenLines": 26,
+    "bboxW": 9,
+    "bboxH": 9
    },
    "gen": {
     "kind": "auto",
@@ -11717,12 +11746,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 171,
-    "auto": 171,
+    "auto": 158,
+    "value": 158,
     "parts": {
-     "lines": 60,
-     "diag": 33,
-     "non45": 0,
+     "E": 71,
+     "G": 9,
      "hidden": 78
     }
    },
@@ -12573,13 +12601,16 @@
     "lines": 75,
     "diagonals": 26,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 49,
     "symmetry": [],
-    "hiddenLines": 19
+    "hiddenLines": 19,
+    "bboxW": 10,
+    "bboxH": 11
    },
    "gen": {
     "kind": "auto",
@@ -12591,12 +12622,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 171,
-    "auto": 171,
+    "auto": 155.8,
+    "value": 155.8,
     "parts": {
-     "lines": 75,
-     "diag": 39,
-     "non45": 0,
+     "E": 88,
+     "G": 10.75,
      "hidden": 57
     }
    },
@@ -13447,13 +13477,16 @@
     "lines": 75,
     "diagonals": 24,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 52,
     "symmetry": [],
-    "hiddenLines": 20
+    "hiddenLines": 20,
+    "bboxW": 12,
+    "bboxH": 10
    },
    "gen": {
     "kind": "auto",
@@ -13465,12 +13498,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 171,
-    "auto": 171,
+    "auto": 158.5,
+    "value": 158.5,
     "parts": {
-     "lines": 75,
-     "diag": 36,
-     "non45": 0,
+     "E": 87,
+     "G": 11.5,
      "hidden": 60
     }
    },
@@ -13859,13 +13891,16 @@
     "lines": 33,
     "diagonals": 11,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 26,
     "symmetry": [],
-    "hiddenLines": 0
+    "hiddenLines": 0,
+    "bboxW": 10,
+    "bboxH": 11
    },
    "gen": {
     "kind": "auto",
@@ -13877,12 +13912,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 49.5,
-    "auto": 49.5,
+    "auto": 49.3,
+    "value": 49.3,
     "parts": {
-     "lines": 33,
-     "diag": 16.5,
-     "non45": 0,
+     "E": 38.5,
+     "G": 10.75,
      "hidden": 0
     }
    },
@@ -14712,13 +14746,16 @@
     "lines": 73,
     "diagonals": 24,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 48,
     "symmetry": [],
-    "hiddenLines": 24
+    "hiddenLines": 24,
+    "bboxW": 15,
+    "bboxH": 12
    },
    "gen": {
     "kind": "auto",
@@ -14730,12 +14767,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 181,
-    "auto": 181,
+    "auto": 171.3,
+    "value": 171.3,
     "parts": {
-     "lines": 73,
-     "diag": 36,
-     "non45": 0,
+     "E": 85,
+     "G": 14.25,
      "hidden": 72
     }
    },
@@ -15652,13 +15688,16 @@
     "lines": 81,
     "diagonals": 25,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 51,
     "symmetry": [],
-    "hiddenLines": 21
+    "hiddenLines": 21,
+    "bboxW": 12,
+    "bboxH": 12
    },
    "gen": {
     "kind": "auto",
@@ -15670,12 +15709,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 181.5,
-    "auto": 181.5,
+    "auto": 168.5,
+    "value": 168.5,
     "parts": {
-     "lines": 81,
-     "diag": 37.5,
-     "non45": 0,
+     "E": 93.5,
+     "G": 12,
      "hidden": 63
     }
    },
@@ -16537,13 +16575,16 @@
     "lines": 76,
     "diagonals": 24,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 52,
     "symmetry": [],
-    "hiddenLines": 26
+    "hiddenLines": 26,
+    "bboxW": 14,
+    "bboxH": 12
    },
    "gen": {
     "kind": "auto",
@@ -16555,12 +16596,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 190,
-    "auto": 190,
+    "auto": 179.5,
+    "value": 179.5,
     "parts": {
-     "lines": 76,
-     "diag": 36,
-     "non45": 0,
+     "E": 88,
+     "G": 13.5,
      "hidden": 78
     }
    },
@@ -17356,13 +17396,16 @@
     "lines": 70,
     "diagonals": 23,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 41,
     "symmetry": [],
-    "hiddenLines": 29
+    "hiddenLines": 29,
+    "bboxW": 11,
+    "bboxH": 9
    },
    "gen": {
     "kind": "auto",
@@ -17374,12 +17417,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 191.5,
-    "auto": 191.5,
+    "auto": 179,
+    "value": 179,
     "parts": {
-     "lines": 70,
-     "diag": 34.5,
-     "non45": 0,
+     "E": 81.5,
+     "G": 10.5,
      "hidden": 87
     }
    },
@@ -18274,13 +18316,16 @@
     "lines": 79,
     "diagonals": 28,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 54,
     "symmetry": [],
-    "hiddenLines": 25
+    "hiddenLines": 25,
+    "bboxW": 14,
+    "bboxH": 11
    },
    "gen": {
     "kind": "auto",
@@ -18292,12 +18337,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 196,
-    "auto": 196,
+    "auto": 181.3,
+    "value": 181.3,
     "parts": {
-     "lines": 79,
-     "diag": 42,
-     "non45": 0,
+     "E": 93,
+     "G": 13.25,
      "hidden": 75
     }
    },
@@ -19478,13 +19522,16 @@
     "lines": 105,
     "diagonals": 34,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 69,
     "symmetry": [],
-    "hiddenLines": 30
+    "hiddenLines": 30,
+    "bboxW": 14,
+    "bboxH": 13
    },
    "gen": {
     "kind": "auto",
@@ -19496,12 +19543,11 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 246,
-    "auto": 246,
+    "auto": 225.8,
+    "value": 225.8,
     "parts": {
-     "lines": 105,
-     "diag": 51,
-     "non45": 0,
+     "E": 122,
+     "G": 13.75,
      "hidden": 90
     }
    },

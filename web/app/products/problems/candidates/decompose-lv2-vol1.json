@@ -150,12 +150,19 @@
     "lines": 6,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 7,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -167,12 +174,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 9.5,
-    "auto": 9.5,
+    "auto": 11.5,
+    "value": 11.5,
     "parts": {
-     "A": 5.5,
+     "A": 4.5,
      "B": 2,
-     "絡み": 2
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -360,12 +368,19 @@
     "lines": 7,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 8,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -377,12 +392,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 13,
-    "auto": 13,
+    "auto": 14,
+    "value": 14,
     "parts": {
-     "A": 5.5,
-     "B": 5.5,
-     "絡み": 2
+     "A": 4.5,
+     "B": 4.5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -560,12 +576,19 @@
     "lines": 7,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -577,12 +600,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 13,
-    "auto": 13,
+    "auto": 14,
+    "value": 14,
     "parts": {
-     "A": 5.5,
-     "B": 5.5,
-     "絡み": 2
+     "A": 4.5,
+     "B": 4.5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -800,12 +824,19 @@
     "lines": 8,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -817,12 +848,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 11,
-    "auto": 11,
+    "auto": 12,
+    "value": 12,
     "parts": {
-     "A": 5.5,
-     "B": 5.5,
-     "絡み": 0
+     "A": 4.5,
+     "B": 4.5,
+     "絡み": 0,
+     "G": 3
     }
    },
    "provenance": {
@@ -1040,12 +1072,19 @@
     "lines": 8,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -1057,12 +1096,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 13,
-    "auto": 13,
+    "auto": 14,
+    "value": 14,
     "parts": {
-     "A": 5.5,
-     "B": 5.5,
-     "絡み": 2
+     "A": 4.5,
+     "B": 4.5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -1250,12 +1290,19 @@
     "lines": 7,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 7,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -1267,12 +1314,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 14.5,
     "auto": 14.5,
+    "value": 14.5,
     "parts": {
-     "A": 5.5,
-     "B": 7,
-     "絡み": 2
+     "A": 4.5,
+     "B": 5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -1430,12 +1478,19 @@
     "lines": 7,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 8,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -1447,12 +1502,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 13.5,
     "auto": 13.5,
+    "value": 13.5,
     "parts": {
-     "A": 5.5,
-     "B": 6,
-     "絡み": 2
+     "A": 4.5,
+     "B": 4,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -1680,12 +1736,19 @@
     "lines": 8,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -1697,12 +1760,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 12.5,
     "auto": 12.5,
+    "value": 12.5,
     "parts": {
-     "A": 7,
-     "B": 5.5,
-     "絡み": 0
+     "A": 5,
+     "B": 4.5,
+     "絡み": 0,
+     "G": 3
     }
    },
    "provenance": {
@@ -1880,12 +1944,19 @@
     "lines": 8,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -1897,12 +1968,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 12.5,
     "auto": 12.5,
+    "value": 12.5,
     "parts": {
-     "A": 5.5,
-     "B": 7,
-     "絡み": 0
+     "A": 4.5,
+     "B": 5,
+     "絡み": 0,
+     "G": 3
     }
    },
    "provenance": {
@@ -2100,12 +2172,19 @@
     "lines": 8,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -2117,12 +2196,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 14.5,
     "auto": 14.5,
+    "value": 14.5,
     "parts": {
-     "A": 7,
-     "B": 5.5,
-     "絡み": 2
+     "A": 5,
+     "B": 4.5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -2320,12 +2400,19 @@
     "lines": 8,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 8,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -2337,12 +2424,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 14.5,
     "auto": 14.5,
+    "value": 14.5,
     "parts": {
-     "A": 5.5,
-     "B": 7,
-     "絡み": 2
+     "A": 4.5,
+     "B": 5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -2510,12 +2598,19 @@
     "lines": 8,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -2527,12 +2622,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 12.5,
     "auto": 12.5,
+    "value": 12.5,
     "parts": {
-     "A": 7,
-     "B": 5.5,
-     "絡み": 0
+     "A": 5,
+     "B": 4.5,
+     "絡み": 0,
+     "G": 3
     }
    },
    "provenance": {
@@ -2710,12 +2806,19 @@
     "lines": 8,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 8,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -2727,12 +2830,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 16,
-    "auto": 16,
+    "auto": 15,
+    "value": 15,
     "parts": {
-     "A": 7,
-     "B": 7,
-     "絡み": 2
+     "A": 5,
+     "B": 5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -2910,12 +3014,19 @@
     "lines": 8,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -2927,12 +3038,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 16,
-    "auto": 16,
+    "auto": 15,
+    "value": 15,
     "parts": {
-     "A": 5.5,
-     "B": 8.5,
-     "絡み": 2
+     "A": 4.5,
+     "B": 5.5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -3090,12 +3202,19 @@
     "lines": 8,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 8,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -3107,12 +3226,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 16,
-    "auto": 16,
+    "auto": 15,
+    "value": 15,
     "parts": {
-     "A": 7,
-     "B": 7,
-     "絡み": 2
+     "A": 5,
+     "B": 5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -3270,12 +3390,19 @@
     "lines": 8,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 7,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -3287,12 +3414,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 14,
-    "auto": 14,
+    "auto": 13,
+    "value": 13,
     "parts": {
-     "A": 7,
-     "B": 7,
-     "絡み": 0
+     "A": 5,
+     "B": 5,
+     "絡み": 0,
+     "G": 3
     }
    },
    "provenance": {
@@ -3470,12 +3598,19 @@
     "lines": 8,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 8,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -3487,12 +3622,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 16,
-    "auto": 16,
+    "auto": 15,
+    "value": 15,
     "parts": {
-     "A": 7,
-     "B": 7,
-     "絡み": 2
+     "A": 5,
+     "B": 5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -3680,12 +3816,19 @@
     "lines": 8,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -3697,12 +3840,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 16,
-    "auto": 16,
+    "auto": 15,
+    "value": 15,
     "parts": {
-     "A": 7,
-     "B": 7,
-     "絡み": 2
+     "A": 5,
+     "B": 5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {
@@ -3870,12 +4014,19 @@
     "lines": 8,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 7,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -3887,12 +4038,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 14,
-    "auto": 14,
+    "auto": 13,
+    "value": 13,
     "parts": {
-     "A": 7,
-     "B": 7,
-     "絡み": 0
+     "A": 5,
+     "B": 5,
+     "絡み": 0,
+     "G": 3
     }
    },
    "provenance": {
@@ -4060,12 +4212,19 @@
     "lines": 8,
     "diagonals": 5,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 7,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -4077,12 +4236,13 @@
    "status": "pending",
    "difficulty": {
     "task": "decompose",
-    "value": 17.5,
-    "auto": 17.5,
+    "auto": 15.5,
+    "value": 15.5,
     "parts": {
-     "A": 7,
-     "B": 8.5,
-     "絡み": 2
+     "A": 5,
+     "B": 5.5,
+     "絡み": 2,
+     "G": 3
     }
    },
    "provenance": {

@@ -17,10 +17,9 @@ export type MVol = {
 };
 export type MTask = { slug: string; name: string; vols: MVol[] };
 
-const STATUS_OPTS = [
-  { value: "scaffold", label: "scaffold（準備中）" },
-  { value: "live", label: "live（公開）" },
-];
+/* status（live/scaffold）はここでは編集しない。公開状態は「12 問を採用して公開する」＝
+   published/{sku}.json の有無から導出される（products/data.ts）。店から下げるときは
+   status を戻すのではなく「非表示」を使う。 */
 
 export default function VolManager({
   tasks, launchHiddenTasks = [], hidden,
@@ -82,9 +81,15 @@ export default function VolManager({
                   <span className="atl-vm-sku">{v.sku}</span>
                   <span className="atl-vm-blurb">{v.blurb}</span>
                   <span className="atl-vm-badges">
-                    {v.isPub && <em className="atl-badge atl-badge--pub">公開済</em>}
+                    {v.status === "live"
+                      ? <em className="atl-badge atl-badge--pub">公開中</em>
+                      : <em className="atl-badge">未公開（準備中）</em>}
+                    {/* skus.ts は live と言っているのに問題データ本体が無い＝生成物が古いか
+                        published/{sku}.json が未追跡。ビルドが壊れる前にここで気づく。 */}
+                    {v.status === "live" && !v.isPub && (
+                      <em className="atl-badge atl-badge--warn">⚠ 問題データ不在</em>
+                    )}
                     {v.hasGen ? <em className="atl-badge atl-badge--gen">自動生成</em> : <em className="atl-badge">手設計</em>}
-                    {v.status === "scaffold" && <em className="atl-badge">scaffold</em>}
                     {v.isExtra && <em className="atl-badge">追加</em>}
                     {v.ageLabel && <em className="atl-badge">{v.ageLabel}</em>}
                   </span>
@@ -116,6 +121,8 @@ export default function VolManager({
       <p className="atl-vm-note">
         任意の Lv・grid で Vol を追加／メタ編集／削除・非表示ができます。生成器のあるタスクは追加時に
         基準（ladder）も雛形から複製されます。既存巻の「削除」は非表示（hidden）、追加した巻は実削除です。
+        公開状態はここでは切り替えません——各巻を開いて 12 問を採用し「公開する」を押した時点で
+        商品ページが生えます（入稿済み＝公開）。店から下げるときは「非表示」を使ってください。
       </p>
       {msg && <p className="atl-vm-msg">{msg}</p>}
 
@@ -161,13 +168,12 @@ function CreateForm({
   const [variant, setVariant] = useState("");
   const [blurb, setBlurb] = useState("");
   const [ageLabel, setAgeLabel] = useState("");
-  const [status, setStatus] = useState("scaffold");
   const [cloneFrom, setCloneFrom] = useState("");
 
   return (
     <form className="atl-vm-form" onSubmit={(e) => {
       e.preventDefault();
-      onCreate({ lv, grid: grid.trim(), variant, blurb, ageLabel, status, cloneFrom: cloneFrom || undefined });
+      onCreate({ lv, grid: grid.trim(), variant, blurb, ageLabel, cloneFrom: cloneFrom || undefined });
     }}>
       <div className="atl-vm-fgrid">
         <label>Lv
@@ -183,11 +189,6 @@ function CreateForm({
         </label>
         <label>対象年齢（任意）
           <input type="text" value={ageLabel} placeholder="5〜7才ごろ" onChange={(e) => setAgeLabel(e.target.value)} />
-        </label>
-        <label>status
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            {STATUS_OPTS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
         </label>
         <label>基準の複製元（任意）
           <select value={cloneFrom} onChange={(e) => setCloneFrom(e.target.value)}>
@@ -217,12 +218,11 @@ function EditForm({
   const [variant, setVariant] = useState(vol.variant ?? "");
   const [blurb, setBlurb] = useState(vol.blurb);
   const [ageLabel, setAgeLabel] = useState(vol.ageLabel);
-  const [status, setStatus] = useState(vol.status);
 
   return (
     <form className="atl-vm-form" onSubmit={(e) => {
       e.preventDefault();
-      onSave({ grid: grid.trim(), variant, blurb, ageLabel, status });
+      onSave({ grid: grid.trim(), variant, blurb, ageLabel });
     }}>
       <p className="atl-vm-editsku">{vol.sku} を編集{vol.hasGen && <em>（生成 grid は「N×N」で ladder にも同期）</em>}</p>
       <div className="atl-vm-fgrid">
@@ -235,10 +235,10 @@ function EditForm({
         <label>対象年齢
           <input type="text" value={ageLabel} onChange={(e) => setAgeLabel(e.target.value)} />
         </label>
-        <label>status
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            {STATUS_OPTS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
+        <label>公開状態（編集不可）
+          <output className="atl-vm-ro">
+            {vol.status === "live" ? "公開中（入稿済み）" : "未公開 — 12 問を採用して「公開する」"}
+          </output>
         </label>
       </div>
       <label className="atl-vm-fwide">説明文

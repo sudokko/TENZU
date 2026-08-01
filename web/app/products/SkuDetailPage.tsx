@@ -15,7 +15,8 @@ import { makerByKey } from "./makers";
 import { MAKER_FIG } from "./maker-figs";
 import { FREE_MAKER, MAKER_PRICE, makerPriceLabel, isLaunchHidden, type MakerKey } from "./capabilities";
 import { publishedSet } from "./problems/published";
-import { metricsLabel } from "./problems/schema";
+import { coverageOf } from "./coverage";
+import CoverageSection from "./CoverageSection";
 import { catalogTaskBySlug, LEVELS } from "../catalog";
 import {
   LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL,
@@ -29,6 +30,14 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
 
   /* published 問題データ（入稿済 SKU のみ。未入稿はプレビュー側でサンプルにフォールバック） */
   const problemSet = publishedSet(vol.sku);
+
+  /* 収録問題の内訳（本文テキスト・JSON-LD の共通ソース）。
+     数値は published から導出＝atelier で差し替えれば本文も JSON-LD も自動追随する。
+     未入稿の巻は undefined＝内訳セクションも hasPart も出さない。 */
+  const cov = problemSet ? coverageOf(problemSet) : undefined;
+
+  /* 問題数は「実際に入稿されている数」を正とし、未入稿だけ定数にフォールバック */
+  const qCount = problemSet?.problems.length ?? QUESTIONS_PER_VOL;
 
   /* 改訂: 鮮度シグナルは「最終改訂」1 行＋ JSON-LD dateModified で担保。
      履歴一覧は実改訂が 2 件以上ある巻だけ見せる（架空の初版行はでっち上げない） */
@@ -71,30 +80,38 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
   const maker = isLaunchHidden(task.slug) ? undefined : makerByKey(task.slug as MakerKey);
   const MakerFig = maker ? MAKER_FIG[maker.key] : undefined;
 
-  /* JSON-LD: Product ＋ 収録問題の ItemList（LLMO・templates.md §7.4 の物量提示） */
+  /* JSON-LD: Product ＋ 収録問題の ItemList（LLMO・templates.md §7.4 の物量提示）
+     本文セクションと同じ coverage を使う＝両者が食い違わない。description も
+     「巻の1文＋実測の集計文」にして、本文に書いてある事実を構造化側でも裏づける。 */
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: `${task.name} ${lvName} Vol.${vol.volNo}（${vol.grid}）`,
     sku: vol.sku,
-    description: vol.blurb,
+    description: cov ? `${vol.blurb} ${cov.summary}` : vol.blurb,
     brand: { "@type": "Brand", name: "TENZU" },
     ...(latest && { dateModified: latest.date }),
     offers: {
       "@type": "Offer", price: String(PRICE), priceCurrency: "JPY",
       availability: "https://schema.org/InStock",
     },
-    ...(problemSet && {
+    ...(cov && {
       hasPart: {
         "@type": "ItemList",
-        numberOfItems: problemSet.problems.length,
-        itemListElement: problemSet.problems.map((p, i) => ({
+        numberOfItems: cov.count,
+        itemListElement: cov.rows.map((r) => ({
           "@type": "ListItem",
-          position: i + 1,
+          position: r.no,
           item: {
             "@type": "CreativeWork",
-            name: `問${i + 1}`,
-            description: metricsLabel(p.metrics, p.grid) + (p.aim ? `。${p.aim}` : ""),
+            name: `問${r.no}`,
+            description: [
+              r.metrics,
+              r.transform,
+              r.aim,
+              /* D は値だけでなく内訳（実計算）も出す＝行単位で検証可能な一次データ */
+              r.d !== undefined && `難易度D ${r.d}${r.dParts ? `（＝${r.dParts}）` : ""}`,
+            ].filter(Boolean).join("。"),
           },
         })),
       },
@@ -133,7 +150,7 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
               buySlot={
             <div className="sku-buy">
               <div className="spec-table">
-                <div className="spec-row"><span className="spec-label">問題数</span><span className="spec-value mono">{QUESTIONS_PER_VOL} 問</span></div>
+                <div className="spec-row"><span className="spec-label">問題数</span><span className="spec-value mono">{qCount} 問</span></div>
                 <div className="spec-row"><span className="spec-label">グリッド</span><span className="spec-value mono">{vol.grid}</span></div>
                 {vol.variant && (
                   <div className="spec-row"><span className="spec-label">この巻の特徴</span><span className="spec-value">{vol.variant}</span></div>
@@ -146,7 +163,7 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
 
               <div className="price-row">
                 <div className="price-yen">¥{PRICE}</div>
-                <div className="price-meta">税込 · 全 {QUESTIONS_PER_VOL} 問 · PDF ダウンロード</div>
+                <div className="price-meta">税込 · 全 {qCount} 問 · PDF ダウンロード</div>
               </div>
 
               <AddToCartButton sku={vol.sku} />
@@ -205,6 +222,12 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
 
           </div>
         </section>
+
+        {/* ============ COVERAGE（収録N問の内訳） ============
+            12問の中身を本文テキストでも出す。SVG しか無かった状態を解消し、
+            JSON-LD（上の hasPart）と同じ事実が本文にもある状態にする。
+            未入稿の巻（cov 無し）では出さない。 */}
+        {cov && <CoverageSection cov={cov} />}
 
         {/* ============ MAKER CROSS-SELL（送客導線(A)＝開店ゲート G6） ============
             この巻と同じ種類を自作できるメーカーへの橋（クロスセル・decisions §4.6）。

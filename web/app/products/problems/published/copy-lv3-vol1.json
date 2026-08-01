@@ -175,6 +175,8 @@
    "metrics": {
     "lines": 8,
     "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
@@ -184,7 +186,13 @@
      "v",
      "h",
      "r180"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 4,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -193,6 +201,26 @@
     "seed": 1,
     "motif": "たいしょう",
     "variant": "sym#4#1-271/0@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 12.4,
+    "value": 12.4,
+    "parts": {
+     "E": 9,
+     "G": 4,
+     "k": 0.7,
+     "strokes": 2.0999999999999996,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#4#1-271/0@4",
+    "label": "たいしょう"
    }
   },
   {
@@ -326,11 +354,20 @@
    "metrics": {
     "lines": 7,
     "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "h",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -339,6 +376,26 @@
     "seed": 1,
     "motif": "ランダム",
     "variant": "rand#4#1-344@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 13.4,
+    "value": 13.4,
+    "parts": {
+     "E": 8,
+     "G": 4,
+     "k": 1,
+     "strokes": 1.4,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#4#1-344@4",
+    "label": "ランダム"
    }
   },
   {
@@ -492,11 +549,20 @@
    "metrics": {
     "lines": 7,
     "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -505,6 +571,26 @@
     "seed": 1,
     "motif": "くみあわせ",
     "variant": "hybrid#4#1-441@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 12.7,
+    "value": 12.7,
+    "parts": {
+     "E": 8,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#4#1-441@4",
+    "label": "くみあわせ"
    }
   },
   {
@@ -628,11 +714,20 @@
    "metrics": {
     "lines": 8,
     "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 8,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -641,6 +736,26 @@
     "seed": 1,
     "motif": "くみあわせ",
     "variant": "hybrid#4#1-1@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 14.7,
+    "value": 14.7,
+    "parts": {
+     "E": 10,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#4#1-1@4",
+    "label": "くみあわせ"
    }
   },
   {
@@ -764,11 +879,20 @@
    "metrics": {
     "lines": 7,
     "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -777,6 +901,26 @@
     "seed": 1,
     "motif": "くみあわせ",
     "variant": "hybrid#4#1-437@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 13.7,
+    "value": 13.7,
+    "parts": {
+     "E": 9,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#4#1-437@4",
+    "label": "くみあわせ"
    }
   },
   {
@@ -930,7 +1074,10 @@
    "metrics": {
     "lines": 6,
     "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 4,
     "components": 2,
     "pointsUsed": 16,
@@ -938,7 +1085,13 @@
      "v",
      "h",
      "r180"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 6,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -947,6 +1100,26 @@
     "seed": 1,
     "motif": "たいしょう",
     "variant": "sym#4#1-283/0@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 13.1,
+    "value": 13.1,
+    "parts": {
+     "E": 8,
+     "G": 4,
+     "k": 0.7,
+     "strokes": 3.5,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#4#1-283/0@4",
+    "label": "たいしょう"
    }
   },
   {
@@ -1110,11 +1283,20 @@
    "metrics": {
     "lines": 9,
     "diagonals": 3,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 6
    },
    "gen": {
     "kind": "auto",
@@ -1123,6 +1305,26 @@
     "seed": 1,
     "motif": "くみあわせ",
     "variant": "hybrid#4#1-462@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 15.2,
+    "value": 15.2,
+    "parts": {
+     "E": 10.5,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#4#1-462@4",
+    "label": "くみあわせ"
    }
   },
   {
@@ -1296,7 +1498,10 @@
    "metrics": {
     "lines": 8,
     "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 4,
     "components": 1,
     "pointsUsed": 16,
@@ -1307,7 +1512,13 @@
      "d2",
      "r90",
      "r180"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 8,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1316,6 +1527,26 @@
     "seed": 1,
     "motif": "たいしょう",
     "variant": "sym#4#1-4/0@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 15.9,
+    "value": 15.9,
+    "parts": {
+     "E": 10,
+     "G": 4,
+     "k": 0.7,
+     "strokes": 4.8999999999999995,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#4#1-4/0@4",
+    "label": "たいしょう"
    }
   },
   {
@@ -1449,11 +1680,20 @@
    "metrics": {
     "lines": 9,
     "diagonals": 9,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 3,
     "components": 2,
     "pointsUsed": 14,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 4,
+    "symAxis": "d",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -1462,6 +1702,26 @@
     "seed": 1,
     "motif": "おりもの",
     "variant": "truchet#4#1-92/0@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 19.6,
+    "value": 19.6,
+    "parts": {
+     "E": 13.5,
+     "G": 4,
+     "k": 1,
+     "strokes": 2.0999999999999996,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "truchet#4#1-92/0@4",
+    "label": "おりもの"
    }
   },
   {
@@ -1605,11 +1865,20 @@
    "metrics": {
     "lines": 9,
     "diagonals": 3,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -1618,6 +1887,26 @@
     "seed": 1,
     "motif": "くみあわせ",
     "variant": "hybrid#4#1-351@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 15.2,
+    "value": 15.2,
+    "parts": {
+     "E": 10.5,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#4#1-351@4",
+    "label": "くみあわせ"
    }
   },
   {
@@ -1791,6 +2080,8 @@
    "metrics": {
     "lines": 10,
     "diagonals": 8,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
@@ -1798,7 +2089,13 @@
     "pointsUsed": 14,
     "symmetry": [
      "v"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 4,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1807,6 +2104,26 @@
     "seed": 1,
     "motif": "たいしょう",
     "variant": "sym#4#1-0/0@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 15.9,
+    "value": 15.9,
+    "parts": {
+     "E": 14,
+     "G": 4,
+     "k": 0.7,
+     "strokes": 2.0999999999999996,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "sym#4#1-0/0@4",
+    "label": "たいしょう"
    }
   },
   {
@@ -1940,11 +2257,20 @@
    "metrics": {
     "lines": 8,
     "diagonals": 8,
+    "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
+    "hasNon45": false,
     "crossings": 3,
     "components": 2,
     "pointsUsed": 14,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 6,
+    "symAxis": "d",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -1953,6 +2279,26 @@
     "seed": 1,
     "motif": "おりもの",
     "variant": "truchet#4#1-44/0@4"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 20.7,
+    "value": 20.7,
+    "parts": {
+     "E": 12,
+     "G": 4,
+     "k": 0.85,
+     "strokes": 3.5,
+     "brk": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "truchet#4#1-44/0@4",
+    "label": "おりもの"
    }
   }
  ],

@@ -5,8 +5,8 @@
       "grid": 3,
       "slopes": "ortho",
       "D": [
-        2,
-        6
+        4.7,
+        8.8
       ]
     },
     "copy-lv2-vol1": {
@@ -14,8 +14,8 @@
       "slopes": "ortho45",
       "requireDiag45": true,
       "D": [
-        4,
-        14
+        6,
+        10
       ]
     },
     "copy-lv3-vol1": {
@@ -24,8 +24,8 @@
       "fullGrid": true,
       "cross": "some",
       "D": [
-        10,
-        23
+        12.4,
+        20.7
       ]
     },
     "copy-lv3-vol2": {
@@ -33,8 +33,8 @@
       "slopes": "ortho45",
       "fullGrid": true,
       "D": [
-        10,
-        28
+        12.8,
+        27.1
       ]
     },
     "copy-lv4-vol1": {
@@ -43,8 +43,8 @@
       "fullGrid": true,
       "requireNon45": true,
       "D": [
-        14,
-        40
+        12.4,
+        21.7
       ]
     },
     "copy-lv4-vol2": {
@@ -53,8 +53,8 @@
       "fullGrid": true,
       "requireNon45": true,
       "D": [
-        16,
-        94
+        15.9,
+        35.8
       ]
     },
     "copy-lv5-vol1": {
@@ -62,8 +62,8 @@
       "slopes": "any",
       "fullGrid": true,
       "D": [
-        12,
-        43
+        19.3,
+        40.3
       ]
     },
     "copy-lv5-vol2": {
@@ -71,8 +71,8 @@
       "slopes": "any",
       "fullGrid": true,
       "D": [
-        11,
-        54
+        23.8,
+        49.6
       ]
     }
   },
@@ -378,6 +378,18 @@
     },
     "translate-lv3-vol1": {
       "grid": 4,
+      "dir": "hv",
+      "moves": [
+        2,
+        2
+      ],
+      "lines": [
+        3,
+        6
+      ]
+    },
+    "translate-lv3-vol2": {
+      "grid": 4,
       "dir": "diag",
       "moves": [
         2,
@@ -523,8 +535,8 @@
     "solid-lv3-vol1": {
       "hidden": "none",
       "D": [
-        13,
-        30
+        16.3,
+        25
       ]
     },
     "solid-lv4-vol1": {

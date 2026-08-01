@@ -1140,3 +1140,122 @@ footer.site.footer-mini .copyright {
   color: var(--fg-3);
   letter-spacing: 0.04em;
 }
+
+/* =========================================================================
+   収録N問の内訳（coverage）— 集計文は常時表示・明細は折りたたみ
+   文言・数値はすべて published/{sku}.json からの導出（products/coverage.ts）。
+   atelier で問題を入れ替えるとページ側は自動で追随する＝ここに数値を書かない。
+   ========================================================================= */
+.cov { max-width: 860px; }
+.cov .lead { max-width: 100%; }
+
+.cov-note {
+  font-family: var(--font-tier3-sans);
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--fg-2);
+  background: var(--bg-3);
+  border-left: var(--memo-marker);
+  border-radius: 0 var(--radius-soft) var(--radius-soft) 0;
+  padding: 12px 18px;
+  margin: 16px 0 0;
+}
+.cov-note b { font-weight: var(--wt-strong); color: var(--fg); }
+
+.cov-fold {
+  margin-top: 20px;
+  border-top: var(--divider-dashed);
+  border-bottom: var(--divider-dashed);
+}
+.cov-fold > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 0;
+  font-family: var(--font-tier3-sans);
+  font-size: 13.5px;
+  color: var(--accent-ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cov-fold > summary::-webkit-details-marker { display: none; }
+.cov-chev {
+  width: 7px; height: 7px;
+  border-right: 1.4px solid currentColor;
+  border-bottom: 1.4px solid currentColor;
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: transform var(--dur-fast) var(--ease-line);
+}
+.cov-fold[open] > summary .cov-chev { transform: rotate(-135deg) translate(-2px, -2px); }
+.cov-fold[open] > summary { border-bottom: var(--divider-dashed); }
+
+.cov-list { list-style: none; margin: 8px 0 12px; padding: 0; }
+.cov-row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 9px 0;
+  border-bottom: var(--divider-dashed);
+}
+.cov-row:last-child { border-bottom: none; }
+.cov-no {
+  font-family: var(--font-tier3-mono);
+  font-size: 12px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.cov-body {
+  font-family: var(--font-tier3-sans);
+  font-size: 13.5px;
+  color: var(--fg);
+  line-height: 1.7;
+}
+.cov-tr {
+  margin-left: 10px;
+  padding: 1px 8px;
+  border: 1px solid var(--accent-mute);
+  border-radius: var(--r-token);
+  font-size: 12px;
+  color: var(--accent-ink);
+  white-space: nowrap;
+}
+.cov-d {
+  font-family: var(--font-tier3-mono);
+  font-size: 11.5px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+@media (max-width: 560px) {
+  .cov-row { grid-template-columns: 48px 1fr; }
+  .cov-d { grid-column: 2; margin-top: -4px; }
+  .cov-tr { margin-left: 0; display: inline-block; margin-top: 4px; }
+}
+
+.cov-foot {
+  margin: 0 0 14px;
+  font-family: var(--font-tier3-sans);
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: var(--fg-3);
+}
+
+/* 「この問題の狙い」（Problem.aim）。atelier が入れた問題にだけ出る */
+.cov-aim {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-tier2-pencil);
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--fg-2);
+}
+
+/* D の内訳（式と同じ語彙の実計算・検算可能） */
+.cov-dparts {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--fg-3);
+}

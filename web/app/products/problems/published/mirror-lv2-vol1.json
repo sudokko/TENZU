@@ -5,6 +5,101 @@
  "answerMode": "derived",
  "problems": [
   {
+   "id": "mirror-lv2-vol1-s0-25",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 1,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 1
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "すうじの7"
+   },
+   "difficulty": {
+    "task": "mirror",
+    "auto": 6.1,
+    "value": 6.1,
+    "parts": {
+     "E": 2.5,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 3
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "すうじの7"
+   }
+  },
+  {
    "id": "mirror-lv2-vol1-s2-11",
    "grid": {
     "type": "square",
@@ -53,12 +148,19 @@
     "lines": 3,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -68,10 +170,14 @@
    },
    "difficulty": {
     "task": "mirror",
-    "value": 3,
-    "auto": 3,
+    "auto": 6.3,
+    "value": 6.3,
     "parts": {
-     "base": 3
+     "E": 3,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6
     }
    },
    "provenance": {
@@ -140,12 +246,19 @@
     "lines": 3,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 5,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "manual",
@@ -153,100 +266,20 @@
    },
    "difficulty": {
     "task": "mirror",
-    "value": 3,
-    "auto": 3,
+    "auto": 6.3,
+    "value": 6.3,
     "parts": {
-     "base": 3
+     "E": 3,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "",
     "label": "かぎ"
-   }
-  },
-  {
-   "id": "mirror-lv2-vol1-s0-25",
-   "grid": {
-    "type": "square",
-    "n": 3
-   },
-   "edges": [
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      1
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "derived",
-    "transform": {
-     "type": "mirror",
-     "axis": "v"
-    }
-   },
-   "metrics": {
-    "lines": 2,
-    "diagonals": 1,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 5,
-    "symmetry": []
-   },
-   "gen": {
-    "kind": "manual",
-    "motif": "すうじの7"
-   },
-   "difficulty": {
-    "task": "mirror",
-    "value": 3.5,
-    "auto": 3.5,
-    "parts": {
-     "base": 3.5
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "",
-    "label": "すうじの7"
    }
   },
   {
@@ -308,12 +341,19 @@
     "lines": 3,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -324,10 +364,14 @@
    },
    "difficulty": {
     "task": "mirror",
-    "value": 4.5,
-    "auto": 4.5,
+    "auto": 6.9,
+    "value": 6.9,
     "parts": {
-     "base": 4.5
+     "E": 3.5,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 3
     }
    },
    "provenance": {
@@ -339,7 +383,7 @@
    }
   },
   {
-   "id": "mirror-lv2-vol1-s0-24",
+   "id": "mirror-lv2-vol1-s1-18",
    "grid": {
     "type": "square",
     "n": 3
@@ -347,12 +391,12 @@
    "edges": [
     [
      [
-      1,
+      0,
       0
      ],
      [
       1,
-      1
+      0
      ]
     ],
     [
@@ -362,7 +406,27 @@
      ],
      [
       2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
       1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
      ]
     ],
     [
@@ -372,37 +436,27 @@
      ],
      [
       2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
       2
      ]
     ],
     [
      [
       0,
-      2
+      0
      ],
      [
       1,
-      2
+      1
      ]
     ],
     [
      [
       1,
-      2
+      1
      ],
      [
       2,
-      2
+      0
      ]
     ]
    ],
@@ -415,31 +469,181 @@
    },
    "metrics": {
     "lines": 4,
-    "diagonals": 1,
+    "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": []
+    "symmetry": [
+     "d2"
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
-    "kind": "manual",
-    "motif": "ほかけぶね"
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 1,
+    "variant": "triH#2/0"
    },
    "difficulty": {
     "task": "mirror",
-    "value": 5.5,
-    "auto": 5.5,
+    "auto": 7.3,
+    "value": 7.3,
     "parts": {
-     "base": 5.5
+     "E": 5,
+     "G": 3,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "blank",
-    "createdAt": "",
-    "label": "ほかけぶね"
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 1,
+    "variant": "triH#2/0"
+   }
+  },
+  {
+   "id": "mirror-lv2-vol1-s1-19",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [
+     "d1"
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 1,
+    "variant": "triH#2/1"
+   },
+   "difficulty": {
+    "task": "mirror",
+    "auto": 7.3,
+    "value": 7.3,
+    "parts": {
+     "E": 5,
+     "G": 3,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 1,
+    "variant": "triH#2/1"
    }
   },
   {
@@ -491,12 +695,19 @@
     "lines": 3,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "manual",
@@ -504,10 +715,14 @@
    },
    "difficulty": {
     "task": "mirror",
-    "value": 6,
-    "auto": 6,
+    "auto": 7.4,
+    "value": 7.4,
     "parts": {
-     "base": 6
+     "E": 4,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6
     }
    },
    "provenance": {
@@ -585,6 +800,7 @@
     "lines": 5,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -592,7 +808,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -603,10 +825,14 @@
    },
    "difficulty": {
     "task": "mirror",
-    "value": 6.5,
-    "auto": 6.5,
+    "auto": 7.7,
+    "value": 7.7,
     "parts": {
-     "base": 6.5
+     "E": 5.5,
+     "G": 3,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -736,6 +962,7 @@
     "lines": 5,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -745,7 +972,13 @@
      "d1",
      "d2",
      "r180"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -756,10 +989,14 @@
    },
    "difficulty": {
     "task": "mirror",
-    "value": 6.5,
-    "auto": 6.5,
+    "auto": 7.7,
+    "value": 7.7,
     "parts": {
-     "base": 6.5
+     "E": 5.5,
+     "G": 3,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -771,7 +1008,7 @@
    }
   },
   {
-   "id": "mirror-lv2-vol1-s1-18",
+   "id": "mirror-lv2-vol1-s0-24",
    "grid": {
     "type": "square",
     "n": 3
@@ -779,27 +1016,17 @@
    "edges": [
     [
      [
-      0,
+      1,
       0
      ],
      [
       1,
-      0
+      1
      ]
     ],
     [
      [
       1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      2,
       0
      ],
      [
@@ -809,12 +1036,12 @@
     ],
     [
      [
-      2,
+      1,
       1
      ],
      [
       2,
-      2
+      1
      ]
     ],
     [
@@ -823,28 +1050,28 @@
       1
      ],
      [
-      2,
+      1,
       2
      ]
     ],
     [
      [
       0,
-      0
+      2
      ],
      [
       1,
-      1
+      2
      ]
     ],
     [
      [
       1,
-      1
+      2
      ],
      [
       2,
-      0
+      2
      ]
     ]
    ],
@@ -857,159 +1084,42 @@
    },
    "metrics": {
     "lines": 4,
-    "diagonals": 2,
+    "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": [
-     "d2"
-    ]
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
-    "kind": "auto",
-    "generator": "mirror",
-    "version": "3",
-    "seed": 1,
-    "variant": "triH#2/0"
+    "kind": "manual",
+    "motif": "ほかけぶね"
    },
    "difficulty": {
     "task": "mirror",
-    "value": 7,
-    "auto": 7,
+    "auto": 9,
+    "value": 9,
     "parts": {
-     "base": 7
+     "E": 4.5,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 6
     }
    },
    "provenance": {
-    "source": "ai",
-    "generator": "mirror",
-    "version": "3",
-    "seed": 1,
-    "variant": "triH#2/0"
-   }
-  },
-  {
-   "id": "mirror-lv2-vol1-s1-19",
-   "grid": {
-    "type": "square",
-    "n": 3
-   },
-   "edges": [
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "derived",
-    "transform": {
-     "type": "mirror",
-     "axis": "v"
-    }
-   },
-   "metrics": {
-    "lines": 4,
-    "diagonals": 2,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 6,
-    "symmetry": [
-     "d1"
-    ]
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "mirror",
-    "version": "3",
-    "seed": 1,
-    "variant": "triH#2/1"
-   },
-   "difficulty": {
-    "task": "mirror",
-    "value": 7,
-    "auto": 7,
-    "parts": {
-     "base": 7
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "mirror",
-    "version": "3",
-    "seed": 1,
-    "variant": "triH#2/1"
+    "source": "blank",
+    "createdAt": "",
+    "label": "ほかけぶね"
    }
   },
   {
@@ -1081,12 +1191,19 @@
     "lines": 4,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 5,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 1
    },
    "gen": {
     "kind": "manual",
@@ -1094,10 +1211,14 @@
    },
    "difficulty": {
     "task": "mirror",
-    "value": 8.5,
-    "auto": 8.5,
+    "auto": 9.4,
+    "value": 9.4,
     "parts": {
-     "base": 8.5
+     "E": 5.5,
+     "G": 3,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 3
     }
    },
    "provenance": {
@@ -1185,12 +1306,19 @@
     "lines": 5,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "manual",
@@ -1198,10 +1326,14 @@
    },
    "difficulty": {
     "task": "mirror",
-    "value": 8,
-    "auto": 8,
+    "auto": 10.7,
+    "value": 10.7,
     "parts": {
-     "base": 8
+     "E": 6,
+     "G": 3,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 6
     }
    },
    "provenance": {
@@ -1211,5 +1343,5 @@
    }
   }
  ],
- "publishedAt": "2026-07-23"
+ "publishedAt": "2026-08-01"
 }

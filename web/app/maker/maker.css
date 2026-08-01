@@ -65,6 +65,29 @@ header.maker-header {
 }
 .maker-header .btn-max:hover { background: var(--accent-ink); }
 
+/* トップへの帰り道（MakerHeader 標準装備・全メーカー共通） */
+.maker-header .logo-link { display: block; flex: 0 0 auto; }
+.maker-header .logo-link:hover { opacity: 0.72; }
+.maker-header .header-links { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.maker-header .ma-home {
+  font-family: var(--font-tier3-sans); font-size: 13px; color: var(--fg-2);
+  text-decoration: none; padding: 6px 4px; letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.maker-header .ma-home:hover { color: var(--fg); text-decoration: underline; }
+/* 右側に各メーカー固有クラスタが続くときだけ破線で区切る（app-name の区切りと同じ文法） */
+.maker-header .header-links .maker-auth {
+  border-left: 1px dashed var(--line-thin); padding-left: 14px;
+}
+/* スマホ: 「← お店へ」へ短縮＋間隔圧縮で、マイページ・ほかのメーカーと 1 行同居させる */
+.maker-header .ma-home .ma-home-short { display: none; }
+@media (max-width: 600px) {
+  .maker-header .ma-home .ma-home-full { display: none; }
+  .maker-header .ma-home .ma-home-short { display: inline; }
+  .maker-header .header-links { gap: 8px; }
+  .maker-header .header-links .maker-auth { padding-left: 8px; }
+}
+
 /* =========================================================================
    3-COLUMN SHELL
    ========================================================================= */

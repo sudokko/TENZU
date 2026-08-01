@@ -83,6 +83,7 @@
     "lines": 4,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
@@ -90,7 +91,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -101,10 +108,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 4,
-    "auto": 4,
+    "auto": 7.6,
+    "value": 7.6,
     "parts": {
-     "base": 4
+     "E": 4,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
@@ -204,6 +215,7 @@
     "lines": 5,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
@@ -211,7 +223,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -222,10 +240,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 6.5,
-    "auto": 6.5,
+    "auto": 8.2,
+    "value": 8.2,
     "parts": {
-     "base": 6.5
+     "E": 5.5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -405,6 +427,7 @@
     "lines": 5,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -414,7 +437,13 @@
      "d1",
      "d2",
      "r180"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -425,10 +454,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 6.5,
-    "auto": 6.5,
+    "auto": 8.7,
+    "value": 8.7,
     "parts": {
-     "base": 6.5
+     "E": 5.5,
+     "G": 4,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -528,6 +561,7 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -535,7 +569,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -546,10 +586,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 7,
-    "auto": 7,
+    "auto": 7.8,
+    "value": 7.8,
     "parts": {
-     "base": 7
+     "E": 5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -629,6 +673,7 @@
     "lines": 3,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -636,7 +681,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "d2"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -647,10 +698,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 4.5,
-    "auto": 4.5,
+    "auto": 7.2,
+    "value": 7.2,
     "parts": {
-     "base": 4.5
+     "E": 3.5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
@@ -730,12 +785,19 @@
     "lines": 5,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -746,10 +808,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 8,
-    "auto": 8,
+    "auto": 9.3,
+    "value": 9.3,
     "parts": {
-     "base": 8
+     "E": 6,
+     "G": 3.25,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -839,6 +905,7 @@
     "lines": 6,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -846,7 +913,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -857,10 +930,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 12,
-    "auto": 12,
+    "auto": 10.3,
+    "value": 10.3,
     "parts": {
-     "base": 12
+     "E": 8,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -960,6 +1037,7 @@
     "lines": 5,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
@@ -967,7 +1045,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "d2"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -978,10 +1062,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 9.5,
-    "auto": 9.5,
+    "auto": 9,
+    "value": 9,
     "parts": {
-     "base": 9.5
+     "E": 6.5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1151,12 +1239,19 @@
     "lines": 7,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -1167,10 +1262,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 8.5,
-    "auto": 8.5,
+    "auto": 14.2,
+    "value": 14.2,
     "parts": {
-     "base": 8.5
+     "E": 7.5,
+     "G": 4,
+     "k": 0.85,
+     "strokes": 1.4,
+     "brk": 6
     }
    },
    "provenance": {
@@ -1400,6 +1499,7 @@
     "lines": 8,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1407,7 +1507,13 @@
     "pointsUsed": 16,
     "symmetry": [
      "r180"
-    ]
+    ],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -1418,10 +1524,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 11,
-    "auto": 11,
+    "auto": 15.1,
+    "value": 15.1,
     "parts": {
-     "base": 11
+     "E": 9,
+     "G": 4,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 6
     }
    },
    "provenance": {
@@ -1591,12 +1701,19 @@
     "lines": 7,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -1607,10 +1724,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 10,
-    "auto": 10,
+    "auto": 12.7,
+    "value": 12.7,
     "parts": {
-     "base": 10
+     "E": 8,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1770,12 +1891,19 @@
     "lines": 8,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -1786,10 +1914,14 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 14,
-    "auto": 14,
+    "auto": 14.7,
+    "value": 14.7,
     "parts": {
-     "base": 14
+     "E": 10,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {

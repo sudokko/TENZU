@@ -203,12 +203,19 @@
     "lines": 6,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 16,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -217,13 +224,18 @@
     "seed": 1,
     "variant": "moku4#1/0@1,2"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 6,
-    "auto": 6,
+    "auto": 14.9,
+    "value": 14.9,
     "parts": {
-     "base": 6
+     "E": 6,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -474,12 +486,19 @@
     "lines": 8,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 15,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 3,
+    "strokes": 4,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -488,13 +507,18 @@
     "seed": 1,
     "variant": "grid#4x2/0@1,2"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 8,
-    "auto": 8,
+    "auto": 17.7,
+    "value": 17.7,
     "parts": {
-     "base": 8
+     "E": 8,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 2.0999999999999996,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -745,12 +769,19 @@
     "lines": 8,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 15,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 3,
+    "bboxH": 5,
+    "strokes": 4,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -759,13 +790,18 @@
     "seed": 1,
     "variant": "grid#2x4/0@2,-1"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 8,
-    "auto": 8,
+    "auto": 17.7,
+    "value": 17.7,
     "parts": {
-     "base": 8
+     "E": 8,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 2.0999999999999996,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -856,12 +892,19 @@
     "lines": 5,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 5,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -870,13 +913,18 @@
     "seed": 1,
     "variant": "micro2x3#1253@1,2"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 8,
-    "auto": 8,
+    "auto": 13.8,
+    "value": 13.8,
     "parts": {
-     "base": 8
+     "E": 6,
+     "G": 4.25,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -977,12 +1025,19 @@
     "lines": 5,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -991,13 +1046,18 @@
     "seed": 1,
     "variant": "micro3x2#463@1,3"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 8,
-    "auto": 8,
+    "auto": 14.8,
+    "value": 14.8,
     "parts": {
-     "base": 8
+     "E": 6,
+     "G": 4.25,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 6
     }
    },
    "provenance": {
@@ -1078,12 +1138,19 @@
     "lines": 5,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 2,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1092,13 +1159,18 @@
     "seed": 1,
     "variant": "micro2x2#61@3,2"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 8,
-    "auto": 8,
+    "auto": 15.2,
+    "value": 15.2,
     "parts": {
-     "base": 8
+     "E": 6,
+     "G": 4,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 7
     }
    },
    "provenance": {
@@ -1179,12 +1251,19 @@
     "lines": 5,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 2,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1193,13 +1272,18 @@
     "seed": 1,
     "variant": "micro2x2#62@2,3"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 8,
-    "auto": 8,
+    "auto": 15.2,
+    "value": 15.2,
     "parts": {
-     "base": 8
+     "E": 6,
+     "G": 4,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 7
     }
    },
    "provenance": {
@@ -1370,12 +1454,19 @@
     "lines": 7,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -1384,13 +1475,18 @@
     "seed": 1,
     "variant": "trishelf4b#1/0@2,1"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 8.5,
-    "auto": 8.5,
+    "auto": 20.3,
+    "value": 20.3,
     "parts": {
-     "base": 8.5
+     "E": 7.5,
+     "G": 5,
+     "k": 0.85,
+     "strokes": 1.4,
+     "brk": 6,
+     "変換": 5
     }
    },
    "provenance": {
@@ -1601,6 +1697,7 @@
     "lines": 6,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
@@ -1608,7 +1705,13 @@
     "pointsUsed": 16,
     "symmetry": [
      "h"
-    ]
+    ],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1617,13 +1720,18 @@
     "seed": 1,
     "variant": "drect#3x3d2/0@2,-1"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 9,
-    "auto": 9,
+    "auto": 15.6,
+    "value": 15.6,
     "parts": {
-     "base": 9
+     "E": 7,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -1824,12 +1932,19 @@
     "lines": 9,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 13,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -1841,10 +1956,15 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 10.5,
-    "auto": 10.5,
+    "auto": 20.9,
+    "value": 20.9,
     "parts": {
-     "base": 10.5
+     "E": 9.5,
+     "G": 5,
+     "k": 1,
+     "strokes": 1.4,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -2025,12 +2145,19 @@
     "lines": 8,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 10,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -2042,10 +2169,15 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 11,
-    "auto": 11,
+    "auto": 19.7,
+    "value": 19.7,
     "parts": {
-     "base": 11
+     "E": 9,
+     "G": 5,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -2236,12 +2368,19 @@
     "lines": 8,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -2253,10 +2392,15 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 11,
-    "auto": 11,
+    "auto": 18.3,
+    "value": 18.3,
     "parts": {
-     "base": 11
+     "E": 9,
+     "G": 5,
+     "k": 0.85,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -2276,162 +2420,112 @@
    "edges": [
     [
      [
-      0,
+      3,
       3
      ],
      [
-      1,
+      4,
       3
      ]
     ],
     [
      [
-      0,
+      3,
       3
      ],
      [
-      0,
+      3,
       4
      ]
     ],
     [
      [
-      1,
+      4,
       4
      ],
      [
-      1,
+      4,
       5
      ]
     ],
     [
      [
-      1,
+      4,
       2
      ],
      [
-      2,
+      5,
       2
      ]
     ],
     [
      [
-      1,
+      4,
       2
      ],
      [
-      1,
+      4,
       3
      ]
     ],
     [
      [
-      1,
+      4,
       4
      ],
      [
-      2,
+      5,
       4
      ]
     ],
     [
      [
-      2,
-      2
+      3,
+      4
      ],
      [
-      3,
-      2
+      4,
+      4
      ]
     ],
     [
      [
-      3,
-      2
+      4,
+      3
      ],
      [
-      3,
+      5,
       3
      ]
     ],
     [
      [
-      0,
-      4
+      4,
+      1
      ],
      [
-      1,
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      3,
       5
+     ],
+     [
+      5,
+      4
      ]
     ],
     [
-     [
-      2,
-      4
-     ],
      [
       3,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      1,
-      4
-     ]
-    ],
-    [
-     [
-      2,
       2
      ],
      [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      2,
-      4
-     ]
-    ],
-    [
-     [
-      0,
-      4
-     ],
-     [
-      1,
-      4
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      3
+      5,
+      1
      ]
     ]
    ],
@@ -2439,20 +2533,27 @@
     "mode": "derived",
     "transform": {
      "type": "translate",
-     "dc": 1,
-     "dr": -2
+     "dc": -3,
+     "dr": -1
     }
    },
    "metrics": {
     "lines": 9,
-    "diagonals": 2,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 3,
-    "components": 1,
-    "pointsUsed": 11,
-    "symmetry": []
+    "diagonals": 3,
+    "non45": 3,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 4,
+    "components": 2,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 3,
+    "bboxH": 5,
+    "strokes": 5,
+    "symAxis": "v",
+    "symMiss": 5
    },
    "gen": {
     "kind": "auto",
@@ -2461,22 +2562,29 @@
     "seed": 1,
     "variant": "hybrid#4#1-284@1,-2"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 12,
-    "auto": 12,
+    "auto": 32.8,
+    "value": 32.8,
     "parts": {
-     "base": 12
+     "E": 19,
+     "G": 5,
+     "k": 1,
+     "strokes": 2.8,
+     "brk": 0,
+     "変換": 6
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "translate",
     "version": "1",
     "seed": 1,
     "variant": "hybrid#4#1-284@1,-2"
-   }
+   },
+   "order": 11,
+   "edited": true
   },
   {
    "id": "translate-lv5-vol1-s1-14",
@@ -2648,12 +2756,19 @@
     "lines": 9,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 11,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -2665,10 +2780,15 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 12,
-    "auto": 12,
+    "auto": 20.7,
+    "value": 20.7,
     "parts": {
-     "base": 12
+     "E": 10,
+     "G": 5,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -2769,12 +2889,19 @@
     "lines": 7,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -2786,10 +2913,15 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 13,
-    "auto": 13,
+    "auto": 15.6,
+    "value": 15.6,
     "parts": {
-     "base": 13
+     "E": 9,
+     "G": 4.25,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -2980,12 +3112,19 @@
     "lines": 6,
     "diagonals": 2,
     "non45": 2,
+    "non45Gentle": 2,
     "diagonalAngleKinds": 1,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 13,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -2994,13 +3133,18 @@
     "seed": 1,
     "variant": "drect#4x2d2/0@-1,-3"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 25,
-    "auto": 25,
+    "auto": 20.1,
+    "value": 20.1,
     "parts": {
-     "base": 25
+     "E": 12,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 6
     }
    },
    "provenance": {
@@ -3191,12 +3335,19 @@
     "lines": 6,
     "diagonals": 2,
     "non45": 2,
+    "non45Gentle": 2,
     "diagonalAngleKinds": 1,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
     "pointsUsed": 13,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 3,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -3205,13 +3356,18 @@
     "seed": 1,
     "variant": "drect#2x4d2/0@3,1"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 25,
-    "auto": 25,
+    "auto": 20.1,
+    "value": 20.1,
     "parts": {
-     "base": 25
+     "E": 12,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 6
     }
    },
    "provenance": {
@@ -3332,12 +3488,19 @@
     "lines": 7,
     "diagonals": 2,
     "non45": 2,
+    "non45Gentle": 2,
     "diagonalAngleKinds": 1,
     "hasNon45": true,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -3346,13 +3509,18 @@
     "seed": 1,
     "variant": "gd#2x1d2/0@2,3"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 26,
-    "auto": 26,
+    "auto": 21.8,
+    "value": 21.8,
     "parts": {
-     "base": 26
+     "E": 13,
+     "G": 4.25,
+     "k": 0.7,
+     "strokes": 1.4,
+     "brk": 0,
+     "変換": 7
     }
    },
    "provenance": {
@@ -3473,12 +3641,19 @@
     "lines": 7,
     "diagonals": 2,
     "non45": 2,
+    "non45Gentle": 2,
     "diagonalAngleKinds": 1,
     "hasNon45": true,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -3487,13 +3662,18 @@
     "seed": 1,
     "variant": "gd#1x2d2/0@4,1"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "value": 26,
-    "auto": 26,
+    "auto": 21.8,
+    "value": 21.8,
     "parts": {
-     "base": 26
+     "E": 13,
+     "G": 4.25,
+     "k": 0.7,
+     "strokes": 1.4,
+     "brk": 0,
+     "変換": 7
     }
    },
    "provenance": {
@@ -3674,12 +3854,19 @@
     "lines": 9,
     "diagonals": 4,
     "non45": 1,
+    "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 3,
     "components": 1,
     "pointsUsed": 9,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -3691,10 +3878,15 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 23,
-    "auto": 23,
+    "auto": 23.5,
+    "value": 23.5,
     "parts": {
-     "base": 23
+     "E": 13.5,
+     "G": 5,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 5
     }
    },
    "provenance": {
@@ -3704,6 +3896,3498 @@
     "seed": 1,
     "variant": "hybrid#4#1-487@1,-2"
    }
+  },
+  {
+   "id": "translate-lv5-vol1-m01",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      4,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 2
+    }
+   },
+   "metrics": {
+    "lines": 7,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "ヨット",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "ヨット"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 26.1,
+    "value": 26.1,
+    "parts": {
+     "E": 14,
+     "G": 5.25,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "order": 4,
+   "edited": true
+  },
+  {
+   "id": "translate-lv5-vol1-m02",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 2,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 9,
+    "diagonals": 5,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 5
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "はしるヨット"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 27.5,
+    "value": 27.5,
+    "parts": {
+     "E": 16.5,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "translate-lv5-vol1-m03",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -1,
+     "dr": 2
+    }
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 5,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 2
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "ふたつのほのヨット"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 27.8,
+    "value": 27.8,
+    "parts": {
+     "E": 15.5,
+     "G": 5.25,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 6,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "order": 7
+  },
+  {
+   "id": "translate-lv5-vol1-m04",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      4,
+      5
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": -2
+    }
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 2,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 7
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "くるま"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 28,
+    "value": 28,
+    "parts": {
+     "E": 17,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "order": 8
+  },
+  {
+   "id": "translate-lv5-vol1-m05",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      4
+     ],
+     [
+      5,
+      5
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -1,
+     "dr": -2
+    }
+   },
+   "metrics": {
+    "lines": 13,
+    "diagonals": 3,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 7
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "トラック"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 31.2,
+    "value": 31.2,
+    "parts": {
+     "E": 19.5,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 1.4,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "translate-lv5-vol1-m06",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 2,
+     "dr": -1
+    }
+   },
+   "metrics": {
+    "lines": 13,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 3,
+    "components": 1,
+    "pointsUsed": 14,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 4,
+    "symAxis": "v",
+    "symMiss": 7
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "はしごしゃ"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 32.4,
+    "value": 32.4,
+    "parts": {
+     "E": 20,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 2.0999999999999996,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "translate-lv5-vol1-m07",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 2
+    }
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "ねこ"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 24.3,
+    "value": 24.3,
+    "parts": {
+     "E": 18,
+     "G": 5.25,
+     "k": 0.7,
+     "strokes": 1.4,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "order": 3
+  },
+  {
+   "id": "translate-lv5-vol1-m08",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -2,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 7,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 8
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "うさぎ",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "うさぎ"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 30.5,
+    "value": 30.5,
+    "parts": {
+     "E": 19.5,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "edited": true,
+   "order": 10
+  },
+  {
+   "id": "translate-lv5-vol1-m09",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      2,
+      2
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -1,
+     "dr": 2
+    }
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 9
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "さかな"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 28.3,
+    "value": 28.3,
+    "parts": {
+     "E": 18,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "order": 9
+  },
+  {
+   "id": "translate-lv5-vol1-m10",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      3
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -2,
+     "dr": -1
+    }
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 5,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 4
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "き"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 29.2,
+    "value": 29.2,
+    "parts": {
+     "E": 17.5,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 1.4,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "translate-lv5-vol1-m11",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 2,
+     "dr": -1
+    }
+   },
+   "metrics": {
+    "lines": 9,
+    "diagonals": 7,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 8
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "はな"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 27.8,
+    "value": 27.8,
+    "parts": {
+     "E": 17.5,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "translate-lv5-vol1-m12",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      5
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -1,
+     "dr": -2
+    }
+   },
+   "metrics": {
+    "lines": 7,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "やま"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 22.2,
+    "value": 22.2,
+    "parts": {
+     "E": 17,
+     "G": 5.25,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "order": 1
+  },
+  {
+   "id": "translate-lv5-vol1-m13",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      3
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 2
+    }
+   },
+   "metrics": {
+    "lines": 9,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "たいよう",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "たいよう"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 23.5,
+    "value": 23.5,
+    "parts": {
+     "E": 17,
+     "G": 5.25,
+     "k": 0.7,
+     "strokes": 1.4,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "order": 2,
+   "edited": true
+  },
+  {
+   "id": "translate-lv5-vol1-m14",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -2,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 12,
+    "diagonals": 9,
+    "non45": 4,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 3,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 5,
+    "strokes": 4,
+    "symAxis": "h",
+    "symMiss": 3
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "ひかりのたいよう",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "ひかりのたいよう"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 40.9,
+    "value": 40.9,
+    "parts": {
+     "E": 28.5,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 2.0999999999999996,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "order": 12,
+   "edited": true
+  },
+  {
+   "id": "translate-lv5-vol1-m15",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -1,
+     "dr": 2
+    }
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 2,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 5,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "あさひ"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 26.4,
+    "value": 26.4,
+    "parts": {
+     "E": 19,
+     "G": 5.25,
+     "k": 0.7,
+     "strokes": 2.8,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "translate-lv5-vol1-m16",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 3,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 3,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 0
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "みかづき"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 22.3,
+    "value": 22.3,
+    "parts": {
+     "E": 15,
+     "G": 5,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 6
+    }
+   },
+   "status": "pending"
+  },
+  {
+   "id": "translate-lv5-vol1-m17",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -2,
+     "dr": 2
+    }
+   },
+   "metrics": {
+    "lines": 9,
+    "diagonals": 5,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 1
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "はんげつ",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "はんげつ"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 27.1,
+    "value": 27.1,
+    "parts": {
+     "E": 16.5,
+     "G": 5,
+     "k": 0.75,
+     "strokes": 0.7,
+     "brk": 3,
+     "変換": 6
+    }
+   },
+   "status": "adopted",
+   "order": 5,
+   "edited": true
+  },
+  {
+   "id": "translate-lv5-vol1-m18",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      3,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": -1,
+     "dr": -2
+    }
+   },
+   "metrics": {
+    "lines": 9,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 3
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "label": "やまの上のみかづき"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 27.3,
+    "value": 27.3,
+    "parts": {
+     "E": 17,
+     "G": 5.25,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0,
+     "変換": 5
+    }
+   },
+   "status": "adopted",
+   "order": 6
   }
  ],
  "seedCursor": 1

@@ -65,7 +65,7 @@ export type CopyShapeParams = {
    巻どうしは値が重なってよい（grid ゲートで排他）。同 grid 2 巻は「壁」で住み分ける：
    - 3×3: lv1=直交のみ / lv2-vol1=45°斜め出現（requireDiag45）
    - 4×4: lv2-vol2=交差なし / lv3-vol1=交差あり（cross zero/some）
-   - 5×5: lv3-vol2=45°まで / lv4-vol1=非45°必須（requireNon45・D が非45°本数×8で跳ねる）
+   - 5×5: lv3-vol2=45°まで / lv4-vol1=非45°必須（requireNon45・D は非45°本数 4〜5/本で伸びる）
    ※ 2026-06-15: copyDifficulty から盤面項 6(n−2) を除外。窓は旧値から盤面ぶんを引いた値＝
      振り分けの結果は完全に不変（スコアと窓から同じ定数を引いただけ）。 */
 /* 実体は ladder.json（SSOT・atelier から編集/Vol追加）。読み取りは gen/ladder.ts 経由。

@@ -53,12 +53,19 @@
     "lines": 2,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -67,13 +74,17 @@
     "seed": 1,
     "variant": "micro2x3#28@1,0"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 2,
-    "auto": 2,
+    "auto": 5.2,
+    "value": 5.2,
     "parts": {
-     "base": 2
+     "E": 2,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 3
     }
    },
    "provenance": {
@@ -82,7 +93,8 @@
     "version": "1",
     "seed": 1,
     "variant": "micro2x3#28@1,0"
-   }
+   },
+   "order": 2
   },
   {
    "id": "translate-lv2-vol1-s1-02",
@@ -134,12 +146,19 @@
     "lines": 2,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -151,10 +170,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 2,
-    "auto": 2,
+    "auto": 5.2,
+    "value": 5.2,
     "parts": {
-     "base": 2
+     "E": 2,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 3
     }
    },
    "provenance": {
@@ -215,12 +238,19 @@
     "lines": 2,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -232,10 +262,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 2,
-    "auto": 2,
+    "auto": 5.2,
+    "value": 5.2,
     "parts": {
-     "base": 2
+     "E": 2,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 3
     }
    },
    "provenance": {
@@ -306,6 +340,7 @@
     "lines": 3,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
@@ -313,7 +348,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "h"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -325,10 +366,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 3,
-    "auto": 3,
+    "auto": 5,
+    "value": 5,
     "parts": {
-     "base": 3
+     "E": 3,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -399,6 +444,7 @@
     "lines": 3,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
@@ -406,7 +452,13 @@
     "pointsUsed": 5,
     "symmetry": [
      "h"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -418,10 +470,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 3,
-    "auto": 3,
+    "auto": 5,
+    "value": 5,
     "parts": {
-     "base": 3
+     "E": 3,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -512,6 +568,7 @@
     "lines": 4,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
@@ -519,7 +576,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "h"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -531,10 +594,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 4,
-    "auto": 4,
+    "auto": 5.6,
+    "value": 5.6,
     "parts": {
-     "base": 4
+     "E": 4,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -595,12 +662,19 @@
     "lines": 2,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -609,13 +683,17 @@
     "seed": 1,
     "variant": "micro2x3#152@1,0"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 3.5,
-    "auto": 3.5,
+    "auto": 5.8,
+    "value": 5.8,
     "parts": {
-     "base": 3.5
+     "E": 2.5,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 3
     }
    },
    "provenance": {
@@ -624,7 +702,8 @@
     "version": "1",
     "seed": 1,
     "variant": "micro2x3#152@1,0"
-   }
+   },
+   "order": 3
   },
   {
    "id": "translate-lv2-vol1-s1-08",
@@ -686,6 +765,7 @@
     "lines": 4,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
@@ -693,7 +773,13 @@
     "pointsUsed": 4,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -705,10 +791,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 4,
-    "auto": 4,
+    "auto": 5.3,
+    "value": 5.3,
     "parts": {
-     "base": 4
+     "E": 4,
+     "G": 2.5,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -769,12 +859,19 @@
     "lines": 2,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -786,10 +883,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 3.5,
-    "auto": 3.5,
+    "auto": 5.8,
+    "value": 5.8,
     "parts": {
-     "base": 3.5
+     "E": 2.5,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 3
     }
    },
    "provenance": {
@@ -809,46 +910,6 @@
    "edges": [
     [
      [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
       1,
       0
      ],
@@ -865,6 +926,46 @@
      [
       1,
       2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
      ]
     ]
    ],
@@ -872,7 +973,7 @@
     "mode": "derived",
     "transform": {
      "type": "translate",
-     "dc": 1,
+     "dc": -1,
      "dr": 0
     }
    },
@@ -880,12 +981,19 @@
     "lines": 4,
     "diagonals": 0,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 0,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 6,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -894,22 +1002,28 @@
     "seed": 1,
     "variant": "micro2x3#126@1,0"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 4,
-    "auto": 4,
+    "auto": 6.3,
+    "value": 6.3,
     "parts": {
-     "base": 4
+     "E": 4,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "translate",
     "version": "1",
     "seed": 1,
     "variant": "micro2x3#126@1,0"
-   }
+   },
+   "order": 5,
+   "edited": true
   },
   {
    "id": "translate-lv2-vol1-s1-11",
@@ -961,12 +1075,19 @@
     "lines": 2,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -978,10 +1099,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 3.5,
-    "auto": 3.5,
+    "auto": 5.8,
+    "value": 5.8,
     "parts": {
-     "base": 3.5
+     "E": 2.5,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 3
     }
    },
    "provenance": {
@@ -1001,31 +1126,31 @@
    "edges": [
     [
      [
-      1,
+      2,
       0
      ],
      [
-      1,
+      2,
       1
      ]
     ],
     [
      [
-      1,
+      2,
       1
      ],
      [
-      1,
+      2,
       2
      ]
     ],
     [
      [
-      0,
+      1,
       1
      ],
      [
-      1,
+      2,
       2
      ]
     ]
@@ -1034,7 +1159,7 @@
     "mode": "derived",
     "transform": {
      "type": "translate",
-     "dc": 1,
+     "dc": -1,
      "dr": 0
     }
    },
@@ -1042,12 +1167,19 @@
     "lines": 2,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -1056,22 +1188,28 @@
     "seed": 1,
     "variant": "micro2x3#608@1,0"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 3.5,
-    "auto": 3.5,
+    "auto": 5.8,
+    "value": 5.8,
     "parts": {
-     "base": 3.5
+     "E": 2.5,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 3
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "translate",
     "version": "1",
     "seed": 1,
     "variant": "micro2x3#608@1,0"
-   }
+   },
+   "order": 4,
+   "edited": true
   },
   {
    "id": "translate-lv2-vol1-s1-13",
@@ -1123,12 +1261,19 @@
     "lines": 3,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 3,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1140,10 +1285,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 4.5,
-    "auto": 4.5,
+    "auto": 5.5,
+    "value": 5.5,
     "parts": {
-     "base": 4.5
+     "E": 3.5,
+     "G": 2.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1204,6 +1353,7 @@
     "lines": 3,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1211,7 +1361,13 @@
     "pointsUsed": 3,
     "symmetry": [
      "d1"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1223,10 +1379,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 4.5,
-    "auto": 4.5,
+    "auto": 5.5,
+    "value": 5.5,
     "parts": {
-     "base": 4.5
+     "E": 3.5,
+     "G": 2.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1297,12 +1457,19 @@
     "lines": 3,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
    },
    "gen": {
     "kind": "auto",
@@ -1314,10 +1481,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 4.5,
-    "auto": 4.5,
+    "auto": 6.9,
+    "value": 6.9,
     "parts": {
-     "base": 4.5
+     "E": 3.5,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6
     }
    },
    "provenance": {
@@ -1398,12 +1569,19 @@
     "lines": 4,
     "diagonals": 1,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 5,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 3
    },
    "gen": {
     "kind": "auto",
@@ -1415,10 +1593,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 5.5,
-    "auto": 5.5,
+    "auto": 7.3,
+    "value": 7.3,
     "parts": {
-     "base": 5.5
+     "E": 4.5,
+     "G": 2.75,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1489,6 +1671,7 @@
     "lines": 3,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1496,7 +1679,13 @@
     "pointsUsed": 4,
     "symmetry": [
      "h"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1508,10 +1697,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 6,
-    "auto": 6,
+    "auto": 5.8,
+    "value": 5.8,
     "parts": {
-     "base": 6
+     "E": 4,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1582,6 +1775,7 @@
     "lines": 3,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1589,7 +1783,13 @@
     "pointsUsed": 4,
     "symmetry": [
      "h"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1601,10 +1801,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 6,
-    "auto": 6,
+    "auto": 5.8,
+    "value": 5.8,
     "parts": {
-     "base": 6
+     "E": 4,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1624,26 +1828,6 @@
    "edges": [
     [
      [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
       1,
       0
      ],
@@ -1664,22 +1848,42 @@
     ],
     [
      [
-      0,
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
       0
      ],
      [
-      1,
+      2,
       1
      ]
     ],
     [
      [
-      0,
-      2
+      2,
+      1
      ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
      [
       1,
       1
+     ],
+     [
+      2,
+      2
      ]
     ]
    ],
@@ -1687,7 +1891,7 @@
     "mode": "derived",
     "transform": {
      "type": "translate",
-     "dc": 1,
+     "dc": -1,
      "dr": 0
     }
    },
@@ -1695,6 +1899,7 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
@@ -1702,7 +1907,13 @@
     "pointsUsed": 6,
     "symmetry": [
      "h"
-    ]
+    ],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 0
    },
    "gen": {
     "kind": "auto",
@@ -1711,22 +1922,28 @@
     "seed": 1,
     "variant": "micro2x3#1272@1,0"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 7,
-    "auto": 7,
+    "auto": 6.5,
+    "value": 6.5,
     "parts": {
-     "base": 7
+     "E": 5,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "translate",
     "version": "1",
     "seed": 1,
     "variant": "micro2x3#1272@1,0"
-   }
+   },
+   "order": 6,
+   "edited": true
   },
   {
    "id": "translate-lv2-vol1-s1-20",
@@ -1788,12 +2005,19 @@
     "lines": 4,
     "diagonals": 2,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 4,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "none",
+    "symMiss": 4
    },
    "gen": {
     "kind": "auto",
@@ -1805,10 +2029,14 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "value": 7,
-    "auto": 7,
+    "auto": 7.8,
+    "value": 7.8,
     "parts": {
-     "base": 7
+     "E": 5,
+     "G": 2.75,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1818,7 +2046,1614 @@
     "seed": 1,
     "variant": "micro2x3#712@1,0"
    }
+  },
+  {
+   "id": "translate-lv2-vol1-m01",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 3,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-23"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "translate",
+    "auto": 4.2,
+    "value": 4.2,
+    "parts": {
+     "E": 2,
+     "G": 2.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "status": "adopted",
+   "order": 1
+  },
+  {
+   "id": "translate-lv2-vol1-s2-21",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 0,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "rectg3#1/0@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "auto": 5.6,
+    "value": 5.6,
+    "parts": {
+     "E": 4,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "rectg3#1/0@0,1"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s2-22",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 3,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "valley3#1/0@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "auto": 4.9,
+    "value": 4.9,
+    "parts": {
+     "E": 3,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "valley3#1/0@0,1"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s2-23",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": -1
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 2
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "vee3#1/0@0,-1"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "translate",
+    "auto": 8.5,
+    "value": 8.5,
+    "parts": {
+     "E": 5,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "vee3#1/0@0,-1"
+   },
+   "order": 12,
+   "edited": true
+  },
+  {
+   "id": "translate-lv2-vol1-s2-24",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "micro3x2#1155@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "auto": 5.6,
+    "value": 5.6,
+    "parts": {
+     "E": 4,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "micro3x2#1155@0,1"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s2-25",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "triI#1/0@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "auto": 5.6,
+    "value": 5.6,
+    "parts": {
+     "E": 4,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 2,
+    "variant": "triI#1/0@0,1"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s3-26",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro2x2#13@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "auto": 4.6,
+    "value": 4.6,
+    "parts": {
+     "E": 3,
+     "G": 2.5,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro2x2#13@0,1"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s3-27",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro3x2#31@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "auto": 5,
+    "value": 5,
+    "parts": {
+     "E": 3,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro3x2#31@0,1"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s3-28",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 1,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 1
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro3x2#1027@0,1"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "translate",
+    "auto": 5.8,
+    "value": 5.8,
+    "parts": {
+     "E": 2.5,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro3x2#1027@0,1"
+   },
+   "order": 8
+  },
+  {
+   "id": "translate-lv2-vol1-s3-29",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": -1
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 1,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 1
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro3x2#524@0,1"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "translate",
+    "auto": 5.8,
+    "value": 5.8,
+    "parts": {
+     "E": 2.5,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 3
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro3x2#524@0,1"
+   },
+   "order": 10,
+   "edited": true
+  },
+  {
+   "id": "translate-lv2-vol1-s3-30",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro3x2#1187@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "auto": 6.3,
+    "value": 6.3,
+    "parts": {
+     "E": 5,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 3,
+    "variant": "micro3x2#1187@0,1"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s4-31",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 0,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 1
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "micro3x2#67@0,1"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "translate",
+    "auto": 5.2,
+    "value": 5.2,
+    "parts": {
+     "E": 2,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "micro3x2#67@0,1"
+   },
+   "order": 7
+  },
+  {
+   "id": "translate-lv2-vol1-s4-32",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 2,
+    "diagonals": 1,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 1
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "micro3x2#268@0,1"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "auto": 5.8,
+    "value": 5.8,
+    "parts": {
+     "E": 2.5,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "micro3x2#268@0,1"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s4-33",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 1,
+     "dr": 0
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 1,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 2,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 1
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "micro2x3#1050@1,0"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "translate",
+    "auto": 6.9,
+    "value": 6.9,
+    "parts": {
+     "E": 3.5,
+     "G": 2.75,
+     "k": 0.75,
+     "strokes": 0,
+     "brk": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "micro2x3#1050@1,0"
+   }
+  },
+  {
+   "id": "translate-lv2-vol1-s4-34",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": -1
+    }
+   },
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 1
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "micro3x2#1059@0,1"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "translate",
+    "auto": 7.1,
+    "value": 7.1,
+    "parts": {
+     "E": 3,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 3
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "micro3x2#1059@0,1"
+   },
+   "order": 11,
+   "edited": true
+  },
+  {
+   "id": "translate-lv2-vol1-s4-35",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "translate",
+     "dc": 0,
+     "dr": 1
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 2,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "tent3#1/0@0,1"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "translate",
+    "auto": 6.3,
+    "value": 6.3,
+    "parts": {
+     "E": 5,
+     "G": 2.75,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 4,
+    "variant": "tent3#1/0@0,1"
+   },
+   "order": 9
   }
  ],
- "seedCursor": 1
+ "seedCursor": 4
 }

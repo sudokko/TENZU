@@ -10,9 +10,10 @@ import { taskBySlug, volBySku } from "../../../products/data";
 
 export const dynamic = "force-dynamic";
 
+/* status は編集できない＝公開状態は published/{sku}.json の有無から導出する（data.ts）。
+   巻を公開するのは atelier の「公開する」、店から下げるのは delete（hidden）。 */
 type VolPatch = {
-  grid?: string; blurb?: string; ageLabel?: string;
-  variant?: string; status?: "live" | "scaffold";
+  grid?: string; blurb?: string; ageLabel?: string; variant?: string;
 };
 
 const gridN = (grid: string): number | null => {
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json() as {
     action?: string; sku?: string; task?: string; lv?: number; grid?: string;
     variant?: string; blurb?: string; ageLabel?: string;
-    status?: "live" | "scaffold"; cloneFrom?: string; patch?: VolPatch;
+    cloneFrom?: string; patch?: VolPatch;
   };
   const action = body.action;
 
@@ -68,7 +69,6 @@ export async function POST(req: NextRequest) {
     extra.vols.push({
       task, sku, lv, volNo, grid,
       ageLabel: (body.ageLabel ?? "").trim(),
-      status: body.status === "live" ? "live" : "scaffold",
       ...(body.variant?.trim() ? { variant: body.variant.trim() } : {}),
       blurb: (body.blurb ?? "").trim() || "新しい Vol（atelier で追加）。基準を調整して問題を作成してください。",
     });
@@ -89,7 +89,6 @@ export async function POST(req: NextRequest) {
       if (patch.blurb != null) inExtra.blurb = patch.blurb;
       if (patch.ageLabel != null) inExtra.ageLabel = patch.ageLabel;
       if (patch.variant != null) inExtra.variant = patch.variant;
-      if (patch.status != null) inExtra.status = patch.status;
     } else {
       if (!volBySku(sku)) return Response.json({ error: `未知の sku: ${sku}` }, { status: 400 });
       const patches = extra.patches ?? (extra.patches = []);

@@ -182,12 +182,19 @@
     "lines": 10,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 16,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 7
    },
    "gen": {
     "kind": "auto",
@@ -196,13 +203,17 @@
     "seed": 1,
     "variant": "blob#6#1-4"
    },
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "value": 14.5,
-    "auto": 14.5,
+    "auto": 17.5,
+    "value": 17.5,
     "parts": {
-     "base": 14.5
+     "E": 11.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -211,8 +222,7 @@
     "version": "3",
     "seed": 1,
     "variant": "blob#6#1-4"
-   },
-   "order": 1
+   }
   },
   {
    "id": "mirror-lv5-vol1-s1-02",
@@ -403,12 +413,19 @@
     "lines": 10,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 17,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 7
    },
    "gen": {
     "kind": "auto",
@@ -417,13 +434,17 @@
     "seed": 1,
     "variant": "blob#6#1-215"
    },
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "value": 14.5,
-    "auto": 14.5,
+    "auto": 17.5,
+    "value": 17.5,
     "parts": {
-     "base": 14.5
+     "E": 11.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -432,8 +453,7 @@
     "version": "3",
     "seed": 1,
     "variant": "blob#6#1-215"
-   },
-   "order": 2
+   }
   },
   {
    "id": "mirror-lv5-vol1-s1-03",
@@ -454,16 +474,6 @@
     ],
     [
      [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
       2,
       0
      ],
@@ -480,56 +490,6 @@
      [
       4,
       0
-     ]
-    ],
-    [
-     [
-      3,
-      4
-     ],
-     [
-      4,
-      4
-     ]
-    ],
-    [
-     [
-      3,
-      3
-     ],
-     [
-      3,
-      4
-     ]
-    ],
-    [
-     [
-      4,
-      0
-     ],
-     [
-      5,
-      0
-     ]
-    ],
-    [
-     [
-      5,
-      0
-     ],
-     [
-      5,
-      1
-     ]
-    ],
-    [
-     [
-      5,
-      1
-     ],
-     [
-      5,
-      2
      ]
     ],
     [
@@ -578,7 +538,17 @@
       1
      ],
      [
-      1,
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
       2
      ]
     ],
@@ -589,12 +559,22 @@
      ],
      [
       3,
-      3
+      2
      ]
     ],
     [
      [
-      4,
+      2,
+      4
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
       4
      ],
      [
@@ -611,15 +591,22 @@
     }
    },
    "metrics": {
-    "lines": 9,
-    "diagonals": 4,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
+    "lines": 8,
+    "diagonals": 5,
+    "non45": 4,
+    "non45Gentle": 3,
+    "diagonalAngleKinds": 4,
+    "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 16,
-    "symmetry": []
+    "pointsUsed": 12,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 6
    },
    "gen": {
     "kind": "auto",
@@ -631,20 +618,25 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "value": 15,
-    "auto": 15,
+    "auto": 27.5,
+    "value": 27.5,
     "parts": {
-     "base": 15
+     "E": 21.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "mirror",
     "version": "3",
     "seed": 1,
     "variant": "blob#6#1-379"
    },
-   "order": 3
+   "order": 8,
+   "edited": true
   },
   {
    "id": "mirror-lv5-vol1-s1-04",
@@ -835,12 +827,19 @@
     "lines": 12,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 17,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 10
    },
    "gen": {
     "kind": "auto",
@@ -849,13 +848,17 @@
     "seed": 1,
     "variant": "blob#6#1-253"
    },
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "value": 16.5,
-    "auto": 16.5,
+    "auto": 19.5,
+    "value": 19.5,
     "parts": {
-     "base": 16.5
+     "E": 13.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -864,8 +867,7 @@
     "version": "3",
     "seed": 1,
     "variant": "blob#6#1-253"
-   },
-   "order": 4
+   }
   },
   {
    "id": "mirror-lv5-vol1-s1-05",
@@ -1236,12 +1238,19 @@
     "lines": 12,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 5,
     "components": 1,
     "pointsUsed": 27,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 5,
+    "symAxis": "d",
+    "symMiss": 9
    },
    "gen": {
     "kind": "auto",
@@ -1253,10 +1262,14 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "value": 16.5,
-    "auto": 16.5,
+    "auto": 22.3,
+    "value": 22.3,
     "parts": {
-     "base": 16.5
+     "E": 13.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 2.8,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1266,7 +1279,7 @@
     "seed": 1,
     "variant": "hybrid#6#1-161"
    },
-   "order": 5
+   "order": 1
   },
   {
    "id": "mirror-lv5-vol1-s1-06",
@@ -1447,12 +1460,19 @@
     "lines": 11,
     "diagonals": 4,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 16,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 7
    },
    "gen": {
     "kind": "auto",
@@ -1461,13 +1481,17 @@
     "seed": 1,
     "variant": "blob#6#1-278"
    },
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "value": 17,
-    "auto": 17,
+    "auto": 19,
+    "value": 19,
     "parts": {
-     "base": 17
+     "E": 13,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1476,8 +1500,7 @@
     "version": "3",
     "seed": 1,
     "variant": "blob#6#1-278"
-   },
-   "order": 6
+   }
   },
   {
    "id": "mirror-lv5-vol1-s1-07",
@@ -1679,41 +1702,11 @@
     [
      [
       1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      4,
-      1
-     ]
-    ],
-    [
-     [
-      4,
-      1
+      0
      ],
      [
       5,
-      1
+      3
      ]
     ]
    ],
@@ -1726,14 +1719,21 @@
    },
    "metrics": {
     "lines": 13,
-    "diagonals": 3,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
+    "diagonals": 4,
+    "non45": 1,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 1,
     "components": 1,
-    "pointsUsed": 22,
-    "symmetry": []
+    "pointsUsed": 19,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 9
    },
    "gen": {
     "kind": "auto",
@@ -1745,20 +1745,25 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "value": 17.5,
-    "auto": 17.5,
+    "auto": 25.9,
+    "value": 25.9,
     "parts": {
-     "base": 17.5
+     "E": 18.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 1.4,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "mirror",
     "version": "3",
     "seed": 1,
     "variant": "hybrid#6#1-49"
    },
-   "order": 7
+   "order": 6,
+   "edited": true
   },
   {
    "id": "mirror-lv5-vol1-s1-08",
@@ -1969,12 +1974,19 @@
     "lines": 13,
     "diagonals": 3,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
     "pointsUsed": 19,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 10
    },
    "gen": {
     "kind": "auto",
@@ -1983,13 +1995,17 @@
     "seed": 1,
     "variant": "blob#6#1-44"
    },
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "value": 17.5,
-    "auto": 17.5,
+    "auto": 20.5,
+    "value": 20.5,
     "parts": {
-     "base": 17.5
+     "E": 14.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
     }
    },
    "provenance": {
@@ -1998,8 +2014,7 @@
     "version": "3",
     "seed": 1,
     "variant": "blob#6#1-44"
-   },
-   "order": 8
+   }
   },
   {
    "id": "mirror-lv5-vol1-s1-09",
@@ -2230,36 +2245,6 @@
     ],
     [
      [
-      2,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
       0,
       1
      ],
@@ -2327,6 +2312,26 @@
       4,
       3
      ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      5,
+      0
+     ]
     ]
    ],
    "answer": {
@@ -2337,15 +2342,22 @@
     }
    },
    "metrics": {
-    "lines": 13,
-    "diagonals": 3,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 5,
+    "lines": 14,
+    "diagonals": 5,
+    "non45": 2,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 6,
     "components": 1,
-    "pointsUsed": 24,
-    "symmetry": []
+    "pointsUsed": 23,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 5,
+    "symAxis": "v",
+    "symMiss": 10
    },
    "gen": {
     "kind": "auto",
@@ -2357,20 +2369,25 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "value": 17.5,
-    "auto": 17.5,
+    "auto": 32.3,
+    "value": 32.3,
     "parts": {
-     "base": 17.5
+     "E": 23.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 2.8,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "mirror",
     "version": "3",
     "seed": 1,
     "variant": "hybrid#6#1-176"
    },
-   "order": 9
+   "order": 11,
+   "edited": true
   },
   {
    "id": "mirror-lv5-vol1-s1-10",
@@ -2491,16 +2508,6 @@
     ],
     [
      [
-      5,
-      2
-     ],
-     [
-      5,
-      3
-     ]
-    ],
-    [
-     [
       0,
       2
      ],
@@ -2517,16 +2524,6 @@
      [
       1,
       3
-     ]
-    ],
-    [
-     [
-      3,
-      5
-     ],
-     [
-      4,
-      4
      ]
     ],
     [
@@ -2541,16 +2538,6 @@
     ],
     [
      [
-      4,
-      4
-     ],
-     [
-      5,
-      3
-     ]
-    ],
-    [
-     [
       2,
       2
      ],
@@ -2562,26 +2549,6 @@
     [
      [
       2,
-      4
-     ],
-     [
-      3,
-      4
-     ]
-    ],
-    [
-     [
-      3,
-      4
-     ],
-     [
-      4,
-      4
-     ]
-    ],
-    [
-     [
-      2,
       1
      ],
      [
@@ -2608,6 +2575,16 @@
       5,
       1
      ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      5,
+      2
+     ]
     ]
    ],
    "answer": {
@@ -2618,15 +2595,22 @@
     }
    },
    "metrics": {
-    "lines": 13,
+    "lines": 12,
     "diagonals": 4,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
+    "non45": 1,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 20,
-    "symmetry": []
+    "pointsUsed": 17,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 9
    },
    "gen": {
     "kind": "auto",
@@ -2638,20 +2622,25 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "value": 19,
-    "auto": 19,
+    "auto": 24.2,
+    "value": 24.2,
     "parts": {
-     "base": 19
+     "E": 17.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "mirror",
     "version": "3",
     "seed": 1,
     "variant": "hybrid#6#1-178"
    },
-   "order": 10
+   "order": 4,
+   "edited": true
   },
   {
    "id": "mirror-lv5-vol1-s1-11",
@@ -2922,12 +2911,19 @@
     "lines": 13,
     "diagonals": 5,
     "non45": 0,
+    "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 2,
     "components": 1,
     "pointsUsed": 23,
-    "symmetry": []
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 10
    },
    "gen": {
     "kind": "auto",
@@ -2939,10 +2935,14 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "value": 20.5,
-    "auto": 20.5,
+    "auto": 22.9,
+    "value": 22.9,
     "parts": {
-     "base": 20.5
+     "E": 15.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 1.4,
+     "brk": 0
     }
    },
    "provenance": {
@@ -2952,10 +2952,332 @@
     "seed": 1,
     "variant": "hybrid#6#1-203"
    },
-   "order": 11
+   "order": 3
   },
   {
    "id": "mirror-lv5-vol1-s1-12",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      5,
+      5
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 12,
+    "diagonals": 3,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 2,
+    "components": 1,
+    "pointsUsed": 22,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 5,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 9
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 1,
+    "variant": "hybrid#6#1-3"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 21.8,
+    "value": 21.8,
+    "parts": {
+     "E": 16,
+     "G": 5.75,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 1,
+    "variant": "hybrid#6#1-3"
+   },
+   "edited": true
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-13",
    "grid": {
     "type": "square",
     "n": 6
@@ -3007,8 +3329,399 @@
       3
      ],
      [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      5,
+      4
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 3,
+    "components": 1,
+    "pointsUsed": 25,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 4,
+    "symAxis": "v",
+    "symMiss": 8
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "hybrid#6#1-142"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 19.1,
+    "value": 19.1,
+    "parts": {
+     "E": 11,
+     "G": 6,
+     "k": 1,
+     "strokes": 2.0999999999999996,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "hybrid#6#1-142"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-14",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
       1,
       4
+     ],
+     [
+      2,
+      4
      ]
     ],
     [
@@ -3023,12 +3736,22 @@
     ],
     [
      [
-      2,
-      4
+      3,
+      3
      ],
      [
       3,
       4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
      ]
     ],
     [
@@ -3049,6 +3772,16 @@
      [
       4,
       2
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
      ]
     ],
     [
@@ -3074,6 +3807,1773 @@
     [
      [
       0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 3,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 17,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 9
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-222"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 17.5,
+    "value": 17.5,
+    "parts": {
+     "E": 11.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-222"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-15",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 3,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 17,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 6
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-356"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 17.5,
+    "value": 17.5,
+    "parts": {
+     "E": 11.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-356"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-16",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      4
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 12,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 22,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 8
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-206"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 19,
+    "value": 19,
+    "parts": {
+     "E": 13,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-206"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-17",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 13,
+    "diagonals": 3,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 17,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 9
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-499"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 20.5,
+    "value": 20.5,
+    "parts": {
+     "E": 14.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-499"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-18",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 13,
+    "diagonals": 3,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 19,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 12
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-196"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 20.5,
+    "value": 20.5,
+    "parts": {
+     "E": 14.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-196"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-19",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 4,
+    "components": 1,
+    "pointsUsed": 24,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 4,
+    "symAxis": "d",
+    "symMiss": 8
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "hybrid#6#1-14"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 21.1,
+    "value": 21.1,
+    "parts": {
+     "E": 13,
+     "G": 6,
+     "k": 1,
+     "strokes": 2.0999999999999996,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "hybrid#6#1-14"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-20",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 12,
+    "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 20,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 9
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "hybrid#6#1-381"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 20.7,
+    "value": 20.7,
+    "parts": {
+     "E": 14,
+     "G": 6,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "hybrid#6#1-381"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-21",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
       2
      ],
      [
@@ -3088,6 +5588,2481 @@
      ],
      [
       2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 5,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 9
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-491"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 19.5,
+    "value": 19.5,
+    "parts": {
+     "E": 13.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "blob#6#1-491"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s2-22",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      4
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 14,
+    "diagonals": 5,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 3,
+    "components": 1,
+    "pointsUsed": 22,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 12
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "hybrid#6#1-258"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 23.9,
+    "value": 23.9,
+    "parts": {
+     "E": 16.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 1.4,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 2,
+    "variant": "hybrid#6#1-258"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s0-23",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      5,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 12,
+    "diagonals": 4,
+    "non45": 4,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 3,
+    "symAxis": "h",
+    "symMiss": 6
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "とうだい"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 35.4,
+    "value": 35.4,
+    "parts": {
+     "E": 28,
+     "G": 6,
+     "k": 1,
+     "strokes": 1.4,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "とうだい"
+   },
+   "order": 12
+  },
+  {
+   "id": "mirror-lv5-vol1-s0-24",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 9,
+    "diagonals": 5,
+    "non45": 5,
+    "non45Gentle": 4,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 5
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "はんせん"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 31.7,
+    "value": 31.7,
+    "parts": {
+     "E": 25,
+     "G": 6,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "はんせん"
+   },
+   "order": 10
+  },
+  {
+   "id": "mirror-lv5-vol1-s0-25",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      5
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 2,
+    "non45": 1,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 4,
+    "symAxis": "d",
+    "symMiss": 8
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "キリン"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 22.6,
+    "value": 22.6,
+    "parts": {
+     "E": 14.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 2.0999999999999996,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "キリン"
+   },
+   "order": 2
+  },
+  {
+   "id": "mirror-lv5-vol1-s0-26",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      4,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 13,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 6
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "たこあげ"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 26,
+    "value": 26,
+    "parts": {
+     "E": 20,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "たこあげ"
+   },
+   "order": 7
+  },
+  {
+   "id": "mirror-lv5-vol1-s0-27",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      5,
+      4
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      4,
+      5
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 14,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 23,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 5,
+    "symAxis": "v",
+    "symMiss": 10
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "おしろ"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 29.8,
+    "value": 29.8,
+    "parts": {
+     "E": 21,
+     "G": 6,
+     "k": 1,
+     "strokes": 2.8,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "おしろ"
+   },
+   "order": 9
+  },
+  {
+   "id": "mirror-lv5-vol1-s0-28",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      5
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 6
+   },
+   "gen": {
+    "kind": "manual",
+    "motif": "へび"
+   },
+   "status": "adopted",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 25,
+    "value": 25,
+    "parts": {
+     "E": 19,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "label": "へび"
+   },
+   "order": 5
+  },
+  {
+   "id": "mirror-lv5-vol1-s3-29",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      4
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 12,
+    "diagonals": 2,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 3,
+    "components": 1,
+    "pointsUsed": 27,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 5,
+    "symAxis": "h",
+    "symMiss": 7
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-416"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 24.3,
+    "value": 24.3,
+    "parts": {
+     "E": 15.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 2.8,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-416"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s3-30",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
       5
      ]
     ],
@@ -3104,6 +8079,16 @@
     [
      [
       3,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
       4
      ],
      [
@@ -3114,7 +8099,469 @@
     [
      [
       4,
+      3
+     ],
+     [
+      5,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 11,
+    "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 10
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "blob#6#1-411"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 19,
+    "value": 19,
+    "parts": {
+     "E": 13,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "blob#6#1-411"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s3-31",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      1,
       0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 10,
+    "diagonals": 5,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 14,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 1,
+    "symAxis": "h",
+    "symMiss": 9
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "blob#6#1-321"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 18.5,
+    "value": 18.5,
+    "parts": {
+     "E": 12.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "blob#6#1-321"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s3-32",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      2
      ],
      [
       5,
@@ -3143,6 +8590,337 @@
     ],
     [
      [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 12,
+    "diagonals": 3,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 3,
+    "components": 1,
+    "pointsUsed": 24,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 3,
+    "symAxis": "v",
+    "symMiss": 11
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-112"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 23.4,
+    "value": 23.4,
+    "parts": {
+     "E": 16,
+     "G": 6,
+     "k": 1,
+     "strokes": 1.4,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-112"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s3-33",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
       3,
       2
      ],
@@ -3159,6 +8937,1009 @@
      [
       3,
       4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 14,
+    "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 4,
+    "components": 1,
+    "pointsUsed": 23,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 4,
+    "symAxis": "h",
+    "symMiss": 7
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-278"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 24.1,
+    "value": 24.1,
+    "parts": {
+     "E": 16,
+     "G": 6,
+     "k": 1,
+     "strokes": 2.0999999999999996,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-278"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s3-34",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      5,
+      4
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 14,
+    "diagonals": 4,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 5,
+    "components": 1,
+    "pointsUsed": 26,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 7,
+    "symAxis": "h",
+    "symMiss": 12
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-348"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 28.7,
+    "value": 28.7,
+    "parts": {
+     "E": 18.5,
+     "G": 6,
+     "k": 1,
+     "strokes": 4.199999999999999,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-348"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s3-35",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "mirror",
+     "axis": "v"
+    }
+   },
+   "metrics": {
+    "lines": 14,
+    "diagonals": 7,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 18,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 7
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-106"
+   },
+   "status": "pending",
+   "difficulty": {
+    "task": "mirror",
+    "auto": 26.7,
+    "value": 26.7,
+    "parts": {
+     "E": 20,
+     "G": 6,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "mirror",
+    "version": "3",
+    "seed": 3,
+    "variant": "hybrid#6#1-106"
+   }
+  },
+  {
+   "id": "mirror-lv5-vol1-s3-36",
+   "grid": {
+    "type": "square",
+    "n": 6
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      2
      ]
     ],
     [
@@ -3203,32 +9984,62 @@
     ],
     [
      [
-      1,
-      3
+      2,
+      4
      ],
      [
       2,
-      3
+      5
      ]
     ],
     [
      [
-      2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      3,
-      3
+      4,
+      2
      ],
      [
       4,
       3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      5
      ]
     ]
    ],
@@ -3241,40 +10052,50 @@
    },
    "metrics": {
     "lines": 14,
-    "diagonals": 5,
-    "non45": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 3,
+    "diagonals": 7,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 2,
     "components": 1,
-    "pointsUsed": 23,
-    "symmetry": []
+    "pointsUsed": 21,
+    "symmetry": [],
+    "boardN": 6,
+    "bboxW": 6,
+    "bboxH": 6,
+    "strokes": 4,
+    "symAxis": "v",
+    "symMiss": 11
    },
    "gen": {
     "kind": "auto",
     "generator": "mirror",
     "version": "3",
-    "seed": 1,
-    "variant": "hybrid#6#1-3"
+    "seed": 3,
+    "variant": "hybrid#6#1-184"
    },
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "value": 21.5,
-    "auto": 21.5,
+    "auto": 28.1,
+    "value": 28.1,
     "parts": {
-     "base": 21.5
+     "E": 20,
+     "G": 6,
+     "k": 1,
+     "strokes": 2.0999999999999996,
+     "brk": 0
     }
    },
    "provenance": {
     "source": "ai",
     "generator": "mirror",
     "version": "3",
-    "seed": 1,
-    "variant": "hybrid#6#1-3"
-   },
-   "order": 12
+    "seed": 3,
+    "variant": "hybrid#6#1-184"
+   }
   }
  ],
- "seedCursor": 1
+ "seedCursor": 3
 }

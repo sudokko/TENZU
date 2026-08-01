@@ -1,5 +1,6 @@
 /* dev 限定: adopted 12 問を order 順に SkuProblemSet 化して published へ確定。
-   published/{sku}.json 書き込み＋ published/index.ts をコード再生成する。 */
+   published/{sku}.json 書き込み＋ published/index.ts をコード再生成し、
+   カタログ上の巻 status を live へ引き上げる（＝/products/{sku} が実際に生える）。 */
 import { NextRequest } from "next/server";
 import { answerModeOf, devGuard, readCandidates, safeSku, writePublished } from "../io";
 import { QUESTIONS_PER_VOL } from "../../../products/data";
@@ -46,5 +47,8 @@ export async function POST(req: NextRequest) {
   const errs = await writePublished(set);
   if (errs.length > 0) return Response.json({ error: "validation failed", details: errs }, { status: 400 });
 
+  /* 公開＝商品ページが生えること。カタログの status は published/ の有無から
+     導出される（products/data.ts が skus.ts を読む）ので、ここで別途フラグを
+     立てる必要はない。writePublished が skus.ts も再生成している。 */
   return Response.json({ ok: true, sku, questions: problems.length });
 }
