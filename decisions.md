@@ -1927,6 +1927,18 @@ sns-accounts.md（§5.10/§5.11）に対し ChatGPT・Gemini の 2 AI 添削を�
 - **法務・決済への波及**（W4 = 8/3-8/9 で確定させる）: 特商法表記の販売業者名義・銀行口座名義を SUDO CRAFT へ揃える。ただし **Stripe の明細表示名は購入者が「TENZU で買った」と分かる形を維持する**（カード明細に見慣れない屋号だけが出ると不審請求の問い合わせ・チャージバック要因になる。設定可否は実装時に確認）
 - 反映先: [acquisition/sns-accounts.md](./acquisition/sns-accounts.md)（§1.3・§2・§3・§4.3-4.5・§6・§7）／[acquisition/channels.md](./acquisition/channels.md)（§1.3・§2.4・§2.5・§5）／[acquisition/sns-operations.md](./acquisition/sns-operations.md)／[content/note-devlog-craft.md](./content/note-devlog-craft.md)（§1）／[launch/operations.md](./launch/operations.md)（§5・§7）／[foundation/brand.md](./foundation/brand.md)（語源コラムの「屋号 TENZU」表記）／[design/visual-identity.md §5.4](./design/visual-identity.md)（屋号ロゴ規定 新設）／[engineering/phase-1-todo.md](./engineering/phase-1-todo.md)（屋号ページ `/sudo-craft` 実装・法務名義）
 
+### 5.17 店主枠の線引きを改定＋屋号ビジュアルを TENZU と別系統化（2026-08-01）
+
+§5.16 で名義を 2 層に分けた結果、**緩和を屋号側だけに閉じ込められる**ようになった。これを前提に、オーナー判断で §5.13 の線引きを引き直す。あわせて屋号のビジュアルを実態（オーナーの子が描いた絵を起点にしたマスコット）に合わせて再定義する。
+
+- **線引きの改定**（§5.13 の「我が子や我が家を記録／演出しない」を上書き）: **SUDO CRAFT 名義の 3 アカウントに限り**、親としての体験・迷い（中学受験・塾選び・進路・宿題・PTA）を書いてよい。子どもが作ったもの・描いたものを素材として使ってよい。動機＝オーナーが継続的に書ける題材であること・受動拾いターゲット（中受親・教員）と話題が一致すること
+- **代わりに引く新しい線＝子どもの非特定**: 顔写真・実名・学校名・塾名・成績・偏差値・受験校・住所につながる情報は出さない。子どもの発言や様子を引くときも個人が特定される粒度まで下げない。**本人が将来読んで嫌がる粒度（失敗や叱った話の詳細）は書かない**。禁止を外すのではなく、守る対象を「我が家の非開示」から「子ども個人の非特定と尊厳」へ移す改定であること
+- **緩和しないもの＝ TENZU 商品の効果の自家証言**（「うちの子がこれで◯◯できた」型）。理由が品位ではなく**法務**（景品表示法の実証責任・身内証言による誤認惹起）なので、線引きの改定とは切り離して禁止のまま。NG 語彙・効果断定 NG（[voice-tone.md §1](./foundation/voice-tone.md)）も店主枠で適用を継続
+- **TENZU 名義の面は不変**: Pinterest・Instagram・サイト記事・商品ページ・LP は従来どおり三人称・家庭の話は出さない。§5.16 の名義分離があるからこの非対称が成立する（緩和が商品面へ漏れない）
+- **屋号ビジュアルを別系統化**: §5.16 時点の「Plex Sans の Wordmark のみ・Symbol は作らない」を**撤回**。実態は **Symbol（マスコット）＋丸ゴシック Wordmark の Lockup**。TENZU の Ink & Slate・幾何のみ・**キャラクター不採用**（[visual-identity.md §6](./design/visual-identity.md)）は**屋号面には適用しない**＝目的が違う面（作り手の人格を出す面）だから。混ざらないことは名義分離が担保する
+- **マスコットの由来は公表しない**。ビジュアルとして使うことと、出自（誰が描いたか）を語ることは別問題であり、後者は上記の非特定原則に抵触する
+- 反映先: [acquisition/sns-accounts.md](./acquisition/sns-accounts.md)（サマリ・§2・§4.3）／[acquisition/channels.md](./acquisition/channels.md)（サマリ・§1.3・§2.4・§3）／[foundation/voice-tone.md §7.5](./foundation/voice-tone.md)／[design/visual-identity.md](./design/visual-identity.md)（サマリ・§5.4 全面改訂・§6 冒頭）
+
 ---
 
 ## §6. 計測・KPI

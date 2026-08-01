@@ -6,7 +6,7 @@
 - **基板**: 純白 `#FFFFFF` ＋ body 全面の**点格子**（pitch 24px desktop ／ 28px mobile・`#1A1F2A`・opacity 0.16）。配色は `Ink & Slate`、アクセント petroleum teal `#2C6E7F` は**「到達・正解・完成形」のみ**
 - **タイポ 3 階層**: Tier① **Klee One 600**（見出し・プロミス＝意味を運ぶ）／ Tier② **Klee One 400**（温度コピー・店主メモ＝人の温度・①と同一書体でウェイト違い）／ Tier③ **IBM Plex Sans JP & Plex Mono**（UI・数値・長文＝構造・機能）
 - **罫線は 4 種のみ**（D1 H2 underline ／ D2 dashed 既定 ／ D3 accent 左マーカー ／ D4 fg-2 左マーカー）。solid フル枠・shadow はほぼ無し（`shadow-paper` は商品サムネのみ）。radius-soft 4px。動きは静的が既定
-- **ロゴ**: 鉛筆筆致版が canonical。Symbol = 4-dot floating（点と線分に visible gap）／ Wordmark = Ξ-form E（縦軸なし 3 横線）。Lockup 5 バリアント（D-2 Klee One 版優先）。業態識別句は必須併記・タグライン本体は同梱しない。**屋号 SUDO CRAFT は Plex Sans の Wordmark のみ**（Symbol なし・用途は SNS アイコン/屋号ページ/法務表記に限定・§5.4）
+- **ロゴ**: 鉛筆筆致版が canonical。Symbol = 4-dot floating（点と線分に visible gap）／ Wordmark = Ξ-form E（縦軸なし 3 横線）。Lockup 5 バリアント（D-2 Klee One 版優先）。業態識別句は必須併記・タグライン本体は同梱しない。**屋号 SUDO CRAFT は TENZU とは別系統のビジュアル**（マスコット Symbol ＋丸ゴシック Wordmark・別パレット・用途は SNS 3 アカウント/屋号ページ/法務表記に限定・§5.4）
 - **CTA 4 段階**（弱／中／強／最強）・ディレクトリ別密度・**店主の痕跡 5 種 × 場所別配分表**で温度を構造化。加えて **LP Hero に無記名の店主紹介文 1 枠**（§8.1・顔/実名/マスコットなし）
 - **AI 全面活用**（[brand.md §3 V4](../foundation/brand.md)）。端正さの担保は人間レビュー＋パーツライブラリ化
 - キャビアット: フォントは Google Fonts CDN 経由（zip 受領後 `@font-face` へ差し替え予定）
@@ -166,21 +166,32 @@ spacing は base 4px スケール（`--s-1`〜`--s-24`）。desktop margin 64px 
 - アンチパターン: effect 追加（shadow/glow）・回転・斜行・グラデ塗り・写真上配置・点線ボックス囲み・Symbol の点と線の接続・アニメーション・4 色トーン以外の色変え。迷ったら「Horizontal／ink／白地」に戻し、レイアウト側を調整する
 - 詳細: [rev-5 bundle specs/logo.md](handoff/maker-import/tenzu-design-system-rev-5/project/specs/logo.md)
 
-#### §5.4 屋号ロゴ（SUDO CRAFT）
+#### §5.4 屋号 SUDO CRAFT のビジュアル（TENZU とは別系統）
 
-屋号 SUDO CRAFT は TENZU の**上位**にあたるが、視覚的には**一段地味に**作る。親が主張するとブランド側が弱くなるため。
+**屋号は TENZU の規定を継承しない別系統として持つ**（[decisions.md §5.17](../decisions.md)）。屋号が立つ面は「作り手の人格」を出す面であり、TENZU の端正さ（純白＋点格子・幾何のみ・キャラクター不採用）とは目的が違う。両者が視覚的に混ざらないことは**名義の分離**（[sns-accounts.md §1.4](../acquisition/sns-accounts.md)）が担保する。
 
-- **用途は限定**: SNS 3 アカウント（X・note・Ameba）のアイコン／屋号ページ `/sudo-craft`／法務表記まわり。**商品ページ・記事・PDF 紙面・LP には出さない**（[sns-accounts.md §1.4](../acquisition/sns-accounts.md)）
-- **Wordmark のみ・Symbol は作らない**。TENZU の Symbol（4-dot floating）は「点と線がまだつながっていない」＝点描写固有の物語なので、屋号へ流用しない
-- **書体は Plex Sans JP**（Tier ③ 構造層・§3）。全大文字 `SUDO CRAFT`・字間広め。Ξ-form E のような固有加工はしない
-- **配色・背景は TENZU と共通**（ink 既定・純白＋点格子）。同じ世界観の中で「作り手の署名」として読ませる
-- **SNS アイコン（1:1・最小 16px）**は 2 段組（SUDO / CRAFT）を可とする。横 1 段は屋号ページ・法務表記で使う
-- 格納先: マスター `logodesign/`／配信用 `web/public/assets/logo-sudocraft*.png`
-- 屋号アカウントの**ヘッダー**には作っているもの（当面 TENZU の Lockup C または D-2）を置く。屋号ロゴだけでは何の作り手か伝わらないため
+- **適用範囲**: SNS 3 アカウント（X・note・Ameba）のアイコン／ヘッダー／屋号ページ `/sudo-craft`／法務表記まわり。**商品ページ・記事・PDF 紙面・LP・Pinterest・Instagram には一切出さない**
+- **構成 = Symbol（マスコット）＋ Wordmark の Lockup**。TENZU の Symbol（4-dot floating）は点描写固有の物語なので流用しない
+- **Symbol**: 青い丸型キャラクター（うさぎ耳・眼鏡・蝶ネクタイ）。太い濃紺の輪郭線＋フラットなパステル塗り。**由来は公表しない**（[sns-accounts.md §4.3](../acquisition/sns-accounts.md) の非特定原則）
+- **Wordmark**: 太い丸ゴシック（ジオメトリック・全大文字・字間広め・角丸ターミナル）。**2 段組**（SUDO / CRAFT・アイコン用）と**横 1 段**（ヘッダー・屋号ページ・法務表記用）の 2 種
+- **配色**（`Ink & Slate`（§1）とは別パレット。屋号面でのみ使う）:
+
+  | 用途 | 値 |
+  |---|---|
+  | 屋号文字・輪郭線 | `#1E3A6B` |
+  | ブランド名・アクセント | `#F26B7A` |
+  | 背景 | `#F9D7DD` |
+
+- **§6「キャラクター不採用・写真不使用・子どもイラスト不使用」は TENZU 面の規定**であり、屋号面には適用しない。ただし**実写だけは名義を問わず使わない**
+- **確定版は再生成しない**（§10 パーツライブラリ化）。**同じ画風は生成では再現できない**ため、使うカット（立ち・考える・差し出す・バストアップ）は一度に作って確定版を格納し、以後はそれを参照する。差し替えは新版として履歴管理
+- **ヘッダーには作っているもの**（当面 TENZU の Lockup C または D-2）を置く。屋号ロゴだけでは何の作り手か伝わらないため
+- 格納先: マスター `logodesign/sudocraft/`／配信用 `web/public/assets/sudocraft-*.png`
 
 ### §6. 主役グラフィック・イラスト
 
 「点・直線・図形」の幾何要素が主役。**写真不使用**（使う場合はモノクロ・hard edge 限定）・子どもイラスト不使用・キャラクター不採用（[brand.md §11.1](../foundation/brand.md) Anti-Brand）。
+
+> **本節は TENZU 面の規定**（サイト・商品・PDF・LP・Pinterest・Instagram）。屋号 SUDO CRAFT の面はマスコットを持つ別系統（§5.4）で、キャラクター不採用は適用されない。
 
 #### §6.1 SVG 物理規格
 
