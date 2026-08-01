@@ -32,7 +32,7 @@ export default function TokushohoPage() {
             </tr>
             <tr>
               <th>販売責任者</th>
-              <td>〔開店前に氏名を記載〕</td>
+              <td>須藤　恒</td>
             </tr>
             <tr>
               <th>所在地・電話番号</th>
