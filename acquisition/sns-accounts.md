@@ -128,7 +128,7 @@ SNS 立ち上げの成否はアカウントコンセプトでほぼ決まる。�
 | Instagram | TENZU | 150 字 | `https://tenzu.jp/maker?utm_source=instagram&utm_medium=profile&utm_campaign=launch` |
 | Pinterest | TENZU | 約 500 字 | `https://tenzu.jp/maker?utm_source=pinterest&utm_medium=profile&utm_campaign=launch` |
 | X | SUDO CRAFT | 160 字 | `https://tenzu.jp/sudo-craft?utm_source=x&utm_medium=profile&utm_campaign=launch` |
-| note | SUDO CRAFT | 140 字 | `https://tenzu.jp/sudo-craft?utm_source=note&utm_medium=profile&utm_campaign=launch` |
+| note | SUDO CRAFT | 140 字 | **専用リンク欄が無い**（ソーシャルリンクは FB/IG/YouTube/LINE/TikTok/X 連携のみ）。**bio 末尾に URL を直接書く**: `https://tenzu.jp/sudo-craft?utm_source=note&utm_medium=profile&utm_campaign=launch` |
 | Ameba | SUDO CRAFT | — | `https://tenzu.jp/sudo-craft?utm_source=ameba&utm_medium=profile&utm_campaign=launch` |
 
 SUDO CRAFT 系の飛び先 `/sudo-craft` は **tenzu.jp 内の屋号ページ**（作っているもの一覧＋受託の問い合わせ導線。実装は [phase-1-todo.md](../engineering/phase-1-todo.md)）。屋号アカウントから商品直行にすると「作り手を見に来た人」と着地がずれるため、屋号ページで受けてから各ブランドへ渡す。別ドメイン（sudo-craft.jp 等）への移設は開店後に判断する。
