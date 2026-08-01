@@ -20,8 +20,9 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 | ★ | **SES サンドボックス脱出** | Production access 申請。送信元（`no-reply@tenzu.jp` 等）のドメイン検証も併せて実施 |
 | ★ | **Stripe 本番モード化** | live キー取得・本番 Webhook エンドポイント（`/api/stripe/webhook`）作成・`checkout.session.completed` 購読・`STRIPE_WEBHOOK_SECRET` 取得 |
 | ★ | **AUTH_SECRET 生成** | 強ランダム値（例: `openssl rand -base64 48`）。ローテーション＝全所有 cookie 無効化のため安定運用 |
-| ★ | **SITE_URL 設定** | `https://tenzu.jp`。Checkout の success/cancel・メールリンク生成に必須。**検索インデックスの可否もこの値で決まる**（`*.amplifyapp.com` のままだと全ページ noindex＝[site.ts](../web/app/site.ts) の `IS_PREVIEW`）。接続後に `<meta name="robots">` が `index, follow` か確認する |
-| ★ | **tenzu.jp を Amplify Hosting へ接続** | カスタムドメイン・SSL（ドメインは取得済） |
+| ★ | **SITE_URL 設定** | `https://tenzu.jp`。Checkout の success/cancel・メールリンク生成に必須。**検索インデックスの可否もこの値で決まる**（`*.amplifyapp.com` のままだと全ページ noindex＝[site.ts](../web/app/site.ts) の `IS_PREVIEW`）。**env はブランチ別＝main にだけ設定する**（deploy/amplify は未設定のまま＝staging の noindex 維持・[decisions §3.93](../decisions.md)）。接続後の確認は `node web/scripts/check-env-gates.mjs`（本番 index / staging noindex を両方向自動判定） |
+| ★ | **tenzu.jp を Amplify Hosting へ接続** | **`main` ブランチへ接続**（本番=main・[decisions §3.93](../decisions.md)）。カスタムドメイン・SSL は Amplify が自動発行。ドメイン取得は 8 月上旬（オーナー・国内レジストラ推奨＝Route 53 の .jp は割高） |
+| ★ | **Amplify ブランチ接続の切替** | 現在の実ビルド対象は `content/article-drafts`。**main を接続 → article-drafts の接続を解除**する（コンソール作業）。解除までは 3 ブランチ lockstep push 運用・**解除前のブランチ削除は禁止**。deploy/amplify（staging）の接続は維持 |
 | ★ | **GTM / GA4 コンソール設定** | 手順書＝[analytics.md §5](analytics.md)（約1時間）。GA4 プロパティ・GTM コンテナ・タグ3本・Search Console 連携・Amplify に `NEXT_PUBLIC_GTM_ID` 登録。**開店前の必須ゲート G5**（無計測の運用は無駄撃ち・[../launch/operations.md §3](../launch/operations.md)） |
 | ★ | **プライバシーポリシーへ外部送信の記載** | GA4/GTM の外部送信規律対応（[analytics.md §6](analytics.md)） |
 | ★ | **オンサイトメッセージ用 AWS リソース** | DynamoDB `tenzu-onsite`（＋dev 用）・S3 `tenzu-onsite-assets`・IAM 権限追加・Amplify env 5 件（手順＝§1.1・約 30 分）。未設定でもサイト自体は動く（カード非表示へ degrade）が、開店あいさつ `welcome-2026` を出すには必須＝W5 の文言確認までに |

@@ -4,6 +4,7 @@
 
 - **実装本体は [`../web/`](../web/)**（Next.js App Router / TypeScript / Tailwind 不採用＝design tokens を `tokens.css` の CSS variables で管理）
 - 技術スタック: **Next.js / AWS Amplify Hosting / Stripe / Amazon SES**（購入復元マジックリンク配送）**/ DynamoDB + S3**（オンサイトメッセージの定義・日次カウンタ・カード画像のみ。購入フローは引き続き DB レス・[../decisions.md §5.15](../decisions.md)）
+- **環境は 2 面＋ローカル**: 本番＝`main`＋tenzu.jp／staging＝`deploy/amplify`（amplifyapp URL・noindex 自動）／dev＝ローカル（[../decisions.md §3.93](../decisions.md)・切替後の確認＝`web/scripts/check-env-gates.mjs`）
 - オーナー専用の管理画面 **`/admin/onsite`**（合言葉＋署名 cookie・本番稼働）でオンサイトメッセージを即時編集・表示数/クリック数を閲覧
 - engineering/ 領域は**ローンチ準備チェックリストとインフラ手順の置き場**。設計や経緯は持たない
 - 残作業の SSOT は [phase-1-todo.md](phase-1-todo.md)（ローンチ準備 TODO・未了項目のみ）

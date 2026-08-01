@@ -89,7 +89,7 @@ ERROR は修正して再検査する。WARN が残る場合は理由を報告す
 4. **作業開始時と同じ現在ブランチだけ**へ push する。別ブランチへは反映しない。
 5. Amplify のブランチ URL で更新日、本文、全画像、内部リンクを確認する。
 
-TENZU の `content/article-drafts` は Amplify 上で `content-article-drafts` として公開される。別ブランチや本番統合ブランチへの展開は、このフローには含めない。
+TENZU の記事作業ブランチは `deploy/amplify`（staging・Amplify 上で `deploy-amplify` として公開）。本番 `main` への展開（FF push）はこのフローに含めない（[decisions §3.93](../decisions.md)）。
 
 ### §8. 完了報告
 

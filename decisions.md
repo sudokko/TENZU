@@ -57,6 +57,7 @@
 | プレビュー環境（*.amplifyapp.com）を noindex 化＝インデックス可否は SITE_URL で決まる | §3.89 |
 | 移動 Lv.3 を 2 巻へ分割＝Vol.1 左右上下 2 マス／Vol.2 斜め (±1,±1) 新設 | §3.91 |
 | 商品の公開状態を published/ の有無から導出＝status フラグ廃止（入稿済み＝公開） | §3.92 |
+| ブランチ・環境体制＝main 本番／deploy/amplify staging／article-drafts 退役 | §3.93 |
 
 **主な系譜（上書き済み・経緯を追うときだけ）**
 
@@ -65,6 +66,17 @@
 - かさね生成: §3.69（逆算分割 v1）→ §3.71（模写軸＋合成方式 v2）→ **§3.72（4 巻集約・現行）**
 - 絵柄: §3.13 → §3.43（1シリーズ化）→ **§3.51（完全削除・現行）**
 - TOP 表示: §3.44 → §3.45（構成・現行）＋ **§3.63（Hero 文言・rev.5 準拠）** ＋ **§3.65（Hero 店主紹介文・現行）**
+
+### 3.93 ブランチ・環境体制＝main 本番／deploy/amplify staging／article-drafts 退役（2026-08-01）
+
+記事レビュー用に分岐した `content/article-drafts` が実質の trunk になり、**Amplify が実ビルドするブランチも article-drafts** という歪みが常態化していた（deploy/amplify は 29 コミット遅れの祖先・main はさらに古い祖先）。tenzu.jp 接続（開店ゲート G4）を前に、ブランチと環境の役割を確定した。
+
+- **判断**: ホスト 2 面＋ローカル。**本番＝`main`（tenzu.jp・8 月上旬接続）／staging＝`deploy/amplify`（従来の deploy-amplify.d2tis…amplifyapp.com・SITE_URL 未設定のため noindex 自動維持）／dev＝ホストしない（ローカル `npm run dev`）**。staging を残す根拠＝追加固定費ゼロ（ビルド代のみ・月数百円）で §3.89 期の 33 時間停止型の事故を本番の手前で受け止められる
+- **統合**: 未コミット 113 ファイルを `0661c7a` に統合 → クリーン worktree 検証（`npm ci`＋`next build`）→ 3 ブランチとも FF push（コンフリクトなし）。タグ `archive/article-drafts-final` で保全済み＝削除後も履歴に戻れる
+- **暫定運用（Amplify 接続切替まで）**: 実ビルド対象が article-drafts のままなので、**切替までは 3 ブランチを同一コミットで lockstep push** する。切替（main 接続＋article-drafts 接続解除・オーナーのコンソール作業）が済むまで**ブランチ削除は禁止**
+- **日常フロー（切替後）**: ローカルで build 確認 → `deploy/amplify` へ push（staging 実機確認）→ `main` へ FF push（本番反映）。軽微なテキスト修正のみ main 直行可。**スマホ記事編集（claude.ai/code）のベースは deploy/amplify**（main ベースは push 即本番のため不可）
+- **env はブランチ別**（Amplify のブランチ別環境変数で分離）: main＝`SITE_URL=https://tenzu.jp`・Stripe live・GTM 本番／deploy/amplify＝SITE_URL 未設定・Stripe test・GTM なし。切替後の確認は `node web/scripts/check-env-gates.mjs`（G4 両方向＝本番 index / staging noindex を自動判定）
+- 一次ソース: [engineering/phase-1-todo.md](engineering/phase-1-todo.md) §1・[web/scripts/check-env-gates.mjs](web/scripts/check-env-gates.mjs)
 
 ### 3.92 商品の公開状態を published/ の有無から導出＝status フラグ廃止（2026-08-01）
 
