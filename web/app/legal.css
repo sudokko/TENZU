@@ -1,0 +1,57 @@
+/* =========================================================================
+   法定ページ（/tokushoho・/privacy）＋屋号ページ（/sudo-craft）の共通スタイル。
+   membership.css より一回り狭い読み物幅。装飾は罫と書体のみ（Ink & Slate）。
+   ========================================================================= */
+
+.legal-main { max-width: 760px; margin: 0 auto; padding: 40px 24px 72px; }
+
+.legal-main h1 {
+  font-family: var(--font-tier1-klee); font-weight: 600;
+  font-size: 28px; color: var(--fg); margin: 0 0 10px; letter-spacing: 0.01em;
+}
+.legal-lede { font-size: 14px; color: var(--fg-2); line-height: 1.9; margin: 0 0 32px; }
+
+.legal-sec { margin-top: 36px; }
+.legal-sec h2 {
+  font-family: var(--font-tier1-klee); font-weight: 600;
+  font-size: 18px; color: var(--fg); margin: 0 0 12px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--line-mid);
+}
+.legal-sec p { font-size: 14px; color: var(--fg-2); line-height: 1.95; margin: 0 0 12px; }
+.legal-sec ul { margin: 0 0 12px; padding-left: 1.4em; }
+.legal-sec li { font-size: 14px; color: var(--fg-2); line-height: 1.9; margin-bottom: 6px; }
+
+/* 特商法の項目表 */
+.legal-table { width: 100%; border-collapse: collapse; margin: 8px 0 4px; }
+.legal-table th, .legal-table td {
+  border-bottom: 1px solid var(--line-thin);
+  padding: 14px 8px; font-size: 14px; line-height: 1.85; vertical-align: top;
+  text-align: left;
+}
+.legal-table th { width: 200px; color: var(--fg); font-weight: 600; white-space: nowrap; }
+.legal-table td { color: var(--fg-2); }
+@media (max-width: 560px) {
+  .legal-table th, .legal-table td { display: block; width: auto; padding: 10px 4px; }
+  .legal-table th { border-bottom: none; padding-bottom: 0; }
+}
+
+.legal-note { font-size: 12.5px; color: var(--fg-3); line-height: 1.8; margin-top: 24px; }
+.legal-updated { font-size: 12.5px; color: var(--fg-3); margin-top: 32px; }
+
+/* 屋号ページ */
+.sc-cards { display: grid; gap: 14px; margin: 4px 0 8px; }
+.sc-card {
+  display: block; border: 1.5px solid var(--fg); border-radius: 10px;
+  padding: 18px 20px; text-decoration: none; background: var(--bg);
+}
+.sc-card:hover { background: var(--bg-3); }
+.sc-card .sc-card-name {
+  font-family: var(--font-tier1-klee); font-weight: 600;
+  font-size: 18px; color: var(--fg); margin: 0 0 4px;
+}
+.sc-card p { font-size: 13.5px; color: var(--fg-2); line-height: 1.8; margin: 0; }
+.sc-sub-links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 6px; }
+.sc-sub-links a { font-size: 13.5px; color: var(--fg-2); }
+
+.legal-foot-links { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line-thin); font-size: 13px; color: var(--fg-3); }
+.legal-foot-links a { color: var(--fg-2); margin-right: 16px; }

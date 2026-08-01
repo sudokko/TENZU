@@ -18,6 +18,9 @@ const STATIC_ROUTES: StaticRoute[] = [
   { path: "/level-guide", changeFrequency: "monthly", priority: 0.7 },
   { path: "/articles", changeFrequency: "weekly", priority: 0.7 },
   { path: "/pricing", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/sudo-craft", changeFrequency: "monthly", priority: 0.4 },
+  { path: "/tokushoho", changeFrequency: "yearly", priority: 0.2 },
+  { path: "/privacy", changeFrequency: "yearly", priority: 0.2 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

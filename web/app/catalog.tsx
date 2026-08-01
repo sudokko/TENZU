@@ -328,7 +328,10 @@ export function SiteFooter() {
             <ul>
               <li><a href="/articles">読みもの</a></li>
               <li><a href="/articles/tenzu-concept">お店のこと</a></li>
+              <li><a href="/sudo-craft">運営者（SUDO CRAFT）</a></li>
               <li><a href="/contact">お問い合わせ</a></li>
+              <li><a href="/tokushoho">特定商取引法に基づく表記</a></li>
+              <li><a href="/privacy">プライバシーポリシー</a></li>
             </ul>
           </div>
         </div>
