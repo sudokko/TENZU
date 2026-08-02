@@ -462,7 +462,7 @@
     "seed": 1,
     "variant": "drect#3x3d1/0"
    },
-   "order": 1
+   "order": 3
   },
   {
    "id": "rotate-lv3-vol1-s1-03",
@@ -696,7 +696,7 @@
     "seed": 1,
     "variant": "grid#2x3/0"
    },
-   "order": 3
+   "order": 5
   },
   {
    "id": "rotate-lv3-vol1-s1-04",
@@ -1372,7 +1372,7 @@
     "seed": 1,
     "variant": "hourglass#3/0"
    },
-   "order": 4
+   "order": 1
   },
   {
    "id": "rotate-lv3-vol1-s1-08",
@@ -3493,7 +3493,7 @@
     "seed": 1,
     "variant": "hybrid#4#1-357"
    },
-   "order": 9
+   "order": 11
   },
   {
    "id": "rotate-lv3-vol1-s1-20",
@@ -4065,7 +4065,7 @@
     "seed": 2,
     "variant": "micro3x3#795404"
    },
-   "order": 6,
+   "order": 4,
    "edited": true
   },
   {
@@ -5309,7 +5309,7 @@
     "seed": 4,
     "variant": "step3blk4#1/1"
    },
-   "order": 5
+   "order": 6
   },
   {
    "id": "rotate-lv3-vol1-s4-32",
@@ -5654,7 +5654,7 @@
     "seed": 4,
     "variant": "blob#4#1-240"
    },
-   "order": 10
+   "order": 9
   },
   {
    "id": "rotate-lv3-vol1-s4-34",
@@ -5957,7 +5957,7 @@
     "seed": 4,
     "variant": "blob#4#1-303"
    },
-   "order": 11
+   "order": 10
   },
   {
    "id": "rotate-lv3-vol1-s5-36",
