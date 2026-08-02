@@ -1,578 +1,578 @@
 {
-  "schemaVersion": 1,
-  "copy": {
-    "copy-lv1-vol1": {
-      "grid": 3,
-      "slopes": "ortho",
-      "D": [
-        4.7,
-        8.8
-      ]
-    },
-    "copy-lv2-vol1": {
-      "grid": 3,
-      "slopes": "ortho45",
-      "requireDiag45": true,
-      "D": [
-        6,
-        10
-      ]
-    },
-    "copy-lv3-vol1": {
-      "grid": 4,
-      "slopes": "ortho45",
-      "fullGrid": true,
-      "cross": "some",
-      "D": [
-        12.4,
-        20.7
-      ]
-    },
-    "copy-lv3-vol2": {
-      "grid": 5,
-      "slopes": "ortho45",
-      "fullGrid": true,
-      "D": [
-        12.8,
-        27.1
-      ]
-    },
-    "copy-lv4-vol1": {
-      "grid": 4,
-      "slopes": "any",
-      "fullGrid": true,
-      "requireNon45": true,
-      "D": [
-        12.4,
-        21.7
-      ]
-    },
-    "copy-lv4-vol2": {
-      "grid": 5,
-      "slopes": "any",
-      "fullGrid": true,
-      "requireNon45": true,
-      "D": [
-        15.9,
-        35.8
-      ]
-    },
-    "copy-lv5-vol1": {
-      "grid": 6,
-      "slopes": "any",
-      "fullGrid": true,
-      "D": [
-        19.3,
-        40.3
-      ]
-    },
-    "copy-lv5-vol2": {
-      "grid": 7,
-      "slopes": "any",
-      "fullGrid": true,
-      "D": [
-        23.8,
-        49.6
-      ]
-    }
+ "schemaVersion": 1,
+ "copy": {
+  "copy-lv1-vol1": {
+   "grid": 3,
+   "slopes": "ortho",
+   "D": [
+    4.7,
+    8.8
+   ]
   },
-  "fill": {
-    "fill-lv2-vol1": {
-      "grid": 3,
-      "lines": [
-        3,
-        7
-      ],
-      "slopes": "ortho45",
-      "diagonals": [
-        1,
-        3
-      ],
-      "crossings": [
-        0,
-        1
-      ],
-      "components": [
-        1,
-        1
-      ],
-      "bbox": 2,
-      "closedBias": 0.75,
-      "missing": [
-        1,
-        2
-      ]
-    },
-    "fill-lv3-vol1": {
-      "grid": 4,
-      "lines": [
-        5,
-        10
-      ],
-      "slopes": "ortho45",
-      "diagonals": [
-        1,
-        4
-      ],
-      "crossings": [
-        0,
-        2
-      ],
-      "components": [
-        1,
-        1
-      ],
-      "bbox": 3,
-      "closedBias": 0.65,
-      "missing": [
-        2,
-        3
-      ]
-    },
-    "fill-lv4-vol1": {
-      "grid": 5,
-      "lines": [
-        7,
-        13
-      ],
-      "slopes": "any",
-      "diagonals": [
-        1,
-        6
-      ],
-      "crossings": [
-        0,
-        4
-      ],
-      "components": [
-        1,
-        1
-      ],
-      "bbox": 4,
-      "closedBias": 0.55,
-      "missing": [
-        3,
-        4
-      ]
-    },
-    "fill-lv5-vol1": {
-      "grid": 6,
-      "lines": [
-        9,
-        16
-      ],
-      "slopes": "any",
-      "diagonals": [
-        1,
-        8
-      ],
-      "crossings": [
-        0,
-        6
-      ],
-      "components": [
-        1,
-        2
-      ],
-      "bbox": 5,
-      "closedBias": 0.5,
-      "missing": [
-        4,
-        6
-      ]
-    }
+  "copy-lv2-vol1": {
+   "grid": 3,
+   "slopes": "ortho45",
+   "requireDiag45": true,
+   "D": [
+    6,
+    10
+   ]
   },
-  "mirror": {
-    "mirror-lv2-vol1": {
-      "grid": 3,
-      "slopes": "ortho45",
-      "lines": [
-        2,
-        6
-      ],
-      "diagonals": [
-        0,
-        3
-      ],
-      "crossings": [
-        0,
-        1
-      ],
-      "components": [
-        1,
-        1
-      ],
-      "bbox": 1
-    },
-    "mirror-lv3-vol1": {
-      "grid": 4,
-      "slopes": "ortho45",
-      "lines": [
-        5,
-        9
-      ],
-      "diagonals": [
-        1,
-        4
-      ],
-      "crossings": [
-        0,
-        2
-      ],
-      "components": [
-        1,
-        1
-      ],
-      "bbox": 3
-    },
-    "mirror-lv4-vol1": {
-      "grid": 5,
-      "slopes": "any",
-      "lines": [
-        7,
-        12
-      ],
-      "diagonals": [
-        2,
-        6
-      ],
-      "crossings": [
-        0,
-        4
-      ],
-      "components": [
-        1,
-        1
-      ],
-      "bbox": 4
-    },
-    "mirror-lv5-vol1": {
-      "grid": 6,
-      "slopes": "any",
-      "lines": [
-        9,
-        15
-      ],
-      "diagonals": [
-        2,
-        8
-      ],
-      "crossings": [
-        0,
-        6
-      ],
-      "components": [
-        1,
-        2
-      ],
-      "bbox": 5
-    }
+  "copy-lv3-vol1": {
+   "grid": 4,
+   "slopes": "ortho45",
+   "fullGrid": true,
+   "cross": "some",
+   "D": [
+    12.4,
+    20.7
+   ]
   },
-  "overlay": {
-    "overlay-lv2-vol1": {
-      "grid": 3,
-      "slopes": "ortho45",
-      "entangle": [
-        0,
-        1
-      ],
-      "lines": [
-        2,
-        4
-      ]
-    },
-    "overlay-lv3-vol1": {
-      "grid": 4,
-      "slopes": "ortho45",
-      "requireDiag45": true,
-      "entangle": [
-        0,
-        1
-      ],
-      "lines": [
-        2,
-        5
-      ]
-    },
-    "overlay-lv4-vol1": {
-      "grid": 5,
-      "slopes": "any",
-      "requireNon45": true,
-      "entangle": [
-        0,
-        2
-      ],
-      "lines": [
-        3,
-        6
-      ]
-    },
-    "overlay-lv5-vol1": {
-      "grid": 6,
-      "slopes": "any",
-      "requireNon45": true,
-      "entangle": [
-        3,
-        10
-      ],
-      "lines": [
-        4,
-        8
-      ]
-    }
+  "copy-lv3-vol2": {
+   "grid": 5,
+   "slopes": "ortho45",
+   "fullGrid": true,
+   "D": [
+    12.8,
+    27.1
+   ]
   },
-  "rotate": {
-    "rotate-lv2-vol1": {
-      "grid": 3,
-      "angle": "90cw",
-      "lines": [
-        2,
-        6
-      ]
-    },
-    "rotate-lv3-vol1": {
-      "grid": 4,
-      "angle": "90cw",
-      "lines": [
-        4,
-        9
-      ]
-    },
-    "rotate-lv3-vol2": {
-      "grid": 4,
-      "angle": "90ccw",
-      "lines": [
-        4,
-        9
-      ]
-    },
-    "rotate-lv4-vol2": {
-      "grid": 4,
-      "angle": "180",
-      "lines": [
-        4,
-        9
-      ]
-    },
-    "rotate-lv5-vol1": {
-      "grid": 5,
-      "angle": "mixed",
-      "lines": [
-        6,
-        12
-      ]
-    }
+  "copy-lv4-vol1": {
+   "grid": 4,
+   "slopes": "any",
+   "fullGrid": true,
+   "requireNon45": true,
+   "D": [
+    12.4,
+    21.7
+   ]
   },
-  "translate": {
-    "translate-lv2-vol1": {
-      "grid": 3,
-      "dir": "hv",
-      "moves": [
-        1,
-        1
-      ],
-      "lines": [
-        2,
-        4
-      ]
-    },
-    "translate-lv3-vol1": {
-      "grid": 4,
-      "dir": "hv",
-      "moves": [
-        2,
-        2
-      ],
-      "lines": [
-        3,
-        6
-      ]
-    },
-    "translate-lv3-vol2": {
-      "grid": 4,
-      "dir": "diag",
-      "moves": [
-        2,
-        2
-      ],
-      "lines": [
-        3,
-        6
-      ]
-    },
-    "translate-lv4-vol1": {
-      "grid": 5,
-      "dir": "compound",
-      "moves": [
-        3,
-        3
-      ],
-      "lines": [
-        4,
-        7
-      ]
-    },
-    "translate-lv5-vol1": {
-      "grid": 6,
-      "dir": "compound",
-      "moves": [
-        3,
-        5
-      ],
-      "lines": [
-        5,
-        9
-      ]
-    }
+  "copy-lv4-vol2": {
+   "grid": 5,
+   "slopes": "any",
+   "fullGrid": true,
+   "requireNon45": true,
+   "D": [
+    15.9,
+    35.8
+   ]
   },
-  "decompose": {
-    "decompose-lv2-vol1": {
-      "grid": 3,
-      "slopes": "ortho45",
-      "entangle": [
-        0,
-        1
-      ],
-      "lines": [
-        2,
-        4
-      ]
-    },
-    "decompose-lv3-vol1": {
-      "grid": 4,
-      "slopes": "ortho45",
-      "requireDiag45": true,
-      "entangle": [
-        0,
-        1
-      ],
-      "lines": [
-        2,
-        5
-      ]
-    },
-    "decompose-lv4-vol1": {
-      "grid": 5,
-      "slopes": "any",
-      "requireNon45": true,
-      "entangle": [
-        0,
-        2
-      ],
-      "lines": [
-        3,
-        6
-      ]
-    },
-    "decompose-lv5-vol1": {
-      "grid": 6,
-      "slopes": "any",
-      "requireNon45": true,
-      "entangle": [
-        3,
-        10
-      ],
-      "lines": [
-        4,
-        8
-      ]
-    }
+  "copy-lv5-vol1": {
+   "grid": 6,
+   "slopes": "any",
+   "fullGrid": true,
+   "D": [
+    19.3,
+    40.3
+   ]
   },
-  "fold": {
-    "fold-lv2-vol1": {
-      "grid": 3,
-      "slopes": "ortho45",
-      "entangle": [
-        0,
-        1
-      ],
-      "lines": [
-        2,
-        4
-      ]
-    },
-    "fold-lv3-vol1": {
-      "grid": 4,
-      "slopes": "ortho45",
-      "requireDiag45": true,
-      "entangle": [
-        0,
-        1
-      ],
-      "lines": [
-        2,
-        5
-      ]
-    },
-    "fold-lv4-vol1": {
-      "grid": 5,
-      "slopes": "any",
-      "requireNon45": true,
-      "entangle": [
-        0,
-        2
-      ],
-      "lines": [
-        3,
-        6
-      ]
-    },
-    "fold-lv5-vol1": {
-      "grid": 6,
-      "slopes": "any",
-      "requireNon45": true,
-      "entangle": [
-        3,
-        10
-      ],
-      "lines": [
-        4,
-        8
-      ]
-    }
-  },
-  "solid": {
-    "solid-lv3-vol1": {
-      "hidden": "none",
-      "D": [
-        16.3,
-        25
-      ]
-    },
-    "solid-lv4-vol1": {
-      "hidden": "some",
-      "D": [
-        17,
-        45
-      ]
-    },
-    "solid-lv5-vol1": {
-      "hidden": "full",
-      "D": [
-        50,
-        120
-      ]
-    },
-    "solid-lv5-vol2": {
-      "hidden": "full",
-      "D": [
-        110,
-        200
-      ]
-    },
-    "solid-lv5-vol3": {
-      "hidden": "full",
-      "D": [
-        170,
-        280
-      ]
-    },
-    "solid-lv5-vol4": {
-      "hidden": "full",
-      "D": [
-        230,
-        400
-      ]
-    }
+  "copy-lv5-vol2": {
+   "grid": 7,
+   "slopes": "any",
+   "fullGrid": true,
+   "D": [
+    23.8,
+    49.6
+   ]
   }
+ },
+ "fill": {
+  "fill-lv2-vol1": {
+   "grid": 3,
+   "lines": [
+    3,
+    7
+   ],
+   "slopes": "ortho45",
+   "diagonals": [
+    1,
+    3
+   ],
+   "crossings": [
+    0,
+    1
+   ],
+   "components": [
+    1,
+    1
+   ],
+   "bbox": 2,
+   "closedBias": 0.75,
+   "missing": [
+    1,
+    2
+   ]
+  },
+  "fill-lv3-vol1": {
+   "grid": 4,
+   "lines": [
+    5,
+    10
+   ],
+   "slopes": "ortho45",
+   "diagonals": [
+    1,
+    4
+   ],
+   "crossings": [
+    0,
+    2
+   ],
+   "components": [
+    1,
+    1
+   ],
+   "bbox": 3,
+   "closedBias": 0.65,
+   "missing": [
+    2,
+    3
+   ]
+  },
+  "fill-lv4-vol1": {
+   "grid": 5,
+   "lines": [
+    7,
+    13
+   ],
+   "slopes": "any",
+   "diagonals": [
+    1,
+    6
+   ],
+   "crossings": [
+    0,
+    4
+   ],
+   "components": [
+    1,
+    1
+   ],
+   "bbox": 4,
+   "closedBias": 0.55,
+   "missing": [
+    3,
+    4
+   ]
+  },
+  "fill-lv5-vol1": {
+   "grid": 6,
+   "lines": [
+    9,
+    16
+   ],
+   "slopes": "any",
+   "diagonals": [
+    1,
+    8
+   ],
+   "crossings": [
+    0,
+    6
+   ],
+   "components": [
+    1,
+    2
+   ],
+   "bbox": 5,
+   "closedBias": 0.5,
+   "missing": [
+    4,
+    6
+   ]
+  }
+ },
+ "mirror": {
+  "mirror-lv2-vol1": {
+   "grid": 3,
+   "slopes": "ortho45",
+   "lines": [
+    2,
+    6
+   ],
+   "diagonals": [
+    0,
+    3
+   ],
+   "crossings": [
+    0,
+    1
+   ],
+   "components": [
+    1,
+    1
+   ],
+   "bbox": 1
+  },
+  "mirror-lv3-vol1": {
+   "grid": 4,
+   "slopes": "ortho45",
+   "lines": [
+    5,
+    9
+   ],
+   "diagonals": [
+    1,
+    4
+   ],
+   "crossings": [
+    0,
+    2
+   ],
+   "components": [
+    1,
+    1
+   ],
+   "bbox": 3
+  },
+  "mirror-lv4-vol1": {
+   "grid": 5,
+   "slopes": "any",
+   "lines": [
+    7,
+    12
+   ],
+   "diagonals": [
+    2,
+    6
+   ],
+   "crossings": [
+    0,
+    4
+   ],
+   "components": [
+    1,
+    1
+   ],
+   "bbox": 4
+  },
+  "mirror-lv5-vol1": {
+   "grid": 6,
+   "slopes": "any",
+   "lines": [
+    9,
+    15
+   ],
+   "diagonals": [
+    2,
+    8
+   ],
+   "crossings": [
+    0,
+    6
+   ],
+   "components": [
+    1,
+    2
+   ],
+   "bbox": 5
+  }
+ },
+ "overlay": {
+  "overlay-lv2-vol1": {
+   "grid": 3,
+   "slopes": "ortho45",
+   "entangle": [
+    0,
+    1
+   ],
+   "lines": [
+    2,
+    4
+   ]
+  },
+  "overlay-lv3-vol1": {
+   "grid": 4,
+   "slopes": "ortho45",
+   "requireDiag45": true,
+   "entangle": [
+    0,
+    1
+   ],
+   "lines": [
+    2,
+    5
+   ]
+  },
+  "overlay-lv4-vol1": {
+   "grid": 5,
+   "slopes": "any",
+   "requireNon45": true,
+   "entangle": [
+    0,
+    2
+   ],
+   "lines": [
+    3,
+    6
+   ]
+  },
+  "overlay-lv5-vol1": {
+   "grid": 6,
+   "slopes": "any",
+   "requireNon45": true,
+   "entangle": [
+    3,
+    10
+   ],
+   "lines": [
+    4,
+    8
+   ]
+  }
+ },
+ "rotate": {
+  "rotate-lv2-vol1": {
+   "grid": 3,
+   "angle": "90cw",
+   "lines": [
+    2,
+    6
+   ]
+  },
+  "rotate-lv3-vol1": {
+   "grid": 4,
+   "angle": "90cw",
+   "lines": [
+    4,
+    9
+   ]
+  },
+  "rotate-lv3-vol2": {
+   "grid": 4,
+   "angle": "90ccw",
+   "lines": [
+    4,
+    9
+   ]
+  },
+  "rotate-lv4-vol1": {
+   "grid": 4,
+   "angle": "180",
+   "lines": [
+    4,
+    9
+   ]
+  },
+  "rotate-lv5-vol1": {
+   "grid": 5,
+   "angle": "mixed",
+   "lines": [
+    6,
+    12
+   ]
+  }
+ },
+ "translate": {
+  "translate-lv2-vol1": {
+   "grid": 3,
+   "dir": "hv",
+   "moves": [
+    1,
+    1
+   ],
+   "lines": [
+    2,
+    4
+   ]
+  },
+  "translate-lv3-vol1": {
+   "grid": 4,
+   "dir": "hv",
+   "moves": [
+    2,
+    2
+   ],
+   "lines": [
+    3,
+    6
+   ]
+  },
+  "translate-lv3-vol2": {
+   "grid": 4,
+   "dir": "diag",
+   "moves": [
+    2,
+    2
+   ],
+   "lines": [
+    3,
+    6
+   ]
+  },
+  "translate-lv4-vol1": {
+   "grid": 5,
+   "dir": "compound",
+   "moves": [
+    3,
+    3
+   ],
+   "lines": [
+    4,
+    7
+   ]
+  },
+  "translate-lv5-vol1": {
+   "grid": 6,
+   "dir": "compound",
+   "moves": [
+    3,
+    5
+   ],
+   "lines": [
+    5,
+    9
+   ]
+  }
+ },
+ "decompose": {
+  "decompose-lv2-vol1": {
+   "grid": 3,
+   "slopes": "ortho45",
+   "entangle": [
+    0,
+    1
+   ],
+   "lines": [
+    2,
+    4
+   ]
+  },
+  "decompose-lv3-vol1": {
+   "grid": 4,
+   "slopes": "ortho45",
+   "requireDiag45": true,
+   "entangle": [
+    0,
+    1
+   ],
+   "lines": [
+    2,
+    5
+   ]
+  },
+  "decompose-lv4-vol1": {
+   "grid": 5,
+   "slopes": "any",
+   "requireNon45": true,
+   "entangle": [
+    0,
+    2
+   ],
+   "lines": [
+    3,
+    6
+   ]
+  },
+  "decompose-lv5-vol1": {
+   "grid": 6,
+   "slopes": "any",
+   "requireNon45": true,
+   "entangle": [
+    3,
+    10
+   ],
+   "lines": [
+    4,
+    8
+   ]
+  }
+ },
+ "fold": {
+  "fold-lv2-vol1": {
+   "grid": 3,
+   "slopes": "ortho45",
+   "entangle": [
+    0,
+    1
+   ],
+   "lines": [
+    2,
+    4
+   ]
+  },
+  "fold-lv3-vol1": {
+   "grid": 4,
+   "slopes": "ortho45",
+   "requireDiag45": true,
+   "entangle": [
+    0,
+    1
+   ],
+   "lines": [
+    2,
+    5
+   ]
+  },
+  "fold-lv4-vol1": {
+   "grid": 5,
+   "slopes": "any",
+   "requireNon45": true,
+   "entangle": [
+    0,
+    2
+   ],
+   "lines": [
+    3,
+    6
+   ]
+  },
+  "fold-lv5-vol1": {
+   "grid": 6,
+   "slopes": "any",
+   "requireNon45": true,
+   "entangle": [
+    3,
+    10
+   ],
+   "lines": [
+    4,
+    8
+   ]
+  }
+ },
+ "solid": {
+  "solid-lv3-vol1": {
+   "hidden": "none",
+   "D": [
+    16.3,
+    25
+   ]
+  },
+  "solid-lv4-vol1": {
+   "hidden": "some",
+   "D": [
+    17,
+    45
+   ]
+  },
+  "solid-lv5-vol1": {
+   "hidden": "full",
+   "D": [
+    50,
+    120
+   ]
+  },
+  "solid-lv5-vol2": {
+   "hidden": "full",
+   "D": [
+    110,
+    200
+   ]
+  },
+  "solid-lv5-vol3": {
+   "hidden": "full",
+   "D": [
+    170,
+    280
+   ]
+  },
+  "solid-lv5-vol4": {
+   "hidden": "full",
+   "D": [
+    230,
+    400
+   ]
+  }
+ }
 }

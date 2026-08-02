@@ -2299,7 +2299,7 @@
     "seed": 1,
     "variant": "micro3x3#606988"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "rotate",
     "auto": 9,
