@@ -10,6 +10,7 @@
 - **プレビュー承認前は LLMO・commit・push を行わない**
 - 承認後に `/llmo` を対象記事だけへ実行し、ERROR 0 を確認して現在ブランチへ commit/push する
 - Amplify の同一ブランチ URL で本文・画像・内部リンクを最終確認する
+- 段階公開の昇格（`status: draft` を外す）は 3 点セット＝status 削除＋published_at 実日付＋updated_at 更新（§7.5）
 
 ## 詳細
 
@@ -90,6 +91,18 @@ ERROR は修正して再検査する。WARN が残る場合は理由を報告す
 5. Amplify のブランチ URL で更新日、本文、全画像、内部リンクを確認する。
 
 TENZU の記事作業ブランチは `deploy/amplify`（staging・Amplify 上で `deploy-amplify` として公開）。本番 `main` への展開（FF push）はこのフローに含めない（[decisions §3.93](../decisions.md)）。
+
+### §7.5 公開昇格（status: draft → 公開）
+
+段階公開の対象記事（[decisions §3.95](../decisions.md)）を公開へ切り替えるときは、**3 点セット**を必ず同時に行う。
+
+1. frontmatter から `status: draft` の行を削除する（未指定＝published）
+2. `published_at: YYYY-MM-DD` に**実際の公開日**を書く（構造化データの datePublished がこれに揃う）
+3. `updated_at` を同日に更新する
+
+昇格の効果は機構側が自動処理する——SSG 対象化・一覧/sitemap/RSS への追加・**他記事の本文中で降格されていたリンクの復活**。手作業でのリンク張り直しは不要。
+
+push・Amplify 確認後に、Google Search Console で該当 URL の**インデックス登録リクエスト**を送る（小規模サイトで最も効く即効レバー・費用ゼロ）。
 
 ### §8. 完了報告
 

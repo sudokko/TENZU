@@ -20,7 +20,11 @@ export const metadata: Metadata = {
     template: "%s · TENZU",
   },
   description: SITE_DESCRIPTION,
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    // 記事 RSS（/feed.xml）。ブラウザ・クローラ双方への更新検知チャネル。
+    types: { "application/rss+xml": [{ url: "/feed.xml", title: `${SITE_NAME} 記事フィード` }] },
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

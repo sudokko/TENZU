@@ -59,6 +59,7 @@
 | 商品の公開状態を published/ の有無から導出＝status フラグ廃止（入稿済み＝公開） | §3.92 |
 | ブランチ・環境体制＝main 本番／deploy/amplify staging／article-drafts 退役 | §3.93 |
 | 無料版メーカー PDF のフッターへ広告帯（業態識別句＋URL＋QR）を載せる | §3.94 |
+| 記事の段階公開＝frontmatter `status` で制御・第1弾14本＋月1ドリップ・RSS 新設 | §3.95 |
 
 **主な系譜（上書き済み・経緯を追うときだけ）**
 
@@ -67,6 +68,18 @@
 - かさね生成: §3.69（逆算分割 v1）→ §3.71（模写軸＋合成方式 v2）→ **§3.72（4 巻集約・現行）**
 - 絵柄: §3.13 → §3.43（1シリーズ化）→ **§3.51（完全削除・現行）**
 - TOP 表示: §3.44 → §3.45（構成・現行）＋ **§3.63（Hero 文言・rev.5 準拠）** ＋ **§3.65（Hero 店主紹介文・現行）**
+
+### 3.95 記事の段階公開＝frontmatter `status` で制御・第1弾14本＋月1ドリップ・RSS 新設（2026-08-02）
+
+書き上がった正規記事 20 本を開店時に一斉公開せず、意図的に順出しする。理由は 2 つ——**運用が始まると新記事はなかなか書けない**ため、書き溜め分を「サイトが生きている」シグナルの備蓄として使う。そして順出しの制御をブランチ操作（cherry-pick）でやると確実に事故るため、**記事側に 1 行のステータスを持たせる**。
+
+- **機構**: MDX frontmatter `status: draft | unlisted |（未指定=published）`。SSOT は [articles-data.ts](web/app/articles/articles-data.ts)。draft は本番でビルドされず（=404）・一覧/sitemap/RSS からも消え、**本文中の draft へのリンクはビルド時に自動でテキストへ降格**（公開すれば自動復活）。「次に読む」も自動除外。unlisted は URL だけ生かして noindex
+- **環境フラグ**: `SHOW_DRAFTS=1`（staging・local のみ）。SITE_URL 由来の IS_PREVIEW に乗せないのは、設定漏れの倒れ方が逆向き（noindex は安全側・下書き公開は事故側）のため。**本番は未設定＝隠す、が唯一のデフォルト**
+- **第1弾 14 本**（tenzu.jp 接続と同時）: 定義＋根拠＋運営者（guide / visuospatial / effects / tenzu-concept）＋被リンク上位ハブ（how-to-choose / from-copying-shapes）＋実需（weak-at-shapes / how-to-train / how-to-draw-isometric / teaching）＋商品サポート（print-settings / convenience-store）＋ **FAQ 2 本（commercial-use / teacher-license・個別相談を早期に受けるため前倒し）**。ジャンル箱 5 つ全部に 2 本以上・POPULAR 3 枠も充足
+- **ドリップ 6 本**: 接続+1週 family-shape-spatial-qa（解除リンク最多を早く塞ぐ）→ +3週 kumon-math-shape → 9月上旬 grade-4-math-stuck（2学期の図形）→ 10月上旬 point-drawing-elementary-exam（小受直前期）→ 11月 figure-copy-vs-point-drawing → 12月 point-drawing-complete-guide。**序盤 2 本のみ 2 週間隔・以降月 1**。頻度そのものは Google の評価要因ではなく、季節アンカー 2 本（9月・10月）だけ動かさない
+- **公開昇格は 3 点セット**: `status` 行を消す＋`published_at` に実公開日＋`updated_at` 更新（→ [article-revision-publish.md §7](content/article-revision-publish.md)）。構造化データの datePublished が実態と揃う
+- **お知らせ欄は作らない**: 更新されないお知らせ欄は死んでる感の負債。代わりに **RSS（/feed.xml・draft/unlisted 自動除外・`<link rel="alternate">` を TOP と /articles に掲示）**＋公開時の GSC インデックス登録リクエストを運用に組み込む
+- 一次ソース: [articles-data.ts](web/app/articles/articles-data.ts)・[feed.xml/route.ts](web/app/feed.xml/route.ts)・[mdx-components.tsx](web/mdx-components.tsx)（リンク自動降格）
 
 ### 3.94 無料版メーカー PDF のフッターへ広告帯（業態識別句＋URL＋QR）を載せる（2026-08-01）
 

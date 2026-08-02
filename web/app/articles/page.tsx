@@ -16,7 +16,11 @@ export const metadata: Metadata = {
   title: "記事",
   description:
     "点描写が何を育てるのか、どこから始めるのか。空間認知の土台づくりを家庭で読むための記事一覧。",
-  alternates: { canonical: "/articles" },
+  alternates: {
+    canonical: "/articles",
+    // alternates は子で丸ごと上書きされるため、RSS を明示的に再掲する。
+    types: { "application/rss+xml": [{ url: "/feed.xml", title: "TENZU 記事フィード" }] },
+  },
 };
 
 export default async function ArticlesIndex() {

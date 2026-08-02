@@ -8,6 +8,7 @@
 - 構造: **正規まとめ P1 ＋ 用途まとめ P2/P3/P4/P5**（5 Pillar）。Pillar 構造 SSOT は [decisions.md §3.32](../decisions.md)、本縮減は [decisions.md §3.42](../decisions.md)
 - **執筆の役割分担**: 構成・目次＝AI 提案→**オーナー確定**（[structure-craft.md](structure-craft.md)）／本文化＝AI（[writing-craft.md](writing-craft.md)）／リード・TLDR＝AI 下書き→オーナー仕上げ（[decisions.md §3.49](../decisions.md)）
 - 主要 IA: 3 階層フラット URL（全記事 `/{slug}/`）
+- **段階公開**: frontmatter `status: draft` で本番非公開（第1弾14本＋月1ドリップ6本・RSS `/feed.xml`・昇格3点セット）。判断は [decisions.md §3.95](../decisions.md)・手順は [article-revision-publish.md §7.5](article-revision-publish.md)
 - **ペルソナ SSOT は [personas.md](personas.md)**
 - 旧ドラフトは `archive/retired-drafts/` 退避済（人格刷新前提で再利用）
 - 詳細な分割は下表

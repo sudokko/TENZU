@@ -1,6 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import Image from "next/image";
-import type { ReactNode } from "react";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
+import { isLiveSlug } from "@/app/articles/articles-data";
 
 /* =========================================================================
    TENZU 記事 MDX コンポーネント・マップ（App Router 必須の規約ファイル）
@@ -117,7 +118,28 @@ function Illustration({
   );
 }
 
+/* 記事リンクの自動ゲート。
+   本文が未公開（status: draft）の記事を指しているとき、その環境では URL が存在せず
+   404 になる。リンクを黙って残すとクローラにも LLM にも「壊れたクラスタ」に見えるため、
+   ビルド時にリンクを外してただのテキストへ落とす。公開へ切り替えれば自動で復活するので、
+   公開のたびに本文を書き換える必要はない。 */
+const ARTICLE_HREF_RE = /^\/articles\/([a-z0-9-]+)\/?$/;
+
+function ArticleAwareLink({ href, children, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const slug = href ? ARTICLE_HREF_RE.exec(href)?.[1] : undefined;
+  if (slug && !isLiveSlug(slug)) {
+    console.warn(`[articles] 未公開のためリンクを解除: /articles/${slug}`);
+    return <span className="link-unpublished">{children}</span>;
+  }
+  return (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  );
+}
+
 const components: MDXComponents = {
+  a: ArticleAwareLink,
   LeadGraf,
   TenzuTranslate,
   Diagram,
