@@ -71,8 +71,11 @@
     "symMiss": 0
    },
    "provenance": {
-    "source": "blank",
-    "createdAt": "2026-08-01",
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 0,
+    "variant": "micro2x2#22@-1,-1",
     "label": "左上の低D"
    },
    "gen": {
@@ -545,8 +548,11 @@
     "symMiss": 0
    },
    "provenance": {
-    "source": "blank",
-    "createdAt": "2026-08-01",
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 0,
+    "variant": "micro2x2#61@1,-1",
     "label": "右上の低D"
    },
    "gen": {
