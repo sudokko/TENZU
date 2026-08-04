@@ -6,7 +6,10 @@
 import { useState } from "react";
 import SiteHeader from "../SiteHeader";
 import { useCart } from "./CartContext";
-import { volBySku, volTitle, PRICE, QUESTIONS_PER_VOL } from "../products/data";
+import {
+  volBySku, volTitle, PRICE, QUESTIONS_PER_VOL,
+  TIERS, cartTotal, currentTier,
+} from "../products/data";
 import "../products/product.css";
 import "./cart.css";
 
@@ -18,7 +21,10 @@ export default function CartPage() {
   const rows = items
     .map((sku) => ({ sku, resolved: volBySku(sku) }))
     .filter((r) => r.resolved);
-  const total = rows.length * PRICE;
+  /* まとめ買い割引は冊数だけで決まる（種類・レベルは見ない）。SSOT は products/data.ts */
+  const gross = rows.length * PRICE;
+  const total = cartTotal(rows.length);
+  const tier = currentTier(rows.length);
 
   const checkout = async () => {
     setBusy(true);
@@ -84,11 +90,38 @@ export default function CartPage() {
             </ul>
 
             <div className="cart-foot">
+              {/* 割引の正本。到達済みの段階を塗り、合計の冊数で決まることを明示する。
+                  「あと◯冊で」型の煽り文言は置かない（総額はむしろ上がるため事実として誤り）。 */}
+              <div className="cart-tier">
+                <p className="cart-tier-h">まとめ買い割引</p>
+                <ul className="cart-tier-steps">
+                  {[...TIERS].reverse().map((t) => (
+                    <li className={rows.length >= t.min ? "done" : undefined} key={t.min}>
+                      <span className="q">{t.min} 冊から</span>
+                      <span className="p mono">{Math.round(t.rate * 100)}% OFF</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="cart-tier-any">ちがう種類をまぜても、合計の冊数で決まります。</p>
+              </div>
+
+              {tier && (
+                <>
+                  <div className="cart-sub">
+                    <span>小計（{rows.length} 冊）</span>
+                    <span className="mono">¥{gross.toLocaleString()}</span>
+                  </div>
+                  <div className="cart-sub off">
+                    <span>まとめ買い {tier.min} 冊から {Math.round(tier.rate * 100)}%</span>
+                    <span className="mono">−¥{(gross - total).toLocaleString()}</span>
+                  </div>
+                </>
+              )}
               <div className="cart-total">
                 <span>合計（税込）</span>
-                <span className="cart-total-yen mono">¥{total}</span>
+                <span className="cart-total-yen mono">¥{total.toLocaleString()}</span>
               </div>
-              <p className="cart-total-note">{rows.length} 点 · ダウンロード後、用紙・問題数・並びはいつでも変更できます</p>
+              <p className="cart-total-note">{rows.length} 冊 · ダウンロード後、用紙・問題数・並びはいつでも変更できます</p>
               {error && <p className="cart-error" role="alert">{error}</p>}
               <button type="button" className="cart-checkout" onClick={checkout} disabled={busy}>
                 {busy ? "決済画面へ移動中…" : "購入手続きへ"}

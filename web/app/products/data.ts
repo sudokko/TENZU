@@ -47,6 +47,38 @@ export type ProductTask = {
 export const PRICE = 200;
 export const QUESTIONS_PER_VOL = 12;
 
+/* ===================== まとめ買い割引（decisions §3.101） =====================
+   割引はカートの冊数だけで決まる。タスク・レベルは一切見ない＝種類をまたいで数える。
+   「通しプリセット」（種類の全巻・ガイド結果）は価格を持たず、この関数の入力を作るだけ。
+   だから巻が増えても値付けを直す場所がない。割引ルールの SSOT は本ブロック。
+   外向け表記は「まとめ買い割引」（「段」は級・段制不採用 pack-design §0.3 と衝突するため不可）。 */
+export const TIERS = [
+  { min: 10, rate: 0.25 },
+  { min: 5, rate: 0.2 },
+  { min: 3, rate: 0.15 },
+] as const;
+
+/* 適用中の割引段階（3 冊未満は null） */
+export function currentTier(count: number): { min: number; rate: number } | null {
+  return TIERS.find((t) => count >= t.min) ?? null;
+}
+
+/* 冊数 → 割引率（0 / .15 / .2 / .25） */
+export function tierRate(count: number): number {
+  return currentTier(count)?.rate ?? 0;
+}
+
+/* 冊数 → 1 冊あたりの請求額（¥200 / ¥170 / ¥160 / ¥150 ＝すべて整数）。
+   Stripe も画面もこの単価を共有するため、合計が 1 円もズレない。 */
+export function unitPrice(count: number): number {
+  return Math.round(PRICE * (1 - tierRate(count)));
+}
+
+/* 冊数 → 請求合計（税込） */
+export function cartTotal(count: number): number {
+  return count * unitPrice(count);
+}
+
 export const LEVEL_NAMES = ["入門編", "初級編", "基礎編", "応用編", "発展編"];
 
 /* レベル別 対象年齢のめやす（Lv.1→5 順・才表記）。LevelGraph の帯と SSOT を共有。 */
@@ -368,6 +400,20 @@ export function lvCounts(slug: string): number[] {
 /* ★いちばんやさしい巻 ＝ 最小 Lv の Vol.1（おすすめではなく事実表示・decisions §4 コンセプト＝じぶんで選ぶ店） */
 export function firstVol(task: ProductTask): Vol {
   return [...task.vols].sort((a, b) => a.lv - b.lv || a.volNo - b.volNo)[0];
+}
+
+/* 通しプリセットを出せるか＝そのタスクの巻がすべて入稿済み。
+   1 巻でも scaffold なら未入稿を含む通しになるため出さない。
+   検品→publish が進むと自動で点灯する（コード変更不要）。 */
+export function isTaskComplete(task: ProductTask): boolean {
+  return task.vols.length > 0 && task.vols.every((v) => v.status === "live");
+}
+
+/* 通しプリセットの構成 sku（Lv→Vol 順）。カートへ渡す入力そのもの。 */
+export function taskPresetSkus(task: ProductTask): string[] {
+  return [...task.vols]
+    .sort((a, b) => a.lv - b.lv || a.volNo - b.volNo)
+    .map((v) => v.sku);
 }
 
 /* 商品名（外向け）: "模写 入門編 Vol.2 — 4×4" */

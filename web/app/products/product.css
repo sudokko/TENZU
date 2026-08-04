@@ -1261,3 +1261,164 @@ footer.site.footer-mini .copyright {
   letter-spacing: 0.02em;
   color: var(--fg-3);
 }
+
+/* =========================================================================
+   まとめ買い（decisions §3.101）
+   語彙を 2 つに割る:
+   - rate-*   … 料金ルール（冊数だけで決まる・種類非依存）。¥200 一律と同格の情報
+   - preset-* … 通しプリセット（複数冊を一括でカートへ入れる入口）。価格は持たない
+   ========================================================================= */
+
+/* ---- 料金ルールの行（/products ハブ・購入前 FAQ で再利用） ---- */
+.rate-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 16px;
+  margin: 0 0 4px;
+  padding: 12px 0;
+  border-top: 1px dashed var(--line-thin);
+  border-bottom: 1px dashed var(--line-thin);
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--fg-2);
+}
+.rate-line b { color: var(--fg); font-weight: 500; }
+.rate-line .rate-any {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13.5px;
+  letter-spacing: 0;
+  color: var(--accent);
+}
+
+/* ---- 通しプリセット（弱）: タスクヘッド内・plp-lvnav 直下 ---- */
+.preset-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 18px;
+  padding: 13px 16px;
+  background: var(--bg-3);
+  border: 1px solid var(--line-thin);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-soft);
+}
+.preset-add {
+  font-family: var(--font-tier3-sans);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+  background: #FFFFFF;
+  border: 1px solid var(--fg);
+  border-radius: var(--radius-soft);
+  padding: 9px 18px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-line),
+              color var(--dur-fast) var(--ease-line);
+}
+.preset-add:hover { background: var(--fg); color: var(--bg); }
+.preset-add.is-incart { border-color: var(--accent); color: var(--accent-ink); }
+.preset-add.is-incart:hover { background: var(--accent); color: #FFFFFF; }
+.preset-spec {
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  color: var(--fg-2);
+}
+.preset-spec b { color: var(--fg); font-weight: 500; }
+.preset-note {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--fg-3);
+  margin: 8px 0 0;
+}
+
+/* ---- 通しプリセット（強）: ページ末カード。内訳を隠さない ---- */
+.preset-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 560px;
+  padding: 26px 28px 24px;
+  background: #FFFFFF;
+  border: 1px solid var(--line-mid);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--radius-soft);
+}
+.preset-kicker {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--fg-3);
+  margin: 0 0 6px;
+}
+.preset-h {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 23px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  margin: 0 0 8px;
+}
+.preset-desc {
+  font-family: var(--font-tier2-pencil);
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--fg);
+  margin: 0;
+}
+.preset-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px dashed var(--line-thin);
+}
+.preset-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--line-thin);
+  font-size: 14px;
+  color: var(--fg-2);
+}
+.preset-list .v {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--fg-3);
+  margin-right: 10px;
+}
+.preset-list .y { font-family: var(--font-tier3-mono); color: var(--fg-3); }
+.preset-sum { display: flex; flex-direction: column; gap: 5px; }
+.preset-sum > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 14px;
+  color: var(--fg-2);
+}
+.preset-sum > div > span:last-child { font-family: var(--font-tier3-mono); }
+.preset-sum .off { color: var(--accent); }
+.preset-sum .tot {
+  font-family: var(--font-tier3-sans);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--fg);
+  padding-top: 7px;
+  border-top: 1px solid var(--line-thin);
+}
+.preset-sum .tot > span:last-child { font-size: 22px; }
+
+@media (max-width: 600px) {
+  .preset-bar { flex-direction: column; align-items: stretch; }
+  .preset-add { text-align: center; }
+  .preset-card { padding: 22px 20px 20px; }
+}

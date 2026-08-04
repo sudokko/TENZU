@@ -159,3 +159,53 @@
 }
 .spv-download:hover:not(:disabled) { background: var(--accent-ink); }
 .spv-download:disabled { opacity: 0.6; cursor: default; }
+
+/* =========================================================================
+   まとめ買い割引（decisions §3.101）— 値引きの正本はこの面だけ。
+   到達済みの段階を塗り、合計の冊数で決まることを明示する。
+   「あと◯冊で」型の煽りは置かない（1 冊足すと総額はむしろ上がるため）。
+   ========================================================================= */
+.cart-tier {
+  border: 1px solid var(--line-thin);
+  border-radius: var(--radius-soft);
+  background: var(--bg-3);
+  padding: var(--s-4) var(--s-5) var(--s-3);
+  margin-bottom: var(--s-5);
+}
+.cart-tier-h {
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--fg-3);
+  margin: 0 0 var(--s-3);
+}
+.cart-tier-steps { list-style: none; display: flex; margin: 0; padding: 0; }
+.cart-tier-steps li { flex: 1 1 0; text-align: center; position: relative; padding-top: 16px; }
+.cart-tier-steps li::before {
+  content: ""; position: absolute; top: 5px; left: 0; right: 0;
+  height: 1px; background: var(--line-mid);
+}
+.cart-tier-steps li::after {
+  content: ""; position: absolute; top: 1px; left: 50%; transform: translateX(-50%);
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--bg); border: 1.5px solid var(--line-mid);
+}
+.cart-tier-steps li.done::after { background: var(--accent); border-color: var(--accent); }
+.cart-tier-steps li.done .q,
+.cart-tier-steps li.done .p { color: var(--accent); }
+.cart-tier-steps .q { display: block; font-size: 13px; color: var(--fg-2); }
+.cart-tier-steps .p { display: block; font-size: 12px; color: var(--fg-3); }
+.cart-tier-any {
+  font-family: var(--font-tier2-pencil);
+  font-size: 13px;
+  color: var(--fg-2);
+  margin: var(--s-3) 0 0;
+}
+
+/* 小計・割引の行（合計の直上） */
+.cart-sub {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 14px; color: var(--fg-2); padding: 3px 0;
+}
+.cart-sub.off { color: var(--accent); }
+.cart-foot .cart-total { padding-top: var(--s-3); border-top: 1px solid var(--line-thin); margin-top: 6px; }

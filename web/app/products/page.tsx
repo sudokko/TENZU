@@ -8,6 +8,7 @@
 import type { Metadata } from "next";
 import SiteHeader from "../SiteHeader";
 import { GROUPS, LEVELS, LevelGraph, SiteFooter, TOTAL_KINDS, TOTAL_VOL } from "../catalog";
+import { TIERS } from "./data";
 import { TASK_MINIFIG } from "./task-minifigs";
 import "./product.css";
 
@@ -33,6 +34,15 @@ export default function ProductsHub() {
             <h1 className="plp-hub-lead">
               3 つの力 × 各 3 タイプ × 5 レベル。今の手ごたえに合う一冊から。
             </h1>
+            {/* まとめ買い割引＝料金ルール（オファーではない）。¥200 一律と同格の情報として置く。
+                「合計の冊数で決まります」が無いと縦串でそろえる買い方だと誤解される。 */}
+            <p className="rate-line">
+              <b>まとめ買い割引</b>
+              {[...TIERS].reverse().map((t) => (
+                <span key={t.min}>{t.min} 冊から {Math.round(t.rate * 100)}%</span>
+              ))}
+              <span className="rate-any">ちがう種類をまぜても、合計の冊数で決まります</span>
+            </p>
           </header>
 
           {/* レベルの解説図（5段階×対象年齢のめやす・帯グラフ） */}
