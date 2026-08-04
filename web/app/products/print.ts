@@ -255,10 +255,13 @@ export function rotArcSegs(
     segs.push([prev[0], prev[1], p[0], p[1]]);
     prev = p;
   }
-  // 矢じり: 終端の接線（進行方向）から左右へ開く
+  // 矢じり: 終端の接線（進行方向）から左右へ開く。
+  // 長さは半径の 0.30（旧 0.62 は矢じりの根元が弧の内側まで届き、90°のように
+  // 弧が短いと矢じりが弧そのものを横切って線が二重に見えた）。maker の直線矢印
+  // （maker/core/page-svg.ts arrowSvgString＝size*0.3）と同じ比率へそろえる。
   const tan = a1 + (a1 > a0 ? 90 : -90);
-  const hd = r * 0.62;
-  for (const off of [26, -26]) {
+  const hd = r * 0.3;
+  for (const off of [22, -22]) {
     const rad = ((tan + 180 + off) * Math.PI) / 180;
     segs.push([prev[0], prev[1], prev[0] + hd * Math.cos(rad), prev[1] + hd * Math.sin(rad)]);
   }
