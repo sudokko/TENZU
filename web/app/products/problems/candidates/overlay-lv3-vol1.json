@@ -175,16 +175,17 @@
     "motif": "あああ"
    },
    "status": "adopted",
-   "order": 10,
+   "order": 12,
    "edited": true,
    "difficulty": {
     "task": "overlay",
-    "auto": 18.5,
-    "value": 18.5,
+    "auto": 24.5,
+    "value": 24.5,
     "parts": {
      "A": 11.5,
      "B": 3,
      "絡み": 0,
+     "ばらけ": 6,
      "G": 4
     }
    }
@@ -430,12 +431,12 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 15.5,
-    "value": 15.5,
+    "auto": 13.5,
+    "value": 13.5,
     "parts": {
      "A": 5.5,
      "B": 4,
-     "絡み": 2,
+     "絡み": 0,
      "G": 4
     }
    },
@@ -718,12 +719,12 @@
    "status": "adopted",
    "difficulty": {
     "task": "overlay",
-    "value": 19,
-    "auto": 19,
+    "auto": 17,
+    "value": 17,
     "parts": {
      "A": 7.5,
      "B": 5.5,
-     "絡み": 2,
+     "絡み": 0,
      "G": 4
     }
    },
@@ -735,7 +736,7 @@
     "variant": "grid#1x2/0+micro3x3#131825@0,1"
    },
    "edited": true,
-   "order": 11
+   "order": 10
   },
   {
    "id": "overlay-lv3-vol1-s1-03",
@@ -928,12 +929,13 @@
    "status": "adopted",
    "difficulty": {
     "task": "overlay",
-    "value": 13,
-    "auto": 13,
+    "auto": 15.5,
+    "value": 15.5,
     "parts": {
      "A": 4.5,
      "B": 4.5,
      "絡み": 0,
+     "ばらけ": 2.5,
      "G": 4
     }
    },
@@ -944,7 +946,7 @@
     "seed": 1,
     "variant": "micro3x2#1187+micro3x3#68780@1,1"
    },
-   "order": 1,
+   "order": 6,
    "edited": true
   },
   {
@@ -2792,7 +2794,7 @@
     "seed": 1,
     "variant": "nichi4#1/0+micro3x3#606724@1,1"
    },
-   "order": 6
+   "order": 5
   },
   {
    "id": "overlay-lv3-vol1-s1-11",
@@ -4103,7 +4105,7 @@
     "seed": 1,
     "variant": "triH#2/0+micro3x3#147482@1,1"
    },
-   "order": 5
+   "order": 4
   },
   {
    "id": "overlay-lv3-vol1-s1-16",
@@ -5548,8 +5550,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 16.5,
     "auto": 16.5,
+    "value": 16.5,
     "parts": {
      "A": 7.5,
      "B": 5,
@@ -5772,8 +5774,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14,
     "auto": 14,
+    "value": 14,
     "parts": {
      "A": 6,
      "B": 4,
@@ -6004,8 +6006,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 15,
     "auto": 15,
+    "value": 15,
     "parts": {
      "A": 5.5,
      "B": 5.5,
@@ -6208,8 +6210,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14,
     "auto": 14,
+    "value": 14,
     "parts": {
      "A": 6,
      "B": 4,
@@ -6450,8 +6452,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 15.5,
     "auto": 15.5,
+    "value": 15.5,
     "parts": {
      "A": 5.5,
      "B": 4,
@@ -6663,8 +6665,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14.5,
     "auto": 14.5,
+    "value": 14.5,
     "parts": {
      "A": 5.5,
      "B": 5,
@@ -6967,17 +6969,18 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 19.5,
-    "auto": 19.5,
+    "auto": 21.5,
+    "value": 21.5,
     "parts": {
      "A": 9.5,
      "B": 6,
      "絡み": 0,
+     "ばらけ": 2,
      "G": 4
     }
    },
    "status": "adopted",
-   "order": 12,
+   "order": 11,
    "edited": true
   },
   {
@@ -7211,12 +7214,12 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 17.8,
-    "auto": 17.8,
+    "auto": 15.8,
+    "value": 15.8,
     "parts": {
      "A": 5,
      "B": 7,
-     "絡み": 2,
+     "絡み": 0,
      "G": 3.75
     }
    },
@@ -7433,8 +7436,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 16.5,
     "auto": 16.5,
+    "value": 16.5,
     "parts": {
      "A": 6,
      "B": 6.5,
@@ -7706,8 +7709,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 15,
     "auto": 15,
+    "value": 15,
     "parts": {
      "A": 6,
      "B": 3,
@@ -7978,8 +7981,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 15,
     "auto": 15,
+    "value": 15,
     "parts": {
      "A": 5,
      "B": 4,
@@ -7988,7 +7991,7 @@
     }
    },
    "status": "adopted",
-   "order": 4
+   "order": 3
   },
   {
    "id": "overlay-lv3-vol1-m13",
@@ -8163,8 +8166,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14,
     "auto": 14,
+    "value": 14,
     "parts": {
      "A": 6,
      "B": 4,
@@ -8173,7 +8176,7 @@
     }
    },
    "status": "adopted",
-   "order": 2
+   "order": 1
   },
   {
    "id": "overlay-lv3-vol1-m14",
@@ -8416,8 +8419,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 16,
     "auto": 16,
+    "value": 16,
     "parts": {
      "A": 5,
      "B": 5,
@@ -8678,8 +8681,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14.5,
     "auto": 14.5,
+    "value": 14.5,
     "parts": {
      "A": 4.5,
      "B": 6,
@@ -8688,7 +8691,7 @@
     }
    },
    "status": "adopted",
-   "order": 3
+   "order": 2
   }
  ],
  "seedCursor": 1
