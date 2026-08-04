@@ -15,43 +15,25 @@ import {
   PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
   KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
   rotMarkPts, translateMarkPts, markRingSegs, rotArcSegs, rotArcRadius, rotArcWidth,
+  opSegs, opWidth,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "./print";
 import { edgeKey, mirrorEdges, type EdgeT, type Pt, type SolidEdge } from "./problems/schema";
+import { composeKindOf, composeTriple, type RenderProblem } from "./problems/render";
 import { buildSolidPageSvg, svgToPng, loadLogo } from "../maker-solid/solid-print";
+
+/* 型は problems/render.ts（SSOT）。既存 import 先の互換のため再輸出 */
+export type { ComposeKind, MirrorAxis, RenderProblem } from "./problems/render";
 
 const INK = "#3A424E";
 const AXIS_INK = "#9AA0AA"; // 軸線（鏡タスク・薄い点線）
 const QUESTIONS = 12;
 const MARGIN_MM = 14;
 
-/* 鏡タスクの軸種（schema.ts の TransformSpec.axis と同じ語彙） */
-export type MirrorAxis = "v" | "h" | "d1" | "d2";
-
-/* 描画単位は辺集合（本物の問題は閉多角形とは限らない）
-   answerEdges: 欠け補完（fill）のとき、抜く線 R を指定する。みほんペインには edges（F）
-   をすべて描き、かくマスペインには F∖R（欠け図 G）を事前印字する。
-   mirrorAxis: 鏡タスクのとき、軸の種類。両ペインの中央に軸点線を描き、かくマスは空白。
-   rotateDeg / translateVec: 「どう変換するか」が 1 問ごとに違いうるタスクの指示子。
-     紙面に日本語を出せない（PDF は Courier のみ埋め込み）ため、度数や方向の
-     文字は使わず絵記号で示す（decisions §3.87）:
-       回転 = ペイン間に弧の矢印（弧の長さ＝まわす量・矢じり＝向き）
-              ＋ 両ペインの対応する隅に目じるし□（左上がどこへ行くか）
-       移動 = みほんの★（図形の起点）と、かくマスの●（その行き先）を目じるし□で示す
-     この 2 つがあって初めて 1 巻に複数の角度・方向を混在させられる。
-   未指定（copy/motif/solid 等）はかくマスを白紙のまま。 */
-export type RenderProblem = {
-  n: number;
-  edges: EdgeT[];
-  answerEdges?: EdgeT[];
-  mirrorAxis?: MirrorAxis;
-  rotateDeg?: 90 | -90 | 180;
-  translateVec?: { dc: number; dr: number };
-};
-
-/* fill 用: F から R を除いた G（欠け図）を返す。R 未指定なら null */
+/* fill 用: F から R を除いた G（欠け図）を返す。R 未指定なら null。
+   かさね系（compose）は answerEdges を持つが 3 ペイン式で描くため対象外 */
 function gapEdgesOf(pb: RenderProblem): EdgeT[] | null {
-  if (!pb.answerEdges || pb.answerEdges.length === 0) return null;
+  if (pb.compose || !pb.answerEdges || pb.answerEdges.length === 0) return null;
   const rSet = new Set(pb.answerEdges.map(edgeKey));
   return pb.edges.filter((e) => !rSet.has(edgeKey(e)));
 }
@@ -68,6 +50,8 @@ function seededRng(seed: string) {
 
 function sampleProblems(sku: string, n: number): RenderProblem[] {
   const rnd = seededRng(sku);
+  // 未入稿のかさね系 SKU も 3 ペイン式の姿でプレビューする（SKU 先頭＝task slug）
+  const compose = composeKindOf(sku.split("-")[0]);
   const out: RenderProblem[] = [];
   for (let q = 0; q < QUESTIONS; q++) {
     // 格子点から 5〜8 点を選び、重心まわりの角度順に並べて単純多角形にする
@@ -86,33 +70,46 @@ function sampleProblems(sku: string, n: number): RenderProblem[] {
     pts.sort((a, b) => Math.atan2(a[1] - cy, a[0] - cx) - Math.atan2(b[1] - cy, b[0] - cx));
     // 閉多角形 → 辺集合へ（描画は edges 駆動に統一）
     const edges: EdgeT[] = pts.map((p, k) => [p, pts[(k + 1) % pts.length]]);
-    out.push({ n, edges });
+    if (!compose) {
+      out.push({ n, edges });
+      continue;
+    }
+    // かさね系サンプル: 辺の一部を「もう片方の図」に見立て、published と同じデータ形にする
+    const cut = Math.max(2, Math.floor(edges.length / 3));
+    const B = edges.slice(0, cut);
+    if (compose === "fold") {
+      // fold: edges＝問題1（P を代表軸 v で鏡映）・inputB＝問題2・answerEdges＝完成図
+      out.push({ n, edges: mirrorEdges(edges.slice(cut), n, "v"), inputB: B, answerEdges: edges, compose });
+    } else {
+      out.push({ n, edges, answerEdges: B, compose });
+    }
   }
   return out;
 }
 
 /* ---- ペア（みほん→うつす）の幾何（mm）。プレビュー SVG と PDF が共用。
-   pair=horizontal は右隣・vertical は真下にうつす欄（maker と同じ二択） ---- */
+   pair=horizontal は右隣・vertical は真下にうつす欄（maker と同じ二択）。
+   panes=3（かさね系「A op B ＝ □」）はペイン i を (ox+i·dx, oy+i·dy) に置く ---- */
 type PairGeom = {
   pane: number; gap: number;
-  ox: number; oy: number;          // みほんペイン左上（セル内中央寄せ済み）
-  dx: number; dy: number;          // うつすペインへのオフセット
+  ox: number; oy: number;          // 先頭ペイン左上（セル内中央寄せ済み）
+  dx: number; dy: number;          // 次ペインへのオフセット（1 ペインぶんの歩幅）
   dot: (pane: number, i: number, n: number) => number; // ペイン内ドット位置
 };
 
-function pairGeom(cellW: number, cellH: number, pair: PairLayout): PairGeom {
-  const pane = paneSize(cellW, cellH, pair);
+function pairGeom(cellW: number, cellH: number, pair: PairLayout, panes: 2 | 3 = 2): PairGeom {
+  const pane = paneSize(cellW, cellH, pair, panes);
   const gap = pane * KGAP;
   const dot = (p: number, i: number, n: number) => p * (0.1 + (0.8 * i) / Math.max(1, n - 1));
   if (pair === "horizontal") {
-    const blockW = pane * 2 + gap;
+    const blockW = pane * panes + gap * (panes - 1);
     return {
       pane, gap, dot,
       ox: (cellW - blockW) / 2, oy: (cellH - pane) / 2,
       dx: pane + gap, dy: 0,
     };
   }
-  const blockH = pane * 2 + gap;
+  const blockH = pane * panes + gap * (panes - 1);
   return {
     pane, gap, dot,
     ox: (cellW - pane) / 2, oy: (cellH - blockH) / 2,
@@ -189,11 +186,13 @@ function PreviewPage({
 }) {
   const paper = PAPER[paperKey];
   const nameH = nameField ? NAME_BAND_MM : 0;
-  const { cols, rows } = gridFor(Math.min(perPage, problems.length) || 1, pair, paper.w, paper.h - nameH, MARGIN_MM);
+  // かさね系（compose）は「A op B ＝ □」の 3 ペイン式（巻単位でタスクは揃っている）
+  const panes: 2 | 3 = problems.some((p) => p.compose) ? 3 : 2;
+  const { cols, rows } = gridFor(Math.min(perPage, problems.length) || 1, pair, paper.w, paper.h - nameH, MARGIN_MM, panes);
   const cellW = (paper.w - MARGIN_MM * 2) / cols;
   const cellH = (paper.h - MARGIN_MM * 2 - nameH) / rows;
   const pad = Math.min(cellW, cellH) * CELL_PAD;
-  const g = pairGeom(cellW - pad * 2, cellH - pad * 2, pair);
+  const g = pairGeom(cellW - pad * 2, cellH - pad * 2, pair, panes);
   const dotR = dotRadius(g.pane, DOT_SCALE[dotSize]);
   const lw = edgeWidth(g.pane);
   const frameSw = Math.max(0.25, lw * 0.55);
@@ -217,7 +216,7 @@ function PreviewPage({
           const cy = MARGIN_MM + nameH + row * cellH + pad + g.oy;
           const dots: React.ReactNode[] = [];
           if (!noDots) {
-            for (const side of [0, 1] as const) {
+            for (let side = 0; side < panes; side++) {
               const sx = cx + side * g.dx;
               const sy = cy + side * g.dy;
               for (let r = 0; r < n; r++)
@@ -225,6 +224,42 @@ function PreviewPage({
                   dots.push(<circle key={`${i}-${side}-${r}-${c}`}
                     cx={sx + g.dot(g.pane, c, n)} cy={sy + g.dot(g.pane, r, n)} r={dotR} fill={PRINT_INK} />);
             }
+          }
+          /* かさね系: 3 ペイン式「A op B ＝ □」（maker-overlay/-decompose/-fold と同じ紙面）。
+             ペイン3 は空欄（子が描く）。点をとったときだけ薄い枠を添える */
+          const triple = composeTriple(pb, pair);
+          if (triple) {
+            const opSize = g.gap * 0.5;
+            const ow = opWidth(opSize);
+            const opAt = (k: 1 | 2) => pair === "horizontal"
+              ? { x: cx + (k - 1) * g.dx + g.pane + g.gap / 2, y: cy + g.pane / 2 }
+              : { x: cx + g.pane / 2, y: cy + (k - 1) * g.dy + g.pane + g.gap / 2 };
+            const paneEdges = (edges: EdgeT[], ox: number, oy: number, key: string) =>
+              edges.map((e, k) => (
+                <line key={`${key}${k}`}
+                  x1={ox + g.dot(g.pane, e[0][0], n)} y1={oy + g.dot(g.pane, e[0][1], n)}
+                  x2={ox + g.dot(g.pane, e[1][0], n)} y2={oy + g.dot(g.pane, e[1][1], n)}
+                  stroke={PRINT_INK} strokeWidth={lw} strokeLinecap="round" />
+              ));
+            const opLines = (kind: "plus" | "minus" | "eq" | "fold", x: number, y: number, key: string) =>
+              opSegs(kind, x, y, opSize, pair === "vertical").map((s, k) => (
+                <line key={`${key}${k}`} x1={s[0]} y1={s[1]} x2={s[2]} y2={s[3]}
+                  stroke={PRINT_INK} strokeWidth={ow} strokeLinecap="round" />
+              ));
+            return (
+              <g key={i}>
+                {dots}
+                {paneEdges(triple.a, cx, cy, "a")}
+                {paneEdges(triple.b, cx + g.dx, cy + g.dy, "b")}
+                {noDots && (
+                  <rect x={cx + g.dx * 2 + g.pane * 0.02} y={cy + g.dy * 2 + g.pane * 0.02}
+                    width={g.pane * 0.96} height={g.pane * 0.96}
+                    fill="none" stroke={AXIS_INK} strokeWidth={frameSw} />
+                )}
+                {opLines(triple.op, opAt(1).x, opAt(1).y, `op${i}`)}
+                {opLines("eq", opAt(2).x, opAt(2).y, `eq${i}`)}
+              </g>
+            );
           }
           const arr = arrowProps(g, cx, cy, pair);
           const gap = gapEdgesOf(pb);
@@ -341,7 +376,7 @@ function nameBandPng(wMm: number): Promise<ArrayBuffer> {
 
 export async function downloadPdf(
   sku: string, paperKey: PaperKey, perPage: number, problems: RenderProblem[], pair: PairLayout,
-  nameField = false, dotScale: number = DOT_SCALE.m, noDots = false,
+  nameField = false, dotScale: number = DOT_SCALE.m, noDots = false, answer = false,
 ) {
   const { PDFDocument, rgb, StandardFonts } = await import("pdf-lib");
   const paper = PAPER[paperKey];
@@ -367,6 +402,8 @@ export async function downloadPdf(
   }
 
   const nameH = nameField ? NAME_BAND_MM : 0;
+  // かさね系（compose）は 3 ペイン式（巻単位でタスクは揃っている）
+  const panes: 2 | 3 = problems.some((p) => p.compose) ? 3 : 2;
   const pageCount = Math.ceil(problems.length / perPage);
   const W = paper.w * MM2PT;
   const H = paper.h * MM2PT;
@@ -376,11 +413,11 @@ export async function downloadPdf(
   for (let pg = 0; pg < pageCount; pg++) {
     const page = doc.addPage([W, H]);
     const batch = problems.slice(pg * perPage, (pg + 1) * perPage);
-    const { cols, rows } = gridFor(Math.min(perPage, batch.length) || 1, pair, paper.w, paper.h - nameH, MARGIN_MM);
+    const { cols, rows } = gridFor(Math.min(perPage, batch.length) || 1, pair, paper.w, paper.h - nameH, MARGIN_MM, panes);
     const cellW = (W - margin * 2) / cols;
     const cellH = (H - margin * 2 - nameHpt) / rows;
     const pad = Math.min(cellW, cellH) * CELL_PAD;
-    const g = pairGeom(cellW - pad * 2, cellH - pad * 2, pair);
+    const g = pairGeom(cellW - pad * 2, cellH - pad * 2, pair, panes);
     // 共通式は mm 基準なので pt⇄mm を介して同じ比率に揃える
     const dotR = dotRadius(g.pane / MM2PT, dotScale) * MM2PT;
     const lw = edgeWidth(g.pane / MM2PT) * MM2PT;
@@ -399,7 +436,7 @@ export async function downloadPdf(
       const Y = (yTop: number) => H - yTop;                      // PDF は y 上向き → 反転
 
       if (!noDots) {
-        for (const side of [0, 1] as const) {
+        for (let side = 0; side < panes; side++) {
           const sx = cx + side * g.dx;
           const syTop = cyTop + side * g.dy;
           for (let r = 0; r < n; r++)
@@ -408,6 +445,51 @@ export async function downloadPdf(
                 x: sx + g.dot(g.pane, c, n), y: Y(syTop + g.dot(g.pane, r, n)), size: dotR, color: ink,
               });
         }
+      }
+      /* かさね系: 3 ペイン式「A op B ＝ □」（プレビューと同じ導出）。
+         出題＝ペイン3 空欄／解答（answer=true）＝ペイン3 に結果を描き込み */
+      const triple = composeTriple(pb, pair);
+      if (triple) {
+        const drawEdges = (edges: EdgeT[], ox: number, oyTop: number) => {
+          for (const e of edges) {
+            page.drawLine({
+              start: { x: ox + g.dot(g.pane, e[0][0], n), y: Y(oyTop + g.dot(g.pane, e[0][1], n)) },
+              end: { x: ox + g.dot(g.pane, e[1][0], n), y: Y(oyTop + g.dot(g.pane, e[1][1], n)) },
+              thickness: lw, color: ink, lineCap: 1,
+            });
+          }
+        };
+        drawEdges(triple.a, cx, cyTop);
+        drawEdges(triple.b, cx + g.dx, cyTop + g.dy);
+        if (answer) {
+          drawEdges(triple.result, cx + g.dx * 2, cyTop + g.dy * 2);
+        } else if (noDots) {
+          // 点をとったとき、空欄のこたえペインにだけ薄い枠（解答は線で埋まるため不要）
+          const fx = cx + g.dx * 2 + g.pane * 0.02;
+          const fyTop = cyTop + g.dy * 2 + g.pane * 0.02;
+          const fs2 = g.pane * 0.96;
+          const fsw = Math.max(0.25 * MM2PT, lw * 0.55);
+          page.drawLine({ start: { x: fx, y: Y(fyTop) }, end: { x: fx + fs2, y: Y(fyTop) }, thickness: fsw, color: frameInk });
+          page.drawLine({ start: { x: fx, y: Y(fyTop + fs2) }, end: { x: fx + fs2, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
+          page.drawLine({ start: { x: fx, y: Y(fyTop) }, end: { x: fx, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
+          page.drawLine({ start: { x: fx + fs2, y: Y(fyTop) }, end: { x: fx + fs2, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
+        }
+        const opSize = g.gap * 0.5;
+        const ow = Math.max(0.4 * MM2PT, opSize * 0.1);
+        const opAt = (k: 1 | 2) => pair === "horizontal"
+          ? { x: cx + (k - 1) * g.dx + g.pane + g.gap / 2, y: cyTop + g.pane / 2 }
+          : { x: cx + g.pane / 2, y: cyTop + (k - 1) * g.dy + g.pane + g.gap / 2 };
+        const drawOp = (kind: "plus" | "minus" | "eq" | "fold", at: { x: number; y: number }) => {
+          for (const s of opSegs(kind, at.x, at.y, opSize, pair === "vertical")) {
+            page.drawLine({
+              start: { x: s[0], y: Y(s[1]) }, end: { x: s[2], y: Y(s[3]) },
+              thickness: ow, color: ink, lineCap: 1,
+            });
+          }
+        };
+        drawOp(triple.op, opAt(1));
+        drawOp("eq", opAt(2));
+        return;
       }
       // 点をとったとき、かくマスが空欄の設問（模写・鏡・回転・移動）にだけ薄い枠を添える。
       // 欠け補完（gapEdgesOf ≠ null）には付けない。
@@ -522,6 +604,13 @@ export async function downloadPdf(
       }
     });
 
+    // 解答ページ群の目印（欧文のみ・上余白の左端＝記名欄と重ならない位置）
+    if (answer) {
+      page.drawText("ANSWER", {
+        x: margin, y: H - 11 * MM2PT, size: 8, font, color: gray,
+      });
+    }
+
     // フッター: 左=ロゴ／右=ページ番号・SKU（欧文のみ・日本語フォント埋め込み回避）
     const footY = 6 * MM2PT;
     if (logo) {
@@ -529,8 +618,9 @@ export async function downloadPdf(
       const lwid = (logo.width / logo.height) * lh;
       page.drawImage(logo, { x: margin, y: footY - lh / 2, width: lwid, height: lh });
     }
-    page.drawText(`${sku}  ·  P ${pg + 1} / ${pageCount}`, {
-      x: W - margin - font.widthOfTextAtSize(`${sku}  ·  P ${pg + 1} / ${pageCount}`, 8),
+    const footText = `${sku}  ·  ${answer ? "ANSWER  ·  " : ""}P ${pg + 1} / ${pageCount}`;
+    page.drawText(footText, {
+      x: W - margin - font.widthOfTextAtSize(footText, 8),
       y: footY - 3,
       size: 8, font, color: gray,
     });
@@ -543,11 +633,11 @@ export async function downloadPdf(
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  // {sku}_{紙}_{N}q_{yyyymmddhhmm}.pdf — 再生成の上書き事故を防ぐタイムスタンプ付き
+  // {sku}[_answer]_{紙}_{N}q_{yyyymmddhhmm}.pdf — 再生成の上書き事故を防ぐタイムスタンプ付き
   const d = new Date();
   const p2 = (x: number) => String(x).padStart(2, "0");
   const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
-  a.download = `${sku}_${paperKey}_${perPage}q_${stamp}.pdf`;
+  a.download = `${sku}${answer ? "_answer" : ""}_${paperKey}_${perPage}q_${stamp}.pdf`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -908,6 +998,8 @@ function SquarePrintPreview({
     () => (realProblems && realProblems.length > 0 ? realProblems : sampleProblems(sku, n)),
     [realProblems, sku, n],
   );
+  // かさね系＝3 ペイン式（点サイズ見本・解答 PDF ボタンの分岐に使う）
+  const isCompose = problems.some((p) => p.compose);
 
   const selectPaper = (k: PaperKey) => {
     setPaperKey(k);
@@ -923,11 +1015,12 @@ function SquarePrintPreview({
   const dotSampleDia = (k: DotSize): number => {
     const paper = PAPER[paperKey];
     const nameH = nameField ? NAME_BAND_MM : 0;
-    const { cols, rows } = gridFor(perPage, pair, paper.w, paper.h - nameH, MARGIN_MM);
+    const panes = isCompose ? 3 : 2;
+    const { cols, rows } = gridFor(perPage, pair, paper.w, paper.h - nameH, MARGIN_MM, panes);
     const cellW = (paper.w - MARGIN_MM * 2) / cols;
     const cellH = (paper.h - MARGIN_MM * 2 - nameH) / rows;
     const pad = Math.min(cellW, cellH) * CELL_PAD;
-    return dotRadius(paneSize(cellW - pad * 2, cellH - pad * 2, pair), DOT_SCALE[k]) * 2;
+    return dotRadius(paneSize(cellW - pad * 2, cellH - pad * 2, pair, panes), DOT_SCALE[k]) * 2;
   };
 
   return (
@@ -1088,13 +1181,17 @@ function SquarePrintPreview({
           {downloading ? "PDF を作成中…" : "PDF をダウンロード"}
         </button>
       )}
-      {/* 解答 PDF（鏡タスクのみ・1問=1ページ・用紙MAX） */}
-      {purchased && problems.some((p) => p.mirrorAxis) && (
+      {/* 解答 PDF（鏡＝1問=1ページ・用紙MAX／かさね系＝出題と同じ紙面の こたえ入り） */}
+      {purchased && (isCompose || problems.some((p) => p.mirrorAxis)) && (
         <button type="button" className="spv-download spv-download--answer" disabled={downloading}
           onClick={async () => {
             setDownloading(true);
             try {
-              await downloadAnswerPdf(sku, paperKey, problems, noDots);
+              if (isCompose) {
+                await downloadPdf(sku, paperKey, perPage, problems, pair, nameField, DOT_SCALE[dotSize], noDots, true);
+              } else {
+                await downloadAnswerPdf(sku, paperKey, problems, noDots);
+              }
             } finally {
               setDownloading(false);
             }

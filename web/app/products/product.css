@@ -905,6 +905,8 @@ a.plp-card:hover .plp-card-go { color: var(--accent); }
   border-radius: var(--radius-soft);
 }
 .plp-card-fig svg { height: 118px; width: auto; }
+/* かさね系の 2 ペインサムネ（A op B）: 横長なのでカード幅に合わせて縮む */
+.plp-card-fig svg.plp-fig-pair { height: auto; max-height: 118px; width: auto; max-width: calc(100% - 20px); }
 .plp-card.is-soon .plp-card-fig { border-style: dashed; }
 .plp-card-top {
   display: flex;

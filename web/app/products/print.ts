@@ -163,6 +163,67 @@ export function markRingSegs(cx: number, cy: number, half: number): [number, num
   return [[l, t, r, t], [r, t, r, b], [r, b, l, b], [l, b, l, t]];
 }
 
+/* =========================================================================
+   3 ペイン式（かさね/分解/折り重ね）の連結記号（＋ − ＝ 折り返し矢印）
+   maker 各アプリの opGlyphPath と同じ数式を「線分の並び」で持つ＝
+   SVG プレビューは line・PDF は drawLine で描く（回転の弧矢印と同思想）。
+   x,y＝記号の中心・size＝記号の呼び寸（ペイン間ギャップ×0.5 が maker と同じ既定）。
+   vertical＝縦一列の並び（＝や−は流れに直交する向きへ回転・fold は弧の向きが変わる）。
+   ========================================================================= */
+export type OpKind = "plus" | "minus" | "eq" | "fold";
+
+export function opWidth(size: number): number {
+  return Math.max(0.4, size * 0.1);
+}
+
+export function opSegs(
+  kind: OpKind, x: number, y: number, size: number, vertical = false,
+): [number, number, number, number][] {
+  const s = size / 2;
+  if (kind === "plus") {
+    return [[x - s, y, x + s, y], [x, y - s, x, y + s]];
+  }
+  if (kind === "minus") {
+    return vertical ? [[x, y - s, x, y + s]] : [[x - s, y, x + s, y]];
+  }
+  if (kind === "eq") {
+    const g = size * 0.24;
+    return vertical
+      ? [[x - g, y - s, x - g, y + s], [x + g, y - s, x + g, y + s]]
+      : [[x - s, y - g, x + s, y - g], [x - s, y + g, x + s, y + g]];
+  }
+  // fold: 半円の弧＋矢じり（問題1を問題2へ「折り重ねる」動き・maker-fold と同形）
+  const r = size * 0.46;
+  const ah = size * 0.34;
+  const STEPS = 16;
+  const segs: [number, number, number, number][] = [];
+  const arc = (cx: number, cy: number, a0: number, a1: number) => {
+    let px = cx + r * Math.cos(a0);
+    let py = cy + r * Math.sin(a0);
+    for (let i = 1; i <= STEPS; i++) {
+      const a = a0 + ((a1 - a0) * i) / STEPS;
+      const nx = cx + r * Math.cos(a);
+      const ny = cy + r * Math.sin(a);
+      segs.push([px, py, nx, ny]);
+      px = nx; py = ny;
+    }
+  };
+  if (!vertical) {
+    // 上をまたぐ半円（左端→右端）＋右端に下向きの矢じり
+    const yb = y + size * 0.26;
+    arc(x, yb, Math.PI, Math.PI * 2);
+    segs.push([x + r - ah * 0.5, yb - ah * 0.62, x + r, yb + ah * 0.32]);
+    segs.push([x + r, yb + ah * 0.32, x + r + ah * 0.58, yb - ah * 0.46]);
+  } else {
+    // 左をまたぐ半円（上端→下端）＋下端に右向きの矢じり
+    const xb = x - size * 0.26;
+    arc(xb, y, Math.PI * 1.5, Math.PI * 0.5);
+    segs.push([xb - ah * 0.62, y + r - ah * 0.5, xb + ah * 0.32, y + r]);
+    segs.push([xb + ah * 0.32, y + r, xb - ah * 0.46, y + r + ah * 0.58]);
+  }
+  return segs;
+}
+
 /* 回転の弧矢印の半径・線幅。ペイン間ギャップ（pane*KGAP）だけだと弧が豆粒になり
    「1/4 か半周か」を読み分けられない。ドットはペインの 10%〜90% にしか置かれない＝
    ペイン端の 10% は必ず余白なので、そこまで食い込ませて弧を大きく取る。 */
