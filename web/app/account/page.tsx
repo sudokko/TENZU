@@ -6,7 +6,7 @@ import { makerByKey } from "../products/makers";
 import "../membership.css";
 
 export const metadata: Metadata = {
-  title: "マイページ · TENZU メーカー",
+  title: "マイページ",
   description: "購入した点描写メーカーの確認と、別端末への復元。",
   robots: { index: false },
 };

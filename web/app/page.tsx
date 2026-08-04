@@ -5,6 +5,10 @@ import ArticlesSection from "./ArticlesSection";
 import CoverageStudio from "./CoverageStudio";
 import { VISIBLE_MAKERS } from "./products/makers";
 import { QUESTIONS_PER_VOL } from "./products/data";
+import type { Metadata } from "next";
+
+/* canonical は root layout から継承させない方針（layout.tsx 参照）。TOP は自分で持つ */
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const MAKER_KINDS = VISIBLE_MAKERS.length;
 /* 総問数はハードコードせず SSOT から導出（巻数 × 1 巻の問数）。
@@ -630,7 +634,7 @@ export default function Home() {
         </section>
 
         {/* ===================== ②.5 TENZU、3 つの特長（数・公開・印刷） =====================
-            ①品ぞろえ＝棚(9種類×5段階×40巻)＋レベル目安表(LevelGraph 再利用)、
+            ①品ぞろえ＝棚(9種類×5段階×44巻)＋レベル目安表(LevelGraph 再利用)、
             ②設計図ごと公開＝中を見て¥200から、③家庭の印刷機に合わせる。
             数字は GROUPS 由来（TOTAL_KINDS/TOTAL_VOL/TOTAL_QUESTIONS）＝ハードコード禁止。 */}
         <section className="tr-sec tr-sec-alt">

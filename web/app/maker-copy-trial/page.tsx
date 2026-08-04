@@ -6,7 +6,7 @@ import "../maker/maker.css";
    模写メーカー（/maker）をフォークし、「背景の点をとる」設定を試すためのプロトタイプ。
    課金・所有ゲートなし（オーナー検証専用）。ツール自体は noindex。 */
 export const metadata: Metadata = {
-  title: "図形模写トライアル（内部用） · TENZU",
+  title: "図形模写トライアル（内部用）",
   description: "模写メーカーの試作。背景の点を消した「白紙模写」形式を試せます。",
   robots: { index: false, follow: false },
 };

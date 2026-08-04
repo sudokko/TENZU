@@ -13,7 +13,8 @@ import { TASK_MINIFIG } from "./task-minifigs";
 import "./product.css";
 
 export const metadata: Metadata = {
-  title: `商品一覧 — ${TOTAL_KINDS} 種類 × 5 段階 · TENZU`,
+  alternates: { canonical: "/products" },
+  title: `商品一覧 — ${TOTAL_KINDS} 種類 × 5 段階`,
   description:
     `点描写プリントの品ぞろえ。3 つの力 × ${TOTAL_KINDS} 種類 × 5 レベル・計 ${TOTAL_VOL} 巻。¥200 一律・サブスクなし。`,
 };

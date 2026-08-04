@@ -6,7 +6,7 @@ import "../maker/maker.css";
 
 /* 公開メーカー（買い切り ¥980）。ツール自体は noindex（SEO はまとめ /makers に集約）。 */
 export const metadata: Metadata = {
-  title: "鏡メーカー · TENZU",
+  title: "鏡メーカー",
   description: "鏡の反対側に映る形を描く点描写プリントを作って、PDF で印刷できます。",
   robots: { index: false, follow: false },
 };

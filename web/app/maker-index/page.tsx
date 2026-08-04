@@ -3,7 +3,7 @@ import "../maker/maker.css";
 
 /* 内部用ツール: 作問メーカーへのリンク集。検索/シェアに乗せない（noindex）。 */
 export const metadata: Metadata = {
-  title: "メーカー一覧（内部用） · TENZU",
+  title: "メーカー一覧（内部用）",
   description: "内部の作問メーカーへのリンク集。",
   robots: { index: false, follow: false },
 };

@@ -12,7 +12,7 @@ import "./maker-thanks.css";
    - 所有 cookie は verify が発行済み＝この端末は以後ログイン不要。
    - 別端末は復元（/login）へ案内。 */
 export const metadata: Metadata = {
-  title: "ご購入ありがとうございます · TENZU メーカー",
+  title: "ご購入ありがとうございます",
   robots: { index: false },
 };
 

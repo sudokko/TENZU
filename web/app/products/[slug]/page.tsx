@@ -35,14 +35,17 @@ export async function generateMetadata(
   const task = taskBySlug(slug);
   if (task) {
     return {
-      title: `${task.name} の一覧 — 全 ${task.vols.length} 巻 · TENZU`,
+      alternates: { canonical: `/products/${task.slug}` },
+      title: `${task.name} の一覧 — 全 ${task.vols.length} 巻`,
       description: `点描写「${task.name}」をレベル別に全 ${task.vols.length} 巻。1 冊 ${QUESTIONS_PER_VOL} 問・¥${PRICE} 一律・PDF ダウンロード。`,
     };
   }
   const hit = volBySku(SKU_ALIASES[slug] ?? slug);
   if (hit) {
     return {
-      title: `${volTitle(hit.task, hit.vol)} · TENZU`,
+      // 旧 slug（エイリアス）は 301 されるが、canonical も解決後の正 sku で申告する
+      alternates: { canonical: `/products/${hit.vol.sku}` },
+      title: volTitle(hit.task, hit.vol),
       description: `${hit.vol.blurb} A4 縦・${QUESTIONS_PER_VOL} 問・¥${PRICE} 一律。`,
     };
   }

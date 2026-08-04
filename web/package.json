@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "recover": "node scripts/recover.mjs"
+    "recover": "node scripts/recover.mjs",
+    "check:gates": "node scripts/check-env-gates.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1085.0",

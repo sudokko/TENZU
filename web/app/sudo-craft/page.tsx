@@ -9,6 +9,7 @@ import "../legal.css";
    （SudoCraftApp 側・SNS 流入が「参照元なし」に落ちるのを防ぐ）。 */
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/sudo-craft" },
   title: "SUDO CRAFT（運営者情報）",
   description:
     "点図形（点描写）プリントの専門店 TENZU を運営する個人事業 SUDO CRAFT のページです。作っているもの・お仕事のご相談窓口をご案内します。",

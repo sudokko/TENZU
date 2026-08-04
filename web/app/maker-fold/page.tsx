@@ -6,7 +6,7 @@ import "../maker/maker.css";
 
 /* 公開メーカー（買い切り ¥980）。ツール自体は noindex（SEO はまとめ /makers に集約）。 */
 export const metadata: Metadata = {
-  title: "折り重ねメーカー · TENZU",
+  title: "折り重ねメーカー",
   description: "折り返して重ねた形を描く点描写プリントを作って、PDF で印刷できます。",
   robots: { index: false, follow: false },
 };

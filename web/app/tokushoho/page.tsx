@@ -6,9 +6,11 @@ import "../legal.css";
 /* 特定商取引法に基づく表記（decisions §5.16・phase-1-todo §2）。
    販売業者名義は屋号 SUDO CRAFT＋氏名。住所・電話は「請求があれば遅滞なく開示」
    方式（デジタル商品の通信販売・消費者庁ガイド準拠）。
-   ⚠️ 氏名プレースホルダは開店前に必ず実名へ差し替える（phase-1-todo §2 名義統一）。 */
+   氏名は 2026-08 に実名へ差し替え済み。残る名義作業は銀行口座・請求書側の統一
+   （phase-1-todo §2）。 */
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tokushoho" },
   title: "特定商取引法に基づく表記",
   description:
     "点図形（点描写）プリントの専門店 TENZU の特定商取引法に基づく表記です。販売業者・価格・お支払い方法・商品の引き渡し・返品についてご案内します。",
