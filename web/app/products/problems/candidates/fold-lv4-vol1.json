@@ -828,12 +828,12 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 20.8,
-    "value": 20.8,
+    "auto": 18.8,
+    "value": 18.8,
     "parts": {
      "A": 9,
      "B": 6,
-     "絡み": 2,
+     "絡み": 0,
      "G": 3.75
     }
    },

@@ -99,6 +99,8 @@ export function dBreakdown(parts?: DifficultyParts, d?: number): string | undefi
     push("図B ", parts.B);
   }
   if (typeof parts["絡み"] === "number" && parts["絡み"] > 0) push("絡み", parts["絡み"]);
+  if (typeof parts["共有点"] === "number" && parts["共有点"] > 0) push("共有点", parts["共有点"]);
+  if (typeof parts["ばらけ"] === "number" && parts["ばらけ"] > 0) push("ばらけ", parts["ばらけ"]);
   if (typeof parts.G === "number") push("盤面", parts.G);
   if (typeof parts.strokes === "number" && parts.strokes > 0) push("画数", parts.strokes);
   if (typeof parts.brk === "number" && parts.brk > 0) push("くずし", parts.brk);
@@ -152,7 +154,13 @@ export function dBreakdownDetail(p: Problem): string[] | undefined {
   if (typeof parts.A === "number") out.push(`図A ${r1(parts.A)}（図A の線の重み）`);
   if (typeof parts.B === "number") out.push(`図B ${r1(parts.B)}（図B の線の重み）`);
   if (typeof parts["絡み"] === "number" && parts["絡み"] > 0) {
-    out.push(`絡み ${r1(parts["絡み"])} ＝ 2×${parts["絡み"] / 2}か所（A と B の交差）`);
+    out.push(`絡み ${r1(parts["絡み"])} ＝ 2×${parts["絡み"] / 2}か所（A と B の線どうしの交差）`);
+  }
+  if (typeof parts["共有点"] === "number" && parts["共有点"] > 0) {
+    out.push(`共有点 ${r1(parts["共有点"])} ＝ 1×${parts["共有点"]}か所（A と B がふれあう点＝線の所属を切り替える場所）`);
+  }
+  if (typeof parts["ばらけ"] === "number" && parts["ばらけ"] > 0) {
+    out.push(`ばらけ ${r1(parts["ばらけ"])}（図の中の離れたかたまりを、別々に覚えて運ぶ負荷）`);
   }
 
   if (typeof parts.G === "number") {
@@ -182,6 +190,7 @@ export function dBreakdownDetail(p: Problem): string[] | undefined {
 
   const sum = (parts.k ?? 1) * (parts.E ?? 0) + (parts.pair ?? 0)
     + (parts.A ?? 0) + (parts.B ?? 0) + (parts["絡み"] ?? 0)
+    + (parts["共有点"] ?? 0) + (parts["ばらけ"] ?? 0)
     + (parts.G ?? 0) + (parts.strokes ?? 0) + (parts.brk ?? 0)
     + (parts["変換"] ?? 0) + (parts.gap ?? 0) + (parts.hidden ?? 0);
   out.push(roundD(sum) === d

@@ -978,8 +978,8 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 11.8,
     "auto": 11.8,
+    "value": 11.8,
     "parts": {
      "E": 6.5,
      "G": 3.5,
@@ -1940,8 +1940,8 @@
    },
    "difficulty": {
     "task": "rotate",
-    "value": 15.1,
     "auto": 15.1,
+    "value": 15.1,
     "parts": {
      "E": 9,
      "G": 4,

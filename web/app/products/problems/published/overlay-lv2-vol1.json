@@ -666,12 +666,12 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 13,
-    "value": 13,
+    "auto": 11,
+    "value": 11,
     "parts": {
      "A": 4,
      "B": 4,
-     "絡み": 2,
+     "絡み": 0,
      "G": 3
     }
    },
@@ -1196,12 +1196,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 11,
-    "value": 11,
+    "auto": 13,
+    "value": 13,
     "parts": {
      "A": 5,
      "B": 3,
      "絡み": 0,
+     "ばらけ": 2,
      "G": 3
     }
    },
@@ -1586,12 +1587,12 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 18,
-    "value": 18,
+    "auto": 12,
+    "value": 12,
     "parts": {
      "A": 5,
      "B": 4,
-     "絡み": 6,
+     "絡み": 0,
      "G": 3
     }
    },

@@ -14,12 +14,12 @@ import {
   metricsLabel, normalizeEdges, splitAtLattice, edgeKey, mirrorEdges, TASK_ANSWER_MODE,
   solidEdgeKey, normalizeSolidEdges,
 } from "../products/problems/schema";
-import { computeMetrics, computeSolidMetrics, mergedSegments } from "../products/problems/gen/metrics";
+import { computeMetrics, computeSolidMetrics, interCrossings, mergedSegments } from "../products/problems/gen/metrics";
 import {
   ladderChips, ladderFieldsFor, GRID_MIN, GRID_MAX, type LadderField,
 } from "../products/problems/ladder-schema";
 import {
-  baseDifficulty, taskDifficulty, boardTermText,
+  baseDifficulty, separationLoad, taskDifficulty, boardTermText,
   D_BASE_FORMULA, D_TASK_FULL_FORMULA, D_TASK_EXCLUDES,
 } from "../products/problems/gen/difficulty";
 import { dBreakdown } from "../products/coverage";
@@ -1510,15 +1510,18 @@ function EditOverlay({
     () => (isAB ? edges.filter((e) => !rSetView.has(edgeKey(e))) : []),
     [isAB, edges, rSetView],
   );
-  /* 検品用の内訳。絡み＝A・B 間の交差数（＝Vol 分けドライバー・gen/overlay.ts と同じ導出）。 */
+  /* 検品用の内訳。絡み＝A・B の線分同士の直接交差（＝Vol 分けドライバー・
+     gen/overlay.ts / difficulty.ts と同じ計測・decisions §3.98）。
+     ばらけ＝図ごとの離れ小島の負荷（decisions §3.97・同じ完成図でも分け方で D が変わる）。 */
   const abStats = useMemo(() => {
     if (!isAB) return null;
     const mA = computeMetrics(aEdges, n), mB = computeMetrics(rEdges, n);
     return {
       aLines: mA.lines, bLines: mB.lines,
-      entangle: liveMetrics.crossings - mA.crossings - mB.crossings,
+      entangle: interCrossings(aEdges, rEdges),
+      sep: separationLoad(aEdges) + separationLoad(rEdges),
     };
-  }, [isAB, aEdges, rEdges, n, liveMetrics]);
+  }, [isAB, aEdges, rEdges, n]);
 
   /* 盤面クリック（A / B 共通）。同じ線をもう一度なぞる＝その盤面から消す。
      A に描いた線が B にあれば B から外す（逆も同じ）＝A∩B を作らせない。 */
@@ -1633,6 +1636,7 @@ function EditOverlay({
             {abStats && (
               <span className="atl-fair">
                 図形A {abStats.aLines} 本・図形B {abStats.bLines} 本・絡み {abStats.entangle}
+                {abStats.sep > 0 && `・ばらけ +${abStats.sep}`}
               </span>
             )}
           </div>

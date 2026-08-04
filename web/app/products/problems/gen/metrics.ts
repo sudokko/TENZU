@@ -71,6 +71,35 @@ function segsCross(s: Seg, t: Seg): boolean {
   return o1 !== o2 && o3 !== o4 && o1 !== 0 && o2 !== 0 && o3 !== 0 && o4 !== 0;
 }
 
+/* ---- A・B 間の絡み（かさね系・直接計測）----
+   図ごとに併合した「見た目の線分」同士を突き合わせ、X 型の真の交差だけ数える。
+   旧導出 cross(F) − cross(A) − cross(B) は、F 側の線分併合で A の線と B の線が
+   一直線に融合したとき、どちらの図にも無い交差が湧く（例: 正方形 2 つの角接触が
+   「長い横線×長い縦線」に化けて幻の X 交差になる）＝いちばん易しい配置ほど
+   過大評価する欠陥があった（decisions §3.98）。 */
+export function interCrossings(a: EdgeT[], b: EdgeT[]): number {
+  const sa = mergedSegments(a);
+  const sb = mergedSegments(b);
+  let n = 0;
+  for (const s of sa) for (const t of sb) if (segsCross(s, t)) n++;
+  return n;
+}
+
+/* ---- A・B の共有点（分解「共有点」項の材料）----
+   両図が同じ格子点にふれている数。辺は normalizeEdges 済み＝単位区間なので、
+   図が通る格子点はすべてどこかの辺の端点に現れる（T 字接触・角接触も拾える）。
+   45° 斜め同士がマス中央で突き抜けるのは格子点でない＝こちらでなく交差で数える。 */
+export function sharedPoints(a: EdgeT[], b: EdgeT[]): number {
+  const pa = new Set<string>();
+  for (const e of a) { pa.add(pk(e[0])); pa.add(pk(e[1])); }
+  const hit = new Set<string>();
+  for (const e of b) for (const p of e) {
+    const k = pk(p);
+    if (pa.has(k)) hit.add(k);
+  }
+  return hit.size;
+}
+
 /* ---- union-find ---- */
 function countComponents(edges: EdgeT[]): number {
   const parent = new Map<string, string>();
@@ -90,6 +119,84 @@ function countComponents(edges: EdgeT[]): number {
   const roots = new Set<string>();
   for (const k of parent.keys()) roots.add(find(k));
   return roots.size;
+}
+
+/* ---- 成分間の隔たり（かさね系「ばらけの項」の材料） ----
+   「見た目のかたまり」が 2 つ以上のとき、かたまり同士を最小全域木（Prim）で
+   つなぎ、木の各辺の「いちばん近い点どうしのチェビシェフ距離（ななめも 1 マス）」
+   を返す。1 かたまり以下なら空配列。
+   かたまり＝端点共有の連結成分を、さらに「交差でつながって見える」もの同士で
+   併合したもの（45°斜め同士がマス中央で交わると格子点を共有しないが、
+   見た目はひとつながり＝離れ小島ではない）。点数・成分数は小さいので総当たり。 */
+export function componentGaps(edges: EdgeT[]): number[] {
+  const parent = new Map<string, string>();
+  const find = (x: string): string => {
+    let r = x;
+    while (parent.get(r) !== r) r = parent.get(r)!;
+    return r;
+  };
+  const ptOf = new Map<string, Pt>();
+  for (const e of edges) {
+    const a = pk(e[0]), b = pk(e[1]);
+    if (!parent.has(a)) parent.set(a, a);
+    if (!parent.has(b)) parent.set(b, b);
+    parent.set(find(a), find(b));
+    ptOf.set(a, e[0]);
+    ptOf.set(b, e[1]);
+  }
+  const groups = new Map<string, Pt[]>();
+  const groupEdges = new Map<string, EdgeT[]>();
+  for (const [k, p] of ptOf) {
+    const r = find(k);
+    if (!groups.has(r)) groups.set(r, []);
+    groups.get(r)!.push(p);
+  }
+  for (const e of edges) {
+    const r = find(pk(e[0]));
+    if (!groupEdges.has(r)) groupEdges.set(r, []);
+    groupEdges.get(r)!.push(e);
+  }
+  let comps = [...groups.keys()].map((r) => ({ pts: groups.get(r)!, edges: groupEdges.get(r)! }));
+  /* 交差でつながって見える成分同士を併合（不動点まで繰り返す） */
+  for (let merged = true; merged && comps.length > 1;) {
+    merged = false;
+    outer: for (let i = 0; i < comps.length; i++) {
+      for (let j = i + 1; j < comps.length; j++) {
+        const cross = comps[i].edges.some((a) => comps[j].edges.some((b) =>
+          segsCross({ a: a[0], b: a[1] }, { a: b[0], b: b[1] })));
+        if (!cross) continue;
+        comps[i] = {
+          pts: [...comps[i].pts, ...comps[j].pts],
+          edges: [...comps[i].edges, ...comps[j].edges],
+        };
+        comps = comps.filter((_, k) => k !== j);
+        merged = true;
+        break outer;
+      }
+    }
+  }
+  if (comps.length <= 1) return [];
+  const dist = (a: Pt[], b: Pt[]): number => {
+    let min = Infinity;
+    for (const p of a) for (const q of b)
+      min = Math.min(min, Math.max(Math.abs(p[0] - q[0]), Math.abs(p[1] - q[1])));
+    return min;
+  };
+  const inTree = new Set<number>([0]);
+  const gaps: number[] = [];
+  while (inTree.size < comps.length) {
+    let best = Infinity, bestIdx = -1;
+    for (let i = 0; i < comps.length; i++) {
+      if (inTree.has(i)) continue;
+      for (const j of inTree) {
+        const d = dist(comps[i].pts, comps[j].pts);
+        if (d < best) { best = d; bestIdx = i; }
+      }
+    }
+    inTree.add(bestIdx);
+    gaps.push(best);
+  }
+  return gaps;
 }
 
 /* ---- 対称性 ---- */

@@ -169,8 +169,8 @@
    "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 14.9,
     "auto": 14.9,
+    "value": 14.9,
     "parts": {
      "E": 6,
      "G": 4,
@@ -1031,8 +1031,8 @@
    "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 14.7,
     "auto": 14.7,
+    "value": 14.7,
     "parts": {
      "E": 5.5,
      "G": 4,
@@ -1269,8 +1269,8 @@
    "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 12.5,
     "auto": 12.5,
+    "value": 12.5,
     "parts": {
      "E": 5,
      "G": 4,
@@ -2664,8 +2664,8 @@
    "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "value": 22.1,
     "auto": 22.1,
+    "value": 22.1,
     "parts": {
      "E": 11,
      "G": 4,

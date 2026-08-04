@@ -84,8 +84,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 10,
     "auto": 10,
+    "value": 10,
     "parts": {
      "E": 3.5,
      "G": 3,
@@ -448,8 +448,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 10.9,
     "auto": 10.9,
+    "value": 10.9,
     "parts": {
      "E": 4,
      "G": 3.5,
@@ -558,8 +558,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 11.2,
     "auto": 11.2,
+    "value": 11.2,
     "parts": {
      "E": 6,
      "G": 3,
@@ -920,8 +920,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 12.2,
     "auto": 12.2,
+    "value": 12.2,
     "parts": {
      "E": 5.5,
      "G": 3.5,
@@ -1026,8 +1026,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 12.8,
     "auto": 12.8,
+    "value": 12.8,
     "parts": {
      "E": 4.5,
      "G": 3.5,

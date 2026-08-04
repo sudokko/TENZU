@@ -29,7 +29,7 @@ import {
   edgeKey, normalizeEdges, validateProblem,
   type CandidateFile, type EdgeT, type Problem, type ProblemMetrics,
 } from "../app/products/problems/schema";
-import { computeMetrics } from "../app/products/problems/gen/metrics";
+import { computeMetrics, interCrossings } from "../app/products/problems/gen/metrics";
 import { taskDifficulty, migrateProblem } from "../app/products/problems/gen/difficulty";
 import { shapeSignature, publishedCopySignatures } from "../app/products/problems/gen/dedupe";
 import { OVERLAY_LADDER } from "../app/products/problems/gen/ladder";
@@ -349,8 +349,8 @@ function checkSeed(
   if (danglingCount(F) > DANGLING_MAX_F) errs.push(`ヒゲ ${danglingCount(F)} 本が上限 ${DANGLING_MAX_F} 超`);
   if (closedLoops(F, mF.components) < 1) errs.push("閉路なし（閉じた骨格が必要）");
 
-  // 絡み（A・B 間の X 交差）＝ Vol 分けドライバー
-  const inter = mF.crossings - mA.crossings - mB.crossings;
+  // 絡み（A・B の線分同士の直接 X 交差＝ gen/overlay.ts / difficulty.ts と同じ計測・§3.98）
+  const inter = interCrossings(A, B);
   if (inter < p.entangle[0] || inter > p.entangle[1])
     errs.push(`絡み ${inter} が窓 [${p.entangle[0]}, ${p.entangle[1]}] の外`);
   const comps = componentsOf(F);
@@ -467,7 +467,7 @@ async function main() {
       gen: { kind: "manual" },
     };
     const D = taskDifficulty("overlay", probe).value;
-    const inter = mF.crossings - mA.crossings - mB.crossings;
+    const inter = interCrossings(A, B);
     errs.push(...checkSeed(seed.sku, A, B, F, mA, mB, mF, D));
     errs.push(...validateProblem(probe));
     for (const [name, part] of [["A", A], ["B", B]] as const) {

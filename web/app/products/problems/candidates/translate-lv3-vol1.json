@@ -567,8 +567,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9.5,
     "auto": 9.5,
+    "value": 9.5,
     "parts": {
      "E": 5,
      "G": 3.5,
@@ -665,8 +665,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9,
     "auto": 9,
+    "value": 9,
     "parts": {
      "E": 4.5,
      "G": 3.5,
@@ -763,8 +763,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9,
     "auto": 9,
+    "value": 9,
     "parts": {
      "E": 4.5,
      "G": 3.5,
@@ -870,8 +870,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9,
     "auto": 9,
+    "value": 9,
     "parts": {
      "E": 4.5,
      "G": 3.5,
@@ -998,8 +998,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9,
     "auto": 9,
+    "value": 9,
     "parts": {
      "E": 4.5,
      "G": 3.5,
@@ -1085,8 +1085,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9,
     "auto": 9,
+    "value": 9,
     "parts": {
      "E": 4.5,
      "G": 3.5,
@@ -1203,8 +1203,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9.5,
     "auto": 9.5,
+    "value": 9.5,
     "parts": {
      "E": 5,
      "G": 3.5,
@@ -1311,8 +1311,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9,
     "auto": 9,
+    "value": 9,
     "parts": {
      "E": 4.5,
      "G": 3.5,
@@ -1398,8 +1398,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 8.5,
     "auto": 8.5,
+    "value": 8.5,
     "parts": {
      "E": 4,
      "G": 3.5,
@@ -1516,8 +1516,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9.5,
     "auto": 9.5,
+    "value": 9.5,
     "parts": {
      "E": 5,
      "G": 3.5,
@@ -1614,8 +1614,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9,
     "auto": 9,
+    "value": 9,
     "parts": {
      "E": 4.5,
      "G": 3.5,
@@ -1712,8 +1712,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 9,
     "auto": 9,
+    "value": 9,
     "parts": {
      "E": 4.5,
      "G": 3.5,
