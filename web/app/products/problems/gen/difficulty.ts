@@ -12,7 +12,7 @@ import type {
   CandidateFile, Difficulty, DifficultyParts, EdgeT, Problem, ProblemMetrics,
   Provenance, SkuProblemSet,
 } from "../schema";
-import { edgeKey } from "../schema";
+import { edgeKey, mirrorEdges } from "../schema";
 import {
   componentGaps, computeMetrics, computeSolidMetrics, interCrossings, mergedSegments,
   sharedPoints,
@@ -66,6 +66,25 @@ export function edgeLoad(m: ProblemMetrics): number {
 export function separationLoad(edges: EdgeT[]): number {
   return componentGaps(edges).reduce((s, d) => s + 2 + 0.5 * (d - 1), 0);
 }
+
+/* ---- 折り係数（折り重ね固有・2026-08-06 追加・decisions §3.103）----
+   折り重ねの紙1は「見比べる図」ではなく「鏡で写す見本」＝かさね・分解には無い
+   退化がある。紙1が折り軸に対してそれ自身対称だと、折り返した線が元と同じ場所へ
+   戻る＝折りを理解しなくても問題1をそのまま写せば正解になる（たいよう＝ひし形の例）。
+   折り返して元の線とぴったり重なる線の割合 r だけ、紙1の線の重みを最大 40% 引く：
+     折り係数 kf ＝ 1 − 0.4 × r（r＝重なる線の本数 ÷ 紙1の線の本数）
+   割引の上限 0.4 は、左右対称の係数 0.70（＝30% 引き）と同格に置いた——
+   「半分見れば残りがわかる」より「折っても動かない」ほうがわずかに強い免除。
+   代表軸は v 固定（answer＝mirror(問題1, v)∪問題2 で焼き付け済み・gen/fold.ts）。 */
+export function foldInvariance(edges: EdgeT[], n: number): number {
+  if (edges.length === 0) return 0;
+  const self = new Set(edges.map(edgeKey));
+  const kept = mirrorEdges(edges, n, "v").filter((e) => self.has(edgeKey(e))).length;
+  return kept / edges.length;
+}
+
+/* 折り係数は内訳表示に出るので小数第2位で刻む（表示と計算のズレを作らない） */
+export const foldFactor = (inv: number): number => Math.round((1 - 0.4 * inv) * 100) / 100;
 
 function boardTerm(m: ProblemMetrics): number {
   const n = m.boardN ?? Math.max(m.bboxW ?? 0, m.bboxH ?? 0); // solid は図形の広がりを盤面とみなす
@@ -144,6 +163,8 @@ const BRK_TERM = "3 × 対称くずしの線";
 const SEP_TERM =
   "ばらけの項（図ごとに、離れたかたまり 1 つにつき 2 ＋ 0.5 ×（いちばん近いかたまりまでのマス数 − 1））";
 const SHARED_TERM = "共有点（A と B が同じ格子点にふれている数 × 1）";
+const FOLD_K_TERM =
+  "折り係数（1 − 0.4 ×〔折り返しても元の線とぴったり重なる線の割合〕）";
 
 export const D_BASE_FORMULA =
   `D ＝ 対称係数 ×（${E_TERM}）＋ ${G_TERM} ＋ ${ST_TERM} ＋ ${BRK_TERM}`;
@@ -168,7 +189,7 @@ export const D_TASK_FULL_FORMULA: Record<string, string> = {
   fill: `D ＝ 対称係数 ×（${E_TERM}）＋ ${G_TERM} ＋ ${ST_TERM} ＋ ${BRK_TERM} ＋ 2 × 欠けている線分の本数`,
   overlay: `D ＝ 図A（${E_TERM}）＋ 図B（同じ式）＋ 2 × 絡み（A と B の線どうしの交差数）＋ ${SEP_TERM} ＋ ${G_TERM}`,
   decompose: `D ＝ 図A（${E_TERM}）＋ 図B（同じ式）＋ 2 × 絡み（A と B の線どうしの交差数）＋ ${SHARED_TERM} ＋ ${SEP_TERM} ＋ ${G_TERM}`,
-  fold: `D ＝ 問題1（${E_TERM}）＋ 問題2（同じ式）＋ 2 × 絡み（折り重ねた後の線どうしの交差数）＋ ${SEP_TERM} ＋ ${G_TERM}`,
+  fold: `D ＝ ${FOLD_K_TERM} × 問題1（${E_TERM}）＋ 問題2（同じ式）＋ 2 × 絡み（折り重ねた後の線どうしの交差数）＋ ${SEP_TERM} ＋ ${G_TERM}`,
   solid: `D ＝ ${E_TERM} ＋ ${G_TERM} ＋ 3 × 隠れ辺（点線で描く、見えない辺）の本数`,
   scale: "D ＝ 線の本数 ＋ 2 × ななめ ＋（45°でないななめがあれば ＋6）",
   shrink: "D ＝ 線の本数 ＋ 2 × ななめ ＋（45°でないななめがあれば ＋6）＋ 4（縮小は逆操作のぶん重い）",
@@ -179,7 +200,7 @@ export const D_TASK_FULL_FORMULA: Record<string, string> = {
 export const D_TASK_EXCLUDES: Record<string, string> = {
   overlay: "2 図を見比べる課題なので、対称係数と画数は使わない（離れ小島の負荷は画数でなく、ばらけの項で見る）",
   decompose: "2 図を見比べる課題なので、対称係数と画数は使わない（離れ小島の負荷は画数でなく、ばらけの項で見る）",
-  fold: "2 図を見比べる課題なので、対称係数と画数は使わない（離れ小島の負荷は画数でなく、ばらけの項で見る）",
+  fold: "2 図を見比べる課題なので、図形自身の対称係数と画数は使わない（離れ小島の負荷は画数でなく、ばらけの項で見る）。ただし折る向きに対する対称だけは、折り返しても図が変わらない＝折る負荷が消えるため、折り係数として見る",
   solid: "立体は盤面を図形に合わせて切り出すため、対称係数と画数は使わない",
   mirror: "図形は見本 F で測る。裏返す軸（左右／上下）は印刷時の並びで決まるため、問題ごとの負荷差にならず項を持たない",
   rotate: "図形は見本 F で測る。1 巻に複数の角度が混ざるので、回転そのものの負荷を項として足す",
@@ -217,6 +238,10 @@ export const D_TERM_NOTES: { term: string; note: string }[] = [
     note: "かさね・分解・折り重ねで、図A・図Bそれぞれの中に離れたかたまりがあるときの追加点。かたまり1つにつき2点、さらに離れているほど1マスごとに0.5点（ななめも1マスと数える）。同じ完成図でも、離れた位置のパーツに分けるほど、位置を覚えて運ぶ「錨」が増えて難しくなる。",
   },
   {
+    term: "折り係数",
+    note: "折り重ねだけの割引。折り返した線が元の線とぴったり重なるぶんは、折る前と折った後で図が変わらない＝「折る」という手順を理解しなくても、問題1をそのまま写せば正解になってしまう。重なる線の割合ぶんだけ問題1の線の重みを引く（全部重なるときで 40％引き）。",
+  },
+  {
     term: "共有点",
     note: "分解だけの追加点。図Aと引くもの（図B）が同じ点にふれている場所では、「この線はどちらの図のものか」を判断してから写す必要がある。ふれあう点1つにつき1点。X字に突き抜ける場所は、さらに絡みとして2点かかる。かさね・折り重ねは描き足す方向の課題で、この判断が起きないため項を持たない。",
   },
@@ -234,7 +259,7 @@ export const D_TASK_FORMULA: Record<string, string> = {
   translate: "土台の式 ＋ 移動の項（1 ×（動くマス数の合計 − 1）＋ 3（たてよこ両方に動くとき））",
   overlay: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（A と B の線どうしの交差数）＋ ばらけの項 ＋ 盤面の項",
   decompose: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（A と B の線どうしの交差数）＋ 共有点 ＋ ばらけの項 ＋ 盤面の項",
-  fold: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（折り重ねた後の A・B 間の交差数）＋ ばらけの項 ＋ 盤面の項",
+  fold: "折り係数 × 問題1 の線の重み ＋ 問題2 の線の重み ＋ 2 × 絡み（折り重ねた後の A・B 間の交差数）＋ ばらけの項 ＋ 盤面の項",
   solid: "線の重み ＋ 盤面の項 ＋ 3 × 隠れ辺（点線で描く、見えない辺）の本数。対称係数と画数は使わない",
   scale: "別式（線の本数 ＋ 2 × ななめ ＋ 非45°があれば ＋6）",
   shrink: "別式（拡大の式 ＋ 4。縮小は逆操作のぶん重い）",
@@ -314,7 +339,8 @@ export function taskDifficulty(task: string, p: Problem): { value: number; parts
     }
 
     case "fold": {
-      // 折り重ね固有式（decisions §3.74/§3.97/§3.98・v3改）: かさね系と同じ E(A)+E(B)+絡み+ばらけ+盤面項。
+      // 折り重ね固有式（decisions §3.74/§3.97/§3.98/§3.103・v3改）:
+      //   D = 折り係数×E(紙1) + E(紙2) + 2×絡み + ばらけ + 盤面項
       // A＝問題1（折り返す前の姿・鏡映しても数量メトリクスは不変）・B＝問題2・
       // 絡み＝折り重ね後の A'・B 間の直接交差。A'＝完成図∖B（完成図＝answer.edges
       // ＝mirror(問題1,v)∪問題2・代表軸 v で焼付済み。折り重ねで辺が重なった分は
@@ -333,11 +359,14 @@ export function taskDifficulty(task: string, p: Problem): { value: number; parts
       const inter = interCrossings(p.answer.edges.filter((e) => !bk.has(edgeKey(e))), p.inputB);
       // ばらけ＝紙ごとの離れ小島の負荷（折っても紙の中の小島は錨のまま・かさねと同じ）
       const sep = separationLoad(p.edges) + separationLoad(p.inputB);
+      // 折り係数＝紙1が折り軸に対してどれだけ自分自身に重なるか（上のコメント参照）
+      const kf = foldFactor(foldInvariance(p.edges, p.grid.n));
       return {
-        value: roundD(eA + eB + 2 * inter + sep + G),
-        parts: sep > 0
-          ? { A: eA, B: eB, 絡み: 2 * inter, ばらけ: sep, G }
-          : { A: eA, B: eB, 絡み: 2 * inter, G },
+        value: roundD(kf * eA + eB + 2 * inter + sep + G),
+        parts: {
+          A: eA, ...(kf < 1 && { kf }), B: eB, 絡み: 2 * inter,
+          ...(sep > 0 && { ばらけ: sep }), G,
+        },
       };
     }
 
@@ -385,6 +414,18 @@ function solidDifficulty(p: Problem): { value: number; parts: DifficultyParts } 
   };
 }
 
+/* ---- metrics を測る辺集合 ----
+   ほとんどのタスクは p.edges＝子が写す図そのもの。折り重ねだけは p.edges＝問題1
+   （紙1）で、盤面項とカード表示（線の本数・盤面/bbox）に効かせたいのは
+   **子が描く完成図＝answer 側**（gen/fold.ts の「metrics は完成図 F のまま」）。
+   引き直し系（migrateProblem / backfill-difficulty.ts）は必ずここを通すこと——
+   素で computeMetrics(p.edges) を呼ぶと、折り重ねだけ盤面項が紙1の bbox に縮む。 */
+export function metricsEdges(task: string, p: Problem): EdgeT[] {
+  return task === "fold" && p.answer?.mode === "explicit" && p.answer.edges.length > 0
+    ? p.answer.edges
+    : p.edges;
+}
+
 /* 実効値の解決：人手 override があればそれ・無ければ機械算出。読み手はこれ一本でよい。 */
 export function resolveDifficulty(d: Difficulty): number {
   return d.manual ?? d.auto;
@@ -423,7 +464,7 @@ export function migrateProblem(task: string, p: Problem): Problem {
       ? p.metrics
       : p.grid.type === "solid"
         ? computeSolidMetrics(p.solidEdges ?? [])
-        : computeMetrics(p.edges, p.grid.n);
+        : computeMetrics(metricsEdges(task, p), p.grid.n);
   const out: Problem = { ...p, metrics };
   if (!out.difficulty) {
     const d = taskDifficulty(task, out);
