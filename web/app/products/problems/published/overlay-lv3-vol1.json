@@ -438,12 +438,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 14.5,
-    "value": 14.5,
+    "auto": 17.5,
+    "value": 17.5,
     "parts": {
      "A": 4.5,
      "B": 6,
      "絡み": 0,
+     "もつれ": 3,
      "G": 4
     }
    }
@@ -929,12 +930,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 15,
-    "value": 15,
+    "auto": 18,
+    "value": 18,
     "parts": {
      "A": 5,
      "B": 6,
      "絡み": 0,
+     "もつれ": 3,
      "G": 4
     }
    },
@@ -1236,12 +1238,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 15.5,
-    "value": 15.5,
+    "auto": 20,
+    "value": 20,
     "parts": {
      "A": 5,
      "B": 6.5,
      "絡み": 0,
+     "もつれ": 4.5,
      "G": 4
     }
    },
@@ -1443,12 +1446,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 15.5,
-    "value": 15.5,
+    "auto": 18.5,
+    "value": 18.5,
     "parts": {
      "A": 4.5,
      "B": 4.5,
      "絡み": 0,
+     "もつれ": 3,
      "ばらけ": 2.5,
      "G": 4
     }
@@ -1692,12 +1696,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 15.5,
-    "value": 15.5,
+    "auto": 18.5,
+    "value": 18.5,
     "parts": {
      "A": 5.5,
      "B": 4,
      "絡み": 2,
+     "もつれ": 3,
      "G": 4
     }
    }
@@ -1975,12 +1980,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 16.5,
-    "value": 16.5,
+    "auto": 21,
+    "value": 21,
     "parts": {
      "A": 7.5,
      "B": 5,
      "絡み": 0,
+     "もつれ": 4.5,
      "G": 4
     }
    }
@@ -2196,12 +2202,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 16.5,
-    "value": 16.5,
+    "auto": 19.5,
+    "value": 19.5,
     "parts": {
      "A": 6,
      "B": 6.5,
      "絡み": 0,
+     "もつれ": 3,
      "G": 4
     }
    }
@@ -2476,12 +2483,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 17,
-    "value": 17,
+    "auto": 23.5,
+    "value": 23.5,
     "parts": {
      "A": 7.5,
      "B": 5.5,
      "絡み": 0,
+     "もつれ": 6.5,
      "G": 4
     }
    },
@@ -2786,12 +2794,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 21.5,
-    "value": 21.5,
+    "auto": 25,
+    "value": 25,
     "parts": {
      "A": 9.5,
      "B": 6,
      "絡み": 0,
+     "もつれ": 3.5,
      "ばらけ": 2,
      "G": 4
     }

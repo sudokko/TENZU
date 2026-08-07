@@ -110,6 +110,7 @@ export function dBreakdown(parts?: DifficultyParts, d?: number): string | undefi
   }
   if (typeof parts["絡み"] === "number" && parts["絡み"] > 0) push("絡み", parts["絡み"]);
   if (typeof parts["共有点"] === "number" && parts["共有点"] > 0) push("共有点", parts["共有点"]);
+  if (typeof parts["もつれ"] === "number" && parts["もつれ"] > 0) push("もつれ", parts["もつれ"]);
   if (typeof parts["ばらけ"] === "number" && parts["ばらけ"] > 0) push("ばらけ", parts["ばらけ"]);
   if (typeof parts.G === "number") push("盤面", parts.G);
   if (typeof parts.strokes === "number" && parts.strokes > 0) push("画数", parts.strokes);
@@ -178,6 +179,9 @@ export function dBreakdownDetail(p: Problem): string[] | undefined {
   if (typeof parts["共有点"] === "number" && parts["共有点"] > 0) {
     out.push(`共有点 ${r1(parts["共有点"])} ＝ 1×${parts["共有点"]}か所（A と B がふれあう点＝線の所属を切り替える場所）`);
   }
+  if (typeof parts["もつれ"] === "number" && parts["もつれ"] > 0) {
+    out.push(`もつれ ${r1(parts["もつれ"])}（図の中で線が交わる・1つの点に3方向以上が集まる場所の読み直し）`);
+  }
   if (typeof parts["ばらけ"] === "number" && parts["ばらけ"] > 0) {
     out.push(`ばらけ ${r1(parts["ばらけ"])}（図の中の離れたかたまりを、別々に覚えて運ぶ負荷）`);
   }
@@ -209,7 +213,7 @@ export function dBreakdownDetail(p: Problem): string[] | undefined {
 
   const sum = (parts.k ?? 1) * (parts.E ?? 0) + (parts.pair ?? 0)
     + (parts.kf ?? 1) * (parts.A ?? 0) + (parts.B ?? 0) + (parts["絡み"] ?? 0)
-    + (parts["共有点"] ?? 0) + (parts["ばらけ"] ?? 0)
+    + (parts["共有点"] ?? 0) + (parts["もつれ"] ?? 0) + (parts["ばらけ"] ?? 0)
     + (parts.G ?? 0) + (parts.strokes ?? 0) + (parts.brk ?? 0)
     + (parts["変換"] ?? 0) + (parts.gap ?? 0) + (parts.hidden ?? 0);
   out.push(roundD(sum) === d

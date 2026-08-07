@@ -431,12 +431,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 13.5,
-    "value": 13.5,
+    "auto": 19.5,
+    "value": 19.5,
     "parts": {
      "A": 5.5,
      "B": 4,
      "絡み": 0,
+     "もつれ": 6,
      "G": 4
     }
    },
@@ -719,12 +720,13 @@
    "status": "adopted",
    "difficulty": {
     "task": "overlay",
-    "auto": 17,
-    "value": 17,
+    "auto": 23.5,
+    "value": 23.5,
     "parts": {
      "A": 7.5,
      "B": 5.5,
      "絡み": 0,
+     "もつれ": 6.5,
      "G": 4
     }
    },
@@ -929,12 +931,13 @@
    "status": "adopted",
    "difficulty": {
     "task": "overlay",
-    "auto": 15.5,
-    "value": 15.5,
+    "auto": 18.5,
+    "value": 18.5,
     "parts": {
      "A": 4.5,
      "B": 4.5,
      "絡み": 0,
+     "もつれ": 3,
      "ばらけ": 2.5,
      "G": 4
     }
@@ -1210,12 +1213,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 16.8,
-    "value": 16.8,
+    "auto": 21.3,
+    "value": 21.3,
     "parts": {
      "A": 5.5,
      "B": 5.5,
      "絡み": 2,
+     "もつれ": 4.5,
      "G": 3.75
     }
    },
@@ -1518,12 +1522,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 16,
-    "value": 16,
+    "auto": 19,
+    "value": 19,
     "parts": {
      "A": 5.5,
      "B": 4.5,
      "絡み": 2,
+     "もつれ": 3,
      "G": 4
     }
    },
@@ -1766,12 +1771,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 13,
-    "value": 13,
+    "auto": 19,
+    "value": 19,
     "parts": {
      "A": 5,
      "B": 4.5,
      "絡み": 0,
+     "もつれ": 6,
      "G": 3.5
     }
    },
@@ -1964,12 +1970,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 14,
-    "value": 14,
+    "auto": 17,
+    "value": 17,
     "parts": {
      "A": 4,
      "B": 6.5,
      "絡み": 0,
+     "もつれ": 3,
      "G": 3.5
     }
    },
@@ -2232,12 +2239,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 15.3,
-    "value": 15.3,
+    "auto": 19.8,
+    "value": 19.8,
     "parts": {
      "A": 5.5,
      "B": 6,
      "絡み": 0,
+     "もつれ": 4.5,
      "G": 3.75
     }
    },
@@ -2470,12 +2478,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 16,
-    "value": 16,
+    "auto": 18,
+    "value": 18,
     "parts": {
      "A": 5,
      "B": 5,
      "絡み": 2,
+     "もつれ": 2,
      "G": 4
     }
    },
@@ -2778,12 +2787,13 @@
    "status": "adopted",
    "difficulty": {
     "task": "overlay",
-    "auto": 15.5,
-    "value": 15.5,
+    "auto": 20,
+    "value": 20,
     "parts": {
      "A": 5,
      "B": 6.5,
      "絡み": 0,
+     "もつれ": 4.5,
      "G": 4
     }
    },
@@ -3087,12 +3097,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 15.5,
-    "value": 15.5,
+    "auto": 22,
+    "value": 22,
     "parts": {
      "A": 5.5,
      "B": 6,
      "絡み": 0,
+     "もつれ": 6.5,
      "G": 4
     }
    },
@@ -3375,12 +3386,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 15.5,
-    "value": 15.5,
+    "auto": 20,
+    "value": 20,
     "parts": {
      "A": 5.5,
      "B": 6,
      "絡み": 0,
+     "もつれ": 4.5,
      "G": 4
     }
    },
@@ -3633,12 +3645,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 17,
-    "value": 17,
+    "auto": 25,
+    "value": 25,
     "parts": {
      "A": 5.5,
      "B": 5.5,
      "絡み": 2,
+     "もつれ": 8,
      "G": 4
     }
    },
@@ -3861,12 +3874,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 18,
-    "value": 18,
+    "auto": 19.5,
+    "value": 19.5,
     "parts": {
      "A": 6,
      "B": 6,
      "絡み": 2,
+     "もつれ": 1.5,
      "G": 4
     }
    },
@@ -4089,12 +4103,13 @@
    "status": "adopted",
    "difficulty": {
     "task": "overlay",
-    "auto": 15,
-    "value": 15,
+    "auto": 18,
+    "value": 18,
     "parts": {
      "A": 5,
      "B": 6,
      "絡み": 0,
+     "もつれ": 3,
      "G": 4
     }
    },
@@ -4338,12 +4353,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 16,
-    "value": 16,
+    "auto": 22.5,
+    "value": 22.5,
     "parts": {
      "A": 6.5,
      "B": 5.5,
      "絡み": 0,
+     "もつれ": 6.5,
      "G": 4
     }
    },
@@ -4576,12 +4592,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 15.3,
-    "value": 15.3,
+    "auto": 20.8,
+    "value": 20.8,
     "parts": {
      "A": 5,
      "B": 6.5,
      "絡み": 0,
+     "もつれ": 5.5,
      "G": 3.75
     }
    },
@@ -4794,12 +4811,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 16.3,
-    "value": 16.3,
+    "auto": 20.8,
+    "value": 20.8,
     "parts": {
      "A": 6,
      "B": 6.5,
      "絡み": 0,
+     "もつれ": 4.5,
      "G": 3.75
     }
    },
@@ -5012,12 +5030,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 18.8,
-    "value": 18.8,
+    "auto": 23.3,
+    "value": 23.3,
     "parts": {
      "A": 7,
      "B": 6,
      "絡み": 2,
+     "もつれ": 4.5,
      "G": 3.75
     }
    },
@@ -5260,12 +5279,13 @@
    "status": "pending",
    "difficulty": {
     "task": "overlay",
-    "auto": 18.8,
-    "value": 18.8,
+    "auto": 25.3,
+    "value": 25.3,
     "parts": {
      "A": 6.5,
      "B": 6.5,
      "絡み": 2,
+     "もつれ": 6.5,
      "G": 3.75
     }
    },
@@ -5550,12 +5570,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 16.5,
-    "value": 16.5,
+    "auto": 21,
+    "value": 21,
     "parts": {
      "A": 7.5,
      "B": 5,
      "絡み": 0,
+     "もつれ": 4.5,
      "G": 4
     }
    },
@@ -5774,12 +5795,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 14,
-    "value": 14,
+    "auto": 17,
+    "value": 17,
     "parts": {
      "A": 6,
      "B": 4,
      "絡み": 0,
+     "もつれ": 3,
      "G": 4
     }
    },
@@ -6006,12 +6028,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 15,
-    "value": 15,
+    "auto": 19.5,
+    "value": 19.5,
     "parts": {
      "A": 5.5,
      "B": 5.5,
      "絡み": 0,
+     "もつれ": 4.5,
      "G": 4
     }
    },
@@ -6452,12 +6475,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 15.5,
-    "value": 15.5,
+    "auto": 18.5,
+    "value": 18.5,
     "parts": {
      "A": 5.5,
      "B": 4,
      "絡み": 2,
+     "もつれ": 3,
      "G": 4
     }
    },
@@ -6665,12 +6689,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 14.5,
-    "value": 14.5,
+    "auto": 17.5,
+    "value": 17.5,
     "parts": {
      "A": 5.5,
      "B": 5,
      "絡み": 0,
+     "もつれ": 3,
      "G": 4
     }
    },
@@ -6969,12 +6994,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 21.5,
-    "value": 21.5,
+    "auto": 25,
+    "value": 25,
     "parts": {
      "A": 9.5,
      "B": 6,
      "絡み": 0,
+     "もつれ": 3.5,
      "ばらけ": 2,
      "G": 4
     }
@@ -7214,12 +7240,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 15.8,
-    "value": 15.8,
+    "auto": 21.8,
+    "value": 21.8,
     "parts": {
      "A": 5,
      "B": 7,
      "絡み": 0,
+     "もつれ": 6,
      "G": 3.75
     }
    },
@@ -7436,12 +7463,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 16.5,
-    "value": 16.5,
+    "auto": 19.5,
+    "value": 19.5,
     "parts": {
      "A": 6,
      "B": 6.5,
      "絡み": 0,
+     "もつれ": 3,
      "G": 4
     }
    },
@@ -7709,12 +7737,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 15,
-    "value": 15,
+    "auto": 18.5,
+    "value": 18.5,
     "parts": {
      "A": 6,
      "B": 3,
      "絡み": 2,
+     "もつれ": 3.5,
      "G": 4
     }
    },
@@ -8419,12 +8448,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 16,
-    "value": 16,
+    "auto": 19,
+    "value": 19,
     "parts": {
      "A": 5,
      "B": 5,
      "絡み": 2,
+     "もつれ": 3,
      "G": 4
     }
    },
@@ -8681,12 +8711,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "auto": 14.5,
-    "value": 14.5,
+    "auto": 17.5,
+    "value": 17.5,
     "parts": {
      "A": 4.5,
      "B": 6,
      "絡み": 0,
+     "もつれ": 3,
      "G": 4
     }
    },
@@ -8894,8 +8925,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14,
     "auto": 14,
+    "value": 14,
     "parts": {
      "A": 6,
      "B": 4,
@@ -9146,12 +9177,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14,
-    "auto": 14,
+    "auto": 18.5,
+    "value": 18.5,
     "parts": {
      "A": 5,
      "B": 5,
      "絡み": 0,
+     "もつれ": 4.5,
      "G": 4
     }
    },
@@ -9348,12 +9380,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14,
-    "auto": 14,
+    "auto": 15.5,
+    "value": 15.5,
     "parts": {
      "A": 6,
      "B": 4,
      "絡み": 0,
+     "もつれ": 1.5,
      "G": 4
     }
    },
@@ -9560,12 +9593,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14,
-    "auto": 14,
+    "auto": 15.5,
+    "value": 15.5,
     "parts": {
      "A": 6,
      "B": 4,
      "絡み": 0,
+     "もつれ": 1.5,
      "G": 4
     }
    },
@@ -9802,12 +9836,13 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 14.5,
-    "auto": 14.5,
+    "auto": 16,
+    "value": 16,
     "parts": {
      "A": 5,
      "B": 5.5,
      "絡み": 0,
+     "もつれ": 1.5,
      "G": 4
     }
    },
@@ -10014,8 +10049,8 @@
    },
    "difficulty": {
     "task": "overlay",
-    "value": 15.5,
     "auto": 15.5,
+    "value": 15.5,
     "parts": {
      "A": 6,
      "B": 3.5,

@@ -546,13 +546,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 20.1,
-    "value": 20.1,
+    "auto": 45.1,
+    "value": 45.1,
     "parts": {
      "A": 12,
      "kf": 0.78,
      "B": 5.5,
      "絡み": 0,
+     "もつれ": 25,
      "G": 5.25
     }
    },
@@ -1067,13 +1068,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 21.4,
-    "value": 21.4,
+    "auto": 46.9,
+    "value": 46.9,
     "parts": {
      "A": 12,
      "kf": 0.62,
      "B": 5,
      "絡み": 4,
+     "もつれ": 25.5,
      "G": 5
     }
    },
@@ -1850,13 +1852,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 24.5,
-    "value": 24.5,
+    "auto": 40.5,
+    "value": 40.5,
     "parts": {
      "A": 11,
      "kf": 0.64,
      "B": 5.5,
      "絡み": 6,
+     "もつれ": 16,
      "G": 6
     }
    },
@@ -2411,13 +2414,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 21.6,
-    "value": 21.6,
+    "auto": 45.1,
+    "value": 45.1,
     "parts": {
      "A": 12,
      "kf": 0.78,
      "B": 7,
      "絡み": 0,
+     "もつれ": 23.5,
      "G": 5.25
     }
    },
@@ -2912,13 +2916,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 28,
-    "value": 28,
+    "auto": 37.5,
+    "value": 37.5,
     "parts": {
      "A": 7.5,
      "kf": 0.77,
      "B": 9,
      "絡み": 8,
+     "もつれ": 9.5,
      "G": 5.25
     }
    },
@@ -3673,13 +3678,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 32.2,
-    "value": 32.2,
+    "auto": 59.2,
+    "value": 59.2,
     "parts": {
      "A": 9,
      "kf": 0.83,
      "B": 9,
      "絡み": 10,
+     "もつれ": 27,
      "G": 5.75
     }
    },
@@ -4174,13 +4180,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 30.5,
-    "value": 30.5,
+    "auto": 41.5,
+    "value": 41.5,
     "parts": {
      "A": 12,
      "kf": 0.85,
      "B": 5,
      "絡み": 10,
+     "もつれ": 11,
      "G": 5.25
     }
    },
@@ -4695,13 +4702,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 29.9,
-    "value": 29.9,
+    "auto": 41.4,
+    "value": 41.4,
     "parts": {
      "A": 12,
      "kf": 0.95,
      "B": 7,
      "絡み": 6,
+     "もつれ": 11.5,
      "G": 5.5
     }
    },
@@ -5196,13 +5204,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 29.7,
-    "value": 29.7,
+    "auto": 39.2,
+    "value": 39.2,
     "parts": {
      "A": 14,
      "kf": 0.6,
      "B": 6,
      "絡み": 10,
+     "もつれ": 9.5,
      "G": 5.25
     }
    },
@@ -5537,13 +5546,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 26.8,
-    "value": 26.8,
+    "auto": 35.3,
+    "value": 35.3,
     "parts": {
      "A": 7.5,
      "kf": 0.77,
      "B": 10,
      "絡み": 6,
+     "もつれ": 8.5,
      "G": 5
     }
    },
@@ -6018,13 +6028,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 26.6,
-    "value": 26.6,
+    "auto": 42.6,
+    "value": 42.6,
     "parts": {
      "A": 12.5,
      "kf": 0.71,
      "B": 8.5,
      "絡み": 4,
+     "もつれ": 16,
      "G": 5.25
     }
    },
@@ -6439,13 +6450,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 28.9,
-    "value": 28.9,
+    "auto": 38.4,
+    "value": 38.4,
     "parts": {
      "A": 14,
      "kf": 0.6,
      "B": 7.5,
      "絡み": 8,
+     "もつれ": 9.5,
      "G": 5
     }
    },
@@ -7000,13 +7012,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 39.4,
-    "value": 39.4,
+    "auto": 52.4,
+    "value": 52.4,
     "parts": {
      "A": 14,
      "kf": 0.6,
      "B": 7.5,
      "絡み": 18,
+     "もつれ": 13,
      "G": 5.5
     }
    },
@@ -7381,12 +7394,13 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 31.5,
-    "value": 31.5,
+    "auto": 37.5,
+    "value": 37.5,
     "parts": {
      "A": 9,
      "B": 11,
      "絡み": 6,
+     "もつれ": 6,
      "G": 5.5
     }
    },
@@ -7921,12 +7935,13 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 31,
-    "value": 31,
+    "auto": 37,
+    "value": 37,
     "parts": {
      "A": 9,
      "B": 10,
      "絡み": 6,
+     "もつれ": 6,
      "G": 6
     }
    },
@@ -8341,13 +8356,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 30,
-    "value": 30,
+    "auto": 38,
+    "value": 38,
     "parts": {
      "A": 15.5,
      "kf": 0.82,
      "B": 6,
      "絡み": 6,
+     "もつれ": 8,
      "G": 5.25
     }
    },
@@ -8942,13 +8958,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 37.2,
-    "value": 37.2,
+    "auto": 48.7,
+    "value": 48.7,
     "parts": {
      "A": 14,
      "kf": 0.6,
      "B": 9,
      "絡み": 14,
+     "もつれ": 11.5,
      "G": 5.75
     }
    },
@@ -9383,13 +9400,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 32.2,
-    "value": 32.2,
+    "auto": 46.7,
+    "value": 46.7,
     "parts": {
      "A": 15,
      "kf": 0.83,
      "B": 8.5,
      "絡み": 6,
+     "もつれ": 14.5,
      "G": 5.25
     }
    },
@@ -9864,13 +9882,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 32.9,
-    "value": 32.9,
+    "auto": 43.9,
+    "value": 43.9,
     "parts": {
      "A": 15,
      "kf": 0.89,
      "B": 8,
      "絡み": 6,
+     "もつれ": 11,
      "G": 5.5
     }
    },
@@ -10265,13 +10284,14 @@
    "status": "pending",
    "difficulty": {
     "task": "fold",
-    "auto": 43,
-    "value": 43,
+    "auto": 57.5,
+    "value": 57.5,
     "parts": {
      "A": 18,
      "kf": 0.96,
      "B": 8.5,
      "絡み": 12,
+     "もつれ": 14.5,
      "G": 5.25
     }
    },
@@ -10886,13 +10906,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 26.6,
-    "value": 26.6,
+    "auto": 34.1,
+    "value": 34.1,
     "parts": {
      "A": 11.5,
      "kf": 0.66,
      "B": 7,
      "絡み": 6,
+     "もつれ": 7.5,
      "G": 6
     }
    },
@@ -11301,13 +11322,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 29.7,
-    "value": 29.7,
+    "auto": 37.2,
+    "value": 37.2,
     "parts": {
      "A": 7.5,
      "kf": 0.83,
      "B": 10,
      "絡み": 8,
+     "もつれ": 7.5,
      "G": 5.5
     }
    },
@@ -11716,13 +11738,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 33.2,
-    "value": 33.2,
+    "auto": 36.2,
+    "value": 36.2,
     "parts": {
      "A": 9,
      "kf": 0.97,
      "B": 10.5,
      "絡み": 8,
+     "もつれ": 3,
      "G": 6
     }
    },
@@ -12391,12 +12414,13 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 32,
-    "value": 32,
+    "auto": 42.5,
+    "value": 42.5,
     "parts": {
      "A": 11,
      "B": 5,
      "絡み": 10,
+     "もつれ": 10.5,
      "G": 6
     }
    },
@@ -12925,13 +12949,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 27.3,
-    "value": 27.3,
+    "auto": 31.8,
+    "value": 31.8,
     "parts": {
      "A": 9.5,
      "kf": 0.82,
      "B": 5.5,
      "絡み": 8,
+     "もつれ": 4.5,
      "G": 6
     }
    },
@@ -13795,13 +13820,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 31.9,
-    "value": 31.9,
+    "auto": 36.4,
+    "value": 36.4,
     "parts": {
      "A": 7.5,
      "kf": 0.82,
      "B": 10,
      "絡み": 10,
+     "もつれ": 4.5,
      "G": 5.75
     }
    },
@@ -14550,13 +14576,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 28.3,
-    "value": 28.3,
+    "auto": 40.8,
+    "value": 40.8,
     "parts": {
      "A": 9,
      "kf": 0.87,
      "B": 6.5,
      "絡み": 8,
+     "もつれ": 12.5,
      "G": 6
     }
    },
@@ -15005,12 +15032,13 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 34,
-    "value": 34,
+    "auto": 35.5,
+    "value": 35.5,
     "parts": {
      "A": 14,
      "B": 6,
      "絡み": 8,
+     "もつれ": 1.5,
      "G": 6
     }
    },
@@ -15661,13 +15689,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 26.4,
-    "value": 26.4,
+    "auto": 32.4,
+    "value": 32.4,
     "parts": {
      "A": 14,
      "kf": 0.6,
      "B": 4,
      "絡み": 8,
+     "もつれ": 6,
      "G": 6
     }
    },
@@ -16136,13 +16165,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 30.3,
-    "value": 30.3,
+    "auto": 34.8,
+    "value": 34.8,
     "parts": {
      "A": 6,
      "kf": 0.88,
      "B": 13,
      "絡み": 6,
+     "もつれ": 4.5,
      "G": 6
     }
    },
@@ -16471,12 +16501,13 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 34,
-    "value": 34,
+    "auto": 37,
+    "value": 37,
     "parts": {
      "A": 8,
      "B": 12,
      "絡み": 8,
+     "もつれ": 3,
      "G": 6
     }
    },
@@ -17165,13 +17196,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 27,
-    "value": 27,
+    "auto": 30,
+    "value": 30,
     "parts": {
      "A": 12,
      "kf": 0.92,
      "B": 4,
      "絡み": 6,
+     "もつれ": 3,
      "G": 6
     }
    },
@@ -17780,13 +17812,14 @@
    },
    "difficulty": {
     "task": "fold",
-    "auto": 29.7,
-    "value": 29.7,
+    "auto": 35.7,
+    "value": 35.7,
     "parts": {
      "A": 6,
      "kf": 0.83,
      "B": 11,
      "絡み": 8,
+     "もつれ": 6,
      "G": 5.75
     }
    },

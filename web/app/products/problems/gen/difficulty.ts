@@ -14,8 +14,8 @@ import type {
 } from "../schema";
 import { edgeKey, mirrorEdges } from "../schema";
 import {
-  componentGaps, computeMetrics, computeSolidMetrics, interCrossings, mergedSegments,
-  sharedPoints,
+  branchPoints, componentGaps, computeMetrics, computeSolidMetrics, interCrossings,
+  mergedSegments, selfCrossings, sharedPoints,
 } from "./metrics";
 
 /* ---- 土台スコア（D式 v3・2026-07-29 再設計）----
@@ -65,6 +65,24 @@ export function edgeLoad(m: ProblemMetrics): number {
    （例: でんしゃのパンタグラフ＋足回り）。atelier の検品表示も使う。 */
 export function separationLoad(edges: EdgeT[]): number {
   return componentGaps(edges).reduce((s, d) => s + 2 + 0.5 * (d - 1), 0);
+}
+
+/* ---- もつれの項（かさね系固有・2026-08-06 追加・decisions §3.104）----
+   絡み（A・B のあいだの交差）は数えていたのに、同じ図の中で線が交わる・
+   1 点で枝分かれする負荷はどこにも入っていなかった。実例＝折り重ね Lv.4 の
+   問8（帯に弦が 2 本通り、四隅すべてに 3 本ずつ集まる図）が D25.2、問9
+   （きれいな三角形と凧形が離れて 2 つ・交差も分岐もほぼ無い）が D29.1 と逆転。
+   線を 1 本ずつ足す式は「名前のつく形として一目で読めるか」を見られないので、
+   その読みにくさを交差と分岐という測れる形で計上する。
+
+     もつれ ＝ 2 ×（図の中の交差）＋ 1.5 ×（分岐）  ※図A・図B それぞれで数える
+
+   係数の錨: 交差 2 ＝ 絡み 1 か所と同格（同じ「線が重なって見える」負荷）。
+   分岐 1.5 ＝ 45°のななめ 1 本と同格（1 か所あたり「線 1 本ぶん読み直す」）。 */
+export function tangleLoad(a: EdgeT[], b: EdgeT[]): number {
+  const x = selfCrossings(a) + selfCrossings(b);
+  const j = branchPoints(a) + branchPoints(b);
+  return 2 * x + 1.5 * j;
 }
 
 /* ---- 折り係数（折り重ね固有・2026-08-06 追加・decisions §3.103）----
@@ -163,6 +181,8 @@ const BRK_TERM = "3 × 対称くずしの線";
 const SEP_TERM =
   "ばらけの項（図ごとに、離れたかたまり 1 つにつき 2 ＋ 0.5 ×（いちばん近いかたまりまでのマス数 − 1））";
 const SHARED_TERM = "共有点（A と B が同じ格子点にふれている数 × 1）";
+const TANGLE_TERM =
+  "もつれの項（図ごとに、その図の中で線が交わる 1 か所につき 2 ＋ 1 つの点に 3 方向以上が集まる 1 か所につき 1.5）";
 const FOLD_K_TERM =
   "折り係数（1 − 0.4 ×〔折り返しても元の線とぴったり重なる線の割合〕）";
 
@@ -187,9 +207,9 @@ export const D_TASK_FULL_FORMULA: Record<string, string> = {
   rotate: `${D_BASE_FORMULA} ＋ 回転の項（90°＝0／180°＝2）`,
   translate: `${D_BASE_FORMULA} ＋ 移動の項（1 ×（動くマス数の合計 − 1）＋ 3（たてよこ両方に動くとき））`,
   fill: `D ＝ 対称係数 ×（${E_TERM}）＋ ${G_TERM} ＋ ${ST_TERM} ＋ ${BRK_TERM} ＋ 2 × 欠けている線分の本数`,
-  overlay: `D ＝ 図A（${E_TERM}）＋ 図B（同じ式）＋ 2 × 絡み（A と B の線どうしの交差数）＋ ${SEP_TERM} ＋ ${G_TERM}`,
-  decompose: `D ＝ 図A（${E_TERM}）＋ 図B（同じ式）＋ 2 × 絡み（A と B の線どうしの交差数）＋ ${SHARED_TERM} ＋ ${SEP_TERM} ＋ ${G_TERM}`,
-  fold: `D ＝ ${FOLD_K_TERM} × 問題1（${E_TERM}）＋ 問題2（同じ式）＋ 2 × 絡み（折り重ねた後の線どうしの交差数）＋ ${SEP_TERM} ＋ ${G_TERM}`,
+  overlay: `D ＝ 図A（${E_TERM}）＋ 図B（同じ式）＋ 2 × 絡み（A と B の線どうしの交差数）＋ ${TANGLE_TERM} ＋ ${SEP_TERM} ＋ ${G_TERM}`,
+  decompose: `D ＝ 図A（${E_TERM}）＋ 図B（同じ式）＋ 2 × 絡み（A と B の線どうしの交差数）＋ ${SHARED_TERM} ＋ ${TANGLE_TERM} ＋ ${SEP_TERM} ＋ ${G_TERM}`,
+  fold: `D ＝ ${FOLD_K_TERM} × 問題1（${E_TERM}）＋ 問題2（同じ式）＋ 2 × 絡み（折り重ねた後の線どうしの交差数）＋ ${TANGLE_TERM} ＋ ${SEP_TERM} ＋ ${G_TERM}`,
   solid: `D ＝ ${E_TERM} ＋ ${G_TERM} ＋ 3 × 隠れ辺（点線で描く、見えない辺）の本数`,
   scale: "D ＝ 線の本数 ＋ 2 × ななめ ＋（45°でないななめがあれば ＋6）",
   shrink: "D ＝ 線の本数 ＋ 2 × ななめ ＋（45°でないななめがあれば ＋6）＋ 4（縮小は逆操作のぶん重い）",
@@ -238,6 +258,10 @@ export const D_TERM_NOTES: { term: string; note: string }[] = [
     note: "かさね・分解・折り重ねで、図A・図Bそれぞれの中に離れたかたまりがあるときの追加点。かたまり1つにつき2点、さらに離れているほど1マスごとに0.5点（ななめも1マスと数える）。同じ完成図でも、離れた位置のパーツに分けるほど、位置を覚えて運ぶ「錨」が増えて難しくなる。",
   },
   {
+    term: "もつれの項",
+    note: "かさね・分解・折り重ねだけの追加点。同じ図の中で線が交わる場所（1 か所 2 点）と、1 つの点に 3 方向以上の線が集まる場所（1 か所 1.5 点）を、図A・図B それぞれで数える。線の本数が同じでも、交わりと枝分かれが多い図は「この線はどこからどこまでか」を目で追い直す回数が増える。逆に、三角形や凧形のように名前のつく形は、線が多くても一目で読める。",
+  },
+  {
     term: "折り係数",
     note: "折り重ねだけの割引。折り返した線が元の線とぴったり重なるぶんは、折る前と折った後で図が変わらない＝「折る」という手順を理解しなくても、問題1をそのまま写せば正解になってしまう。重なる線の割合ぶんだけ問題1の線の重みを引く（全部重なるときで 40％引き）。",
   },
@@ -247,7 +271,7 @@ export const D_TERM_NOTES: { term: string; note: string }[] = [
   },
   {
     term: "式に入れていないもの",
-    note: "1 つの図の中の、線どうしの交差の数は入れていない。実際に紙で解いてみると、交差は見た目ほど難易度に効かなかったため（かさね・分解・折り重ねの「絡み」は A・B 間の交差で、これとは別）。D の値は、すべての項を足したあと最後に一度だけ小数第1位に丸める。",
+    note: "模写・鏡・回転など、1 枚の図を写すタスクでは、図の中の交差の数を入れていない。実際に紙で解いてみると、交差は見た目ほど難易度に効かなかったため。2 枚を重ね合わせて 1 枚を組み立て直すかさね・分解・折り重ねだけは、線を追い直す場面が増えるので「もつれの項」として計上する。D の値は、すべての項を足したあと最後に一度だけ小数第1位に丸める。",
   },
 ];
 
@@ -257,9 +281,9 @@ export const D_TASK_FORMULA: Record<string, string> = {
   mirror: "土台の式のまま（見本の図形で測る。裏返す軸は印刷時の並びで決まるので、問題ごとの差にはならない）",
   rotate: "土台の式 ＋ 回転の項（90°＝0／180°＝2）",
   translate: "土台の式 ＋ 移動の項（1 ×（動くマス数の合計 − 1）＋ 3（たてよこ両方に動くとき））",
-  overlay: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（A と B の線どうしの交差数）＋ ばらけの項 ＋ 盤面の項",
-  decompose: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（A と B の線どうしの交差数）＋ 共有点 ＋ ばらけの項 ＋ 盤面の項",
-  fold: "折り係数 × 問題1 の線の重み ＋ 問題2 の線の重み ＋ 2 × 絡み（折り重ねた後の A・B 間の交差数）＋ ばらけの項 ＋ 盤面の項",
+  overlay: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（A と B の線どうしの交差数）＋ もつれの項 ＋ ばらけの項 ＋ 盤面の項",
+  decompose: "図A の線の重み ＋ 図B の線の重み ＋ 2 × 絡み（A と B の線どうしの交差数）＋ 共有点 ＋ もつれの項 ＋ ばらけの項 ＋ 盤面の項",
+  fold: "折り係数 × 問題1 の線の重み ＋ 問題2 の線の重み ＋ 2 × 絡み（折り重ねた後の A・B 間の交差数）＋ もつれの項 ＋ ばらけの項 ＋ 盤面の項",
   solid: "線の重み ＋ 盤面の項 ＋ 3 × 隠れ辺（点線で描く、見えない辺）の本数。対称係数と画数は使わない",
   scale: "別式（線の本数 ＋ 2 × ななめ ＋ 非45°があれば ＋6）",
   shrink: "別式（拡大の式 ＋ 4。縮小は逆操作のぶん重い）",
@@ -327,11 +351,13 @@ export function taskDifficulty(task: string, p: Problem): { value: number; parts
       const inter = interCrossings(A, p.answer.edges);
       const touch = task === "decompose" ? sharedPoints(A, p.answer.edges) : 0;
       const sep = separationLoad(A) + separationLoad(p.answer.edges);
+      const tangle = tangleLoad(A, p.answer.edges);
       return {
-        value: roundD(eA + eB + 2 * inter + touch + sep + G),
+        value: roundD(eA + eB + 2 * inter + touch + tangle + sep + G),
         parts: {
           A: eA, B: eB, 絡み: 2 * inter,
           ...(touch > 0 && { 共有点: touch }),
+          ...(tangle > 0 && { もつれ: tangle }),
           ...(sep > 0 && { ばらけ: sep }),
           G,
         },
@@ -359,12 +385,15 @@ export function taskDifficulty(task: string, p: Problem): { value: number; parts
       const inter = interCrossings(p.answer.edges.filter((e) => !bk.has(edgeKey(e))), p.inputB);
       // ばらけ＝紙ごとの離れ小島の負荷（折っても紙の中の小島は錨のまま・かさねと同じ）
       const sep = separationLoad(p.edges) + separationLoad(p.inputB);
+      // もつれ＝紙ごとの交差・分岐（鏡映しても交差数・分岐数は不変＝折る前の姿で測れる）
+      const tangle = tangleLoad(p.edges, p.inputB);
       // 折り係数＝紙1が折り軸に対してどれだけ自分自身に重なるか（上のコメント参照）
       const kf = foldFactor(foldInvariance(p.edges, p.grid.n));
       return {
-        value: roundD(kf * eA + eB + 2 * inter + sep + G),
+        value: roundD(kf * eA + eB + 2 * inter + tangle + sep + G),
         parts: {
           A: eA, ...(kf < 1 && { kf }), B: eB, 絡み: 2 * inter,
+          ...(tangle > 0 && { もつれ: tangle }),
           ...(sep > 0 && { ばらけ: sep }), G,
         },
       };

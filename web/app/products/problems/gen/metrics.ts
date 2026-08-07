@@ -85,6 +85,44 @@ export function interCrossings(a: EdgeT[], b: EdgeT[]): number {
   return n;
 }
 
+/* ---- 図の中のもつれ（かさね系「もつれの項」の材料・decisions §3.104）----
+   絡み（interCrossings）は A・B のあいだの交差だけを見る。同じ図の中で線が
+   交わったり 1 点で枝分かれしたりする負荷は、模写の校正（§3.54）で「交差は
+   効かない」と落として以来どのタスクにも入っていなかった。かさね・分解・
+   折り重ねは 2 枚を重ね合わせて 1 枚を組み立て直す課題で、「この線はどこから
+   どこまでか」を目で追い直す場面が模写より多い＝ここだけ計上する。
+
+   selfCrossings … 同じ図の中の X 交差（線分が互いの内部を貫く）。
+   branchPoints … 3 方向以上が集まり、かつ 1 本以上がそこで終わっている格子点。
+     ＝角・T 字・星形の中心。「両方が通過するだけ」（＝格子点上の X 交差）は
+     selfCrossings が数えるのでここでは除く＝同じ場所を二重に数えない。 */
+export function selfCrossings(edges: EdgeT[]): number {
+  const segs = mergedSegments(edges);
+  let n = 0;
+  for (let i = 0; i < segs.length; i++) {
+    for (let j = i + 1; j < segs.length; j++) if (segsCross(segs[i], segs[j])) n++;
+  }
+  return n;
+}
+
+export function branchPoints(edges: EdgeT[]): number {
+  const dirs = new Map<string, number>();   // その点に集まる「線の向き」の数
+  const ends = new Map<string, number>();   // その点で終わっている線分の数
+  for (const s of mergedSegments(edges)) {
+    const dc = s.b[0] - s.a[0], dr = s.b[1] - s.a[1];
+    const g = Math.max(1, gcd(Math.abs(dc), Math.abs(dr)));
+    for (let i = 0; i <= g; i++) {
+      const k = pk([s.a[0] + (dc / g) * i, s.a[1] + (dr / g) * i]);
+      const end = i === 0 || i === g;
+      dirs.set(k, (dirs.get(k) ?? 0) + (end ? 1 : 2));
+      if (end) ends.set(k, (ends.get(k) ?? 0) + 1);
+    }
+  }
+  let n = 0;
+  for (const [k, d] of dirs) if (d >= 3 && (ends.get(k) ?? 0) > 0) n++;
+  return n;
+}
+
 /* ---- A・B の共有点（分解「共有点」項の材料）----
    両図が同じ格子点にふれている数。辺は normalizeEdges 済み＝単位区間なので、
    図が通る格子点はすべてどこかの辺の端点に現れる（T 字接触・角接触も拾える）。

@@ -334,13 +334,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 22.5,
-    "auto": 22.5,
+    "auto": 28.5,
+    "value": 28.5,
     "parts": {
      "A": 9.5,
      "B": 6,
      "絡み": 0,
      "共有点": 2,
+     "もつれ": 6,
      "G": 5
     }
    },
@@ -355,116 +356,6 @@
    "edges": [
     [
      [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      4,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      4,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      4
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      4,
-      2
-     ]
-    ],
-    [
-     [
-      4,
-      2
-     ],
-     [
-      4,
-      3
-     ]
-    ],
-    [
-     [
       4,
       3
      ],
@@ -511,6 +402,136 @@
      [
       4,
       4
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
      ]
     ]
    ],
@@ -519,36 +540,6 @@
     "edges": [
      [
       [
-       0,
-       4
-      ],
-      [
-       2,
-       3
-      ]
-     ],
-     [
-      [
-       2,
-       3
-      ],
-      [
-       4,
-       2
-      ]
-     ],
-     [
-      [
-       4,
-       2
-      ],
-      [
-       4,
-       3
-      ]
-     ],
-     [
-      [
        4,
        3
       ],
@@ -595,49 +586,84 @@
       [
        4,
        4
+      ]
+     ],
+     [
+      [
+       4,
+       2
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       0,
+       3
+      ],
+      [
+       0,
+       4
+      ]
+     ],
+     [
+      [
+       0,
+       3
+      ],
+      [
+       4,
+       2
       ]
      ]
     ]
    },
    "metrics": {
-    "lines": 9,
-    "diagonals": 3,
-    "non45": 1,
-    "non45Gentle": 1,
-    "diagonalAngleKinds": 2,
+    "lines": 10,
+    "diagonals": 5,
+    "non45": 3,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 3,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
-    "pointsUsed": 14,
+    "pointsUsed": 16,
     "symmetry": [],
     "boardN": 5,
     "bboxW": 5,
-    "bboxH": 4,
+    "bboxH": 5,
     "strokes": 2,
     "symAxis": "v",
-    "symMiss": 7
+    "symMiss": 5
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-08-02",
-    "label": "くるま（さかみち）"
+    "createdAt": "",
+    "label": "くるま（さかみち）",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "くるま（さかみち）"
    },
    "difficulty": {
     "task": "decompose",
-    "value": 21.8,
-    "auto": 21.8,
+    "auto": 33,
+    "value": 33,
     "parts": {
-     "A": 7,
-     "B": 6,
+     "A": 13,
+     "B": 8,
      "絡み": 2,
      "共有点": 2,
-     "G": 4.75
+     "もつれ": 3,
+     "G": 5
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 7,
+   "edited": true
   },
   {
    "id": "decompose-lv4-vol1-m03",
@@ -890,13 +916,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 21,
-    "auto": 21,
+    "auto": 27,
+    "value": 27,
     "parts": {
      "A": 5.5,
      "B": 9.5,
      "絡み": 0,
      "共有点": 1,
+     "もつれ": 6,
      "G": 5
     }
    },
@@ -1144,13 +1171,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 21,
-    "auto": 21,
+    "auto": 27.5,
+    "value": 27.5,
     "parts": {
      "A": 6.5,
      "B": 8.5,
      "絡み": 0,
      "共有点": 1,
+     "もつれ": 6.5,
      "G": 5
     }
    },
@@ -1399,8 +1427,8 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 29.8,
     "auto": 29.8,
+    "value": 29.8,
     "parts": {
      "A": 8,
      "B": 11,
@@ -1500,51 +1528,11 @@
     ],
     [
      [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
       0,
       2
      ],
      [
       1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      4,
       2
      ]
     ],
@@ -1556,6 +1544,36 @@
      [
       1,
       2
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
      ]
     ]
    ],
@@ -1584,51 +1602,11 @@
      ],
      [
       [
-       2,
-       1
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
        0,
        2
       ],
       [
        1,
-       2
-      ]
-     ],
-     [
-      [
-       1,
-       2
-      ],
-      [
-       2,
-       2
-      ]
-     ],
-     [
-      [
-       2,
-       2
-      ],
-      [
-       3,
-       2
-      ]
-     ],
-     [
-      [
-       3,
-       2
-      ],
-      [
-       4,
        2
       ]
      ],
@@ -1641,48 +1619,64 @@
        1,
        2
       ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
      ]
     ]
    },
    "metrics": {
-    "lines": 10,
-    "diagonals": 6,
+    "lines": 11,
+    "diagonals": 7,
     "non45": 1,
     "non45Gentle": 1,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 12,
+    "pointsUsed": 13,
     "symmetry": [],
     "boardN": 5,
     "bboxW": 5,
-    "bboxH": 4,
+    "bboxH": 5,
     "strokes": 4,
-    "symAxis": "v",
-    "symMiss": 8
+    "symAxis": "h",
+    "symMiss": 4
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-08-02",
-    "label": "どうぶつのかお（ねずみ）"
+    "createdAt": "",
+    "label": "どうぶつのかお（ねずみ）",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "どうぶつのかお（ねずみ）"
    },
    "difficulty": {
     "task": "decompose",
-    "value": 24.8,
-    "auto": 24.8,
+    "auto": 35,
+    "value": 35,
     "parts": {
-     "A": 8,
+     "A": 10.5,
      "B": 9,
      "絡み": 0,
      "共有点": 3,
-     "G": 4.75
+     "もつれ": 3,
+     "ばらけ": 4.5,
+     "G": 5
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 8,
+   "edited": true
   },
   {
    "id": "decompose-lv4-vol1-m07",
@@ -1925,13 +1919,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 21.5,
-    "auto": 21.5,
+    "auto": 26,
+    "value": 26,
     "parts": {
      "A": 12,
      "B": 3.5,
      "絡み": 0,
      "共有点": 1,
+     "もつれ": 4.5,
      "G": 5
     }
    },
@@ -2063,6 +2058,46 @@
       4,
       1
      ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
     ]
    ],
    "answer": {
@@ -2107,49 +2142,93 @@
        4,
        1
       ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       4,
+       2
+      ]
      ]
     ]
    },
    "metrics": {
-    "lines": 8,
-    "diagonals": 8,
-    "non45": 2,
-    "non45Gentle": 2,
-    "diagonalAngleKinds": 2,
+    "lines": 11,
+    "diagonals": 11,
+    "non45": 3,
+    "non45Gentle": 3,
+    "diagonalAngleKinds": 3,
     "hasNon45": true,
-    "crossings": 2,
+    "crossings": 4,
     "components": 2,
-    "pointsUsed": 13,
-    "symmetry": [
-     "v"
-    ],
+    "pointsUsed": 17,
+    "symmetry": [],
     "boardN": 5,
     "bboxW": 5,
     "bboxH": 5,
-    "strokes": 2,
-    "symAxis": "v",
-    "symMiss": 0
+    "strokes": 3,
+    "symAxis": "d",
+    "symMiss": 1
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-08-02",
-    "label": "き（とりのき）"
+    "createdAt": "",
+    "label": "き（とりのき）",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "き（とりのき）"
    },
    "difficulty": {
     "task": "decompose",
-    "value": 26,
-    "auto": 26,
+    "auto": 48,
+    "value": 48,
     "parts": {
-     "A": 6,
-     "B": 11,
-     "絡み": 4,
+     "A": 14,
+     "B": 14,
+     "絡み": 8,
+     "共有点": 3,
+     "ばらけ": 4,
      "G": 5
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 12,
+   "edited": true
   },
   {
    "id": "decompose-lv4-vol1-m09",
@@ -2307,6 +2386,16 @@
       4,
       1
      ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      4,
+      4
+     ]
     ]
    ],
    "answer": {
@@ -2405,44 +2494,49 @@
     ]
    },
    "metrics": {
-    "lines": 12,
-    "diagonals": 5,
-    "non45": 1,
-    "non45Gentle": 1,
+    "lines": 13,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 2,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 13,
+    "pointsUsed": 14,
     "symmetry": [],
     "boardN": 5,
     "bboxW": 5,
     "bboxH": 5,
-    "strokes": 2,
-    "symAxis": "d",
-    "symMiss": 4
+    "strokes": 3,
+    "symAxis": "h",
+    "symMiss": 5
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-08-02",
-    "label": "たいよう（ビルのあさひ）"
+    "createdAt": "",
+    "label": "たいよう（ビルのあさひ）",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "たいよう（ビルのあさひ）"
    },
    "difficulty": {
     "task": "decompose",
-    "value": 25,
-    "auto": 25,
+    "auto": 32,
+    "value": 32,
     "parts": {
-     "A": 11,
+     "A": 15,
      "B": 6,
      "絡み": 0,
      "共有点": 3,
+     "もつれ": 3,
      "G": 5
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 6,
+   "edited": true
   },
   {
    "id": "decompose-lv4-vol1-m10",
@@ -2590,6 +2684,26 @@
       4,
       4
      ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      1
+     ]
     ]
    ],
    "answer": {
@@ -2674,50 +2788,66 @@
        4,
        4
       ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       3
+      ]
      ]
     ]
    },
    "metrics": {
-    "lines": 9,
-    "diagonals": 6,
-    "non45": 2,
-    "non45Gentle": 2,
-    "diagonalAngleKinds": 2,
+    "lines": 11,
+    "diagonals": 8,
+    "non45": 4,
+    "non45Gentle": 4,
+    "diagonalAngleKinds": 3,
     "hasNon45": true,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 13,
+    "crossings": 2,
+    "components": 3,
+    "pointsUsed": 17,
     "symmetry": [
      "v"
     ],
     "boardN": 5,
     "bboxW": 5,
     "bboxH": 5,
-    "strokes": 2,
+    "strokes": 4,
     "symAxis": "v",
     "symMiss": 0
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-08-02",
-    "label": "たいよう（やまのゆうひ）"
+    "createdAt": "",
+    "label": "たいよう（やまのゆうひ）",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "たいよう（やまのゆうひ）"
    },
    "difficulty": {
     "task": "decompose",
-    "value": 23,
-    "auto": 23,
+    "auto": 40,
+    "value": 40,
     "parts": {
-     "A": 6,
-     "B": 11,
-     "絡み": 0,
+     "A": 10,
+     "B": 15,
+     "絡み": 2,
      "共有点": 1,
+     "もつれ": 5,
+     "ばらけ": 2,
      "G": 5
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 10,
+   "edited": true
   },
   {
    "id": "decompose-lv4-vol1-m11",
@@ -3080,18 +3210,19 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 24,
-    "auto": 24,
+    "auto": 30,
+    "value": 30,
     "parts": {
      "A": 12,
      "B": 5,
      "絡み": 0,
      "共有点": 2,
+     "もつれ": 6,
      "G": 5
     }
    },
    "status": "adopted",
-   "order": 4
+   "order": 5
   },
   {
    "id": "decompose-lv4-vol1-m12",
@@ -3414,18 +3545,19 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 22.5,
-    "auto": 22.5,
+    "auto": 28.5,
+    "value": 28.5,
     "parts": {
      "A": 7,
      "B": 8.5,
      "絡み": 0,
      "共有点": 2,
+     "もつれ": 6,
      "G": 5
     }
    },
    "status": "adopted",
-   "order": 5
+   "order": 3
   },
   {
    "id": "decompose-lv4-vol1-m13",
@@ -3798,13 +3930,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 21,
-    "auto": 21,
+    "auto": 32,
+    "value": 32,
     "parts": {
      "A": 9,
      "B": 5,
      "絡み": 0,
      "共有点": 2,
+     "もつれ": 11,
      "G": 5
     }
    },
@@ -4171,18 +4304,19 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 23,
-    "auto": 23,
+    "auto": 32,
+    "value": 32,
     "parts": {
      "A": 11,
      "B": 5,
      "絡み": 0,
      "共有点": 2,
+     "もつれ": 9,
      "G": 5
     }
    },
    "status": "adopted",
-   "order": 3
+   "order": 4
   },
   {
    "id": "decompose-lv4-vol1-m15",
@@ -4495,13 +4629,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 26.8,
-    "auto": 26.8,
+    "auto": 31.3,
+    "value": 31.3,
     "parts": {
      "A": 12,
      "B": 5,
      "絡み": 0,
      "共有点": 5,
+     "もつれ": 4.5,
      "G": 4.75
     }
    },
@@ -4698,13 +4833,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 22.3,
-    "auto": 22.3,
+    "auto": 25.3,
+    "value": 25.3,
     "parts": {
      "A": 12,
      "B": 3.5,
      "絡み": 0,
      "共有点": 2,
+     "もつれ": 3,
      "G": 4.75
     }
    },
@@ -4964,13 +5100,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 25,
-    "auto": 25,
+    "auto": 28,
+    "value": 28,
     "parts": {
      "A": 12,
      "B": 5,
      "絡み": 0,
      "共有点": 3,
+     "もつれ": 3,
      "G": 5
     }
    },
@@ -5102,6 +5239,46 @@
       3,
       4
      ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      2
+     ]
     ]
    ],
    "answer": {
@@ -5166,19 +5343,39 @@
        3,
        4
       ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       2
+      ]
      ]
     ]
    },
    "metrics": {
-    "lines": 9,
-    "diagonals": 6,
+    "lines": 11,
+    "diagonals": 8,
     "non45": 2,
     "non45Gentle": 2,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
-    "crossings": 0,
+    "crossings": 1,
     "components": 1,
-    "pointsUsed": 11,
+    "pointsUsed": 12,
     "symmetry": [
      "v"
     ],
@@ -5191,25 +5388,31 @@
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-08-02",
-    "label": "ロケット（ちゃくりく）"
+    "createdAt": "",
+    "label": "ロケット（ちゃくりく）",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "ロケット（ちゃくりく）"
    },
    "difficulty": {
     "task": "decompose",
-    "value": 24,
-    "auto": 24,
+    "auto": 41,
+    "value": 41,
     "parts": {
-     "A": 13,
-     "B": 4,
+     "A": 16,
+     "B": 7,
      "絡み": 0,
-     "共有点": 2,
+     "共有点": 5,
+     "もつれ": 6,
+     "ばらけ": 2,
      "G": 5
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 9,
+   "edited": true
   },
   {
    "id": "decompose-lv4-vol1-m19",
@@ -5452,13 +5655,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 25,
-    "auto": 25,
+    "auto": 28,
+    "value": 28,
     "parts": {
      "A": 11,
      "B": 6,
      "絡み": 2,
      "共有点": 1,
+     "もつれ": 3,
      "G": 5
     }
    },
@@ -5765,13 +5969,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 28.5,
-    "auto": 28.5,
+    "auto": 34.5,
+    "value": 34.5,
     "parts": {
      "A": 7.5,
      "B": 11,
      "絡み": 4,
      "共有点": 1,
+     "もつれ": 6,
      "G": 5
     }
    },
@@ -5988,13 +6193,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 26.3,
-    "auto": 26.3,
+    "auto": 30.8,
+    "value": 30.8,
     "parts": {
      "A": 8.5,
      "B": 9,
      "絡み": 2,
      "共有点": 2,
+     "もつれ": 4.5,
      "G": 4.75
     }
    },
@@ -6241,13 +6447,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 22.3,
-    "auto": 22.3,
+    "auto": 26.8,
+    "value": 26.8,
     "parts": {
      "A": 11,
      "B": 5.5,
      "絡み": 0,
      "共有点": 1,
+     "もつれ": 4.5,
      "G": 4.75
     }
    },
@@ -6352,16 +6559,6 @@
     ],
     [
      [
-      1,
-      4
-     ],
-     [
-      2,
-      4
-     ]
-    ],
-    [
-     [
       0,
       0
      ],
@@ -6402,32 +6599,52 @@
     ],
     [
      [
-      0,
-      0
+      1,
+      3
      ],
      [
-      0,
-      1
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      0
      ]
     ],
     [
      [
       2,
-      0
+      2
      ],
      [
-      2,
-      1
+      3,
+      0
      ]
     ],
     [
      [
-      4,
-      0
+      1,
+      2
      ],
      [
-      4,
-      1
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      0
      ]
     ]
    ],
@@ -6477,74 +6694,89 @@
      [
       [
        0,
-       0
+       2
       ],
       [
-       0,
-       1
+       1,
+       0
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       0
       ]
      ],
      [
       [
        2,
-       0
+       2
       ],
       [
-       2,
-       1
+       3,
+       0
       ]
      ],
      [
       [
-       4,
-       0
+       3,
+       2
       ],
       [
        4,
-       1
+       0
       ]
      ]
     ]
    },
    "metrics": {
-    "lines": 8,
-    "diagonals": 2,
-    "non45": 2,
-    "non45Gentle": 2,
-    "diagonalAngleKinds": 1,
+    "lines": 10,
+    "diagonals": 7,
+    "non45": 6,
+    "non45Gentle": 6,
+    "diagonalAngleKinds": 3,
     "hasNon45": true,
-    "crossings": 1,
+    "crossings": 4,
     "components": 1,
-    "pointsUsed": 16,
+    "pointsUsed": 14,
     "symmetry": [],
     "boardN": 5,
     "bboxW": 5,
     "bboxH": 5,
-    "strokes": 2,
+    "strokes": 5,
     "symAxis": "v",
-    "symMiss": 1
+    "symMiss": 5
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-08-02",
-    "label": "かさ（あめのひ）"
+    "createdAt": "",
+    "label": "かさ（あめのひ）",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "かさ（あめのひ）"
    },
    "difficulty": {
     "task": "decompose",
-    "value": 21,
-    "auto": 21,
+    "auto": 51.5,
+    "value": 51.5,
     "parts": {
-     "A": 11,
-     "B": 4,
-     "絡み": 0,
-     "共有点": 1,
+     "A": 11.5,
+     "B": 17,
+     "絡み": 6,
+     "共有点": 4,
+     "もつれ": 8,
      "G": 5
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 11,
+   "edited": true
   },
   {
    "id": "decompose-lv4-vol1-m24",
@@ -6817,13 +7049,14 @@
    },
    "difficulty": {
     "task": "decompose",
-    "value": 22.5,
-    "auto": 22.5,
+    "auto": 27,
+    "value": 27,
     "parts": {
      "A": 6.5,
      "B": 9,
      "絡み": 0,
      "共有点": 2,
+     "もつれ": 4.5,
      "G": 5
     }
    },
