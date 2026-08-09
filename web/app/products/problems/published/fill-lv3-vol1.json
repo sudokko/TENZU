@@ -1999,14 +1999,15 @@
    },
    "difficulty": {
     "task": "fill",
-    "auto": 19.2,
-    "value": 19.2,
+    "auto": 20.2,
+    "value": 20.2,
     "parts": {
      "E": 8.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "gap": 6
     }
    },

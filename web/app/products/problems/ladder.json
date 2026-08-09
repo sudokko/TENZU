@@ -15,7 +15,7 @@
    "requireDiag45": true,
    "D": [
     6,
-    10
+    10.3
    ]
   },
   "copy-lv3-vol1": {
@@ -25,7 +25,7 @@
    "cross": "some",
    "D": [
     12.4,
-    20.7
+    23.7
    ]
   },
   "copy-lv3-vol2": {
@@ -44,7 +44,7 @@
    "requireNon45": true,
    "D": [
     12.4,
-    21.7
+    25.7
    ]
   },
   "copy-lv4-vol2": {
@@ -54,7 +54,7 @@
    "requireNon45": true,
    "D": [
     15.9,
-    35.8
+    38.8
    ]
   },
   "copy-lv5-vol1": {
@@ -63,7 +63,7 @@
    "fullGrid": true,
    "D": [
     19.3,
-    40.3
+    46.3
    ]
   },
   "copy-lv5-vol2": {

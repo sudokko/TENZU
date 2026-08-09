@@ -115,6 +115,7 @@ export function dBreakdown(parts?: DifficultyParts, d?: number): string | undefi
   if (typeof parts.G === "number") push("盤面", parts.G);
   if (typeof parts.strokes === "number" && parts.strokes > 0) push("画数", parts.strokes);
   if (typeof parts.brk === "number" && parts.brk > 0) push("くずし", parts.brk);
+  if (typeof parts["交差"] === "number" && parts["交差"] > 0) push("交差", parts["交差"]);
   if (typeof parts["変換"] === "number" && parts["変換"] > 0) push("変換", parts["変換"]);
   if (typeof parts.gap === "number" && parts.gap > 0) push("欠け", parts.gap);
   if (typeof parts.hidden === "number" && parts.hidden > 0) push("隠れ辺", parts.hidden);
@@ -197,6 +198,9 @@ export function dBreakdownDetail(p: Problem): string[] | undefined {
   }
   if (typeof parts.brk === "number" && parts.brk > 0) {
     out.push(`対称くずし ${r1(parts.brk)} ＝ 3×${parts.brk / 3}本（対称からずれた線）`);
+  }
+  if (typeof parts["交差"] === "number" && parts["交差"] > 0) {
+    out.push(`交差 ${r1(parts["交差"])} ＝ 1×${parts["交差"]}か所（図の中で線どうしが交わる場所）`);
   }
   if (typeof parts["変換"] === "number" && parts["変換"] > 0) {
     /* 移動量・角度の内訳は difficulty.ts の transformLoad が文言まで持つ */

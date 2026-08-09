@@ -985,14 +985,15 @@
    },
    "difficulty": {
     "task": "mirror",
-    "auto": 13.2,
-    "value": 13.2,
+    "auto": 15.2,
+    "value": 15.2,
     "parts": {
      "E": 8.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1360,14 +1361,15 @@
    },
    "difficulty": {
     "task": "mirror",
-    "auto": 14,
-    "value": 14,
+    "auto": 15,
+    "value": 15,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1955,14 +1957,15 @@
    },
    "difficulty": {
     "task": "mirror",
-    "auto": 14.7,
-    "value": 14.7,
+    "auto": 15.7,
+    "value": 15.7,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2155,14 +2158,15 @@
    },
    "difficulty": {
     "task": "mirror",
-    "auto": 15.9,
-    "value": 15.9,
+    "auto": 17.9,
+    "value": 17.9,
     "parts": {
      "E": 10.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {

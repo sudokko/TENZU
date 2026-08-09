@@ -204,14 +204,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 12.4,
-    "value": 12.4,
+    "auto": 13.4,
+    "value": 13.4,
     "parts": {
      "E": 9,
      "G": 4,
      "k": 0.7,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -379,14 +380,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 13.4,
-    "value": 13.4,
+    "auto": 14.4,
+    "value": 14.4,
     "parts": {
      "E": 8,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -574,14 +576,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 12.7,
-    "value": 12.7,
+    "auto": 13.7,
+    "value": 13.7,
     "parts": {
      "E": 8,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -739,14 +742,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 14.7,
-    "value": 14.7,
+    "auto": 15.7,
+    "value": 15.7,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -904,14 +908,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 13.7,
-    "value": 13.7,
+    "auto": 14.7,
+    "value": 14.7,
     "parts": {
      "E": 9,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1103,14 +1108,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 13.1,
-    "value": 13.1,
+    "auto": 17.1,
+    "value": 17.1,
     "parts": {
      "E": 8,
      "G": 4,
      "k": 0.7,
      "strokes": 3.5,
-     "brk": 0
+     "brk": 0,
+     "交差": 4
     }
    },
    "provenance": {
@@ -1308,14 +1314,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 15.2,
-    "value": 15.2,
+    "auto": 17.2,
+    "value": 17.2,
     "parts": {
      "E": 10.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1530,14 +1537,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 15.9,
-    "value": 15.9,
+    "auto": 19.9,
+    "value": 19.9,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 0.7,
      "strokes": 4.8999999999999995,
-     "brk": 0
+     "brk": 0,
+     "交差": 4
     }
    },
    "provenance": {
@@ -1705,14 +1713,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 19.6,
-    "value": 19.6,
+    "auto": 22.6,
+    "value": 22.6,
     "parts": {
      "E": 13.5,
      "G": 4,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -1890,14 +1899,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 15.2,
-    "value": 15.2,
+    "auto": 16.2,
+    "value": 16.2,
     "parts": {
      "E": 10.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2107,14 +2117,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 15.9,
-    "value": 15.9,
+    "auto": 17.9,
+    "value": 17.9,
     "parts": {
      "E": 14,
      "G": 4,
      "k": 0.7,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -2282,14 +2293,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 20.7,
-    "value": 20.7,
+    "auto": 23.7,
+    "value": 23.7,
     "parts": {
      "E": 12,
      "G": 4,
      "k": 0.85,
      "strokes": 3.5,
-     "brk": 3
+     "brk": 3,
+     "交差": 3
     }
    },
    "provenance": {

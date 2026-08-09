@@ -888,8 +888,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 27.5,
     "auto": 27.5,
+    "value": 27.5,
     "parts": {
      "E": 20,
      "G": 7.5,
@@ -1554,8 +1554,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 28.8,
     "auto": 28.8,
+    "value": 28.8,
     "parts": {
      "E": 20.5,
      "G": 8.25,
@@ -6440,8 +6440,8 @@
    "status": "pending",
    "difficulty": {
     "task": "solid",
-    "value": 27.3,
     "auto": 27.3,
+    "value": 27.3,
     "parts": {
      "E": 20.5,
      "G": 6.75,

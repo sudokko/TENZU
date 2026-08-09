@@ -913,14 +913,15 @@
    "order": 8,
    "difficulty": {
     "task": "copy",
-    "auto": 6.5,
-    "value": 6.5,
+    "auto": 7.5,
+    "value": 7.5,
     "parts": {
      "E": 5,
      "G": 3,
      "k": 0.7,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1200,14 +1201,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 8.6,
-    "value": 8.6,
+    "auto": 9.6,
+    "value": 9.6,
     "parts": {
      "E": 7,
      "G": 3,
      "k": 0.7,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2716,14 +2718,15 @@
    "order": 10,
    "difficulty": {
     "task": "copy",
-    "auto": 6.5,
-    "value": 6.5,
+    "auto": 7.5,
+    "value": 7.5,
     "parts": {
      "E": 5,
      "G": 3,
      "k": 0.7,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2860,14 +2863,15 @@
    "order": 11,
    "difficulty": {
     "task": "copy",
-    "auto": 9.3,
-    "value": 9.3,
+    "auto": 10.3,
+    "value": 10.3,
     "parts": {
      "E": 8,
      "G": 3,
      "k": 0.7,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -4820,14 +4824,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 6.5,
-    "value": 6.5,
+    "auto": 7.5,
+    "value": 7.5,
     "parts": {
      "E": 5,
      "G": 3,
      "k": 0.7,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -5229,14 +5234,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 10.1,
-    "value": 10.1,
+    "auto": 12.1,
+    "value": 12.1,
     "parts": {
      "E": 7.5,
      "G": 3,
      "k": 0.85,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "status": "adopted",

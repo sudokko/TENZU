@@ -1183,14 +1183,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 11,
-    "value": 11,
+    "auto": 12,
+    "value": 12,
     "parts": {
      "E": 6.5,
      "G": 3.5,
      "k": 0.85,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -2100,14 +2101,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 16.3,
-    "value": 16.3,
+    "auto": 17.3,
+    "value": 17.3,
     "parts": {
      "E": 14,
      "G": 3.75,
      "k": 0.7,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -2490,14 +2492,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 16.3,
-    "value": 16.3,
+    "auto": 17.3,
+    "value": 17.3,
     "parts": {
      "E": 14,
      "G": 3.75,
      "k": 0.7,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -2692,14 +2695,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 19.9,
-    "value": 19.9,
+    "auto": 21.9,
+    "value": 21.9,
     "parts": {
      "E": 12.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 2,
      "変換": 2
     }
    },
@@ -2905,14 +2909,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 22,
-    "value": 22,
+    "auto": 24,
+    "value": 24,
     "parts": {
      "E": 13.5,
      "G": 4,
      "k": 0.85,
      "strokes": 0.7,
      "brk": 6,
+     "交差": 2,
      "変換": 2
     }
    },
@@ -3107,14 +3112,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 20.2,
-    "value": 20.2,
+    "auto": 21.2,
+    "value": 21.2,
     "parts": {
      "E": 13.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -3299,14 +3305,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 20.7,
-    "value": 20.7,
+    "auto": 22.7,
+    "value": 22.7,
     "parts": {
      "E": 14,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 2,
      "変換": 2
     }
    },
@@ -3679,14 +3686,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 11,
-    "value": 11,
+    "auto": 12,
+    "value": 12,
     "parts": {
      "E": 6.5,
      "G": 3.5,
      "k": 0.85,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -4005,14 +4013,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 20.4,
-    "value": 20.4,
+    "auto": 21.4,
+    "value": 21.4,
     "parts": {
      "E": 12,
      "G": 4,
      "k": 0.85,
      "strokes": 0.7,
      "brk": 6,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -4227,14 +4236,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 17.4,
-    "value": 17.4,
+    "auto": 19.4,
+    "value": 19.4,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 2,
      "変換": 2
     }
    },
@@ -4429,14 +4439,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 17.9,
-    "value": 17.9,
+    "auto": 19.9,
+    "value": 19.9,
     "parts": {
      "E": 10.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 2,
      "変換": 2
     }
    },
@@ -4622,14 +4633,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 18.5,
-    "value": 18.5,
+    "auto": 19.5,
+    "value": 19.5,
     "parts": {
      "E": 12.5,
      "G": 4,
      "k": 1,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -4996,14 +5008,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 23.1,
-    "value": 23.1,
+    "auto": 24.1,
+    "value": 24.1,
     "parts": {
      "E": 14.5,
      "G": 4,
      "k": 0.75,
      "strokes": 0.7,
      "brk": 6,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -5118,14 +5131,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 10,
-    "value": 10,
+    "auto": 11,
+    "value": 11,
     "parts": {
      "E": 4.5,
      "G": 3.5,
      "k": 1,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -6096,14 +6110,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 16.3,
-    "value": 16.3,
+    "auto": 17.3,
+    "value": 17.3,
     "parts": {
      "E": 9.5,
      "G": 3.5,
      "k": 0.75,
      "strokes": 0,
      "brk": 6,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -6268,14 +6283,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 17.1,
-    "value": 17.1,
+    "auto": 18.1,
+    "value": 18.1,
     "parts": {
      "E": 9,
      "G": 4,
      "k": 0.85,
      "strokes": 0.7,
      "brk": 6,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -6460,14 +6476,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 17.9,
-    "value": 17.9,
+    "auto": 18.9,
+    "value": 18.9,
     "parts": {
      "E": 10.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -7138,14 +7155,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 20.4,
-    "value": 20.4,
+    "auto": 22.4,
+    "value": 22.4,
     "parts": {
      "E": 13,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 2,
      "変換": 2
     }
    },
@@ -7472,14 +7490,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 21,
-    "value": 21,
+    "auto": 22,
+    "value": 22,
     "parts": {
      "E": 15,
      "G": 4,
      "k": 0.75,
      "strokes": 0.7,
      "brk": 3,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -7665,14 +7684,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 21.4,
-    "value": 21.4,
+    "auto": 22.4,
+    "value": 22.4,
     "parts": {
      "E": 14,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -7979,14 +7999,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 21.5,
-    "value": 21.5,
+    "auto": 22.5,
+    "value": 22.5,
     "parts": {
      "E": 13,
      "G": 4,
      "k": 0.85,
      "strokes": 0.7,
      "brk": 6,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -8151,14 +8172,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 24.2,
-    "value": 24.2,
+    "auto": 25.2,
+    "value": 25.2,
     "parts": {
      "E": 15.5,
      "G": 4,
      "k": 0.75,
      "strokes": 0.7,
      "brk": 6,
+     "交差": 1,
      "変換": 2
     }
    },

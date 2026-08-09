@@ -509,8 +509,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 15,
     "auto": 15,
+    "value": 15,
     "parts": {
      "E": 8.5,
      "G": 6.5,
@@ -688,8 +688,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 22,
     "auto": 22,
+    "value": 22,
     "parts": {
      "E": 15,
      "G": 7,
@@ -877,8 +877,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 25.3,
     "auto": 25.3,
+    "value": 25.3,
     "parts": {
      "E": 16.5,
      "G": 8.75,
@@ -1389,8 +1389,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 35.8,
     "auto": 35.8,
+    "value": 35.8,
     "parts": {
      "E": 25.5,
      "G": 10.25,
@@ -1490,8 +1490,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 24,
     "auto": 24,
+    "value": 24,
     "parts": {
      "E": 17.5,
      "G": 6.5,
@@ -1591,8 +1591,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 20.8,
     "auto": 20.8,
+    "value": 20.8,
     "parts": {
      "E": 14,
      "G": 6.75,
@@ -2075,8 +2075,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 25,
     "auto": 25,
+    "value": 25,
     "parts": {
      "E": 16,
      "G": 9,
@@ -2287,8 +2287,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 26.5,
     "auto": 26.5,
+    "value": 26.5,
     "parts": {
      "E": 17.5,
      "G": 9,
@@ -2968,8 +2968,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 26.5,
     "auto": 26.5,
+    "value": 26.5,
     "parts": {
      "E": 17.5,
      "G": 9,
@@ -3236,8 +3236,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 34,
     "auto": 34,
+    "value": 34,
     "parts": {
      "E": 23.5,
      "G": 10.5,
@@ -3459,8 +3459,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 27,
     "auto": 27,
+    "value": 27,
     "parts": {
      "E": 18.5,
      "G": 8.5,
@@ -3660,8 +3660,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 26,
     "auto": 26,
+    "value": 26,
     "parts": {
      "E": 16,
      "G": 10,
@@ -3817,8 +3817,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 21,
     "auto": 21,
+    "value": 21,
     "parts": {
      "E": 12,
      "G": 9,
@@ -4497,8 +4497,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 26.8,
     "auto": 26.8,
+    "value": 26.8,
     "parts": {
      "E": 17,
      "G": 9.75,
@@ -4610,8 +4610,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 23.5,
     "auto": 23.5,
+    "value": 23.5,
     "parts": {
      "E": 15,
      "G": 8.5,
@@ -5113,8 +5113,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 20.5,
     "auto": 20.5,
+    "value": 20.5,
     "parts": {
      "E": 11.5,
      "G": 9,
@@ -5325,8 +5325,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 27.5,
     "auto": 27.5,
+    "value": 27.5,
     "parts": {
      "E": 18.5,
      "G": 9,
@@ -5471,8 +5471,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 25,
     "auto": 25,
+    "value": 25,
     "parts": {
      "E": 16.5,
      "G": 8.5,
@@ -5628,8 +5628,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 29.5,
     "auto": 29.5,
+    "value": 29.5,
     "parts": {
      "E": 19,
      "G": 10.5,
@@ -5775,8 +5775,8 @@
    },
    "difficulty": {
     "task": "solid",
-    "value": 27.5,
     "auto": 27.5,
+    "value": 27.5,
     "parts": {
      "E": 18.5,
      "G": 9,

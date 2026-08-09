@@ -164,14 +164,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 13.4,
-    "value": 13.4,
+    "auto": 14.4,
+    "value": 14.4,
     "parts": {
      "E": 9,
      "G": 5,
      "k": 0.7,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -341,14 +342,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 12.8,
-    "value": 12.8,
+    "auto": 14.8,
+    "value": 14.8,
     "parts": {
      "E": 7.5,
      "G": 5,
      "k": 0.85,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1105,14 +1107,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 19,
-    "value": 19,
+    "auto": 20,
+    "value": 20,
     "parts": {
      "E": 15,
      "G": 5,
      "k": 0.7,
      "strokes": 3.5,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1390,14 +1393,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 20.4,
-    "value": 20.4,
+    "auto": 22.4,
+    "value": 22.4,
     "parts": {
      "E": 14,
      "G": 5,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1705,14 +1709,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 14.7,
-    "value": 14.7,
+    "auto": 15.7,
+    "value": 15.7,
     "parts": {
      "E": 9.5,
      "G": 5,
      "k": 0.7,
      "strokes": 0,
-     "brk": 3
+     "brk": 3,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2386,14 +2391,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 20.1,
-    "value": 20.1,
+    "auto": 23.1,
+    "value": 23.1,
     "parts": {
      "E": 13,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -3153,14 +3159,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 19.2,
-    "value": 19.2,
+    "auto": 22.2,
+    "value": 22.2,
     "parts": {
      "E": 10,
      "G": 5,
      "k": 1,
      "strokes": 4.199999999999999,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {

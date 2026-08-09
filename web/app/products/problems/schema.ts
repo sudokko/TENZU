@@ -48,7 +48,7 @@ export type ProblemMetrics = {
   non45Gentle?: number;        // 非45°のうち 2:1 系（ゆるい傾き）の本数。D式v3で軽い重み（旧データは未設定）
   diagonalAngleKinds: number;  // 斜め角度の種類数（45°系のみ=1・非45°が混ざると増える）
   hasNon45: boolean;           // 非45°を1本でも含むか（= non45 > 0）。生成フィルタ用の真偽値
-  crossings: number;           // 端点以外での交差数。生成フィルタ用（難易度D・公開表示とも非算入）
+  crossings: number;           // 端点以外での交差数。生成フィルタ＋単図タスクの「交差の項」（D式・decisions §3.105）
   components: number;          // 連結成分数（生成フィルタ用。公開表示からは撤去済み）
   pointsUsed: number;          // 使用格子点数
   symmetry: SymmetryKind[];    // 盤面中心軸で成立している対称性（生成フィルタ用・D式は symAxis を使う）
