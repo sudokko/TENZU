@@ -1789,27 +1789,7 @@
     [
      [
       1,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
+      1
      ],
      [
       3,
@@ -1818,21 +1798,31 @@
     ],
     [
      [
-      1,
-      1
+      0,
+      0
      ],
      [
       1,
-      2
+      3
      ]
     ],
     [
      [
       0,
-      2
+      3
      ],
      [
+      2,
+      0
+     ]
+    ],
+    [
+     [
       1,
+      3
+     ],
+     [
+      3,
       2
      ]
     ],
@@ -1843,33 +1833,23 @@
      ],
      [
       1,
-      2
+      1
      ]
     ],
     [
      [
       0,
-      2
-     ],
-     [
-      1,
       0
-     ]
-    ],
-    [
+     ],
      [
       0,
       1
-     ],
-     [
-      1,
-      1
      ]
     ],
     [
      [
-      1,
-      1
+      2,
+      0
      ],
      [
       3,
@@ -1879,20 +1859,20 @@
    ],
    "metrics": {
     "lines": 8,
-    "diagonals": 3,
-    "non45": 3,
+    "diagonals": 6,
+    "non45": 5,
     "non45Gentle": 3,
-    "diagonalAngleKinds": 2,
+    "diagonalAngleKinds": 5,
     "hasNon45": true,
-    "crossings": 4,
+    "crossings": 2,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 8,
     "symmetry": [],
     "boardN": 4,
     "bboxW": 4,
     "bboxH": 4,
     "strokes": 2,
-    "symAxis": "v",
+    "symAxis": "h",
     "symMiss": 7
    },
    "gen": {
@@ -1906,15 +1886,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "copy",
-    "auto": 25.7,
-    "value": 25.7,
+    "value": 32.2,
+    "auto": 32.2,
     "parts": {
-     "E": 17,
+     "E": 25.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
-     "交差": 4
+     "交差": 2
     }
    },
    "provenance": {
@@ -3802,16 +3782,6 @@
     [
      [
       1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      1,
       1
      ],
      [
@@ -3871,31 +3841,11 @@
     ],
     [
      [
-      2,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
       1,
       0
      ],
      [
       1,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      2,
       1
      ]
     ],
@@ -3937,26 +3887,36 @@
      [
       1,
       3
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      3,
+      1
      ]
     ]
    ],
    "metrics": {
-    "lines": 11,
+    "lines": 10,
     "diagonals": 5,
-    "non45": 1,
-    "non45Gentle": 1,
-    "diagonalAngleKinds": 2,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 3,
     "hasNon45": true,
-    "crossings": 3,
+    "crossings": 2,
     "components": 1,
-    "pointsUsed": 11,
+    "pointsUsed": 10,
     "symmetry": [],
     "boardN": 4,
     "bboxW": 4,
     "bboxH": 4,
     "strokes": 3,
     "symAxis": "v",
-    "symMiss": 3
+    "symMiss": 7
    },
    "gen": {
     "kind": "auto",
@@ -3969,26 +3929,27 @@
    "status": "adopted",
    "difficulty": {
     "task": "copy",
-    "auto": 24.4,
-    "value": 24.4,
+    "value": 24.9,
+    "auto": 24.9,
     "parts": {
-     "E": 16,
+     "E": 17.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
-     "交差": 3
+     "交差": 2
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "copy",
     "version": "2",
     "seed": 1,
     "variant": "hybrid#4#1-242@4",
     "label": "くみあわせ"
    },
-   "order": 11
+   "order": 11,
+   "edited": true
   },
   {
    "id": "copy-lv4-vol1-s1-26",

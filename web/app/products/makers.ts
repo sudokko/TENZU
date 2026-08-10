@@ -6,6 +6,9 @@
    公開リストは LAUNCH_HIDDEN（capabilities.ts）を除いた集合＝VISIBLE_MAKERS / makersInGroup。
    ========================================================================= */
 import { isLaunchHidden, type MakerKey } from "./capabilities";
+/* desc は task-desc.ts が SSOT（商品面 catalog.tsx と共用・直接文字列を書かないこと）。
+   以前ここに直書きしていた 4 本が catalog.tsx と乖離していた。2026-08-08 に解消。 */
+import { TASK_DESC } from "./task-desc";
 
 export type MakerGroupKey = "見て写す" | "かたちを動かす" | "重ねる・分ける";
 
@@ -19,17 +22,17 @@ export type MakerMeta = {
 };
 
 export const MAKERS: MakerMeta[] = [
-  { key: "copy",      href: "/maker",           name: "模写メーカー",         short: "模写",     desc: "見本のとおりに、点をつないで写す。",       group: "見て写す" },
-  { key: "solid",     href: "/maker-solid",     name: "立体模写メーカー",     short: "立体",     desc: "見える辺と隠れた辺で、立体を点で写す。",   group: "見て写す" },
-  { key: "fill",      href: "/maker-fill",      name: "欠け補完メーカー",     short: "欠け補完", desc: "足りない辺を補って、形を閉じる。",       group: "見て写す" },
-  { key: "mirror",    href: "/maker-mirror",    name: "鏡メーカー",           short: "鏡",       desc: "鏡の反対側に映る形を描く。",             group: "かたちを動かす" },
-  { key: "translate", href: "/maker-translate", name: "移動メーカー",     short: "移動", desc: "形を変えずに、ずらして写す。",           group: "かたちを動かす" },
-  { key: "rotate",    href: "/maker-rotate",    name: "回転メーカー",         short: "回転",     desc: "回した形を思いうかべて描く。",           group: "かたちを動かす" },
-  { key: "scale",     href: "/maker-scale",     name: "拡大メーカー",         short: "拡大",     desc: "比をそろえて、大きく写す（×2・×3）。",   group: "かたちを動かす" },
-  { key: "shrink",    href: "/maker-shrink",    name: "縮小メーカー",         short: "縮小",     desc: "比をそろえて、小さく写す（1/2・1/3）。", group: "かたちを動かす" },
-  { key: "overlay",   href: "/maker-overlay",   name: "重ねメーカー",         short: "重ね",     desc: "2 つの形を重ねたところを描く。",         group: "重ねる・分ける" },
-  { key: "decompose", href: "/maker-decompose", name: "分解メーカー",         short: "分解",     desc: "重なった形から、片方を取り出す。",       group: "重ねる・分ける" },
-  { key: "fold",      href: "/maker-fold",      name: "折り重ねメーカー",     short: "折り重ね", desc: "折り返して重ねた形を描く。",             group: "重ねる・分ける" },
+  { key: "copy",      href: "/maker",           name: "模写メーカー",         short: "模写",     desc: TASK_DESC.copy,       group: "見て写す" },
+  { key: "solid",     href: "/maker-solid",     name: "立体模写メーカー",     short: "立体",     desc: TASK_DESC.solid,   group: "見て写す" },
+  { key: "fill",      href: "/maker-fill",      name: "欠け補完メーカー",     short: "欠け補完", desc: TASK_DESC.fill,       group: "見て写す" },
+  { key: "mirror",    href: "/maker-mirror",    name: "鏡メーカー",           short: "鏡",       desc: TASK_DESC.mirror,             group: "かたちを動かす" },
+  { key: "translate", href: "/maker-translate", name: "移動メーカー",     short: "移動", desc: TASK_DESC.translate,           group: "かたちを動かす" },
+  { key: "rotate",    href: "/maker-rotate",    name: "回転メーカー",         short: "回転",     desc: TASK_DESC.rotate,           group: "かたちを動かす" },
+  { key: "scale",     href: "/maker-scale",     name: "拡大メーカー",         short: "拡大",     desc: TASK_DESC.scale,   group: "かたちを動かす" },
+  { key: "shrink",    href: "/maker-shrink",    name: "縮小メーカー",         short: "縮小",     desc: TASK_DESC.shrink, group: "かたちを動かす" },
+  { key: "overlay",   href: "/maker-overlay",   name: "重ねメーカー",         short: "重ね",     desc: TASK_DESC.overlay,         group: "重ねる・分ける" },
+  { key: "decompose", href: "/maker-decompose", name: "分解メーカー",         short: "分解",     desc: TASK_DESC.decompose,       group: "重ねる・分ける" },
+  { key: "fold",      href: "/maker-fold",      name: "折り重ねメーカー",     short: "折り重ね", desc: TASK_DESC.fold,             group: "重ねる・分ける" },
 ];
 
 /* グループ表示順＝TOP カタログ (catalog GROUPS) と同一: 見て写す → かたちを動かす → 重ねる・分ける。

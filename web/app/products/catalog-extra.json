@@ -35,6 +35,13 @@
     {
       "sku": "copy-lv1-vol1",
       "grid": "3×3"
+    },
+    {
+      "sku": "translate-lv2-vol1",
+      "grid": "3×3",
+      "variant": "左右上下",
+      "blurb": "「ずらす」デビュー。形はそのまま、左右や上下にスライドするだけ。",
+      "ageLabel": "4〜6才ごろ"
     }
   ]
 }

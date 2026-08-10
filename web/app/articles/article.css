@@ -444,12 +444,8 @@ footer.site.footer-article .wrap {
   color: var(--fg);
   margin: 0 0 20px;
 }
-.index-label-en {
-  font-family: var(--font-tier3-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  color: var(--fg-3);
-}
+/* .index-label-en（MOST READ / BROWSE BY THEME）は撤去（2026-08-08）。
+   日本語見出しへの意味のない英字併記だったため。 */
 
 /* ---- よく読まれる記事 ---- */
 .s-most-read { border-top: none; padding-top: 40px; }

@@ -367,237 +367,6 @@
    }
   },
   {
-   "id": "decompose-lv2-vol1-s1-04",
-   "grid": {
-    "type": "square",
-    "n": 3
-   },
-   "edges": [
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       0,
-       0
-      ],
-      [
-       1,
-       0
-      ]
-     ],
-     [
-      [
-       1,
-       0
-      ],
-      [
-       2,
-       0
-      ]
-     ],
-     [
-      [
-       1,
-       0
-      ],
-      [
-       1,
-       1
-      ]
-     ],
-     [
-      [
-       2,
-       0
-      ],
-      [
-       2,
-       1
-      ]
-     ],
-     [
-      [
-       2,
-       1
-      ],
-      [
-       2,
-       2
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 7,
-    "diagonals": 1,
-    "non45": 0,
-    "non45Gentle": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 9,
-    "symmetry": [
-     "d1"
-    ],
-    "boardN": 3,
-    "bboxW": 3,
-    "bboxH": 3,
-    "strokes": 2,
-    "symAxis": "d",
-    "symMiss": 0
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "decompose",
-    "version": "1",
-    "seed": 1,
-    "variant": "micro3x3#266484+micro3x3#36099@0,0"
-   },
-   "difficulty": {
-    "task": "decompose",
-    "auto": 18,
-    "value": 18,
-    "parts": {
-     "A": 4.5,
-     "B": 3,
-     "絡み": 0,
-     "共有点": 3,
-     "もつれ": 4.5,
-     "G": 3
-    }
-   },
-   "provenance": {
-    "source": "ai-edited",
-    "generator": "decompose",
-    "version": "1",
-    "seed": 1,
-    "variant": "micro3x3#266484+micro3x3#36099@0,0"
-   }
-  },
-  {
    "id": "decompose-lv2-vol1-s1-01",
    "grid": {
     "type": "square",
@@ -984,6 +753,237 @@
     "version": "1",
     "seed": 1,
     "variant": "micro3x3#167472+micro2x2#30@0,0"
+   }
+  },
+  {
+   "id": "decompose-lv2-vol1-s1-04",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 7,
+    "diagonals": 1,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [
+     "d1"
+    ],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#266484+micro3x3#36099@0,0"
+   },
+   "difficulty": {
+    "task": "decompose",
+    "auto": 18,
+    "value": 18,
+    "parts": {
+     "A": 4.5,
+     "B": 3,
+     "絡み": 0,
+     "共有点": 3,
+     "もつれ": 4.5,
+     "G": 3
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#266484+micro3x3#36099@0,0"
    }
   },
   {
@@ -1827,235 +1827,6 @@
    }
   },
   {
-   "id": "decompose-lv2-vol1-s1-10",
-   "grid": {
-    "type": "square",
-    "n": 3
-   },
-   "edges": [
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "explicit",
-    "edges": [
-     [
-      [
-       0,
-       0
-      ],
-      [
-       1,
-       0
-      ]
-     ],
-     [
-      [
-       0,
-       0
-      ],
-      [
-       0,
-       1
-      ]
-     ],
-     [
-      [
-       0,
-       1
-      ],
-      [
-       0,
-       2
-      ]
-     ],
-     [
-      [
-       1,
-       0
-      ],
-      [
-       1,
-       1
-      ]
-     ],
-     [
-      [
-       1,
-       1
-      ],
-      [
-       2,
-       2
-      ]
-     ]
-    ]
-   },
-   "metrics": {
-    "lines": 8,
-    "diagonals": 3,
-    "non45": 0,
-    "non45Gentle": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 1,
-    "components": 1,
-    "pointsUsed": 9,
-    "symmetry": [],
-    "boardN": 3,
-    "bboxW": 3,
-    "bboxH": 3,
-    "strokes": 2,
-    "symAxis": "d",
-    "symMiss": 3
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "decompose",
-    "version": "1",
-    "seed": 1,
-    "variant": "micro3x3#691248+micro3x3#262593@0,0"
-   },
-   "difficulty": {
-    "task": "decompose",
-    "auto": 20.5,
-    "value": 20.5,
-    "parts": {
-     "A": 5,
-     "B": 4.5,
-     "絡み": 2,
-     "共有点": 3,
-     "もつれ": 3,
-     "G": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "decompose",
-    "version": "1",
-    "seed": 1,
-    "variant": "micro3x3#691248+micro3x3#262593@0,0"
-   }
-  },
-  {
    "id": "decompose-lv2-vol1-s1-08",
    "grid": {
     "type": "square",
@@ -2287,6 +2058,235 @@
    }
   },
   {
+   "id": "decompose-lv2-vol1-s1-10",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 3,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 3
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#691248+micro3x3#262593@0,0"
+   },
+   "difficulty": {
+    "task": "decompose",
+    "auto": 20.5,
+    "value": 20.5,
+    "parts": {
+     "A": 5,
+     "B": 4.5,
+     "絡み": 2,
+     "共有点": 3,
+     "もつれ": 3,
+     "G": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "decompose",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#691248+micro3x3#262593@0,0"
+   }
+  },
+  {
    "id": "decompose-lv2-vol1-s1-17",
    "grid": {
     "type": "square",
@@ -2496,5 +2496,5 @@
    }
   }
  ],
- "publishedAt": "2026-08-03"
+ "publishedAt": "2026-08-10"
 }

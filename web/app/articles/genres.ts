@@ -29,9 +29,10 @@ export const POPULAR_SLUGS: string[] = [
  */
 export const EXCLUDED_FROM_INDEX: string[] = ["tenzu-concept"];
 
+/* 絵文字フィールドは廃止（2026-08-08）。サイト全体で絵文字を使っていたのはこの一覧だけで、
+   visual-identity にも無い要素だったため撤去した。見出しは名前だけで足りる。 */
 export type Genre = {
   id: string;
-  emoji: string;
   name: string;
   lead: string;
   /** 表示順どおりに並べる。存在しない slug はビルド時に自動スキップ。 */
@@ -41,7 +42,6 @@ export type Genre = {
 export const GENRES: Genre[] = [
   {
     id: "intro",
-    emoji: "🚪",
     name: "点描写を知る",
     lead: "定義から、何が育つのかまで。",
     slugs: [
@@ -54,7 +54,6 @@ export const GENRES: Genre[] = [
   },
   {
     id: "spatial",
-    emoji: "🧠",
     name: "空間認知を家庭で育てる",
     lead: "毎日の中でできる、力の伸ばし方。",
     slugs: [
@@ -65,7 +64,6 @@ export const GENRES: Genre[] = [
   },
   {
     id: "care",
-    emoji: "🆘",
     name: "つまずきに寄り添う",
     lead: "つまずきに気づいたときの戻り道。",
     slugs: [
@@ -77,7 +75,6 @@ export const GENRES: Genre[] = [
   },
   {
     id: "choose",
-    emoji: "🛒",
     name: "選ぶ・教える",
     lead: "どれを、どの順で、どう伝えるか。",
     slugs: [
@@ -88,7 +85,6 @@ export const GENRES: Genre[] = [
   },
   {
     id: "print",
-    emoji: "🖨",
     name: "印刷とご利用のルール",
     lead: "印刷の設定から、商用・教室利用まで。",
     slugs: [

@@ -236,7 +236,7 @@ MailerLite メール → パックリンク → Stripe 決済（Stripe Link）
 | Promotion Code 命名規則 | `[インフル識別子]-FREE` |
 | 使用回数上限 | コードあたり 30 回 |
 | 有効期限 | 配布から 60 日 |
-| 対象 SKU | 単品全 44 SKU（バンドル除外・[../product/pack-commerce.md §24.6](../product/pack-commerce.md)） |
+| 対象 SKU | 単品全 45 SKU（バンドル除外・[../product/pack-commerce.md §24.6](../product/pack-commerce.md)） |
 
 DM 3 通目の構造詳細は [channels.md §3.3](channels.md)。
 

@@ -1350,13 +1350,7 @@ footer.site.footer-mini .copyright {
   border-top: 3px solid var(--accent);
   border-radius: var(--radius-soft);
 }
-.preset-kicker {
-  font-family: var(--font-tier3-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: var(--fg-3);
-  margin: 0 0 6px;
-}
+/* .preset-kicker（MATOME · N VOLUMES）は撤去（2026-08-08）。直下の H3 と同内容だったため。 */
 .preset-h {
   font-family: var(--font-tier1-klee);
   font-weight: 600;

@@ -60,9 +60,7 @@ export default async function ArticlesIndex() {
       {popular.length > 0 && (
         <section className="s-article s-most-read">
           <div className="wrap">
-            <h2 className="index-label">
-              よく読まれる記事<span className="index-label-en">MOST READ</span>
-            </h2>
+            <h2 className="index-label">よく読まれる記事</h2>
             <div className="most-read">
               {popular.map((a, i) => (
                 <a className="mr-card" href={`/articles/${a.slug}`} key={a.slug}>
@@ -86,10 +84,9 @@ export default async function ArticlesIndex() {
       {/* ---- ジャンル箱 ---- */}
       <section className="s-article">
         <div className="wrap">
-          <h2 className="index-label">
-            お悩み・テーマから探す
-            <span className="index-label-en">BROWSE BY THEME</span>
-          </h2>
+          {/* 英字ラベル（MOST READ / BROWSE BY THEME）は撤去（2026-08-08）。
+              日本語見出しで足りており、意味のない英字併記は AI 生成LPの定型だった。 */}
+          <h2 className="index-label">お悩み・テーマから探す</h2>
           <div className="genre-grid">
             {GENRES.map((g) => {
               const items = g.slugs
@@ -99,10 +96,7 @@ export default async function ArticlesIndex() {
               return (
                 <section className="genre-box" key={g.id}>
                   <h3 className="genre-name">
-                    <span>
-                      <span aria-hidden="true">{g.emoji} </span>
-                      {g.name}
-                    </span>
+                    <span>{g.name}</span>
                     <span className="genre-count">{items.length}本</span>
                   </h3>
                   <p className="genre-lead">{g.lead}</p>
@@ -122,9 +116,7 @@ export default async function ArticlesIndex() {
             {unassigned.length > 0 && (
               <section className="genre-box">
                 <h3 className="genre-name">
-                  <span>
-                    <span aria-hidden="true">🆕 </span>新着・その他
-                  </span>
+                  <span>新着・その他</span>
                   <span className="genre-count">{unassigned.length}本</span>
                 </h3>
                 <p className="genre-lead">

@@ -1625,7 +1625,7 @@
     "seed": 1,
     "variant": "micro3x3#91282"
    },
-   "order": 10,
+   "order": 9,
    "edited": true
   },
   {
@@ -4458,7 +4458,7 @@
     "seed": 3,
     "variant": "hybrid#4#1-351"
    },
-   "order": 9
+   "order": 10
   },
   {
    "id": "rotate-lv4-vol1-s3-28",

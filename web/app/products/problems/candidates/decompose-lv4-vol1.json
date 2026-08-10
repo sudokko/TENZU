@@ -928,7 +928,7 @@
     }
    },
    "status": "adopted",
-   "order": 1
+   "order": 2
   },
   {
    "id": "decompose-lv4-vol1-m04",
@@ -2227,7 +2227,7 @@
     }
    },
    "status": "adopted",
-   "order": 12,
+   "order": 11,
    "edited": true
   },
   {
@@ -2846,7 +2846,7 @@
     }
    },
    "status": "adopted",
-   "order": 10,
+   "order": 9,
    "edited": true
   },
   {
@@ -3222,7 +3222,7 @@
     }
    },
    "status": "adopted",
-   "order": 5
+   "order": 4
   },
   {
    "id": "decompose-lv4-vol1-m12",
@@ -4316,7 +4316,7 @@
     }
    },
    "status": "adopted",
-   "order": 4
+   "order": 5
   },
   {
    "id": "decompose-lv4-vol1-m15",
@@ -4845,7 +4845,7 @@
     }
    },
    "status": "adopted",
-   "order": 2
+   "order": 1
   },
   {
    "id": "decompose-lv4-vol1-m17",
@@ -5411,7 +5411,7 @@
     }
    },
    "status": "adopted",
-   "order": 9,
+   "order": 10,
    "edited": true
   },
   {
@@ -6775,7 +6775,7 @@
     }
    },
    "status": "adopted",
-   "order": 11,
+   "order": 12,
    "edited": true
   },
   {

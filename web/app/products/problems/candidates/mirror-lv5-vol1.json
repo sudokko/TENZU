@@ -1280,7 +1280,7 @@
     "seed": 1,
     "variant": "hybrid#6#1-161"
    },
-   "order": 1
+   "order": 7
   },
   {
    "id": "mirror-lv5-vol1-s1-06",
@@ -1764,7 +1764,7 @@
     "seed": 1,
     "variant": "hybrid#6#1-49"
    },
-   "order": 6,
+   "order": 5,
    "edited": true
   },
   {
@@ -2389,7 +2389,7 @@
     "seed": 1,
     "variant": "hybrid#6#1-176"
    },
-   "order": 11,
+   "order": 12,
    "edited": true
   },
   {
@@ -2642,7 +2642,7 @@
     "seed": 1,
     "variant": "hybrid#6#1-178"
    },
-   "order": 4,
+   "order": 3,
    "edited": true
   },
   {
@@ -2956,7 +2956,7 @@
     "seed": 1,
     "variant": "hybrid#6#1-203"
    },
-   "order": 3
+   "order": 2
   },
   {
    "id": "mirror-lv5-vol1-s1-12",
@@ -6330,7 +6330,7 @@
     "createdAt": "",
     "label": "とうだい"
    },
-   "order": 12
+   "order": 11
   },
   {
    "id": "mirror-lv5-vol1-s0-24",
@@ -6804,7 +6804,7 @@
     "createdAt": "",
     "label": "キリン"
    },
-   "order": 2
+   "order": 1
   },
   {
    "id": "mirror-lv5-vol1-s0-26",
@@ -7001,7 +7001,7 @@
     "createdAt": "",
     "label": "たこあげ"
    },
-   "order": 7
+   "order": 6
   },
   {
    "id": "mirror-lv5-vol1-s0-27",
@@ -7555,7 +7555,7 @@
     "createdAt": "",
     "label": "へび"
    },
-   "order": 5
+   "order": 4
   },
   {
    "id": "mirror-lv5-vol1-s3-29",

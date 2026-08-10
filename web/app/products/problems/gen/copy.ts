@@ -51,7 +51,7 @@ export type CrossMode = "any" | "zero" | "some"; // 交差の種類ゲート: �
    （旧・多次元 band は band が広すぎ・隣接巻と重なり・巻内ばらつき9倍・難易度逆転を
    起こしていた。D 窓化で中央値が単調・窓幅は旧 band の 1/4〜1/6 に圧縮）。 */
 export type CopyShapeParams = {
-  grid: 3 | 4 | 5 | 6 | 7;
+  grid: 3 | 4 | 5 | 6 | 7 | 8;
   slopes: CopySlope;        // ortho=直交のみ / ortho45=45°まで / any=非45°許可
   fullGrid?: boolean;       // 盤面いっぱい必須（Lv3+: 3×3 で完結する小図形を排除）
   requireNon45?: boolean;   // 非45°を必ず含む（5×5 の壁 lv3-vol2→lv4-vol1）

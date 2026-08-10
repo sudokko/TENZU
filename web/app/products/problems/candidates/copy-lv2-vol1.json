@@ -910,7 +910,7 @@
     "variant": "bowtie#2/0@3"
    },
    "status": "adopted",
-   "order": 8,
+   "order": 5,
    "difficulty": {
     "task": "copy",
     "auto": 7.5,
@@ -1015,7 +1015,7 @@
     "variant": "diamond#1/0@3"
    },
    "status": "adopted",
-   "order": 4,
+   "order": 3,
    "difficulty": {
     "task": "copy",
     "auto": 7.2,
@@ -1298,7 +1298,7 @@
     "variant": "chev#2x2/0@3"
    },
    "status": "adopted",
-   "order": 6,
+   "order": 7,
    "difficulty": {
     "task": "copy",
     "auto": 7.9,
@@ -1725,7 +1725,7 @@
     "variant": "bolt3#1/1@3"
    },
    "status": "adopted",
-   "order": 3,
+   "order": 6,
    "difficulty": {
     "task": "copy",
     "auto": 7.7,
@@ -2334,7 +2334,7 @@
     "variant": "flag3#1/1@3"
    },
    "status": "adopted",
-   "order": 5,
+   "order": 10,
    "difficulty": {
     "task": "copy",
     "auto": 8.3,
@@ -2453,7 +2453,7 @@
     "variant": "house3#1/0@3"
    },
    "status": "adopted",
-   "order": 7,
+   "order": 4,
    "difficulty": {
     "task": "copy",
     "auto": 7.2,
@@ -2574,7 +2574,7 @@
     "variant": "diaH3#1/0@3"
    },
    "status": "adopted",
-   "order": 9,
+   "order": 8,
    "difficulty": {
     "task": "copy",
     "auto": 7.9,
@@ -2714,8 +2714,7 @@
     "motif": "すなどけい",
     "variant": "hour3#1/0@3"
    },
-   "status": "adopted",
-   "order": 10,
+   "status": "pending",
    "difficulty": {
     "task": "copy",
     "auto": 7.5,
@@ -5132,7 +5131,8 @@
      "brk": 0
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 9
   },
   {
    "id": "copy-lv2-vol1-m03",
@@ -5245,8 +5245,7 @@
      "交差": 2
     }
    },
-   "status": "adopted",
-   "order": 13
+   "status": "pending"
   }
  ],
  "seedCursor": 0

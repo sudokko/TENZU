@@ -57,7 +57,7 @@ Foundation は「ステップ」ではなく**全ステップが参照する基�
 | 記事構成 craft（dump→構成・目次案の組み立て方） | `content/structure-craft.md` |
 | 記事本文化 craft（構成メモ→本文の膨らませ方・執筆役割分担） | `content/writing-craft.md` |
 | 記事推敲 craft（書いた後の点検・直し方） | `content/revision-craft.md` |
-| note 開発実録マガジンの執筆ルール（実録スタンス・回テンプレ・検証・小モデル運用） | `content/note-devlog-craft.md` |
+| note 開発実録マガジンの執筆ルール（回顧ノウハウ型スタンス・無料/有料の線引き・回テンプレ・検証・小モデル運用） | `content/note-devlog-craft.md` |
 | 競合分析 | `market/competitive.md` |
 | ターゲット中核3／受動拾い4 | `market/targeting.md` |
 | ポジショニング市場展開 | `market/positioning.md` |

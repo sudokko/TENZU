@@ -305,7 +305,7 @@
     "label": "いぬ"
    },
    "status": "adopted",
-   "order": 3,
+   "order": 2,
    "edited": true
   },
   {
@@ -1868,7 +1868,7 @@
     "label": "かたつむり"
    },
    "status": "adopted",
-   "order": 6,
+   "order": 7,
    "edited": true
   },
   {
@@ -2085,7 +2085,7 @@
     "label": "ほし"
    },
    "status": "adopted",
-   "order": 1
+   "order": 6
   },
   {
    "id": "fill-lv4-vol1-motif-s1-30",
@@ -2563,7 +2563,7 @@
     "label": "かさ"
    },
    "status": "adopted",
-   "order": 8,
+   "order": 10,
    "edited": true
   },
   {
@@ -3146,7 +3146,7 @@
     "label": "さかな"
    },
    "status": "adopted",
-   "order": 7
+   "order": 8
   },
   {
    "id": "fill-lv4-vol1-motif-s1-35",
@@ -3847,7 +3847,7 @@
     "label": "ねこ"
    },
    "status": "adopted",
-   "order": 9,
+   "order": 3,
    "edited": true
   },
   {
@@ -5332,7 +5332,7 @@
     "seed": 1,
     "variant": "hept#1/1"
    },
-   "order": 10
+   "order": 9
   },
   {
    "id": "fill-lv4-vol1-s1-44",

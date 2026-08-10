@@ -1223,7 +1223,7 @@
     "label": "おしろ"
    },
    "status": "adopted",
-   "order": 8,
+   "order": 5,
    "edited": true
   },
   {
@@ -9674,7 +9674,7 @@
     "seed": 1,
     "variant": "hybrid#6#1-316"
    },
-   "order": 5
+   "order": 8
   },
   {
    "id": "fill-lv5-vol1-s1-46",

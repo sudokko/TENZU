@@ -2206,7 +2206,7 @@
     "label": "きかんしゃ"
    },
    "status": "adopted",
-   "order": 9
+   "order": 10
   },
   {
    "id": "fill-lv3-vol1-motif-s1-31",
@@ -3309,7 +3309,7 @@
     "label": "きせん"
    },
    "status": "adopted",
-   "order": 10,
+   "order": 9,
    "edited": true
   },
   {

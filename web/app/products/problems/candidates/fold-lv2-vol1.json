@@ -767,7 +767,7 @@
      ]
     ]
    ],
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "fold",
     "auto": 16.7,
@@ -787,7 +787,8 @@
     "version": "1",
     "seed": 1,
     "variant": "micro3x3#269571+micro3x3#163972@0,0"
-   }
+   },
+   "order": 10
   },
   {
    "id": "fold-lv2-vol1-s1-04",
@@ -1312,7 +1313,7 @@
     "seed": 1,
     "variant": "micro3x3#164626+micro3x3#264260@0,0"
    },
-   "order": 9
+   "order": 8
   },
   {
    "id": "fold-lv2-vol1-s1-06",
@@ -1796,7 +1797,7 @@
     "seed": 1,
     "variant": "micro3x3#397552+micro2x2#42@0,0"
    },
-   "order": 10
+   "order": 9
   },
   {
    "id": "fold-lv2-vol1-s1-08",
@@ -4659,7 +4660,7 @@
     "seed": 1,
     "variant": "micro3x3#172227+micro3x2#1571@0,1"
    },
-   "order": 11,
+   "order": 12,
    "edited": true
   },
   {
@@ -4943,7 +4944,7 @@
     "seed": 1,
     "variant": "micro3x3#429104+micro3x3#24712@0,0"
    },
-   "order": 12
+   "order": 11
   },
   {
    "id": "fold-lv2-vol1-s1-19",
@@ -5227,7 +5228,7 @@
      ]
     ]
    ],
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "fold",
     "auto": 14.5,
@@ -5247,8 +5248,7 @@
     "version": "1",
     "seed": 1,
     "variant": "micro3x3#25356+micro3x3#396480@0,0"
-   },
-   "order": 8
+   }
   },
   {
    "id": "fold-lv2-vol1-s1-20",
@@ -5728,7 +5728,8 @@
      "G": 3
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 7
   },
   {
    "id": "fold-lv2-vol1-m02",
@@ -6480,8 +6481,7 @@
      "G": 3
     }
    },
-   "status": "adopted",
-   "order": 1
+   "status": "pending"
   },
   {
    "id": "fold-lv2-vol1-m05",
@@ -6697,7 +6697,7 @@
     }
    },
    "status": "adopted",
-   "order": 7
+   "order": 6
   },
   {
    "id": "fold-lv2-vol1-m06",
@@ -7346,8 +7346,7 @@
      "G": 3
     }
    },
-   "status": "adopted",
-   "order": 2
+   "status": "pending"
   },
   {
    "id": "fold-lv2-vol1-m09",
@@ -7781,7 +7780,8 @@
      "G": 3
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 1
   },
   {
    "id": "fold-lv2-vol1-m11",
@@ -8255,8 +8255,7 @@
      "G": 3
     }
    },
-   "status": "adopted",
-   "order": 6
+   "status": "pending"
   },
   {
    "id": "fold-lv2-vol1-m13",
@@ -8471,7 +8470,8 @@
      "G": 3
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 2
   },
   {
    "id": "fold-lv2-vol1-m14",

@@ -13,7 +13,7 @@
 /* ---- 盤面 ----
    discriminated union: 将来の拡大縮小（square-pair）も既存 JSON を壊さず追加できる形。
    square = 正方格子（模写・鏡ほか全 square タスク）／solid = 立体模写の矩形点格子。 */
-export type SquareGrid = { type: "square"; n: 3 | 4 | 5 | 6 | 7 };
+export type SquareGrid = { type: "square"; n: 3 | 4 | 5 | 6 | 7 | 8 };
 /* 立体模写の盤面（横 cols × 縦 rows・maker-solid の 7〜15 と同系）。 */
 export type SolidGrid = { type: "solid"; cols: number; rows: number };
 export type GridSpec = SquareGrid | SolidGrid;

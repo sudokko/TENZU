@@ -456,22 +456,16 @@ function IcPrint() {
     </svg>
   );
 }
-function IcLoop() {
-  return (
-    <svg viewBox="0 0 40 40" className="flow-icon" aria-hidden="true">
-      <path d="M31 13 A13 13 0 1 0 33 25" fill="none" stroke={TEAL} strokeWidth="2.4" strokeLinecap="round" />
-      <path d="M31 6 L33 15 L24 13 Z" fill={TEAL} />
-    </svg>
-  );
-}
+/* IcLoop（周回矢印）は STEP 05 の廃止にともない撤去（2026-08-08）。 */
 
 const STEPS = [
   { n: "01", Ic: IcPick, t: "今のレベルを選ぶ", d: "¥200 一律。レベル選びガイドで、はじめる位置の目安を。" },
   { n: "02", Ic: IcSample, t: "中身をたしかめる", d: "商品ページで紙面プレビューを公開。買う前に見られます。" },
   { n: "03", Ic: IcBuy, t: "購入する", d: "その場ですぐダウンロード。回数の制限はありません。" },
   { n: "04", Ic: IcPrint, t: "印刷して、机の上へ", d: "白黒 OK。家のプリンタでも、コンビニのコピー機でも。" },
-  { n: "05", Ic: IcLoop, t: "気が向いた日に、次の一枚", d: "繰り返しても、次へ進んでも、休んでも。家庭ごとで。" },
 ];
+/* 旧 STEP 05。順序ではなく余韻なので番号を外し、手順の外（.flowB-coda）へ出した（2026-08-08）。
+   番号は「順序が情報のとき」だけ付ける、が方針。 */
 
 /* ---- ⑤ 自分で作る・挿絵（工房の作業台 → 紙）----
    メーカー画面で風車を描きかけ（鉛筆＝Hero の PencilShape 流用）、それが
@@ -639,8 +633,9 @@ export default function Home() {
             数字は GROUPS 由来（TOTAL_KINDS/TOTAL_VOL/TOTAL_QUESTIONS）＝ハードコード禁止。 */}
         <section className="tr-sec tr-sec-alt">
           <div className="wrap">
+            {/* kicker は置かない: 「TENZU の特長」→ H2「TENZU、3 つの特長。」は同語反復。
+                TOP の kicker は「品ぞろえ」「はじめ方」の 2 枠だけに絞る（2026-08-08）。 */}
             <div className="tr-sec-head">
-              <p className="tr-sec-kicker">TENZU の特長</p>
               <h2>TENZU、3 つの特長。</h2>
             </div>
 
@@ -724,7 +719,6 @@ export default function Home() {
         {/* ===================== ④ レベルで選ぶ（旧クロージングを品ぞろえ直後へ昇格） ===================== */}
         <section className="tr-close">
           <div className="wrap wrap-narrow">
-            <p className="tr-sec-kicker">レベルで選ぶ</p>
             <h2>点と点が、つながるように。</h2>
             <p>
               まずは中身を見て、いまのレベルの一枚から。印刷して、机の上で。
@@ -745,7 +739,6 @@ export default function Home() {
               </div>
               <div className="tr-maker-copy">
                 <div className="tr-sec-head">
-                  <p className="tr-sec-kicker">自分で作る — メーカー</p>
                   <h2>ぴったりが無ければ、自分で作る。</h2>
                 </div>
                 <p className="tr-lead">
@@ -783,6 +776,10 @@ export default function Home() {
                 );
               })}
             </div>
+            <p className="flowB-coda">
+              あとは、気が向いた日に次の一枚を。繰り返しても、次へ進んでも、しばらく休んでも、
+              そこはご家庭ごとで大丈夫です。
+            </p>
           </div>
         </section>
 

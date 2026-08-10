@@ -3108,7 +3108,7 @@
     "seed": 1,
     "variant": "drect#4x3d2/0"
    },
-   "order": 5,
+   "order": 6,
    "edited": true
   },
   {
@@ -3789,7 +3789,7 @@
     "seed": 1,
     "variant": "trapX#1/0"
    },
-   "order": 9,
+   "order": 10,
    "edited": true
   },
   {
@@ -4803,7 +4803,7 @@
     "seed": 1,
     "variant": "hybrid#5#1-106"
    },
-   "order": 10
+   "order": 11
   },
   {
    "id": "rotate-lv5-vol1-s1-19",
@@ -8107,7 +8107,7 @@
     }
    },
    "status": "adopted",
-   "order": 11,
+   "order": 9,
    "edited": true
   },
   {
@@ -8440,7 +8440,7 @@
     }
    },
    "status": "adopted",
-   "order": 6
+   "order": 5
   },
   {
    "id": "rotate-lv5-vol1-m15",

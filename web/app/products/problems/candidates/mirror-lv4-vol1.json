@@ -1045,7 +1045,7 @@
     "seed": 1,
     "variant": "truchet#5#1-77/0"
    },
-   "order": 1
+   "order": 4
   },
   {
    "id": "mirror-lv4-vol1-s1-05",
@@ -1942,7 +1942,7 @@
     "seed": 1,
     "variant": "hybrid#5#1-488"
    },
-   "order": 4
+   "order": 3
   },
   {
    "id": "mirror-lv4-vol1-s1-09",
@@ -2618,7 +2618,7 @@
     "seed": 1,
     "variant": "hybrid#5#1-180"
    },
-   "order": 3
+   "order": 2
   },
   {
    "id": "mirror-lv4-vol1-s1-12",
@@ -6019,7 +6019,7 @@
     "label": "や",
     "edited": true
    },
-   "order": 5,
+   "order": 6,
    "edited": true
   },
   {
@@ -6237,7 +6237,7 @@
     "createdAt": "",
     "label": "キリン"
    },
-   "order": 6
+   "order": 5
   },
   {
    "id": "mirror-lv4-vol1-s0-29",

@@ -804,7 +804,7 @@
     "seed": 1,
     "variant": "nichicorn4#1/0"
    },
-   "order": 9
+   "order": 7
   },
   {
    "id": "mirror-lv3-vol1-s1-05",
@@ -1817,7 +1817,7 @@
     "seed": 1,
     "variant": "hybrid#4#1-286"
    },
-   "order": 8
+   "order": 9
   },
   {
    "id": "mirror-lv3-vol1-s1-11",
@@ -2700,7 +2700,7 @@
     "seed": 1,
     "variant": "rand#4#1-453"
    },
-   "order": 6
+   "order": 10
   },
   {
    "id": "mirror-lv3-vol1-s1-16",
@@ -5363,7 +5363,7 @@
     "createdAt": "",
     "label": "きせん"
    },
-   "order": 10
+   "order": 8
   },
   {
    "id": "mirror-lv3-vol1-s0-32",
@@ -5991,7 +5991,7 @@
     "createdAt": "",
     "label": "しましまのはた"
    },
-   "order": 7
+   "order": 6
   }
  ],
  "seedCursor": 2

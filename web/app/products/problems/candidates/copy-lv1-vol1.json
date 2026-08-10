@@ -398,7 +398,7 @@
     "variant": "H#2/0@3"
    },
    "status": "adopted",
-   "order": 7,
+   "order": 6,
    "difficulty": {
     "task": "copy",
     "auto": 6.5,
@@ -891,7 +891,7 @@
     "variant": "stairs#2/1@3"
    },
    "status": "adopted",
-   "order": 8,
+   "order": 7,
    "difficulty": {
     "task": "copy",
     "auto": 6.4,
@@ -2300,7 +2300,7 @@
     "variant": "fgata3#1/0@3"
    },
    "status": "adopted",
-   "order": 6,
+   "order": 10,
    "difficulty": {
     "task": "copy",
     "auto": 7.4,
@@ -2664,7 +2664,7 @@
     "variant": "zigz3#1/1@3"
    },
    "status": "adopted",
-   "order": 10,
+   "order": 9,
    "difficulty": {
     "task": "copy",
     "auto": 8.8,
@@ -3496,7 +3496,7 @@
     }
    },
    "status": "adopted",
-   "order": 9
+   "order": 8
   },
   {
    "id": "copy-lv1-vol1-m02",

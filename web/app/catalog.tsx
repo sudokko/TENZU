@@ -8,6 +8,9 @@
 import { lvCounts, LEVEL_NAMES, LEVEL_AGES } from "./products/data";
 import { isLaunchHidden } from "./products/capabilities";
 import { MAKER_FIG, FigSolid } from "./products/maker-figs";
+/* タスクの 1 行説明は products/task-desc.ts が SSOT（メーカー面と共用・
+   直接文字列を書かないこと。2026-08-08 に二重管理を解消）。 */
+import { TASK_DESC } from "./products/task-desc";
 
 /* 設問サンプル図は maker-figs.tsx を SSOT として共用（メーカー一覧と完全同一の凡例）。
    solid のみメーカー非対応のため maker-figs 側の FigSolid を流用する。 */
@@ -87,26 +90,28 @@ const ALL_GROUPS: Group[] = [
     sub: "形をそのまま読み取る、いちばんの基礎。立体に起こすところまで。",
     tasks: [
       {
-        slug: "copy", name: "模写", desc: "見本のとおりに、点をつないで写す。", lv: lvCounts("copy"), Fig: MAKER_FIG.copy,
+        slug: "copy", name: "模写", desc: TASK_DESC.copy, lv: lvCounts("copy"), Fig: MAKER_FIG.copy,
         notes: [
           "3×3・まっすぐの線だけ",
           "ななめ（45°）が登場。3×3",
           "線が増えて交差も。4×4〜5×5",
           "45°以外の角度へ。4×4〜5×5",
-          "6×6〜最大7×7で総仕上げ",
+          "6×6〜最大8×8で総仕上げ",
         ],
       },
       {
-        slug: "solid", name: "模写（立体）", desc: "平面の点から、立体を起こして写す。", lv: lvCounts("solid"), Fig: FigSolid,
+        slug: "solid", name: "模写（立体）", desc: TASK_DESC.solid, lv: lvCounts("solid"), Fig: FigSolid,
         notes: [
           "", "",
           "はこ・L字・三角柱・階段（見える辺だけ）",
           "段差・柱・家・門・小さな錐（見える辺だけ）",
-          "錐・空洞・大階段・塔・複合（隠れ辺フル）",
+          /* Lv.5 は 4 巻あるため、note は「共通点＋巻ごとに変わるもの」を言う。
+             旧文は vol1 の形の列挙で、vol2〜4 を説明できていなかった（2026-08-08）。 */
+          "巻がすすむほど、立体は大きくなります。隠れた辺も点線で。",
         ],
       },
       {
-        slug: "fill", name: "欠け補完", desc: "足りない辺を補って、形を閉じる。", lv: lvCounts("fill"), Fig: MAKER_FIG.fill,
+        slug: "fill", name: "欠け補完", desc: TASK_DESC.fill, lv: lvCounts("fill"), Fig: MAKER_FIG.fill,
         notes: [
           "",
           "3×3・ななめ入り。欠け1〜2本",
@@ -122,7 +127,7 @@ const ALL_GROUPS: Group[] = [
     sub: "向きや位置を変えて、頭の中で形をとらえる力。鏡・移動・回転。",
     tasks: [
       {
-        slug: "mirror", name: "鏡", desc: "鏡の反対側に映る形を描く。", lv: lvCounts("mirror"), Fig: MAKER_FIG.mirror,
+        slug: "mirror", name: "鏡", desc: TASK_DESC.mirror, lv: lvCounts("mirror"), Fig: MAKER_FIG.mirror,
         notes: [
           "",
           "3×3・やさしい形の鏡うつし",
@@ -132,7 +137,7 @@ const ALL_GROUPS: Group[] = [
         ],
       },
       {
-        slug: "translate", name: "移動", desc: "形を変えずに、ずらして写す。", lv: lvCounts("translate"), Fig: MAKER_FIG.translate,
+        slug: "translate", name: "移動", desc: TASK_DESC.translate, lv: lvCounts("translate"), Fig: MAKER_FIG.translate,
         notes: [
           "",
           "左右上下にずらす。3×3",
@@ -142,7 +147,7 @@ const ALL_GROUPS: Group[] = [
         ],
       },
       {
-        slug: "rotate", name: "回転", desc: "回しても同じ形だととらえる。", lv: lvCounts("rotate"), Fig: MAKER_FIG.rotate,
+        slug: "rotate", name: "回転", desc: TASK_DESC.rotate, lv: lvCounts("rotate"), Fig: MAKER_FIG.rotate,
         notes: [
           "",
           "90°右回り。3×3",
@@ -152,7 +157,7 @@ const ALL_GROUPS: Group[] = [
         ],
       },
       {
-        slug: "scale", name: "拡大", desc: "比をそろえて、大きく写す。", lv: lvCounts("scale"), Fig: MAKER_FIG.scale,
+        slug: "scale", name: "拡大", desc: TASK_DESC.scale, lv: lvCounts("scale"), Fig: MAKER_FIG.scale,
         notes: [
           "", "", "",
           "2倍に拡大（3×3→5×5）",
@@ -160,7 +165,7 @@ const ALL_GROUPS: Group[] = [
         ],
       },
       {
-        slug: "shrink", name: "縮小", desc: "比をそろえて、小さく写す。", lv: lvCounts("shrink"), Fig: MAKER_FIG.shrink,
+        slug: "shrink", name: "縮小", desc: TASK_DESC.shrink, lv: lvCounts("shrink"), Fig: MAKER_FIG.shrink,
         notes: [
           "", "", "", "",
           "1/2に縮小（5×5→3×3）",
@@ -173,7 +178,7 @@ const ALL_GROUPS: Group[] = [
     sub: "複数の形を組み立てたり、分けたりして読みとく力。",
     tasks: [
       {
-        slug: "overlay", name: "かさね", desc: "2 つの形を重ねたところを描く。", lv: lvCounts("overlay"), Fig: MAKER_FIG.overlay,
+        slug: "overlay", name: "かさね", desc: TASK_DESC.overlay, lv: lvCounts("overlay"), Fig: MAKER_FIG.overlay,
         notes: [
           "",
           "2つの形を重ねる。3×3",
@@ -183,7 +188,7 @@ const ALL_GROUPS: Group[] = [
         ],
       },
       {
-        slug: "decompose", name: "分解", desc: "1 つの形を、パーツに分ける。", lv: lvCounts("decompose"), Fig: MAKER_FIG.decompose,
+        slug: "decompose", name: "分解", desc: TASK_DESC.decompose, lv: lvCounts("decompose"), Fig: MAKER_FIG.decompose,
         notes: [
           "",
           "重なりから1つ取り出す。3×3",
@@ -193,12 +198,12 @@ const ALL_GROUPS: Group[] = [
         ],
       },
       {
-        slug: "fold", name: "折り重ね", desc: "形を折り返して、重ねたところを描く。", lv: lvCounts("fold"), Fig: MAKER_FIG.fold,
+        slug: "fold", name: "折り重ね", desc: TASK_DESC.fold, lv: lvCounts("fold"), Fig: MAKER_FIG.fold,
         notes: [
           "",
           "折り返して重ねる。3×3",
-          "交差＋線の密度。4×4",
-          "角度いろいろ。5×5",
+          "4×4・重なりはまだ少なめ",
+          "5×5・45°以外の角度で折る",
           "大盤面で折り重ねる。6×6",
         ],
       },
@@ -231,7 +236,7 @@ const ACCENT_INK = "#1F5260";
 export function LevelGraph({ highlight }: { highlight?: string } = {}) {
   return (
     <svg className="lvgraph" viewBox="0 0 528 278" role="img"
-      aria-label="レベル 5 段階と対象年齢のめやす（年齢の帯グラフ）">
+      aria-label={`レベル ${LEVEL_NAMES.length} 段階と対象年齢のめやす（年齢の帯グラフ）`}>
       {[4, 5, 6, 7, 8, 9].map((a) => (
         <line key={a} x1={gxa(a)} y1={14} x2={gxa(a)} y2={240}
           stroke="#E6E3DB" strokeWidth={1} strokeDasharray="2 4" />
@@ -314,8 +319,10 @@ export function SiteFooter() {
               見て、考えて、書く力を、点描写から。
             </p>
           </div>
+          {/* 見出しは日本語（2026-08-08）。旧 SHOP / ABOUT は、リンクが全部日本語なのに
+              見出しだけ英字という状態で、全ページのフッターに出ていた。 */}
           <div className="foot-col">
-            <h5>SHOP</h5>
+            <h5>プリント</h5>
             <ul>
               <li><a href="/products">すべてのプリント</a></li>
               <li><a href="/level-guide">レベルで選ぶ</a></li>
@@ -324,7 +331,8 @@ export function SiteFooter() {
             </ul>
           </div>
           <div className="foot-col">
-            <h5>ABOUT</h5>
+            {/* 列内に「お店のこと」リンクがあるため、見出しは「お店について」で重複を避ける。 */}
+            <h5>お店について</h5>
             <ul>
               <li><a href="/articles">読みもの</a></li>
               <li><a href="/articles/tenzu-concept">お店のこと</a></li>

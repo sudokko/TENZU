@@ -4729,7 +4729,7 @@
     "variant": "conc#4/0@5"
    },
    "status": "adopted",
-   "order": 3,
+   "order": 2,
    "difficulty": {
     "task": "copy",
     "auto": 14.8,
@@ -5113,7 +5113,7 @@
     "variant": "sym#5#1-124/0@5"
    },
    "status": "adopted",
-   "order": 4,
+   "order": 6,
    "difficulty": {
     "task": "copy",
     "auto": 20,
@@ -5818,7 +5818,7 @@
     "variant": "rand#5#1-428@5"
    },
    "status": "adopted",
-   "order": 12,
+   "order": 8,
    "difficulty": {
     "task": "copy",
     "auto": 22.2,
@@ -6381,7 +6381,7 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-66/0@5"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "copy",
     "auto": 19.7,
@@ -6401,7 +6401,8 @@
     "seed": 1,
     "variant": "sym#5#1-66/0@5",
     "label": "たいしょう"
-   }
+   },
+   "order": 5
   },
   {
    "id": "copy-lv3-vol2-s1-29",
@@ -7668,7 +7669,7 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-291/0@5"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "copy",
     "auto": 18.3,
@@ -7688,7 +7689,8 @@
     "seed": 1,
     "variant": "sym#5#1-291/0@5",
     "label": "たいしょう"
-   }
+   },
+   "order": 4
   },
   {
    "id": "copy-lv3-vol2-s1-34",
@@ -8571,7 +8573,7 @@
     "variant": "sym#5#1-21/0@5"
    },
    "status": "adopted",
-   "order": 7,
+   "order": 10,
    "difficulty": {
     "task": "copy",
     "auto": 22.5,
@@ -8810,7 +8812,7 @@
     "variant": "sym#5#1-268/0@5"
    },
    "status": "adopted",
-   "order": 10,
+   "order": 12,
    "edited": true,
    "difficulty": {
     "task": "copy",
@@ -8991,8 +8993,7 @@
     "motif": "たいしょう",
     "variant": "sym#5#1-33/0@5"
    },
-   "status": "adopted",
-   "order": 1,
+   "status": "pending",
    "difficulty": {
     "task": "copy",
     "auto": 14.4,
@@ -9710,7 +9711,7 @@
     "variant": "bigU#1/0@5"
    },
    "status": "adopted",
-   "order": 6,
+   "order": 3,
    "edited": true,
    "difficulty": {
     "task": "copy",
@@ -10108,8 +10109,7 @@
     "motif": "おりもの",
     "variant": "truchet#5#1-87/0@5"
    },
-   "status": "adopted",
-   "order": 2,
+   "status": "pending",
    "difficulty": {
     "task": "copy",
     "auto": 14.8,
@@ -14736,7 +14736,7 @@
     "variant": "hybrid#5#1-271@5"
    },
    "status": "adopted",
-   "order": 5,
+   "order": 9,
    "difficulty": {
     "task": "copy",
     "auto": 22.4,
@@ -15469,7 +15469,7 @@
     "variant": "hybrid#5#1-6@5"
    },
    "status": "adopted",
-   "order": 9,
+   "order": 11,
    "difficulty": {
     "task": "copy",
     "auto": 23.1,
@@ -17768,7 +17768,7 @@
     "variant": "house5+3"
    },
    "status": "adopted",
-   "order": 11,
+   "order": 7,
    "difficulty": {
     "task": "copy",
     "auto": 20.1,
@@ -19056,7 +19056,7 @@
     "variant": "rocket5+2"
    },
    "status": "adopted",
-   "order": 8,
+   "order": 1,
    "difficulty": {
     "task": "copy",
     "auto": 13.4,

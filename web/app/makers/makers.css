@@ -14,10 +14,7 @@
   padding: 44px 8px 36px;
   border-bottom: 1px solid #E6E3DB;
 }
-.makers-wrap .mk-kicker {
-  font-size: 12px; letter-spacing: 0.14em; color: #2C6E7F;
-  font-weight: 700; margin: 0 0 12px;
-}
+/* .mk-kicker は撤去（2026-08-08）。H1 と「点描写」が二重だったため。 */
 .makers-wrap .mk-h1 {
   font-size: 30px; line-height: 1.3; color: #1A1F2A; margin: 0 0 14px;
 }
@@ -97,11 +94,7 @@
 .makers-wrap .mk-desc { color: #4A4F58; font-size: 13px; line-height: 1.6; margin: 0; flex: 1; }
 .makers-wrap .mk-go { color: #2C6E7F; font-size: 13px; font-weight: 600; }
 
-.makers-wrap .mk-price-line {
-  max-width: 560px; margin: 14px auto 0; color: #4A4F58;
-  font-size: 13.5px; line-height: 1.8; text-align: center;
-}
-.makers-wrap .mk-price-line b { color: #1A1F2A; }
+/* .mk-price-line は撤去（2026-08-08）。冒頭の価格説明を末尾 .mk-close へ一本化したため。 */
 
 /* ---- クロージング ---- */
 .makers-wrap .mk-close {

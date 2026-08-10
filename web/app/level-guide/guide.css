@@ -66,14 +66,7 @@
   align-items: center;
   gap: var(--s-3);
 }
-.lg-optional {
-  font-family: var(--font-tier3-sans);
-  font-size: 11px;
-  color: var(--accent-ink);
-  border: 1px solid var(--accent-mute);
-  border-radius: 999px;
-  padding: 1px 8px;
-}
+/* .lg-optional は撤去（2026-08-08）。6 問時代の「任意」バッジ用で、4 問化以降は未使用。 */
 .lg-q {
   font-family: var(--font-tier1-klee);
   font-weight: 600;

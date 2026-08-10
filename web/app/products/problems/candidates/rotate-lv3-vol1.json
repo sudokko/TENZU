@@ -697,7 +697,7 @@
     "seed": 1,
     "variant": "grid#2x3/0"
    },
-   "order": 5
+   "order": 7
   },
   {
    "id": "rotate-lv3-vol1-s1-04",
@@ -1055,7 +1055,7 @@
     "seed": 1,
     "variant": "micro3x3#165400"
    },
-   "order": 2
+   "order": 1
   },
   {
    "id": "rotate-lv3-vol1-s1-06",
@@ -1376,7 +1376,7 @@
     "seed": 1,
     "variant": "hourglass#3/0"
    },
-   "order": 1
+   "order": 2
   },
   {
    "id": "rotate-lv3-vol1-s1-08",
@@ -2686,7 +2686,7 @@
     "seed": 1,
     "variant": "rand#4#1-207"
    },
-   "order": 7,
+   "order": 4,
    "edited": true
   },
   {
@@ -4081,7 +4081,7 @@
     "seed": 2,
     "variant": "micro3x3#795404"
    },
-   "order": 4,
+   "order": 6,
    "edited": true
   },
   {
@@ -5325,7 +5325,7 @@
     "seed": 4,
     "variant": "step3blk4#1/1"
    },
-   "order": 6
+   "order": 5
   },
   {
    "id": "rotate-lv3-vol1-s4-32",

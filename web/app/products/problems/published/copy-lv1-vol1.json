@@ -516,111 +516,6 @@
    }
   },
   {
-   "id": "copy-lv1-vol1-s1-21",
-   "grid": {
-    "type": "square",
-    "n": 3
-   },
-   "edges": [
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ]
-   ],
-   "metrics": {
-    "lines": 3,
-    "diagonals": 0,
-    "non45": 0,
-    "non45Gentle": 0,
-    "diagonalAngleKinds": 0,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 6,
-    "symmetry": [],
-    "boardN": 3,
-    "bboxW": 3,
-    "bboxH": 3,
-    "strokes": 2,
-    "symAxis": "h",
-    "symMiss": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "copy",
-    "version": "2",
-    "seed": 1,
-    "motif": "エフがた",
-    "variant": "fgata3#1/0@3"
-   },
-   "difficulty": {
-    "task": "copy",
-    "auto": 7.4,
-    "value": 7.4,
-    "parts": {
-     "E": 3,
-     "G": 3,
-     "k": 0.75,
-     "strokes": 0.7,
-     "brk": 3
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "copy",
-    "version": "2",
-    "seed": 1,
-    "variant": "fgata3#1/0@3",
-    "label": "エフがた"
-   }
-  },
-  {
    "id": "copy-lv1-vol1-s1-01",
    "grid": {
     "type": "square",
@@ -1093,6 +988,111 @@
    }
   },
   {
+   "id": "copy-lv1-vol1-s1-21",
+   "grid": {
+    "type": "square",
+    "n": 3
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 3,
+    "diagonals": 0,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 0,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 6,
+    "symmetry": [],
+    "boardN": 3,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 1
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "motif": "エフがた",
+    "variant": "fgata3#1/0@3"
+   },
+   "difficulty": {
+    "task": "copy",
+    "auto": 7.4,
+    "value": 7.4,
+    "parts": {
+     "E": 3,
+     "G": 3,
+     "k": 0.75,
+     "strokes": 0.7,
+     "brk": 3
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "copy",
+    "version": "2",
+    "seed": 1,
+    "variant": "fgata3#1/0@3",
+    "label": "エフがた"
+   }
+  },
+  {
    "id": "copy-lv1-vol1-s1-26",
    "grid": {
     "type": "square",
@@ -1389,5 +1389,5 @@
    }
   }
  ],
- "publishedAt": "2026-07-31"
+ "publishedAt": "2026-08-09"
 }

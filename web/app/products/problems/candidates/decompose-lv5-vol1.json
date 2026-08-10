@@ -2634,7 +2634,7 @@
     }
    },
    "status": "adopted",
-   "order": 2,
+   "order": 1,
    "edited": true
   },
   {
@@ -3297,7 +3297,7 @@
     }
    },
    "status": "adopted",
-   "order": 1,
+   "order": 2,
    "edited": true
   },
   {
@@ -4761,7 +4761,8 @@
      "G": 6
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 5
   },
   {
    "id": "decompose-lv5-vol1-m11",
@@ -9859,7 +9860,7 @@
     }
    },
    "status": "adopted",
-   "order": 5,
+   "order": 7,
    "edited": true
   },
   {
@@ -12422,7 +12423,8 @@
      "G": 6
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 6
   },
   {
    "id": "decompose-lv5-vol1-m26",

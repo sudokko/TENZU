@@ -182,7 +182,7 @@
     "variant": "micro3x3#164039+micro2x3#100@0,0"
    },
    "edited": true,
-   "order": 4
+   "order": 3
   },
   {
    "id": "decompose-lv2-vol1-s1-02",
@@ -615,7 +615,7 @@
     "seed": 1,
     "variant": "micro3x3#167472+micro2x2#30@0,0"
    },
-   "order": 5,
+   "order": 4,
    "edited": true
   },
   {
@@ -849,7 +849,7 @@
     "seed": 1,
     "variant": "micro3x3#266484+micro3x3#36099@0,0"
    },
-   "order": 3,
+   "order": 5,
    "edited": true
   },
   {
@@ -1743,7 +1743,7 @@
     "seed": 1,
     "variant": "micro3x3#533260+micro3x3#134339@0,0"
    },
-   "order": 11,
+   "order": 10,
    "edited": true
   },
   {
@@ -2197,7 +2197,7 @@
     "seed": 1,
     "variant": "micro3x3#691248+micro3x3#262593@0,0"
    },
-   "order": 10
+   "order": 11
   },
   {
    "id": "decompose-lv2-vol1-s1-11",

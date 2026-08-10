@@ -10,6 +10,8 @@ import SiteHeader from "../SiteHeader";
 import { GROUPS, LEVELS, LevelGraph, SiteFooter, TOTAL_KINDS, TOTAL_VOL } from "../catalog";
 import { TIERS } from "./data";
 import { TASK_MINIFIG } from "./task-minifigs";
+/* 設問数はレベル選びガイドの SSOT から引く（数字を直書きしないこと）。 */
+import { QUESTION_COUNT } from "../level-guide/questions";
 import "./product.css";
 
 export const metadata: Metadata = {
@@ -100,7 +102,7 @@ export default function ProductsHub() {
           {/* 棚を見終えて迷った人への導線（レベル選びガイド） */}
           <a className="level-guide-cta plpc-guide-cta" href="/level-guide">
             <span className="level-guide-cta-main">どこから始めるか迷ったら、<b>レベル選びガイド</b>へ。</span>
-            <span className="level-guide-cta-sub">4 つの質問に答えると、はじめる位置の目安とおすすめの一冊が出ます →</span>
+            <span className="level-guide-cta-sub">{QUESTION_COUNT} つの質問に答えると、はじめる位置の目安とおすすめの一冊が出ます →</span>
           </a>
         </div>
       </main>

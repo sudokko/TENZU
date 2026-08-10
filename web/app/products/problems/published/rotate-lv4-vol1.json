@@ -1276,6 +1276,157 @@
    }
   },
   {
+   "id": "rotate-lv4-vol1-s1-11",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "rotate",
+     "deg": 180
+    }
+   },
+   "metrics": {
+    "lines": 9,
+    "diagonals": 4,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 7,
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 2,
+    "symAxis": "d",
+    "symMiss": 1
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "rotate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#91282"
+   },
+   "difficulty": {
+    "task": "rotate",
+    "auto": 18.5,
+    "value": 18.5,
+    "parts": {
+     "E": 11,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0.7,
+     "brk": 3,
+     "変換": 2
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "rotate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#91282"
+   }
+  },
+  {
    "id": "rotate-lv4-vol1-s3-27",
    "grid": {
     "type": "square",
@@ -1475,157 +1626,6 @@
     "version": "1",
     "seed": 3,
     "variant": "hybrid#4#1-351"
-   }
-  },
-  {
-   "id": "rotate-lv4-vol1-s1-11",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "derived",
-    "transform": {
-     "type": "rotate",
-     "deg": 180
-    }
-   },
-   "metrics": {
-    "lines": 9,
-    "diagonals": 4,
-    "non45": 0,
-    "non45Gentle": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 7,
-    "symmetry": [],
-    "boardN": 4,
-    "bboxW": 3,
-    "bboxH": 3,
-    "strokes": 2,
-    "symAxis": "d",
-    "symMiss": 1
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "rotate",
-    "version": "1",
-    "seed": 1,
-    "variant": "micro3x3#91282"
-   },
-   "difficulty": {
-    "task": "rotate",
-    "auto": 18.5,
-    "value": 18.5,
-    "parts": {
-     "E": 11,
-     "G": 3.5,
-     "k": 0.85,
-     "strokes": 0.7,
-     "brk": 3,
-     "変換": 2
-    }
-   },
-   "provenance": {
-    "source": "ai-edited",
-    "generator": "rotate",
-    "version": "1",
-    "seed": 1,
-    "variant": "micro3x3#91282"
    }
   },
   {
@@ -2013,5 +2013,5 @@
    }
   }
  ],
- "publishedAt": "2026-08-02"
+ "publishedAt": "2026-08-09"
 }

@@ -368,7 +368,8 @@ export default function CoverageStudio() {
       <div className="wrap">
         <div className="tr-sec-head cstudio-head">
           <p className="tr-sec-kicker">品ぞろえ</p>
-          <h2>9 種類それぞれの中身を、ここで実演します。</h2>
+          {/* 数字は SSOT 由来（page.tsx の方針どおりハードコード禁止）。表示は従来と同一。 */}
+          <h2>{TOTAL_KINDS} 種類それぞれの中身を、ここで実演します。</h2>
           <p className="cstudio-lead">
             よくある点描写は、写すだけ。でも図形の土台は、回す・重ねる・立体に起こす……と、もっと広い。
             3 つの力を選んで、それぞれの形が「どう変わるか」を見てみて。

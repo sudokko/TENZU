@@ -342,7 +342,7 @@
     "seed": 1,
     "variant": "drect#3x3d1/1"
    },
-   "order": 4
+   "order": 3
   },
   {
    "id": "rotate-lv3-vol2-s1-03",
@@ -477,7 +477,7 @@
     "seed": 1,
     "variant": "micro3x3#525133"
    },
-   "order": 3
+   "order": 4
   },
   {
    "id": "rotate-lv3-vol2-s1-04",
@@ -2268,7 +2268,7 @@
     "seed": 1,
     "variant": "moku2d4#1/1"
    },
-   "order": 12,
+   "order": 11,
    "edited": true
   },
   {
@@ -3384,7 +3384,7 @@
     "seed": 1,
     "variant": "hybrid#4#1-371"
    },
-   "order": 11
+   "order": 12
   }
  ],
  "seedCursor": 1
