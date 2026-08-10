@@ -8,7 +8,7 @@ import {
   type CandidateStatus, type EdgeT, type SolidEdge,
 } from "../../../products/problems/schema";
 import { computeMetrics, computeSolidMetrics } from "../../../products/problems/gen/metrics";
-import { refreshMeta } from "../../../products/problems/gen/difficulty";
+import { metricsEdges, refreshMeta } from "../../../products/problems/gen/difficulty";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +36,8 @@ export async function POST(req: NextRequest) {
       solidEdges?: SolidEdge[];
       /* 欠け補完(fill)の R 手直し。answer.mode は変えず edges だけ差し替える */
       answerEdges?: EdgeT[];
+      /* 折り重ね(fold)の問題2 手直し。edges=問題1・answerEdges=完成図 と 3 点セットで来る */
+      inputB?: EdgeT[];
       /* 移動(translate)の移動ベクトル手直し。derived answer の transform を差し替える */
       transform?: { dc: number; dr: number };
       /* 回転(rotate)の角度手直し（混在巻＝1 問 1 角度・decisions §3.87） */
@@ -80,14 +82,13 @@ export async function POST(req: NextRequest) {
       c.metrics = computeSolidMetrics(normalized);
       c.edited = true;
     } else if (u.edges && c.grid.type === "square") {
-      // 線の手直し: 正規化 → 検証 → metrics 再算出 → edited 印
+      // 線の手直し: 正規化 → 検証 → edited 印（metrics は解答の差し替え後にまとめて引き直す）
       const normalized = normalizeEdges(u.edges);
       const errs = validateProblem({ ...c, edges: normalized });
       if (errs.length > 0) {
         return Response.json({ error: "編集が不正です", details: errs }, { status: 400 });
       }
       c.edges = normalized;
-      c.metrics = computeMetrics(normalized, c.grid.n);
       c.edited = true;
     }
     const solidEdited = !!(u.solidEdges && c.grid.type === "solid");
@@ -96,6 +97,17 @@ export async function POST(req: NextRequest) {
       // R の手直し: 正規化のみ（R は F の部分集合という制約は検品者が目視で担保）
       c.answer = { mode: "explicit", edges: normalizeEdges(u.answerEdges!) };
       c.edited = true;
+    }
+    // 折り重ねの問題2 手直し（edges=問題1・answer=完成図 と一緒に来る）
+    const inputBEdited = !!(u.inputB && c.grid.type === "square");
+    if (inputBEdited) {
+      c.inputB = normalizeEdges(u.inputB!);
+      c.edited = true;
+    }
+    /* metrics は「子が写す図」から引き直す。折り重ねだけ edges＝問題1 なので
+       metricsEdges を必ず通す（素の computeMetrics だと盤面項が紙1 の bbox に縮む）。 */
+    if (c.grid.type === "square" && (u.edges || answerEdited || inputBEdited)) {
+      c.metrics = computeMetrics(metricsEdges(file.task, c), c.grid.n);
     }
     // 移動ベクトルの手直し（translate のみ）: 移動なし・はみ出しはサーバでも弾く
     let transformEdited = false;
@@ -136,7 +148,7 @@ export async function POST(req: NextRequest) {
       }
     }
     // edges/解答/立体辺を変えたら difficulty.auto と provenance を引き直す（manual は保全）
-    if (u.edges || answerEdited || solidEdited || transformEdited) refreshMeta(file.task, c);
+    if (u.edges || answerEdited || inputBEdited || solidEdited || transformEdited) refreshMeta(file.task, c);
   }
   await writeCandidates(file);
   return Response.json({ ok: true });

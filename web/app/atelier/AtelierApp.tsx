@@ -20,6 +20,7 @@ import {
 } from "../products/problems/ladder-schema";
 import {
   baseDifficulty, separationLoad, taskDifficulty, boardTermText,
+  foldFactor, foldInvariance,
   D_BASE_FORMULA, D_TASK_FULL_FORMULA, D_TASK_EXCLUDES,
 } from "../products/problems/gen/difficulty";
 import { dBreakdown } from "../products/coverage";
@@ -467,7 +468,7 @@ export default function AtelierApp({
       };
     }
     if (blankGridN === undefined) return null;
-    const n = blankGridN as 3 | 4 | 5 | 6 | 7;
+    const n = blankGridN as 3 | 4 | 5 | 6 | 7 | 8;
     const mode = TASK_ANSWER_MODE[task] ?? "none";
     /* 移動の白紙作成: 巻の方向（ladder の dir）に合わせた既定ベクトルを焼く。
        hv（左右上下）は右1を既定に。移動先は編集モーダルの回答ペインで選び直せる。 */
@@ -585,6 +586,7 @@ export default function AtelierApp({
   async function saveEdit(
     id: string, edges: EdgeT[], motif?: string, answerEdges?: EdgeT[],
     transform?: { dc: number; dr: number }, rotateDeg?: 90 | -90 | 180,
+    inputB?: EdgeT[],
   ) {
     setBusy(true); setMsg("");
     try {
@@ -599,6 +601,7 @@ export default function AtelierApp({
             ...(answerEdges !== undefined && { answerEdges }),
             ...(transform !== undefined && { transform }),
             ...(rotateDeg !== undefined && { rotateDeg }),
+            ...(inputB !== undefined && { inputB }),
           }],
         }),
       });
@@ -642,6 +645,7 @@ export default function AtelierApp({
   async function createNew(
     edges: EdgeT[], title?: string, answerEdges?: EdgeT[],
     transform?: { dc: number; dr: number }, rotateDeg?: 90 | -90 | 180,
+    inputB?: EdgeT[],
   ) {
     setBusy(true); setMsg("");
     try {
@@ -653,6 +657,7 @@ export default function AtelierApp({
           ...(answerEdges !== undefined && { answerEdges }),
           ...(transform !== undefined && { transform }),
           ...(rotateDeg !== undefined && { rotateDeg }),
+          ...(inputB !== undefined && { inputB }),
           ...(title && { title }),
         }),
       });
@@ -1154,7 +1159,8 @@ export default function AtelierApp({
           candidate={editing}
           busy={busy}
           task={task}
-          onSave={(edges, motif, answerEdges, transform, rotateDeg) => saveEdit(editing.id, edges, motif, answerEdges, transform, rotateDeg)}
+          onSave={(edges, motif, answerEdges, transform, rotateDeg, inputB) =>
+            saveEdit(editing.id, edges, motif, answerEdges, transform, rotateDeg, inputB)}
           onClose={() => setEditing(null)}
         />
       ))}
@@ -1174,7 +1180,8 @@ export default function AtelierApp({
           busy={busy}
           createMode
           task={task}
-          onSave={(edges, title, answerEdges, transform, rotateDeg) => createNew(edges, title, answerEdges, transform, rotateDeg)}
+          onSave={(edges, title, answerEdges, transform, rotateDeg, inputB) =>
+            createNew(edges, title, answerEdges, transform, rotateDeg, inputB)}
           onClose={() => setCreating(false)}
         />
       ))}
@@ -1246,6 +1253,8 @@ function EditOverlay({
   onSave: (
     edges: EdgeT[], motif?: string, answerEdges?: EdgeT[],
     transform?: { dc: number; dr: number }, rotateDeg?: 90 | -90 | 180,
+    /* 折り重ね（fold）の問題2。edges＝問題1・answerEdges＝完成図 と 3 点セットで送る */
+    inputB?: EdgeT[],
   ) => void;
   onClose: () => void;
   createMode?: boolean;
@@ -1278,13 +1287,19 @@ function EditOverlay({
      片方の盤面に描いた線がもう片方にあれば「移る」＝重複を作らせない。
      分解（decompose）は B ⊂ 完成図 が定義なので、従来の選択方式を残す。 */
   const isAB = isFill && task === "overlay";
+  /* 折り重ね（fold）も「問題1 →(折る) 問題2 ＝ 完成図」の 3 ペイン編集にする。
+     データモデルは gen/fold.ts と同じ edges＝問題1（折る前の姿）・inputB＝問題2・
+     answer.edges＝完成図（=mirror(問題1, v)∪問題2）。完成図は 2 枚から導出＝読取専用。
+     ここでは rEdges を「問題2」として持つ（他タスクの R とは別物・保存時に振り分ける）。 */
+  const isFold = task === "fold";
   const [edges, setEdges] = useState<EdgeT[]>(candidate.edges);
   const [rEdges, setREdges] = useState<EdgeT[]>(
-    isFill && candidate.answer?.mode === "explicit" ? candidate.answer.edges : [],
+    isFold ? (candidate.inputB ?? [])
+      : isFill && candidate.answer?.mode === "explicit" ? candidate.answer.edges : [],
   );
   const [mode, setMode] = useState<"F" | "R">("F");
   const [first, setFirst] = useState<Pt | null>(null);
-  const [firstPane, setFirstPane] = useState<"A" | "B" | null>(null); // かさね: 作図中の点がどちらの盤面か
+  const [firstPane, setFirstPane] = useState<"A" | "B" | null>(null); // かさね/折り重ね: 作図中の点がどちらの盤面か
   const [oneStroke, setOneStroke] = useState(false);   // 一筆書き: 線を引いた後、終点を次の始点に残す
   const [eraseMode, setEraseMode] = useState(false);   // 消す（消しゴム）: 線をクリックで1本削除
   const [history, setHistory] = useState<{ edges: EdgeT[]; rEdges: EdgeT[] }[]>([]);
@@ -1294,7 +1309,22 @@ function EditOverlay({
   const pos = (i: number) => 10 + (80 * i) / Math.max(1, n - 1);
   const samePt = (a: Pt, b: Pt) => a[0] === b[0] && a[1] === b[1];
 
-  const liveMetrics = useMemo(() => computeMetrics(edges, n), [edges, n]);
+  /* 折り重ね: 折り返した問題1（代表軸 v・gen/fold.ts と同規約）と、完成図＝それと問題2の和。
+     完成図は「子が描く図」＝metrics・D・かぶり判定の土台なので、ここを唯一の導出点にする。 */
+  const foldMirrored = useMemo(
+    () => (isFold ? mirrorEdges(edges, n, "v") : []),
+    [isFold, edges, n],
+  );
+  const foldResult = useMemo(
+    () => (isFold ? normalizeEdges([...foldMirrored, ...rEdges]) : []),
+    [isFold, foldMirrored, rEdges],
+  );
+
+  // 折り重ねの metrics は完成図から（difficulty.ts の metricsEdges と同じ規約）
+  const liveMetrics = useMemo(
+    () => computeMetrics(isFold ? foldResult : edges, n),
+    [isFold, foldResult, edges, n],
+  );
   const axis = mirrorAxisOf(candidate.answer);
   const mirrorGhost = useMemo(() => (axis ? mirrorEdges(edges, n, axis) : []), [axis, edges, n]);
   /* 回転の回答ペイン（選んだ角度でまわした形）。角度ボタンを押すとその場で結果が見える。
@@ -1570,18 +1600,65 @@ function EditOverlay({
     setFirst(null); setFirstPane(null);
   }
 
+  /* ---- 折り重ね（fold）の 3 ペイン編集 ----
+     かさねと違い、問題1（edges）と問題2（rEdges）は別々の紙＝独立した辺集合。
+     同じ線を両方が持ってもよい（折ったとき重なるだけ）ので「移る」制約は無い。 */
+  const foldStats = useMemo(() => {
+    if (!isFold) return null;
+    const bk = new Set(rEdges.map(edgeKey));
+    const afterFold = foldMirrored.filter((e) => !bk.has(edgeKey(e)));  // 折った後の A'（difficulty.ts と同じ取り方）
+    return {
+      aLines: computeMetrics(edges, n).lines,
+      bLines: computeMetrics(rEdges, n).lines,
+      entangle: interCrossings(afterFold, rEdges),
+      sep: separationLoad(edges) + separationLoad(rEdges),
+      kf: foldFactor(foldInvariance(edges, n)),
+      dup: foldMirrored.length - afterFold.length,   // 折ると問題2に重なって消える線
+    };
+  }, [isFold, edges, rEdges, foldMirrored, n]);
+
+  function clickPointFold(pane: "A" | "B", p: Pt) {
+    if (eraseMode) return;
+    if (!first || firstPane !== pane) { setFirst(p); setFirstPane(pane); return; }
+    if (samePt(first, p)) { setFirst(null); setFirstPane(null); return; } // 同点 = 選択解除
+    const units = splitAtLattice([first, p]);
+    const uKeys = new Set(units.map(edgeKey));
+    const cur = pane === "A" ? edges : rEdges;
+    const setCur = pane === "A" ? setEdges : setREdges;
+    const curKeys = new Set(cur.map(edgeKey));
+    pushHistory({ edges, rEdges });
+    setCur(units.every((u) => curKeys.has(edgeKey(u)))
+      ? cur.filter((e) => !uKeys.has(edgeKey(e)))       // もう一度なぞる = その紙から消す
+      : normalizeEdges([...cur, ...units]));
+    setFirst(oneStroke ? p : null);
+    setFirstPane(oneStroke ? pane : null);
+  }
+
+  function eraseFold(pane: "A" | "B", e: EdgeT) {
+    const k = edgeKey(e);
+    pushHistory({ edges, rEdges });
+    if (pane === "A") setEdges(edges.filter((x) => edgeKey(x) !== k));
+    else setREdges(rEdges.filter((x) => edgeKey(x) !== k));
+    setFirst(null); setFirstPane(null);
+  }
+
+  function clearFoldPane(pane: "A" | "B") {
+    if ((pane === "A" ? edges : rEdges).length === 0) return;
+    pushHistory({ edges, rEdges });
+    if (pane === "A") setEdges([]); else setREdges([]);
+    setFirst(null); setFirstPane(null);
+  }
+
   /* 「質問＋回答」の2要素があるタスクは、maker 同様に右へ回答ペイン（読取専用ライブプレビュー）を並べる。
      左＝編集中（完成図/抜く線）・右＝子が見る結果。重ね描きの読みにくさを解消する。 */
-  const inputB = (candidate as { inputB?: EdgeT[] }).inputB;
-  const previewKind: "fill" | "mirror" | "fold" | "translate" | "rotate" | null =
+  const previewKind: "fill" | "mirror" | "translate" | "rotate" | null =
     isFill ? "fill" : axis ? "mirror" : isRotate ? "rotate"
-      : isTranslate ? "translate" : Array.isArray(inputB) ? "fold" : null;
+      : isTranslate ? "translate" : null;
   const previewSolid: EdgeT[] =
     previewKind === "fill" ? edges.filter((e) => !rSetView.has(edgeKey(e)))
       : previewKind === "mirror" ? mirrorGhost
         : previewKind === "rotate" ? rotated
           : previewKind === "translate" ? tMoved
-          : previewKind === "fold" ? (inputB ?? [])
             : [];
   // fill のみ: 抜いた線（子が描き足す＝解答）をアクセント点線で重ねる
   const previewAccent: EdgeT[] =
@@ -1590,8 +1667,7 @@ function EditOverlay({
     previewKind === "fill" ? (fillWording ? "回答ペイン（欠け図＋抜いた線）" : "紙面イメージ（図形A=実線・図形B=点線）")
       : previewKind === "mirror" ? "回答ペイン（折り返した形）"
         : previewKind === "rotate" ? "回答ペイン（まわした形）"
-          : previewKind === "translate" ? "回答ペイン（うつした図）・点をクリックで移動先●"
-          : previewKind === "fold" ? "問題2（B）" : "";
+          : previewKind === "translate" ? "回答ペイン（うつした図）・点をクリックで移動先●" : "";
   const editSize = previewKind ? 300 : SIZE;
 
   /* =======================================================================
@@ -1697,6 +1773,128 @@ function EditOverlay({
               onClick={() => onSave(edges, title.trim(), rEdges)}>
               {aEdges.length === 0 ? "図形Aが空です"
                 : rEdges.length === 0 ? "図形Bが空です"
+                  : "保存する"}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* =======================================================================
+     折り重ね（fold）: 「問題1 →(折る) 問題2 ＝ 完成図」の 3 ペイン編集
+     左 2 枚は独立した紙（どちらも直接描ける）・右 1 枚は読取専用の完成図
+     ＝mirror(問題1, v) ∪ 問題2。紙面（maker-fold / render.ts の composeTriple）と
+     同じ読み方向。完成図ペインには折り返した問題1 を薄色点線で重ね、
+     「どの線が折り返しで来たか」を検品者が一目で追えるようにする。
+     ======================================================================= */
+  if (isFold) {
+    const AB_SIZE = 236;
+    const bKeys = new Set(rEdges.map(edgeKey));
+    const afterFold = foldMirrored.filter((e) => !bKeys.has(edgeKey(e)));
+    return (
+      <div className="atl-overlay" role="dialog" aria-modal>
+        <div className="atl-editor has-trio">
+          <header className="atl-editor-head">
+            <h2>{createMode ? "新規作成（折り重ね・白紙）" : "折り重ねの手直し"}</h2>
+            <p className="atl-editor-hint">
+              問題1・問題2 のどちらの紙でも、点を 2 つクリックして線を引けます
+              （同じ線をもう一度なぞると、その紙から消えます）。
+              完成図は「問題1 を左右に折り返して問題2 へ重ねた図」＝自動で出ます。
+            </p>
+          </header>
+
+          <label className="atl-editor-title">
+            タイトル（名前・任意）
+            <input type="text" value={title}
+              placeholder="かいだん・いえ など"
+              onChange={(e) => setTitle(e.target.value)} />
+          </label>
+
+          <div className="atl-editor-onestroke" role="group" aria-label="モード">
+            <span className="atl-os-label">モード</span>
+            <div className="atl-seg">
+              <button type="button" aria-pressed={!eraseMode}
+                onClick={() => { setEraseMode(false); setFirst(null); setFirstPane(null); }}>描く</button>
+              <button type="button" aria-pressed={eraseMode}
+                onClick={() => { setEraseMode(true); setFirst(null); setFirstPane(null); }}>消す</button>
+            </div>
+            <span className="atl-os-label">一筆書き</span>
+            <div className="atl-seg">
+              <button type="button" aria-pressed={!oneStroke} onClick={() => setOneStroke(false)} disabled={eraseMode}>OFF</button>
+              <button type="button" aria-pressed={oneStroke} onClick={() => setOneStroke(true)} disabled={eraseMode}>ON</button>
+            </div>
+            {foldStats && (
+              <span className="atl-fair">
+                問題1 {foldStats.aLines} 本・問題2 {foldStats.bLines} 本・絡み {foldStats.entangle}
+                {foldStats.sep > 0 && `・ばらけ +${foldStats.sep}`}
+                {foldStats.kf < 1 && `・折り係数 ${foldStats.kf}`}
+              </span>
+            )}
+          </div>
+
+          <div className="atl-editor-pair atl-editor-trio">
+            <div className="atl-editor-paneblock">
+              <ABPane n={n} size={AB_SIZE} edges={edges} ink={INK}
+                first={firstPane === "A" ? first : null} eraseMode={eraseMode}
+                onPoint={(p) => clickPointFold("A", p)}
+                onErase={(i) => eraseFold("A", edges[i])} />
+              <span className="atl-pane-label">問題1（編集できます）</span>
+            </div>
+
+            <span className="atl-editor-arrow" aria-hidden>⇢折る</span>
+
+            <div className="atl-editor-paneblock">
+              <ABPane n={n} size={AB_SIZE} edges={rEdges} ink={INK}
+                first={firstPane === "B" ? first : null} eraseMode={eraseMode}
+                onPoint={(p) => clickPointFold("B", p)}
+                onErase={(i) => eraseFold("B", rEdges[i])} />
+              <span className="atl-pane-label">問題2（編集できます）</span>
+            </div>
+
+            <span className="atl-editor-arrow" aria-hidden>＝</span>
+
+            <div className="atl-editor-paneblock">
+              <svg viewBox="0 0 100 100" width={AB_SIZE} height={AB_SIZE}
+                className="atl-preview-svg" aria-label="完成図（問題2=実線・折り返した問題1=うすい点線）">
+                <rect x={0} y={0} width={100} height={100} fill="#FFFFFF" />
+                {rEdges.map((e, i) => (
+                  <line key={`fb${i}`}
+                    x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+                    stroke={INK} strokeWidth={1.7} strokeLinecap="round" />
+                ))}
+                {afterFold.map((e, i) => (
+                  <line key={`fa${i}`}
+                    x1={pos(e[0][0])} y1={pos(e[0][1])} x2={pos(e[1][0])} y2={pos(e[1][1])}
+                    stroke={GHOST} strokeWidth={1.9} strokeDasharray="3 2" strokeLinecap="round" />
+                ))}
+                {Array.from({ length: n * n }, (_, i) => (
+                  <circle key={i} cx={pos(i % n)} cy={pos(Math.floor(i / n))} r={1.8} fill={INK} />
+                ))}
+              </svg>
+              <span className="atl-pane-label">完成図（うすい点線＝折り返した問題1）</span>
+            </div>
+          </div>
+
+          <p className="atl-editor-metrics">{metricsLabel(liveMetrics, candidate.grid)}</p>
+          {foldStats && foldStats.dup > 0 && (
+            <p className="atl-editor-metrics">
+              折ると問題2 に重なって消える線が {foldStats.dup} 本あります（完成図では 1 本になります）
+            </p>
+          )}
+
+          <div className="atl-editor-actions">
+            <button type="button" onClick={undo} disabled={history.length === 0}>ひとつ戻す</button>
+            <button type="button" onClick={() => clearFoldPane("A")} disabled={edges.length === 0}>問題1を全消し</button>
+            <button type="button" onClick={() => clearFoldPane("B")} disabled={rEdges.length === 0}>問題2を全消し</button>
+            <span className="atl-editor-spacer" />
+            <button type="button" onClick={onClose} disabled={busy}>キャンセル</button>
+            <button type="button" className="atl-btn atl-btn--pub"
+              disabled={busy || edges.length === 0 || rEdges.length === 0}
+              /* 保存は 3 点セット: edges=問題1・inputB=問題2・answerEdges=完成図 */
+              onClick={() => onSave(edges, title.trim(), foldResult, undefined, undefined, rEdges)}>
+              {edges.length === 0 ? "問題1が空です"
+                : rEdges.length === 0 ? "問題2が空です"
                   : "保存する"}
             </button>
           </div>

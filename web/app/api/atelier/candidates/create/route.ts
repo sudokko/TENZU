@@ -10,7 +10,7 @@ import {
   type CandidateFile, type EdgeT, type GridSpec, type Problem, type SolidEdge,
 } from "../../../../products/problems/schema";
 import { computeMetrics, computeSolidMetrics } from "../../../../products/problems/gen/metrics";
-import { migrateProblem } from "../../../../products/problems/gen/difficulty";
+import { metricsEdges, migrateProblem } from "../../../../products/problems/gen/difficulty";
 
 /* 既存候補から手作り採番 m{連番} の次番号を返す（s{seed}-NN と衝突しない） */
 function nextManualId(file: CandidateFile, sku: string): string {
@@ -24,11 +24,11 @@ function nextManualId(file: CandidateFile, sku: string): string {
 export const dynamic = "force-dynamic";
 
 /* "4×4" → 4（正方のみ）。"3×3 → 5×5"（scale）や "ブロック 2〜5"（solid）は非対応＝null。 */
-function squareGridN(grid: string): 3 | 4 | 5 | 6 | 7 | null {
+function squareGridN(grid: string): 3 | 4 | 5 | 6 | 7 | 8 | null {
   const m = grid.match(/^(\d+)×(\d+)$/);
   if (!m || m[1] !== m[2]) return null;
   const n = Number(m[1]);
-  return n >= 3 && n <= 7 ? (n as 3 | 4 | 5 | 6 | 7) : null;
+  return n >= 3 && n <= 8 ? (n as 3 | 4 | 5 | 6 | 7 | 8) : null;
 }
 
 export async function POST(req: NextRequest) {
@@ -145,6 +145,9 @@ export async function POST(req: NextRequest) {
     provenance: { source: "blank", createdAt: today, ...(body.title?.trim() ? { label: body.title.trim() } : {}) },
     gen: { kind: "manual" },
   };
+  /* 折り重ねだけ edges＝問題1 なので、metrics は完成図（answer 側）から引き直す。
+     素の computeMetrics(edges) だと盤面項が紙1 の bbox に縮む（difficulty.ts の metricsEdges） */
+  base.metrics = computeMetrics(metricsEdges(task, base), n);
   // migrate で difficulty を補完（provenance は blank を維持）
   const problem = migrateProblem(task, base);
 
