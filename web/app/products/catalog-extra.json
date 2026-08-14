@@ -1,36 +1,5 @@
 {
-  "vols": [
-    {
-      "task": "solid",
-      "sku": "solid-lv5-vol2",
-      "lv": 5,
-      "volNo": 2,
-      "grid": "二棟・大複合",
-      "ageLabel": "7才〜",
-      "variant": "隠れ辺フル・大型",
-      "blurb": "二棟の塔・基壇・門を組み合わせた、大きな複合の立体。広い盤面で、構造を読み解いて写す。"
-    },
-    {
-      "task": "solid",
-      "sku": "solid-lv5-vol3",
-      "lv": 5,
-      "volNo": 3,
-      "grid": "やぐら・建てこみ",
-      "ageLabel": "7才〜",
-      "variant": "隠れ辺フル・特大",
-      "blurb": "塔とやぐらが建てこむ、特大の立体。見えない奥行きまで、順序立てて写しとる。"
-    },
-    {
-      "task": "solid",
-      "sku": "solid-lv5-vol4",
-      "lv": 5,
-      "volNo": 4,
-      "grid": "最大盤面・大建築",
-      "ageLabel": "7才〜",
-      "variant": "隠れ辺フル・最大",
-      "blurb": "最大盤面いっぱいの大建築。大人でも手ごたえの、立体模写の総仕上げ。"
-    }
-  ],
+  "vols": [],
   "patches": [
     {
       "sku": "copy-lv1-vol1",

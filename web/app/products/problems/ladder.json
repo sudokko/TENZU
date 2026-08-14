@@ -551,36 +551,22 @@
     "solid-lv4-vol1": {
       "hidden": "none",
       "D": [
-        22.5,
-        33
+        20.5,
+        34
       ]
     },
     "solid-lv5-vol1": {
-      "hidden": "full",
+      "hidden": "off",
       "D": [
-        50,
-        120
+        34.8,
+        56.3
       ]
     },
     "solid-lv5-vol2": {
       "hidden": "full",
       "D": [
-        110,
-        200
-      ]
-    },
-    "solid-lv5-vol3": {
-      "hidden": "full",
-      "D": [
-        170,
-        280
-      ]
-    },
-    "solid-lv5-vol4": {
-      "hidden": "full",
-      "D": [
-        230,
-        400
+        50,
+        120
       ]
     }
   }

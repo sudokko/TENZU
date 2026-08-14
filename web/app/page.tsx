@@ -628,7 +628,7 @@ export default function Home() {
         </section>
 
         {/* ===================== ②.5 TENZU、3 つの特長（数・公開・印刷） =====================
-            ①品ぞろえ＝棚(9種類×5段階×44巻)＋レベル目安表(LevelGraph 再利用)、
+            ①品ぞろえ＝棚(9種類×5段階×陳列巻数)＋レベル目安表(LevelGraph 再利用)、
             ②設計図ごと公開＝中を見て¥200から、③家庭の印刷機に合わせる。
             数字は GROUPS 由来（TOTAL_KINDS/TOTAL_VOL/TOTAL_QUESTIONS）＝ハードコード禁止。 */}
         <section className="tr-sec tr-sec-alt">

@@ -223,7 +223,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 1,
+   "order": 2,
    "edited": true
   },
   {
@@ -412,8 +412,7 @@
    "gen": {
     "kind": "manual"
    },
-   "status": "adopted",
-   "order": 2,
+   "status": "pending",
    "edited": true
   },
   {
@@ -1873,7 +1872,7 @@
     "seed": 2,
     "variant": "stack"
    },
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "solid",
     "auto": 30.5,
@@ -1891,7 +1890,6 @@
     "seed": 2,
     "variant": "stack"
    },
-   "order": 11,
    "edited": true
   },
   {
@@ -2305,7 +2303,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 8,
+   "order": 5,
    "edited": true
   },
   {
@@ -2538,9 +2536,8 @@
    "gen": {
     "kind": "manual"
    },
-   "status": "adopted",
-   "edited": true,
-   "order": 10
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m19",
@@ -2773,7 +2770,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 6,
+   "order": 10,
    "edited": true
   },
   {
@@ -2986,7 +2983,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 5,
+   "order": 6,
    "edited": true
   },
   {
@@ -3253,8 +3250,9 @@
    "gen": {
     "kind": "manual"
    },
-   "status": "pending",
-   "edited": true
+   "status": "adopted",
+   "edited": true,
+   "order": 12
   },
   {
    "id": "solid-lv4-vol1-m22",
@@ -4313,7 +4311,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 12,
+   "order": 11,
    "edited": true
   },
   {
@@ -4984,7 +4982,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 7,
+   "order": 8,
    "edited": true
   },
   {
@@ -5130,8 +5128,9 @@
    "gen": {
     "kind": "manual"
    },
-   "status": "pending",
-   "edited": true
+   "status": "adopted",
+   "edited": true,
+   "order": 1
   },
   {
    "id": "solid-lv4-vol1-m32",
@@ -5792,8 +5791,9 @@
    "gen": {
     "kind": "manual"
    },
-   "status": "pending",
-   "edited": true
+   "status": "adopted",
+   "edited": true,
+   "order": 7
   }
  ],
  "seedCursor": 5
