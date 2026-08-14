@@ -67,6 +67,7 @@ const DENSITY = [
 /* 立体（solid）専用: 隠れ辺（点線）の段階＝巻＝難易度レジーム。中身は形カタログの混合。 */
 const SOLID_HIDDEN = [
   { value: "none", label: "なし（見える辺だけ）" },
+  { value: "off", label: "なし・大型（大きい形／隠れ辺は出さない）" },
   { value: "some", label: "すこし" },
   { value: "full", label: "フル" },
 ];
