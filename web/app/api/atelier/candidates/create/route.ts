@@ -41,6 +41,7 @@ export async function POST(req: NextRequest) {
     transform?: { dc: number; dr: number };   // 移動（translate）: 編集画面で選んだ移動先
     rotateDeg?: 90 | -90 | 180;               // 回転（rotate）: 編集画面で選んだ角度（混在巻）
     cols?: number; rows?: number; solidEdges?: SolidEdge[];   // 立体（solid）専用
+    solidHiddenParked?: SolidEdge[];                          // 立体の隠れ線 OFF で退避した点線
   };
   const sku = safeSku(body.sku);
   if (!sku) return Response.json({ error: "bad sku" }, { status: 400 });
@@ -58,12 +59,14 @@ export async function POST(req: NextRequest) {
     }
     const solidEdges = normalizeSolidEdges(body.solidEdges ?? []);
     if (solidEdges.length === 0) return Response.json({ error: "線が空です" }, { status: 400 });
+    const parked = normalizeSolidEdges(body.solidHiddenParked ?? []);
     const today = new Date().toISOString().slice(0, 10);
     const base: Problem = {
       id: "__pending__",
       grid: { type: "solid", cols, rows },
       edges: [],
       solidEdges,
+      ...(parked.length > 0 ? { solidHiddenParked: parked } : {}),
       metrics: computeSolidMetrics(solidEdges),
       provenance: { source: "blank", createdAt: today, ...(body.title?.trim() ? { label: body.title.trim() } : {}) },
       gen: { kind: "manual" },

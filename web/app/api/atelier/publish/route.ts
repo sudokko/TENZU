@@ -30,8 +30,11 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  /* 検品専用のフィールドは published へ持ち込まない。solidHiddenParked（隠れ線 OFF の
+     退避分）は candidates が持ち続ける＝ON へ戻すのは検品側の操作で、公開スナップショットは
+     「紙面に出る線だけ」でよい（本番バンドルに出ない線を積まない）。 */
   const problems: Problem[] = adopted.map((c) => {
-    const { status: _s, order: _o, edited: _e, ...p } = c;
+    const { status: _s, order: _o, edited: _e, solidHiddenParked: _h, ...p } = c;
     return p;
   });
 

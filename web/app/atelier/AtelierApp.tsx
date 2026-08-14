@@ -12,7 +12,7 @@ import type {
 } from "../products/problems/schema";
 import {
   metricsLabel, normalizeEdges, splitAtLattice, edgeKey, mirrorEdges, TASK_ANSWER_MODE,
-  solidEdgeKey, normalizeSolidEdges,
+  solidEdgeKey, normalizeSolidEdges, applySolidHidden, solidHiddenIsOn,
 } from "../products/problems/schema";
 import { computeMetrics, computeSolidMetrics, interCrossings, mergedSegments } from "../products/problems/gen/metrics";
 import {
@@ -312,12 +312,19 @@ function lformToPatch(task: string, lform: Record<string, unknown>): Record<stri
   return patch;
 }
 
-type Update = { id: string; status?: Candidate["status"]; order?: number | null; solidEdges?: SolidEdge[] };
+type Update = {
+  id: string; status?: Candidate["status"]; order?: number | null;
+  solidEdges?: SolidEdge[]; solidHiddenParked?: SolidEdge[];
+  solidHidden?: boolean;
+};
 
-/* 点線（隠れ辺）なしモードの補助（立体のみ）。モードの実体は「dashed を物理的に外す」＝
-   スキーマ・印刷・商品ページは無改変で済み、metrics/D はサーバ（refreshMeta）が焼き直す。 */
+/* 隠れ線（点線）まわりの補助（立体のみ）。ON/OFF の実体は「dashed を solidHiddenParked へ
+   出し入れする」＝印刷・商品ページ・サムネは solidEdges しか見ないので無改変で追従し、
+   metrics/D はサーバ（refreshMeta）が焼き直す。OFF は可逆＝いつでも ON に戻せる。 */
 const stripDashed = (c: Candidate): SolidEdge[] => (c.solidEdges ?? []).filter((e) => e.style !== "dashed");
 const hasDashed = (c: Candidate): boolean => (c.solidEdges ?? []).some((e) => e.style === "dashed");
+/* この問題が隠れ線を「持っている」か（表示中＋退避中のどちらでも）＝トグルを出す条件 */
+const hasHiddenLines = (c: Candidate): boolean => hasDashed(c) || (c.solidHiddenParked?.length ?? 0) > 0;
 
 export default function AtelierApp({
   sku, title, blurb, meate, hasGenerator, genKind, linesRange, gapRange, motifInspoEnabled = false,
@@ -403,6 +410,12 @@ export default function AtelierApp({
           if (u.order === null) delete next.order;
           else if (typeof u.order === "number") next.order = u.order;
           if (u.solidEdges) next.solidEdges = u.solidEdges;
+          if (u.solidHiddenParked) next.solidHiddenParked = u.solidHiddenParked;
+          if (u.solidHidden !== undefined) {
+            const applied = applySolidHidden(next, u.solidHidden);
+            next.solidEdges = applied.solidEdges;
+            next.solidHiddenParked = applied.solidHiddenParked;
+          }
           return next;
         }),
       };
@@ -412,8 +425,13 @@ export default function AtelierApp({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sku, updates }),
     });
-    // 辺の編集（点線除去など）を含む保存は、サーバ焼き直しの metrics/難易度を取り直す
-    if (updates.some((u) => u.solidEdges)) await load();
+    // 辺の編集・隠れ線 ON/OFF を含む保存は、サーバ焼き直しの metrics/難易度を取り直す
+    if (updates.some((u) => u.solidEdges || u.solidHidden !== undefined)) await load();
+  }
+
+  /* 隠れ線 ON/OFF（問題ごと・可逆）。OFF＝点線を退避 → 紙面にも D にも出ない。 */
+  function toggleHidden(c: Candidate) {
+    save([{ id: c.id, solidHidden: !solidHiddenIsOn(c) }]);
   }
 
   /* 点線（隠れ辺）なしモード（立体巻のみ）: 表示・難易度とも点線 0 として扱い、
@@ -506,9 +524,9 @@ export default function AtelierApp({
 
   function adopt(c: Candidate) {
     const maxOrder = adopted.reduce((m, a) => Math.max(m, a.order ?? 0), 0);
-    // 点線なしモード: 採用と同時に点線（隠れ辺）を取り除く（D はサーバが焼き直す）
-    const strip = noDashOn && c.grid.type === "solid" && hasDashed(c);
-    save([{ id: c.id, status: "adopted", order: maxOrder + 1, ...(strip ? { solidEdges: stripDashed(c) } : {}) }]);
+    // 点線なしモード: 採用と同時に隠れ線を OFF（退避）にする（可逆・D はサーバが焼き直す）
+    const off = noDashOn && c.grid.type === "solid" && hasDashed(c);
+    save([{ id: c.id, status: "adopted", order: maxOrder + 1, ...(off ? { solidHidden: false } : {}) }]);
   }
 
   function unadopt(c: Candidate) {
@@ -669,14 +687,15 @@ export default function AtelierApp({
     } finally { setBusy(false); }
   }
 
-  /* 立体の編集を保存（既存候補の solidEdges を差し替え。grid は不変）。 */
-  async function saveSolidEdit(id: string, solidEdges: SolidEdge[]) {
+  /* 立体の編集を保存（既存候補の solidEdges を差し替え。grid は不変）。
+     隠れ線 OFF で編集した分は solidHiddenParked として対で送る（＝可逆のまま保存）。 */
+  async function saveSolidEdit(id: string, solidEdges: SolidEdge[], solidHiddenParked: SolidEdge[]) {
     setBusy(true); setMsg("");
     try {
       const res = await fetch("/api/atelier/candidates", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sku, updates: [{ id, solidEdges }] }),
+        body: JSON.stringify({ sku, updates: [{ id, solidEdges, solidHiddenParked }] }),
       });
       const j = await res.json();
       if (!res.ok) { setMsg(j.error ?? "保存に失敗しました"); return; }
@@ -687,13 +706,15 @@ export default function AtelierApp({
   }
 
   /* 立体の白紙作成を保存（cols/rows＋solidEdges で candidates に1問追加）。 */
-  async function createSolid(cols: number, rows: number, solidEdges: SolidEdge[]) {
+  async function createSolid(
+    cols: number, rows: number, solidEdges: SolidEdge[], solidHiddenParked: SolidEdge[],
+  ) {
     setBusy(true); setMsg("");
     try {
       const res = await fetch("/api/atelier/candidates/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sku, cols, rows, solidEdges }),
+        body: JSON.stringify({ sku, cols, rows, solidEdges, solidHiddenParked }),
       });
       const j = await res.json();
       if (!res.ok) { setMsg(j.error ?? "作成に失敗しました"); return; }
@@ -791,6 +812,7 @@ export default function AtelierApp({
             D {fmtD(preview ? preview.value : dValueOf(c))}
             {manual && <em className="atl-dman">手動</em>}
             {preview && <em className="atl-dman">点線0</em>}
+            {!solidHiddenIsOn(c) && <em className="atl-dman">隠れ線OFF</em>}
           </span>
           <span className="atl-dbreak">
             {dBreakdown(parts, preview ? preview.value : dValueOf(c)) ?? ""}
@@ -811,6 +833,24 @@ export default function AtelierApp({
       ? <SolidThumb grid={c.grid} edges={noDashOn ? stripDashed(c) : c.solidEdges ?? []} {...(size ? { size } : {})} />
       : <ProblemSvg n={c.grid.n} edges={c.edges} answer={c.answer} inputB={c.inputB} {...(size ? { size } : {})} />;
 
+  /* 隠れ線 ON/OFF ボタン（問題ごと・可逆）。隠れ線を 1 本でも持つ立体カードにだけ出す。
+     OFF＝点線を退避＝紙面にも D にも出ない。ON で元通り戻る（線は捨てない）。 */
+  const hiddenBtn = (c: Candidate, stop = false): ReactNode => {
+    if (c.grid.type !== "solid" || !hasHiddenLines(c)) return null;
+    const on = solidHiddenIsOn(c);
+    const n = on ? (c.solidEdges ?? []).filter((e) => e.style === "dashed").length
+      : (c.solidHiddenParked?.length ?? 0);
+    return (
+      <button type="button"
+        title={on
+          ? `この問題の隠れ線 ${n} 本を外す（退避＝いつでも戻せる。難易度も焼き直す）`
+          : `退避中の隠れ線 ${n} 本を戻す`}
+        onClick={(e) => { if (stop) e.stopPropagation(); toggleHidden(c); }}>
+        隠れ線 {on ? "OFF" : "ON"}
+      </button>
+    );
+  };
+
   const renderPendingCard = (c: Candidate) => withDScore(c,
     <figure key={c.id} className="atl-card" onClick={() => adopt(c)} title="クリックで採用">
       {renderThumb(c)}
@@ -820,6 +860,7 @@ export default function AtelierApp({
           onClick={(e) => { e.stopPropagation(); adopt(c); }}>採用</button>
         <button type="button"
           onClick={(e) => { e.stopPropagation(); setEditing(c); }}>編集</button>
+        {hiddenBtn(c, true)}
         <button type="button"
           onClick={(e) => { e.stopPropagation(); save([{ id: c.id, status: "rejected" }]); }}>
           不採用
@@ -1042,7 +1083,11 @@ export default function AtelierApp({
           <label className="atl-nodash">
             <input type="checkbox" checked={noDashed}
               onChange={(e) => setNoDashed(e.target.checked)} />
-            <span>点線（隠れ辺）なしモード — 表示・難易度とも点線 0 として扱い、<strong>採用時に点線を取り除きます</strong>（採用済みには「点線を外す」ボタン）</span>
+            <span>
+              点線（隠れ辺）なしモード — 候補の表示・難易度を点線 0 でプレビューし、
+              <strong>採用時に隠れ線を OFF にします</strong>。
+              OFF は問題ごとの可逆スイッチ（各カードの「隠れ線 OFF/ON」ボタン・退避した点線は編集画面で薄く見えます）
+            </span>
           </label>
         )}
       </section>
@@ -1067,10 +1112,7 @@ export default function AtelierApp({
                 <button type="button" onClick={() => move(c, -1)} disabled={i === 0}>↑</button>
                 <button type="button" onClick={() => move(c, 1)} disabled={i === adopted.length - 1}>↓</button>
                 <button type="button" onClick={() => setEditing(c)}>編集</button>
-                {noDashOn && hasDashed(c) && (
-                  <button type="button" title="この問題の点線（隠れ辺）を取り除き、難易度を焼き直す"
-                    onClick={() => save([{ id: c.id, solidEdges: stripDashed(c) }])}>点線を外す</button>
-                )}
+                {hiddenBtn(c)}
                 <button type="button" onClick={() => unadopt(c)}>外す</button>
               </div>
             </figure>
@@ -1150,7 +1192,7 @@ export default function AtelierApp({
           key={editing.id}
           candidate={editing}
           busy={busy}
-          onSave={(_cols, _rows, solidEdges) => saveSolidEdit(editing.id, solidEdges)}
+          onSave={(_cols, _rows, solidEdges, parked) => saveSolidEdit(editing.id, solidEdges, parked)}
           onClose={() => setEditing(null)}
         />
       ) : (
@@ -1170,7 +1212,7 @@ export default function AtelierApp({
           candidate={blankCandidate}
           busy={busy}
           createMode
-          onSave={(cols, rows, solidEdges) => createSolid(cols, rows, solidEdges)}
+          onSave={(cols, rows, solidEdges, parked) => createSolid(cols, rows, solidEdges, parked)}
           onClose={() => setCreating(false)}
         />
       ) : (
@@ -2176,14 +2218,19 @@ function SolidEditOverlay({
 }: {
   candidate: Candidate;
   busy: boolean;
-  onSave: (cols: number, rows: number, solidEdges: SolidEdge[]) => void;
+  onSave: (cols: number, rows: number, solidEdges: SolidEdge[], solidHiddenParked: SolidEdge[]) => void;
   onClose: () => void;
   createMode?: boolean;
 }) {
   const g0 = candidate.grid.type === "solid" ? candidate.grid : { cols: 7, rows: 7 };
   const [cols, setCols] = useState(g0.cols);
   const [rows, setRows] = useState(g0.rows);
-  const [edges, setEdges] = useState<SolidEdge[]>(candidate.solidEdges ?? []);
+  /* 編集中は「隠れ線 OFF で退避中の点線」も含めた全線を 1 本のリストで持つ＝
+     OFF のまま隠れ線を描き足す・消す・実線に変えるができる。保存時に hiddenOn で振り分ける。 */
+  const [edges, setEdges] = useState<SolidEdge[]>(
+    () => normalizeSolidEdges([...(candidate.solidEdges ?? []), ...(candidate.solidHiddenParked ?? [])]),
+  );
+  const [hiddenOn, setHiddenOn] = useState(solidHiddenIsOn(candidate));
   const [selected, setSelected] = useState<Point | null>(null);
   const [drawStyle, setDrawStyle] = useState<LineStyle>("solid");
   const [tool, setTool] = useState<"draw" | "erase">("draw");
@@ -2231,6 +2278,13 @@ function SolidEditOverlay({
     });
   }
   function clearAll() { if (edges.length === 0) return; pushHistory(); setEdges([]); setSelected(null); }
+  /* 隠れ線だけ捨てる（退避ではなく削除）。形が濁ってしまった問題を作り直すときの掃除ボタン。 */
+  function clearHidden() {
+    if (!edges.some((e) => e.style === "dashed")) return;
+    pushHistory();
+    setEdges(edges.filter((e) => e.style !== "dashed"));
+    setSelected(null);
+  }
   function changeDims(nc: number, nr: number) {
     if (!createMode) return;
     setCols(nc); setRows(nr); setEdges([]); setSelected(null); setHistory([]);
@@ -2240,7 +2294,19 @@ function SolidEditOverlay({
   const { vw, vh } = editorVB(cols, rows);
   const boardW = 380;
   const boardH = Math.round((boardW * vh) / vw);
-  const liveMetrics = useMemo(() => computeSolidMetrics(edges), [edges]);
+  /* 保存の振り分け＝紙面に出る線（printed）と退避する隠れ線（parked）。
+     メトリクスは printed 側で出す＝カードの D と同じものを編集中に見る。 */
+  const hiddenCount = edges.filter((e) => e.style === "dashed").length;
+  const { printed, parked } = useMemo(
+    () => hiddenOn
+      ? { printed: edges, parked: [] as SolidEdge[] }
+      : {
+          printed: edges.filter((e) => e.style !== "dashed"),
+          parked: edges.filter((e) => e.style === "dashed"),
+        },
+    [edges, hiddenOn],
+  );
+  const liveMetrics = useMemo(() => computeSolidMetrics(printed), [printed]);
 
   return (
     <div className="atl-overlay" role="dialog" aria-modal>
@@ -2250,6 +2316,7 @@ function SolidEditOverlay({
           <p className="atl-editor-hint">
             点を 2 つクリックして線を引く／描いた線をクリックで実線⇔点線／消すモードで 1 本削除。
             実線＝見える辺・点線＝かくれた辺。
+            隠れ線 OFF のあいだ点線は<strong>薄く</strong>出ます（＝紙面に出ない・でも触れる）。
           </p>
         </header>
 
@@ -2289,11 +2356,29 @@ function SolidEditOverlay({
           </div>
         </div>
 
+        {/* この問題の隠れ線スイッチ（可逆）。OFF＝点線は退避され紙面にも D にも出ない。 */}
+        <div className="atl-editor-onestroke" role="group" aria-label="この問題の隠れ線">
+          <span className="atl-os-label">隠れ線</span>
+          <div className="atl-seg">
+            <button type="button" aria-pressed={!hiddenOn} onClick={() => setHiddenOn(false)}>OFF</button>
+            <button type="button" aria-pressed={hiddenOn} onClick={() => setHiddenOn(true)}>ON</button>
+          </div>
+          <span className="atl-editor-hint">
+            {hiddenCount === 0
+              ? "この問題に点線はありません"
+              : hiddenOn
+                ? `点線 ${hiddenCount} 本を出題に含めます`
+                : `点線 ${hiddenCount} 本は退避（紙面・難易度から外れます）`}
+          </span>
+          <button type="button" onClick={clearHidden} disabled={hiddenCount === 0}>隠れ線を全部消す</button>
+        </div>
+
         <div className="atl-editor-paneblock">
           <div style={{ width: boardW, height: boardH, background: "#FFFFFF", border: "1px solid #E2E2E2", borderRadius: 8 }}>
             <SolidPaperSVG
               cols={cols} rows={rows} edges={edges} selected={selected} tool={tool}
               onDotClick={handleDot} onEdgeClick={onEdgeClick} showLines interactive
+              dimDashed={!hiddenOn}
             />
           </div>
         </div>
@@ -2305,9 +2390,9 @@ function SolidEditOverlay({
           <button type="button" onClick={clearAll} disabled={edges.length === 0}>全消し</button>
           <span className="atl-editor-spacer" />
           <button type="button" onClick={onClose} disabled={busy}>キャンセル</button>
-          <button type="button" className="atl-btn atl-btn--pub" disabled={busy || edges.length === 0}
-            onClick={() => onSave(cols, rows, normalizeSolidEdges(edges))}>
-            {edges.length === 0 ? "線が空です" : "保存する"}
+          <button type="button" className="atl-btn atl-btn--pub" disabled={busy || printed.length === 0}
+            onClick={() => onSave(cols, rows, normalizeSolidEdges(printed), normalizeSolidEdges(parked))}>
+            {printed.length === 0 ? "線が空です" : "保存する"}
           </button>
         </div>
       </div>
