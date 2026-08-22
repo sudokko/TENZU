@@ -1,0 +1,65 @@
+/* =========================================================================
+   プレオープン告知帯 — Design System rev.5 準拠
+   - 影は使わない（rev.5: lines do the work）。淡い teal 地＋teal 罫で仕切る。
+   - 文字は Tier ③ Plex（システム的な告知であり、Klee One の「手書きの温度」は
+     ここでは使わない）。
+   - .preopen > .wrap で .wrap の padding 短縮形に確実に勝たせる（CSS の
+     読み込み順に依存しないよう詳細度で解決する）。
+   ========================================================================= */
+
+.preopen {
+  background: var(--accent-mute);
+  border-bottom: 1px solid var(--accent);
+}
+
+.preopen > .wrap {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  padding: var(--s-2) 64px;
+}
+
+.preopen-tag {
+  flex: none;
+  font-family: var(--font-tier3-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--accent-ink);
+  border: 1px solid var(--accent-ink);
+  border-radius: var(--r-control);
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+
+.preopen-text {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  color: var(--accent-ink);
+  margin: 0;
+}
+
+.preopen-text strong { font-weight: var(--wt-strong); }
+
+/* 日付は Tier ③ Mono（数字は等幅・tnum）。前後に和文アキを取る。 */
+.preopen-date {
+  font-family: var(--font-tier3-mono);
+  font-feature-settings: "tnum" 1, "zero" 1;
+  font-weight: var(--wt-emph);
+  letter-spacing: 0;
+  margin: 0 0.25em;
+}
+
+@media (max-width: 600px) {
+  .preopen > .wrap {
+    align-items: flex-start;
+    gap: var(--s-2);
+    padding: 10px 24px;
+  }
+  /* スマホでは PRE-OPEN チップを落として本文へ横幅を全部渡す（チップ有りだと
+     4行に膨らみ、帯だけで 100px 超＝ファーストビューを食う）。「プレオープン中」
+     は本文側で太字にしてあるので、告知としての意味は落ちない。 */
+  .preopen-tag { display: none; }
+  .preopen-text { font-size: 12px; }
+}

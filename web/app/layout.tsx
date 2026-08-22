@@ -3,6 +3,7 @@ import { CartProvider } from "./cart/CartContext";
 import { AuthProvider } from "./AuthContext";
 import Gtm from "./Gtm";
 import OnsiteMessenger from "./components/onsite/OnsiteMessenger";
+import PreopenBanner from "./components/PreopenBanner";
 import { SITE_URL, SITE_NAME, IS_PREVIEW } from "./site";
 import "./tokens.css";
 import "./landing.css";
@@ -67,6 +68,7 @@ export default function RootLayout({
       </head>
       <body>
         <Gtm />
+        <PreopenBanner />
         <AuthProvider>
           <CartProvider>
             {children}

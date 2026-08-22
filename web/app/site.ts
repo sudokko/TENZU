@@ -27,3 +27,11 @@ export const IS_PREVIEW = (() => {
 export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }
+
+/* プレオープン告知帯（components/PreopenBanner.tsx）の出し分け。
+   既定は「出す」側。開店（T=0 = 2026-08-30）当日に Amplify コンソールで
+   PREOPEN=0 を設定 → main を再デプロイすると消える（env はビルド時に
+   .env.production へ焼き出す設計のため、env 変更だけでは反映されない）。
+   未設定＝出す、にしてあるのは IS_PREVIEW と同じ思想＝事故側に倒さないため
+   （「開店したのに帯が残る」より「まだ準備中なのに帯が無い」ほうが害が大きい）。 */
+export const IS_PREOPEN = (process.env.PREOPEN ?? "1") !== "0";
