@@ -3,9 +3,9 @@
 ## サマリ
 
 - ローンチ（本番公開）までに必要な残作業の SSOT。**未了項目のみを載せ、完了した項目は行ごと削除する**（済欄は作らない）
-- **最優先＝Stripe 本番決済の開通**（審査通過済み・残＝決済手段の有効化と `sk_live_` の main オーバーライド投入→再デプロイ）と **GTM/GA4 コンソール設定（ゲート G5）**。SES 本番アクセスは申請済み＝審査待ち
+- **最優先＝Stripe 本番決済の開通**（審査通過済み・残＝決済手段の有効化と `sk_live_` の main オーバーライド投入→再デプロイ）。GTM/GA4 は公開コンテナと主要イベントをコード接続済み、残る Google 側作業はキーイベント指定・Search Console 連携。SES 本番アクセスは申請済み＝審査待ち
 - 本番に必要な env は **STRIPE_SECRET_KEY（live）・STRIPE_WEBHOOK_SECRET・AUTH_SECRET（強ランダム）・SES_\*・SITE_URL・NEXT_PUBLIC_GTM_ID・ADMIN_SECRET・ONSITE_TABLE・ONSITE_IMAGE_BUCKET・APP_AWS_\***。チェックリスト＝[web/.env.production.example](../web/.env.production.example)
-- **残実装（コード）はゼロ**＝特商法/PP（`/tokushoho`・`/privacy`・外部送信記載含む）と屋号ページ `/sudo-craft` は実装済み・販売責任者も実名化済み。残＝領収書/請求書の発行名義の統一（§2・人間作業）。送客導線(A) 商品→工房は実装済み・開店ゲート G6 はコード側完了。計測（GA4+GTM・`tool_start`/`generated_pdf`/`purchase`・アタッチ率）も**コード実装済み**＝残りは Google コンソール設定（人間作業・[analytics.md §5](analytics.md)）
+- **残実装（コード）はゼロ**＝特商法/PP（`/tokushoho`・`/privacy`・外部送信記載含む）と屋号ページ `/sudo-craft` は実装済み・販売責任者も実名化済み。残＝領収書/請求書の発行名義の統一（§2・人間作業）。送客導線(A) 商品→工房は実装済み・開店ゲート G6 はコード側完了。計測（GA4+GTM・`page_view`＋主要 7 イベント・アタッチ率）も**コード実装済み**＝残りは Google コンソールのキーイベント指定・Search Console 連携（[analytics.md §5](analytics.md)）
 - Upstash・Stripe Price ID・サブスク・OTP・ログイン・billing-portal は**使わない**（§4）。認証＝所有モデル（署名 cookie）・購入復元＝マジックリンクのみ
 - 優先度: ★＝ローンチブロッカー／P1＝ローンチ直後まで／P2＝運用開始後でよい
 
@@ -22,7 +22,7 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 | ★ | **AUTH_SECRET 生成** | 強ランダム値（例: `openssl rand -base64 48`）。ローテーション＝全所有 cookie 無効化のため安定運用 |
 | ★ | **Amplify ブランチ接続の切替** | main（本番）・deploy/amplify（staging）は接続済み。残＝**`content/article-drafts` の接続解除**（コンソール作業）。解除の 2 週間後にブランチ削除・**解除前の削除は禁止** |
 | ★ | **開店当日に `PREOPEN=0`** | 開店まで全ページ最上部に出しているプレオープン告知帯（[decisions.md §3.109](../decisions.md)）を消す。Amplify の **main オーバーライド**へ `PREOPEN=0` を追加 → **main を再デプロイ**（env はビルド時に `.env.production` へ焼き出すため保存だけでは消えない）。**未設定＝帯が出る**が既定なので、開店前は何もしなくてよい |
-| ★ | **GTM / GA4 コンソール設定** | 手順書＝[analytics.md §5](analytics.md)（約1時間）。GA4 プロパティ・GTM コンテナ・タグ3本・Search Console 連携・Amplify に `NEXT_PUBLIC_GTM_ID` 登録。**開店前の必須ゲート G5**（無計測の運用は無駄撃ち・[../launch/operations.md §3](../launch/operations.md)） |
+| ★ | **GA4 仕上げ確認** | GTM 公開コンテナ `GTM-K7KNR7CH` と Google タグ `G-KH1BKQLSLH`、主要イベントのコード接続は完了。残＝GA4 リアルタイム/DebugView で受信確認、`generated_pdf` と `purchase` のキーイベント指定、Search Console 連携（[analytics.md §5](analytics.md)）。**開店前の必須ゲート G5** |
 | ★ | **オンサイトメッセージ用 AWS リソース** | DynamoDB `tenzu-onsite`（＋dev 用）・S3 `tenzu-onsite-assets`・IAM 権限追加・Amplify env 5 件（手順＝§1.1・約 30 分）。未設定でもサイト自体は動く（カード非表示へ degrade）が、開店あいさつ `welcome-2026` を出すには必須＝W5 の文言確認までに |
 
 #### §1.1 オンサイトメッセージ用 AWS リソース作成手順（人間作業・約 30 分）

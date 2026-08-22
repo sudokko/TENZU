@@ -9,6 +9,7 @@
 
 import SiteHeader from "../SiteHeader";
 import AddToCartButton from "../cart/AddToCartButton";
+import TrackViewItem from "./TrackViewItem";
 import SkuPrintPreview, { type SolidRenderProblem } from "./SkuPrintPreview";
 import { toRenderProblems, type RenderProblem } from "./problems/render";
 import { PURCHASE_FAQ } from "./purchase-faq";
@@ -21,7 +22,7 @@ import CoverageSection from "./CoverageSection";
 import { catalogTaskBySlug, LEVELS } from "../catalog";
 import {
   LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL,
-  volHref, type ProductTask, type Vol,
+  volHref, volTitle, type ProductTask, type Vol,
 } from "./data";
 import "./product.css";
 
@@ -114,6 +115,7 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
     <>
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <TrackViewItem id={vol.sku} name={volTitle(task, vol)} price={PRICE} />
       <SiteHeader currentNav="プリントを探す" />
 
       <div className="wrap">
@@ -158,7 +160,7 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
                 <div className="price-meta">税込 · 全 {qCount} 問 · PDF ダウンロード</div>
               </div>
 
-              <AddToCartButton sku={vol.sku} />
+              <AddToCartButton sku={vol.sku} name={volTitle(task, vol)} price={PRICE} />
 
               {/* 購入前の確認 FAQ（全 SKU 共通・カート CTA 直下） */}
               <div className="faq-list faq-list--buy">

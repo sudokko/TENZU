@@ -4,8 +4,17 @@
    追加済みなら「カートを見る」へ表示替え。見た目は既存 .btn-cart を踏襲。 */
 
 import { useCart } from "./CartContext";
+import { trackAddToCart } from "../analytics";
 
-export default function AddToCartButton({ sku }: { sku: string }) {
+export default function AddToCartButton({
+  sku,
+  name,
+  price,
+}: {
+  sku: string;
+  name: string;
+  price: number;
+}) {
   const { add, has, ready } = useCart();
   const inCart = ready && has(sku);
 
@@ -28,7 +37,10 @@ export default function AddToCartButton({ sku }: { sku: string }) {
 
   return (
     <div className="cta-row">
-      <button type="button" className="btn-cart" onClick={() => add(sku)}>
+      <button type="button" className="btn-cart" onClick={() => {
+        add(sku);
+        trackAddToCart({ id: sku, name, price, category: "paper" });
+      }}>
         <span className="btn-cart-main">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
             strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

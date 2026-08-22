@@ -10,6 +10,7 @@ import {
   volBySku, volTitle, PRICE, QUESTIONS_PER_VOL,
   TIERS, cartTotal, currentTier,
 } from "../products/data";
+import { trackBeginCheckout } from "../analytics";
 import "../products/product.css";
 import "./cart.css";
 
@@ -37,6 +38,12 @@ export default function CartPage() {
       });
       const data = await res.json();
       if (!res.ok || !data.url) throw new Error(data.error ?? "決済の開始に失敗しました");
+      trackBeginCheckout(rows.map(({ sku, resolved }) => ({
+        id: sku,
+        name: volTitle(resolved!.task, resolved!.vol),
+        price: PRICE,
+        category: "paper",
+      })), total);
       window.location.href = data.url;
     } catch (e) {
       setError(e instanceof Error ? e.message : "決済の開始に失敗しました");

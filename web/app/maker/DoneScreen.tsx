@@ -9,8 +9,9 @@
    ========================================================================= */
 
 import {
-  taskBySlug, volHref, LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL, type Vol,
+  taskBySlug, volHref, volTitle, LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL, type Vol,
 } from "../products/data";
+import { trackProductRecommendClick } from "../analytics";
 import type { GridSize } from "../products/capabilities";
 import { INK, type Edge } from "./core/geometry";
 
@@ -105,7 +106,13 @@ export function DoneScreen({
           </p>
           <div className="done-sku-row">
             {reco.vols.map((vol, i) => (
-              <a className="done-sku" key={vol.sku} href={volHref(COPY_TASK, vol)}>
+              <a className="done-sku" key={vol.sku} href={volHref(COPY_TASK, vol)}
+                onClick={() => trackProductRecommendClick({
+                  id: vol.sku,
+                  name: volTitle(COPY_TASK, vol),
+                  price: PRICE,
+                  category: "paper",
+                })}>
                 <div className="thumb"><DotThumb grid={vol.grid} /></div>
                 <span className="star">{DONE_STARS[i]}</span>
                 <div className="tag">{COPY_TASK.name} / {vol.grid}</div>

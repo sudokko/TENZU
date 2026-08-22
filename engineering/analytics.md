@@ -3,8 +3,8 @@
 ## サマリ
 
 - TENZU の**計測実装 SSOT**（イベント定義・UTM 命名規則・GTM/GA4 コンソール設定の運用手順）。KPI と判断基準は [../launch/measurement.md](../launch/measurement.md)、10 イベントの上位設計は [../acquisition/funnel.md §11](../acquisition/funnel.md)
-- **構成**: コードは GTM の dataLayer にイベントを流すだけ（[web/app/analytics.ts](../web/app/analytics.ts)）。GA4・広告ピクセル等のタグは**すべて GTM コンソール側で管理**＝タグ追加にデプロイ不要。**唯一の例外＝オンサイトメッセージの first-party 計測**（dataLayer と並列に自前 API → DynamoDB 日次カウンタ・§8）
-- **実装済みイベントは 3 つ**（開店に必要な最小集合）: `tool_start`（メーカー起動）／`generated_pdf`（PDF 書き出し）／`purchase`（GA4 eコマース形式・紙とメーカー共通）。残り 7 イベントは必要になった期で追加
+- **構成**: GTM で Google タグを全ページに読み込み、コードはイベントごとに① GTM 用オブジェクト、② Google タグ用 `gtag('event', ...)` コマンドを dataLayer へ送る（[web/app/analytics.ts](../web/app/analytics.ts)）。これにより、GTM に同名の GA4 イベントタグを追加しなくても GA4 へ届き、将来の広告タグはオブジェクト形式をトリガーにできる。**唯一の別経路＝オンサイトメッセージの first-party 計測**（自前 API → DynamoDB 日次カウンタ・§8）
+- **実装済みイベントは 7 つ**: `tool_start`／`generated_pdf`／`product_recommend_click`／`view_item`／`add_to_cart`／`begin_checkout`／`purchase`。通常の `page_view` は Google タグの自動送信
 - **アタッチ率**: `purchase` の `item_category`（`paper`/`maker`）と `purchase_kind` で紙→工房転換を GA4 上で集計（§4）
 - **ON/OFF は env 1 本**: `NEXT_PUBLIC_GTM_ID`（未設定＝GTM 計測 no-op。dev はこれで良い。オンサイト first-party 計測 §8 だけは GTM_ID と無関係に動く）。Amplify 登録キーは [web/.env.production.example](../web/.env.production.example)
 - 流入元識別は **UTM ＋ GA4 自動収集**（コード実装不要）。命名規則は §3 が SSOT
@@ -17,31 +17,34 @@
 
 ```
 コード（web/app/analytics.ts）
-  ├─ dataLayer.push({event, ...})     ← NEXT_PUBLIC_GTM_ID 未設定なら no-op
+  ├─ dataLayer.push({event, ...}) + gtag('event', ...) ← NEXT_PUBLIC_GTM_ID 未設定なら no-op
   │    └─ GTM コンテナ（web/app/Gtm.tsx が root layout に注入）
-  │         ├─ GA4 設定タグ（Google タグ）        ← GTM コンソールで管理
-  │         ├─ GA4 イベントタグ × 3               ← 同上
-  │         └─ （将来）Meta Pixel・Google 広告タグ ← 同上・デプロイ不要で追加
+  │         ├─ Google タグ（G-KH1BKQLSLH）        ← GTM コンソールで管理
+  │         └─ （将来）Meta Pixel・Google 広告タグ ← オブジェクト形式を利用
   └─ sendBeacon POST /api/onsite/track（onsite_msg のみ・GTM_ID と無関係・§8）
        └─ DynamoDB ONSITE_TABLE（STAT 日次カウンタ）→ 管理画面 /admin/onsite で閲覧
 ```
 
 | ファイル | 役割 |
 |---|---|
-| `web/app/analytics.ts` | track 関数群（`trackToolStart` / `trackGeneratedPdf` / `trackPurchase` / `trackOnsiteMsg`）・GTM_ID ゲート・購入の二重送信ガード・オンサイト first-party ビーコン |
+| `web/app/analytics.ts` | track 関数群・GTM_ID ゲート・GA4 測定 ID・購入の二重送信ガード・オンサイト first-party ビーコン |
 | `web/app/Gtm.tsx` | GTM スニペット（root layout の body 直下・ID 未設定なら非描画） |
 | `web/app/TrackPurchase.tsx` | サンクスページ用の購入計測クライアントコンポーネント |
 | `web/app/lib/onsite-store.ts` | オンサイト日次カウンタの永続層（DynamoDB・§8） |
 
-### §2. イベント定義（実装済み 3 つ）
+### §2. イベント定義（実装済み 7 つ＋自動 page_view）
 
 | イベント | 発火点（単一） | パラメータ | 備考 |
 |---|---|---|---|
 | `tool_start` | メーカー共通シェル `MakerHeader` のマウント（全 11 メーカー） | `maker`: copy / mirror / fill / fold / scale / shrink / translate / rotate / overlay / decompose / solid | パスから自動導出（`/maker`→copy） |
 | `generated_pdf` | メーカー共通 `exportPdf` の保存直後（全メーカー） | `maker`・`pages` | **北極星指標**。UTM と掛けて「流入元別 generated_pdf」 |
+| `product_recommend_click` | PDF 完了画面の商品レコメンドクリック | `currency`・`value`・`items[]`・`item_list_name` | メーカーから紙商品への送客 |
+| `view_item` | 商品詳細ページの表示 | GA4 eコマース標準（`currency`・`value`・`items[]`） | 商品閲覧 |
+| `add_to_cart` | 商品詳細で「カートに追加」 | GA4 eコマース標準（`currency`・`value`・`items[]`） | カート追加成功後 |
+| `begin_checkout` | Stripe Checkout URL の生成成功後、遷移直前 | GA4 eコマース標準（`currency`・`value`・`items[]`） | 決済開始 |
 | `purchase` | `/checkout/success`（紙）・`/maker-thanks`（メーカー）※いずれも paid 確認後 | GA4 eコマース標準（`transaction_id`・`value`・`currency: JPY`・`items[]`）＋独自 `purchase_kind`: paper / maker | `items[].item_category` に paper/maker。再訪・リロードは transaction_id の localStorage ガード＋GA4 側重複排除の二段 |
 
-**未実装 7 イベント**（[funnel §11](../acquisition/funnel.md) の残り）: `lp_view`（GA4 の自動 page_view で代替可）／`tool_config`／`download_pdf`／`product_recommend_click`／`view_item`／`add_to_cart`／`repeat_purchase`（GA4 側で purchase 回数から導出可）。リターゲティング広告が本格化する本格化期（12 月〜）以降に必要な分だけ追加する。
+`page_view` は Google タグが自動送信する。上位設計のうち `lp_view` は `page_view` で代替、`repeat_purchase` は `purchase` 回数から導出する。未実装は `tool_config` と `download_pdf`（`generated_pdf` と役割が重なるため、必要性が出た時だけ追加）。
 
 ### §3. UTM 命名規則（SSOT）
 
@@ -73,15 +76,12 @@
 1. **GA4 プロパティ作成**: [analytics.google.com](https://analytics.google.com) → プロパティ作成「TENZU」→ タイムゾーン日本・通貨 JPY → データストリーム（ウェブ）`https://tenzu.jp` → **測定 ID（G-XXXX…）を控える**。拡張計測（ページビュー・スクロール等）は ON のまま
 2. **GTM コンテナ作成**: [tagmanager.google.com](https://tagmanager.google.com) → コンテナ「tenzu.jp」（ウェブ）→ **コンテナ ID（GTM-XXXX…）を控える**
 3. **GTM に GA4 設定タグ**: タグ新規 →「Google タグ」→ タグ ID に測定 ID（G-…）→ トリガー「Initialization - All Pages」
-4. **GTM にカスタムイベントトリガー 3 本**: トリガー新規 →「カスタムイベント」→ イベント名 `tool_start` / `generated_pdf` / `purchase`（各 1 本）
-5. **GTM に GA4 イベントタグ 3 本**: タグ新規 →「Google アナリティクス: GA4 イベント」→ イベント名は同名を指定 →
-   - `tool_start`・`generated_pdf`: イベントパラメータ `maker` ＝ 変数「データレイヤーの変数 `maker`」（`pages` も同様に）
-   - `purchase`: 「**e コマースデータを送信**」にチェック（データソース: Data Layer）
-6. **プレビュー検証 → 公開**: GTM の「プレビュー」でサイトを開き、メーカー起動→ PDF 書き出しでイベントが飛ぶことを確認 →「公開」
-7. **GA4 キーイベント指定**: GA4 管理 → イベント → `generated_pdf` と `purchase` を**キーイベント**に（`tool_start` は指標としてだけ見る）
-8. **Search Console**: [search.google.com/search-console](https://search.google.com/search-console) → ドメインプロパティ `tenzu.jp` を DNS TXT で所有権確認 → GA4 管理 →「Search Console のリンク」で接続
-9. **env 設定**: Amplify コンソール → Environment variables → `NEXT_PUBLIC_GTM_ID=GTM-XXXX…` を追加して再デプロイ。ローカルで動作を見たいときは `web/.env.local` に同じ値
-10. **（開店後の広告開始時・後で可）**: Google 広告アカウントを GA4 にリンク／Meta Pixel を GTM 経由で追加（コード変更不要）
+4. **イベントタグは追加しない**: アプリが Google タグ用 `gtag('event', ...)` を直接 dataLayer に積むため、GTM に同名の GA4 イベントタグを作ると二重送信になる。広告タグを追加するときだけ、同時に積まれるオブジェクト形式のカスタムイベントをトリガーにする
+5. **プレビュー検証 → 公開**: GTM の「プレビュー」でサイトを開き、メーカー起動→ PDF 書き出し→商品閲覧→カート追加でイベントが飛ぶことを確認 →「公開」
+6. **GA4 キーイベント指定**: GA4 管理 → イベント → `generated_pdf` と `purchase` を**キーイベント**に（`tool_start` は指標としてだけ見る）
+7. **Search Console**: [search.google.com/search-console](https://search.google.com/search-console) → ドメインプロパティ `tenzu.jp` を DNS TXT で所有権確認 → GA4 管理 →「Search Console のリンク」で接続
+8. **env 設定**: Amplify コンソール → Environment variables → `NEXT_PUBLIC_GTM_ID=GTM-XXXX…` を追加して再デプロイ。TENZU の main は `amplify.yml` に公開コンテナ `GTM-K7KNR7CH` の安全側フォールバックも持つ（コンソール値があればそちらを優先）。ローカルで動作を見たいときは `web/.env.local` に同じ値
+9. **（開店後の広告開始時・後で可）**: Google 広告アカウントを GA4 にリンク／Meta Pixel を GTM 経由で追加（コード変更不要）
 
 ### §6. プライバシー対応（公開前に 1 回）
 
@@ -114,7 +114,7 @@ web/scripts/weekly-report.mjs（Node・週 1 手動実行から始める）
 | Stripe | **読み取り専用 restricted key**（Checkout Sessions read のみ許可）。本番 secret key をスクリプトに使い回さない |
 | 実行 | まず手動 `npm run weekly-report`。運用が安定したら Claude Code の scheduled task で週 1 自動化を検討 |
 
-**実装の前提条件（これを満たすまで着手しない）**: ①GA4 に 2 週間以上のデータ ②3 イベントが安定して記録されている ③`/weekly-ops` の手動運用を 2-3 回回して「見たい数字」が固まっている。
+**実装の前提条件（これを満たすまで着手しない）**: ①GA4 に 2 週間以上のデータ ②主要イベントが安定して記録されている ③`/weekly-ops` の手動運用を 2-3 回回して「見たい数字」が固まっている。
 
 **やらないこと**: Looker Studio 等のダッシュボード構築（見るのは北極星 3 つだけ・時系列は [ops-log.md](../launch/ops-log.md) が SSOT）／リアルタイム監視／日次実行。
 
