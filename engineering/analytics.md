@@ -38,7 +38,7 @@
 |---|---|---|---|
 | `tool_start` | メーカー共通シェル `MakerHeader` のマウント（全 11 メーカー） | `maker`: copy / mirror / fill / fold / scale / shrink / translate / rotate / overlay / decompose / solid | パスから自動導出（`/maker`→copy） |
 | `generated_pdf` | メーカー共通 `exportPdf` の保存直後（全メーカー） | `maker`・`pages` | **北極星指標**。UTM と掛けて「流入元別 generated_pdf」 |
-| `product_recommend_click` | PDF 完了画面の商品レコメンドクリック | `currency`・`value`・`items[]`・`item_list_name` | メーカーから紙商品への送客 |
+| `product_recommend_click` | PDF 完了画面の商品レコメンドクリック | `currency`・`value`・`item_list_name`・`item_id`・`item_name`・`item_category`（GTM 用 `ecommerce.items[]` も併送） | メーカーから紙商品への送客 |
 | `view_item` | 商品詳細ページの表示 | GA4 eコマース標準（`currency`・`value`・`items[]`） | 商品閲覧 |
 | `add_to_cart` | 商品詳細で「カートに追加」 | GA4 eコマース標準（`currency`・`value`・`items[]`） | カート追加成功後 |
 | `begin_checkout` | Stripe Checkout URL の生成成功後、遷移直前 | GA4 eコマース標準（`currency`・`value`・`items[]`） | 決済開始 |

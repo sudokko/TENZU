@@ -101,6 +101,11 @@ export function trackProductRecommendClick(
 ): void {
   trackCommerceEvent("product_recommend_click", [item], item.price, {
     item_list_name: listName,
+    // カスタムイベントでは items[] が GA4 の collect から省かれるため、
+    // 商品別集計に必要な識別子をイベントパラメータとしても明示する。
+    item_id: item.id,
+    item_name: item.name,
+    item_category: item.category,
   });
 }
 
