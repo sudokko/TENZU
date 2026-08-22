@@ -459,14 +459,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 8.2,
-    "value": 8.2,
+    "auto": 9.2,
+    "value": 9.2,
     "parts": {
      "E": 5.5,
      "G": 3.5,
      "k": 0.85,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -476,7 +477,7 @@
     "seed": 1,
     "variant": "micro3x3#525133"
    },
-   "order": 2
+   "order": 4
   },
   {
    "id": "rotate-lv3-vol2-s1-04",
@@ -743,7 +744,7 @@
     "seed": 1,
     "variant": "micro3x3#691248"
    },
-   "order": 4
+   "order": 2
   },
   {
    "id": "rotate-lv3-vol2-s1-06",
@@ -855,7 +856,7 @@
     "seed": 1,
     "variant": "micro3x3#397552"
    },
-   "order": 6,
+   "order": 5,
    "edited": true
   },
   {
@@ -1189,7 +1190,7 @@
     "seed": 1,
     "variant": "trishelf4b#1/1"
    },
-   "order": 9
+   "order": 10
   },
   {
    "id": "rotate-lv3-vol2-s1-09",
@@ -1575,11 +1576,61 @@
     [
      [
       0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
       2
      ],
      [
       1,
       3
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
      ]
     ]
    ],
@@ -1591,7 +1642,7 @@
     }
    },
    "metrics": {
-    "lines": 3,
+    "lines": 6,
     "diagonals": 1,
     "non45": 0,
     "non45Gentle": 0,
@@ -1599,16 +1650,14 @@
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 5,
-    "symmetry": [
-     "d2"
-    ],
+    "pointsUsed": 8,
+    "symmetry": [],
     "boardN": 4,
     "bboxW": 3,
     "bboxH": 3,
     "strokes": 2,
     "symAxis": "d",
-    "symMiss": 0
+    "symMiss": 1
    },
    "gen": {
     "kind": "auto",
@@ -1620,14 +1669,14 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 7.2,
-    "value": 7.2,
+    "auto": 11.8,
+    "value": 11.8,
     "parts": {
-     "E": 3.5,
+     "E": 6.5,
      "G": 3.5,
      "k": 0.85,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 3
     }
    },
    "provenance": {
@@ -1637,7 +1686,7 @@
     "seed": 1,
     "variant": "micro3x3#90892"
    },
-   "order": 5,
+   "order": 7,
    "edited": true
   },
   {
@@ -1755,14 +1804,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 9,
-    "value": 9,
+    "auto": 11,
+    "value": 11,
     "parts": {
      "E": 6.5,
      "G": 3.5,
      "k": 0.85,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1958,14 +2008,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 12.7,
-    "value": 12.7,
+    "auto": 13.7,
+    "value": 13.7,
     "parts": {
      "E": 8,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1975,7 +2026,7 @@
     "seed": 1,
     "variant": "hybrid#4#1-78"
    },
-   "order": 11
+   "order": 9
   },
   {
    "id": "rotate-lv3-vol2-s1-14",
@@ -2002,26 +2053,6 @@
      [
       2,
       0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
      ]
     ],
     [
@@ -2201,15 +2232,13 @@
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 16,
-    "symmetry": [
-     "r180"
-    ],
+    "pointsUsed": 15,
+    "symmetry": [],
     "boardN": 4,
     "bboxW": 4,
     "bboxH": 4,
     "strokes": 2,
-    "symAxis": "v",
+    "symAxis": "d",
     "symMiss": 2
    },
    "gen": {
@@ -2227,19 +2256,20 @@
     "parts": {
      "E": 9,
      "G": 4,
-     "k": 0.7,
+     "k": 0.85,
      "strokes": 0.7,
      "brk": 6
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
     "variant": "moku2d4#1/1"
    },
-   "order": 10
+   "order": 11,
+   "edited": true
   },
   {
    "id": "rotate-lv3-vol2-s1-15",
@@ -2424,14 +2454,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 13.7,
-    "value": 13.7,
+    "auto": 14.7,
+    "value": 14.7,
     "parts": {
      "E": 9,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2635,14 +2666,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 14.7,
-    "value": 14.7,
+    "auto": 15.7,
+    "value": 15.7,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2826,14 +2858,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 14,
-    "value": 14,
+    "auto": 15,
+    "value": 15,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2966,7 +2999,7 @@
     "seed": 1,
     "variant": "micro3x3#614465"
    },
-   "order": 7,
+   "order": 6,
    "edited": true
   },
   {
@@ -3333,14 +3366,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 14.7,
-    "value": 14.7,
+    "auto": 16.7,
+    "value": 16.7,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {

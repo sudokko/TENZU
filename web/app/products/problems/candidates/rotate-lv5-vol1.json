@@ -535,14 +535,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 14.2,
-    "value": 14.2,
+    "auto": 18.2,
+    "value": 18.2,
     "parts": {
      "E": 8,
      "G": 4.5,
      "k": 0.7,
      "strokes": 2.0999999999999996,
      "brk": 0,
+     "交差": 4,
      "変換": 2
     }
    },
@@ -841,14 +842,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 11.8,
-    "value": 11.8,
+    "auto": 13.8,
+    "value": 13.8,
     "parts": {
      "E": 8,
      "G": 5,
      "k": 0.85,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1146,14 +1148,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 11.8,
-    "value": 11.8,
+    "auto": 13.8,
+    "value": 13.8,
     "parts": {
      "E": 8,
      "G": 5,
      "k": 0.85,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1843,14 +1846,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 15.7,
-    "value": 15.7,
+    "auto": 17.7,
+    "value": 17.7,
     "parts": {
      "E": 8.5,
      "G": 4.5,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 2,
      "変換": 2
     }
    },
@@ -2155,14 +2159,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 18.1,
-    "value": 18.1,
+    "auto": 21.1,
+    "value": 21.1,
     "parts": {
      "E": 11,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -2456,14 +2461,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 20.1,
-    "value": 20.1,
+    "auto": 22.1,
+    "value": 22.1,
     "parts": {
      "E": 11,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
      "brk": 0,
+     "交差": 2,
      "変換": 2
     }
    },
@@ -2840,14 +2846,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 15.3,
-    "value": 15.3,
+    "auto": 18.3,
+    "value": 18.3,
     "parts": {
      "E": 10.5,
      "G": 5,
      "k": 0.85,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -3024,32 +3031,52 @@
       4,
       0
      ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      4
+     ]
     ]
    ],
    "answer": {
     "mode": "derived",
     "transform": {
      "type": "rotate",
-     "deg": 90
+     "deg": -90
     }
    },
    "metrics": {
-    "lines": 6,
-    "diagonals": 2,
+    "lines": 8,
+    "diagonals": 4,
     "non45": 2,
     "non45Gentle": 0,
-    "diagonalAngleKinds": 1,
+    "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
-    "pointsUsed": 14,
+    "pointsUsed": 16,
     "symmetry": [
      "v"
     ],
     "boardN": 5,
     "bboxW": 5,
-    "bboxH": 4,
-    "strokes": 2,
+    "bboxH": 5,
+    "strokes": 4,
     "symAxis": "v",
     "symMiss": 0
    },
@@ -3060,26 +3087,29 @@
     "seed": 1,
     "variant": "drect#4x3d2/0"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 15.2,
-    "value": 15.2,
+    "auto": 20,
+    "value": 20,
     "parts": {
-     "E": 14,
-     "G": 4.75,
+     "E": 17,
+     "G": 5,
      "k": 0.7,
-     "strokes": 0.7,
-     "brk": 0
+     "strokes": 2.0999999999999996,
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
     "variant": "drect#4x3d2/0"
-   }
+   },
+   "order": 6,
+   "edited": true
   },
   {
    "id": "rotate-lv5-vol1-s1-12",
@@ -3364,14 +3394,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 18.9,
-    "value": 18.9,
+    "auto": 22.9,
+    "value": 22.9,
     "parts": {
      "E": 12.5,
      "G": 5,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 4
     }
    },
    "provenance": {
@@ -3575,14 +3606,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 18,
-    "value": 18,
+    "auto": 21,
+    "value": 21,
     "parts": {
      "E": 13.5,
      "G": 4.5,
      "k": 1,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -3622,61 +3654,71 @@
     ],
     [
      [
+      0,
+      4
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
       3,
       0
      ],
      [
       4,
-      3
+      4
      ]
     ],
     [
      [
       3,
-      3
+      4
      ],
      [
       4,
-      3
+      4
      ]
     ],
     [
      [
       2,
-      3
+      4
      ],
      [
       3,
-      3
+      4
      ]
     ],
     [
      [
       1,
-      3
+      4
      ],
      [
       2,
-      3
+      4
      ]
     ],
     [
      [
       0,
-      3
+      4
      ],
      [
       1,
-      3
+      4
      ]
     ],
     [
      [
       0,
-      3
+      4
      ],
      [
-      1,
+      3,
       0
      ]
     ],
@@ -3684,60 +3726,10 @@
      [
       1,
       0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      2
      ],
      [
       4,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      2
+      4
      ]
     ]
    ],
@@ -3751,19 +3743,19 @@
    "metrics": {
     "lines": 6,
     "diagonals": 4,
-    "non45": 2,
+    "non45": 4,
     "non45Gentle": 0,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
-    "pointsUsed": 11,
+    "pointsUsed": 8,
     "symmetry": [
      "v"
     ],
     "boardN": 5,
     "bboxW": 5,
-    "bboxH": 4,
+    "bboxH": 5,
     "strokes": 2,
     "symAxis": "v",
     "symMiss": 0
@@ -3775,27 +3767,30 @@
     "seed": 1,
     "variant": "trapX#1/0"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 18,
-    "value": 18,
+    "auto": 24.1,
+    "value": 24.1,
     "parts": {
-     "E": 15,
-     "G": 4.75,
+     "E": 22,
+     "G": 5,
      "k": 0.7,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
     "variant": "trapX#1/0"
-   }
+   },
+   "order": 10,
+   "edited": true
   },
   {
    "id": "rotate-lv5-vol1-s1-15",
@@ -4787,17 +4782,18 @@
     "seed": 1,
     "variant": "hybrid#5#1-106"
    },
-   "status": "pending",
+   "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 22.7,
-    "value": 22.7,
+    "auto": 25.7,
+    "value": 25.7,
     "parts": {
      "E": 17,
      "G": 5,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -4806,7 +4802,8 @@
     "version": "1",
     "seed": 1,
     "variant": "hybrid#5#1-106"
-   }
+   },
+   "order": 11
   },
   {
    "id": "rotate-lv5-vol1-s1-19",
@@ -4961,14 +4958,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 22.2,
-    "value": 22.2,
+    "auto": 23.2,
+    "value": 23.2,
     "parts": {
      "E": 16.5,
      "G": 4.5,
      "k": 0.85,
      "strokes": 0.7,
-     "brk": 3
+     "brk": 3,
+     "交差": 1
     }
    },
    "provenance": {
@@ -5264,14 +5262,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 22.6,
-    "value": 22.6,
+    "auto": 26.6,
+    "value": 26.6,
     "parts": {
      "E": 16,
      "G": 4.5,
      "k": 0.7,
      "strokes": 4.8999999999999995,
      "brk": 0,
+     "交差": 4,
      "変換": 2
     }
    },
@@ -5435,7 +5434,7 @@
     "mode": "derived",
     "transform": {
      "type": "rotate",
-     "deg": 180
+     "deg": -90
     }
    },
    "metrics": {
@@ -5460,26 +5459,29 @@
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-28",
-    "label": "ロケット"
+    "createdAt": "",
+    "label": "ロケット",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "ロケット"
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 19.6,
-    "value": 19.6,
+    "auto": 17.6,
+    "value": 17.6,
     "parts": {
      "E": 18,
      "G": 5,
      "k": 0.7,
      "strokes": 0,
-     "brk": 0,
-     "変換": 2
+     "brk": 0
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 2,
+   "edited": true
   },
   {
    "id": "rotate-lv5-vol1-m02",
@@ -6184,14 +6186,15 @@
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 26.4,
-    "value": 26.4,
+    "auto": 27.4,
+    "value": 27.4,
     "parts": {
      "E": 18,
      "G": 5,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
@@ -6343,54 +6346,139 @@
       3,
       3
      ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      4
+     ]
     ]
    ],
    "answer": {
     "mode": "derived",
     "transform": {
      "type": "rotate",
-     "deg": 90
+     "deg": 180
     }
    },
    "metrics": {
-    "lines": 10,
-    "diagonals": 5,
+    "lines": 15,
+    "diagonals": 9,
     "non45": 2,
     "non45Gentle": 2,
     "diagonalAngleKinds": 3,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 12,
+    "pointsUsed": 17,
     "symmetry": [],
     "boardN": 5,
     "bboxW": 5,
-    "bboxH": 4,
+    "bboxH": 5,
     "strokes": 3,
     "symAxis": "v",
     "symMiss": 8
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-28",
-    "label": "ことり"
+    "createdAt": "",
+    "label": "ことり",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "ことり"
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 23.7,
-    "value": 23.7,
+    "auto": 32.9,
+    "value": 32.9,
     "parts": {
-     "E": 17.5,
-     "G": 4.75,
+     "E": 24.5,
+     "G": 5,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "変換": 2
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 12,
+   "edited": true
   },
   {
    "id": "rotate-lv5-vol1-m06",
@@ -6401,158 +6489,18 @@
    "edges": [
     [
      [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      2,
-      4
-     ]
-    ],
-    [
-     [
       0,
       1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      0,
-      4
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      4,
-      1
-     ]
-    ],
-    [
-     [
-      4,
-      1
-     ],
-     [
-      4,
-      2
-     ]
-    ],
-    [
-     [
-      4,
-      2
-     ],
-     [
-      4,
-      3
-     ]
-    ],
-    [
-     [
-      4,
-      3
-     ],
-     [
-      4,
-      4
-     ]
-    ],
-    [
-     [
-      0,
-      4
      ],
      [
       1,
-      4
-     ]
-    ],
-    [
-     [
-      1,
-      4
-     ],
-     [
-      2,
-      4
-     ]
-    ],
-    [
-     [
-      2,
-      4
-     ],
-     [
-      3,
-      4
-     ]
-    ],
-    [
-     [
-      3,
-      4
-     ],
-     [
-      4,
-      4
+      2
      ]
     ],
     [
      [
       0,
-      2
+      3
      ],
      [
       1,
@@ -6562,30 +6510,10 @@
     [
      [
       1,
-      2
+      1
      ],
      [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      2
-     ],
-     [
-      4,
+      1,
       2
      ]
     ],
@@ -6595,18 +6523,118 @@
       0
      ],
      [
-      2,
+      1,
       1
      ]
     ],
     [
      [
+      1,
+      0
+     ],
+     [
       2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
       1
      ],
      [
       3,
-      0
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
      ]
     ]
    ],
@@ -6614,50 +6642,55 @@
     "mode": "derived",
     "transform": {
      "type": "rotate",
-     "deg": -90
+     "deg": 90
     }
    },
    "metrics": {
     "lines": 9,
-    "diagonals": 4,
+    "diagonals": 6,
     "non45": 2,
     "non45Gentle": 2,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 1,
     "components": 1,
-    "pointsUsed": 18,
+    "pointsUsed": 12,
     "symmetry": [
-     "v"
+     "h"
     ],
     "boardN": 5,
     "bboxW": 5,
     "bboxH": 5,
-    "strokes": 3,
-    "symAxis": "v",
+    "strokes": 2,
+    "symAxis": "h",
     "symMiss": 0
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-28",
-    "label": "ちょう"
+    "createdAt": "",
+    "label": "ちょう",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "ちょう"
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 17.6,
-    "value": 17.6,
+    "auto": 19.5,
+    "value": 19.5,
     "parts": {
-     "E": 16,
+     "E": 17,
      "G": 5,
-     "k": 0.7,
-     "strokes": 1.4,
-     "brk": 0
+     "k": 0.75,
+     "strokes": 0.7,
+     "brk": 0,
+     "交差": 1
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 4,
+   "edited": true
   },
   {
    "id": "rotate-lv5-vol1-m07",
@@ -6876,26 +6909,31 @@
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-28",
-    "label": "きのこ"
+    "createdAt": "",
+    "label": "きのこ",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "きのこ"
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 18.2,
-    "value": 18.2,
+    "auto": 19.2,
+    "value": 19.2,
     "parts": {
      "E": 16,
      "G": 5,
      "k": 0.7,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 2
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 3,
+   "edited": true
   },
   {
    "id": "rotate-lv5-vol1-m08",
@@ -7112,7 +7150,8 @@
      "brk": 0
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 1
   },
   {
    "id": "rotate-lv5-vol1-m09",
@@ -7527,7 +7566,8 @@
      "変換": 2
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 7
   },
   {
    "id": "rotate-lv5-vol1-m11",
@@ -7761,7 +7801,7 @@
     "mode": "derived",
     "transform": {
      "type": "rotate",
-     "deg": 90
+     "deg": -90
     }
    },
    "metrics": {
@@ -7786,25 +7826,30 @@
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-28",
-    "label": "つりばし"
+    "createdAt": "",
+    "label": "つりばし",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "つりばし"
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 19.7,
-    "value": 19.7,
+    "auto": 21.7,
+    "value": 21.7,
     "parts": {
      "E": 18,
      "G": 5,
      "k": 0.7,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 8,
+   "edited": true
   },
   {
    "id": "rotate-lv5-vol1-m12",
@@ -8018,7 +8063,7 @@
     "mode": "derived",
     "transform": {
      "type": "rotate",
-     "deg": -90
+     "deg": 90
     }
    },
    "metrics": {
@@ -8041,11 +8086,13 @@
    },
    "provenance": {
     "source": "blank",
-    "createdAt": "2026-07-28",
-    "label": "おしろ"
+    "createdAt": "",
+    "label": "おしろ",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "おしろ"
    },
    "difficulty": {
     "task": "rotate",
@@ -8059,7 +8106,9 @@
      "brk": 0
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 9,
+   "edited": true
   },
   {
    "id": "rotate-lv5-vol1-m13",
@@ -8390,7 +8439,8 @@
      "brk": 3
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 5
   },
   {
    "id": "rotate-lv5-vol1-m15",

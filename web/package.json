@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "recover": "node scripts/recover.mjs"
+    "recover": "node scripts/recover.mjs",
+    "check:gates": "node scripts/check-env-gates.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1085.0",
@@ -34,6 +35,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "qrcode": "^1.5.4",
     "typescript": "^5"
   }
 }

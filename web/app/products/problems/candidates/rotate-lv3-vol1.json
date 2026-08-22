@@ -462,7 +462,7 @@
     "seed": 1,
     "variant": "drect#3x3d1/0"
    },
-   "order": 1
+   "order": 3
   },
   {
    "id": "rotate-lv3-vol1-s1-03",
@@ -679,14 +679,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 10,
-    "value": 10,
+    "auto": 12,
+    "value": 12,
     "parts": {
      "E": 7,
      "G": 3.75,
      "k": 0.7,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -696,7 +697,7 @@
     "seed": 1,
     "variant": "grid#2x3/0"
    },
-   "order": 3
+   "order": 7
   },
   {
    "id": "rotate-lv3-vol1-s1-04",
@@ -913,14 +914,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 10,
-    "value": 10,
+    "auto": 12,
+    "value": 12,
     "parts": {
      "E": 7,
      "G": 3.75,
      "k": 0.7,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1053,7 +1055,7 @@
     "seed": 1,
     "variant": "micro3x3#165400"
    },
-   "order": 2
+   "order": 1
   },
   {
    "id": "rotate-lv3-vol1-s1-06",
@@ -1170,14 +1172,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 8.2,
-    "value": 8.2,
+    "auto": 9.2,
+    "value": 9.2,
     "parts": {
      "E": 5.5,
      "G": 3.5,
      "k": 0.85,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1355,14 +1358,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 7.5,
-    "value": 7.5,
+    "auto": 8.5,
+    "value": 8.5,
     "parts": {
      "E": 5,
      "G": 4,
      "k": 0.7,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1372,7 +1376,7 @@
     "seed": 1,
     "variant": "hourglass#3/0"
    },
-   "order": 4
+   "order": 2
   },
   {
    "id": "rotate-lv3-vol1-s1-08",
@@ -1805,14 +1809,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 9.1,
-    "value": 9.1,
+    "auto": 10.1,
+    "value": 10.1,
     "parts": {
      "E": 7,
      "G": 3.5,
      "k": 0.7,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1938,14 +1943,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 10.1,
-    "value": 10.1,
+    "auto": 11.1,
+    "value": 11.1,
     "parts": {
      "E": 7,
      "G": 3.5,
      "k": 0.85,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2169,14 +2175,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 14.9,
-    "value": 14.9,
+    "auto": 15.9,
+    "value": 15.9,
     "parts": {
      "E": 9.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2299,17 +2306,18 @@
     "seed": 1,
     "variant": "micro3x3#606988"
    },
-   "status": "pending",
+   "status": "rejected",
    "difficulty": {
     "task": "rotate",
-    "auto": 9,
-    "value": 9,
+    "auto": 10,
+    "value": 10,
     "parts": {
      "E": 6.5,
      "G": 3.5,
      "k": 0.85,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2525,14 +2533,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 12.3,
-    "value": 12.3,
+    "auto": 13.3,
+    "value": 13.3,
     "parts": {
      "E": 9,
      "G": 4,
      "k": 0.85,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2677,7 +2686,7 @@
     "seed": 1,
     "variant": "rand#4#1-207"
    },
-   "order": 7,
+   "order": 4,
    "edited": true
   },
   {
@@ -2873,14 +2882,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 13.7,
-    "value": 13.7,
+    "auto": 15.7,
+    "value": 15.7,
     "parts": {
      "E": 9,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -3084,14 +3094,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 14.7,
-    "value": 14.7,
+    "auto": 15.7,
+    "value": 15.7,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -3275,14 +3286,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 13.2,
-    "value": 13.2,
+    "auto": 15.2,
+    "value": 15.2,
     "parts": {
      "E": 8.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -3476,14 +3488,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 14.2,
-    "value": 14.2,
+    "auto": 15.2,
+    "value": 15.2,
     "parts": {
      "E": 9.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -3493,7 +3506,7 @@
     "seed": 1,
     "variant": "hybrid#4#1-357"
    },
-   "order": 9
+   "order": 11
   },
   {
    "id": "rotate-lv3-vol1-s1-20",
@@ -3772,14 +3785,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 8,
-    "value": 8,
+    "auto": 9,
+    "value": 9,
     "parts": {
      "E": 4.5,
      "G": 3.5,
      "k": 1,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -3905,14 +3919,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 10.1,
-    "value": 10.1,
+    "auto": 11.1,
+    "value": 11.1,
     "parts": {
      "E": 7,
      "G": 3.5,
      "k": 0.85,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -4048,14 +4063,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 9.5,
-    "value": 9.5,
+    "auto": 11.5,
+    "value": 11.5,
     "parts": {
      "E": 6.5,
      "G": 4,
      "k": 0.85,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -5654,7 +5670,7 @@
     "seed": 4,
     "variant": "blob#4#1-240"
    },
-   "order": 10
+   "order": 9
   },
   {
    "id": "rotate-lv3-vol1-s4-34",
@@ -5957,7 +5973,7 @@
     "seed": 4,
     "variant": "blob#4#1-303"
    },
-   "order": 11
+   "order": 10
   },
   {
    "id": "rotate-lv3-vol1-s5-36",
@@ -6323,14 +6339,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 15.9,
-    "value": 15.9,
+    "auto": 17.9,
+    "value": 17.9,
     "parts": {
      "E": 10.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -6514,14 +6531,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 18.3,
-    "value": 18.3,
+    "auto": 19.3,
+    "value": 19.3,
     "parts": {
      "E": 10.5,
      "G": 4,
      "k": 0.75,
      "strokes": 2.0999999999999996,
-     "brk": 6
+     "brk": 6,
+     "交差": 1
     }
    },
    "provenance": {
@@ -6695,14 +6713,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "rotate",
-    "auto": 15.7,
-    "value": 15.7,
+    "auto": 17.7,
+    "value": 17.7,
     "parts": {
      "E": 11,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -6867,14 +6886,15 @@
    "status": "pending",
    "difficulty": {
     "task": "rotate",
-    "auto": 16.4,
-    "value": 16.4,
+    "auto": 17.4,
+    "value": 17.4,
     "parts": {
      "E": 11,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {

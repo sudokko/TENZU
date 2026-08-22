@@ -15,7 +15,7 @@ export type SlopeRule = "ortho" | "ortho45" | "any";
 export type SymAxis = "v" | "h" | "d1";
 
 export type CopyParams = {
-  grid: 3 | 4 | 5 | 6 | 7;
+  grid: 3 | 4 | 5 | 6 | 7 | 8;
   lines: [number, number];
   slopes: SlopeRule;
   diagonals: [number, number];

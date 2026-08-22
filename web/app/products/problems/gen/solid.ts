@@ -14,7 +14,10 @@
    - 被覆面（前・上・右の外向き面）は閉区間で判定し、深度は strict 比較。
      同一平面・自面は深度タイで自然に除外される。縁と重なる奥の辺は
      いったん点線になり、実線と同一スクリーン線分なら破棄（実線優先）。
-   隠れ辺は巻ポリシーで出し分け：Lv.3＝出さない／Lv.4＝1〜2 本／Lv.5＝フル。
+   隠れ辺は巻ポリシーで出し分け：Lv.3・Lv.4＝出さない（小さめの形）／Lv.5 Vol.1＝
+   "off"＝**大型の形を作って隠れ辺だけ出さない**／Lv.5 Vol.2＝フル
+   （"some"＝1〜2 本のレジームは実装として残すが、現行の巻では未使用・decisions §3.100）。
+   "none" と "off" の違いは形の大きさ：none は入門の小さな形、off は Lv.5 の大型（decisions §3.108）。
    ========================================================================= */
 
 import type { Problem, SolidEdge } from "../schema";
@@ -30,7 +33,9 @@ export const SOLID_GENERATOR_VERSION = "1";
    生成固有パラメータ（ボクセル空間・形族・盤面レンジ等）はレジーム別 GEN_PROFILES が補完する。
    → atelier で D 窓を較正すると生成器が追従する／Vol 追加も ladder.json 追記だけで生成可能になる */
 
-export type SolidHiddenPolicy = "none" | "some" | "full";
+/* off＝大型の形（XL 空間）を作ったうえで隠れ辺を 1 本も出さない巻。
+   none（入門の小さな形・隠れ辺なし）とは形の大きさが違う＝別レジームとして持つ。 */
+export type SolidHiddenPolicy = "none" | "some" | "full" | "off";
 
 /* ladder.json の solid エントリ（ladder-schema.ts LADDER_FIELDS.solid と一致） */
 export type SolidLadderEntry = { hidden?: SolidHiddenPolicy; D?: [number, number] };
@@ -44,7 +49,16 @@ export type FamilyKey =
   | "carve"    // 直方体から角/縁を削る（凹み・門∏）
   | "compose"  // 複合（基壇＋塔・双塔＋基壇・隣接ビル）
   | "multi"    // 大複合（基壇＋塔群＋門/橋＝城砦風・XL/XXL の主力）
-  | "grow";    // ランダム成長ポリキューブ（有機的な組み木）
+  | "grow"     // ランダム成長ポリキューブ（有機的な組み木）
+  /* ---- 大型の「型」（XL/XXL の単調化対策・decisions §3.107）----
+     grow/multi だけだと大きい巻が「凹凸が細かいだけの塊」に収束する。
+     下の 5 族は塊とは読み方が違う特徴（穴・段・断面・繰り返し・前後関係）を
+     1 つずつ担当し、同じ D でも図の性格を散らす。 */
+  | "ring"     // 中空（中庭のある建物・額縁の門型壁）＝図の中に大きな穴
+  | "zigg"     // 四方段ピラミッド＝段が全方位に下がる（片側だけの steps と別物）
+  | "pipe"     // 太さ一定の角柱を折り曲げた形（L/U/S 字のパイプ）＝断面を保つ読み
+  | "arcade"   // 柱廊（等間隔の柱＋梁）＝同じ穴の繰り返しを数える読み
+  | "city";    // 街並み（高さ・奥行き・前後位置の違う棟が並ぶ）＝前後関係の読み
 
 export type SolidGenProfile = {
   board: [number, number];  // 盤面（cols/rows とも）の下限・上限（上限は 15 まで）
@@ -81,10 +95,20 @@ const GEN_PROFILES: Record<SolidHiddenPolicy, SolidGenProfile> = {
     families: ["stack", "steps", "poly", "carve", "compose", "grow"],
     overhang: false, symmetry: 0.3, minHeight: 2, boxQuota: 0, hiddenRatioMax: 1, coincidenceMax: 0, famShare: 3,
   },
+  /* 大型・隠れ辺なし（Lv.5 Vol.1）。空間・形族は XL と同じで、線の帯だけ「見える辺だけ」の
+     実測（published 22〜39 本）に合わせて下げる＝点線を落としたぶん本数が減るため。
+     点線比の上限は意味を持たない（点線が 1 本も出ない）ので生成時にも見ない。 */
+  off: {
+    board: [11, 15], lines: [18, 50],
+    vox: { x: 8, y: 4, z: 6, n: [16, 80] },
+    families: ["stack", "steps", "poly", "wall", "carve", "compose", "multi", "grow",
+      "ring", "zigg", "pipe", "arcade", "city"],
+    overhang: true, symmetry: 0.3, minHeight: 3, boxQuota: 0, hiddenRatioMax: 1, coincidenceMax: 10, famShare: 4,
+  },
   full: {
     board: [9, 15], lines: [16, 44],
     vox: { x: 6, y: 4, z: 5, n: [8, 40] },
-    families: ["stack", "steps", "poly", "wall", "carve", "compose", "grow"],
+    families: ["stack", "steps", "poly", "wall", "carve", "compose", "grow", "ring", "zigg", "pipe"],
     overhang: true, symmetry: 0.3, minHeight: 2, boxQuota: 0, hiddenRatioMax: 0.65, coincidenceMax: 0, famShare: 3,
   },
 };
@@ -102,15 +126,16 @@ function profileFor(hidden: SolidHiddenPolicy, D: [number, number]): SolidGenPro
     return { // XL（二棟・大複合）
       board: [11, 15], lines: [24, 70],
       vox: { x: 8, y: 4, z: 6, n: [16, 80] },
-      families: ["stack", "steps", "poly", "wall", "carve", "compose", "multi", "grow"],
-      overhang: true, symmetry: 0.3, minHeight: 3, boxQuota: 0, hiddenRatioMax: 0.95, coincidenceMax: 10, famShare: 2,
+      families: ["stack", "steps", "poly", "wall", "carve", "compose", "multi", "grow",
+        "ring", "zigg", "pipe", "arcade", "city"],
+      overhang: true, symmetry: 0.3, minHeight: 3, boxQuota: 0, hiddenRatioMax: 0.95, coincidenceMax: 10, famShare: 4,
     };
   }
-  return { // XXL（最大盤面・大建築）。D 上位帯へ届く「特徴量産」族に絞る
+  return { // XXL（最大盤面・大建築）。D 上位帯へ届く「特徴量産」族＋大型の型
     board: [13, 15], lines: [34, 110],
     vox: { x: 10, y: 4, z: 8, n: [30, 130] },
-    families: ["steps", "carve", "multi", "grow"],
-    overhang: true, symmetry: 0.35, minHeight: 4, boxQuota: 0, hiddenRatioMax: 1.2, coincidenceMax: 999, famShare: 2,
+    families: ["steps", "carve", "multi", "grow", "ring", "zigg", "pipe", "arcade", "city"],
+    overhang: true, symmetry: 0.35, minHeight: 4, boxQuota: 0, hiddenRatioMax: 1.2, coincidenceMax: 999, famShare: 4,
   };
 }
 
@@ -124,7 +149,12 @@ export const SOLID_LADDER: Record<string, SolidParams> = Object.fromEntries(
 );
 
 /* symmetrize が形を「治して」しまう族（欠き・高低差が対称化で消える）には適用しない */
-const SYMMETRIZE_OK: readonly FamilyKey[] = ["steps", "poly", "grow", "wall", "stack", "multi"];
+const SYMMETRIZE_OK: readonly FamilyKey[] = [
+  "steps", "poly", "grow", "wall", "stack", "multi",
+  /* zigg/arcade/city は左右対称化しても型が保たれる（段・柱の並び・棟の並びが増えるだけ）。
+     ring（穴が埋まる）・pipe（断面一定が壊れる）は除外。 */
+  "zigg", "arcade", "city",
+];
 
 /* =========================================================================
    ボクセル集合
@@ -481,9 +511,158 @@ function fGrow(rng: Rng, P: SolidParams): VoxSet {
   return normalizeVox(cells);
 }
 
+/* =========================================================================
+   大型の「型」5 族（decisions §3.107）
+   D は折れ目の数で伸びるので、大きな巻を grow/multi に任せると「細かい凹凸の塊」
+   ばかりになる。ここは D ではなく**読み方**を散らすための族：
+   穴（ring）・全方位の段（zigg）・一定断面（pipe）・繰り返し（arcade）・前後関係（city）。
+   ========================================================================= */
+
+/* 中空（ロの字）。中庭のある建物／額縁の門型壁。図の中に大きな穴が空くので、
+   塊系のシルエットとは輪郭の追い方がまったく別になる。 */
+function fRing(rng: Rng, P: SolidParams): VoxSet {
+  const cells: VoxSet = new Set();
+  const courtyard = P.vox.y >= 3 && rng() < 0.55;
+  if (courtyard) {
+    const w = randInt(rng, 4, Math.max(4, P.vox.x));
+    const d = randInt(rng, 3, Math.max(3, P.vox.y));
+    const h = randInt(rng, 2, Math.max(2, P.vox.z - 1));
+    addBox(cells, 0, 0, 0, w, d, h);
+    // 中庭をくり抜く。底を残す＝上から見た凹み／貫通＝ロの字の筒（張り出し前提）
+    const iw = randInt(rng, 1, Math.max(1, w - 2));
+    const z0 = P.overhang && rng() < 0.5 ? 0 : 1;
+    if (h > z0) removeBox(cells, randInt(rng, 1, w - 1 - iw), 1, z0, iw, d - 2, h - z0);
+    // 屋根の一部だけ立ち上げる（平らな屋根の退屈を消す）
+    if (rng() < 0.7 && h + 1 <= P.vox.z) {
+      const tw = randInt(rng, 1, 2);
+      addBox(cells, randInt(rng, 0, w - tw), 0, h, tw, randInt(rng, 1, d),
+        randInt(rng, 1, Math.max(1, Math.min(2, P.vox.z - h))));
+    }
+    // 窓（前面の穴を並べる）。大きい空間ほど穴を増やして「特徴」を積む＝
+    // 同じ盤面でも D が伸び、かつ塊系とは別の読み方（穴の数を数える）になる
+    if (P.vox.x >= 8 && h >= 3 && rng() < 0.7) {
+      const step = 2;
+      for (let wx = 1; wx + 1 < w; wx += step) {
+        for (let wz = 1; wz + 1 < h; wz += step) {
+          if (rng() < 0.35) continue;   // 歯抜けにして「規則的すぎる格子」を避ける
+          removeBox(cells, wx, 0, wz, 1, 1, 1);
+        }
+      }
+    }
+  } else {
+    // 額縁（xz のロの字）を y に押し出す＝門型の壁。上辺が宙に浮くので張り出し前提
+    const w = randInt(rng, 4, Math.max(4, P.vox.x));
+    const hh = randInt(rng, 4, Math.max(4, P.vox.z));
+    const d = randInt(rng, 1, Math.min(3, P.vox.y));
+    const t = randInt(rng, 1, 2);
+    if (w <= 2 * t || hh <= 2 * t) return new Set(); // 穴が残らない＝ただの板
+    addBox(cells, 0, 0, 0, w, d, t);            // 下辺
+    addBox(cells, 0, 0, hh - t, w, d, t);       // 上辺
+    addBox(cells, 0, 0, 0, t, d, hh);           // 左柱
+    addBox(cells, w - t, 0, 0, t, d, hh);       // 右柱
+  }
+  return normalizeVox(cells);
+}
+
+/* 四方段ピラミッド（ジッグラト）。steps が片側だけ上がるのに対し、こちらは全方位から
+   縮む＝上の段の輪郭が下の段の内側に入る。「奥の段はどこまで続くか」を読む形。 */
+function fZigg(rng: Rng, P: SolidParams): VoxSet {
+  const cells: VoxSet = new Set();
+  let w = randInt(rng, Math.min(5, P.vox.x), P.vox.x);
+  let d = randInt(rng, 2, P.vox.y);
+  let x = 0, y = 0, z = 0;
+  const tiers = randInt(rng, 2, Math.min(6, P.vox.z));   // 空間が高いほど段を積む
+  for (let i = 0; i < tiers && w >= 1 && d >= 1 && z < P.vox.z; i++) {
+    const h = randInt(rng, 1, Math.max(1, Math.min(2, P.vox.z - z)));
+    addBox(cells, x, y, z, w, d, h);
+    z += h;
+    if (w <= 2) break;
+    x += 1; w -= 2;              // 左右から 1 ずつ
+    if (d >= 3) { y += 1; d -= 2; } // 奥行きは 3 以上のときだけ前後から（y は投影で嵩む）
+  }
+  return normalizeVox(cells);
+}
+
+/* 太さ一定の角柱を折り曲げた形（L/U/S 字のパイプ）。断面が変わらないので、
+   「同じ太さのまま向きだけ変わる」を追う＝塊の凹凸とは別の負荷になる。 */
+function fPipe(rng: Rng, P: SolidParams): VoxSet {
+  const cells: VoxSet = new Set();
+  const t = randInt(rng, 1, 2);
+  const d = randInt(rng, 1, Math.min(3, P.vox.y));
+  const segs = randInt(rng, 3, P.vox.x >= 9 ? 7 : 5);   // 空間が広いほど長く折り曲げる
+  let x = 0, z = 0;
+  let minX = 0, maxX = t;
+  let horiz = rng() < 0.5;
+  for (let i = 0; i < segs; i++) {
+    if (horiz) {
+      const sign = rng() < 0.5 ? 1 : -1;
+      const room = P.vox.x - (maxX - minX);   // 横方向の残り予算（伸ばす向きは問わない）
+      const len = randInt(rng, 2, Math.max(2, Math.min(4, room)));
+      if (len < 2) break;
+      const x0 = sign > 0 ? x : x - len;
+      addBox(cells, x0, 0, z, len + t, d, t);
+      x += sign * len;
+      minX = Math.min(minX, x); maxX = Math.max(maxX, x + t);
+      if (maxX - minX >= P.vox.x) break;
+    } else {
+      const len = randInt(rng, 2, Math.max(2, Math.min(4, P.vox.z - z - t)));
+      if (len < 2) break;
+      addBox(cells, x, 0, z, t, d, len + t);
+      z += len;
+      if (z + t >= P.vox.z) { horiz = true; continue; }
+    }
+    horiz = !horiz;
+  }
+  return normalizeVox(cells);
+}
+
+/* 柱廊（等間隔の柱＋渡した梁）。穴が横に並ぶので「同じ形の繰り返しを数えて写す」形。
+   門が 1 つだけの carve/multi とは読み方が違う。張り出し（梁）前提。 */
+function fArcade(rng: Rng, P: SolidParams): VoxSet {
+  const cells: VoxSet = new Set();
+  const d = randInt(rng, 1, Math.min(3, P.vox.y));
+  const t = randInt(rng, 1, 2);
+  const gap = randInt(rng, 1, 2);
+  const nMax = Math.max(3, Math.floor((P.vox.x + gap) / (t + gap)));
+  const n = randInt(rng, 3, nMax);
+  const h = randInt(rng, 3, Math.max(3, P.vox.z - 2));
+  const w = n * t + (n - 1) * gap;
+  for (let i = 0; i < n; i++) addBox(cells, i * (t + gap), 0, 0, t, d, h);
+  const bt = randInt(rng, 1, 2);
+  addBox(cells, 0, 0, h, w, d, bt);            // 梁（柱の間は宙に浮く＝アーチ）
+  // 上に塔・胸壁を載せて「橋・水道橋」の顔にする
+  if (rng() < 0.6 && h + bt < P.vox.z) {
+    const th = randInt(rng, 1, Math.max(1, P.vox.z - h - bt));
+    const tw = randInt(rng, 1, Math.min(3, w));
+    addBox(cells, randInt(rng, 0, w - tw), 0, h + bt, tw, d, th);
+  }
+  return normalizeVox(cells);
+}
+
+/* 街並み。高さも奥行きも前後位置も違う棟を横に並べる。1 棟ずつは単純な箱なのに、
+   前後にずらすと重なりの前後関係が生まれる＝「奥の棟はどこで切れるか」を読む形。
+   連結を保つため奥行きは 2 以上・前後ずれは 0/1 に留める（y 帯が必ず重なる）。 */
+function fCity(rng: Rng, P: SolidParams): VoxSet {
+  const cells: VoxSet = new Set();
+  const n = randInt(rng, 3, P.vox.x >= 9 ? 5 : 4);
+  let x = 0, prevH = 0;
+  for (let i = 0; i < n && x < P.vox.x; i++) {
+    const w = randInt(rng, 1, Math.max(1, Math.min(3, P.vox.x - x)));
+    const d = randInt(rng, 2, Math.max(2, P.vox.y));
+    let h = randInt(rng, 1, P.vox.z);
+    if (h === prevH) h = Math.max(1, h - 1);   // 隣と同高＝1 つの箱に見えて棟が消える
+    const y = randInt(rng, 0, Math.max(0, Math.min(1, P.vox.y - d)));
+    addBox(cells, x, y, 0, w, d, h);
+    prevH = h;
+    x += w;
+  }
+  return normalizeVox(cells);
+}
+
 const FAMILY_BUILDERS: Record<FamilyKey, (rng: Rng, P: SolidParams) => VoxSet> = {
   box: fBox, stack: fStack, steps: fSteps, poly: fPoly, wall: fWall,
   carve: fCarve, compose: fCompose, multi: fMulti, grow: fGrow,
+  ring: fRing, zigg: fZigg, pipe: fPipe, arcade: fArcade, city: fCity,
 };
 
 /* =========================================================================
@@ -712,7 +891,7 @@ export function generateSolidCandidates(
     const solidSegs = segs.filter((s) => s.style === "solid");
     const dashedSegs = segs.filter((s) => s.style === "dashed");
     let kept = segs;
-    if (P.hidden === "none") kept = solidSegs;
+    if (P.hidden === "none" || P.hidden === "off") kept = solidSegs;
     else if (P.hidden === "some") {
       // 「すこし（1〜2本）」は脈絡なく浮かせない：実線の端点に両端が接続する点線を
       // 最優先し、2 本目は 1 本目と頂点を共有するもの（＝背面コーナーの L 字）を選ぶ

@@ -19,7 +19,7 @@
 
 import type { EdgeT, Problem, Pt } from "../schema";
 import { difficultyScore, edgeKey, normalizeEdges, symmetryWeight } from "../schema";
-import { computeMetrics, mergedSegments } from "./metrics";
+import { computeMetrics, interCrossings, mergedSegments } from "./metrics";
 import { bboxOk, closedLoops, danglingCount, jaccard, paramsOk } from "./filters";
 import { publishedCopySignatures, shapeSignature } from "./dedupe";
 import { allVariants, type ShapeVariant } from "./copy";
@@ -103,13 +103,13 @@ function componentsOf(edges: EdgeT[]): number {
    ゲート: **絡み（A・B 間の交差数）が entangle 窓内**＝Vol 分けドライバー・
    両パートの線本数（併合後）が band 内・連結（strict＝両方 1 成分／
    relax＝2 成分まで・ただし孤立 1 辺の成分は不可）。
-   絡み＝cross(F) − cross(A) − cross(B)（交差は A×A/B×B/A×B のいずれかに属す・
-   difficulty.ts §3.70 と同じ導出）。
+   絡み＝A・B の線分同士の直接交差（interCrossings・difficulty.ts と同じ計測。
+   旧引き算導出は F の線分併合で幻交差が湧くため廃止＝decisions §3.98）。
    パーティション＝A∩B は常に空（データモデル上も A=F∖R で共有辺は表現不能）。
    ========================================================================= */
 function splitEdges(
   F: EdgeT[], bandIn: [number, number], entangleIn: [number, number],
-  fCrossings: number, n: number, rnd: Rng, strict: boolean,
+  n: number, rnd: Rng, strict: boolean,
 ): { A: EdgeT[]; B: EdgeT[] } | null {
   // relax 段は per-part 帯・絡み窓を ±1 緩める（候補段階の緩和・採否は検品で判断）
   const band: [number, number] = strict
@@ -165,8 +165,7 @@ function splitEdges(
     // B は成長により常に連結。A 側と band を検査（B の band も念のため）
     if (!partOk(A) || !partOk(B)) continue;
     // 絡み窓（Vol 分けドライバー）: A・B 間の交差数が窓内か
-    const inter = fCrossings
-      - computeMetrics(A, n).crossings - computeMetrics(B, n).crossings;
+    const inter = interCrossings(A, B);
     if (inter < entangle[0] || inter > entangle[1]) continue;
     return { A, B };
   }
@@ -182,7 +181,7 @@ function splitEdges(
 type PartShape = {
   key: string; family: string; edges: EdgeT[]; // 原点基準
   spanC: number; spanR: number;
-  lines: number; non45: number; diag45: number; crossings: number;
+  lines: number; non45: number; diag45: number;
   quality: number;
 };
 
@@ -202,7 +201,7 @@ function partPool(params: OverlayParams, n: number, rnd: Rng): PartShape[] {
     out.push({
       key: v.key, family: v.family, edges: v.edges,
       spanC: v.spanC, spanR: v.spanR,
-      lines: m.lines, non45: m.non45, diag45: m.diagonals - m.non45, crossings: m.crossings,
+      lines: m.lines, non45: m.non45, diag45: m.diagonals - m.non45,
       quality: 1.0 * closedLoops(v.edges, 1)
         - 0.6 * danglingCount(v.edges)
         - 1.0 * Math.max(0, m.diagonalAngleKinds - 1)
@@ -336,8 +335,8 @@ export function generateComposedCandidates(
       if (Bplaced.some((e) => aKeys.has(edgeKey(e)))) continue;
       const F = normalizeEdges([...Aplaced, ...Bplaced]);
       const mF = computeMetrics(F, n);
-      // 絡み＝A・B 間の交差数（交差は配置不変の内部交差＋ペア間交差に分解できる）
-      const inter = mF.crossings - A.crossings - B.crossings;
+      // 絡み＝A・B の線分同士の直接交差（difficulty.ts と同じ計測・§3.98）
+      const inter = interCrossings(Aplaced, Bplaced);
       if (inter < ent[0] || inter > ent[1]) continue;
       const comps = componentsOf(F);
       if (comps > 2) continue;
@@ -390,7 +389,7 @@ export function generateComposedCandidates(
       if (existing.some((e) => jaccard(e, F) > simThreshold)) return false;
       // 分割（A・B）が成立しない完成図は捨てる（絡み窓・線本数帯・連結ゲート込み）
       const m = computeMetrics(F, n);
-      const split = splitEdges(F, params.lines, params.entangle, m.crossings, n, rnd, strict);
+      const split = splitEdges(F, params.lines, params.entangle, n, rnd, strict);
       if (!split) return false;
       usedFSigs.add(shapeSignature(F));
       pushProblem(F, split.B, m, item.family, item.key);

@@ -6,8 +6,8 @@
    現モデル: entitlement = 「所有するメーカーの集合」owned: MakerKey[]。
      - copy（模写）は無料で 4×4 まで使える（COPY_FREE_CAPS・グリッド以外は全機能開放・
        PDF 書き出しも無料）。¥980 買い切りで 5×5〜8×8 を解放する＝ゲートはグリッドサイズ 1 本。
-     - その他 9 メーカーは ¥980 買い切り。未所有は FREE_CAPS で触れるが PDF 書き出しは所有が要る。
-   有料ゲート: copy＝グリッドサイズ（5×5 以上）／その他 9＝PDF 書き出し。
+     - その他のメーカー（実装 10・ローンチ公開 8）は ¥980 買い切り。未所有は FREE_CAPS で触れるが PDF 書き出しは所有が要る。
+   有料ゲート: copy＝グリッドサイズ（5×5 以上）／その他 10＝PDF 書き出し。
      いずれもページ入室はゲートしない（全メーカー触れる・プレビュー可）。
    純粋 TS（"use client" の各 MakerApp からも import するため server-only な依存を持たない）。
    ========================================================================= */
@@ -21,7 +21,8 @@ export type MakerKey =
 // 無料コア（買い切り対象外・常時利用可）。
 export const FREE_MAKER: MakerKey = "copy";
 
-// ¥980 買い切りで売る 9 メーカー（copy 以外）。/makers・/pricing の表示はこの集合が基準。
+// ¥980 買い切りで売る 10 メーカー（copy 以外・実装全件）。/makers・/pricing の表示は
+// ここから LAUNCH_HIDDEN（scale/shrink）を除いたローンチ公開 8 が基準。
 export const PAID_MAKERS: readonly MakerKey[] = [
   "solid", "mirror", "rotate", "fill", "overlay", "fold", "decompose", "scale", "shrink", "translate",
 ];
@@ -40,10 +41,11 @@ export const LAUNCH_HIDDEN: readonly MakerKey[] = ["scale", "shrink"];
 export const isLaunchHidden = (key: string): boolean =>
   (LAUNCH_HIDDEN as readonly string[]).includes(key);
 
-// 1 メーカーの買い切り価格（円・無期限）。9 メーカー個別販売（全部で約 ¥8,820 相当）。
+// 1 メーカーの買い切り価格（円・無期限）。公開 9 メーカー分の解放をすべて買うと約 ¥8,820
+// （公開 8 メーカー＋copy の 5×5 以上解放。copy 本体は 4×4 まで無料）。
 export const MAKER_PRICE = 980;
 
-// メーカーの盤面サイズ。所有時は 8×8 まで（copy 無料は 4×4・他 9 無料は 5×5）。
+// メーカーの盤面サイズ。所有時は 8×8 まで（copy 無料は 4×4・他 10 無料は 5×5）。
 // 8 が実用上限: クリック式エディタの当たり判定（VIEW200・r9）が重ならない最大が約 8〜9。
 export type GridSize = 3 | 4 | 5 | 6 | 7 | 8;
 
@@ -100,13 +102,13 @@ export function ownsMaker(owned: readonly MakerKey[], key: MakerKey): boolean {
 }
 
 // PDF 書き出しを許可するか。copy は無料で可（4×4 まで＝グリッドゲート側で上限を絞る）。
-// その他 9 メーカーは所有していれば可（書き出しが有料ゲート）。
+// その他 10 メーカーは所有していれば可（書き出しが有料ゲート）。
 export function canExportPdf(owned: readonly MakerKey[], key: MakerKey): boolean {
   return key === FREE_MAKER || owned.includes(key);
 }
 
 // そのメーカーを使うときの作図上限。所有していれば OWNED_CAPS、未所有なら
-// copy＝COPY_FREE_CAPS（4×4・他機能開放）／その他 9＝FREE_CAPS。
+// copy＝COPY_FREE_CAPS（4×4・他機能開放）／その他 10＝FREE_CAPS。
 export function capabilities(owned: readonly MakerKey[], key: MakerKey): Capabilities {
   if (owned.includes(key)) return OWNED_CAPS;
   return key === FREE_MAKER ? COPY_FREE_CAPS : FREE_CAPS;

@@ -9,7 +9,7 @@
 import type { Metadata } from "next";
 import SiteHeader from "../../SiteHeader";
 import { SITE_NAME, absoluteUrl } from "../../site";
-import { listSlugs, loadArticle, type ArticleFrontmatter } from "../articles-data";
+import { isListedSlug, isLiveSlug, listSlugs, loadArticle, type ArticleFrontmatter } from "../articles-data";
 import "../article.css";
 
 export const dynamicParams = false;
@@ -31,6 +31,8 @@ export async function generateMetadata(
     title: fm.title,
     description: fm.description,
     alternates: { canonical: url },
+    // 一覧・sitemap に出さない記事（unlisted / staging の draft）は検索面からも外す。
+    ...(isListedSlug(slug) ? {} : { robots: { index: false, follow: false } }),
     openGraph: {
       type: "article",
       url,
@@ -111,6 +113,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const { default: Body, frontmatter: fm } = await loadArticle(slug);
   const jsonLd = buildJsonLd(slug, fm);
 
+  // 「次に読む」から未公開記事を落とす（本文中リンクは mdx-components 側で解除される）。
+  const related = (fm.related ?? []).filter((r) => {
+    const target = r.href ? /^\/articles\/([a-z0-9-]+)\/?$/.exec(r.href)?.[1] : undefined;
+    return !target || isLiveSlug(target);
+  });
+
   return (
     <>
       {jsonLd.map((g, i) => (
@@ -154,12 +162,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         </article>
       </div>
 
-      {fm.related && fm.related.length > 0 ? (
+      {related.length > 0 ? (
         <section className="s-article">
           <div className="wrap">
             <h2 className="outer">{fm.related_heading ?? "関連記事"}</h2>
             <div className="related-articles">
-              {fm.related.map((r) => (
+              {related.map((r) => (
                 <a className="ra" href={r.href ?? "#"} key={r.title}>
                   <div className="ra-meta">{r.meta}</div>
                   <div className="ra-title">{r.title}</div>

@@ -10,9 +10,10 @@ const MAKER_KINDS = VISIBLE_MAKERS.length;
 
 /* メーカー商品群の公開まとめ（店先）。ここだけ indexed（各ツールは noindex）。 */
 export const metadata: Metadata = {
-  title: `点描写メーカー — ${MAKER_KINDS} 種類を自分で作る · TENZU`,
+  alternates: { canonical: "/makers" },
+  title: `点描写メーカー — ${MAKER_KINDS} 種類を自分で作る`,
   description:
-    `模写・鏡・移動・回転・欠け補完・重ね・分解・折り重ね。点描写プリントを ${MAKER_KINDS} 種類、家庭で作って PDF 印刷。模写は無料、ほかは各 ¥980 の買い切り。`,
+    `模写・立体模写・鏡・移動・回転・欠け補完・重ね・分解・折り重ね。点描写プリントを ${MAKER_KINDS} 種類、家庭で作って PDF 印刷。模写は無料、ほかは各 ¥980 の買い切り。`,
 };
 
 export default function MakersPage() {
@@ -23,20 +24,17 @@ export default function MakersPage() {
 
         {/* ---- Hero ---- */}
         <section className="mk-hero">
-          <p className="mk-kicker">点描写メーカー</p>
+          {/* kicker「点描写メーカー」は撤去（2026-08-08）。直下の H1 が「点描写プリントを、
+              自分で作る。」と言っており「点描写」が二重。TOP で kicker を 2 枠に絞ったのと同じ処置。 */}
           <h1 className="mk-h1">点描写プリントを、自分で作る。</h1>
           <p className="mk-lead">
             写す・映す・ずらす・回す・補う、重ねる・分ける・折り返す。
             <b> {MAKER_KINDS} 種類</b>のメーカーで、家庭の練習プリントを思いどおりに作って、PDF で印刷できます。
             作るのは画面、練習は紙。
           </p>
-          <div className="mk-hero-cta">
-            <a className="mk-btn primary" href="/maker">まずは無料で試す（模写）</a>
-          </div>
-          <p className="mk-price-line">
-            模写メーカーは<b>ずっと無料</b>。ほかのメーカーは <b>1 つ ¥{MAKER_PRICE} の買い切り</b>
-            （月額なし・一度買えば無期限）。どのメーカーも、買う前に触って試せます。
-          </p>
+          {/* 無料訴求の CTA と価格説明は末尾の .mk-close に一本化した（2026-08-08）。
+              冒頭と末尾でほぼ同じ内容を 2 回出しており、同一 CTA バンドの再掲になっていた。
+              9 種類を見てから決める流れなので、決め手は下に置く。 */}
         </section>
 
         {/* ---- メーカー一覧（グループ別） ---- */}

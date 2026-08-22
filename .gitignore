@@ -26,3 +26,6 @@ docs/html-index.html
 !prototypes/tenbyo-preview.html
 # 内部用メーカー一覧（手作りの静的HTML・生成物ではない）
 !web/public/maker-index.html
+
+# 使い捨ての検証スクリプト・作業データ（ローカル専用・_ プレフィクス規約）
+web/scripts/_*

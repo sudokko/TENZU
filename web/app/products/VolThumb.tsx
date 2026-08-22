@@ -10,6 +10,8 @@
 
 import { publishedSet } from "./problems/published";
 import { edgeKey, type EdgeT, type SolidEdge } from "./problems/schema";
+import { composeKindOf, composeTriple } from "./problems/render";
+import { opSegs, opWidth } from "./print";
 import type { Vol } from "./data";
 
 const INK = "#3A424E";
@@ -60,6 +62,41 @@ function SquareThumb({ n, edges, gapEdges, mirror, blank }: {
   );
 }
 
+/* ---- かさね系（overlay/decompose/fold）: 2 ペイン＋連結記号（A op B）----
+   設問の姿＝3 ペイン式だが、カード幅では □ まで並べると豆粒になるため
+   maker の保存サムネと同形の「A op B」2 ペインで見せる ---- */
+function PairThumb({ n, a, b, op }: {
+  n: number; a: EdgeT[]; b: EdgeT[]; op: "plus" | "minus" | "fold";
+}) {
+  const OPW = 36;                 // 連結記号の帯幅
+  const w = 100 * 2 + OPW;
+  const pane = (edges: EdgeT[], ox: number, key: string) => (
+    <g key={key}>
+      {Array.from({ length: n * n }, (_, i) => {
+        const c = i % n, r = Math.floor(i / n);
+        return <circle key={`d${i}`} cx={ox + pos(c, n)} cy={pos(r, n)} r={2.3} fill={DOT} />;
+      })}
+      {edges.map((e, k) => (
+        <line key={k}
+          x1={ox + pos(e[0][0], n)} y1={pos(e[0][1], n)}
+          x2={ox + pos(e[1][0], n)} y2={pos(e[1][1], n)}
+          stroke={INK} strokeWidth={2.6} strokeLinecap="round" />
+      ))}
+    </g>
+  );
+  const opSize = 20;
+  return (
+    <svg viewBox={`0 0 ${w} 100`} className="plp-fig-pair" aria-hidden="true">
+      {pane(a, 0, "a")}
+      {opSegs(op, 100 + OPW / 2, 50, opSize).map((s, k) => (
+        <line key={`o${k}`} x1={s[0]} y1={s[1]} x2={s[2]} y2={s[3]}
+          stroke={INK} strokeWidth={opWidth(opSize)} strokeLinecap="round" />
+      ))}
+      {pane(b, 100 + OPW, "b")}
+    </svg>
+  );
+}
+
 /* ---- 立体の矩形点格子（隠れ辺＝点線） ---- */
 function SolidThumb({ cols, rows, edges, blank }: {
   cols: number; rows: number; edges: SolidEdge[]; blank?: boolean;
@@ -105,15 +142,29 @@ export default function VolThumb({ vol, taskSlug }: { vol: Vol; taskSlug: string
   if (p && p.grid.type === "solid") {
     inner = <SolidThumb cols={p.grid.cols} rows={p.grid.rows} edges={p.solidEdges ?? []} />;
   } else if (p && p.grid.type === "square") {
-    let edges = p.edges;
-    let gapEdges: EdgeT[] | undefined;
-    if (taskSlug === "fill" && p.answer?.mode === "explicit") {
-      const rKeys = new Set(p.answer.edges.map(edgeKey));
-      gapEdges = p.answer.edges;
-      edges = p.edges.filter((e) => !rKeys.has(edgeKey(e)));
+    /* かさね系: 設問の姿＝「A op B ＝ □」。ペインの中身は商品紙面と同じ導出
+       （problems/render.ts）を通す＝完成図をそのまま見せて答えをバラさない */
+    const compose = composeKindOf(taskSlug);
+    const triple = compose && p.answer?.mode === "explicit"
+      ? composeTriple({
+          n: p.grid.n, edges: p.edges, compose,
+          answerEdges: p.answer.edges,
+          ...(p.inputB && p.inputB.length > 0 && { inputB: p.inputB }),
+        }, "horizontal")
+      : null;
+    if (triple) {
+      inner = <PairThumb n={p.grid.n} a={triple.a} b={triple.b} op={triple.op} />;
+    } else {
+      let edges = p.edges;
+      let gapEdges: EdgeT[] | undefined;
+      if (taskSlug === "fill" && p.answer?.mode === "explicit") {
+        const rKeys = new Set(p.answer.edges.map(edgeKey));
+        gapEdges = p.answer.edges;
+        edges = p.edges.filter((e) => !rKeys.has(edgeKey(e)));
+      }
+      const mirror = p.answer?.mode === "derived" && p.answer.transform.type === "mirror";
+      inner = <SquareThumb n={p.grid.n} edges={edges} gapEdges={gapEdges} mirror={mirror} />;
     }
-    const mirror = p.answer?.mode === "derived" && p.answer.transform.type === "mirror";
-    inner = <SquareThumb n={p.grid.n} edges={edges} gapEdges={gapEdges} mirror={mirror} />;
   } else {
     inner = <BlankThumb vol={vol} taskSlug={taskSlug} />;
   }

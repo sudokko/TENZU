@@ -11,12 +11,12 @@ TENZU の商品（問題パック）の設計と、購入〜配布〜利用〜�
 | [pack-design.md](pack-design.md) | 問題パック設計・**9タスク仕様の SSOT**・ブランド方針・SKU 構成・5レイヤー構造・モチーフカテゴリ・成立性マトリクス・3群グルーピング |
 | [pack-tasks.md](pack-tasks.md) | 9タスク（模写含む）の個別仕様・出題ルール・難易度ドライバー・難易度スコア D 実装 SSOT |
 | [motif-craft.md](motif-craft.md) | **手設計モチーフの作り方 SSOT**・数値ゲートを通ったうえで何が採用されるか（図A/図B の条件・パーツ型/パターン型・盤面別の使い分け）。実装手順は `/motif-seed` スキル |
-| [pack-commerce.md](pack-commerce.md) | 価格・課金設計／メーカー有償化（per-maker 買い切り ¥980・公開9種＝公開まとめ /makers・拡大縮小はローンチ非公開）／広告連動バンドルSKU（確定2本＋将来枠）／検索意図対応の商品タグ・ファセット＋SEO取引LP（取引意図クエリを記事でなく専用ファセットLP・商品側で拾う＝有償一本／無料LP＝サンプル閲覧＋工房導線・配る無料PDFなし・[content/clusters.md §1.5](../content/clusters.md)・[decisions.md §4.9](../decisions.md) と対） |
+| [pack-commerce.md](pack-commerce.md) | 価格・課金設計（¥200 一律＋**まとめ買い割引＝3冊15%/5冊20%/10冊25%・冊数のみで種類とレベルをまぜても合計の冊数**・通しはSKUでなくカートのプリセット §14.7.0）／メーカー有償化（per-maker 買い切り ¥980・公開9種＝公開まとめ /makers・拡大縮小はローンチ非公開）／広告連動バンドルSKU（確定2本＋将来枠）／検索意図対応の商品タグ・ファセット＋SEO取引LP（取引意図クエリを記事でなく専用ファセットLP・商品側で拾う＝有償一本／無料LP＝サンプル閲覧＋工房導線・配る無料PDFなし・[content/clusters.md §1.5](../content/clusters.md)・[decisions.md §4.9](../decisions.md) と対） |
 | [service-blueprint.md](service-blueprint.md) | サービスブループリント（7フェーズ × 4レイヤー）・配布・認証・補填フロー |
 
 ## 読む順序
 
-1. **pack-design.md** で商品ラインナップ全体（ローンチ公開40 SKU＝平面9タスク39＋立体3。拡大縮小6は非公開）とブランド方針をつかむ
+1. **pack-design.md** で商品ラインナップ全体（陳列45 SKU＝平面9タスク39＋立体6。拡大縮小6は非公開）とブランド方針をつかむ
 2. タスク個別仕様（模写含む）を見るなら **pack-tasks.md**。問題そのものを手設計で足すなら **motif-craft.md**
 3. 価格・課金・メーカー・広告バンドル・検索意図ファセットを見るなら **pack-commerce.md**
 4. 購入〜配布〜利用の全体フロー → **service-blueprint.md**

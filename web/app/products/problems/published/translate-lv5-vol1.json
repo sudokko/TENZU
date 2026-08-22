@@ -522,14 +522,15 @@
    },
    "difficulty": {
     "task": "translate",
-    "auto": 24.3,
-    "value": 24.3,
+    "auto": 25.3,
+    "value": 25.3,
     "parts": {
      "E": 18,
      "G": 5.25,
      "k": 0.7,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 1,
      "変換": 5
     }
    }
@@ -888,14 +889,15 @@
    },
    "difficulty": {
     "task": "translate",
-    "auto": 27.1,
-    "value": 27.1,
+    "auto": 28.1,
+    "value": 28.1,
     "parts": {
      "E": 16.5,
      "G": 5,
      "k": 0.75,
      "strokes": 0.7,
      "brk": 3,
+     "交差": 1,
      "変換": 6
     }
    }
@@ -1240,14 +1242,15 @@
    },
    "difficulty": {
     "task": "translate",
-    "auto": 27.8,
-    "value": 27.8,
+    "auto": 28.8,
+    "value": 28.8,
     "parts": {
      "E": 15.5,
      "G": 5.25,
      "k": 0.7,
      "strokes": 0.7,
      "brk": 6,
+     "交差": 1,
      "変換": 5
     }
    }
@@ -1456,14 +1459,15 @@
    },
    "difficulty": {
     "task": "translate",
-    "auto": 28,
-    "value": 28,
+    "auto": 29,
+    "value": 29,
     "parts": {
      "E": 17,
      "G": 5.25,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "変換": 5
     }
    }
@@ -1870,14 +1874,15 @@
    },
    "difficulty": {
     "task": "translate",
-    "auto": 30.5,
-    "value": 30.5,
+    "auto": 31.5,
+    "value": 31.5,
     "parts": {
      "E": 19.5,
      "G": 5.25,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "変換": 5
     }
    }
@@ -2035,14 +2040,15 @@
    },
    "difficulty": {
     "task": "translate",
-    "auto": 32.8,
-    "value": 32.8,
+    "auto": 36.8,
+    "value": 36.8,
     "parts": {
      "E": 19,
      "G": 5,
      "k": 1,
      "strokes": 2.8,
      "brk": 0,
+     "交差": 4,
      "変換": 6
     }
    },
@@ -2230,14 +2236,15 @@
    },
    "difficulty": {
     "task": "translate",
-    "auto": 40.9,
-    "value": 40.9,
+    "auto": 43.9,
+    "value": 43.9,
     "parts": {
      "E": 28.5,
      "G": 5.25,
      "k": 1,
      "strokes": 2.0999999999999996,
      "brk": 0,
+     "交差": 3,
      "変換": 5
     }
    }

@@ -46,7 +46,7 @@
 
 - **完全に親向けツール**（子供 UI 排除）
 - **模写のみ**（9 タスク中の 1 つ）
-- **最大 5×5 まで**（6×6 以上は商品 PDF に誘導）
+- **最大 4×4 まで**（5×5〜8×8 は ¥980 買い切りで解放・[brand.md §4.8](../foundation/brand.md)）
 - **画面で解かせる UI を持たず・生成 → PDF ダウンロード一直線**
 - ファーストビュー明示文: **「作るのは画面、練習は紙。」**
 
@@ -61,6 +61,7 @@
 
 #### 2.3 自己カニバリ回避設計
 
+- **無料版で書き出した PDF のフッターに広告帯を載せる**（[decisions §3.94](../decisions.md)）＝ロゴ＋業態識別句＋ URL ＋ QR。刷られた紙がきょうだい・祖父母・ママ友へ渡った先から店へ戻れるようにする回帰導線。買い切り所有者の PDF には出ない＝広告が消えることが課金の見返りの一部になる
 - Web ジェネレータ出力 PDF のフッターに「**6×6 以上は商品 PDF で**」透かし CTA を入れる（Gemini 推奨採用方向・[brand.md §11.3.1](../foundation/brand.md)）
 - Web ジェネレータページ → 商品ページへの内部リンクを末尾に必ず配置
 - Web ジェネレータは MailerLite 連携も Stripe 連携もしない（純粋な入口体験ツール）
@@ -235,7 +236,7 @@ MailerLite メール → パックリンク → Stripe 決済（Stripe Link）
 | Promotion Code 命名規則 | `[インフル識別子]-FREE` |
 | 使用回数上限 | コードあたり 30 回 |
 | 有効期限 | 配布から 60 日 |
-| 対象 SKU | 単品全 40 SKU（バンドル除外・[../product/pack-commerce.md §24.6](../product/pack-commerce.md)） |
+| 対象 SKU | 単品全 45 SKU（バンドル除外・[../product/pack-commerce.md §24.6](../product/pack-commerce.md)） |
 
 DM 3 通目の構造詳細は [channels.md §3.3](channels.md)。
 

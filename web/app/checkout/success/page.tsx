@@ -7,7 +7,8 @@
      割り切りとして、本物データの認証 API 化（再構築）は次フェーズ送り。 */
 import Stripe from "stripe";
 import SiteHeader from "../../SiteHeader";
-import SkuPrintPreview, { type RenderProblem, type SolidRenderProblem } from "../../products/SkuPrintPreview";
+import SkuPrintPreview, { type SolidRenderProblem } from "../../products/SkuPrintPreview";
+import { toRenderProblems, type RenderProblem } from "../../products/problems/render";
 import ClearCartOnSuccess from "./ClearCartOnSuccess";
 import TrackPurchase from "../../TrackPurchase";
 import { volBySku, volTitle, PRICE } from "../../products/data";
@@ -119,10 +120,10 @@ export default async function CheckoutSuccessPage({
           const { vol } = resolved!;
           const set = publishedSet(sku);
           const isSolid = resolved!.task.slug === "solid";
-          const problems: RenderProblem[] | undefined = isSolid ? undefined
-            : set?.problems.map((p) => ({
-              n: p.grid.type === "square" ? p.grid.n : 4, edges: p.edges,
-            }));
+          /* 写像は商品詳細と同じ problems/render.ts（SSOT）。ここを独自写像にすると
+             「商品ページは指示子つき・購入後 PDF は指示子なし」の食い違いが再発する */
+          const problems: RenderProblem[] | undefined = isSolid || !set
+            ? undefined : toRenderProblems(set);
           const solidProblems: SolidRenderProblem[] | undefined = isSolid
             ? set?.problems
                 .filter((p) => p.grid.type === "solid")

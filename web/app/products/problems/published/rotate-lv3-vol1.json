@@ -5,6 +5,313 @@
  "answerMode": "derived",
  "problems": [
   {
+   "id": "rotate-lv3-vol1-s1-05",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "rotate",
+     "deg": 90
+    }
+   },
+   "metrics": {
+    "lines": 5,
+    "diagonals": 1,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [
+     "d1"
+    ],
+    "boardN": 4,
+    "bboxW": 3,
+    "bboxH": 3,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "rotate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#165400"
+   },
+   "difficulty": {
+    "task": "rotate",
+    "auto": 8.2,
+    "value": 8.2,
+    "parts": {
+     "E": 5.5,
+     "G": 3.5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 0
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "rotate",
+    "version": "1",
+    "seed": 1,
+    "variant": "micro3x3#165400"
+   }
+  },
+  {
+   "id": "rotate-lv3-vol1-s1-07",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "rotate",
+     "deg": 90
+    }
+   },
+   "metrics": {
+    "lines": 4,
+    "diagonals": 2,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [
+     "v",
+     "h",
+     "r180"
+    ],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "rotate",
+    "version": "1",
+    "seed": 1,
+    "variant": "hourglass#3/0"
+   },
+   "difficulty": {
+    "task": "rotate",
+    "auto": 8.5,
+    "value": 8.5,
+    "parts": {
+     "E": 5,
+     "G": 4,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
+     "交差": 1
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "rotate",
+    "version": "1",
+    "seed": 1,
+    "variant": "hourglass#3/0"
+   }
+  },
+  {
    "id": "rotate-lv3-vol1-s1-02",
    "grid": {
     "type": "square",
@@ -219,7 +526,7 @@
    }
   },
   {
-   "id": "rotate-lv3-vol1-s1-05",
+   "id": "rotate-lv3-vol1-s1-15",
    "grid": {
     "type": "square",
     "n": 4
@@ -228,36 +535,6 @@
     [
      [
       1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      2,
       0
      ],
      [
@@ -267,21 +544,61 @@
     ],
     [
      [
-      1,
+      2,
       1
      ],
      [
+      3,
+      2
+     ]
+    ],
+    [
+     [
       2,
-      0
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
      ]
     ],
     [
      [
       0,
-      2
+      1
      ],
      [
       1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
       1
      ]
     ]
@@ -295,20 +612,22 @@
    },
    "metrics": {
     "lines": 5,
-    "diagonals": 1,
+    "diagonals": 5,
     "non45": 0,
     "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 5,
+    "pointsUsed": 6,
     "symmetry": [
-     "d1"
+     "d1",
+     "d2",
+     "r180"
     ],
     "boardN": 4,
-    "bboxW": 3,
-    "bboxH": 3,
+    "bboxW": 4,
+    "bboxH": 4,
     "strokes": 1,
     "symAxis": "d",
     "symMiss": 0
@@ -318,442 +637,26 @@
     "generator": "rotate",
     "version": "1",
     "seed": 1,
-    "variant": "micro3x3#165400"
+    "variant": "rand#4#1-207"
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 8.2,
-    "value": 8.2,
+    "auto": 10.4,
+    "value": 10.4,
     "parts": {
-     "E": 5.5,
-     "G": 3.5,
+     "E": 7.5,
+     "G": 4,
      "k": 0.85,
      "strokes": 0,
      "brk": 0
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
-    "variant": "micro3x3#165400"
-   }
-  },
-  {
-   "id": "rotate-lv3-vol1-s1-03",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "derived",
-    "transform": {
-     "type": "rotate",
-     "deg": 90
-    }
-   },
-   "metrics": {
-    "lines": 7,
-    "diagonals": 0,
-    "non45": 0,
-    "non45Gentle": 0,
-    "diagonalAngleKinds": 0,
-    "hasNon45": false,
-    "crossings": 2,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [
-     "h"
-    ],
-    "boardN": 4,
-    "bboxW": 3,
-    "bboxH": 4,
-    "strokes": 3,
-    "symAxis": "v",
-    "symMiss": 0
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "rotate",
-    "version": "1",
-    "seed": 1,
-    "variant": "grid#2x3/0"
-   },
-   "difficulty": {
-    "task": "rotate",
-    "auto": 10,
-    "value": 10,
-    "parts": {
-     "E": 7,
-     "G": 3.75,
-     "k": 0.7,
-     "strokes": 1.4,
-     "brk": 0
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "rotate",
-    "version": "1",
-    "seed": 1,
-    "variant": "grid#2x3/0"
-   }
-  },
-  {
-   "id": "rotate-lv3-vol1-s1-07",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      3
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      0
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      2
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "derived",
-    "transform": {
-     "type": "rotate",
-     "deg": 90
-    }
-   },
-   "metrics": {
-    "lines": 4,
-    "diagonals": 2,
-    "non45": 0,
-    "non45Gentle": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 1,
-    "components": 1,
-    "pointsUsed": 12,
-    "symmetry": [
-     "v",
-     "h",
-     "r180"
-    ],
-    "boardN": 4,
-    "bboxW": 4,
-    "bboxH": 4,
-    "strokes": 1,
-    "symAxis": "v",
-    "symMiss": 0
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "rotate",
-    "version": "1",
-    "seed": 1,
-    "variant": "hourglass#3/0"
-   },
-   "difficulty": {
-    "task": "rotate",
-    "auto": 7.5,
-    "value": 7.5,
-    "parts": {
-     "E": 5,
-     "G": 4,
-     "k": 0.7,
-     "strokes": 0,
-     "brk": 0
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "rotate",
-    "version": "1",
-    "seed": 1,
-    "variant": "hourglass#3/0"
+    "variant": "rand#4#1-207"
    }
   },
   {
@@ -1062,14 +965,15 @@
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 9.5,
-    "value": 9.5,
+    "auto": 11.5,
+    "value": 11.5,
     "parts": {
      "E": 6.5,
      "G": 4,
      "k": 0.85,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1081,7 +985,7 @@
    }
   },
   {
-   "id": "rotate-lv3-vol1-s1-15",
+   "id": "rotate-lv3-vol1-s1-03",
    "grid": {
     "type": "square",
     "n": 4
@@ -1089,7 +993,67 @@
    "edges": [
     [
      [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
       1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      2,
       0
      ],
      [
@@ -1103,23 +1067,13 @@
       1
      ],
      [
-      3,
+      2,
       2
      ]
     ],
     [
      [
       2,
-      3
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      1,
       2
      ],
      [
@@ -1130,17 +1084,7 @@
     [
      [
       0,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
+      0
      ],
      [
       1,
@@ -1150,11 +1094,71 @@
     [
      [
       1,
-      2
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
      ],
      [
       2,
       1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
      ]
     ]
    ],
@@ -1166,25 +1170,23 @@
     }
    },
    "metrics": {
-    "lines": 5,
-    "diagonals": 5,
+    "lines": 7,
+    "diagonals": 0,
     "non45": 0,
     "non45Gentle": 0,
-    "diagonalAngleKinds": 1,
+    "diagonalAngleKinds": 0,
     "hasNon45": false,
-    "crossings": 0,
+    "crossings": 2,
     "components": 1,
-    "pointsUsed": 6,
+    "pointsUsed": 12,
     "symmetry": [
-     "d1",
-     "d2",
-     "r180"
+     "h"
     ],
     "boardN": 4,
-    "bboxW": 4,
+    "bboxW": 3,
     "bboxH": 4,
-    "strokes": 1,
-    "symAxis": "d",
+    "strokes": 3,
+    "symAxis": "v",
     "symMiss": 0
    },
    "gen": {
@@ -1192,26 +1194,27 @@
     "generator": "rotate",
     "version": "1",
     "seed": 1,
-    "variant": "rand#4#1-207"
+    "variant": "grid#2x3/0"
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 10.4,
-    "value": 10.4,
+    "auto": 12,
+    "value": 12,
     "parts": {
-     "E": 7.5,
-     "G": 4,
-     "k": 0.85,
-     "strokes": 0,
-     "brk": 0
+     "E": 7,
+     "G": 3.75,
+     "k": 0.7,
+     "strokes": 1.4,
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
-    "source": "ai-edited",
+    "source": "ai",
     "generator": "rotate",
     "version": "1",
     "seed": 1,
-    "variant": "rand#4#1-207"
+    "variant": "grid#2x3/0"
    }
   },
   {
@@ -1384,206 +1387,6 @@
     "version": "1",
     "seed": 1,
     "variant": "rand#4#1-60"
-   }
-  },
-  {
-   "id": "rotate-lv3-vol1-s1-19",
-   "grid": {
-    "type": "square",
-    "n": 4
-   },
-   "edges": [
-    [
-     [
-      0,
-      1
-     ],
-     [
-      0,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      0,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      1
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      2
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      3,
-      1
-     ],
-     [
-      3,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      3
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      2,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      0
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      1,
-      2
-     ]
-    ],
-    [
-     [
-      0,
-      1
-     ],
-     [
-      1,
-      1
-     ]
-    ],
-    [
-     [
-      1,
-      1
-     ],
-     [
-      2,
-      1
-     ]
-    ]
-   ],
-   "answer": {
-    "mode": "derived",
-    "transform": {
-     "type": "rotate",
-     "deg": 90
-    }
-   },
-   "metrics": {
-    "lines": 8,
-    "diagonals": 3,
-    "non45": 0,
-    "non45Gentle": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 1,
-    "components": 1,
-    "pointsUsed": 10,
-    "symmetry": [],
-    "boardN": 4,
-    "bboxW": 4,
-    "bboxH": 4,
-    "strokes": 2,
-    "symAxis": "h",
-    "symMiss": 5
-   },
-   "gen": {
-    "kind": "auto",
-    "generator": "rotate",
-    "version": "1",
-    "seed": 1,
-    "variant": "hybrid#4#1-357"
-   },
-   "difficulty": {
-    "task": "rotate",
-    "auto": 14.2,
-    "value": 14.2,
-    "parts": {
-     "E": 9.5,
-     "G": 4,
-     "k": 1,
-     "strokes": 0.7,
-     "brk": 0
-    }
-   },
-   "provenance": {
-    "source": "ai",
-    "generator": "rotate",
-    "version": "1",
-    "seed": 1,
-    "variant": "hybrid#4#1-357"
    }
   },
   {
@@ -1907,6 +1710,207 @@
    }
   },
   {
+   "id": "rotate-lv3-vol1-s1-19",
+   "grid": {
+    "type": "square",
+    "n": 4
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "derived",
+    "transform": {
+     "type": "rotate",
+     "deg": 90
+    }
+   },
+   "metrics": {
+    "lines": 8,
+    "diagonals": 3,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": [],
+    "boardN": 4,
+    "bboxW": 4,
+    "bboxH": 4,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 5
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "rotate",
+    "version": "1",
+    "seed": 1,
+    "variant": "hybrid#4#1-357"
+   },
+   "difficulty": {
+    "task": "rotate",
+    "auto": 15.2,
+    "value": 15.2,
+    "parts": {
+     "E": 9.5,
+     "G": 4,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0,
+     "交差": 1
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "rotate",
+    "version": "1",
+    "seed": 1,
+    "variant": "hybrid#4#1-357"
+   }
+  },
+  {
    "id": "rotate-lv3-vol1-s5-39",
    "grid": {
     "type": "square",
@@ -2068,14 +2072,15 @@
    },
    "difficulty": {
     "task": "rotate",
-    "auto": 15.7,
-    "value": 15.7,
+    "auto": 17.7,
+    "value": 17.7,
     "parts": {
      "E": 11,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -2087,5 +2092,5 @@
    }
   }
  ],
- "publishedAt": "2026-07-23"
+ "publishedAt": "2026-08-09"
 }

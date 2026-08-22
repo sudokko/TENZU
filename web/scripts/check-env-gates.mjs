@@ -47,6 +47,23 @@ try {
   report("本番へ到達", false, String(e?.cause ?? e));
 }
 
+/* 下層ページの canonical 自己一致チェック（2026-08-05 追加）。
+   TOP だけ見ると「root layout の canonical を全ページが継承して TOP を正典と
+   自己申告する」型の事故（重複判定→インデックス落ち）を素通しするため、
+   商業面の代表 3 枚で「canonical ＝ 自ページ URL」を検査する。 */
+for (const path of ["/products", "/products/copy", "/tokushoho"]) {
+  try {
+    const d = await inspect(PROD + path);
+    report(
+      `本番 ${path} の canonical が自ページ`,
+      d.canonical === PROD + path,
+      d.canonical,
+    );
+  } catch (e) {
+    report(`本番 ${path} へ到達`, false, String(e?.cause ?? e));
+  }
+}
+
 console.log(`staging: ${STAGING}`);
 try {
   const s = await inspect(STAGING);

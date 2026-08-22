@@ -13,7 +13,7 @@
 /* ---- 盤面 ----
    discriminated union: 将来の拡大縮小（square-pair）も既存 JSON を壊さず追加できる形。
    square = 正方格子（模写・鏡ほか全 square タスク）／solid = 立体模写の矩形点格子。 */
-export type SquareGrid = { type: "square"; n: 3 | 4 | 5 | 6 | 7 };
+export type SquareGrid = { type: "square"; n: 3 | 4 | 5 | 6 | 7 | 8 };
 /* 立体模写の盤面（横 cols × 縦 rows・maker-solid の 7〜15 と同系）。 */
 export type SolidGrid = { type: "solid"; cols: number; rows: number };
 export type GridSpec = SquareGrid | SolidGrid;
@@ -48,7 +48,7 @@ export type ProblemMetrics = {
   non45Gentle?: number;        // 非45°のうち 2:1 系（ゆるい傾き）の本数。D式v3で軽い重み（旧データは未設定）
   diagonalAngleKinds: number;  // 斜め角度の種類数（45°系のみ=1・非45°が混ざると増える）
   hasNon45: boolean;           // 非45°を1本でも含むか（= non45 > 0）。生成フィルタ用の真偽値
-  crossings: number;           // 端点以外での交差数。生成フィルタ用（難易度D・公開表示とも非算入）
+  crossings: number;           // 端点以外での交差数。生成フィルタ＋単図タスクの「交差の項」（D式・decisions §3.105）
   components: number;          // 連結成分数（生成フィルタ用。公開表示からは撤去済み）
   pointsUsed: number;          // 使用格子点数
   symmetry: SymmetryKind[];    // 盤面中心軸で成立している対称性（生成フィルタ用・D式は symAxis を使う）
@@ -90,6 +90,10 @@ export type Problem = {
   grid: GridSpec;
   edges: EdgeT[];              // みほん（出題図）。fold/2図タスクでは図形A。solid では [] 固定
   solidEdges?: SolidEdge[];    // 立体タスク専用（grid.type==="solid" のとき実体・隠れ線 style 付き）
+  /* 立体の「隠れ線 OFF」（問題ごと）で solidEdges から退避した点線。可逆＝ON に戻すと
+     solidEdges へ復帰する。紙面・サムネ・D はすべて solidEdges だけを見るので、
+     ここに退避した時点で「出題では隠れ線なし・D も点線 0」になる（decisions §3.107）。 */
+  solidHiddenParked?: SolidEdge[];
   inputB?: EdgeT[];            // 2図目（折り重ね fold の問題2 等）。単一図タスクは持たない
   answer?:
     | { mode: "explicit"; edges: EdgeT[] }
@@ -241,6 +245,25 @@ export function normalizeSolidEdges(edges: SolidEdge[]): SolidEdge[] {
   return out;
 }
 
+/* ---- 隠れ線 ON/OFF（問題ごと・可逆）----
+   OFF＝点線を solidHiddenParked へ退避して solidEdges から外す（＝紙面にも D にも出ない）。
+   ON ＝退避分を solidEdges へ戻す。どちらの向きでも normalize を通すので、
+   往復しても辺の重複・順序ゆれは起きない。solidEdges 側の実線は常に不変。 */
+export function solidHiddenIsOn(p: { solidHiddenParked?: SolidEdge[] }): boolean {
+  return (p.solidHiddenParked?.length ?? 0) === 0;
+}
+
+export function applySolidHidden(
+  p: { solidEdges?: SolidEdge[]; solidHiddenParked?: SolidEdge[] }, on: boolean,
+): { solidEdges: SolidEdge[]; solidHiddenParked: SolidEdge[] } {
+  const all = normalizeSolidEdges([...(p.solidEdges ?? []), ...(p.solidHiddenParked ?? [])]);
+  if (on) return { solidEdges: all, solidHiddenParked: [] };
+  return {
+    solidEdges: all.filter((e) => e.style !== "dashed"),
+    solidHiddenParked: all.filter((e) => e.style === "dashed"),
+  };
+}
+
 function validateSolidProblem(p: Problem): string[] {
   const errs: string[] = [];
   const g = p.grid;
@@ -258,6 +281,15 @@ function validateSolidProblem(p: Problem): string[] {
     if (e.style !== "solid" && e.style !== "dashed") errs.push(`${p.id}: 不正な線種 ${e.style}`);
     const k = solidEdgeKey(e);
     if (seen.has(k)) errs.push(`${p.id}: 重複辺 ${k}`);
+    seen.add(k);
+  }
+  /* 隠れ線 OFF の退避分。点線だけ・盤面内・solidEdges と同じ辺を持たない、が不変条件
+     （破れると ON へ戻したとき線が増える／実線が点線に化ける） */
+  for (const e of p.solidHiddenParked ?? []) {
+    if (!inSolid(e.a) || !inSolid(e.b)) errs.push(`${p.id}: 退避した隠れ線が盤面外 ${solidEdgeKey(e)}`);
+    if (e.style !== "dashed") errs.push(`${p.id}: 退避できるのは点線だけ ${solidEdgeKey(e)}`);
+    const k = solidEdgeKey(e);
+    if (seen.has(k)) errs.push(`${p.id}: 退避した隠れ線が本体と重複 ${k}`);
     seen.add(k);
   }
   return errs;

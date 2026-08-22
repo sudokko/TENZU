@@ -5,6 +5,11 @@ import ArticlesSection from "./ArticlesSection";
 import CoverageStudio from "./CoverageStudio";
 import { VISIBLE_MAKERS } from "./products/makers";
 import { QUESTIONS_PER_VOL } from "./products/data";
+import { QUESTION_COUNT } from "./level-guide/questions";
+import type { Metadata } from "next";
+
+/* canonical は root layout から継承させない方針（layout.tsx 参照）。TOP は自分で持つ */
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const MAKER_KINDS = VISIBLE_MAKERS.length;
 /* 総問数はハードコードせず SSOT から導出（巻数 × 1 巻の問数）。
@@ -25,9 +30,11 @@ const TOTAL_LEVELS = LEVELS.length;      // 5（入門〜発展）
    - 品ぞろえは coverage 方式で圧縮: 地図3カード＋CTA（店頭の実体は /products に一本化）。
    - 「大切にした 3 つ」＝図解カード（①適レベル ②模写だけにしない ③印刷の自由）。
    - 「はじめ方」（購入の流れ）＝縦タイムライン（案B）。
-   - セクション順（2026-07-21 再編）: 品ぞろえ → レベルで選ぶ（旧クロージングの
-     「点と点が、つながるように。」を昇格・挿絵なし）→ 自分で作る（工房挿絵の
-     2 カラム＝MakerAtelierIllus）→ はじめ方（最後）→ 記事。
+   - セクション順（2026-08-14 再編）: 品ぞろえ（9 種類の実演）→ はじめ方（購入の流れ・
+     縦タイムライン）→ レベル選びガイドへの誘導（「うちの子は、どこから？」）→
+     自分で作る（工房挿絵の 2 カラム＝MakerAtelierIllus）→ 記事。
+     実演の直後は「で、どう買うの？」に答える順路にする。旧クロージング
+     「点と点が、つながるように。」はガイド誘導へ置き換え（余韻より導線を優先）。
    自前 CSS のみ（client JS なし・Server Component 維持）。
    商品系リンクは配線済（種類→/products/{slug}・すべて見る→/products）。
    ※「サンプルを見る」CTA はサンプル閲覧プレビュー実装まで撤去（2026-07-06）。
@@ -452,22 +459,16 @@ function IcPrint() {
     </svg>
   );
 }
-function IcLoop() {
-  return (
-    <svg viewBox="0 0 40 40" className="flow-icon" aria-hidden="true">
-      <path d="M31 13 A13 13 0 1 0 33 25" fill="none" stroke={TEAL} strokeWidth="2.4" strokeLinecap="round" />
-      <path d="M31 6 L33 15 L24 13 Z" fill={TEAL} />
-    </svg>
-  );
-}
+/* IcLoop（周回矢印）は STEP 05 の廃止にともない撤去（2026-08-08）。 */
 
 const STEPS = [
   { n: "01", Ic: IcPick, t: "今のレベルを選ぶ", d: "¥200 一律。レベル選びガイドで、はじめる位置の目安を。" },
   { n: "02", Ic: IcSample, t: "中身をたしかめる", d: "商品ページで紙面プレビューを公開。買う前に見られます。" },
   { n: "03", Ic: IcBuy, t: "購入する", d: "その場ですぐダウンロード。回数の制限はありません。" },
   { n: "04", Ic: IcPrint, t: "印刷して、机の上へ", d: "白黒 OK。家のプリンタでも、コンビニのコピー機でも。" },
-  { n: "05", Ic: IcLoop, t: "気が向いた日に、次の一枚", d: "繰り返しても、次へ進んでも、休んでも。家庭ごとで。" },
 ];
+/* 旧 STEP 05。順序ではなく余韻なので番号を外し、手順の外（.flowB-coda）へ出した（2026-08-08）。
+   番号は「順序が情報のとき」だけ付ける、が方針。 */
 
 /* ---- ⑤ 自分で作る・挿絵（工房の作業台 → 紙）----
    メーカー画面で風車を描きかけ（鉛筆＝Hero の PencilShape 流用）、それが
@@ -630,13 +631,14 @@ export default function Home() {
         </section>
 
         {/* ===================== ②.5 TENZU、3 つの特長（数・公開・印刷） =====================
-            ①品ぞろえ＝棚(9種類×5段階×40巻)＋レベル目安表(LevelGraph 再利用)、
+            ①品ぞろえ＝棚(9種類×5段階×陳列巻数)＋レベル目安表(LevelGraph 再利用)、
             ②設計図ごと公開＝中を見て¥200から、③家庭の印刷機に合わせる。
             数字は GROUPS 由来（TOTAL_KINDS/TOTAL_VOL/TOTAL_QUESTIONS）＝ハードコード禁止。 */}
         <section className="tr-sec tr-sec-alt">
           <div className="wrap">
+            {/* kicker は置かない: 「TENZU の特長」→ H2「TENZU、3 つの特長。」は同語反復。
+                TOP の kicker は「品ぞろえ」「はじめ方」の 2 枠だけに絞る（2026-08-08）。 */}
             <div className="tr-sec-head">
-              <p className="tr-sec-kicker">TENZU の特長</p>
               <h2>TENZU、3 つの特長。</h2>
             </div>
 
@@ -717,47 +719,7 @@ export default function Home() {
         {/* ===================== ③ 品ぞろえ（Brilliant 型・力ピル×タスク実演） ===================== */}
         <CoverageStudio />
 
-        {/* ===================== ④ レベルで選ぶ（旧クロージングを品ぞろえ直後へ昇格） ===================== */}
-        <section className="tr-close">
-          <div className="wrap wrap-narrow">
-            <p className="tr-sec-kicker">レベルで選ぶ</p>
-            <h2>点と点が、つながるように。</h2>
-            <p>
-              まずは中身を見て、いまのレベルの一枚から。印刷して、机の上で。
-              鉛筆で点と点をつなぐ数分が、図形を読む目を育てます。
-            </p>
-            <div className="tr-cta-row">
-              <a className="tr-btn-primary" href="/level-guide">レベル選びガイドへ</a>
-            </div>
-          </div>
-        </section>
-
-        {/* ===================== ⑤ 自分で作る（メーカー・工房の挿絵つき 2 カラム） ===================== */}
-        <section className="tr-sec tr-sec-alt">
-          <div className="wrap">
-            <div className="tr-maker-grid">
-              <div className="tr-maker-illus">
-                <MakerAtelierIllus />
-              </div>
-              <div className="tr-maker-copy">
-                <div className="tr-sec-head">
-                  <p className="tr-sec-kicker">自分で作る — メーカー</p>
-                  <h2>ぴったりが無ければ、自分で作る。</h2>
-                </div>
-                <p className="tr-lead">
-                  模写・鏡・移動・回転・欠け補完から、重ね・分解・折り重ねまで。
-                  {MAKER_KINDS} 種類のメーカーで、家庭の練習プリントを思いどおりに作って PDF 印刷できます。
-                  模写はいつでも無料。気に入ったメーカーだけ ¥980 の買い切りで。
-                </p>
-                <div className="tr-cta-row">
-                  <a className="tr-btn-primary" href="/makers">メーカーを見る →</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ===================== ⑥ はじめ方（購入の流れ・縦タイムライン・案B・最後へ） ===================== */}
+        {/* ===================== ④ はじめ方（購入の流れ・縦タイムライン・案B） ===================== */}
         <section className="tr-sec">
           <div className="wrap">
             <div className="tr-sec-head">
@@ -778,6 +740,49 @@ export default function Home() {
                   </div>
                 );
               })}
+            </div>
+            <p className="flowB-coda">
+              あとは、気が向いた日に次の一枚を。繰り返しても、次へ進んでも、しばらく休んでも、
+              そこはご家庭ごとで大丈夫です。
+            </p>
+          </div>
+        </section>
+
+        {/* ===================== ⑤ レベル選びガイドへの誘導（はじめ方 01 の受け皿） ===================== */}
+        <section className="tr-close">
+          <div className="wrap wrap-narrow">
+            <h2>うちの子には、どのレベル？</h2>
+            <p>
+              年齢ではなく、いまの手の動きで選びます。{QUESTION_COUNT} つの質問に答えると、
+              はじめる位置のめやすと、おすすめの一冊が出ます。
+            </p>
+            <div className="tr-cta-row">
+              <a className="tr-btn-primary" href="/level-guide">レベル選びガイドへ →</a>
+              <a className="tr-btn-ghost" href="/products">全 {TOTAL_VOL} 巻の棚を見る</a>
+            </div>
+          </div>
+        </section>
+
+        {/* ===================== ⑥ 自分で作る（メーカー・工房の挿絵つき 2 カラム） ===================== */}
+        <section className="tr-sec tr-sec-alt">
+          <div className="wrap">
+            <div className="tr-maker-grid">
+              <div className="tr-maker-illus">
+                <MakerAtelierIllus />
+              </div>
+              <div className="tr-maker-copy">
+                <div className="tr-sec-head">
+                  <h2>ぴったりが無ければ、自分で作る。</h2>
+                </div>
+                <p className="tr-lead">
+                  模写・鏡・移動・回転・欠け補完から、重ね・分解・折り重ねまで。
+                  {MAKER_KINDS} 種類のメーカーで、家庭の練習プリントを思いどおりに作って PDF 印刷できます。
+                  模写はいつでも無料。気に入ったメーカーだけ ¥980 の買い切りで。
+                </p>
+                <div className="tr-cta-row">
+                  <a className="tr-btn-primary" href="/makers">メーカーを見る →</a>
+                </div>
+              </div>
             </div>
           </div>
         </section>

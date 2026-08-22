@@ -1,0 +1,3332 @@
+{
+ "schemaVersion": 1,
+ "sku": "solid-lv5-vol2",
+ "task": "solid",
+ "answerMode": "none",
+ "problems": [
+  {
+   "id": "solid-lv5-vol2-m36",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 4,
+    "non45": 4,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 4,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "hiddenLines": 1,
+    "bboxW": 6,
+    "bboxH": 7
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-13",
+    "label": "三角錐（ひろい底）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 30.8,
+    "value": 30.8,
+    "parts": {
+     "E": 21,
+     "G": 6.75,
+     "hidden": 3
+    }
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-m37",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 2,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 0
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 6,
+    "diagonals": 5,
+    "non45": 5,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 5,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "hiddenLines": 1,
+    "bboxW": 6,
+    "bboxH": 8
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-13",
+    "label": "三角錐（おくが辺）"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 34.5,
+    "value": 34.5,
+    "parts": {
+     "E": 24,
+     "G": 7.5,
+     "hidden": 3
+    }
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-m01",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 6,
+    "non45": 4,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 5,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [],
+    "hiddenLines": 3,
+    "bboxW": 7,
+    "bboxH": 7
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 40,
+    "value": 40,
+    "parts": {
+     "E": 24,
+     "G": 7,
+     "hidden": 9
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "四角錐"
+   },
+   "gen": {
+    "kind": "manual"
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-m03",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 2,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 0
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 0
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 6,
+    "non45": 4,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 5,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 5,
+    "symmetry": [],
+    "hiddenLines": 3,
+    "bboxW": 8,
+    "bboxH": 8
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 42,
+    "value": 42,
+    "parts": {
+     "E": 25,
+     "G": 8,
+     "hidden": 9
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "四角錐"
+   },
+   "gen": {
+    "kind": "manual"
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-m16",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 5,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 4,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 8
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 8
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 4,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 2,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 1,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 2,
+      "r": 0
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 0
+     },
+     "b": {
+      "c": 6,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 1
+     },
+     "b": {
+      "c": 2,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 0
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 18,
+    "diagonals": 6,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [],
+    "hiddenLines": 7,
+    "bboxW": 6,
+    "bboxH": 9
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 1,
+    "variant": "pipe"
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-13",
+    "label": "9×9（生成 s1）"
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 50.3,
+    "value": 50.3,
+    "parts": {
+     "E": 21,
+     "G": 8.25,
+     "hidden": 21
+    }
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-s1-07",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 0,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 6
+     },
+     "b": {
+      "c": 1,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 3,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 6
+     },
+     "b": {
+      "c": 0,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 5
+     },
+     "b": {
+      "c": 1,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 4
+     },
+     "b": {
+      "c": 2,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 4
+     },
+     "b": {
+      "c": 1,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 2
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 6
+     },
+     "b": {
+      "c": 7,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 2,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 1
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 2
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 1
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 25,
+    "diagonals": 8,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 17,
+    "symmetry": [],
+    "hiddenLines": 6,
+    "bboxW": 8,
+    "bboxH": 6
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 1,
+    "variant": "stack"
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 54.5,
+    "value": 54.5,
+    "parts": {
+     "E": 29,
+     "G": 7.5,
+     "hidden": 18
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 1,
+    "variant": "stack"
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-m04",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 2,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 2,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 4,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 4,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 2
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 2
+     },
+     "b": {
+      "c": 6,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 2
+     },
+     "b": {
+      "c": 0,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 2
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 2
+     },
+     "b": {
+      "c": 6,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 2
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 8,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 0
+     },
+     "b": {
+      "c": 8,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 0
+     },
+     "b": {
+      "c": 8,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 0
+     },
+     "b": {
+      "c": 2,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 2,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 8,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 2
+     },
+     "b": {
+      "c": 8,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 2
+     },
+     "b": {
+      "c": 2,
+      "r": 0
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 24,
+    "diagonals": 8,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "hiddenLines": 6,
+    "bboxW": 9,
+    "bboxH": 8
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 54.8,
+    "value": 54.8,
+    "parts": {
+     "E": 28,
+     "G": 8.75,
+     "hidden": 18
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-01",
+    "label": "空洞・門"
+   },
+   "gen": {
+    "kind": "manual"
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-m26",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 2,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 1,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 2,
+      "r": 1
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 2
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 2
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 2
+     },
+     "b": {
+      "c": 2,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 2
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 7,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 6
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 24,
+    "diagonals": 8,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 16,
+    "symmetry": [],
+    "hiddenLines": 7,
+    "bboxW": 7,
+    "bboxH": 7
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 3,
+    "variant": "carve"
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-13",
+    "label": "9×9（生成 s3）"
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 56,
+    "value": 56,
+    "parts": {
+     "E": 28,
+     "G": 7,
+     "hidden": 21
+    }
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-m32",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 1,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 0,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 1,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 4
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 5
+     },
+     "b": {
+      "c": 1,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 4,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 8,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 4
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 2
+     },
+     "b": {
+      "c": 8,
+      "r": 1
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 26,
+    "diagonals": 8,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 18,
+    "symmetry": [],
+    "hiddenLines": 9,
+    "bboxW": 9,
+    "bboxH": 7
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 4,
+    "variant": "pipe"
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-13",
+    "label": "9×9（生成 s4）"
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 65.5,
+    "value": 65.5,
+    "parts": {
+     "E": 30,
+     "G": 8.5,
+     "hidden": 27
+    }
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-m24",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 4,
+      "r": 8
+     },
+     "b": {
+      "c": 6,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 8
+     },
+     "b": {
+      "c": 5,
+      "r": 7
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 8
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 8
+     },
+     "b": {
+      "c": 7,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 8
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 2,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 0
+     },
+     "b": {
+      "c": 5,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 2
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 0,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 2
+     },
+     "b": {
+      "c": 1,
+      "r": 0
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 1
+     },
+     "b": {
+      "c": 1,
+      "r": 0
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 30,
+    "diagonals": 10,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 20,
+    "symmetry": [],
+    "hiddenLines": 11,
+    "bboxW": 8,
+    "bboxH": 9
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 2,
+    "variant": "pipe"
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-08-13",
+    "label": "9×9（生成 s2）"
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 76.8,
+    "value": 76.8,
+    "parts": {
+     "E": 35,
+     "G": 8.75,
+     "hidden": 33
+    }
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-s1-16",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 2,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 6
+     },
+     "b": {
+      "c": 7,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 1,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 0,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 6
+     },
+     "b": {
+      "c": 1,
+      "r": 0
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 1
+     },
+     "b": {
+      "c": 2,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 0
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 0
+     },
+     "b": {
+      "c": 7,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 1
+     },
+     "b": {
+      "c": 1,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 2,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 6
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 0
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 6
+     },
+     "b": {
+      "c": 7,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 1
+     },
+     "b": {
+      "c": 7,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "dashed"
+    }
+   ],
+   "metrics": {
+    "lines": 38,
+    "diagonals": 12,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 26,
+    "symmetry": [],
+    "hiddenLines": 13,
+    "bboxW": 8,
+    "bboxH": 8
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 1,
+    "variant": "wall"
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 91,
+    "value": 91,
+    "parts": {
+     "E": 44,
+     "G": 8,
+     "hidden": 39
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 1,
+    "variant": "wall"
+   }
+  },
+  {
+   "id": "solid-lv5-vol2-s1-15",
+   "grid": {
+    "type": "solid",
+    "cols": 9,
+    "rows": 9
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 0,
+      "r": 5
+     },
+     "b": {
+      "c": 2,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 4
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 5
+     },
+     "b": {
+      "c": 1,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 5
+     },
+     "b": {
+      "c": 0,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 4
+     },
+     "b": {
+      "c": 1,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 2
+     },
+     "b": {
+      "c": 2,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 1,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 1
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 2
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 3,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 7,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 5,
+      "r": 6
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 2,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 3,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 2
+     },
+     "b": {
+      "c": 3,
+      "r": 0
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 0
+     },
+     "b": {
+      "c": 5,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 6
+     },
+     "b": {
+      "c": 5,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 5,
+      "r": 0
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 5
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "dashed"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 5,
+      "r": 0
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 38,
+    "diagonals": 12,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 26,
+    "symmetry": [],
+    "hiddenLines": 13,
+    "bboxW": 8,
+    "bboxH": 8
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 1,
+    "variant": "wall"
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 91,
+    "value": 91,
+    "parts": {
+     "E": 44,
+     "G": 8,
+     "hidden": 39
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "solid-voxel",
+    "version": "1",
+    "seed": 1,
+    "variant": "wall"
+   }
+  }
+ ],
+ "publishedAt": "2026-08-13"
+}

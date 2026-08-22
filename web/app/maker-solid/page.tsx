@@ -10,7 +10,7 @@ import "./maker-solid.css";
    矩形点格子＋実線/点線（隠れ線）で四角すい・八角柱・切り欠き立方体などを手描きする。
    PDF 書き出しは所有ゲート。ツール自体は noindex（SEO はまとめ /makers に集約）。 */
 export const metadata: Metadata = {
-  title: "立体模写メーカー · TENZU",
+  title: "立体模写メーカー",
   description: "点格子に立体を手描きして PDF で印刷できます。実線＝見える辺／点線＝かくれた辺。",
   robots: { index: false, follow: false },
 };

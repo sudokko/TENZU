@@ -5,6 +5,7 @@
 - **役割分担**: 構成・目次＝AI が提案しオーナーが確定（[structure-craft.md](structure-craft.md)）／箇条書き→本文への膨らませ＝**AI**（本ファイル）／リード・TLDR＝AI 下書き→オーナー仕上げ
 - 本ファイルは「**どう膨らませれば読める本文になるか**」の SSOT。templates.md（運用ルール）・voice-tone.md（人格）とは責務直交
 - 入力＝構成メモ `docs/drafts/memos/<slug>.md`（雛形 [_template.md](../docs/drafts/memos/_template.md)）／出力＝`docs/drafts/articles/<slug>.mdx`
+- `docs/drafts/` は**初稿までのアーカイブ**。公開昇格後の記事の正は `web/content/articles/`（改訂は [article-revision-publish.md](article-revision-publish.md)）で、drafts へは逆同期しない
 - **§2 膨らませの境界線が最重要**: メモに無い主張・事実・数値・引用を足さない。不明点は `【要確認: …】` で残す
 - §3 文章術（段落設計・リズム・具体化・接続・削り）に従って散文化する
 - 衝突時の優先順位: **voice-tone.md ＞ templates.md §7 ＞ 本ファイル**

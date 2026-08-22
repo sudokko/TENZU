@@ -6,7 +6,7 @@ import "../maker/maker.css";
 
 /* 公開メーカー（買い切り ¥980）。ツール自体は noindex（SEO はまとめ /makers に集約）。 */
 export const metadata: Metadata = {
-  title: "拡大メーカー · TENZU",
+  title: "拡大メーカー",
   description: "比をそろえて大きく写す（×2・×3）点描写プリントを作って、PDF で印刷できます。",
   robots: { index: false, follow: false },
 };

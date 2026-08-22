@@ -8,10 +8,12 @@
    ========================================================================= */
 
 import SiteHeader from "../SiteHeader";
+import AddPresetButton from "../cart/AddPresetButton";
 import { catalogTaskBySlug } from "../catalog";
 import VolThumb from "./VolThumb";
 import {
   LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL, firstVol,
+  cartTotal, currentTier, isTaskComplete, taskPresetSkus, volBySku,
   type ProductTask,
 } from "./data";
 import "./product.css";
@@ -27,6 +29,17 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
     note: cat?.task.notes[i] ?? "",
     vols: task.vols.filter((x) => x.lv === i + 1),
   })).filter((s) => s.vols.length > 0);
+
+  /* 通しプリセット。全巻 live のタスクだけに出す（未入稿を含む通しは売らない）。
+     価格はカートのまとめ買い割引（data.ts）から導出＝ここは表示するだけ。 */
+  const presetSkus = isTaskComplete(task) ? taskPresetSkus(task) : [];
+  const presetN = presetSkus.length;
+  const presetList = presetSkus.map((s) => volBySku(s)!.vol);
+  const presetList0 = presetList[0];
+  const presetListZ = presetList[presetList.length - 1];
+  const presetGross = presetN * PRICE;
+  const presetTotal = cartTotal(presetN);
+  const presetTier = currentTier(presetN);
 
   return (
     <>
@@ -60,6 +73,22 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
                   </a>
                 ))}
               </nav>
+
+              {/* 通しプリセット（弱）。ここは「買えることを知らせる」役で、決めるのはページ末。 */}
+              {presetTier && (
+                <>
+                  <div className="preset-bar">
+                    <AddPresetButton skus={presetSkus} variant="bar" />
+                    <span className="preset-spec">
+                      Lv.{presetList0.lv} → Lv.{presetListZ.lv} ・ {presetN * QUESTIONS_PER_VOL} 問 ・{" "}
+                      <b>¥{presetTotal.toLocaleString()}</b>
+                    </span>
+                  </div>
+                  <p className="preset-note">
+                    3 冊から 15%。ちがう種類をまぜても、合計の冊数で決まります。1 冊ずつでも買えます。
+                  </p>
+                </>
+              )}
             </div>
           </section>
         </div>
@@ -69,7 +98,12 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
           <section className="s" id={`lv${s.lv}`} key={s.lv}>
             <div className="wrap">
               <h2 className="h2-product">Lv.{s.lv} {s.name}</h2>
-              {s.note && <p className="lead">{s.note}</p>}
+              {/* note を出すのは、その Lv に複数巻あるときだけ（2026-08-08）。
+                  1 巻しかない Lv では note が直下のリード文の言い換えにしかならず、
+                  同じ内容が 2cm 離れて二度出ていた。複数巻あるときは
+                  note＝レベル共通の説明／各リード文＝Vol ごとの違い、と役割が分かれる。
+                  データ自体は温存（レベル選びガイドの結果画面では単独で使う）。 */}
+              {s.note && s.vols.length > 1 && <p className="lead">{s.note}</p>}
 
               <div className="plp-cards">
                 {s.vols.map((vol) => {
@@ -109,6 +143,46 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
         <section className="s">
           <div className="wrap">
             <div className="plp-foot">
+              {/* 通しプリセット（強）。棚を見きった人の受け皿＝内訳を隠さず出す。 */}
+              {presetTier && (
+                <div className="preset-card">
+                  <div>
+                    {/* 旧 kicker「MATOME · N VOLUMES」を撤去（2026-08-08）。ローマ字＋英語の
+                        ラベルは、直下の H3 が日本語で同じことを言っており冗長だった。 */}
+                    <h3 className="preset-h">{task.name} {presetN} 冊を通しで</h3>
+                    <p className="preset-desc">
+                      Lv.{presetList0.lv} から Lv.{presetListZ.lv} までの {presetN} 冊。
+                      やさしい方から順に、同じ考え方を少しずつ深くしていきます。
+                    </p>
+                  </div>
+                  <ul className="preset-list">
+                    {presetList.map((vol) => (
+                      <li key={vol.sku}>
+                        <span>
+                          <span className="v">LV.{vol.lv} VOL.{vol.volNo}</span>{vol.grid}
+                        </span>
+                        <span className="y">¥{PRICE}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="preset-sum">
+                    <div>
+                      <span>小計（{presetN} 冊）</span>
+                      <span>¥{presetGross.toLocaleString()}</span>
+                    </div>
+                    <div className="off">
+                      <span>まとめ買い {presetTier.min} 冊から {Math.round(presetTier.rate * 100)}%</span>
+                      <span>−¥{(presetGross - presetTotal).toLocaleString()}</span>
+                    </div>
+                    <div className="tot">
+                      <span>合計（税込）</span>
+                      <span>¥{presetTotal.toLocaleString()}</span>
+                    </div>
+                  </div>
+                  <AddPresetButton skus={presetSkus} variant="card" />
+                  <p className="preset-note">ちがう種類をまぜても、合計の冊数で決まります。</p>
+                </div>
+              )}
               <p className="plp-foot-note">
                 どの巻から始めるか迷ったら、手ごたえで選べるガイドがあります。年齢はめやすです。
               </p>

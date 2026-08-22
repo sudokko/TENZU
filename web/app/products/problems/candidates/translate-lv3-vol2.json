@@ -515,14 +515,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "auto": 10.3,
-    "value": 10.3,
+    "auto": 11.3,
+    "value": 11.3,
     "parts": {
      "E": 4,
      "G": 3.5,
      "k": 0.7,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 4
     }
    },
@@ -640,14 +641,15 @@
    "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "auto": 10.5,
-    "value": 10.5,
+    "auto": 11.5,
+    "value": 11.5,
     "parts": {
      "E": 4,
      "G": 3.5,
      "k": 0.75,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 4
     }
    },
@@ -764,14 +766,15 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "auto": 10.5,
-    "value": 10.5,
+    "auto": 11.5,
+    "value": 11.5,
     "parts": {
      "E": 4,
      "G": 3.5,
      "k": 0.75,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 4
     }
    },
@@ -983,14 +986,15 @@
    "status": "rejected",
    "difficulty": {
     "task": "translate",
-    "auto": 10.5,
-    "value": 10.5,
+    "auto": 11.5,
+    "value": 11.5,
     "parts": {
      "E": 5,
      "G": 3,
      "k": 0.7,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 4
     }
    },
@@ -1087,14 +1091,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "translate",
-    "auto": 13.6,
-    "value": 13.6,
+    "auto": 14.6,
+    "value": 14.6,
     "parts": {
      "E": 5.5,
      "G": 3.25,
      "k": 0.7,
      "strokes": 0,
      "brk": 3,
+     "交差": 1,
      "変換": 4
     }
    },
@@ -1348,14 +1353,15 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "auto": 11.5,
-    "value": 11.5,
+    "auto": 12.5,
+    "value": 12.5,
     "parts": {
      "E": 6,
      "G": 3.25,
      "k": 0.7,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 4
     }
    },
@@ -1480,14 +1486,15 @@
    "status": "pending",
    "difficulty": {
     "task": "translate",
-    "auto": 12.6,
-    "value": 12.6,
+    "auto": 13.6,
+    "value": 13.6,
     "parts": {
      "E": 7,
      "G": 3,
      "k": 0.7,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "変換": 4
     }
    },
@@ -2124,8 +2131,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 12.2,
     "auto": 12.2,
+    "value": 12.2,
     "parts": {
      "E": 5.5,
      "G": 3.5,
@@ -2232,8 +2239,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 12.8,
     "auto": 12.8,
+    "value": 12.8,
     "parts": {
      "E": 4.5,
      "G": 3.5,
@@ -2330,8 +2337,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 10.9,
     "auto": 10.9,
+    "value": 10.9,
     "parts": {
      "E": 4,
      "G": 3.5,
@@ -2429,8 +2436,11 @@
     "symMiss": 0
    },
    "provenance": {
-    "source": "blank",
-    "createdAt": "2026-08-01",
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 0,
+    "variant": "micro2x2#61@1,-1",
     "label": "右上の低D"
    },
    "gen": {
@@ -2442,14 +2452,15 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 11.2,
-    "auto": 11.2,
+    "auto": 12.2,
+    "value": 12.2,
     "parts": {
      "E": 6,
      "G": 3,
      "k": 0.7,
      "strokes": 0,
      "brk": 0,
+     "交差": 1,
      "変換": 4
     }
    },
@@ -2523,8 +2534,11 @@
     "symMiss": 0
    },
    "provenance": {
-    "source": "blank",
-    "createdAt": "2026-08-01",
+    "source": "ai",
+    "generator": "translate",
+    "version": "1",
+    "seed": 0,
+    "variant": "micro2x2#22@-1,-1",
     "label": "左上の低D"
    },
    "gen": {
@@ -2536,8 +2550,8 @@
    },
    "difficulty": {
     "task": "translate",
-    "value": 10,
     "auto": 10,
+    "value": 10,
     "parts": {
      "E": 3.5,
      "G": 3,

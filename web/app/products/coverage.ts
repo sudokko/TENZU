@@ -51,11 +51,14 @@ function boardOf(grid: GridSpec): string {
    移動の dc/dr: dc>0=右・dr>0=下（画面座標＝print.ts と同規約。「右に2、下に1」表記）
    鏡は axis を出さない。v/h は「印刷時の並びに対応する代表値」であって
    問題そのものの性質ではないため（decisions §3.59）。巻の note 側で説明する。 */
-function transformOf(p: Problem): string | undefined {
+function transformOf(p: Problem, task: string): string | undefined {
   const a = p.answer;
   if (!a) return undefined;
   if (a.mode === "explicit") {
-    return a.edges.length > 0 ? `欠け${a.edges.length}本` : undefined;
+    /* explicit な解答を持つのは欠け補完と 2 図系（かさね・分解・折り重ね）。
+       本数が「欠け」の意味になるのは欠け補完だけ＝2 図系では出さない
+       （かさね・分解の answer は図B、折り重ねは完成図で、どちらも欠けではない）。 */
+    return task === "fill" && a.edges.length > 0 ? `欠け${a.edges.length}本` : undefined;
   }
   const t = a.transform;
   if (t.type === "rotate") {
@@ -95,13 +98,24 @@ export function dBreakdown(parts?: DifficultyParts, d?: number): string | undefi
     if (typeof parts.pair === "number") push("対の図", parts.pair);
   }
   if (typeof parts.A === "number" && typeof parts.B === "number") {
-    push("図A ", parts.A);
+    /* 折り重ねの折り係数 kf は対称係数 k と同じく「係数」なので、加算項に見せない */
+    if (typeof parts.kf === "number" && parts.kf < 1) {
+      const kA = parts.kf * parts.A;
+      t.push(`図A ${r1(kA)}（${parts.kf}×${r1(parts.A)}）`);
+      sum += kA;
+    } else {
+      push("図A ", parts.A);
+    }
     push("図B ", parts.B);
   }
   if (typeof parts["絡み"] === "number" && parts["絡み"] > 0) push("絡み", parts["絡み"]);
+  if (typeof parts["共有点"] === "number" && parts["共有点"] > 0) push("共有点", parts["共有点"]);
+  if (typeof parts["もつれ"] === "number" && parts["もつれ"] > 0) push("もつれ", parts["もつれ"]);
+  if (typeof parts["ばらけ"] === "number" && parts["ばらけ"] > 0) push("ばらけ", parts["ばらけ"]);
   if (typeof parts.G === "number") push("盤面", parts.G);
   if (typeof parts.strokes === "number" && parts.strokes > 0) push("画数", parts.strokes);
   if (typeof parts.brk === "number" && parts.brk > 0) push("くずし", parts.brk);
+  if (typeof parts["交差"] === "number" && parts["交差"] > 0) push("交差", parts["交差"]);
   if (typeof parts["変換"] === "number" && parts["変換"] > 0) push("変換", parts["変換"]);
   if (typeof parts.gap === "number" && parts.gap > 0) push("欠け", parts.gap);
   if (typeof parts.hidden === "number" && parts.hidden > 0) push("隠れ辺", parts.hidden);
@@ -148,11 +162,29 @@ export function dBreakdownDetail(p: Problem): string[] | undefined {
       : `線 ${r1(parts.E)} ＝ ${body}`);
     if (typeof parts.pair === "number") out.push(`対の図 ${r1(parts.pair)}（同じ図をもう一度たどる）`);
   }
-  /* 2 図タスクは図ごとの metrics を保存していないので、値だけを示す */
-  if (typeof parts.A === "number") out.push(`図A ${r1(parts.A)}（図A の線の重み）`);
-  if (typeof parts.B === "number") out.push(`図B ${r1(parts.B)}（図B の線の重み）`);
+  /* 2 図タスクは図ごとの metrics を保存していないので、値だけを示す。
+     折り重ねは 2 枚が「問題1・問題2」＝紙面の呼び名に合わせる。折り係数（kf）は
+     対称係数 k と同じ「係数」なので、加算項に見せず掛けた形で出す。 */
+  const isFold = p.difficulty?.task === "fold";
+  const [nameA, nameB] = isFold ? ["問題1", "問題2"] : ["図A", "図B"];
+  if (typeof parts.A === "number") {
+    const kf = parts.kf ?? 1;
+    out.push(kf < 1
+      ? `${nameA} ${r1(kf * parts.A)} ＝ ${kf}（折り係数）×${r1(parts.A)}（${nameA} の線の重み）`
+      : `${nameA} ${r1(parts.A)}（${nameA} の線の重み）`);
+  }
+  if (typeof parts.B === "number") out.push(`${nameB} ${r1(parts.B)}（${nameB} の線の重み）`);
   if (typeof parts["絡み"] === "number" && parts["絡み"] > 0) {
-    out.push(`絡み ${r1(parts["絡み"])} ＝ 2×${parts["絡み"] / 2}か所（A と B の交差）`);
+    out.push(`絡み ${r1(parts["絡み"])} ＝ 2×${parts["絡み"] / 2}か所（A と B の線どうしの交差）`);
+  }
+  if (typeof parts["共有点"] === "number" && parts["共有点"] > 0) {
+    out.push(`共有点 ${r1(parts["共有点"])} ＝ 1×${parts["共有点"]}か所（A と B がふれあう点＝線の所属を切り替える場所）`);
+  }
+  if (typeof parts["もつれ"] === "number" && parts["もつれ"] > 0) {
+    out.push(`もつれ ${r1(parts["もつれ"])}（図の中で線が交わる・1つの点に3方向以上が集まる場所の読み直し）`);
+  }
+  if (typeof parts["ばらけ"] === "number" && parts["ばらけ"] > 0) {
+    out.push(`ばらけ ${r1(parts["ばらけ"])}（図の中の離れたかたまりを、別々に覚えて運ぶ負荷）`);
   }
 
   if (typeof parts.G === "number") {
@@ -166,6 +198,9 @@ export function dBreakdownDetail(p: Problem): string[] | undefined {
   }
   if (typeof parts.brk === "number" && parts.brk > 0) {
     out.push(`対称くずし ${r1(parts.brk)} ＝ 3×${parts.brk / 3}本（対称からずれた線）`);
+  }
+  if (typeof parts["交差"] === "number" && parts["交差"] > 0) {
+    out.push(`交差 ${r1(parts["交差"])} ＝ 1×${parts["交差"]}か所（図の中で線どうしが交わる場所）`);
   }
   if (typeof parts["変換"] === "number" && parts["変換"] > 0) {
     /* 移動量・角度の内訳は difficulty.ts の transformLoad が文言まで持つ */
@@ -181,7 +216,8 @@ export function dBreakdownDetail(p: Problem): string[] | undefined {
   if (out.length === 0) return undefined;
 
   const sum = (parts.k ?? 1) * (parts.E ?? 0) + (parts.pair ?? 0)
-    + (parts.A ?? 0) + (parts.B ?? 0) + (parts["絡み"] ?? 0)
+    + (parts.kf ?? 1) * (parts.A ?? 0) + (parts.B ?? 0) + (parts["絡み"] ?? 0)
+    + (parts["共有点"] ?? 0) + (parts["もつれ"] ?? 0) + (parts["ばらけ"] ?? 0)
     + (parts.G ?? 0) + (parts.strokes ?? 0) + (parts.brk ?? 0)
     + (parts["変換"] ?? 0) + (parts.gap ?? 0) + (parts.hidden ?? 0);
   out.push(roundD(sum) === d
@@ -226,7 +262,7 @@ export function coverageOf(set: SkuProblemSet): Coverage {
     diagonals: p.metrics.diagonals,
     crossings: p.metrics.crossings,
     non45: p.metrics.non45,
-    transform: transformOf(p),
+    transform: transformOf(p, set.task),
     d: p.difficulty?.value,
     dParts: dBreakdownOf(p),
     dDetail: dBreakdownDetail(p),

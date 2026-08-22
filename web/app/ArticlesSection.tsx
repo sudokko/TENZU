@@ -24,8 +24,9 @@ export default async function ArticlesSection() {
   return (
     <section className="s">
       <div className="wrap wrap-narrow">
+        {/* kicker は置かない。旧「§2 · もっと知る」は設計書の節番号がそのまま画面に出ていた
+            もの（訪問者に §1 は存在しない）。2026-08-08 に削除。 */}
         <div className="section-head">
-          <p className="section-kicker">§2 · もっと知る</p>
           <h2>選ぶ前に、読んでおく。</h2>
         </div>
 

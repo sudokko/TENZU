@@ -657,6 +657,11 @@
 .flowB-head { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
 .flowB-head .flow-title { font-size: 16px; margin: 0; }
 .flowB .flow-desc { font-size: 13px; margin: 0; }
+/* 手順のあとの一言（番号を振らない＝順序ではないもの）。2026-08-08 に旧 STEP 05 をここへ。 */
+.flowB-coda {
+  margin: 20px 0 0 50px; padding-top: 16px; border-top: 1px dashed var(--line-thin);
+  font-family: var(--font-tier2-pencil); color: var(--fg-2); font-size: 14px; line-height: 1.85;
+}
 
 /* ---- 家庭での続け方（STEP） ---- */
 .steps-grid {

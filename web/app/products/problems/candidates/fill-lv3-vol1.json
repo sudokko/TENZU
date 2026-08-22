@@ -1952,14 +1952,15 @@
    },
    "difficulty": {
     "task": "fill",
-    "auto": 19.2,
-    "value": 19.2,
+    "auto": 20.2,
+    "value": 20.2,
     "parts": {
      "E": 8.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "gap": 6
     }
    },
@@ -2184,14 +2185,15 @@
    },
    "difficulty": {
     "task": "fill",
-    "auto": 19.2,
-    "value": 19.2,
+    "auto": 20.2,
+    "value": 20.2,
     "parts": {
      "E": 8.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "gap": 6
     }
    },
@@ -2204,7 +2206,7 @@
     "label": "きかんしゃ"
    },
    "status": "adopted",
-   "order": 9
+   "order": 10
   },
   {
    "id": "fill-lv3-vol1-motif-s1-31",
@@ -3307,7 +3309,7 @@
     "label": "きせん"
    },
    "status": "adopted",
-   "order": 10,
+   "order": 9,
    "edited": true
   },
   {
@@ -5217,14 +5219,15 @@
    "status": "pending",
    "difficulty": {
     "task": "fill",
-    "auto": 14.7,
-    "value": 14.7,
+    "auto": 15.7,
+    "value": 15.7,
     "parts": {
      "E": 7,
      "G": 4,
      "k": 0.85,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "gap": 4
     }
    },
@@ -5649,14 +5652,15 @@
    "status": "pending",
    "difficulty": {
     "task": "fill",
-    "auto": 18.2,
-    "value": 18.2,
+    "auto": 19.2,
+    "value": 19.2,
     "parts": {
      "E": 7.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "gap": 6
     }
    },
@@ -5919,14 +5923,15 @@
    "status": "pending",
    "difficulty": {
     "task": "fill",
-    "auto": 18.4,
-    "value": 18.4,
+    "auto": 20.4,
+    "value": 20.4,
     "parts": {
      "E": 9,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 2,
      "gap": 4
     }
    },
@@ -6149,14 +6154,15 @@
    "status": "pending",
    "difficulty": {
     "task": "fill",
-    "auto": 19.7,
-    "value": 19.7,
+    "auto": 20.7,
+    "value": 20.7,
     "parts": {
      "E": 9,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
      "brk": 0,
+     "交差": 1,
      "gap": 6
     }
    },
@@ -7913,14 +7919,15 @@
    "status": "pending",
    "difficulty": {
     "task": "fill",
-    "auto": 20.4,
-    "value": 20.4,
+    "auto": 21.4,
+    "value": 21.4,
     "parts": {
      "E": 11,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 1,
      "gap": 4
     }
    },
@@ -8143,14 +8150,15 @@
    "status": "pending",
    "difficulty": {
     "task": "fill",
-    "auto": 23.4,
-    "value": 23.4,
+    "auto": 25.4,
+    "value": 25.4,
     "parts": {
      "E": 12,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
      "brk": 0,
+     "交差": 2,
      "gap": 6
     }
    },

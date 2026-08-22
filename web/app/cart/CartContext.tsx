@@ -16,6 +16,7 @@ const STORAGE_KEY = "tenzu_cart";
 type CartValue = {
   items: string[];                 // SKU の配列
   add: (sku: string) => void;
+  addMany: (skus: string[]) => void;  // 通しプリセット（種類の全巻）用の一括投入
   remove: (sku: string) => void;
   clear: () => void;
   has: (sku: string) => boolean;
@@ -50,6 +51,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const add = useCallback((sku: string) => {
     setItems((prev) => (prev.includes(sku) ? prev : [...prev, sku]));
   }, []);
+  /* 既にある SKU は飛ばして末尾へ足す。1 件も増えないときは参照を変えない。 */
+  const addMany = useCallback((skus: string[]) => {
+    setItems((prev) => {
+      const next = [...prev];
+      for (const sku of skus) if (!next.includes(sku)) next.push(sku);
+      return next.length === prev.length ? prev : next;
+    });
+  }, []);
   const remove = useCallback((sku: string) => {
     setItems((prev) => prev.filter((x) => x !== sku));
   }, []);
@@ -57,8 +66,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const has = useCallback((sku: string) => items.includes(sku), [items]);
 
   const value = useMemo<CartValue>(
-    () => ({ items, add, remove, clear, has, count: items.length, ready }),
-    [items, add, remove, clear, has, ready],
+    () => ({ items, add, addMany, remove, clear, has, count: items.length, ready }),
+    [items, add, addMany, remove, clear, has, ready],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

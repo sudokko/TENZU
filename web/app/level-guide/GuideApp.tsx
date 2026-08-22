@@ -2,7 +2,8 @@
 
 /* =========================================================================
    レベル選びガイド本体（F2 サブ②・C1-3 / acquisition/funnel.md §3 SSOT）
-   6 問（うち最後は任意）の選択式に答えると 2 軸を出す:
+   設問は questions.ts が SSOT（設問数も QUESTION_COUNT から導出・直書き禁止）。
+   選択式に答えると 2 軸を出す:
      軸A はじめる位置（Lv 1-5）… 年齢はめやす、手ごたえ 3 問が優先
      軸B どの種類から（群/タスク）… 目的 1 問 → ★最初の一冊（具体 SKU）
    データは catalog.tsx の GROUPS/LEVELS/LevelGraph を再利用（SSOT・新規データなし）。
@@ -15,6 +16,7 @@
 import { useState } from "react";
 import { GROUPS, LEVELS, LevelGraph, volOf, type Task } from "../catalog";
 import { taskBySlug } from "../products/data";
+import { QUESTIONS, QUESTION_COUNT, type Question } from "./questions";
 
 /* ---- タスク横断ルックアップ（GROUPS から名前で引く） ---- */
 const ALL_TASKS: { task: Task; group: string }[] = GROUPS.flatMap((g) =>
@@ -24,76 +26,25 @@ function findTask(name: string) {
   return ALL_TASKS.find((x) => x.task.name === name)!;
 }
 
-/* ---- 質問定義 ---- */
-type Question = {
-  key: string;
-  q: string;
-  help?: string;
-  optional?: boolean;
-  opts: { v: string; label: string }[];
-};
-
-const QUESTIONS: Question[] = [
-  {
-    key: "age",
-    q: "お子さんの年齢は？",
-    help: "答えはレベルの「めやす」にだけ使います。最後は、いまの手ごたえで決めます。",
-    opts: [
-      { v: "4", label: "4才以下" },
-      { v: "5", label: "5才" },
-      { v: "6", label: "6才" },
-      { v: "7", label: "7才" },
-      { v: "8", label: "8才以上" },
-    ],
-  },
-  {
-    key: "naname",
-    q: "ななめ（斜め）の線は、引けそうですか？",
-    opts: [
-      { v: "sui", label: "すいすい引ける" },
-      { v: "toki", label: "ときどき・練習中" },
-      { v: "mada", label: "まだむずかしい" },
-    ],
-  },
-  {
-    key: "komaka",
-    q: "細かいマス目（5×5 以上）や、線が交差する形は？",
-    opts: [
-      { v: "fun", label: "楽しめそう" },
-      { v: "futsu", label: "ふつうかな" },
-      { v: "mada", label: "まだ難しそう" },
-    ],
-  },
-  {
-    key: "mokuteki",
-    q: "いちばんのきっかけ・目的は？",
-    help: "「どの種類から始めるか」のおすすめに使います。",
-    opts: [
-      { v: "first", label: "はじめての点描写。とにかく始めたい" },
-      { v: "kumon", label: "公文・運筆の「次」を探している" },
-      { v: "struggle", label: "図形が苦手・つまずいた" },
-      { v: "draw", label: "絵を描くのが好き。楽しく続けたい" },
-      { v: "harder", label: "もっと頭を使う問題を" },
-      { v: "solid", label: "立体・空間の感覚を育てたい" },
-    ],
-  },
-];
+/* 設問定義は questions.ts へ移設（2026-08-08）。設問数を商品一覧とも共有するため。 */
 
 /* ---- 軸B：目的 → ★最初の一冊（primary）＋関連（related） ---- */
-/* 2026-06-19: 旧「模写（絵柄）」は「模写」に統合済（subtype 区別）。draw 系は
-   primary=模写 のまま related で絵柄ニーズを受ける関連タスクへ流す */
+/* キーは questions.ts の mokuteki 設問の v と 1:1。設問から選択肢を消すときは
+   ここのエントリも消すこと（2026-08-16: 「絵を描くのが好き」= draw を削除）。 */
 const MOKUTEKI_MAP: Record<string, { primary: string; related: string[] }> = {
   first: { primary: "模写", related: ["欠け補完", "鏡"] },
-  kumon: { primary: "模写", related: ["鏡", "回転"] },
+  tsunagi: { primary: "模写", related: ["鏡", "回転"] },
   struggle: { primary: "模写", related: ["欠け補完", "鏡"] },
-  draw: { primary: "模写", related: ["かさね", "模写（立体）"] },
   harder: { primary: "鏡", related: ["回転", "かさね"] },
   solid: { primary: "模写（立体）", related: ["模写", "かさね"] },
 };
 
 /* ---- 軸A：年齢で初期推定 → 手ごたえ 3 問で確定（手ごたえ優先・やさしい方が勝つ） ---- */
 function computeLevelIndex(a: Record<string, string>): number {
-  const anchor: Record<string, number> = { "4": 0, "5": 0, "6": 1, "7": 2, "8": 3 };
+  /* 年齢アンカー＝各レベルの対象年齢帯（LEVEL_AGES）のまん中に置く。
+     2026-08-16: 4才以下と5才が同じ入門編で、Q1 の上 2 択が 1 パターンも
+     結果を変えていなかったため 5→初級・6→基礎・7→応用へ 1 段ずつ上げた。 */
+  const anchor: Record<string, number> = { "4": 0, "5": 1, "6": 2, "7": 3, "8": 3 };
   let lv = anchor[a.age] ?? 1;
   const { naname, komaka } = a;
   // 手ごたえが年齢を上回るなら引き上げ
@@ -159,8 +110,11 @@ export default function GuideApp() {
           <p className="lg-kicker">レベル選びガイド</p>
           <h1 className="lg-h1">どこから始めるか、いっしょに決めましょう。</h1>
           <p className="lg-lead">
-            4 つの質問に答えると、はじめる位置の目安と、おすすめの一冊が出ます。
-            正解さがしではありません。迷ったら、ひとつやさしい巻からで大丈夫です。
+            {QUESTION_COUNT} つの質問に答えると、はじめる位置の目安と、おすすめの一冊が出ます。
+            {/* 「迷ったら、ひとつやさしい巻から」は結果画面に一本化（2026-08-08）。
+                導入・結果サブ・結果末尾の 3 箇所で同趣旨を繰り返していたため。
+                実際に巻を提示されたあと＝迷いが生まれる場所で言うほうが効く。 */}
+            正解さがしではありません。
           </p>
         </header>
 
@@ -208,9 +162,10 @@ function Step({
           <span key={i} className={`lg-dot${i === index ? " is-now" : ""}${i < index ? " is-done" : ""}`} />
         ))}
       </div>
+      {/* 「任意」バッジは撤去（2026-08-08）。設問が 6 問だった頃の名残で、
+          4 問化以降どの設問も optional を持たない死んだ分岐だった。 */}
       <p className="lg-qno">
         質問 {index + 1} / {total}
-        {q.optional && <span className="lg-optional">任意</span>}
       </p>
       <h2 className="lg-q">{q.q}</h2>
       {q.help && <p className="lg-help">{q.help}</p>}

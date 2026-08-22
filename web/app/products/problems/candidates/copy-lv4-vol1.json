@@ -110,14 +110,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 13.1,
-    "value": 13.1,
+    "auto": 14.1,
+    "value": 14.1,
     "parts": {
      "E": 6.5,
      "G": 4,
      "k": 0.75,
      "strokes": 1.4,
-     "brk": 6
+     "brk": 6,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1353,14 +1354,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 15.7,
-    "value": 15.7,
+    "auto": 18.7,
+    "value": 18.7,
     "parts": {
      "E": 11,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -1519,14 +1521,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 20.7,
-    "value": 20.7,
+    "auto": 23.7,
+    "value": 23.7,
     "parts": {
      "E": 16,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -1726,14 +1729,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 20,
-    "value": 20,
+    "auto": 22,
+    "value": 22,
     "parts": {
      "E": 13.5,
      "G": 4,
      "k": 0.85,
      "strokes": 0.7,
-     "brk": 6
+     "brk": 6,
+     "交差": 2
     }
    },
    "provenance": {
@@ -1785,27 +1789,7 @@
     [
      [
       1,
-      2
-     ],
-     [
-      1,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      2
-     ],
-     [
-      2,
-      2
-     ]
-    ],
-    [
-     [
-      2,
-      2
+      1
      ],
      [
       3,
@@ -1814,21 +1798,31 @@
     ],
     [
      [
-      1,
-      1
+      0,
+      0
      ],
      [
       1,
-      2
+      3
      ]
     ],
     [
      [
       0,
-      2
+      3
      ],
      [
+      2,
+      0
+     ]
+    ],
+    [
+     [
       1,
+      3
+     ],
+     [
+      3,
       2
      ]
     ],
@@ -1839,33 +1833,23 @@
      ],
      [
       1,
-      2
+      1
      ]
     ],
     [
      [
       0,
-      2
-     ],
-     [
-      1,
       0
-     ]
-    ],
-    [
+     ],
      [
       0,
       1
-     ],
-     [
-      1,
-      1
      ]
     ],
     [
      [
-      1,
-      1
+      2,
+      0
      ],
      [
       3,
@@ -1875,20 +1859,20 @@
    ],
    "metrics": {
     "lines": 8,
-    "diagonals": 3,
-    "non45": 3,
+    "diagonals": 6,
+    "non45": 5,
     "non45Gentle": 3,
-    "diagonalAngleKinds": 2,
+    "diagonalAngleKinds": 5,
     "hasNon45": true,
-    "crossings": 4,
+    "crossings": 2,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 8,
     "symmetry": [],
     "boardN": 4,
     "bboxW": 4,
     "bboxH": 4,
     "strokes": 2,
-    "symAxis": "v",
+    "symAxis": "h",
     "symMiss": 7
    },
    "gen": {
@@ -1902,14 +1886,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "copy",
-    "auto": 21.7,
-    "value": 21.7,
+    "value": 32.2,
+    "auto": 32.2,
     "parts": {
-     "E": 17,
+     "E": 25.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -2100,14 +2085,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 18.9,
-    "value": 18.9,
+    "auto": 22.9,
+    "value": 22.9,
     "parts": {
      "E": 13.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 4
     }
    },
    "provenance": {
@@ -2471,14 +2457,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 28.7,
-    "value": 28.7,
+    "auto": 32.7,
+    "value": 32.7,
     "parts": {
      "E": 24,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 4
     }
    },
    "provenance": {
@@ -2668,14 +2655,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 19.2,
-    "value": 19.2,
+    "auto": 21.2,
+    "value": 21.2,
     "parts": {
      "E": 14.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -2844,14 +2832,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 25.5,
-    "value": 25.5,
+    "auto": 26.5,
+    "value": 26.5,
     "parts": {
      "E": 21.5,
      "G": 4,
      "k": 1,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2953,14 +2942,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "copy",
-    "auto": 20.1,
-    "value": 20.1,
+    "auto": 23.1,
+    "value": 23.1,
     "parts": {
      "E": 21,
      "G": 4,
      "k": 0.7,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -3171,14 +3161,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 20.9,
-    "value": 20.9,
+    "auto": 23.9,
+    "value": 23.9,
     "parts": {
      "E": 15.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -3357,14 +3348,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 19.7,
-    "value": 19.7,
+    "auto": 23.7,
+    "value": 23.7,
     "parts": {
      "E": 15,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 4
     }
    },
    "provenance": {
@@ -3573,14 +3565,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 21.1,
-    "value": 21.1,
+    "auto": 25.1,
+    "value": 25.1,
     "parts": {
      "E": 15,
      "G": 4,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 4
     }
    },
    "provenance": {
@@ -3749,14 +3742,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 19.7,
-    "value": 19.7,
+    "auto": 22.7,
+    "value": 22.7,
     "parts": {
      "E": 15,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -3788,16 +3782,6 @@
     [
      [
       1,
-      0
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      1,
       1
      ],
      [
@@ -3857,31 +3841,11 @@
     ],
     [
      [
-      2,
-      0
-     ],
-     [
-      3,
-      1
-     ]
-    ],
-    [
-     [
       1,
       0
      ],
      [
       1,
-      1
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      2,
       1
      ]
     ],
@@ -3923,26 +3887,36 @@
      [
       1,
       3
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      3,
+      1
      ]
     ]
    ],
    "metrics": {
-    "lines": 11,
+    "lines": 10,
     "diagonals": 5,
-    "non45": 1,
-    "non45Gentle": 1,
-    "diagonalAngleKinds": 2,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 3,
     "hasNon45": true,
-    "crossings": 3,
+    "crossings": 2,
     "components": 1,
-    "pointsUsed": 11,
+    "pointsUsed": 10,
     "symmetry": [],
     "boardN": 4,
     "bboxW": 4,
     "bboxH": 4,
     "strokes": 3,
     "symAxis": "v",
-    "symMiss": 3
+    "symMiss": 7
    },
    "gen": {
     "kind": "auto",
@@ -3955,25 +3929,27 @@
    "status": "adopted",
    "difficulty": {
     "task": "copy",
-    "auto": 21.4,
-    "value": 21.4,
+    "value": 24.9,
+    "auto": 24.9,
     "parts": {
-     "E": 16,
+     "E": 17.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
-    "source": "ai",
+    "source": "ai-edited",
     "generator": "copy",
     "version": "2",
     "seed": 1,
     "variant": "hybrid#4#1-242@4",
     "label": "くみあわせ"
    },
-   "order": 11
+   "order": 11,
+   "edited": true
   },
   {
    "id": "copy-lv4-vol1-s1-26",
@@ -4102,14 +4078,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "copy",
-    "auto": 18.1,
-    "value": 18.1,
+    "auto": 19.1,
+    "value": 19.1,
     "parts": {
      "E": 12,
      "G": 4,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {

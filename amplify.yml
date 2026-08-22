@@ -20,7 +20,7 @@ applications:
             # マッチ無しでも grep の exit 1 でビルドを落とさないよう || true。
             # NEXT_PUBLIC_GTM_ID はビルド時にクライアントへ焼き込まれる（コンソール変数が
             # ビルドシェルに入っていれば効く）が、SSR 側の参照とも揃えるため whitelist に含める。
-            - env | grep -E '^(STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|SITE_URL|SES_REGION|SES_FROM_EMAIL|SES_ACCESS_KEY_ID|SES_SECRET_ACCESS_KEY|AUTH_SECRET|NEXT_PUBLIC_GTM_ID|ADMIN_SECRET|ONSITE_TABLE|ONSITE_IMAGE_BUCKET|APP_AWS_ACCESS_KEY_ID|APP_AWS_SECRET_ACCESS_KEY|PREOPEN)=' >> .env.production || true
+            - env | grep -E '^(STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|SITE_URL|SES_REGION|SES_FROM_EMAIL|SES_ACCESS_KEY_ID|SES_SECRET_ACCESS_KEY|AUTH_SECRET|NEXT_PUBLIC_GTM_ID|ADMIN_SECRET|ONSITE_TABLE|ONSITE_IMAGE_BUCKET|APP_AWS_ACCESS_KEY_ID|APP_AWS_SECRET_ACCESS_KEY|CONTACT_NOTIFY_EMAILS|PREOPEN)=' >> .env.production || true
             - npm run build
       artifacts:
         baseDirectory: .next

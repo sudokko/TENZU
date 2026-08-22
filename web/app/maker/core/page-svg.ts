@@ -13,6 +13,7 @@ import {
   type PaperKey, type PairLayout,
 } from "../../products/print";
 import { AXIS_INK, type Edge } from "./geometry";
+import { QR_PATH, QR_MODULES, QR_URL } from "./qr-tenzu";
 
 export const PX_PER_MM = 300 / 25.4; // 300dpi
 
@@ -88,6 +89,54 @@ export function mirrorPlaneSvgString(
   return `<line x1="${x1}" y1="${my}" x2="${x2}" y2="${my}" stroke="${AXIS_INK}" stroke-width="${sw}" stroke-dasharray="${dashLen} ${dashGap}" stroke-linecap="round"/>`;
 }
 
+/* =========================================================================
+   フッター帯。通常は ロゴ（左）＋ページ番号（右）の 12mm。
+   無料版（模写 4×4・未所有）だけ 21mm に広げ、業態識別句と URL・QR を載せる＝
+   紙が配られた先で店に戻ってこられる導線にする。
+   ========================================================================= */
+const FOOTER_H = 12;
+export const AD_FOOTER_H = 21;
+
+// 業態識別句 SSOT: design/visual-identity.md §6（ロゴ併記時は「TENZU」を重複させない）
+const AD_COPY = "点図形（点描写）プリントの専門店";
+const AD_QR_MM = 13;      // 一辺。25 モジュールなので 1 モジュール 0.52mm＝読み取りに十分
+const AD_TEXT_INK = "#3A424E";
+// QR だけは PRINT_INK（#777777）を使わない。あれは子どもの鉛筆が映えるよう意図的に
+// 薄いグレーで、家庭用プリンタだと網点化してモジュール境界が溶ける。機械可読が唯一の
+// 役目である QR は黒で最大コントラストを取る。
+const AD_QR_INK = "#000000";
+
+function adFooterSvgString(
+  W: number, H: number, marginMm: number, jpFont: string,
+  pageNo: number, pageCount: number, logo: LogoInfo | null,
+): string {
+  const bottom = H - marginMm;
+  const ruleY = bottom - 17.5;   // 仕切り罫（QR 上端との間に 3.5mm の余白を残す）
+  const cy = bottom - 8;         // 1 行組みの中心線
+  let s = `<line x1="${marginMm}" y1="${ruleY}" x2="${W - marginMm}" y2="${ruleY}" stroke="#DFE3E8" stroke-width="0.25"/>`;
+
+  // 左: ロゴ（読み込み失敗時は識別句が左端に寄るだけで崩れない）
+  let x = marginMm;
+  if (logo) {
+    const lh = 7;
+    const lw = lh * (logo.w / logo.h);
+    s += `<image href="${logo.url}" x="${x}" y="${cy - lh / 2}" width="${lw}" height="${lh}"/>`;
+    x += lw + 5;
+  }
+  s += `<text x="${x}" y="${cy + 1.55}" font-family="${jpFont}" font-size="4.4" font-weight="600" fill="${AD_TEXT_INK}" letter-spacing="0.15">${AD_COPY}</text>`;
+
+  // 右: QR（ベクタ。焼き込み 300dpi でもモジュール境界が甘くならない）＋ その左に URL。
+  // QR のクワイエットゾーンは URL との 2.5mm 間隔と用紙余白の白が担う。
+  const qx = W - marginMm - AD_QR_MM;
+  const qs = AD_QR_MM / QR_MODULES;
+  s += `<g transform="translate(${qx},${cy - AD_QR_MM / 2}) scale(${qs})"><path d="${QR_PATH}" fill="${AD_QR_INK}"/></g>`;
+  s += `<text x="${qx - 2.5}" y="${cy + 1.27}" text-anchor="end" font-family="${jpFont}" font-size="3.6" fill="${AD_TEXT_INK}" letter-spacing="0.1">${QR_URL}</text>`;
+
+  // ページ番号はロゴの下へ落とす（右端は QR に譲る）
+  s += `<text x="${marginMm}" y="${bottom - 0.5}" font-family="${jpFont}" font-size="2.8" fill="#888888" letter-spacing="0.3">P ${pageNo} / ${pageCount}</text>`;
+  return s;
+}
+
 /* ページ内 1 セル（1 問）の配置ジオメトリ。renderCell がペイン・矢印等を書き込む */
 export type PageCellCtx = {
   cx: number;      // セル左上 x（mm）
@@ -113,11 +162,12 @@ export function buildPageSvgFrame<P>(opts: {
   logo: LogoInfo | null;
   answer?: boolean;   // true=解答ページ群（「かいとう」見出し帯を上端に確保）
   panes?: 2 | 3;      // 3=A+B=解の三連セル（overlay/fold/decompose）
+  ad?: boolean;       // true=無料版フッター広告（識別句＋URL＋QR）を載せ、帯を 21mm に広げる
   renderCell: (p: P, ctx: PageCellCtx) => string;
 }): string {
   const { paper, problems, pageNo, pageCount, marginMm, problemsPerPage, pairLayout, nameField, dotScale, logo } = opts;
   const W = paper.w, H = paper.h;
-  const footerH = 12;   // フッター帯（ロゴ＋ページ番号）
+  const footerH = opts.ad ? AD_FOOTER_H : FOOTER_H;
   const nameH = nameField ? NAME_BAND_MM : 0;
   // 解答ページのみ「かいとう」見出し帯を確保（上端）
   const titleH = opts.answer ? 12 : 0;
@@ -145,14 +195,18 @@ export function buildPageSvgFrame<P>(opts: {
     body += opts.renderCell(p, { cx, cy, cellW, cellH, pane, gap, pairLayout, dotScale });
   });
 
-  // フッター: ロゴ（左）＋ ページ番号（右）
-  const fy = H - marginMm - 6.5;
+  // フッター: 通常＝ロゴ（左）＋ページ番号（右）／無料版＝広告帯
   let footer = "";
-  if (logo) {
-    const lw = 6.5 * (logo.w / logo.h);
-    footer += `<image href="${logo.url}" x="${marginMm}" y="${fy}" width="${lw}" height="6.5"/>`;
+  if (opts.ad) {
+    footer = adFooterSvgString(W, H, marginMm, jpFont, pageNo, pageCount, logo);
+  } else {
+    const fy = H - marginMm - 6.5;
+    if (logo) {
+      const lw = 6.5 * (logo.w / logo.h);
+      footer += `<image href="${logo.url}" x="${marginMm}" y="${fy}" width="${lw}" height="6.5"/>`;
+    }
+    footer += `<text x="${W - marginMm}" y="${fy + 5}" text-anchor="end" font-family="${jpFont}" font-size="2.8" fill="#888888" letter-spacing="0.3">P ${pageNo} / ${pageCount}</text>`;
   }
-  footer += `<text x="${W - marginMm}" y="${fy + 5}" text-anchor="end" font-family="${jpFont}" font-size="2.8" fill="#888888" letter-spacing="0.3">P ${pageNo} / ${pageCount}</text>`;
 
   const pxW = Math.round(W * PX_PER_MM);
   const pxH = Math.round(H * PX_PER_MM);

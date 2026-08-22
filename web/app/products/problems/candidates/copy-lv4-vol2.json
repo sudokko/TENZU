@@ -334,7 +334,7 @@
     "variant": "step#2/1@5"
    },
    "status": "adopted",
-   "order": 2,
+   "order": 1,
    "difficulty": {
     "task": "copy",
     "auto": 17,
@@ -842,8 +842,7 @@
     "motif": "ランダム",
     "variant": "rand#5#1-458@5"
    },
-   "status": "adopted",
-   "order": 1,
+   "status": "pending",
    "difficulty": {
     "task": "copy",
     "auto": 15.9,
@@ -1321,8 +1320,7 @@
     "motif": "さんかくぶんかつ",
     "variant": "triSub#2/0@5"
    },
-   "status": "adopted",
-   "order": 3,
+   "status": "pending",
    "difficulty": {
     "task": "copy",
     "auto": 17.6,
@@ -2971,18 +2969,19 @@
     "variant": "sym#5#1-87/0@5"
    },
    "status": "adopted",
-   "order": 7,
+   "order": 4,
    "edited": true,
    "difficulty": {
     "task": "copy",
-    "auto": 26.7,
-    "value": 26.7,
+    "auto": 27.7,
+    "value": 27.7,
     "parts": {
      "E": 30,
      "G": 5,
      "k": 0.7,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -3385,18 +3384,19 @@
     "variant": "rand#5#1-657@5"
    },
    "status": "adopted",
-   "order": 8,
+   "order": 5,
    "edited": true,
    "difficulty": {
     "task": "copy",
-    "auto": 27,
-    "value": 27,
+    "auto": 28,
+    "value": 28,
     "parts": {
      "E": 18.5,
      "G": 5,
      "k": 0.75,
      "strokes": 2.0999999999999996,
-     "brk": 6
+     "brk": 6,
+     "交差": 1
     }
    },
    "provenance": {
@@ -3626,14 +3626,15 @@
    "edited": true,
    "difficulty": {
     "task": "copy",
-    "auto": 44.2,
-    "value": 44.2,
+    "auto": 51.2,
+    "value": 51.2,
     "parts": {
      "E": 38.5,
      "G": 5,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 7
     }
    },
    "provenance": {
@@ -3824,7 +3825,7 @@
     "variant": "sym#5#1-248/0@5",
     "label": "たいしょう"
    },
-   "order": 10
+   "order": 8
   },
   {
    "id": "copy-lv4-vol2-s1-23",
@@ -3945,14 +3946,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 19.7,
-    "value": 19.7,
+    "auto": 24.7,
+    "value": 24.7,
     "parts": {
      "E": 21,
      "G": 5,
      "k": 0.7,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 5
     }
    },
    "provenance": {
@@ -4123,17 +4125,18 @@
     "variant": "hexg#4/0@5"
    },
    "status": "adopted",
-   "order": 4,
+   "order": 3,
    "difficulty": {
     "task": "copy",
-    "auto": 21.1,
-    "value": 21.1,
+    "auto": 27.1,
+    "value": 27.1,
     "parts": {
      "E": 22,
      "G": 5,
      "k": 0.7,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 6
     }
    },
    "provenance": {
@@ -4363,14 +4366,15 @@
    "edited": true,
    "difficulty": {
     "task": "copy",
-    "auto": 48,
-    "value": 48,
+    "auto": 50,
+    "value": 50,
     "parts": {
      "E": 39.5,
      "G": 5,
      "k": 1,
      "strokes": 3.5,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -5124,14 +5128,15 @@
    "edited": true,
    "difficulty": {
     "task": "copy",
-    "auto": 35.8,
-    "value": 35.8,
+    "auto": 38.8,
+    "value": 38.8,
     "parts": {
      "E": 28,
      "G": 5,
      "k": 1,
      "strokes": 2.8,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -5796,14 +5801,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 20.7,
-    "value": 20.7,
+    "auto": 21.7,
+    "value": 21.7,
     "parts": {
      "E": 15,
      "G": 5,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -6079,18 +6085,18 @@
     "motif": "くみあわせ",
     "variant": "hybrid#5#1-317@5"
    },
-   "status": "adopted",
-   "order": 5,
+   "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 23.6,
-    "value": 23.6,
+    "auto": 24.6,
+    "value": 24.6,
     "parts": {
      "E": 16.5,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -6329,14 +6335,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 23.4,
-    "value": 23.4,
+    "auto": 24.4,
+    "value": 24.4,
     "parts": {
      "E": 17,
      "G": 5,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -6615,14 +6622,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 22.1,
-    "value": 22.1,
+    "auto": 24.1,
+    "value": 24.1,
     "parts": {
      "E": 15,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -6871,14 +6879,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 23.1,
-    "value": 23.1,
+    "auto": 25.1,
+    "value": 25.1,
     "parts": {
      "E": 16,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -7373,14 +7382,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 22.6,
-    "value": 22.6,
+    "auto": 23.6,
+    "value": 23.6,
     "parts": {
      "E": 15.5,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -7619,14 +7629,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 21.4,
-    "value": 21.4,
+    "auto": 23.4,
+    "value": 23.4,
     "parts": {
      "E": 15,
      "G": 5,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -7875,14 +7886,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 24.1,
-    "value": 24.1,
+    "auto": 26.1,
+    "value": 26.1,
     "parts": {
      "E": 17,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -8131,14 +8143,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 23.1,
-    "value": 23.1,
+    "auto": 26.1,
+    "value": 26.1,
     "parts": {
      "E": 16,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -8391,14 +8404,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 26,
-    "value": 26,
+    "auto": 27,
+    "value": 27,
     "parts": {
      "E": 29,
      "G": 5,
      "k": 0.7,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -8657,14 +8671,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 22.7,
-    "value": 22.7,
+    "auto": 25.7,
+    "value": 25.7,
     "parts": {
      "E": 17,
      "G": 5,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -8933,14 +8948,15 @@
    "status": "pending",
    "difficulty": {
     "task": "copy",
-    "auto": 24.1,
-    "value": 24.1,
+    "auto": 27.1,
+    "value": 27.1,
     "parts": {
      "E": 17,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "provenance": {
@@ -9110,14 +9126,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 14.8,
-    "value": 14.8,
+    "auto": 19.8,
+    "value": 19.8,
     "parts": {
      "E": 14,
      "G": 5,
      "k": 0.7,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 5
     }
    },
    "status": "pending"
@@ -9616,14 +9633,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 31.6,
-    "value": 31.6,
+    "auto": 32.6,
+    "value": 32.6,
     "parts": {
      "E": 24.5,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "status": "pending"
@@ -10160,14 +10178,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 28.7,
-    "value": 28.7,
+    "auto": 29.7,
+    "value": 29.7,
     "parts": {
      "E": 28.5,
      "G": 5,
      "k": 0.7,
      "strokes": 0.7,
-     "brk": 3
+     "brk": 3,
+     "交差": 1
     }
    },
    "status": "pending"
@@ -10338,7 +10357,8 @@
      "brk": 0
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 9
   },
   {
    "id": "copy-lv4-vol2-m09",
@@ -10506,14 +10526,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 28.7,
-    "value": 28.7,
+    "auto": 30.7,
+    "value": 30.7,
     "parts": {
      "E": 23,
      "G": 5,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "status": "pending"
@@ -10676,18 +10697,19 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 27.2,
-    "value": 27.2,
+    "auto": 28.2,
+    "value": 28.2,
     "parts": {
      "E": 21.5,
      "G": 5,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "status": "adopted",
-   "order": 9,
+   "order": 6,
    "edited": true
   },
   {
@@ -10776,67 +10798,51 @@
       2,
       1
      ]
-    ],
-    [
-     [
-      0,
-      2
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
-      1,
-      3
-     ],
-     [
-      2,
-      2
-     ]
     ]
    ],
    "metrics": {
-    "lines": 8,
-    "diagonals": 6,
-    "non45": 5,
+    "lines": 6,
+    "diagonals": 4,
+    "non45": 4,
     "non45Gentle": 4,
-    "diagonalAngleKinds": 4,
+    "diagonalAngleKinds": 2,
     "hasNon45": true,
-    "crossings": 1,
-    "components": 2,
-    "pointsUsed": 11,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
     "symmetry": [],
     "boardN": 5,
     "bboxW": 5,
     "bboxH": 5,
-    "strokes": 3,
+    "strokes": 1,
     "symAxis": "v",
-    "symMiss": 4
+    "symMiss": 2
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-31",
-    "label": "はのついたりんご"
+    "label": "はのついたりんご",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "はのついたりんご"
    },
    "difficulty": {
     "task": "copy",
-    "auto": 30.9,
-    "value": 30.9,
+    "value": 23.6,
+    "auto": 23.6,
     "parts": {
-     "E": 24.5,
+     "E": 18,
      "G": 5,
-     "k": 1,
-     "strokes": 1.4,
-     "brk": 0
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 6
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 2,
+   "edited": true
   },
   {
    "id": "copy-lv4-vol2-m12",
@@ -10944,14 +10950,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 29.7,
-    "value": 29.7,
+    "auto": 31.7,
+    "value": 31.7,
     "parts": {
      "E": 24,
      "G": 5,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "status": "pending"
@@ -11162,14 +11169,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 28.6,
-    "value": 28.6,
+    "auto": 31.6,
+    "value": 31.6,
     "parts": {
      "E": 21.5,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "status": "pending"
@@ -11380,14 +11388,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 33.1,
-    "value": 33.1,
+    "auto": 36.1,
+    "value": 36.1,
     "parts": {
      "E": 26,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "status": "pending"
@@ -11826,14 +11835,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 33.6,
-    "value": 33.6,
+    "auto": 35.6,
+    "value": 35.6,
     "parts": {
      "E": 26.5,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "status": "pending"
@@ -11974,14 +11984,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 28.4,
-    "value": 28.4,
+    "auto": 29.4,
+    "value": 29.4,
     "parts": {
      "E": 22,
      "G": 5,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "status": "pending"
@@ -12176,8 +12187,7 @@
      "brk": 0
     }
    },
-   "status": "adopted",
-   "order": 6,
+   "status": "pending",
    "edited": true
   },
   {
@@ -12386,17 +12396,19 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 31.6,
-    "value": 31.6,
+    "auto": 32.6,
+    "value": 32.6,
     "parts": {
      "E": 24.5,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 10
   },
   {
    "id": "copy-lv4-vol2-m20",
@@ -12675,26 +12687,6 @@
     ],
     [
      [
-      0,
-      1
-     ],
-     [
-      2,
-      0
-     ]
-    ],
-    [
-     [
-      2,
-      0
-     ],
-     [
-      3,
-      3
-     ]
-    ],
-    [
-     [
       1,
       3
      ],
@@ -12742,47 +12734,121 @@
       4,
       3
      ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
     ]
    ],
    "metrics": {
-    "lines": 10,
-    "diagonals": 6,
-    "non45": 5,
-    "non45Gentle": 4,
-    "diagonalAngleKinds": 4,
+    "lines": 13,
+    "diagonals": 5,
+    "non45": 3,
+    "non45Gentle": 3,
+    "diagonalAngleKinds": 3,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 14,
+    "pointsUsed": 18,
     "symmetry": [],
     "boardN": 5,
     "bboxW": 5,
     "bboxH": 5,
     "strokes": 5,
     "symAxis": "v",
-    "symMiss": 2
+    "symMiss": 7
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-31",
-    "label": "ふうしゃのいえ"
+    "label": "ふうしゃのいえ",
+    "edited": true
    },
    "gen": {
-    "kind": "manual"
+    "kind": "manual",
+    "motif": "ふうしゃのいえ"
    },
    "difficulty": {
     "task": "copy",
-    "auto": 32.3,
-    "value": 32.3,
+    "value": 30.8,
+    "auto": 30.8,
     "parts": {
-     "E": 26.5,
+     "E": 23,
      "G": 5,
-     "k": 0.7,
+     "k": 1,
      "strokes": 2.8,
-     "brk": 6
+     "brk": 0
     }
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 7,
+   "edited": true
   },
   {
    "id": "copy-lv4-vol2-m22",
@@ -13030,14 +13096,15 @@
    },
    "difficulty": {
     "task": "copy",
-    "auto": 32.1,
-    "value": 32.1,
+    "auto": 35.1,
+    "value": 35.1,
     "parts": {
      "E": 25,
      "G": 5,
      "k": 1,
      "strokes": 2.0999999999999996,
-     "brk": 0
+     "brk": 0,
+     "交差": 3
     }
    },
    "status": "pending"

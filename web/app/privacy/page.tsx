@@ -8,6 +8,7 @@ import "../legal.css";
    オプトアウト手段を明記する。クッキーバナーは現状不要の判断（日本法・GA4 のみ）。 */
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/privacy" },
   title: "プライバシーポリシー",
   description:
     "点図形（点描写）プリントの専門店 TENZU のプライバシーポリシーです。取得する情報・利用目的・外部送信（アクセス解析・決済）・Cookie の扱いについてご案内します。",

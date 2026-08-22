@@ -7,184 +7,184 @@
    "id": "solid-lv4-vol1-m01",
    "grid": {
     "type": "solid",
-    "cols": 9,
-    "rows": 9
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
-      "r": 7
+      "c": 2,
+      "r": 8
      },
      "b": {
-      "c": 5,
-      "r": 7
+      "c": 6,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 5
+      "c": 6,
+      "r": 6
      },
      "b": {
-      "c": 5,
-      "r": 7
+      "c": 6,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 5
+      "c": 4,
+      "r": 6
      },
      "b": {
-      "c": 5,
-      "r": 5
+      "c": 6,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
+      "c": 4,
+      "r": 4
      },
      "b": {
-      "c": 3,
-      "r": 5
+      "c": 4,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 3
+      "c": 2,
+      "r": 4
      },
      "b": {
-      "c": 3,
-      "r": 3
+      "c": 4,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 3
+      "c": 2,
+      "r": 4
      },
      "b": {
-      "c": 1,
-      "r": 7
+      "c": 2,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
-      "r": 3
+      "c": 8,
+      "r": 4
      },
      "b": {
-      "c": 7,
-      "r": 5
+      "c": 8,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 1
+      "c": 4,
+      "r": 2
      },
      "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
+      "c": 6,
       "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 6,
+      "r": 6
+     },
+     "b": {
+      "c": 8,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 4
+     },
+     "b": {
+      "c": 4,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
       "r": 2
      },
      "b": {
-      "c": 5,
+      "c": 6,
       "r": 3
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 6,
       "r": 3
      },
      "b": {
-      "c": 7,
-      "r": 3
+      "c": 6,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 7
+      "c": 6,
+      "r": 4
      },
      "b": {
-      "c": 7,
-      "r": 5
+      "c": 8,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 5
+      "c": 6,
+      "r": 8
      },
      "b": {
-      "c": 5,
-      "r": 3
+      "c": 8,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 6
+     },
+     "b": {
+      "c": 6,
+      "r": 4
      },
      "style": "solid"
     }
@@ -223,124 +223,146 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 1,
+   "order": 2,
    "edited": true
   },
   {
    "id": "solid-lv4-vol1-m02",
    "grid": {
     "type": "solid",
-    "cols": 10,
-    "rows": 8
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
       "c": 1,
-      "r": 6
+      "r": 7
      },
      "b": {
       "c": 6,
-      "r": 6
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 4
+      "r": 5
      },
      "b": {
       "c": 1,
-      "r": 6
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 4
+      "r": 5
      },
      "b": {
       "c": 3,
-      "r": 4
+      "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 3,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
       "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
+      "c": 6,
+      "r": 4
      },
      "b": {
       "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 6
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 1
+      "r": 2
      },
      "b": {
       "c": 8,
-      "r": 1
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 8,
-      "r": 1
+      "r": 2
      },
      "b": {
       "c": 8,
-      "r": 4
+      "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 6,
-      "r": 6
+      "r": 7
      },
      "b": {
       "c": 8,
-      "r": 4
+      "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 4
+      "r": 5
      },
      "b": {
       "c": 3,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 4
+     },
+     "b": {
+      "c": 8,
       "r": 2
      },
      "style": "solid"
@@ -349,32 +371,10 @@
      "a": {
       "c": 3,
       "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 3
-     },
-     "b": {
-      "c": 8,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
      },
      "b": {
       "c": 4,
-      "r": 2
+      "r": 3
      },
      "style": "solid"
     }
@@ -412,99 +412,87 @@
    "gen": {
     "kind": "manual"
    },
-   "status": "adopted",
-   "order": 2,
+   "status": "pending",
    "edited": true
   },
   {
    "id": "solid-lv4-vol1-m04",
    "grid": {
     "type": "solid",
-    "cols": 9,
-    "rows": 7
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
       "r": 5
      },
      "b": {
-      "c": 5,
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 4,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
+      "c": 4,
+      "r": 5
      },
      "b": {
-      "c": 5,
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 8,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
       "r": 5
      },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 1
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 7,
+    "lines": 6,
     "diagonals": 5,
     "non45": 0,
     "non45Gentle": 0,
@@ -514,229 +502,197 @@
     "components": 1,
     "pointsUsed": 5,
     "symmetry": [],
-    "hiddenLines": 1,
+    "hiddenLines": 0,
     "bboxW": 7,
     "bboxH": 5
    },
    "difficulty": {
     "task": "solid",
-    "auto": 19,
-    "value": 19,
+    "auto": 15,
+    "value": 15,
     "parts": {
-     "E": 9.5,
+     "E": 8.5,
      "G": 6.5,
-     "hidden": 3
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-01",
+    "edited": true,
     "label": "三角柱"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "adopted",
-   "order": 13
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m07",
    "grid": {
     "type": "solid",
-    "cols": 9,
-    "rows": 9
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
-      "r": 7
+      "c": 2,
+      "r": 8
      },
      "b": {
-      "c": 5,
-      "r": 7
+      "c": 6,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 5
+      "c": 6,
+      "r": 6
      },
      "b": {
-      "c": 5,
-      "r": 7
+      "c": 6,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 5
+      "c": 2,
+      "r": 6
      },
      "b": {
-      "c": 5,
-      "r": 5
+      "c": 6,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 5
+      "c": 2,
+      "r": 6
      },
      "b": {
-      "c": 1,
-      "r": 7
+      "c": 2,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 5
+      "c": 8,
+      "r": 4
      },
      "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 5
+      "c": 8,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
+      "c": 4,
+      "r": 4
      },
      "b": {
-      "c": 7,
-      "r": 3
+      "c": 8,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 7
+      "c": 6,
+      "r": 8
      },
      "b": {
-      "c": 7,
-      "r": 5
+      "c": 8,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 5
+      "c": 6,
+      "r": 6
      },
      "b": {
-      "c": 7,
-      "r": 3
+      "c": 8,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 5
+      "c": 2,
+      "r": 6
      },
      "b": {
-      "c": 3,
-      "r": 3
+      "c": 4,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 1
+      "c": 6,
+      "r": 2
      },
      "b": {
-      "c": 7,
-      "r": 3
+      "c": 8,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
+      "c": 4,
+      "r": 4
      },
      "b": {
-      "c": 5,
-      "r": 1
+      "c": 6,
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
+      "c": 4,
+      "r": 4
      },
      "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 5
+      "c": 6,
+      "r": 6
      },
      "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 15,
-    "diagonals": 7,
+    "lines": 12,
+    "diagonals": 6,
     "non45": 0,
     "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 9,
+    "pointsUsed": 8,
     "symmetry": [],
-    "hiddenLines": 3,
+    "hiddenLines": 0,
     "bboxW": 7,
     "bboxH": 7
    },
    "difficulty": {
     "task": "solid",
-    "auto": 34.5,
-    "value": 34.5,
+    "auto": 22,
+    "value": 22,
     "parts": {
-     "E": 18.5,
+     "E": 15,
      "G": 7,
-     "hidden": 9
+     "hidden": 0
     }
    },
    "provenance": {
@@ -747,8 +703,7 @@
    "gen": {
     "kind": "manual"
    },
-   "status": "adopted",
-   "order": 14,
+   "status": "pending",
    "edited": true
   },
   {
@@ -756,7 +711,7 @@
    "grid": {
     "type": "solid",
     "cols": 11,
-    "rows": 10
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
@@ -806,17 +761,6 @@
     },
     {
      "a": {
-      "c": 3,
-      "r": 6
-     },
-     "b": {
-      "c": 9,
-      "r": 6
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
       "c": 9,
       "r": 4
      },
@@ -836,17 +780,6 @@
       "r": 4
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 4
-     },
-     "b": {
-      "c": 3,
-      "r": 6
-     },
-     "style": "dashed"
     },
     {
      "a": {
@@ -927,7 +860,7 @@
     }
    ],
    "metrics": {
-    "lines": 15,
+    "lines": 13,
     "diagonals": 7,
     "non45": 0,
     "non45Gentle": 0,
@@ -935,215 +868,216 @@
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 10,
+    "pointsUsed": 9,
     "symmetry": [],
-    "hiddenLines": 2,
+    "hiddenLines": 0,
     "bboxW": 9,
     "bboxH": 8
    },
    "difficulty": {
     "task": "solid",
-    "auto": 33.3,
-    "value": 33.3,
+    "auto": 25.3,
+    "value": 25.3,
     "parts": {
-     "E": 18.5,
+     "E": 16.5,
      "G": 8.75,
-     "hidden": 6
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-01",
+    "edited": true,
     "label": "家（屋根）"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "adopted",
-   "order": 15
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m10",
    "grid": {
     "type": "solid",
     "cols": 11,
-    "rows": 9
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
       "c": 1,
-      "r": 7
+      "r": 8
      },
      "b": {
       "c": 3,
-      "r": 7
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 5
+      "r": 6
      },
      "b": {
       "c": 3,
-      "r": 7
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 5
+      "r": 6
      },
      "b": {
       "c": 5,
-      "r": 5
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 5
+      "r": 6
      },
      "b": {
       "c": 5,
-      "r": 7
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 7
+      "r": 8
      },
      "b": {
       "c": 7,
-      "r": 7
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 7,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 7,
-      "r": 7
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 7,
-      "r": 3
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 1,
-      "r": 7
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 7,
-      "r": 3
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 7,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 7,
-      "r": 5
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 9,
-      "r": 1
+      "r": 2
      },
      "b": {
       "c": 9,
-      "r": 5
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 1
+      "r": 2
      },
      "b": {
       "c": 9,
-      "r": 1
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 7,
-      "r": 7
+      "r": 8
      },
      "b": {
       "c": 9,
-      "r": 5
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 7,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 9,
-      "r": 1
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 3,
-      "r": 1
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 7
+      "r": 8
      },
      "b": {
       "c": 5,
-      "r": 5
+      "r": 6
      },
      "style": "solid"
     }
@@ -1189,267 +1123,256 @@
    "id": "solid-lv4-vol1-m12",
    "grid": {
     "type": "solid",
-    "cols": 13,
-    "rows": 9
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 4,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 5
-     },
-     "b": {
-      "c": 4,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 7
-     },
-     "b": {
-      "c": 9,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 9,
-      "r": 3
-     },
-     "b": {
-      "c": 9,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 1,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 3
-     },
-     "b": {
-      "c": 8,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 8,
-      "r": 3
-     },
-     "b": {
-      "c": 8,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 11,
-      "r": 1
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 5
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 5
-     },
-     "b": {
-      "c": 8,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 7
-     },
-     "b": {
-      "c": 8,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 9,
-      "r": 7
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 1,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
+      "c": 0,
+      "r": 8
      },
      "b": {
       "c": 3,
-      "r": 0
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 0
+      "r": 6
      },
      "b": {
-      "c": 11,
-      "r": 0
+      "c": 3,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 11,
-      "r": 0
+      "c": 3,
+      "r": 6
      },
      "b": {
-      "c": 11,
+      "c": 5,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 6
+     },
+     "b": {
+      "c": 5,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 8
+     },
+     "b": {
+      "c": 8,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 4
+     },
+     "b": {
+      "c": 8,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 4
+     },
+     "b": {
+      "c": 0,
+      "r": 8
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 10,
+      "r": 2
+     },
+     "b": {
+      "c": 10,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 6
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 6
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 8
+     },
+     "b": {
+      "c": 7,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 8
+     },
+     "b": {
+      "c": 10,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 0,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 2
+      "c": 2,
+      "r": 1
      },
      "b": {
-      "c": 9,
+      "c": 10,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 10,
+      "r": 1
+     },
+     "b": {
+      "c": 10,
       "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 4,
-      "r": 7
-     },
-     "b": {
-      "c": 6,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 9,
-      "r": 2
-     },
-     "b": {
-      "c": 11,
-      "r": 0
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 9,
-      "r": 2
-     },
-     "b": {
-      "c": 9,
+      "c": 0,
       "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 3,
+      "r": 8
+     },
+     "b": {
+      "c": 5,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 3
+     },
+     "b": {
+      "c": 10,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 4
      },
      "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 23,
+    "lines": 22,
     "diagonals": 7,
     "non45": 0,
     "non45Gentle": 0,
@@ -1459,18 +1382,18 @@
     "components": 1,
     "pointsUsed": 17,
     "symmetry": [],
-    "hiddenLines": 1,
+    "hiddenLines": 0,
     "bboxW": 11,
     "bboxH": 8
    },
    "difficulty": {
     "task": "solid",
-    "auto": 39.8,
-    "value": 39.8,
+    "auto": 35.8,
+    "value": 35.8,
     "parts": {
-     "E": 26.5,
+     "E": 25.5,
      "G": 10.25,
-     "hidden": 3
+     "hidden": 0
     }
    },
    "provenance": {
@@ -1488,216 +1411,70 @@
    "id": "solid-lv4-vol1-m13",
    "grid": {
     "type": "solid",
-    "cols": 9,
-    "rows": 7
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 8,
       "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
      },
      "b": {
       "c": 5,
-      "r": 5
+      "r": 3
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 5
+      "r": 3
      },
      "b": {
-      "c": 7,
-      "r": 3
+      "c": 6,
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 1
-     },
-     "b": {
       "c": 5,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
       "r": 5
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 1
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 8,
-    "diagonals": 6,
-    "non45": 4,
-    "non45Gentle": 1,
-    "diagonalAngleKinds": 5,
-    "hasNon45": true,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 5,
-    "symmetry": [],
-    "hiddenLines": 3,
-    "bboxW": 7,
-    "bboxH": 5
-   },
-   "difficulty": {
-    "task": "solid",
-    "auto": 39.5,
-    "value": 39.5,
-    "parts": {
-     "E": 24,
-     "G": 6.5,
-     "hidden": 9
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "",
-    "edited": true
-   },
-   "gen": {
-    "kind": "manual"
-   },
-   "status": "adopted",
-   "order": 12,
-   "edited": true
-  },
-  {
-   "id": "solid-lv4-vol1-m14",
-   "grid": {
-    "type": "solid",
-    "cols": 9,
-    "rows": 8
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 7,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 1
-     },
-     "b": {
-      "c": 7,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 6
-     },
-     "b": {
-      "c": 7,
-      "r": 4
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 6,
-    "diagonals": 5,
+    "lines": 5,
+    "diagonals": 4,
     "non45": 3,
     "non45Gentle": 0,
     "diagonalAngleKinds": 4,
@@ -1706,18 +1483,18 @@
     "components": 1,
     "pointsUsed": 4,
     "symmetry": [],
-    "hiddenLines": 1,
+    "hiddenLines": 0,
     "bboxW": 7,
-    "bboxH": 6
+    "bboxH": 5
    },
    "difficulty": {
     "task": "solid",
-    "auto": 28.8,
-    "value": 28.8,
+    "auto": 24,
+    "value": 24,
     "parts": {
-     "E": 19,
-     "G": 6.75,
-     "hidden": 3
+     "E": 17.5,
+     "G": 6.5,
+     "hidden": 0
     }
    },
    "provenance": {
@@ -1728,56 +1505,200 @@
    "gen": {
     "kind": "manual"
    },
-   "status": "adopted",
-   "order": 11,
+   "status": "pending",
+   "edited": true
+  },
+  {
+   "id": "solid-lv4-vol1-m14",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 8,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 7
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 2
+     },
+     "b": {
+      "c": 8,
+      "r": 5
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 3,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 4,
+    "symmetry": [],
+    "hiddenLines": 0,
+    "bboxW": 7,
+    "bboxH": 6
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 20.8,
+    "value": 20.8,
+    "parts": {
+     "E": 14,
+     "G": 6.75,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "",
+    "edited": true
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending",
    "edited": true
   },
   {
    "id": "solid-lv4-vol1-s2-29",
    "grid": {
     "type": "solid",
-    "cols": 8,
-    "rows": 8
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
-      "r": 6
+      "c": 2,
+      "r": 7
      },
      "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
       "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
+      "r": 5
      },
      "b": {
-      "c": 1,
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 7,
       "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 4,
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
       "r": 4
      },
      "b": {
-      "c": 5,
-      "r": 3
+      "c": 7,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 6
+      "r": 5
      },
      "b": {
       "c": 6,
@@ -1787,77 +1708,99 @@
     },
     {
      "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 4
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 7,
+      "r": 4
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 4
+     },
+     "b": {
+      "c": 5,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 5,
+      "r": 4
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
       "c": 5,
       "r": 4
      },
      "b": {
       "c": 5,
-      "r": 6
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 2
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 6,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 4,
-      "r": 4
+      "c": 5,
+      "r": 2
      },
      "b": {
       "c": 5,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 6,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 4
-     },
-     "b": {
-      "c": 6,
       "r": 3
      },
      "style": "solid"
@@ -1865,65 +1808,10 @@
     {
      "a": {
       "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
       "r": 2
      },
      "b": {
       "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 2
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 3
-     },
-     "b": {
-      "c": 4,
-      "r": 4
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 4,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
       "r": 2
      },
      "style": "solid"
@@ -1931,44 +1819,33 @@
     {
      "a": {
       "c": 2,
-      "r": 1
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 2
-     },
-     "b": {
-      "c": 2,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 4,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 2
-     },
-     "b": {
-      "c": 3,
       "r": 3
+     },
+     "b": {
+      "c": 3,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 5,
+      "r": 2
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 4
      },
      "style": "solid"
     }
@@ -1995,7 +1872,7 @@
     "seed": 2,
     "variant": "stack"
    },
-   "status": "adopted",
+   "status": "pending",
    "difficulty": {
     "task": "solid",
     "auto": 30.5,
@@ -2013,7 +1890,6 @@
     "seed": 2,
     "variant": "stack"
    },
-   "order": 9,
    "edited": true
   },
   {
@@ -2178,64 +2054,44 @@
       "r": 1
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 16,
-    "diagonals": 5,
+    "lines": 14,
+    "diagonals": 4,
     "non45": 0,
     "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 13,
+    "pointsUsed": 12,
     "symmetry": [],
-    "hiddenLines": 2,
+    "hiddenLines": 0,
     "bboxW": 9,
     "bboxH": 9
    },
    "difficulty": {
     "task": "solid",
-    "auto": 33.5,
-    "value": 33.5,
+    "auto": 25,
+    "value": 25,
     "parts": {
-     "E": 18.5,
+     "E": 16,
      "G": 9,
-     "hidden": 6
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "門（もん）"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m17",
@@ -2410,33 +2266,11 @@
       "r": 1
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 9
-     },
-     "b": {
-      "c": 3,
-      "r": 7
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 9,
-      "r": 7
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 17,
-    "diagonals": 6,
+    "lines": 15,
+    "diagonals": 5,
     "non45": 0,
     "non45Gentle": 0,
     "diagonalAngleKinds": 1,
@@ -2445,222 +2279,225 @@
     "components": 1,
     "pointsUsed": 13,
     "symmetry": [],
-    "hiddenLines": 2,
+    "hiddenLines": 0,
     "bboxW": 9,
     "bboxH": 9
    },
    "difficulty": {
     "task": "solid",
-    "auto": 35,
-    "value": 35,
+    "auto": 26.5,
+    "value": 26.5,
     "parts": {
-     "E": 20,
+     "E": 17.5,
      "G": 9,
-     "hidden": 6
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "双子の塔"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 5,
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m18",
    "grid": {
     "type": "solid",
-    "cols": 13,
+    "cols": 11,
     "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
+      "c": 0,
       "r": 9
      },
      "b": {
-      "c": 7,
-      "r": 9
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 1,
+      "c": 6,
       "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
+      "c": 0,
       "r": 5
      },
      "b": {
-      "c": 3,
+      "c": 0,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 2,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
+      "c": 0,
       "r": 5
      },
      "b": {
-      "c": 3,
+      "c": 2,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 4,
       "r": 5
      },
      "b": {
-      "c": 7,
+      "c": 6,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
+      "c": 0,
       "r": 5
      },
      "b": {
-      "c": 5,
+      "c": 4,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
+      "c": 2,
       "r": 7
      },
      "b": {
-      "c": 9,
+      "c": 8,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
+      "c": 2,
       "r": 5
      },
      "b": {
-      "c": 7,
+      "c": 6,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
+      "c": 6,
       "r": 1
      },
      "b": {
-      "c": 7,
+      "c": 6,
       "r": 3
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
+      "c": 6,
       "r": 5
      },
      "b": {
-      "c": 7,
+      "c": 6,
       "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 4,
       "r": 1
      },
      "b": {
-      "c": 7,
+      "c": 6,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 9,
+      "c": 8,
       "r": 1
      },
      "b": {
-      "c": 11,
+      "c": 10,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
+      "c": 2,
       "r": 7
      },
      "b": {
-      "c": 5,
+      "c": 4,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
+      "c": 6,
       "r": 5
      },
      "b": {
-      "c": 11,
+      "c": 10,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
+      "c": 6,
       "r": 9
      },
      "b": {
-      "c": 11,
+      "c": 10,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 4,
       "r": 5
      },
      "b": {
-      "c": 5,
+      "c": 4,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 11,
+      "c": 10,
       "r": 1
      },
      "b": {
-      "c": 11,
+      "c": 10,
       "r": 5
      },
      "style": "solid"
@@ -2706,194 +2543,194 @@
    "id": "solid-lv4-vol1-m19",
    "grid": {
     "type": "solid",
-    "cols": 13,
+    "cols": 11,
     "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
+      "c": 0,
       "r": 9
      },
      "b": {
-      "c": 7,
-      "r": 9
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 3,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 1,
+      "c": 6,
       "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
+      "c": 0,
       "r": 7
      },
      "b": {
-      "c": 7,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 9,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
+      "c": 2,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 5
+      "c": 4,
+      "r": 7
      },
      "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 3,
+      "c": 6,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 0,
       "r": 7
      },
      "b": {
-      "c": 9,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 9,
-      "r": 1
-     },
-     "b": {
-      "c": 9,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 1
-     },
-     "b": {
-      "c": 9,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
+      "c": 0,
       "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
-      "r": 9
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
+      "c": 0,
       "r": 7
      },
      "b": {
-      "c": 11,
-      "r": 3
+      "c": 6,
+      "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 11,
-      "r": 3
+      "c": 4,
+      "r": 5
      },
      "b": {
-      "c": 11,
+      "c": 8,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 9,
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 2,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 1
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 1
+     },
+     "b": {
+      "c": 8,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 9
+     },
+     "b": {
+      "c": 10,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 10,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 10,
       "r": 3
      },
      "b": {
-      "c": 11,
+      "c": 10,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 3
+     },
+     "b": {
+      "c": 10,
       "r": 3
      },
      "style": "solid"
@@ -2933,7 +2770,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 6,
+   "order": 10,
    "edited": true
   },
   {
@@ -3109,17 +2946,498 @@
       "r": 1
      },
      "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 15,
+    "diagonals": 5,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": [],
+    "hiddenLines": 0,
+    "bboxW": 9,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 26.5,
+    "value": 26.5,
+    "parts": {
+     "E": 17.5,
+     "G": 9,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "edited": true,
+    "label": "いす"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "order": 6,
+   "edited": true
+  },
+  {
+   "id": "solid-lv4-vol1-m21",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 0,
+      "r": 9
+     },
+     "b": {
+      "c": 6,
+      "r": 9
+     },
+     "style": "solid"
     },
     {
      "a": {
-      "c": 7,
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 0,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
       "r": 5
      },
      "b": {
-      "c": 9,
+      "c": 4,
       "r": 5
      },
-     "style": "dashed"
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 10,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 1
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 5
+     },
+     "b": {
+      "c": 6,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 9
+     },
+     "b": {
+      "c": 10,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 10,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 10,
+      "r": 3
+     },
+     "b": {
+      "c": 10,
+      "r": 5
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 20,
+    "diagonals": 7,
+    "non45": 0,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 1,
+    "hasNon45": false,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "hiddenLines": 0,
+    "bboxW": 11,
+    "bboxH": 9
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 34,
+    "value": 34,
+    "parts": {
+     "E": 23.5,
+     "G": 10.5,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "edited": true,
+    "label": "三段のやま"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "adopted",
+   "edited": true,
+   "order": 12
+  },
+  {
+   "id": "solid-lv4-vol1-m22",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 2,
+      "r": 9
+     },
+     "b": {
+      "c": 6,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 2,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 3
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 1
+     },
+     "b": {
+      "c": 6,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 3
+     },
+     "b": {
+      "c": 4,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 3
+     },
+     "b": {
+      "c": 6,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 5
+     },
+     "b": {
+      "c": 8,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 3
+     },
+     "b": {
+      "c": 8,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 8,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 4,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 9
+     },
+     "b": {
+      "c": 8,
+      "r": 7
+     },
+     "style": "solid"
     }
    ],
    "metrics": {
@@ -3131,740 +3449,200 @@
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 11,
-    "symmetry": [],
-    "hiddenLines": 1,
-    "bboxW": 9,
-    "bboxH": 9
-   },
-   "difficulty": {
-    "task": "solid",
-    "auto": 30.5,
-    "value": 30.5,
-    "parts": {
-     "E": 18.5,
-     "G": 9,
-     "hidden": 3
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "2026-07-25",
-    "label": "いす"
-   },
-   "gen": {
-    "kind": "manual"
-   },
-   "status": "adopted",
-   "order": 5
-  },
-  {
-   "id": "solid-lv4-vol1-m21",
-   "grid": {
-    "type": "solid",
-    "cols": 13,
-    "rows": 11
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 9
-     },
-     "b": {
-      "c": 7,
-      "r": 9
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 1,
-      "r": 9
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 11,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 9
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 9
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 7
-     },
-     "b": {
-      "c": 11,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 11,
-      "r": 3
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 9
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 22,
-    "diagonals": 8,
-    "non45": 0,
-    "non45Gentle": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 15,
-    "symmetry": [],
-    "hiddenLines": 2,
-    "bboxW": 11,
-    "bboxH": 9
-   },
-   "difficulty": {
-    "task": "solid",
-    "auto": 42.5,
-    "value": 42.5,
-    "parts": {
-     "E": 26,
-     "G": 10.5,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "2026-07-25",
-    "label": "三段のやま"
-   },
-   "gen": {
-    "kind": "manual"
-   },
-   "status": "pending"
-  },
-  {
-   "id": "solid-lv4-vol1-m22",
-   "grid": {
-    "type": "solid",
-    "cols": 9,
-    "rows": 11
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 9
-     },
-     "b": {
-      "c": 5,
-      "r": 9
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 1,
-      "r": 9
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 5,
-      "r": 9
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 3
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 5
-     },
-     "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 7
-     },
-     "b": {
-      "c": 5,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 9
-     },
-     "b": {
-      "c": 7,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 9
-     },
-     "b": {
-      "c": 3,
-      "r": 7
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 3,
-      "r": 3
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 18,
-    "diagonals": 6,
-    "non45": 0,
-    "non45Gentle": 0,
-    "diagonalAngleKinds": 1,
-    "hasNon45": false,
-    "crossings": 0,
-    "components": 1,
     "pointsUsed": 13,
     "symmetry": [],
-    "hiddenLines": 2,
+    "hiddenLines": 0,
     "bboxW": 7,
     "bboxH": 9
    },
    "difficulty": {
     "task": "solid",
-    "auto": 35.5,
-    "value": 35.5,
+    "auto": 27,
+    "value": 27,
     "parts": {
-     "E": 21,
+     "E": 18.5,
      "G": 8.5,
-     "hidden": 6
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "かどの塔"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m23",
    "grid": {
     "type": "solid",
-    "cols": 13,
-    "rows": 9
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
-      "r": 7
+      "c": 0,
+      "r": 8
      },
      "b": {
-      "c": 3,
-      "r": 7
+      "c": 2,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
-      "r": 7
+      "c": 6,
+      "r": 8
      },
      "b": {
-      "c": 9,
-      "r": 7
+      "c": 8,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 5
+      "c": 2,
+      "r": 6
      },
      "b": {
-      "c": 3,
-      "r": 7
+      "c": 2,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 3
+      "c": 0,
+      "r": 4
      },
      "b": {
-      "c": 1,
-      "r": 7
+      "c": 0,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 5
+      "c": 2,
+      "r": 6
      },
      "b": {
-      "c": 7,
-      "r": 5
+      "c": 6,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 7
+      "c": 2,
+      "r": 8
      },
      "b": {
-      "c": 5,
-      "r": 5
+      "c": 4,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 3
+      "c": 0,
+      "r": 4
      },
      "b": {
-      "c": 9,
-      "r": 3
+      "c": 8,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 1
+      "c": 2,
+      "r": 2
      },
      "b": {
-      "c": 11,
-      "r": 1
+      "c": 10,
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 3
+      "c": 0,
+      "r": 4
      },
      "b": {
-      "c": 3,
-      "r": 1
+      "c": 2,
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 9,
-      "r": 3
+      "c": 8,
+      "r": 4
      },
      "b": {
-      "c": 9,
-      "r": 7
+      "c": 8,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
-      "r": 5
+      "c": 6,
+      "r": 6
      },
      "b": {
-      "c": 7,
-      "r": 7
+      "c": 6,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 11,
-      "r": 1
+      "c": 10,
+      "r": 2
      },
      "b": {
-      "c": 11,
-      "r": 5
+      "c": 10,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 9,
-      "r": 7
+      "c": 8,
+      "r": 8
      },
      "b": {
-      "c": 11,
-      "r": 5
+      "c": 10,
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 9,
-      "r": 3
+      "c": 8,
+      "r": 4
      },
      "b": {
-      "c": 11,
-      "r": 1
+      "c": 10,
+      "r": 2
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 15,
+    "lines": 14,
     "diagonals": 4,
     "non45": 0,
     "non45Gentle": 0,
@@ -3874,29 +3652,31 @@
     "components": 1,
     "pointsUsed": 12,
     "symmetry": [],
-    "hiddenLines": 1,
+    "hiddenLines": 0,
     "bboxW": 11,
     "bboxH": 7
    },
    "difficulty": {
     "task": "solid",
-    "auto": 30,
-    "value": 30,
+    "auto": 26,
+    "value": 26,
     "parts": {
-     "E": 17,
+     "E": 16,
      "G": 10,
-     "hidden": 3
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "橋（はし）"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m24",
@@ -4016,21 +3796,10 @@
       "r": 7
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 1
-     },
-     "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 11,
+    "lines": 10,
     "diagonals": 4,
     "non45": 0,
     "non45Gentle": 0,
@@ -4040,29 +3809,31 @@
     "components": 1,
     "pointsUsed": 8,
     "symmetry": [],
-    "hiddenLines": 1,
+    "hiddenLines": 0,
     "bboxW": 9,
     "bboxH": 9
    },
    "difficulty": {
     "task": "solid",
-    "auto": 25,
-    "value": 25,
+    "auto": 21,
+    "value": 21,
     "parts": {
-     "E": 13,
+     "E": 12,
      "G": 9,
-     "hidden": 3
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "角を切った箱"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m25",
@@ -4540,7 +4311,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 8,
+   "order": 11,
    "edited": true
   },
   {
@@ -4548,311 +4319,280 @@
    "grid": {
     "type": "solid",
     "cols": 11,
-    "rows": 12
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
       "c": 1,
-      "r": 10
+      "r": 9
      },
      "b": {
       "c": 3,
-      "r": 10
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 10
+      "r": 9
      },
      "b": {
       "c": 7,
-      "r": 10
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 8
+      "r": 7
      },
      "b": {
       "c": 3,
-      "r": 10
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 6
+      "r": 5
      },
      "b": {
       "c": 1,
-      "r": 10
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 8
+      "r": 7
      },
      "b": {
       "c": 5,
-      "r": 8
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 10
+      "r": 9
      },
      "b": {
       "c": 5,
-      "r": 8
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 7,
-      "r": 6
+      "r": 5
      },
      "b": {
       "c": 9,
-      "r": 4
+      "r": 3
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 6
+      "r": 5
      },
      "b": {
       "c": 6,
-      "r": 1
+      "r": 0
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 7,
-      "r": 6
+      "r": 5
      },
      "b": {
       "c": 7,
-      "r": 10
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 5,
-      "r": 8
+      "r": 7
      },
      "b": {
       "c": 5,
-      "r": 10
+      "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 9,
-      "r": 4
+      "r": 3
      },
      "b": {
       "c": 9,
-      "r": 8
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 7,
-      "r": 10
+      "r": 9
      },
      "b": {
       "c": 9,
-      "r": 8
+      "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 4,
-      "r": 3
+      "r": 2
      },
      "b": {
       "c": 7,
-      "r": 6
+      "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 6,
-      "r": 1
+      "r": 0
      },
      "b": {
       "c": 9,
-      "r": 4
+      "r": 3
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 8
-     },
-     "b": {
-      "c": 7,
-      "r": 6
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 6
-     },
-     "b": {
-      "c": 5,
-      "r": 8
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 16,
-    "diagonals": 7,
+    "lines": 14,
+    "diagonals": 6,
     "non45": 0,
     "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 13,
+    "pointsUsed": 12,
     "symmetry": [],
-    "hiddenLines": 2,
+    "hiddenLines": 0,
     "bboxW": 9,
     "bboxH": 10
    },
    "difficulty": {
     "task": "solid",
-    "auto": 35.3,
-    "value": 35.3,
+    "auto": 26.8,
+    "value": 26.8,
     "parts": {
-     "E": 19.5,
+     "E": 17,
      "G": 9.75,
-     "hidden": 6
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "屋根つきの門"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m28",
    "grid": {
     "type": "solid",
     "cols": 11,
-    "rows": 9
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
       "c": 1,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 1,
-      "r": 7
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 3,
-      "r": 1
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 3
+      "r": 4
      },
      "b": {
       "c": 7,
-      "r": 7
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 7,
-      "r": 7
+      "r": 8
      },
      "b": {
       "c": 9,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 9,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 7
+      "r": 6
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 5
+      "r": 2
      },
      "b": {
       "c": 9,
-      "r": 5
+      "r": 6
      },
-     "style": "dashed"
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 1,
+      "r": 8
+     },
+     "b": {
+      "c": 7,
+      "r": 8
+     },
+     "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 7,
+    "lines": 6,
     "diagonals": 4,
     "non45": 2,
     "non45Gentle": 0,
@@ -4860,137 +4600,139 @@
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 6,
+    "pointsUsed": 5,
     "symmetry": [],
-    "hiddenLines": 1,
+    "hiddenLines": 0,
     "bboxW": 9,
     "bboxH": 7
    },
    "difficulty": {
     "task": "solid",
-    "auto": 27.5,
-    "value": 27.5,
+    "auto": 23.5,
+    "value": 23.5,
     "parts": {
-     "E": 16,
+     "E": 15,
      "G": 8.5,
-     "hidden": 3
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "くさび"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m29",
    "grid": {
     "type": "solid",
-    "cols": 9,
-    "rows": 13
+    "cols": 11,
+    "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
-      "r": 11
+      "c": 2,
+      "r": 10
      },
      "b": {
-      "c": 5,
-      "r": 11
+      "c": 6,
+      "r": 10
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 5
+      "c": 2,
+      "r": 4
      },
      "b": {
-      "c": 1,
-      "r": 11
+      "c": 2,
+      "r": 10
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
-      "r": 5
+      "c": 2,
+      "r": 4
      },
      "b": {
-      "c": 5,
-      "r": 1
+      "c": 6,
+      "r": 0
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 5
+      "c": 6,
+      "r": 4
      },
      "b": {
-      "c": 5,
-      "r": 11
+      "c": 6,
+      "r": 10
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
-      "r": 3
+      "c": 8,
+      "r": 2
      },
      "b": {
-      "c": 7,
-      "r": 9
+      "c": 8,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 11
+      "c": 6,
+      "r": 10
      },
      "b": {
-      "c": 7,
-      "r": 9
+      "c": 8,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 5
+      "c": 6,
+      "r": 4
      },
      "b": {
-      "c": 7,
-      "r": 3
+      "c": 8,
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
-      "r": 3
+      "c": 4,
+      "r": 2
      },
      "b": {
-      "c": 5,
-      "r": 5
+      "c": 6,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
-      "r": 1
+      "c": 6,
+      "r": 0
      },
      "b": {
-      "c": 7,
-      "r": 3
+      "c": 8,
+      "r": 2
      },
      "style": "solid"
     }
@@ -5028,180 +4770,179 @@
    "gen": {
     "kind": "manual"
    },
-   "status": "adopted",
-   "order": 10,
+   "status": "pending",
    "edited": true
   },
   {
    "id": "solid-lv4-vol1-m30",
    "grid": {
     "type": "solid",
-    "cols": 13,
+    "cols": 11,
     "rows": 11
    },
    "edges": [],
    "solidEdges": [
     {
      "a": {
-      "c": 1,
+      "c": 0,
       "r": 9
      },
      "b": {
-      "c": 9,
-      "r": 9
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 1,
+      "c": 8,
       "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 1,
+      "c": 0,
       "r": 5
      },
      "b": {
-      "c": 5,
+      "c": 0,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 5
+     },
+     "b": {
+      "c": 4,
       "r": 1
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 4,
       "r": 7
      },
      "b": {
-      "c": 9,
+      "c": 8,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 4,
       "r": 5
      },
      "b": {
-      "c": 5,
+      "c": 4,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
+      "c": 6,
       "r": 3
      },
      "b": {
-      "c": 7,
+      "c": 6,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 4,
       "r": 7
      },
      "b": {
-      "c": 7,
+      "c": 6,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 4,
       "r": 5
      },
      "b": {
-      "c": 7,
+      "c": 6,
       "r": 3
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
+      "c": 6,
       "r": 5
      },
      "b": {
-      "c": 11,
+      "c": 10,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 9,
+      "c": 8,
       "r": 7
      },
      "b": {
-      "c": 9,
+      "c": 8,
       "r": 9
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 11,
+      "c": 10,
       "r": 5
      },
      "b": {
-      "c": 11,
+      "c": 10,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 9,
+      "c": 8,
       "r": 9
      },
      "b": {
-      "c": 11,
+      "c": 10,
       "r": 7
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 9,
+      "c": 8,
       "r": 7
      },
      "b": {
-      "c": 11,
+      "c": 10,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 3,
+      "c": 2,
       "r": 3
      },
      "b": {
-      "c": 5,
+      "c": 4,
       "r": 5
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 5,
+      "c": 4,
       "r": 1
      },
      "b": {
-      "c": 7,
+      "c": 6,
       "r": 3
      },
      "style": "solid"
@@ -5241,7 +4982,7 @@
     "kind": "manual"
    },
    "status": "adopted",
-   "order": 7,
+   "order": 8,
    "edited": true
   },
   {
@@ -5351,53 +5092,45 @@
       "r": 3
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 9
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 10,
-    "diagonals": 6,
+    "lines": 9,
+    "diagonals": 5,
     "non45": 0,
     "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 9,
+    "pointsUsed": 8,
     "symmetry": [],
-    "hiddenLines": 1,
+    "hiddenLines": 0,
     "bboxW": 9,
     "bboxH": 9
    },
    "difficulty": {
     "task": "solid",
-    "auto": 25,
-    "value": 25,
+    "auto": 20.5,
+    "value": 20.5,
     "parts": {
-     "E": 13,
+     "E": 11.5,
      "G": 9,
-     "hidden": 3
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "奥に長い切妻の家"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "adopted",
+   "edited": true,
+   "order": 1
   },
   {
    "id": "solid-lv4-vol1-m32",
@@ -5572,236 +5305,50 @@
       "r": 3
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 7
-     },
-     "b": {
-      "c": 9,
-      "r": 7
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 9
-     },
-     "b": {
-      "c": 3,
-      "r": 7
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 17,
-    "diagonals": 8,
+    "lines": 15,
+    "diagonals": 7,
     "non45": 0,
     "non45Gentle": 0,
     "diagonalAngleKinds": 1,
     "hasNon45": false,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 13,
+    "pointsUsed": 12,
     "symmetry": [],
-    "hiddenLines": 2,
+    "hiddenLines": 0,
     "bboxW": 9,
     "bboxH": 9
    },
    "difficulty": {
     "task": "solid",
-    "auto": 36,
-    "value": 36,
+    "auto": 27.5,
+    "value": 27.5,
     "parts": {
-     "E": 21,
+     "E": 18.5,
      "G": 9,
-     "hidden": 6
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "2階建ての家"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "pending",
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m33",
    "grid": {
     "type": "solid",
     "cols": 11,
-    "rows": 9
-   },
-   "edges": [],
-   "solidEdges": [
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 7,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 1,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 5
-     },
-     "b": {
-      "c": 5,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 5
-     },
-     "b": {
-      "c": 7,
-      "r": 7
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 9,
-      "r": 3
-     },
-     "b": {
-      "c": 9,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 7
-     },
-     "b": {
-      "c": 9,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 5
-     },
-     "b": {
-      "c": 9,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 3
-     },
-     "b": {
-      "c": 7,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 5,
-      "r": 1
-     },
-     "b": {
-      "c": 9,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 5
-     },
-     "b": {
-      "c": 9,
-      "r": 5
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 3,
-      "r": 5
-     },
-     "style": "dashed"
-    }
-   ],
-   "metrics": {
-    "lines": 11,
-    "diagonals": 6,
-    "non45": 2,
-    "non45Gentle": 2,
-    "diagonalAngleKinds": 2,
-    "hasNon45": true,
-    "crossings": 0,
-    "components": 1,
-    "pointsUsed": 9,
-    "symmetry": [],
-    "hiddenLines": 2,
-    "bboxW": 9,
-    "bboxH": 7
-   },
-   "difficulty": {
-    "task": "solid",
-    "auto": 33.5,
-    "value": 33.5,
-    "parts": {
-     "E": 19,
-     "G": 8.5,
-     "hidden": 6
-    }
-   },
-   "provenance": {
-    "source": "blank",
-    "createdAt": "2026-07-25",
-    "label": "招き屋根の家"
-   },
-   "gen": {
-    "kind": "manual"
-   },
-   "status": "pending"
-  },
-  {
-   "id": "solid-lv4-vol1-m34",
-   "grid": {
-    "type": "solid",
-    "cols": 13,
     "rows": 11
    },
    "edges": [],
@@ -5809,170 +5356,297 @@
     {
      "a": {
       "c": 1,
-      "r": 9
+      "r": 8
      },
      "b": {
       "c": 7,
-      "r": 9
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 7
+      "r": 6
      },
      "b": {
-      "c": 7,
-      "r": 7
+      "c": 1,
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 1,
-      "r": 7
+      "r": 6
      },
      "b": {
-      "c": 1,
-      "r": 9
+      "c": 5,
+      "r": 2
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 7,
-      "r": 7
+      "r": 6
      },
      "b": {
       "c": 7,
-      "r": 9
+      "r": 8
      },
      "style": "solid"
     },
     {
      "a": {
-      "c": 7,
-      "r": 9
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 11,
-      "r": 3
-     },
-     "b": {
-      "c": 11,
-      "r": 5
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 7,
-      "r": 7
+      "c": 9,
+      "r": 4
      },
      "b": {
       "c": 9,
-      "r": 1
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 8
+     },
+     "b": {
+      "c": 9,
+      "r": 6
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 7,
+      "r": 6
+     },
+     "b": {
+      "c": 9,
+      "r": 4
      },
      "style": "solid"
     },
     {
      "a": {
       "c": 3,
-      "r": 1
+      "r": 4
      },
      "b": {
-      "c": 9,
-      "r": 1
+      "c": 7,
+      "r": 6
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 7
-     },
-     "b": {
-      "c": 3,
-      "r": 1
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 9,
-      "r": 1
-     },
-     "b": {
-      "c": 11,
-      "r": 3
-     },
-     "style": "solid"
-    },
-    {
-     "a": {
-      "c": 1,
-      "r": 9
-     },
-     "b": {
-      "c": 5,
-      "r": 5
-     },
-     "style": "dashed"
     },
     {
      "a": {
       "c": 5,
-      "r": 5
+      "r": 2
      },
      "b": {
-      "c": 11,
-      "r": 5
+      "c": 9,
+      "r": 4
      },
-     "style": "dashed"
+     "style": "solid"
     }
    ],
    "metrics": {
-    "lines": 12,
+    "lines": 9,
     "diagonals": 5,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 8,
+    "symmetry": [],
+    "hiddenLines": 0,
+    "bboxW": 9,
+    "bboxH": 7
+   },
+   "difficulty": {
+    "task": "solid",
+    "auto": 25,
+    "value": 25,
+    "parts": {
+     "E": 16.5,
+     "G": 8.5,
+     "hidden": 0
+    }
+   },
+   "provenance": {
+    "source": "blank",
+    "createdAt": "2026-07-25",
+    "edited": true,
+    "label": "招き屋根の家"
+   },
+   "gen": {
+    "kind": "manual"
+   },
+   "status": "pending",
+   "edited": true
+  },
+  {
+   "id": "solid-lv4-vol1-m34",
+   "grid": {
+    "type": "solid",
+    "cols": 11,
+    "rows": 11
+   },
+   "edges": [],
+   "solidEdges": [
+    {
+     "a": {
+      "c": 0,
+      "r": 9
+     },
+     "b": {
+      "c": 6,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 7
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 0,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 6,
+      "r": 9
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 9
+     },
+     "b": {
+      "c": 10,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 10,
+      "r": 3
+     },
+     "b": {
+      "c": 10,
+      "r": 5
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 6,
+      "r": 7
+     },
+     "b": {
+      "c": 8,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 2,
+      "r": 1
+     },
+     "b": {
+      "c": 8,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 0,
+      "r": 7
+     },
+     "b": {
+      "c": 2,
+      "r": 1
+     },
+     "style": "solid"
+    },
+    {
+     "a": {
+      "c": 8,
+      "r": 1
+     },
+     "b": {
+      "c": 10,
+      "r": 3
+     },
+     "style": "solid"
+    }
+   ],
+   "metrics": {
+    "lines": 10,
+    "diagonals": 4,
     "non45": 2,
     "non45Gentle": 0,
     "diagonalAngleKinds": 2,
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 9,
+    "pointsUsed": 8,
     "symmetry": [],
-    "hiddenLines": 2,
+    "hiddenLines": 0,
     "bboxW": 11,
     "bboxH": 9
    },
    "difficulty": {
     "task": "solid",
-    "auto": 38,
-    "value": 38,
+    "auto": 29.5,
+    "value": 29.5,
     "parts": {
-     "E": 21.5,
+     "E": 19,
      "G": 10.5,
-     "hidden": 6
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "台の上のテント"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "adopted",
+   "order": 9,
+   "edited": true
   },
   {
    "id": "solid-lv4-vol1-m35",
@@ -6081,32 +5755,10 @@
       "r": 5
      },
      "style": "solid"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 1
-     },
-     "b": {
-      "c": 3,
-      "r": 7
-     },
-     "style": "dashed"
-    },
-    {
-     "a": {
-      "c": 3,
-      "r": 7
-     },
-     "b": {
-      "c": 9,
-      "r": 7
-     },
-     "style": "dashed"
     }
    ],
    "metrics": {
-    "lines": 11,
+    "lines": 9,
     "diagonals": 5,
     "non45": 2,
     "non45Gentle": 0,
@@ -6114,31 +5766,34 @@
     "hasNon45": true,
     "crossings": 0,
     "components": 1,
-    "pointsUsed": 8,
+    "pointsUsed": 7,
     "symmetry": [],
-    "hiddenLines": 2,
+    "hiddenLines": 0,
     "bboxW": 9,
     "bboxH": 9
    },
    "difficulty": {
     "task": "solid",
-    "auto": 35.5,
-    "value": 35.5,
+    "auto": 27.5,
+    "value": 27.5,
     "parts": {
-     "E": 20.5,
+     "E": 18.5,
      "G": 9,
-     "hidden": 6
+     "hidden": 0
     }
    },
    "provenance": {
     "source": "blank",
     "createdAt": "2026-07-25",
+    "edited": true,
     "label": "片流れ屋根の家"
    },
    "gen": {
     "kind": "manual"
    },
-   "status": "pending"
+   "status": "adopted",
+   "edited": true,
+   "order": 7
   }
  ],
  "seedCursor": 5

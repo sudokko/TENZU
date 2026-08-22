@@ -13,15 +13,16 @@
 
 import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { join } from "path";
-import { taskDifficulty } from "../app/products/problems/gen/difficulty";
+import { metricsEdges, taskDifficulty } from "../app/products/problems/gen/difficulty";
 import { computeMetrics, computeSolidMetrics } from "../app/products/problems/gen/metrics";
 import type { Problem } from "../app/products/problems/schema";
 
-/* 1 問を現行式で引き直す（status/order 等の余分なフィールドは spread で保全） */
+/* 1 問を現行式で引き直す（status/order 等の余分なフィールドは spread で保全）。
+   metrics の材料は metricsEdges 経由＝折り重ねは完成図で測る（difficulty.ts 参照）。 */
 function recalc<T extends Problem>(task: string, p: T): T {
   const metrics = p.grid.type === "solid"
     ? computeSolidMetrics(p.solidEdges ?? [])
-    : computeMetrics(p.edges, p.grid.n);
+    : computeMetrics(metricsEdges(task, p), p.grid.n);
   const withM = { ...p, metrics };
   const d = taskDifficulty(task, withM);
   return {

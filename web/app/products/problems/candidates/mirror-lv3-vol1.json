@@ -555,14 +555,15 @@
    "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "auto": 10.6,
-    "value": 10.6,
+    "auto": 11.6,
+    "value": 11.6,
     "parts": {
      "E": 7,
      "G": 4,
      "k": 0.85,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -803,7 +804,7 @@
     "seed": 1,
     "variant": "nichicorn4#1/0"
    },
-   "order": 9
+   "order": 7
   },
   {
    "id": "mirror-lv3-vol1-s1-05",
@@ -1434,14 +1435,15 @@
    "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "auto": 12.2,
-    "value": 12.2,
+    "auto": 13.2,
+    "value": 13.2,
     "parts": {
      "E": 7.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1605,14 +1607,15 @@
    "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "auto": 12.2,
-    "value": 12.2,
+    "auto": 13.2,
+    "value": 13.2,
     "parts": {
      "E": 7.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1796,14 +1799,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "auto": 14,
-    "value": 14,
+    "auto": 15,
+    "value": 15,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 0,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -1813,7 +1817,7 @@
     "seed": 1,
     "variant": "hybrid#4#1-286"
    },
-   "order": 8
+   "order": 9
   },
   {
    "id": "mirror-lv3-vol1-s1-11",
@@ -1978,14 +1982,15 @@
    "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "auto": 13.2,
-    "value": 13.2,
+    "auto": 15.2,
+    "value": 15.2,
     "parts": {
      "E": 8.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -2189,14 +2194,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "auto": 14.7,
-    "value": 14.7,
+    "auto": 15.7,
+    "value": 15.7,
     "parts": {
      "E": 10,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -2676,14 +2682,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "auto": 13.2,
-    "value": 13.2,
+    "auto": 15.2,
+    "value": 15.2,
     "parts": {
      "E": 8.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -2693,7 +2700,7 @@
     "seed": 1,
     "variant": "rand#4#1-453"
    },
-   "order": 6
+   "order": 10
   },
   {
    "id": "mirror-lv3-vol1-s1-16",
@@ -3314,14 +3321,15 @@
    "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "auto": 18.3,
-    "value": 18.3,
+    "auto": 19.3,
+    "value": 19.3,
     "parts": {
      "E": 10.5,
      "G": 4,
      "k": 0.75,
      "strokes": 2.0999999999999996,
-     "brk": 6
+     "brk": 6,
+     "交差": 1
     }
    },
    "provenance": {
@@ -3515,14 +3523,15 @@
    "status": "adopted",
    "difficulty": {
     "task": "mirror",
-    "auto": 15.9,
-    "value": 15.9,
+    "auto": 17.9,
+    "value": 17.9,
     "parts": {
      "E": 10.5,
      "G": 4,
      "k": 1,
      "strokes": 1.4,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -4069,14 +4078,15 @@
    "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "auto": 12.7,
-    "value": 12.7,
+    "auto": 13.7,
+    "value": 13.7,
     "parts": {
      "E": 8,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 1
     }
    },
    "provenance": {
@@ -4240,14 +4250,15 @@
    "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "auto": 12.7,
-    "value": 12.7,
+    "auto": 13.7,
+    "value": 13.7,
     "parts": {
      "E": 7.5,
      "G": 4,
      "k": 0.85,
      "strokes": 0,
-     "brk": 6
+     "brk": 6,
+     "交差": 1
     }
    },
    "provenance": {
@@ -4592,14 +4603,15 @@
    "status": "pending",
    "difficulty": {
     "task": "mirror",
-    "auto": 13.2,
-    "value": 13.2,
+    "auto": 15.2,
+    "value": 15.2,
     "parts": {
      "E": 8.5,
      "G": 4,
      "k": 1,
      "strokes": 0.7,
-     "brk": 0
+     "brk": 0,
+     "交差": 2
     }
    },
    "provenance": {
@@ -5351,7 +5363,7 @@
     "createdAt": "",
     "label": "きせん"
    },
-   "order": 10
+   "order": 8
   },
   {
    "id": "mirror-lv3-vol1-s0-32",
@@ -5979,7 +5991,7 @@
     "createdAt": "",
     "label": "しましまのはた"
    },
-   "order": 7
+   "order": 6
   }
  ],
  "seedCursor": 2

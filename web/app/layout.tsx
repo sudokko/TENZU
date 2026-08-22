@@ -21,7 +21,15 @@ export const metadata: Metadata = {
     template: "%s · TENZU",
   },
   description: SITE_DESCRIPTION,
-  alternates: { canonical: "/" },
+  alternates: {
+    // ⚠️ canonical はここに置かない。Next の metadata は未定義フィールドを親から
+    // 継承するため、root に canonical:"/" を置くと「自分の canonical を書いていない
+    // 全ページ」が TOP を正典と自己申告し、重複扱いでインデックスから落ちる
+    // （2026-08-05 監査で検出）。canonical は各 page.tsx / generateMetadata で
+    // 自ページのパスを明示する。TOP は app/page.tsx が持つ。
+    // 記事 RSS（/feed.xml）。ブラウザ・クローラ双方への更新検知チャネル。
+    types: { "application/rss+xml": [{ url: "/feed.xml", title: `${SITE_NAME} 記事フィード` }] },
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

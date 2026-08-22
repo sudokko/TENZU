@@ -15,7 +15,7 @@
       "requireDiag45": true,
       "D": [
         6,
-        10
+        10.3
       ]
     },
     "copy-lv3-vol1": {
@@ -25,7 +25,7 @@
       "cross": "some",
       "D": [
         12.4,
-        20.7
+        23.7
       ]
     },
     "copy-lv3-vol2": {
@@ -44,7 +44,7 @@
       "requireNon45": true,
       "D": [
         12.4,
-        21.7
+        32.2
       ]
     },
     "copy-lv4-vol2": {
@@ -54,7 +54,7 @@
       "requireNon45": true,
       "D": [
         15.9,
-        35.8
+        38.8
       ]
     },
     "copy-lv5-vol1": {
@@ -63,7 +63,7 @@
       "fullGrid": true,
       "D": [
         19.3,
-        40.3
+        46.3
       ]
     },
     "copy-lv5-vol2": {
@@ -73,6 +73,15 @@
       "D": [
         23.8,
         49.6
+      ]
+    },
+    "copy-lv5-vol3": {
+      "grid": 8,
+      "slopes": "any",
+      "fullGrid": true,
+      "D": [
+        40,
+        74.1
       ]
     }
   },
@@ -346,7 +355,7 @@
         9
       ]
     },
-    "rotate-lv4-vol2": {
+    "rotate-lv4-vol1": {
       "grid": 4,
       "angle": "180",
       "lines": [
@@ -535,43 +544,29 @@
     "solid-lv3-vol1": {
       "hidden": "none",
       "D": [
-        16.3,
-        25
+        16.8,
+        26.5
       ]
     },
     "solid-lv4-vol1": {
-      "hidden": "some",
+      "hidden": "none",
       "D": [
-        17,
-        45
+        20.5,
+        34
       ]
     },
     "solid-lv5-vol1": {
-      "hidden": "full",
+      "hidden": "off",
       "D": [
-        50,
-        120
+        34.8,
+        56.3
       ]
     },
     "solid-lv5-vol2": {
       "hidden": "full",
       "D": [
-        110,
-        200
-      ]
-    },
-    "solid-lv5-vol3": {
-      "hidden": "full",
-      "D": [
-        170,
-        280
-      ]
-    },
-    "solid-lv5-vol4": {
-      "hidden": "full",
-      "D": [
-        230,
-        400
+        30.8,
+        120
       ]
     }
   }

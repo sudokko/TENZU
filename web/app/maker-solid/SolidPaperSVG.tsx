@@ -22,6 +22,7 @@ export function pointKey(p: Point) { return `${p.c},${p.r}`; }
 
 export function SolidPaperSVG({
   cols, rows, edges, selected, tool = "draw", onDotClick, onEdgeClick, showLines, interactive, dotScale = 1,
+  dimDashed = false,
 }: {
   cols: number;
   rows: number;
@@ -33,6 +34,9 @@ export function SolidPaperSVG({
   showLines: boolean;
   interactive?: boolean;
   dotScale?: number;
+  /* 隠れ線 OFF の編集中（atelier）: 点線を薄く描く＝「触れるが紙面には出ない」を見せる。
+     紙面・メーカーは常に false（OFF の点線はデータ側で退避されている） */
+  dimDashed?: boolean;
 }) {
   const erasing = tool === "erase";
   const { vw, vh } = editorVB(cols, rows);
@@ -67,10 +71,11 @@ export function SolidPaperSVG({
       {/* 2. 線（見える辺・点線）— ドットの上 */}
       {showLines && edges.map((e, i) => {
         const a = pos(e.a.c, e.a.r), b = pos(e.b.c, e.b.r);
+        const dim = dimDashed && e.style === "dashed";
         return (
           <line key={i}
             x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-            stroke={INK} strokeWidth="1.6"
+            stroke={INK} strokeWidth="1.6" opacity={dim ? 0.22 : undefined}
             strokeLinecap="round" strokeLinejoin="round"
             strokeDasharray={e.style === "dashed" ? dash : undefined}
           />

@@ -9,7 +9,8 @@
 
 import SiteHeader from "../SiteHeader";
 import AddToCartButton from "../cart/AddToCartButton";
-import SkuPrintPreview, { type RenderProblem, type SolidRenderProblem } from "./SkuPrintPreview";
+import SkuPrintPreview, { type SolidRenderProblem } from "./SkuPrintPreview";
+import { toRenderProblems, type RenderProblem } from "./problems/render";
 import { PURCHASE_FAQ } from "./purchase-faq";
 import { makerByKey } from "./makers";
 import { MAKER_FIG } from "./maker-figs";
@@ -45,19 +46,10 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
   const latest = revisions[0]
     ?? (problemSet ? { ver: "v1.0", date: problemSet.publishedAt, note: "初版" } : undefined);
   const isSolid = task.slug === "solid";
-  const renderProblems: RenderProblem[] | undefined = isSolid ? undefined
-    : problemSet?.problems.map((p) => ({
-      n: p.grid.type === "square" ? p.grid.n : 4, edges: p.edges,
-      ...(p.answer?.mode === "explicit" && { answerEdges: p.answer.edges }),
-      ...(p.answer?.mode === "derived" && p.answer.transform.type === "mirror"
-        && { mirrorAxis: p.answer.transform.axis }),
-      /* 回転・移動は「どう変換するか」が 1 問ごとに違いうる（角度・方向の巻内混在）。
-         紙面に指示子を出すため transform をそのまま渡す（decisions §3.87） */
-      ...(p.answer?.mode === "derived" && p.answer.transform.type === "rotate"
-        && { rotateDeg: p.answer.transform.deg }),
-      ...(p.answer?.mode === "derived" && p.answer.transform.type === "translate"
-        && { translateVec: { dc: p.answer.transform.dc, dr: p.answer.transform.dr } }),
-    }));
+  /* Problem → 紙面描画データの写像は problems/render.ts（SSOT・サンクスページと共用）。
+     かさね系 3 ペイン式・変換の指示子（decisions §3.87）もそこで付く */
+  const renderProblems: RenderProblem[] | undefined = isSolid || !problemSet
+    ? undefined : toRenderProblems(problemSet);
   const solidProblems: SolidRenderProblem[] | undefined = isSolid
     ? problemSet?.problems
         .filter((p) => p.grid.type === "solid")

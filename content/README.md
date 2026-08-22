@@ -8,6 +8,7 @@
 - 構造: **正規まとめ P1 ＋ 用途まとめ P2/P3/P4/P5**（5 Pillar）。Pillar 構造 SSOT は [decisions.md §3.32](../decisions.md)、本縮減は [decisions.md §3.42](../decisions.md)
 - **執筆の役割分担**: 構成・目次＝AI 提案→**オーナー確定**（[structure-craft.md](structure-craft.md)）／本文化＝AI（[writing-craft.md](writing-craft.md)）／リード・TLDR＝AI 下書き→オーナー仕上げ（[decisions.md §3.49](../decisions.md)）
 - 主要 IA: 3 階層フラット URL（全記事 `/{slug}/`）
+- **段階公開**: frontmatter `status: draft` で本番非公開（第1弾14本＋月1ドリップ6本・RSS `/feed.xml`・昇格3点セット）。判断は [decisions.md §3.95](../decisions.md)・手順は [article-revision-publish.md §7.5](article-revision-publish.md)
 - **ペルソナ SSOT は [personas.md](personas.md)**
 - 旧ドラフトは `archive/retired-drafts/` 退避済（人格刷新前提で再利用）
 - 詳細な分割は下表
@@ -28,7 +29,7 @@
 | [revision-craft.md](revision-craft.md) | **推敲 craft の SSOT**（推敲の境界線＝表現レベルのみ・推敲手順・文体指紋パス＝AI 癖の頻度規制・変更点リスト形式） |
 | [article-revision-publish.md](article-revision-publish.md) | **既存記事の改訂→挿絵→プレビュー→承認→LLMO→push の運用 SSOT** |
 | [external-output.md](external-output.md) | **note/アメブロ整形規約の SSOT**（貼付用テキスト生成・ネイティブ要素翻訳・画像/alt・`/article-export` が参照） |
-| [note-devlog-craft.md](note-devlog-craft.md) | **note 開発実録マガジンの執筆 craft の SSOT**（SUDO CRAFT note の 2 マガジンのうち実録側。公式記事とは別枠。実録スタンス・回テンプレ・タブー・検証3点セット・小モデル運用の5工程） |
+| [note-devlog-craft.md](note-devlog-craft.md) | **note 開発実録マガジンの執筆 craft の SSOT**（SUDO CRAFT note の 2 マガジンのうち実録側。公式記事とは別枠。回顧ノウハウ型＝月3万円達成後に蔵出し公開・無料/有料の線引き・回テンプレ・タブー・検証3点セット・小モデル運用の5工程） |
 | [research.md](research.md) | B-2 リサーチ Phase 0（**本ファイル独自のリサーチフェーズ名・ローンチ Phase とは別概念**）・著者/読者ペルソナ・Voice・KW 候補・競合トピック構造 |
 | [references-map.md](references-map.md) | 5系譜文献マップ・引用論文の正確な帰属・教育系メディアソース |
 

@@ -67,6 +67,7 @@ export function buildPageSvg(opts: {
   dotScale: number;
   logo: LogoInfo | null;
   noDots?: boolean; // true=背景の点をとる（かくマス側に薄い枠を添える）
+  ad?: boolean;     // true=無料版フッター広告（識別句＋URL＋QR）を載せる
 }): string {
   const showDots = !opts.noDots;
   return buildPageSvgFrame<Problem>({
@@ -321,6 +322,8 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
           pageNo: pi + 1, pageCount: pages.length,
           marginMm, problemsPerPage: effectivePerPage, pairLayout: effectivePairLayout, nameField, dotScale, logo,
           noDots,
+          // 無料版（4×4 まで・未所有）の紙にだけ店の導線を載せる。買った人の紙は従来どおり。
+          ad: !isOwned,
         }),
         filename: (stamp) => `tenzu_${stamp}.pdf`,
       });

@@ -9,7 +9,7 @@ export default function CartBadge() {
   const { count, ready } = useCart();
   const n = ready ? count : 0;
   return (
-    <a className="cart-button" href="/cart" aria-label={`カート（${n} 点）`}>
+    <a className="cart-button" href="/cart" aria-label={`カート（${n} 冊）`}>
       カート ({n})
     </a>
   );

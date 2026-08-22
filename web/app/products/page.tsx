@@ -8,11 +8,15 @@
 import type { Metadata } from "next";
 import SiteHeader from "../SiteHeader";
 import { GROUPS, LEVELS, LevelGraph, SiteFooter, TOTAL_KINDS, TOTAL_VOL } from "../catalog";
+import { TIERS } from "./data";
 import { TASK_MINIFIG } from "./task-minifigs";
+/* 設問数はレベル選びガイドの SSOT から引く（数字を直書きしないこと）。 */
+import { QUESTION_COUNT } from "../level-guide/questions";
 import "./product.css";
 
 export const metadata: Metadata = {
-  title: `商品一覧 — ${TOTAL_KINDS} 種類 × 5 段階 · TENZU`,
+  alternates: { canonical: "/products" },
+  title: `商品一覧 — ${TOTAL_KINDS} 種類 × 5 段階`,
   description:
     `点描写プリントの品ぞろえ。3 つの力 × ${TOTAL_KINDS} 種類 × 5 レベル・計 ${TOTAL_VOL} 巻。¥200 一律・サブスクなし。`,
 };
@@ -33,6 +37,15 @@ export default function ProductsHub() {
             <h1 className="plp-hub-lead">
               3 つの力 × 各 3 タイプ × 5 レベル。今の手ごたえに合う一冊から。
             </h1>
+            {/* まとめ買い割引＝料金ルール（オファーではない）。¥200 一律と同格の情報として置く。
+                「合計の冊数で決まります」が無いと縦串でそろえる買い方だと誤解される。 */}
+            <p className="rate-line">
+              <b>まとめ買い割引</b>
+              {[...TIERS].reverse().map((t) => (
+                <span key={t.min}>{t.min} 冊から {Math.round(t.rate * 100)}%</span>
+              ))}
+              <span className="rate-any">ちがう種類をまぜても、合計の冊数で決まります</span>
+            </p>
           </header>
 
           {/* レベルの解説図（5段階×対象年齢のめやす・帯グラフ） */}
@@ -89,7 +102,7 @@ export default function ProductsHub() {
           {/* 棚を見終えて迷った人への導線（レベル選びガイド） */}
           <a className="level-guide-cta plpc-guide-cta" href="/level-guide">
             <span className="level-guide-cta-main">どこから始めるか迷ったら、<b>レベル選びガイド</b>へ。</span>
-            <span className="level-guide-cta-sub">4 つの質問に答えると、はじめる位置の目安とおすすめの一冊が出ます →</span>
+            <span className="level-guide-cta-sub">{QUESTION_COUNT} つの質問に答えると、はじめる位置の目安とおすすめの一冊が出ます →</span>
           </a>
         </div>
       </main>

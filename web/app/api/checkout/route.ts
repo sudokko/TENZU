@@ -7,7 +7,7 @@
      SITE_URL=http://localhost:3001 が効き、未設定環境では origin にフォールバック */
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
-import { volBySku, volTitle, PRICE } from "../../products/data";
+import { volBySku, volTitle, unitPrice } from "../../products/data";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +43,10 @@ export async function POST(req: NextRequest) {
   // metadata 値は 500 文字制限。SKU slug ~15 字 → 実用上のカート規模では収まる。
   const skuCsv = resolved.map((r) => r.sku).join(",");
 
+  // まとめ買い割引（冊数だけで決まる）を単価へ落とす。¥200/170/160/150 はいずれも
+  // 整数なので、行単価 × 冊数がカート画面の合計と 1 円もズレない。
+  const unit = unitPrice(resolved.length);
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -51,7 +55,7 @@ export async function POST(req: NextRequest) {
       line_items: resolved.map(({ found }) => ({
         price_data: {
           currency: "jpy",
-          unit_amount: PRICE, // 200 = ¥200（JPY はゼロ小数通貨）
+          unit_amount: unit, // JPY はゼロ小数通貨（¥200 一律 → 冊数により ¥170/160/150）
           product_data: { name: volTitle(found!.task, found!.vol) },
         },
         quantity: 1,
