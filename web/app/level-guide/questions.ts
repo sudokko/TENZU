@@ -55,9 +55,8 @@ export const QUESTIONS: Question[] = [
     help: "「どの種類から始めるか」のおすすめに使います。",
     opts: [
       { v: "first", label: "はじめての点描写。とにかく始めたい" },
-      { v: "kumon", label: "公文・運筆の「次」を探している" },
+      { v: "tsunagi", label: "点つなぎ・運筆の「次」を探している" },
       { v: "struggle", label: "図形が苦手・つまずいた" },
-      { v: "draw", label: "絵を描くのが好き。楽しく続けたい" },
       { v: "harder", label: "もっと頭を使う問題を" },
       { v: "solid", label: "立体・空間の感覚を育てたい" },
     ],

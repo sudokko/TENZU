@@ -29,20 +29,22 @@ function findTask(name: string) {
 /* 設問定義は questions.ts へ移設（2026-08-08）。設問数を商品一覧とも共有するため。 */
 
 /* ---- 軸B：目的 → ★最初の一冊（primary）＋関連（related） ---- */
-/* 2026-06-19: 旧「模写（絵柄）」は「模写」に統合済（subtype 区別）。draw 系は
-   primary=模写 のまま related で絵柄ニーズを受ける関連タスクへ流す */
+/* キーは questions.ts の mokuteki 設問の v と 1:1。設問から選択肢を消すときは
+   ここのエントリも消すこと（2026-08-16: 「絵を描くのが好き」= draw を削除）。 */
 const MOKUTEKI_MAP: Record<string, { primary: string; related: string[] }> = {
   first: { primary: "模写", related: ["欠け補完", "鏡"] },
-  kumon: { primary: "模写", related: ["鏡", "回転"] },
+  tsunagi: { primary: "模写", related: ["鏡", "回転"] },
   struggle: { primary: "模写", related: ["欠け補完", "鏡"] },
-  draw: { primary: "模写", related: ["かさね", "模写（立体）"] },
   harder: { primary: "鏡", related: ["回転", "かさね"] },
   solid: { primary: "模写（立体）", related: ["模写", "かさね"] },
 };
 
 /* ---- 軸A：年齢で初期推定 → 手ごたえ 3 問で確定（手ごたえ優先・やさしい方が勝つ） ---- */
 function computeLevelIndex(a: Record<string, string>): number {
-  const anchor: Record<string, number> = { "4": 0, "5": 0, "6": 1, "7": 2, "8": 3 };
+  /* 年齢アンカー＝各レベルの対象年齢帯（LEVEL_AGES）のまん中に置く。
+     2026-08-16: 4才以下と5才が同じ入門編で、Q1 の上 2 択が 1 パターンも
+     結果を変えていなかったため 5→初級・6→基礎・7→応用へ 1 段ずつ上げた。 */
+  const anchor: Record<string, number> = { "4": 0, "5": 1, "6": 2, "7": 3, "8": 3 };
   let lv = anchor[a.age] ?? 1;
   const { naname, komaka } = a;
   // 手ごたえが年齢を上回るなら引き上げ
