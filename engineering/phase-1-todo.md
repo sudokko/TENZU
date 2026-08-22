@@ -3,9 +3,9 @@
 ## サマリ
 
 - ローンチ（本番公開）までに必要な残作業の SSOT。**未了項目のみを載せ、完了した項目は行ごと削除する**（済欄は作らない）
-- **最優先＝SES サンドボックス脱出**（Production access 申請・人間作業）。購入復元マジックリンクが検証済みアドレス以外に届かない状態の解消
+- **最優先＝Stripe 本番決済の開通**（審査通過済み・残＝決済手段の有効化と `sk_live_` の main オーバーライド投入→再デプロイ）と **GTM/GA4 コンソール設定（ゲート G5）**。SES 本番アクセスは申請済み＝審査待ち
 - 本番に必要な env は **STRIPE_SECRET_KEY（live）・STRIPE_WEBHOOK_SECRET・AUTH_SECRET（強ランダム）・SES_\*・SITE_URL・NEXT_PUBLIC_GTM_ID・ADMIN_SECRET・ONSITE_TABLE・ONSITE_IMAGE_BUCKET・APP_AWS_\***。チェックリスト＝[web/.env.production.example](../web/.env.production.example)
-- **残実装（コード）はゼロ**＝特商法/PP（`/tokushoho`・`/privacy`・外部送信記載含む）と屋号ページ `/sudo-craft` は実装済み（2026-08-01）。残＝特商法の氏名差し替え・法務決済の名義統一（§2・人間作業）。送客導線(A) 商品→工房は実装済み・開店ゲート G6 はコード側完了。計測（GA4+GTM・`tool_start`/`generated_pdf`/`purchase`・アタッチ率）も**コード実装済み**＝残りは Google コンソール設定（人間作業・[analytics.md §5](analytics.md)）
+- **残実装（コード）はゼロ**＝特商法/PP（`/tokushoho`・`/privacy`・外部送信記載含む）と屋号ページ `/sudo-craft` は実装済み・販売責任者も実名化済み。残＝領収書/請求書の発行名義の統一（§2・人間作業）。送客導線(A) 商品→工房は実装済み・開店ゲート G6 はコード側完了。計測（GA4+GTM・`tool_start`/`generated_pdf`/`purchase`・アタッチ率）も**コード実装済み**＝残りは Google コンソール設定（人間作業・[analytics.md §5](analytics.md)）
 - Upstash・Stripe Price ID・サブスク・OTP・ログイン・billing-portal は**使わない**（§4）。認証＝所有モデル（署名 cookie）・購入復元＝マジックリンクのみ
 - 優先度: ★＝ローンチブロッカー／P1＝ローンチ直後まで／P2＝運用開始後でよい
 
@@ -17,12 +17,10 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 
 | 優先 | 項目 | 詳細 |
 |---|---|---|
-| ★ | **SES サンドボックス脱出** | Production access 申請。送信元（`no-reply@tenzu.jp` 等）のドメイン検証も併せて実施 |
-| ★ | **Stripe 本番モード化** | live キー取得・本番 Webhook エンドポイント（`/api/stripe/webhook`）作成・`checkout.session.completed` 購読・`STRIPE_WEBHOOK_SECRET` 取得 |
+| ★ | **SES サンドボックス脱出** | ドメイン検証・DKIM は Success。**本番アクセスを申請済み＝審査待ち**（承認されるまでフリーメール宛てが届かない）。通過後に P0 の「メール到達」項目を再走 |
+| ★ | **Stripe 本番モード化** | 本番アカウント `acct_1Si2zlEtIrDOgxDR`（SUDO CRAFT）審査通過。残＝①ダッシュボードで**決済手段を有効化**（カード＋コンビニ払い）②`sk_live_` を Amplify の **main オーバーライド**へ追加 → **main を再デプロイ**（env はビルド時に焼き出すため保存だけでは届かない）③本番 Webhook `tenzu-prod-checkout` の配信履歴が成功になることを確認 |
 | ★ | **AUTH_SECRET 生成** | 強ランダム値（例: `openssl rand -base64 48`）。ローテーション＝全所有 cookie 無効化のため安定運用 |
-| ★ | **SITE_URL 設定** | `https://tenzu.jp`。Checkout の success/cancel・メールリンク生成に必須。**検索インデックスの可否もこの値で決まる**（`*.amplifyapp.com` のままだと全ページ noindex＝[site.ts](../web/app/site.ts) の `IS_PREVIEW`）。**env はブランチ別＝main にだけ設定する**（deploy/amplify は未設定のまま＝staging の noindex 維持・[decisions §3.93](../decisions.md)）。接続後の確認は `node web/scripts/check-env-gates.mjs`（本番 index / staging noindex を両方向自動判定） |
-| ★ | **tenzu.jp を Amplify Hosting へ接続** | **`main` ブランチへ接続**（本番=main・[decisions §3.93](../decisions.md)）。カスタムドメイン・SSL は Amplify が自動発行。ドメイン取得は 8 月上旬（オーナー・国内レジストラ推奨＝Route 53 の .jp は割高） |
-| ★ | **Amplify ブランチ接続の切替** | 現在の実ビルド対象は `content/article-drafts`。**main を接続 → article-drafts の接続を解除**する（コンソール作業）。解除までは 3 ブランチ lockstep push 運用・**解除前のブランチ削除は禁止**。deploy/amplify（staging）の接続は維持 |
+| ★ | **Amplify ブランチ接続の切替** | main（本番）・deploy/amplify（staging）は接続済み。残＝**`content/article-drafts` の接続解除**（コンソール作業）。解除の 2 週間後にブランチ削除・**解除前の削除は禁止** |
 | ★ | **GTM / GA4 コンソール設定** | 手順書＝[analytics.md §5](analytics.md)（約1時間）。GA4 プロパティ・GTM コンテナ・タグ3本・Search Console 連携・Amplify に `NEXT_PUBLIC_GTM_ID` 登録。**開店前の必須ゲート G5**（無計測の運用は無駄撃ち・[../launch/operations.md §3](../launch/operations.md)） |
 | ★ | **オンサイトメッセージ用 AWS リソース** | DynamoDB `tenzu-onsite`（＋dev 用）・S3 `tenzu-onsite-assets`・IAM 権限追加・Amplify env 5 件（手順＝§1.1・約 30 分）。未設定でもサイト自体は動く（カード非表示へ degrade）が、開店あいさつ `welcome-2026` を出すには必須＝W5 の文言確認までに |
 
@@ -61,8 +59,7 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 
 | 優先 | 項目 | 詳細 |
 |---|---|---|
-| ★ | **特商法表記の氏名差し替え** | ページ自体は実装済み（`/tokushoho`・`/privacy`・`/sudo-craft`・2026-08-01・外部送信記載含む）。販売責任者が「〔開店前に氏名を記載〕」のプレースホルダのまま＝**開店前に実名へ差し替える**（[web/app/tokushoho/page.tsx](../web/app/tokushoho/page.tsx)）。住所・電話は請求開示方式で確定済み |
-| ★ | **法務・決済の名義統一** | 屋号 SUDO CRAFT 取得に伴う（[decisions.md §5.16](../decisions.md)）。①特商法表記の「販売業者」②銀行口座名義（8/9 開設）③請求書・領収書の発行名義 を揃える。**ただし Stripe の明細表示名（statement descriptor）は購入者が「TENZU で買った」と分かる形を維持する**——カード明細に見慣れない屋号だけが出ると不審請求の問い合わせとチャージバックの要因になる。Stripe 側の設定可否（アカウント名ベース・支払いごとの suffix）は実装時に確認 |
+| ★ | **法務・決済の名義統一** | 特商法の販売業者＝SUDO CRAFT＋実名・Stripe 明細表記＝`TENZU`／カナ`テンズ`・銀行口座（8/9 開設）まで反映済み。残＝**領収書・請求書の発行名義**を同じ形に揃える（[decisions.md §5.16](../decisions.md)） |
 
 ### §3. 運用開始後（P2）
 
