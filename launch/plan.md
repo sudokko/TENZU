@@ -37,7 +37,7 @@
 | G1 | [release-testing.md](../engineering/release-testing.md) の **P0 全緑**（実カード ¥200 決済→PDF・メール到達→返金の本番再走を含む） |
 | G2 | 全 42 巻 検品→publish 済み・表記照合済み・D 窓はみ出しゼロ（`audit-d-windows.ts`） |
 | G3 | 記事：開店時公開 10 本（C3-1 見取り図・P1 正規まとめ必須）が本番表示確認済み（温存 10 本は順次レビュー中でよい） |
-| G4 | 本番 env 5 点（Stripe live・Webhook・AUTH_SECRET・SES・SITE_URL）＋ tenzu.jp で全導線が動く。**SITE_URL が `tenzu.jp` になっていること＝プレビュー扱いだと全ページ noindex のまま開店する** |
+| G4 | 本番 env 5 点（Stripe live・Webhook・AUTH_SECRET・SES・SITE_URL）＋ tenzu.jp で全導線が動く。**SITE_URL が `tenzu.jp` になっていること＝プレビュー扱いだと全ページ noindex のまま開店する**。あわせて **`PREOPEN=0` にして main を再デプロイ**し、プレオープン告知帯が消えていることを目視する（env はビルド時に焼き出すため保存だけでは消えない・[decisions.md §3.109](../decisions.md)） |
 | G5 | 計測 3 イベント（`tool_start` / `generated_pdf` / `purchase`）本番発火・Search Console 登録 |
 | G6 | 送客導線(A) 商品→工房が本番で機能 |
 

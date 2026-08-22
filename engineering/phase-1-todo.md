@@ -21,6 +21,7 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 | ★ | **Stripe 本番モード化** | 本番アカウント `acct_1Si2zlEtIrDOgxDR`（SUDO CRAFT）審査通過。残＝①ダッシュボードで**決済手段を有効化**（カード＋コンビニ払い）②`sk_live_` を Amplify の **main オーバーライド**へ追加 → **main を再デプロイ**（env はビルド時に焼き出すため保存だけでは届かない）③本番 Webhook `tenzu-prod-checkout` の配信履歴が成功になることを確認 |
 | ★ | **AUTH_SECRET 生成** | 強ランダム値（例: `openssl rand -base64 48`）。ローテーション＝全所有 cookie 無効化のため安定運用 |
 | ★ | **Amplify ブランチ接続の切替** | main（本番）・deploy/amplify（staging）は接続済み。残＝**`content/article-drafts` の接続解除**（コンソール作業）。解除の 2 週間後にブランチ削除・**解除前の削除は禁止** |
+| ★ | **開店当日に `PREOPEN=0`** | 開店まで全ページ最上部に出しているプレオープン告知帯（[decisions.md §3.109](../decisions.md)）を消す。Amplify の **main オーバーライド**へ `PREOPEN=0` を追加 → **main を再デプロイ**（env はビルド時に `.env.production` へ焼き出すため保存だけでは消えない）。**未設定＝帯が出る**が既定なので、開店前は何もしなくてよい |
 | ★ | **GTM / GA4 コンソール設定** | 手順書＝[analytics.md §5](analytics.md)（約1時間）。GA4 プロパティ・GTM コンテナ・タグ3本・Search Console 連携・Amplify に `NEXT_PUBLIC_GTM_ID` 登録。**開店前の必須ゲート G5**（無計測の運用は無駄撃ち・[../launch/operations.md §3](../launch/operations.md)） |
 | ★ | **オンサイトメッセージ用 AWS リソース** | DynamoDB `tenzu-onsite`（＋dev 用）・S3 `tenzu-onsite-assets`・IAM 権限追加・Amplify env 5 件（手順＝§1.1・約 30 分）。未設定でもサイト自体は動く（カード非表示へ degrade）が、開店あいさつ `welcome-2026` を出すには必須＝W5 の文言確認までに |
 
