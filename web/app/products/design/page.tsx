@@ -175,6 +175,32 @@ export default function DesignLedgerPage() {
           </div>
         </section>
 
+        {/* ============ 作り方 ============ */}
+        <section className="s dl-prose">
+          <div className="wrap">
+            <h2 className="h2-product">1冊ができるまで</h2>
+            <ol className="dl-flow">
+              <li>
+                <b>巻の仕様を決める</b> — 盤面・ゲート条件・D の窓を先に決めます。上の表がその中身です。
+              </li>
+              <li>
+                <b>候補を生成する</b> — 仕様を満たす図形を作り、同じ形が重ならないよう振り分けます。
+              </li>
+              <li>
+                <b>1問ずつ見て採る</b> — 生成した候補を目で確かめ、線がつぶれていないか、
+                子が読み取れる形かを確認して、{QUESTIONS_PER_VOL}問だけ採用します。
+              </li>
+              <li>
+                <b>並べて出す</b> — 採った{QUESTIONS_PER_VOL}問を、やさしいほうから順に並べて1冊にします。
+              </li>
+            </ol>
+            <p>
+              手を入れた巻は、商品ページに改訂日を出しています。
+              買ったあとに問題が差し替わっても、同じリンクから作り直したものを受け取れます。
+            </p>
+          </div>
+        </section>
+
         {/* ============ 台帳本体 ============ */}
         <section className="s">
           <div className="wrap">
@@ -220,8 +246,10 @@ export default function DesignLedgerPage() {
                     </summary>
                     {t.rows.filter((r) => r.cov).map((r) => (
                       <div className="dl-detail-vol" key={r.sku}>
+                        {/* タスク名を必ず含める＝この見出しだけが切り出されても
+                            何の課題の巻か分かる（チャンク単位で文脈が落ちない） */}
                         <h4 className="dl-detail-name">
-                          {r.lvName} Vol.{r.volNo}・{r.grid}
+                          {t.name}｜{r.lvName} Vol.{r.volNo}・{r.grid}
                         </h4>
                         <ol className="cov-list">
                           {r.cov!.rows.map((p) => (
@@ -253,31 +281,6 @@ export default function DesignLedgerPage() {
           </div>
         </section>
 
-        {/* ============ 作り方 ============ */}
-        <section className="s dl-prose">
-          <div className="wrap">
-            <h2 className="h2-product">1冊ができるまで</h2>
-            <ol className="dl-flow">
-              <li>
-                <b>巻の仕様を決める</b> — 盤面・ゲート条件・D の窓を先に決めます。上の表がその中身です。
-              </li>
-              <li>
-                <b>候補を生成する</b> — 仕様を満たす図形を作り、同じ形が重ならないよう振り分けます。
-              </li>
-              <li>
-                <b>1問ずつ見て採る</b> — 生成した候補を目で確かめ、線がつぶれていないか、
-                子が読み取れる形かを確認して、{QUESTIONS_PER_VOL}問だけ採用します。
-              </li>
-              <li>
-                <b>並べて出す</b> — 採った{QUESTIONS_PER_VOL}問を、やさしいほうから順に並べて1冊にします。
-              </li>
-            </ol>
-            <p>
-              手を入れた巻は、商品ページに改訂日を出しています。
-              買ったあとに問題が差し替わっても、同じリンクから作り直したものを受け取れます。
-            </p>
-          </div>
-        </section>
       </main>
 
       <SiteFooter />
@@ -290,14 +293,14 @@ export default function DesignLedgerPage() {
 function LedgerVolRow({ row }: { row: LedgerRow }) {
   const cov = row.cov;
   return (
-    <article className="dl-row">
+    <article className="dl-row" data-sku={row.sku}>
       <div className="dl-row-head">
         <a className="dl-row-name" href={row.href}>
           <span className="dl-row-lv">LV.{row.lvNo}</span>
+          <span className="dl-row-task">{row.taskName}</span>
           {row.lvName} Vol.{row.volNo}
           <span className="dl-row-grid">{row.grid}</span>
         </a>
-        <span className="dl-row-sku mono">{row.sku}</span>
       </div>
 
       {row.spec.length > 0 && (

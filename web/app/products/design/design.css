@@ -152,12 +152,11 @@
   font-weight: var(--wt-regular);
   color: var(--fg-3);
 }
-.dl-row-sku {
-  font-family: var(--font-tier3-mono);
-  font-size: 10.5px;
-  color: var(--fg-4);
-  letter-spacing: 0.04em;
-  margin-left: auto;
+.dl-row-task {
+  font-family: var(--font-tier3-sans);
+  font-size: 12.5px;
+  font-weight: var(--wt-regular);
+  color: var(--fg-3);
 }
 
 /* 設計仕様チップ列 */
@@ -246,7 +245,6 @@
   .dl-title { font-size: 27px; }
   .dl-counts { gap: 10px 24px; }
   .dl-counts dd { font-size: 18px; }
-  .dl-row-sku { display: none; }
 }
 
 /* タスク別の式一覧（「D の出し方」内・土台の式ブロックの下） */

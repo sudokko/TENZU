@@ -96,6 +96,16 @@ function formatUnknown(v: unknown): string {
   return String(v);
 }
 
+/* 公開面だけのラベル読み替え。
+   ladder-schema.ts のラベルは atelier（作り手の管理画面）の SSOT なので触らない。
+   ただしそのままだと内部パラメータ名が保護者の前に出てしまうため、
+   意味の変わらない範囲で読める言葉に置き換えてから台帳に載せる。 */
+const PUBLIC_SPEC_LABELS: Record<string, string> = {
+  components: "図のまとまりの数",
+  bbox: "図の最小の広がり",
+  closedBias: "閉じた形の出やすさ",
+};
+
 function specOf(taskSlug: string, entry: LadderEntry | undefined): SpecItem[] {
   if (!entry) return [];
   const fields = LADDER_FIELDS[taskSlug] ?? [];
@@ -109,7 +119,7 @@ function specOf(taskSlug: string, entry: LadderEntry | undefined): SpecItem[] {
     if (raw === undefined || raw === null || raw === "") continue;
     const text = formatByField(f, raw);
     if (text === undefined) continue;
-    out.push({ key: f.key, label: f.label, value: text });
+    out.push({ key: f.key, label: PUBLIC_SPEC_LABELS[f.key] ?? f.label, value: text });
   }
 
   for (const [k, v] of Object.entries(entry)) {
