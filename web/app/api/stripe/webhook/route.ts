@@ -1,9 +1,11 @@
-/* Stripe Webhook（checkout.session.completed → 購入完了メール配送）。
+/* Stripe Webhook（checkout.session.completed / async_payment_succeeded → 購入完了メール配送）。
    - 署名検証には raw body が必須 → req.text() で生のまま取得（JSON パースしない）
    - 宛先メールは Stripe Checkout が収集した customer_details.email を使う
    - プリント（metadata.skus）= DL ページのリンクをメール（再 DL 用）
    - メーカー買い切り（metadata.makers）= 別端末復元のマジックリンクをメール
      （申込ブラウザは success_url の /api/auth/verify で即 cookie 取得済み。これは予備手段）
+   - コンビニ払い等の非同期決済は completed 時点で payment_status=unpaid のため何も送らず、
+     実入金時の async_payment_succeeded で初めてメールを出す（両イベントを同じ処理へ流す）
    - Stripe にエンドポイントを無効化されないよう、処理失敗でも 200 を返す（ログのみ）
    - 冪等性: DB を持たないため webhook 重複時はメール重複の可能性あり（低害・MVP 受容） */
 import { NextRequest } from "next/server";
@@ -37,7 +39,10 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: `Webhook signature error: ${msg}` }, { status: 400 });
   }
 
-  if (event.type === "checkout.session.completed") {
+  if (
+    event.type === "checkout.session.completed" ||
+    event.type === "checkout.session.async_payment_succeeded"
+  ) {
     const session = event.data.object as Stripe.Checkout.Session;
     try {
       const email = session.customer_details?.email;
