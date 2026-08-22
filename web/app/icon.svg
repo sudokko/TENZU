@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="TENZU">
+  <!-- TENZU シンボル（4-dot floating）の極小用リドロー。
+       原本の鉛筆筆致は 16-32px で灰色に潰れて visible gap（＝ブランドの物語）が
+       消えるため、極小帯だけ幾何で引き直す。design/visual-identity.md §5.3。
+       全座標を偶数に揃えてあるので 16 / 32 / 48px のどれでも整数ピクセル境界に
+       落ちる＝細くしてもアンチエイリアスで滲まない。座標を触るときは偶数を維持。
+       点：線 = 3:1（鉛筆原本の 20:6 と同比）。地は純白基板（§1）。 -->
+  <rect width="32" height="32" fill="#FFFFFF"/>
+  <g fill="#1A1F2A">
+    <circle cx="7" cy="7" r="3"/><circle cx="25" cy="7" r="3"/>
+    <circle cx="7" cy="25" r="3"/><circle cx="25" cy="25" r="3"/>
+    <rect x="12" y="6" width="8" height="2"/><rect x="12" y="24" width="8" height="2"/>
+    <rect x="6" y="12" width="2" height="8"/><rect x="24" y="12" width="2" height="8"/>
+  </g>
+</svg>

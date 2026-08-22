@@ -145,6 +145,8 @@ spacing は base 4px スケール（`--s-1`〜`--s-24`）。desktop margin 64px 
 | Design SSOT | rev-5 bundle `assets/tenzu-logo-horizontal*.png`・`tenzu-symbol-floating*.png`（ink/white/cream/teal 4 色トーン） |
 | Code 配信用 | `web/public/assets/logo-horizontal.png`・`symbol-floating.png` |
 
+**Code 配信用は必ず `-ink`（透過）版から複製する**。トーン無印の `tenzu-logo-horizontal.png` 等は白地を焼き込んだ版で、bg-3 のフッターに置くと白い箱が出る。
+
 色トーン: ink 既定（白・bg-3 上）／ cream・white は反転用（fg・accent 背景上。cream＝紙の温度を残す既定、white＝最大コントラスト）／ teal は到達訴求バナーのみの特例。
 
 #### §5.2 Lockup 5 バリアント
@@ -160,6 +162,7 @@ spacing は base 4px スケール（`--s-1`〜`--s-24`）。desktop margin 64px 
 #### §5.3 運用ルール
 
 - **最小サイズ**: Horizontal は高さ 28px ／ 0.8cm（Ξ-form E が崩れない限界）。それ未満が必要な場面は Symbol に置き換える（Symbol 最小 16px・1:1 固定）。推奨 36-48px（web header）。ヘッダ実機 32-36px で鉛筆質感が見えないのは想定内
+- **ファビコン・アプリアイコン**: 16-48px 帯は鉛筆筆致の原本を縮小すると線が灰色に潰れて visible gap が消えるため、**極小用の幾何リドロー**を使う（`web/app/icon.svg` が原本・`favicon.ico` は 16/32/48 をここから生成）。32 単位・**全座標を偶数**に揃えることで 3 サイズとも整数ピクセル境界に落ちる（＝細線でも滲まない）ので、触るときは偶数を維持する。点：線 = 3:1（原本の 20:6 と同比）。地は純白ベタ（透過はダークタブで消える）。180px の `apple-icon.png` は大きく出るので鉛筆筆致の原本を使う
 - **safe area**: 周囲に Symbol 高さの 1/2 を最小余白として確保。アスペクト比固定（変形禁止）
 - **業態識別句「点図形（点描写）プリントの専門店」を必ず併記**（Plex Sans JP 400・12px・fg-3。header は水平並列・footer は縦併記）。Symbol 単独使用時は未認知層向け面なら「TENZU」テキストラベル（Plex 500 14px）を添える
 - **タグライン本体（コア「見て、考えて、書く力を、点描写から。」）はロゴに同梱しない**。3 段セット（コア＋サブコピー＋業態識別句・SSOT は [brand.md §12](../foundation/brand.md)）は LP ヒーロー・OG・名刺等のレイアウト側で併記する
