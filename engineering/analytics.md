@@ -5,6 +5,7 @@
 - TENZU の**計測実装 SSOT**（イベント定義・UTM 命名規則・GTM/GA4 コンソール設定の運用手順）。KPI と判断基準は [../launch/measurement.md](../launch/measurement.md)、10 イベントの上位設計は [../acquisition/funnel.md §11](../acquisition/funnel.md)
 - **構成**: GTM で Google タグを全ページに読み込み、コードはイベントごとに① GTM 用オブジェクト、② Google タグ用 `gtag('event', ...)` コマンドを dataLayer へ送る（[web/app/analytics.ts](../web/app/analytics.ts)）。これにより、GTM に同名の GA4 イベントタグを追加しなくても GA4 へ届き、将来の広告タグはオブジェクト形式をトリガーにできる。**唯一の別経路＝オンサイトメッセージの first-party 計測**（自前 API → DynamoDB 日次カウンタ・§8）
 - **実装済みイベントは 7 つ**: `tool_start`／`generated_pdf`／`product_recommend_click`／`view_item`／`add_to_cart`／`begin_checkout`／`purchase`。通常の `page_view` は Google タグの自動送信
+- **本番接続済み**: GTM `GTM-K7KNR7CH` → GA4 `G-KH1BKQLSLH`。主要イベントの本番受信と `generated_pdf`／`purchase` のキーイベント指定を確認済み。残る確認は Search Console 連携・内部トラフィック除外・`begin_checkout` と最初の実購入（§5）
 - **アタッチ率**: `purchase` の `item_category`（`paper`/`maker`）と `purchase_kind` で紙→工房転換を GA4 上で集計（§4）
 - **ON/OFF は env 1 本**: `NEXT_PUBLIC_GTM_ID`（未設定＝GTM 計測 no-op。dev はこれで良い。オンサイト first-party 計測 §8 だけは GTM_ID と無関係に動く）。Amplify 登録キーは [web/.env.production.example](../web/.env.production.example)
 - 流入元識別は **UTM ＋ GA4 自動収集**（コード実装不要）。命名規則は §3 が SSOT
@@ -73,6 +74,21 @@
 
 > 所要 約 1 時間。アカウントは普段の Google アカウントで良い。
 
+#### §5.1 本番の確定状態
+
+| 項目 | 現在の状態 |
+|---|---|
+| GA4 ウェブストリーム | ストリーム名 `TENZU`／URL `https://tenzu.jp`／ストリーム ID `15255884396`／測定 ID `G-KH1BKQLSLH` |
+| GTM | 公開コンテナ `GTM-K7KNR7CH`。Google タグだけを Initialization - All Pages で発火。同名の GA4 イベントタグは置かない |
+| 本番受信確認 | `page_view`／`tool_start`／`generated_pdf`／`product_recommend_click`／`view_item`／`add_to_cart` を GA4 リアルタイムまたは標準イベントレポートで確認済み |
+| キーイベント | `generated_pdf` と `purchase` を有効化済み。`purchase` は実購入データ待ち |
+| 未確認・未設定 | Stripe 遷移を伴う `begin_checkout`、最初の実購入と Stripe の突合、Search Console 連携、内部トラフィック除外 |
+| 通常レポート用の追加設定 | `maker`・`purchase_kind` 等を軸に常設集計する場合は、GA4 管理のカスタム定義へイベントスコープのカスタムディメンションとして登録する。`pages` はカスタム指標候補 |
+
+本番実装と初回検証の経緯・検証値は [2026-08-23 GA4 本番導入セッション](../archive/sessions/2026-08/2026-08-23-ga4-production-setup.md) を参照。
+
+#### §5.2 初回設定手順
+
 1. **GA4 プロパティ作成**: [analytics.google.com](https://analytics.google.com) → プロパティ作成「TENZU」→ タイムゾーン日本・通貨 JPY → データストリーム（ウェブ）`https://tenzu.jp` → **測定 ID（G-XXXX…）を控える**。拡張計測（ページビュー・スクロール等）は ON のまま
 2. **GTM コンテナ作成**: [tagmanager.google.com](https://tagmanager.google.com) → コンテナ「tenzu.jp」（ウェブ）→ **コンテナ ID（GTM-XXXX…）を控える**
 3. **GTM に GA4 設定タグ**: タグ新規 →「Google タグ」→ タグ ID に測定 ID（G-…）→ トリガー「Initialization - All Pages」
@@ -131,4 +147,5 @@ web/scripts/weekly-report.mjs（Node・週 1 手動実行から始める）
 
 ## 附録
 
+- 導入記録: [2026-08-23 GA4 本番導入セッション](../archive/sessions/2026-08/2026-08-23-ga4-production-setup.md)
 - 関連: [../acquisition/funnel.md §11-§12](../acquisition/funnel.md)（10 イベント・6 オーディエンスの上位設計）／[../launch/measurement.md](../launch/measurement.md)（KPI）／[../acquisition/sns-operations.md §3.4](../acquisition/sns-operations.md)（計測の配線）／[../launch/operations.md §8](../launch/operations.md)（ツール整備ロードマップ）
