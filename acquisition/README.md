@@ -9,7 +9,7 @@ TENZU の **認知を取って CV へ渡す** 動きを扱う。市場の読み�
 | ファイル | 責務 |
 |---|---|
 | [channels.md](channels.md) | 認知獲得チャネル戦略（DM 3通・インフルエンサー・記事まとめ誘導・広告・Pinterest パイロット） |
-| [sns-accounts.md](sns-accounts.md) | SNS アカウント設計 SSOT（**名義の 2 層＝TENZU／SUDO CRAFT**・表示名・ハンドル・プロフィール実文言・固定ポスト/ボード/ハイライト・開設チェックリスト） |
+| [sns-accounts.md](sns-accounts.md) | SNS アカウント設計 SSOT（**名義の 2 層＝TENZU／SUDO CRAFT**・表示名・ハンドル・プロフィール実文言・固定ポスト/ボード/ハイライト・ハッシュタグ方針・開設チェックリスト） |
 | [sns-operations.md](sns-operations.md) | SNS 運用オペ SSOT（開店在庫・週次カレンダー・素材4源泉・季節トラック・90日ゲート） |
 | [sns-operations-guide.md](sns-operations-guide.md) | SNS 運用 方針書（平易版・自己完結の読み物・運用の考え方を最初から平易に説明） |
 | [funnel.md](funnel.md) | CV 導線（レベル選びガイド・LP・クーポン・購入導線） |
