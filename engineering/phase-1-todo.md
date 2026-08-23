@@ -20,7 +20,6 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 | ★ | **SES サンドボックス脱出** | ドメイン検証・DKIM は Success。**本番アクセスを申請済み＝審査待ち**（承認されるまでフリーメール宛てが届かない）。通過後に P0 の「メール到達」項目を再走 |
 | ★ | **Stripe 本番モード化** | 本番アカウント `acct_1Si2zlEtIrDOgxDR`（SUDO CRAFT）審査通過。残＝①ダッシュボードで**決済手段を有効化**（カード＋コンビニ払い）②`sk_live_` を Amplify の **main オーバーライド**へ追加 → **main を再デプロイ**（env はビルド時に焼き出すため保存だけでは届かない）③本番 Webhook `tenzu-prod-checkout` の配信履歴が成功になることを確認 |
 | ★ | **AUTH_SECRET 生成** | 強ランダム値（例: `openssl rand -base64 48`）。ローテーション＝全所有 cookie 無効化のため安定運用 |
-| ★ | **Amplify ブランチ接続の切替** | main（本番）・deploy/amplify（staging）は接続済み。残＝**`content/article-drafts` の接続解除**（コンソール作業）。解除の 2 週間後にブランチ削除・**解除前の削除は禁止** |
 | ★ | **開店当日に `PREOPEN=0`** | 開店まで全ページ最上部に出しているプレオープン告知帯（[decisions.md §3.109](../decisions.md)）を消す。Amplify の **main オーバーライド**へ `PREOPEN=0` を追加 → **main を再デプロイ**（env はビルド時に `.env.production` へ焼き出すため保存だけでは消えない）。**未設定＝帯が出る**が既定なので、開店前は何もしなくてよい |
 | ★ | **GA4 仕上げ確認** | GTM 公開コンテナ `GTM-K7KNR7CH` と Google タグ `G-KH1BKQLSLH`、主要イベントのコード接続は完了。残＝GA4 リアルタイム/DebugView で受信確認、`generated_pdf` と `purchase` のキーイベント指定、Search Console 連携（[analytics.md §5](analytics.md)）。**開店前の必須ゲート G5** |
 | ★ | **オンサイトメッセージ用 AWS リソース** | DynamoDB `tenzu-onsite`（＋dev 用）・S3 `tenzu-onsite-assets`・IAM 権限追加・Amplify env 5 件（手順＝§1.1・約 30 分）。未設定でもサイト自体は動く（カード非表示へ degrade）が、開店あいさつ `welcome-2026` を出すには必須＝W5 の文言確認までに |
