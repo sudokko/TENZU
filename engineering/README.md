@@ -8,7 +8,7 @@
 - オーナー専用の管理画面 **`/admin/onsite`**（合言葉＋署名 cookie・本番稼働）でオンサイトメッセージを即時編集・表示数/クリック数を閲覧
 - engineering/ 領域は**ローンチ準備チェックリストとインフラ手順の置き場**。設計や経緯は持たない
 - 残作業の SSOT は [phase-1-todo.md](phase-1-todo.md)（ローンチ準備 TODO・未了項目のみ）
-- 計測実装の SSOT は [analytics.md](analytics.md)（GA4/GTM 3イベント・UTM 命名規則・コンソール設定手順）
+- 計測実装の SSOT は [analytics.md](analytics.md)（GA4/GTM・主要 7 イベント・UTM 命名規則・本番コンソール状態と設定手順）
 - リリース前テストの観点・優先順（P0〜P3）・AI 委任範囲は [release-testing.md](release-testing.md)
 - 本番 env チェックリストは [../web/.env.production.example](../web/.env.production.example)（キー集合の SSOT・値はコミットしない）
 - 認証はログインなしの**所有モデル**（署名 cookie ＋マジックリンク復元・[../decisions.md §4.7](../decisions.md)）。決済は Stripe Checkout（`price_data` 直書き・Price ID 不使用）

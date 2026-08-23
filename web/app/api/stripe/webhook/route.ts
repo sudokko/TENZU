@@ -14,7 +14,11 @@
      2. checkout.session.async_payment_succeeded … 客が店頭で払った時点。ここが配送の合図
    したがって completed だけを購読すると、コンビニ払いの客に購入メールが永遠に届かない。
    両方を同じ経路へ流し、payment_status==="paid" のガードで実際の配送可否を決める
-   （＝ 1 の unpaid はここで落ちるので、二重送信にはならない）。 */
+   （＝ 1 の unpaid はここで落ちるので、二重送信にはならない）。
+
+   ※ 開店時点の決済手段は「カードのみ」＝コンビニ払いは未有効（固定電話番号が要るため・
+   decisions.md §3.110）。この 2 イベント購読は将来の非同期決済に備えて残してある。
+   購読していても実害はなく、逆に購読漏れは「入金したのに届かない」を生む。 */
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { volBySku, volTitle } from "../../../products/data";
