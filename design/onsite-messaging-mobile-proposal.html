@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>TENZU｜スマホ中心のWeb接客 改訂提案</title>
+  <style>
+    :root {
+      --ink: #1a1f2a;
+      --fg: #424955;
+      --muted: #767d89;
+      --accent: #2c6e7f;
+      --accent-dark: #215565;
+      --paper: #ffffff;
+      --cream: #faf8f3;
+      --cream-2: #f4f2ed;
+      --line: #e5e3dc;
+      --line-strong: #bfbdb5;
+      --ok: #2f6f5e;
+      --warn: #8a6412;
+      --danger: #8b473e;
+      --shadow: 0 14px 44px rgba(26,31,42,.12);
+      --radius: 4px;
+      --sans: "IBM Plex Sans JP", "Noto Sans JP", system-ui, sans-serif;
+      --serif: "Klee One", "Yu Mincho", "Hiragino Mincho ProN", serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image: radial-gradient(circle, rgba(44,110,127,.12) 1px, transparent 1.2px);
+      background-size: 28px 28px;
+      font-family: var(--sans);
+      line-height: 1.75;
+    }
+    button, input, textarea, select { font: inherit; }
+    button, label, select { -webkit-tap-highlight-color: transparent; }
+    a { color: var(--accent-dark); text-underline-offset: 3px; }
+    a:hover { color: var(--accent); }
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 3px solid rgba(44,110,127,.34);
+      outline-offset: 2px;
+    }
+
+    .page-head {
+      padding: 54px 24px 46px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.94);
+    }
+    .head-inner, .section-inner { width: min(1180px, 100%); margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--accent-dark);
+      font: 600 12px/1.4 var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 600; }
+    h1 { max-width: 860px; margin: 0; font-size: clamp(30px, 5vw, 54px); line-height: 1.32; letter-spacing: .015em; }
+    .head-lead { max-width: 760px; margin: 22px 0 0; color: var(--fg); font-size: 16px; }
+    .decision-strip {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: start;
+      margin-top: 28px;
+      padding: 18px 20px;
+      max-width: 930px;
+      border-left: 4px solid var(--accent);
+      background: var(--cream);
+    }
+    .decision-mark {
+      display: grid; place-items: center; width: 38px; height: 38px;
+      background: var(--accent); color: white; border-radius: 50%; font-weight: 700;
+    }
+    .decision-strip strong { display: block; margin-bottom: 4px; font-size: 17px; }
+    .decision-strip p { margin: 0; color: var(--fg); }
+
+    .toc {
+      position: sticky; top: 0; z-index: 30;
+      overflow-x: auto;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(14px);
+    }
+    .toc-inner { display: flex; gap: 4px; width: min(1180px, 100%); margin: 0 auto; padding: 8px 16px; }
+    .toc a { flex: 0 0 auto; padding: 8px 12px; color: var(--fg); font-size: 13px; text-decoration: none; border-radius: 999px; }
+    .toc a:hover { background: var(--cream-2); color: var(--ink); }
+
+    section { padding: 76px 24px; }
+    section:nth-of-type(even) { background: rgba(250,248,243,.8); }
+    .sec-head { max-width: 760px; margin-bottom: 30px; }
+    .sec-no { display: block; margin-bottom: 7px; color: var(--accent); font: 600 12px var(--mono); letter-spacing: .1em; }
+    h2 { margin: 0; padding-bottom: 9px; border-bottom: 2px solid var(--accent); font-size: clamp(25px, 4vw, 36px); line-height: 1.4; }
+    .sec-lead { margin: 16px 0 0; color: var(--fg); }
+
+    .answer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .answer-card { padding: 22px; border: 1px solid var(--line); background: white; }
+    .answer-card.recommended { border-color: var(--accent); box-shadow: inset 0 3px 0 var(--accent); }
+    .status { display: inline-flex; align-items: center; min-height: 27px; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+    .status.yes { color: var(--ok); background: #edf7f3; }
+    .status.conditional { color: var(--warn); background: #fbf6e7; }
+    .status.no { color: var(--danger); background: #fbefed; }
+    .answer-card h3 { margin: 14px 0 8px; font-size: 19px; }
+    .answer-card p { margin: 0; color: var(--fg); font-size: 14px; }
+
+    .sim-grid { display: grid; grid-template-columns: minmax(430px, 1fr) minmax(360px, .9fr); gap: 32px; align-items: start; }
+    .admin-panel { border: 1px solid var(--line-strong); background: white; box-shadow: 0 8px 30px rgba(26,31,42,.06); }
+    .panel-head { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .panel-head h3 { margin: 0; font-family: var(--sans); font-size: 16px; }
+    .save-state { color: var(--ok); font-size: 12px; }
+    .scenario-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border-bottom: 1px solid var(--line); }
+    .scenario-tab { min-height: 50px; padding: 8px 5px; border: 0; background: white; color: var(--muted); cursor: pointer; font-size: 12px; }
+    .scenario-tab[aria-selected="true"] { background: var(--ink); color: white; }
+    .form-body { padding: 18px; }
+    .form-section { margin: 0 0 22px; }
+    .form-section:last-child { margin-bottom: 0; }
+    .form-label { display: block; margin-bottom: 7px; color: var(--fg); font-size: 12px; font-weight: 600; }
+    .form-note { margin: 6px 0 0; color: var(--muted); font-size: 11.5px; }
+    .input, .textarea, .select {
+      width: 100%; min-height: 44px; padding: 9px 11px; border: 1px solid var(--line-strong); border-radius: var(--radius); color: var(--ink); background: white;
+    }
+    .textarea { min-height: 74px; resize: vertical; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .segmented { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; }
+    .segmented label { position: relative; min-height: 48px; display: grid; place-items: center; padding: 7px; text-align: center; font-size: 12px; cursor: pointer; background: white; border-right: 1px solid var(--line); }
+    .segmented label:last-child { border-right: 0; }
+    .segmented input { position: absolute; opacity: 0; }
+    .segmented label:has(input:checked) { color: white; background: var(--accent); }
+    .check-row { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+    .check { min-height: 36px; display: inline-flex; gap: 8px; align-items: center; color: var(--fg); font-size: 13px; cursor: pointer; }
+    .check input { width: 18px; height: 18px; accent-color: var(--accent); }
+    .rule-summary { padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--cream); color: var(--fg); font-size: 12.5px; }
+
+    .preview-wrap { position: sticky; top: 76px; }
+    .preview-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .preview-toolbar h3 { margin: 0; font-family: var(--sans); font-size: 15px; }
+    .viewport-meter { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font: 12px var(--mono); }
+    .meter-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+    .phone {
+      position: relative;
+      width: min(390px, 100%);
+      height: 760px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 9px solid var(--ink);
+      border-radius: 44px;
+      background: white;
+      box-shadow: 0 22px 60px rgba(26,31,42,.22);
+    }
+    .phone::before { content: ""; position: absolute; z-index: 20; top: 8px; left: 50%; width: 92px; height: 24px; transform: translateX(-50%); border-radius: 16px; background: var(--ink); }
+    .phone-status { position: absolute; z-index: 15; top: 0; left: 0; right: 0; height: 42px; display: flex; justify-content: space-between; align-items: center; padding: 0 23px; font: 600 11px var(--sans); background: white; }
+    .phone-page { position: absolute; inset: 42px 0 0; overflow: hidden; background-color: white; background-image: radial-gradient(circle, rgba(44,110,127,.1) 1px, transparent 1.2px); background-size: 28px 28px; }
+    .site-nav { height: 62px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.94); }
+    .mini-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; }
+    .dot-mark { display: grid; grid-template-columns: repeat(2, 5px); gap: 5px; }
+    .dot-mark i { width: 5px; height: 5px; border-radius: 50%; background: var(--ink); }
+    .hamb { width: 38px; height: 38px; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--cream-2); }
+    .phone-content { position: absolute; inset: 62px 0 0; overflow: hidden; padding: 28px 20px 90px; }
+    .crumb { color: var(--muted); font-size: 10px; }
+    .mock-title { margin: 14px 0 12px; font: 600 25px/1.45 var(--serif); }
+    .mock-lead { margin: 0 0 20px; color: var(--fg); font-size: 12.5px; line-height: 1.8; }
+    .sample-card { padding: 13px; border: 1px solid var(--line); background: rgba(255,255,255,.94); }
+    .sample-img { width: 100%; height: 142px; object-fit: cover; display: block; border: 1px solid var(--line); }
+    .sample-caption { margin: 9px 0 0; font-size: 11px; color: var(--fg); }
+    .skeleton { height: 8px; margin-top: 12px; border-radius: 9px; background: var(--cream-2); }
+    .skeleton:nth-child(2n) { width: 74%; }
+
+    .onsite-card {
+      position: absolute;
+      z-index: 12;
+      left: 15px;
+      right: 15px;
+      display: grid;
+      grid-template-columns: 102px 1fr;
+      gap: 12px;
+      min-height: 148px;
+      padding: 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: white;
+      box-shadow: var(--shadow);
+      transition: top .28s ease, bottom .28s ease, transform .28s ease;
+    }
+    .onsite-card.center { top: 42%; bottom: auto; transform: translateY(-50%); }
+    .onsite-card.bottom { top: auto; bottom: calc(14px + env(safe-area-inset-bottom)); transform: none; }
+    .onsite-card.inline { top: 360px; bottom: auto; transform: none; box-shadow: 0 4px 15px rgba(26,31,42,.07); border-style: dashed; }
+    .onsite-card.no-image { grid-template-columns: 1fr; min-height: 132px; }
+    .onsite-img { width: 102px; height: 124px; object-fit: cover; border-radius: 5px; border: 1px solid var(--line); }
+    .onsite-card.no-image .onsite-img { display: none; }
+    .onsite-copy { min-width: 0; padding: 4px 25px 0 0; }
+    .onsite-kicker { display: block; color: var(--accent-dark); font: 600 9.5px var(--mono); letter-spacing: .08em; }
+    .onsite-title { margin: 5px 0 4px; font: 600 15px/1.45 var(--serif); }
+    .onsite-text { margin: 0; color: var(--fg); font-size: 11.5px; line-height: 1.62; }
+    .onsite-cta { min-height: 44px; display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; color: var(--accent-dark); font-size: 11.5px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+    .onsite-close { position: absolute; right: 5px; top: 5px; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--muted); font-size: 23px; cursor: pointer; }
+    .onsite-close:hover { background: var(--cream-2); color: var(--ink); }
+    .safe-label { position: absolute; z-index: 11; right: 17px; bottom: 5px; padding: 2px 7px; border-radius: 999px; background: rgba(26,31,42,.76); color: white; font: 9px var(--mono); }
+    .home-indicator { position: absolute; z-index: 18; bottom: 6px; left: 50%; width: 126px; height: 5px; transform: translateX(-50%); border-radius: 8px; background: var(--ink); }
+    .preview-caption { max-width: 390px; margin: 16px auto 0; color: var(--fg); font-size: 12.5px; }
+    .preview-caption strong { color: var(--ink); }
+
+    .position-table { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .position-card { padding: 18px; border: 1px solid var(--line); background: white; }
+    .mini-screen { position: relative; height: 210px; margin-bottom: 15px; overflow: hidden; border: 5px solid var(--ink); border-radius: 20px; background: linear-gradient(var(--cream-2) 35%, white 35%); }
+    .mini-screen::before { content: ""; position: absolute; inset: 22px 14px auto; height: 7px; background: var(--line-strong); box-shadow: 0 19px 0 var(--line), 0 38px 0 var(--line), 0 57px 0 var(--line); }
+    .mini-pop { position: absolute; left: 11px; right: 11px; height: 56px; border: 1px solid var(--line-strong); border-radius: 4px; background: white; box-shadow: 0 5px 16px rgba(26,31,42,.16); }
+    .mini-pop::before { content: ""; position: absolute; left: 7px; top: 7px; width: 42px; bottom: 7px; background: #e4d4b6; }
+    .mini-pop::after { content: ""; position: absolute; left: 58px; right: 12px; top: 13px; height: 5px; background: var(--line-strong); box-shadow: 0 12px 0 var(--line), 0 24px 0 var(--accent); }
+    .mini-pop.center { top: 78px; }
+    .mini-pop.bottom { bottom: 9px; }
+    .mini-pop.inline { top: 122px; box-shadow: none; border-style: dashed; }
+    .position-card h3 { margin: 0 0 6px; font-size: 17px; }
+    .position-card p { margin: 0; color: var(--fg); font-size: 13px; }
+    .proscons { margin: 12px 0 0; padding: 12px 0 0; border-top: 1px dashed var(--line); list-style: none; font-size: 12.5px; color: var(--fg); }
+    .proscons li { margin: 3px 0; }
+
+    .scenario-table-wrap { overflow-x: auto; border: 1px solid var(--line); background: white; }
+    table { width: 100%; border-collapse: collapse; min-width: 820px; font-size: 13px; }
+    th { padding: 11px 13px; text-align: left; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .05em; border-bottom: 1px solid var(--line-strong); }
+    td { padding: 14px 13px; vertical-align: top; color: var(--fg); border-bottom: 1px dashed var(--line); }
+    tr:last-child td { border-bottom: 0; }
+    td strong { color: var(--ink); }
+    .mono { font-family: var(--mono); font-size: 11px; }
+    .tag { display: inline-flex; min-height: 25px; align-items: center; padding: 2px 8px; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--fg); font-size: 11px; white-space: nowrap; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .feature-card { position: relative; padding: 22px 22px 20px; border: 1px solid var(--line); background: white; }
+    .priority { position: absolute; top: 16px; right: 16px; color: var(--accent-dark); font: 700 11px var(--mono); }
+    .feature-card h3 { margin: 0 50px 8px 0; font-size: 18px; }
+    .feature-card p { margin: 0; color: var(--fg); font-size: 13px; }
+    .feature-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .feature-meta span { padding: 2px 8px; background: var(--cream-2); color: var(--muted); font-size: 10.5px; border-radius: 999px; }
+
+    .guardrail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .checklist { margin: 0; padding: 0; list-style: none; }
+    .checklist li { position: relative; min-height: 42px; padding: 8px 0 8px 34px; border-bottom: 1px dashed var(--line); color: var(--fg); font-size: 13px; }
+    .checklist li::before { content: "✓"; position: absolute; left: 0; top: 7px; display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid var(--accent); border-radius: 50%; color: var(--accent); font-weight: 700; }
+    .data-box { padding: 20px; border-left: 4px solid var(--ink); background: var(--cream-2); }
+    .data-box h3 { margin: 0 0 10px; font-family: var(--sans); font-size: 15px; }
+    .data-box pre { margin: 0; overflow-x: auto; color: var(--fg); font: 11.5px/1.7 var(--mono); white-space: pre-wrap; }
+
+    .sources { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; margin: 0; padding: 0; list-style: none; }
+    .sources li { padding: 12px 0; border-bottom: 1px dashed var(--line); color: var(--fg); font-size: 12.5px; }
+    .sources a { font-weight: 600; }
+    .source-use { display: block; color: var(--muted); margin-top: 3px; }
+    footer { padding: 32px 24px 56px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 12px; background: white; }
+
+    @media (max-width: 920px) {
+      .answer-grid, .position-table { grid-template-columns: 1fr; }
+      .sim-grid { grid-template-columns: 1fr; }
+      .preview-wrap { position: static; }
+      .feature-grid, .guardrail-grid, .sources { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .page-head { padding: 38px 18px 34px; }
+      section { padding: 58px 18px; }
+      .decision-strip { grid-template-columns: 1fr; }
+      .decision-mark { width: 34px; height: 34px; }
+      .form-row { grid-template-columns: 1fr; }
+      .scenario-tabs { grid-template-columns: repeat(2, 1fr); }
+      .phone { height: 705px; }
+      .segmented label { font-size: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-head">
+    <div class="head-inner">
+      <p class="eyebrow">TENZU · ONSITE MESSAGING · MOBILE FIRST · 2026-08-24</p>
+      <h1>スマホ中心のWeb接客<br>改訂提案</h1>
+      <p class="head-lead">現行の「画面下部・64px画像・本文・リンク」を土台に、見つけやすさを上げつつ、TENZUの「煽らない・邪魔しない」を守る設定案です。管理画面の入力とユーザー画面の反映を同じページで確認できます。</p>
+      <div class="decision-strip">
+        <span class="decision-mark">結</span>
+        <div>
+          <strong>画像＋文言＋リンクは賛成。中央も賛成。ただし「中央モーダル」ではなく「中央寄せの小さな非モーダルカード」にする。</strong>
+          <p>初回案内・レベル選びは中央寄せ、カート通知は下部、操作ヒントは文脈内。1つの位置に統一しないのが最も自然です。</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="ページ内メニュー">
+    <div class="toc-inner">
+      <a href="#answer">結論</a><a href="#simulator">設定＋反映画面</a><a href="#position">表示位置</a><a href="#scenarios">シナリオ設定</a><a href="#features">追加機能</a><a href="#guardrails">実装条件</a><a href="#sources">調査ソース</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="answer">
+      <div class="section-inner">
+        <div class="sec-head">
+          <span class="sec-no">01 / RECOMMENDATION</span>
+          <h2>まず、何を変えるか</h2>
+          <p class="sec-lead">現行の下部カードは間違いではありません。ただ、スマホではブラウザの下部UIや固定操作バーと重なりやすく、TENZUの主訴求を見せるには弱い。用途別に3つへ分けます。</p>
+        </div>
+        <div class="answer-grid">
+          <article class="answer-card recommended">
+            <span class="status yes">採用</span>
+            <h3>中央寄せフローティング</h3>
+            <p>初回案内・レベル選び向け。画面上端から約42%、幅は左右15px余白、背景オーバーレイなし。画像は102×124pxを基準にします。</p>
+          </article>
+          <article class="answer-card">
+            <span class="status conditional">用途限定</span>
+            <h3>下部カード</h3>
+            <p>カートの事実通知に残します。親指で押しやすい一方、固定フッターと競合するため、safe areaと既存バーの高さを必ず加算します。</p>
+          </article>
+          <article class="answer-card">
+            <span class="status yes">追加</span>
+            <h3>文脈内カード</h3>
+            <p>メーカーの使い方ヒントや記事内の関連案内向け。読み物・操作を覆わず、表示理由が最も伝わりやすい方式です。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="simulator">
+      <div class="section-inner">
+        <div class="sec-head">
+          <span class="sec-no">02 / ADMIN + CUSTOMER VIEW</span>
+          <h2>管理画面設定と、スマホ反映画面</h2>
+          <p class="sec-lead">左の設定を変更すると右のスマホ画面へ即時反映されます。まず「初回案内」の推奨値を表示しています。</p>
+        </div>
+        <div class="sim-grid">
+          <div class="admin-panel" aria-label="Web接客管理画面の提案モック">
+            <div class="panel-head">
+              <h3>キャンペーン編集</h3>
+              <span class="save-state">● プレビュー反映中</span>
+            </div>
+            <div class="scenario-tabs" role="tablist" aria-label="シナリオ">
+              <button class="scenario-tab" type="button" role="tab" aria-selected="true" data-scenario="welcome">初回案内</button>
+              <button class="scenario-tab" type="button" role="tab" aria-selected="false" data-scenario="guide">レベル選び</button>
+              <button class="scenario-tab" type="button" role="tab" aria-selected="false" data-scenario="cart">カート</button>
+              <button class="scenario-tab" type="button" role="tab" aria-selected="false" data-scenario="maker">操作ヒント</button>
+            </div>
+            <div class="form-body">
+              <div class="form-section">
+                <span class="form-label">表示位置（スマホ）</span>
+                <div class="segmented">
+                  <label><input type="radio" name="placement" value="center" checked>中央寄せ<br>浮遊</label>
+                  <label><input type="radio" name="placement" value="bottom">下部<br>固定</label>
+                  <label><input type="radio" name="placement" value="inline">文脈内<br>挿入</label>
+                </div>
+                <p class="form-note" id="placementHelp">画面上端から42%・背景は暗くしない・本文操作は継続できます。</p>
+              </div>
+
+              <div class="form-row">
+                <div class="form-section">
+                  <label class="form-label" for="trigger">表示トリガー</label>
+                  <select class="select" id="trigger">
+                    <option>10秒 + 35%スクロール</option>
+                    <option>30秒閲覧後の小休止</option>
+                    <option>カートありで次ページへ移動</option>
+                    <option>対象操作の近くで表示</option>
+                  </select>
+                </div>
+                <div class="form-section">
+                  <label class="form-label" for="frequency">再表示</label>
+                  <select class="select" id="frequency">
+                    <option>1キャンペーン1回</option>
+                    <option>閉じたら30日後・最大2回</option>
+                    <option>クリックまで7日ごと・最大2回</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <span class="form-label">クリエイティブ</span>
+                <div class="check-row">
+                  <label class="check"><input id="imageToggle" type="checkbox" checked>画像を表示</label>
+                  <label class="check"><input id="lightDismiss" type="checkbox" checked>カード外タップで閉じる</label>
+                  <label class="check"><input id="oncePv" type="checkbox" checked>1ページ1件まで</label>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <label class="form-label" for="headline">見出し <span class="mono">18字目安</span></label>
+                <input class="input" id="headline" value="中身を見てから選べます">
+              </div>
+              <div class="form-section">
+                <label class="form-label" for="message">本文 <span class="mono">44字目安・最大2文</span></label>
+                <textarea class="textarea" id="message">TENZUのプリントは、全問を購入前にご覧いただけます。</textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-section">
+                  <label class="form-label" for="cta">リンク文言</label>
+                  <input class="input" id="cta" value="プリントの中身を見る">
+                </div>
+                <div class="form-section">
+                  <label class="form-label" for="href">リンク先</label>
+                  <input class="input mono" id="href" value="/products">
+                </div>
+              </div>
+              <div class="rule-summary" id="ruleSummary"><strong>配信条件：</strong> 初回訪問者が10秒以上閲覧し、35%まで読んだ時に1度だけ表示。中央寄せ・画像あり。</div>
+            </div>
+          </div>
+
+          <div class="preview-wrap">
+            <div class="preview-toolbar">
+              <h3>ユーザー側 · 390px</h3>
+              <span class="viewport-meter"><i class="meter-dot"></i><span id="occupancy">カード占有 約21%</span></span>
+            </div>
+            <div class="phone" aria-label="スマートフォン表示プレビュー">
+              <div class="phone-status"><span>9:41</span><span>5G　▰</span></div>
+              <div class="phone-page">
+                <div class="site-nav">
+                  <div class="mini-logo"><span class="dot-mark"><i></i><i></i><i></i><i></i></span>TENZU <small>点描写専門店</small></div>
+                  <button type="button" class="hamb" aria-label="メニュー">☰</button>
+                </div>
+                <div class="phone-content">
+                  <span class="crumb">HOME / 点描写プリント</span>
+                  <h3 class="mock-title" id="pageTitle">見て、考えて、書く力を、点描写から。</h3>
+                  <p class="mock-lead" id="pageLead">模写から対称・回転・立体まで。今の地点に合う一枚を、中身を見て選べます。</p>
+                  <div class="sample-card">
+                    <img class="sample-img" src="../web/public/assets/articles/point-drawing-complete-guide/02-learning-order.webp" alt="段階別の点描写プリント">
+                    <p class="sample-caption">模写から少しずつ、かたちの見え方を広げます。</p>
+                  </div>
+                  <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+                </div>
+
+                <aside class="onsite-card center" id="onsiteCard" aria-label="おすすめのご案内">
+                  <img class="onsite-img" id="onsiteImage" src="../web/public/assets/articles/point-drawing-complete-guide/02-learning-order.webp" alt="段階別に並んだ点描写プリント">
+                  <div class="onsite-copy">
+                    <span class="onsite-kicker" id="kicker">はじめての方へ</span>
+                    <h4 class="onsite-title" id="previewHeadline">中身を見てから選べます</h4>
+                    <p class="onsite-text" id="previewMessage">TENZUのプリントは、全問を購入前にご覧いただけます。</p>
+                    <a class="onsite-cta" id="previewCta" href="#simulator">プリントの中身を見る <span aria-hidden="true">→</span></a>
+                  </div>
+                  <button class="onsite-close" type="button" aria-label="この案内を閉じる">×</button>
+                </aside>
+                <span class="safe-label">safe area</span>
+              </div>
+              <span class="home-indicator"></span>
+            </div>
+            <p class="preview-caption" id="previewCaption"><strong>中央寄せでも背景を暗くしない</strong>ため、サイト本体を読み続けられます。カード高は画面の約2割に留めます。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="position">
+      <div class="section-inner">
+        <div class="sec-head">
+          <span class="sec-no">03 / POSITION</span>
+          <h2>「下部はダメ？ 中央がいい？」への回答</h2>
+          <p class="sec-lead">中央は目立ちますが、全面を塞ぐとGoogleが避けるよう求める侵入的インタースティシャルに近づきます。TENZUでは「位置は中央・振る舞いはバナー」が落としどころです。</p>
+        </div>
+        <div class="position-table">
+          <article class="position-card">
+            <div class="mini-screen"><i class="mini-pop center"></i></div>
+            <h3>中央寄せ・非モーダル</h3>
+            <p><span class="status yes">主推奨</span></p>
+            <ul class="proscons"><li>＋ 視線に入りやすい</li><li>＋ 下部UIと競合しない</li><li>− 本文を一部覆うため小型化が必須</li></ul>
+          </article>
+          <article class="position-card">
+            <div class="mini-screen"><i class="mini-pop bottom"></i></div>
+            <h3>下部固定</h3>
+            <p><span class="status conditional">通知向け</span></p>
+            <ul class="proscons"><li>＋ 親指で操作しやすい</li><li>＋ カート通知と相性がよい</li><li>− ブラウザUI・固定バーと競合</li></ul>
+          </article>
+          <article class="position-card">
+            <div class="mini-screen"><i class="mini-pop inline"></i></div>
+            <h3>文脈内</h3>
+            <p><span class="status yes">補助推奨</span></p>
+            <ul class="proscons"><li>＋ 邪魔になりにくい</li><li>＋ 表示理由が伝わる</li><li>− 即時の視認性は中央より弱い</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="scenarios">
+      <div class="section-inner">
+        <div class="sec-head">
+          <span class="sec-no">04 / CAMPAIGN SETTINGS</span>
+          <h2>シナリオ別の推奨設定</h2>
+          <p class="sec-lead">現行5本を増やすより、まず発火条件と表示位置を合わせます。「初回訪問から3秒」は早すぎるので、閲覧行動を組み合わせます。</p>
+        </div>
+        <div class="scenario-table-wrap">
+          <table>
+            <thead><tr><th>キャンペーン</th><th>位置 / 画像</th><th>表示条件</th><th>頻度</th><th>推奨コピー</th><th>主KPI</th></tr></thead>
+            <tbody>
+              <tr><td><strong>welcome-2026</strong><br><span class="tag">初回案内</span></td><td>中央寄せ<br>画像あり</td><td>10秒以上 ＋ 35%スクロール<br><span class="mono">検索流入の着地直後は出さない</span></td><td>1キャンペーン1回</td><td><strong>中身を見てから選べます</strong><br>TENZUのプリントは、全問を購入前にご覧いただけます。<br><u>プリントの中身を見る</u></td><td>CTA率 → 商品閲覧</td></tr>
+              <tr><td><strong>guide-nudge</strong><br><span class="tag">レベル選び</span></td><td>中央寄せ<br>画像あり</td><td>商品一覧で30秒以上 ＋ 2商品以上閲覧<br>または同じ一覧を上下に再スクロール</td><td>閉じたら30日後<br>最大2回</td><td><strong>はじめる位置に迷ったら</strong><br>今の様子から選ぶ目安を、短いガイドにまとめています。<br><u>レベル選びガイドを見る</u></td><td>ガイド開始 → 完了</td></tr>
+              <tr><td><strong>cart-keep</strong><br><span class="tag">カート通知</span></td><td>下部固定<br>画像なし</td><td>カートありで次の内部ページへ移動<br>または次回訪問時<br><span class="mono">visibility復帰直後は避ける</span></td><td>7日ごと・最大2回<br>購入で終了</td><td><strong>カートに1巻入っています</strong><br>続きは、いつでもカートから確認できます。<br><u>カートを見る</u></td><td>カート復帰 → 購入</td></tr>
+              <tr><td><strong>maker-hint</strong><br><span class="tag">操作ヒント</span></td><td>文脈内<br>画像なし</td><td>PDF出力前に操作が30秒停止<br>対象操作の直後へ挿入</td><td>1回</td><td><strong>練習は紙で</strong><br>作った問題はPDFにして、そのまま印刷できます。<br><span class="mono">CTAなし</span></td><td>PDF生成</td></tr>
+              <tr><td><strong>spring-lp-2027</strong><br><span class="tag">季節特集</span></td><td>中央寄せ<br>季節画像あり</td><td>関連記事を40%閲覧<br>1〜3月のみ・公開翌日から</td><td>1シーズン1回</td><td><strong>春の7枚をまとめました</strong><br>形と位置の練習を、はじめやすい順に選べます。<br><u>春の特集を見る</u></td><td>特集閲覧 → サンプル</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="section-inner">
+        <div class="sec-head">
+          <span class="sec-no">05 / FEATURES TO ADD</span>
+          <h2>足した方がよい機能</h2>
+          <p class="sec-lead">現行管理画面は文言・画像・ページ・トリガー・統計まで揃っています。次に効くのはキャンペーン数ではなく、スマホでの見え方と表示理由を制御する機能です。</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card"><span class="priority">P0</span><h3>端末別レイアウト設定</h3><p>スマホは「中央寄せ / 下部 / 文脈内」、PCは「右下 / 文脈内」を選択。画像の有無・比率も端末別にします。</p><div class="feature-meta"><span>効果 大</span><span>実装 中</span><span>今回の核</span></div></article>
+          <article class="feature-card"><span class="priority">P0</span><h3>管理画面の実寸プレビュー</h3><p>390px / 375px / PCを切り替え、本文の折返し・safe area・既存固定バーとの衝突を保存前に確認します。</p><div class="feature-meta"><span>事故防止</span><span>実装 小〜中</span></div></article>
+          <article class="feature-card"><span class="priority">P0</span><h3>見出しフィールド</h3><p>現行は本文だけ。画像・本文・リンクを流し読みされないよう、14〜18字の見出しを追加します。本文との役割を分けます。</p><div class="feature-meta"><span>視認性</span><span>実装 小</span></div></article>
+          <article class="feature-card"><span class="priority">P0</span><h3>行動トリガーの組合せ</h3><p>「秒数だけ」でなく、スクロール率・商品閲覧数・カート保有・ページ移動をAND/ORで組めるようにします。</p><div class="feature-meta"><span>誤爆削減</span><span>実装 中</span></div></article>
+          <article class="feature-card"><span class="priority">P1</span><h3>開始・終了日時の予約</h3><p>春キャンペーンを手動でON/OFFせず、JSTで開始・終了。終了後は自動停止し、過去設定は残します。</p><div class="feature-meta"><span>運用省力</span><span>実装 小</span></div></article>
+          <article class="feature-card"><span class="priority">P1</span><h3>頻度を結果別に制御</h3><p>クリック済みは終了、×で閉じたら30日休止、表示だけなら7日後にあと1回など、閲覧・閉じる・クリックを分けます。</p><div class="feature-meta"><span>機会損失削減</span><span>実装 中</span></div></article>
+          <article class="feature-card"><span class="priority">P1</span><h3>下流成果までの統計</h3><p>表示・クリック・閉じるだけでなく、ガイド完了・サンプル閲覧・PDF生成・購入まで管理画面で接続します。</p><div class="feature-meta"><span>意思決定</span><span>実装 中</span></div></article>
+          <article class="feature-card"><span class="priority">P1</span><h3>保存前の自動検査</h3><p>文字数、リンク切れ、alt、タップ領域、画面占有率、同時配信の競合、NG語彙をまとめて警告します。</p><div class="feature-meta"><span>品質保証</span><span>実装 小〜中</span></div></article>
+          <article class="feature-card"><span class="priority">P2</span><h3>小さな比較テスト</h3><p>本格A/B基盤ではなく、中央寄せと下部を2週間ずつ比較する期間テスト。購入など下流成果で判断します。</p><div class="feature-meta"><span>検証</span><span>実装 中</span><span>流量が増えてから</span></div></article>
+          <article class="feature-card"><span class="priority">P2</span><h3>「あとで見る」</h3><p>×だけでなく「あとで見る」を用意し、閉じると拒否を分けます。再表示はユーザーが選んだ時だけにします。</p><div class="feature-meta"><span>配慮</span><span>実装 中</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="guardrails">
+      <div class="section-inner">
+        <div class="sec-head">
+          <span class="sec-no">06 / IMPLEMENTATION GUARDRAILS</span>
+          <h2>実装時に守る条件</h2>
+          <p class="sec-lead">中央寄せへ変える場合は、位置だけ変えて終わりにせず、カードの占有率・閉じ方・フォーカス・計測をセットで直します。</p>
+        </div>
+        <div class="guardrail-grid">
+          <ul class="checklist">
+            <li>背景オーバーレイ・スクロールロック・自動フォーカス移動は使わない</li>
+            <li>スマホ幅は左右15〜16px余白、カード高は原則ビューポートの30%以下</li>
+            <li>閉じるボタンとCTAのタップ領域は44×44pxを目標（WCAG AA最低24pxを上回る）</li>
+            <li>カード外タップ、Esc、×の3経路で閉じられる</li>
+            <li>表示アニメーションは200〜280ms、reduced motionでは無効</li>
+            <li>safe-area-inset-bottomと既存固定バーの高さを合算する</li>
+            <li>表示計測は実際に1秒以上見えた時点、プレビューは除外</li>
+            <li>同時1件、決済・管理・工房編集画面では抑制を維持</li>
+          </ul>
+          <div class="data-box">
+            <h3>既存Campaign型への最小追加案</h3>
+            <pre>headline?: string
+layout?: {
+  mobile: "floating" | "bottom" | "inline"
+  desktop: "corner" | "inline"
+  imageVariant: "side" | "none"
+}
+conditions?: {
+  minVisibleSec?: number
+  minScrollPct?: number
+  minProductViews?: number
+  schedule?: { startAt: string; endAt: string }
+}
+frequency?: {
+  onView: "lifetime" | "7d"
+  onDismiss: "lifetime" | "30d"
+  maxImpressions: 1 | 2
+}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="section-inner">
+        <div class="sec-head">
+          <span class="sec-no">07 / RESEARCH SOURCES</span>
+          <h2>今回読み込んだ根拠</h2>
+          <p class="sec-lead">特定ツールの売り文句ではなく、検索・アクセシビリティの公式資料と大規模ECユーザビリティ調査を優先しました。</p>
+        </div>
+        <ul class="sources">
+          <li><a href="https://developers.google.com/search/docs/appearance/avoid-intrusive-interstitials" target="_blank" rel="noreferrer">Google Search Central — Avoid intrusive interstitials and dialogs</a><span class="source-use">全面を塞ぐ表示を避け、小さなバナーを使う判断の根拠。</span></li>
+          <li><a href="https://baymard.com/guidelines/284-promotional-overlays-that-appear-on-page-load" target="_blank" rel="noreferrer">Baymard Institute — Promotional Overlays on Page Load</a><span class="source-use">到着直後の宣伝オーバーレイが反射的に閉じられやすいという調査。</span></li>
+          <li><a href="https://baymard.com/blog/avoid-these-ecommerce-graphics" target="_blank" rel="noreferrer">Baymard Institute — Avoid These E-Commerce Graphics</a><span class="source-use">ユーザー行動に応じたヘルプと、ページロード時の宣伝表示を分ける根拠。</span></li>
+          <li><a href="https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum" target="_blank" rel="noreferrer">W3C WAI — Target Size (Minimum)</a><span class="source-use">タップ対象24px以上、実装目標44pxの根拠。</span></li>
+          <li><a href="https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum" target="_blank" rel="noreferrer">W3C WAI — Focus Not Obscured</a><span class="source-use">固定パネルが背後の操作対象を完全に隠さないための根拠。</span></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Popover_API" target="_blank" rel="noreferrer">MDN — Popover API</a><span class="source-use">非モーダル表示・light dismiss・単一表示の実装方針。</span></li>
+          <li><a href="https://web.dev/learn/css/popover-and-dialog" target="_blank" rel="noreferrer">web.dev — Popover and dialog</a><span class="source-use">中央配置でも非モーダルとして実装できる技術的根拠。</span></li>
+          <li><a href="https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html" target="_blank" rel="noreferrer">W3C WAI — Animation from Interactions</a><span class="source-use">不要な移動を抑え、prefers-reduced-motionを尊重する根拠。</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>提案資料 — 本番実装はまだ変更していません。TENZU Design System rev.5 / Brand Values V1・V3 準拠。</footer>
+
+  <script>
+    const scenarios = {
+      welcome: {
+        kicker: "はじめての方へ", headline: "中身を見てから選べます",
+        message: "TENZUのプリントは、全問を購入前にご覧いただけます。",
+        cta: "プリントの中身を見る", href: "/products", placement: "center", image: true,
+        trigger: 0, frequency: 0,
+        pageTitle: "見て、考えて、書く力を、点描写から。",
+        pageLead: "模写から対称・回転・立体まで。今の地点に合う一枚を、中身を見て選べます。",
+        rule: "初回訪問者が10秒以上閲覧し、35%まで読んだ時に1度だけ表示。中央寄せ・画像あり。"
+      },
+      guide: {
+        kicker: "選び方のご案内", headline: "はじめる位置に迷ったら",
+        message: "今の様子から選ぶ目安を、短いガイドにまとめています。",
+        cta: "レベル選びガイドを見る", href: "/level-guide", placement: "center", image: true,
+        trigger: 1, frequency: 1,
+        pageTitle: "今の地点に合う、点描写プリントを。",
+        pageLead: "タスクとレベルから、一枚ずつ中身を見て選べます。",
+        rule: "商品一覧を30秒以上見た人、または2商品以上を見た人へ表示。閉じたら30日休止・最大2回。"
+      },
+      cart: {
+        kicker: "カートのお知らせ", headline: "カートに1巻入っています",
+        message: "続きは、いつでもカートから確認できます。",
+        cta: "カートを見る", href: "/cart", placement: "bottom", image: false,
+        trigger: 2, frequency: 2,
+        pageTitle: "点描写の読みもの",
+        pageLead: "家庭での始め方や、課題の選び方を紹介します。",
+        rule: "カートを保持したまま内部ページへ移動、または次回訪問した時に下部表示。購入で終了。"
+      },
+      maker: {
+        kicker: "使い方のヒント", headline: "練習は紙で",
+        message: "作った問題はPDFにして、そのまま印刷できます。",
+        cta: "", href: "", placement: "inline", image: false,
+        trigger: 3, frequency: 0,
+        pageTitle: "おためし点描写メーカー",
+        pageLead: "親が画面で作って、子どもは紙で取り組む。",
+        rule: "PDF出力前で操作が30秒止まった時、対象操作のすぐ近くへ1度だけ表示。CTAなし。"
+      }
+    };
+
+    const $ = (s) => document.querySelector(s);
+    const card = $("#onsiteCard");
+    const placementHelp = {
+      center: "画面上端から42%・背景は暗くしない・本文操作は継続できます。",
+      bottom: "safe areaと固定操作バーの高さを足し、下端との衝突を避けます。",
+      inline: "関係する操作や本文の直後に挿入し、コンテンツを覆いません。"
+    };
+
+    function setPlacement(value) {
+      card.classList.remove("center", "bottom", "inline");
+      card.classList.add(value);
+      $("#placementHelp").textContent = placementHelp[value];
+      $("#occupancy").textContent = value === "inline" ? "画面占有 0%" : card.classList.contains("no-image") ? "カード占有 約17%" : "カード占有 約21%";
+      $("#previewCaption").innerHTML = value === "center"
+        ? "<strong>中央寄せでも背景を暗くしない</strong>ため、サイト本体を読み続けられます。カード高は画面の約2割に留めます。"
+        : value === "bottom"
+          ? "<strong>下部は通知用途に限定。</strong> safe areaの上に置き、購入ボタンやブラウザUIとの重なりを避けます。"
+          : "<strong>文脈内は最も邪魔しない方式。</strong> メーカーの操作ヒントなど、表示場所に意味がある案内へ使います。";
+    }
+
+    function syncCreative() {
+      $("#previewHeadline").textContent = $("#headline").value || "（見出し未入力）";
+      $("#previewMessage").textContent = $("#message").value || "（本文未入力）";
+      const cta = $("#cta").value.trim();
+      $("#previewCta").style.display = cta ? "inline-flex" : "none";
+      $("#previewCta").firstChild.textContent = cta ? cta + " " : "";
+      $("#previewCta").setAttribute("href", $("#href").value || "#");
+      card.classList.toggle("no-image", !$("#imageToggle").checked);
+      const selected = document.querySelector('input[name="placement"]:checked').value;
+      setPlacement(selected);
+    }
+
+    function loadScenario(key) {
+      const s = scenarios[key];
+      document.querySelectorAll(".scenario-tab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.scenario === key)));
+      $("#headline").value = s.headline;
+      $("#message").value = s.message;
+      $("#cta").value = s.cta;
+      $("#href").value = s.href;
+      $("#imageToggle").checked = s.image;
+      $("#trigger").selectedIndex = s.trigger;
+      $("#frequency").selectedIndex = s.frequency;
+      document.querySelector(`input[name="placement"][value="${s.placement}"]`).checked = true;
+      $("#kicker").textContent = s.kicker;
+      $("#pageTitle").textContent = s.pageTitle;
+      $("#pageLead").textContent = s.pageLead;
+      $("#ruleSummary").innerHTML = "<strong>配信条件：</strong> " + s.rule;
+      syncCreative();
+    }
+
+    document.querySelectorAll(".scenario-tab").forEach((button) => button.addEventListener("click", () => loadScenario(button.dataset.scenario)));
+    document.querySelectorAll('input[name="placement"]').forEach((input) => input.addEventListener("change", () => setPlacement(input.value)));
+    ["headline", "message", "cta", "href", "imageToggle"].forEach((id) => $("#" + id).addEventListener("input", syncCreative));
+    $("#onsiteCard .onsite-close").addEventListener("click", () => {
+      card.style.opacity = "0";
+      card.style.pointerEvents = "none";
+      setTimeout(() => { card.style.opacity = "1"; card.style.pointerEvents = "auto"; }, 850);
+    });
+  </script>
+</body>
+</html>

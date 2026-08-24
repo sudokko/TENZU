@@ -1,8 +1,9 @@
-/* 初期シード（管理用・冪等）。campaigns.ts の SEED_CAMPAIGNS を
-   「未存在 id のみ」DynamoDB へ投入する。既存アイテムには一切触れない。 */
+/* 推奨5テンプレート（管理用）。
+   - 既定: 未存在 id のみ投入（冪等）
+   - ?replace=1: 管理画面の確認後、同じ id も推奨設定で upsert */
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "../../guard";
-import { seedCampaign } from "../../../../lib/onsite-store";
+import { putCampaign, seedCampaign } from "../../../../lib/onsite-store";
 import { SEED_CAMPAIGNS } from "../../../../components/onsite/campaigns";
 
 export const dynamic = "force-dynamic";
@@ -12,13 +13,18 @@ export async function POST(req: NextRequest) {
   if (g) return g;
   const inserted: string[] = [];
   const skipped: string[] = [];
+  const updated: string[] = [];
+  const replace = req.nextUrl.searchParams.get("replace") === "1";
   try {
     for (const c of SEED_CAMPAIGNS) {
-      if (await seedCampaign(c)) inserted.push(c.id);
+      if (replace) {
+        await putCampaign(c);
+        updated.push(c.id);
+      } else if (await seedCampaign(c)) inserted.push(c.id);
       else skipped.push(c.id);
     }
   } catch (e) {
     return NextResponse.json({ error: (e as Error).message }, { status: 503 });
   }
-  return NextResponse.json({ inserted, skipped });
+  return NextResponse.json({ inserted, skipped, updated });
 }

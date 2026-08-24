@@ -364,6 +364,100 @@
   border: 1px solid var(--line-mid);
 }
 
+/* ---- スマホ実寸プレビュー ---- */
+
+.adm-preview-wrap {
+  margin: 22px 0;
+  padding: 16px;
+  border: 1px dashed var(--line-mid);
+  background: var(--bg-2);
+}
+
+.adm-preview-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: var(--fg-2);
+  font-size: 12px;
+}
+
+.adm-phone {
+  position: relative;
+  width: min(390px, 100%);
+  height: 620px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 8px solid var(--fg);
+  border-radius: 34px;
+  background: var(--bg);
+}
+
+.adm-phone-bar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px 0;
+  border-bottom: 1px solid var(--line-thin);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.adm-phone-bar span { color: var(--fg-3); font-size: 10px; font-weight: 400; }
+
+.adm-phone-page {
+  padding: 28px 20px;
+  background-image: radial-gradient(circle, rgba(44, 110, 127, 0.10) 1px, transparent 1.2px);
+  background-size: 28px 28px;
+}
+
+.adm-phone-page small { color: var(--fg-3); font-size: 10px; }
+.adm-phone-page h3 { margin: 18px 0 10px; font-family: var(--font-tier1-klee); font-size: 23px; line-height: 1.5; }
+.adm-phone-page p { margin: 0; color: var(--fg-2); font-size: 12px; }
+
+.adm-phone-paper {
+  height: 190px;
+  margin-top: 22px;
+  border: 1px solid var(--line-mid);
+  background: linear-gradient(135deg, #efe4cd, #d7b77d);
+}
+
+.adm-card-preview {
+  position: absolute;
+  z-index: 2;
+  left: 15px;
+  right: 15px;
+  display: grid;
+  gap: 12px;
+  min-height: 148px;
+  padding: 12px;
+  border: 1px solid var(--line-mid);
+  border-radius: 8px;
+  background: var(--bg);
+  box-shadow: 0 14px 44px rgba(26, 31, 42, 0.15);
+}
+
+.adm-card-preview.has-image { grid-template-columns: 102px minmax(0, 1fr); }
+.adm-card-preview.no-image { grid-template-columns: minmax(0, 1fr); }
+.adm-card-preview.is-floating { top: 42%; transform: translateY(-50%); }
+.adm-card-preview.is-bottom { bottom: 16px; }
+.adm-card-preview.is-inline { top: 330px; border-style: dashed; box-shadow: 0 4px 18px rgba(26, 31, 42, 0.08); }
+
+.adm-card-preview img {
+  width: 102px;
+  height: 124px;
+  object-fit: cover;
+  border: 1px solid var(--line-mid);
+  border-radius: 5px;
+}
+
+.adm-card-preview > div { min-width: 0; padding: 3px 28px 0 0; }
+.adm-card-preview strong { display: block; font-family: var(--font-tier1-klee); font-size: 15px; line-height: 1.5; }
+.adm-card-preview p { margin: 5px 0 0; color: var(--fg-2); font-size: 12px; line-height: 1.65; }
+.adm-card-preview span { min-height: 44px; display: inline-flex; align-items: center; color: var(--accent-ink); font-size: 12px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.adm-card-preview i { position: absolute; top: 5px; right: 5px; width: 44px; height: 44px; display: grid; place-items: center; color: var(--fg-3); font-size: 21px; font-style: normal; }
+
 .adm-file {
   font-size: 13px;
 }

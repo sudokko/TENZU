@@ -35,6 +35,8 @@ export function parseCampaign(input: unknown): Campaign | string {
   const message = typeof o.message === "string" ? o.message.trim() : "";
   if (!message) return "message は必須です";
 
+  const headline = typeof o.headline === "string" ? o.headline.trim() : "";
+
   let cta: Campaign["cta"];
   if (o.cta != null) {
     const c = o.cta as Record<string, unknown>;
@@ -54,6 +56,69 @@ export function parseCampaign(input: unknown): Campaign | string {
     image = { src, alt };
   }
 
+  let layout: Campaign["layout"];
+  if (o.layout != null) {
+    if (typeof o.layout !== "object") return "layout が不正です";
+    const l = o.layout as Record<string, unknown>;
+    if (l.mobile !== "floating" && l.mobile !== "bottom" && l.mobile !== "inline") {
+      return "layout.mobile が不正です";
+    }
+    if (l.desktop !== "corner" && l.desktop !== "inline") {
+      return "layout.desktop が不正です";
+    }
+    const imageVariant = l.imageVariant == null ? undefined : l.imageVariant;
+    if (imageVariant !== undefined && imageVariant !== "side" && imageVariant !== "none") {
+      return "layout.imageVariant が不正です";
+    }
+    const inlineAnchor = typeof l.inlineAnchor === "string" ? l.inlineAnchor.trim() : "";
+    if ((l.mobile === "inline" || l.desktop === "inline") && !inlineAnchor) {
+      return "文脈内表示には inlineAnchor が必要です";
+    }
+    layout = {
+      mobile: l.mobile,
+      desktop: l.desktop,
+      ...(imageVariant ? { imageVariant } : {}),
+      ...(inlineAnchor ? { inlineAnchor } : {}),
+    };
+  }
+
+  let conditions: Campaign["conditions"];
+  if (o.conditions != null) {
+    if (typeof o.conditions !== "object") return "conditions が不正です";
+    const c = o.conditions as Record<string, unknown>;
+    const minScrollPct = c.minScrollPct == null ? undefined : Number(c.minScrollPct);
+    if (minScrollPct !== undefined && (!Number.isFinite(minScrollPct) || minScrollPct < 0 || minScrollPct > 100)) {
+      return "minScrollPct は 0〜100 の数値にしてください";
+    }
+    const minProductViews = c.minProductViews == null ? undefined : Number(c.minProductViews);
+    if (minProductViews !== undefined && (!Number.isInteger(minProductViews) || minProductViews < 1)) {
+      return "minProductViews は 1 以上の整数にしてください";
+    }
+    conditions = {
+      ...(minScrollPct !== undefined ? { minScrollPct } : {}),
+      ...(minProductViews !== undefined ? { minProductViews } : {}),
+    };
+  }
+
+  let frequency: Campaign["frequency"];
+  if (o.frequency != null) {
+    if (typeof o.frequency !== "object") return "frequency が不正です";
+    const f = o.frequency as Record<string, unknown>;
+    const maxImpressions = Number(f.maxImpressions);
+    if (maxImpressions !== 1 && maxImpressions !== 2) {
+      return "maxImpressions は 1 または 2 にしてください";
+    }
+    const cooldownDays = f.cooldownDays == null ? undefined : Number(f.cooldownDays);
+    if (cooldownDays !== undefined && (!Number.isInteger(cooldownDays) || cooldownDays < 1)) {
+      return "cooldownDays は 1 以上の整数にしてください";
+    }
+    frequency = {
+      maxImpressions,
+      ...(cooldownDays !== undefined ? { cooldownDays } : {}),
+      stopOnClick: f.stopOnClick !== false,
+    };
+  }
+
   const priority = typeof o.priority === "number" && Number.isFinite(o.priority) ? o.priority : NaN;
   if (Number.isNaN(priority)) return "priority は数値にしてください";
 
@@ -71,9 +136,13 @@ export function parseCampaign(input: unknown): Campaign | string {
     trigger,
     pages,
     ...(excludePages ? { excludePages } : {}),
+    ...(headline ? { headline } : {}),
     message,
     ...(cta ? { cta } : {}),
     ...(image ? { image } : {}),
+    ...(layout ? { layout } : {}),
+    ...(conditions ? { conditions } : {}),
+    ...(frequency ? { frequency } : {}),
     priority,
     ...(delaySec !== undefined ? { delaySec } : {}),
     ...(idleSec !== undefined ? { idleSec } : {}),

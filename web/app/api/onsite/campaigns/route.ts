@@ -6,7 +6,7 @@
      トラフィックが増えたら s-maxage=60, stale-while-revalidate=60 へ緩めてよい */
 import { NextRequest, NextResponse } from "next/server";
 import { listCampaigns, getCampaign, type CampaignRecord } from "../../../lib/onsite-store";
-import type { Campaign } from "../../../components/onsite/campaigns";
+import { SEED_CAMPAIGNS, type Campaign } from "../../../components/onsite/campaigns";
 
 export const dynamic = "force-dynamic";
 
@@ -14,8 +14,10 @@ const NO_STORE = { "Cache-Control": "no-store" };
 
 /* 管理メタ（createdAt/updatedAt）は配信に載せない */
 function strip(c: CampaignRecord): Campaign {
-  const { createdAt: _c, updatedAt: _u, ...rest } = c;
-  return rest;
+  const campaign = { ...c };
+  delete campaign.createdAt;
+  delete campaign.updatedAt;
+  return campaign;
 }
 
 export async function GET(req: NextRequest) {
@@ -23,7 +25,8 @@ export async function GET(req: NextRequest) {
   try {
     if (id) {
       const c = await getCampaign(id);
-      return NextResponse.json({ campaigns: c ? [strip(c)] : [] }, { headers: NO_STORE });
+      const preview = c ? strip(c) : SEED_CAMPAIGNS.find((seed) => seed.id === id);
+      return NextResponse.json({ campaigns: preview ? [preview] : [] }, { headers: NO_STORE });
     }
     const all = await listCampaigns();
     const campaigns = all

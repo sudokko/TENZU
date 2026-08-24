@@ -543,6 +543,7 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
               <span>{paper.label} · {effectivePerPage} 問 / ページ</span>
             </>}
             after={<>
+              <div data-onsite-anchor="maker-pdf" />
               {overDailyLimit && (
                 <p className="daily-nudge">
                   きょうは {caps.dailyExports} 枚そろいました。もっと作りたくなったら

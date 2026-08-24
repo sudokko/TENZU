@@ -7,7 +7,7 @@
      … show / click / dismiss を UpdateItem ADD でアトミック加算
    - ONSITE_TABLE 未設定時は読み＝空・計測＝no-op・管理書き込み＝エラー、に degrade
      （AWS 認証の無い環境でもビルド・他機能の開発を阻害しない）
-   - 既読（生涯 1 回）は引き続きクライアントの localStorage — サーバーに
+   - 表示回数・最終表示・クリック済みはクライアントの localStorage — サーバーに
      個人単位の記録は持たない
    ========================================================================= */
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
@@ -60,9 +60,13 @@ function toRecord(item: Record<string, unknown>): CampaignRecord {
     trigger: it.trigger,
     pages: it.pages ?? [],
     ...(it.excludePages ? { excludePages: it.excludePages } : {}),
+    ...(it.headline ? { headline: it.headline } : {}),
     message: it.message,
     ...(it.cta ? { cta: it.cta } : {}),
     ...(it.image ? { image: it.image } : {}),
+    ...(it.layout ? { layout: it.layout } : {}),
+    ...(it.conditions ? { conditions: it.conditions } : {}),
+    ...(it.frequency ? { frequency: it.frequency } : {}),
     priority: it.priority,
     ...(it.delaySec != null ? { delaySec: it.delaySec } : {}),
     ...(it.idleSec != null ? { idleSec: it.idleSec } : {}),

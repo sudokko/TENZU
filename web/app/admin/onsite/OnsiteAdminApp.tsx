@@ -28,11 +28,20 @@ type Draft = {
   trigger: Campaign["trigger"];
   pages: string; // textarea 1 行 1 パス。空欄 = 全ページ（[""]）
   excludePages: string;
+  headline: string;
   message: string;
   ctaLabel: string;
   ctaHref: string;
   imageSrc: string;
   imageAlt: string;
+  layoutMobile: NonNullable<Campaign["layout"]>["mobile"];
+  layoutDesktop: NonNullable<Campaign["layout"]>["desktop"];
+  imageVariant: "side" | "none";
+  inlineAnchor: string;
+  minScrollPct: string;
+  minProductViews: string;
+  maxImpressions: "1" | "2";
+  cooldownDays: string;
   priority: string;
   delaySec: string;
   idleSec: string;
@@ -45,11 +54,20 @@ function newDraft(): Draft {
     trigger: "first_visit",
     pages: "/",
     excludePages: "",
+    headline: "",
     message: "",
     ctaLabel: "",
     ctaHref: "",
     imageSrc: "",
     imageAlt: "",
+    layoutMobile: "floating",
+    layoutDesktop: "corner",
+    imageVariant: "side",
+    inlineAnchor: "",
+    minScrollPct: "",
+    minProductViews: "",
+    maxImpressions: "1",
+    cooldownDays: "",
     priority: "50",
     delaySec: "",
     idleSec: "",
@@ -63,11 +81,20 @@ function toDraft(c: Campaign): Draft {
     trigger: c.trigger,
     pages: c.pages.join("\n"),
     excludePages: (c.excludePages ?? []).join("\n"),
+    headline: c.headline ?? "",
     message: c.message,
     ctaLabel: c.cta?.label ?? "",
     ctaHref: c.cta?.href ?? "",
     imageSrc: c.image?.src ?? "",
     imageAlt: c.image?.alt ?? "",
+    layoutMobile: c.layout?.mobile ?? "bottom",
+    layoutDesktop: c.layout?.desktop ?? "corner",
+    imageVariant: c.layout?.imageVariant ?? "side",
+    inlineAnchor: c.layout?.inlineAnchor ?? "",
+    minScrollPct: c.conditions?.minScrollPct != null ? String(c.conditions.minScrollPct) : "",
+    minProductViews: c.conditions?.minProductViews != null ? String(c.conditions.minProductViews) : "",
+    maxImpressions: String(c.frequency?.maxImpressions ?? 1) as "1" | "2",
+    cooldownDays: c.frequency?.cooldownDays != null ? String(c.frequency.cooldownDays) : "",
     priority: String(c.priority),
     delaySec: c.delaySec != null ? String(c.delaySec) : "",
     idleSec: c.idleSec != null ? String(c.idleSec) : "",
@@ -88,6 +115,7 @@ function fromDraft(d: Draft): Campaign | string {
 
   const message = d.message.trim();
   if (!message) return "メッセージ本文は必須です";
+  const headline = d.headline.trim();
 
   const ctaLabel = d.ctaLabel.trim();
   const ctaHref = d.ctaHref.trim();
@@ -98,6 +126,24 @@ function fromDraft(d: Draft): Campaign | string {
   const imageSrc = d.imageSrc.trim();
   const imageAlt = d.imageAlt.trim();
   if (imageSrc && !imageAlt) return "画像には alt（代替テキスト）が必須です";
+
+  const inlineAnchor = d.inlineAnchor.trim();
+  if ((d.layoutMobile === "inline" || d.layoutDesktop === "inline") && !inlineAnchor) {
+    return "文脈内表示には挿入先アンカーが必要です";
+  }
+
+  const minScrollPct = d.minScrollPct.trim() === "" ? undefined : Number(d.minScrollPct);
+  if (minScrollPct !== undefined && (!Number.isFinite(minScrollPct) || minScrollPct < 0 || minScrollPct > 100)) {
+    return "最小スクロール率は 0〜100 にしてください";
+  }
+  const minProductViews = d.minProductViews.trim() === "" ? undefined : Number(d.minProductViews);
+  if (minProductViews !== undefined && (!Number.isInteger(minProductViews) || minProductViews < 1)) {
+    return "商品閲覧数は 1 以上の整数にしてください";
+  }
+  const cooldownDays = d.cooldownDays.trim() === "" ? undefined : Number(d.cooldownDays);
+  if (cooldownDays !== undefined && (!Number.isInteger(cooldownDays) || cooldownDays < 1)) {
+    return "再表示までの日数は 1 以上の整数にしてください";
+  }
 
   const priority = Number(d.priority);
   if (!Number.isFinite(priority)) return "priority は数値にしてください";
@@ -116,9 +162,27 @@ function fromDraft(d: Draft): Campaign | string {
     trigger: d.trigger,
     pages,
     ...(excludePages.length > 0 ? { excludePages } : {}),
+    ...(headline ? { headline } : {}),
     message,
     ...(ctaLabel ? { cta: { label: ctaLabel, href: ctaHref } } : {}),
     ...(imageSrc ? { image: { src: imageSrc, alt: imageAlt } } : {}),
+    layout: {
+      mobile: d.layoutMobile,
+      desktop: d.layoutDesktop,
+      imageVariant: d.imageVariant,
+      ...(inlineAnchor ? { inlineAnchor } : {}),
+    },
+    ...((minScrollPct !== undefined || minProductViews !== undefined) ? {
+      conditions: {
+        ...(minScrollPct !== undefined ? { minScrollPct } : {}),
+        ...(minProductViews !== undefined ? { minProductViews } : {}),
+      },
+    } : {}),
+    frequency: {
+      maxImpressions: Number(d.maxImpressions) as 1 | 2,
+      ...(d.maxImpressions === "2" && cooldownDays !== undefined ? { cooldownDays } : {}),
+      stopOnClick: true,
+    },
     priority,
     ...(delaySec !== undefined ? { delaySec } : {}),
     ...(idleSec !== undefined ? { idleSec } : {}),
@@ -127,8 +191,45 @@ function fromDraft(d: Draft): Campaign | string {
 }
 
 function stripMeta(r: CampaignRecord): Campaign {
-  const { createdAt: _c, updatedAt: _u, ...rest } = r;
+  const rest = { ...r };
+  delete rest.createdAt;
+  delete rest.updatedAt;
   return rest;
+}
+
+function CampaignPreview({ draft }: { draft: Draft }) {
+  const showImage = Boolean(draft.imageSrc) && draft.imageVariant === "side";
+  const headline = draft.headline.replaceAll("{count}", "1") || "見出しプレビュー";
+  const message = draft.message.replaceAll("{count}", "1") || "本文を入力すると、ここへ反映されます。";
+  return (
+    <div className="adm-preview-wrap">
+      <div className="adm-preview-head">
+        <span>スマホ実寸プレビュー</span>
+        <span>390px · {draft.layoutMobile === "floating" ? "中央寄せ" : draft.layoutMobile === "bottom" ? "下部" : "文脈内"}</span>
+      </div>
+      <div className="adm-phone">
+        <div className="adm-phone-bar">TENZU <span>点描写プリント専門店</span></div>
+        <div className="adm-phone-page">
+          <small>HOME / 点描写プリント</small>
+          <h3>見て、考えて、書く力を、点描写から。</h3>
+          <p>今の地点に合う一枚を、中身を見て選べます。</p>
+          <div className="adm-phone-paper" />
+        </div>
+        <aside className={`adm-card-preview is-${draft.layoutMobile} ${showImage ? "has-image" : "no-image"}`}>
+          {showImage && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={draft.imageSrc} alt="" />
+          )}
+          <div>
+            <strong>{headline}</strong>
+            <p>{message}</p>
+            {draft.ctaLabel && <span>{draft.ctaLabel} →</span>}
+          </div>
+          <i aria-hidden="true">×</i>
+        </aside>
+      </div>
+    </div>
+  );
 }
 
 function isoDate(d: Date): string {
@@ -189,8 +290,11 @@ export default function OnsiteAdminApp() {
   }
 
   useEffect(() => {
-    loadCampaigns();
-    loadRecent();
+    const t = window.setTimeout(() => {
+      void loadCampaigns();
+      void loadRecent();
+    }, 0);
+    return () => window.clearTimeout(t);
   }, []);
 
   const recentByCampaign = useMemo(() => {
@@ -205,7 +309,7 @@ export default function OnsiteAdminApp() {
   }, [recent]);
 
   const ngHits = useMemo(
-    () => (draft ? checkNgWords(`${draft.message}\n${draft.ctaLabel}`) : []),
+    () => (draft ? checkNgWords(`${draft.headline}\n${draft.message}\n${draft.ctaLabel}`) : []),
     [draft],
   );
 
@@ -283,18 +387,18 @@ export default function OnsiteAdminApp() {
     }
   }
 
-  async function seed() {
+  async function syncTemplates() {
     if (busy) return;
+    if (campaigns && campaigns.length > 0 && !window.confirm(
+      "推奨5テンプレートの見出し・本文・画像・表示条件で、同じidの設定を更新します。\n現在の個別編集内容は上書きされます。反映しますか？",
+    )) return;
     setBusy(true);
     setErr("");
     try {
-      const r = await fetch("/api/admin/onsite/seed", { method: "POST" });
+      const r = await fetch("/api/admin/onsite/seed?replace=1", { method: "POST" });
       if (!r.ok) throw new Error(await readError(r));
-      const j = (await r.json()) as { inserted: string[]; skipped: string[] };
-      setMsg(
-        `シード完了 — 投入: ${j.inserted.length ? j.inserted.join(", ") : "なし"}` +
-          (j.skipped.length ? ` ／ 既存スキップ: ${j.skipped.join(", ")}` : ""),
-      );
+      const j = (await r.json()) as { updated: string[] };
+      setMsg(`推奨テンプレートを反映しました: ${j.updated.join(", ")}`);
       await loadCampaigns();
     } catch (e) {
       setErr((e as Error).message);
@@ -363,11 +467,9 @@ export default function OnsiteAdminApp() {
             <div className="adm-list-head">
               <h2 className="adm-h2">キャンペーン一覧</h2>
               <div className="adm-list-actions">
-                {campaigns !== null && campaigns.length === 0 && (
-                  <button type="button" className="adm-btn" onClick={seed} disabled={busy}>
-                    既存 5 本を取り込む（シード）
-                  </button>
-                )}
+                <button type="button" className="adm-btn" onClick={syncTemplates} disabled={busy}>
+                  推奨5テンプレートを反映
+                </button>
                 <button
                   type="button"
                   className="adm-btn adm-btn-primary"
@@ -387,7 +489,7 @@ export default function OnsiteAdminApp() {
               <p className="adm-hint">読み込み中…</p>
             ) : campaigns.length === 0 ? (
               <p className="adm-hint">
-                キャンペーンがまだありません。「既存 5 本を取り込む」で campaigns.ts のシードを投入できます。
+                キャンペーンがまだありません。「推奨5テンプレートを反映」で初期設定を投入できます。
               </p>
             ) : (
               <div className="adm-table-scroll">
@@ -537,6 +639,129 @@ export default function OnsiteAdminApp() {
 
               <div className="adm-row">
                 <div className="adm-field">
+                  <label className="adm-label" htmlFor="adm-max-impressions">最大表示回数</label>
+                  <select
+                    id="adm-max-impressions"
+                    className="adm-input"
+                    value={draft.maxImpressions}
+                    onChange={(e) => setDraft({
+                      ...draft,
+                      maxImpressions: e.target.value as Draft["maxImpressions"],
+                    })}
+                  >
+                    <option value="1">1回だけ</option>
+                    <option value="2">最大2回</option>
+                  </select>
+                </div>
+                {draft.maxImpressions === "2" && (
+                  <div className="adm-field">
+                    <label className="adm-label" htmlFor="adm-cooldown">再表示までの日数</label>
+                    <input
+                      id="adm-cooldown"
+                      className="adm-input"
+                      inputMode="numeric"
+                      value={draft.cooldownDays}
+                      onChange={(e) => setDraft({ ...draft, cooldownDays: e.target.value })}
+                      placeholder="例: 30"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="adm-row">
+                <div className="adm-field">
+                  <label className="adm-label" htmlFor="adm-layout-mobile">スマホの表示位置</label>
+                  <select
+                    id="adm-layout-mobile"
+                    className="adm-input"
+                    value={draft.layoutMobile}
+                    onChange={(e) => setDraft({
+                      ...draft,
+                      layoutMobile: e.target.value as Draft["layoutMobile"],
+                    })}
+                  >
+                    <option value="floating">中央寄せ（非モーダル）</option>
+                    <option value="bottom">画面下部</option>
+                    <option value="inline">文脈内</option>
+                  </select>
+                </div>
+                <div className="adm-field">
+                  <label className="adm-label" htmlFor="adm-layout-desktop">PCの表示位置</label>
+                  <select
+                    id="adm-layout-desktop"
+                    className="adm-input"
+                    value={draft.layoutDesktop}
+                    onChange={(e) => setDraft({
+                      ...draft,
+                      layoutDesktop: e.target.value as Draft["layoutDesktop"],
+                    })}
+                  >
+                    <option value="corner">右下</option>
+                    <option value="inline">文脈内</option>
+                  </select>
+                </div>
+                <div className="adm-field">
+                  <label className="adm-label" htmlFor="adm-image-variant">画像表示</label>
+                  <select
+                    id="adm-image-variant"
+                    className="adm-input"
+                    value={draft.imageVariant}
+                    onChange={(e) => setDraft({
+                      ...draft,
+                      imageVariant: e.target.value as Draft["imageVariant"],
+                    })}
+                  >
+                    <option value="side">画像＋文言</option>
+                    <option value="none">文言のみ</option>
+                  </select>
+                </div>
+              </div>
+
+              {(draft.layoutMobile === "inline" || draft.layoutDesktop === "inline") && (
+                <div className="adm-field">
+                  <label className="adm-label" htmlFor="adm-inline-anchor">文脈内の挿入先アンカー</label>
+                  <input
+                    id="adm-inline-anchor"
+                    className="adm-input"
+                    value={draft.inlineAnchor}
+                    onChange={(e) => setDraft({ ...draft, inlineAnchor: e.target.value })}
+                    placeholder="例: maker-pdf"
+                  />
+                  <p className="adm-hint">ページ側の data-onsite-anchor と同じ値を指定します。</p>
+                </div>
+              )}
+
+              <div className="adm-row">
+                {draft.trigger === "first_visit" && (
+                  <div className="adm-field">
+                    <label className="adm-label" htmlFor="adm-min-scroll">最小スクロール率（%・秒数とAND）</label>
+                    <input
+                      id="adm-min-scroll"
+                      className="adm-input"
+                      inputMode="numeric"
+                      value={draft.minScrollPct}
+                      onChange={(e) => setDraft({ ...draft, minScrollPct: e.target.value })}
+                      placeholder="例: 35"
+                    />
+                  </div>
+                )}
+                {draft.trigger === "idle" && (
+                  <div className="adm-field">
+                    <label className="adm-label" htmlFor="adm-min-product-views">商品閲覧数（到達時は早期表示）</label>
+                    <input
+                      id="adm-min-product-views"
+                      className="adm-input"
+                      inputMode="numeric"
+                      value={draft.minProductViews}
+                      onChange={(e) => setDraft({ ...draft, minProductViews: e.target.value })}
+                      placeholder="例: 2"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="adm-row">
+                <div className="adm-field">
                   <label className="adm-label" htmlFor="adm-pages">
                     対象ページ（1 行 1 パス・前方一致。&quot;/&quot; は TOP のみ。空欄 = 全ページ）
                   </label>
@@ -560,6 +785,19 @@ export default function OnsiteAdminApp() {
                     placeholder={"/cart\n/checkout"}
                   />
                 </div>
+              </div>
+
+              <div className="adm-field">
+                <label className="adm-label" htmlFor="adm-headline">見出し（18字目安・任意）</label>
+                <input
+                  id="adm-headline"
+                  className="adm-input"
+                  value={draft.headline}
+                  onChange={(e) => setDraft({ ...draft, headline: e.target.value })}
+                />
+                {draft.headline.length > 24 && (
+                  <p className="adm-warn">24字を超えています — スマホで2行を超えない長さを推奨します。</p>
+                )}
               </div>
 
               <div className="adm-field">
@@ -647,6 +885,8 @@ export default function OnsiteAdminApp() {
                 )}
               </div>
 
+              <CampaignPreview draft={draft} />
+
               <div className="adm-field">
                 <label className="adm-check">
                   <input
@@ -708,7 +948,8 @@ function StatsView() {
   }
 
   useEffect(() => {
-    load(from, to);
+    const timer = window.setTimeout(() => void load(from, to), 0);
+    return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

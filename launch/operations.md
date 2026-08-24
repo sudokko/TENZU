@@ -43,7 +43,7 @@
 6. 本番 env 残り: Stripe live 化・AUTH_SECRET・SITE_URL・tenzu.jp を Amplify 接続＋SES DKIM/SPF/DMARC（**8/16 ドメイン取得後すぐ・W5**）
 7. テスト: [release-testing.md](../engineering/release-testing.md) P0→P3 を W6 で一巡・W7 で P0 本番再走（実カード ¥200→返金まで）
 8. SNS 開店在庫（[sns-operations §3](../acquisition/sns-operations.md)）: `/atelier/pins` で初期ピン20-30本・IG カルーセル2-3本・X/note 固定・**1ヶ月分予約投入**（W4-W7）
-9. Web 接客（オンサイトメッセージ）: **実装済み（2026-07-11・全 5 キャンペーン・動作検証済み）**。残り＝文言のオーナー最終確認（W5・campaigns.ts 編集のみ）→ 本番テスト（W6）→ GTM タグ接続（9 月）。運用計画は [onsite-messaging.md §8](../acquisition/onsite-messaging.md)
+9. Web接客（オンサイトメッセージ）: **実装済み（2026-07-11、スマホ改訂2026-08-24）**。5テンプレートの画像・文言・シナリオ別配置は確定済み。デプロイ後に管理画面の「推奨5テンプレートを反映」→ `?om_preview` 実機確認 → GTMタグ接続（9月）。運用計画は [onsite-messaging.md §8](../acquisition/onsite-messaging.md)
 
 ### §4. 週3ブロック制カレンダー
 

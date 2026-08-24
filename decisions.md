@@ -2216,6 +2216,17 @@ sns-accounts.md（§5.10/§5.11）に対し ChatGPT・Gemini の 2 AI 添削を�
 - **マスコットの由来は公表しない**。ビジュアルとして使うことと、出自（誰が描いたか）を語ることは別問題であり、後者は上記の非特定原則に抵触する
 - 反映先: [acquisition/sns-accounts.md](./acquisition/sns-accounts.md)（サマリ・§2・§4.3）／[acquisition/channels.md](./acquisition/channels.md)（サマリ・§1.3・§2.4・§3）／[foundation/voice-tone.md §7.5](./foundation/voice-tone.md)／[design/visual-identity.md](./design/visual-identity.md)（サマリ・§5.4 全面改訂・§6 冒頭）
 
+### 5.18 Web接客をスマホ中心のシナリオ別配置へ改訂（2026-08-24）
+
+§5.7 の「画面下部カードのみ」は、邪魔をしない制約としては正しかった一方、主利用端末のスマホではブラウザ下部UI・固定操作バーと競合し、初回案内やレベル選びが気づかれにくい。Googleの侵入的インタースティシャル指針、WCAG 2.2、Baymardのページ到着時オーバーレイ調査を確認し、オーナー判断で次へ改訂する。
+
+- **位置をシナリオ別に分ける**: 初回案内・レベル選び・春特集＝画面上端から42%の中央寄せ非モーダル／カート＝下部／メーカーのPDFヒント＝`maker-pdf`文脈内。PCは右下または文脈内。背景暗転・スクロールロック・自動フォーカス移動は禁止のまま
+- **カードを「画像＋見出し＋本文＋リンク」へ**。5テンプレートすべてに既存ブランド画像を設定し、閉じる/CTAは44pxタップ領域、スマホのカード高はviewportの30%以下に制限
+- **到着3秒表示を撤回**: 初回案内は10秒＋35%scroll、春は10秒＋40%scroll。レベル選びはidle 30秒または2商品閲覧。カートのmouseleave/visibility疑似exit intentを廃止し、カート保持ページで6秒後の事実通知へ
+- **頻度を結果別に保存**: 原則1回、guideは30日休止・cartは7日休止で最大2回、CTAクリック後は終了。localStorageの旧ISO形式は表示済み1回として後方互換を保つ
+- **管理画面**: スマホ/PC配置・見出し・行動条件・頻度・画像表示を編集し、390px実寸プレビューへ即時反映。「推奨5テンプレートを反映」で同じidを確認後upsertできる
+- 詳細SSOT・調査ソース: [acquisition/onsite-messaging.md](./acquisition/onsite-messaging.md)。検討用HTML: [design/onsite-messaging-mobile-proposal.html](./design/onsite-messaging-mobile-proposal.html)
+
 ---
 
 ## §6. 計測・KPI

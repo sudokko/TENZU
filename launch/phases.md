@@ -87,7 +87,7 @@
 | 記事 | 公開 10 本（**C3-1 見取り図を必ず含む**・P1 正規まとめ・各 Pillar 直下最低 1 本） |
 | サンプル閲覧 | 「見せる無料」プレビュー（配る無料は置かない・[brand.md §0.5](../foundation/brand.md)） |
 | 印刷ガイド | スマホ→自宅印刷 3 ルート＋コンビニ併記 |
-| オンサイトメッセージ | 開店 3 キャンペーン（welcome / guide-nudge / maker-hint）＋S2 カート放置（[onsite-messaging.md §8](../acquisition/onsite-messaging.md)・生涯 1 回・下部カードのみ） |
+| オンサイトメッセージ | 開店3キャンペーン（welcome / guide-nudge / maker-hint）＋S2カート通知（[onsite-messaging.md §8](../acquisition/onsite-messaging.md)・スマホは中央寄せ/下部/文脈内・原則1回、一部最大2回） |
 | 法務 | 特商法表記・プライバシーポリシー（GA4/GTM 外部送信記載） |
 | 計測 | GA4+GTM 3 イベント・Search Console・robots.txt（OAI-SearchBot Allow）・sitemap |
 | SNS | 4 媒体の看板（プロフ・固定・ハイライト）＋1 ヶ月分予約在庫 |
