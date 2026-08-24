@@ -7,7 +7,9 @@
    - ホスト差し替え時はこの env を差し替えるだけで OK（記事本体・コードは無変更）。
    ========================================================================= */
 
-export const SITE_URL = (process.env.SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
+export const SITE_URL = (process.env.SITE_URL ?? "http://localhost:3000")
+  .trim()
+  .replace(/\/$/, "");
 
 export const SITE_NAME = "TENZU";
 

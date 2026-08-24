@@ -8,6 +8,7 @@
    ========================================================================= */
 
 import SiteHeader from "../SiteHeader";
+import Link from "next/link";
 import AddToCartButton from "../cart/AddToCartButton";
 import TrackViewItem from "./TrackViewItem";
 import SkuPrintPreview, { type SolidRenderProblem } from "./SkuPrintPreview";
@@ -20,6 +21,7 @@ import { publishedSet } from "./problems/published";
 import { coverageOf } from "./coverage";
 import CoverageSection from "./CoverageSection";
 import { catalogTaskBySlug, LEVELS } from "../catalog";
+import { absoluteUrl } from "../site";
 import {
   LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL,
   volHref, volTitle, type ProductTask, type Vol,
@@ -81,11 +83,13 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
     "@type": "Product",
     name: `${task.name} ${lvName} Vol.${vol.volNo}（${vol.grid}）`,
     sku: vol.sku,
+    image: [absoluteUrl(`/products/${vol.sku}/opengraph-image`)],
     description: cov ? `${vol.blurb} ${cov.summary}` : vol.blurb,
     brand: { "@type": "Brand", name: "TENZU" },
     ...(latest && { dateModified: latest.date }),
     offers: {
       "@type": "Offer", price: String(PRICE), priceCurrency: "JPY",
+      url: absoluteUrl(`/products/${vol.sku}`),
       availability: "https://schema.org/InStock",
     },
     ...(cov && {
@@ -120,8 +124,8 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
 
       <div className="wrap">
         <nav className="crumb" aria-label="パンくず">
-          <a href="/products">商品</a><span className="sep">/</span>
-          <a href={`/products/${task.slug}`}>{task.name}</a><span className="sep">/</span>
+          <Link href="/products">商品</Link><span className="sep">/</span>
+          <Link href={`/products/${task.slug}`}>{task.name}</Link><span className="sep">/</span>
           <span className="cur">{lvName} Vol.{vol.volNo} — {vol.grid}</span>
         </nav>
       </div>

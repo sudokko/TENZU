@@ -4,6 +4,18 @@ import createMDX from "@next/mdx";
 const nextConfig: NextConfig = {
   // dev サーバーへの LAN アクセス許可（スマホ実機確認用・本番には無関係）
   allowedDevOrigins: ["192.168.10.113", "192.168.10.107", "192.168.10.*", "192.168.137.1"],
+  // 正規ホストは apex（tenzu.jp）。www 版を 200 の重複ページとして配信せず、
+  // パスとクエリを保ったまま恒久転送して canonical シグナルを一本化する。
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.tenzu.jp" }],
+        destination: "https://tenzu.jp/:path*",
+        permanent: true,
+      },
+    ];
+  },
   // 記事は web/content/articles/*.mdx を import して描画する（ファイルルーティングは使わない）。
   // そのため pageExtensions は変更しない（.mdx をルート化しない）。
 };

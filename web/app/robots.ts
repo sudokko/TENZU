@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { absoluteUrl, SITE_URL, IS_PREVIEW } from "./site";
+import { absoluteUrl, IS_PREVIEW } from "./site";
 
 /* robots.txt。AI クローラ（OAI-SearchBot / GPTBot 等）を明示的に許可し、
    ツール系・アカウント系・API を除外。sitemap を提示する。
@@ -20,6 +20,5 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "GPTBot", allow: "/", disallow: DISALLOW },
     ],
     ...(IS_PREVIEW ? {} : { sitemap: absoluteUrl("/sitemap.xml") }),
-    host: SITE_URL,
   };
 }

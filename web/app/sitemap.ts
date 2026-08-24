@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { absoluteUrl } from "./site";
 import { listArticles } from "./articles/articles-data";
-import { LAUNCH_TASKS } from "./products/data";
+import { LAUNCH_TASKS, volBySku, type ProductTask } from "./products/data";
+import { publishedSet } from "./products/problems/published";
 import { PUBLISHED_SKUS } from "./products/problems/published/skus";
 
 /* サイトマップ（AI/検索クローラに構造を渡す）。公開ページ＋公開記事＋商品ページを列挙。
@@ -31,32 +32,64 @@ const STATIC_ROUTES: StaticRoute[] = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articles = await listArticles();
-  const now = new Date();
+  const skuModified = new Map(PUBLISHED_SKUS.map((sku) => [sku, productModifiedAt(sku)]));
+  const catalogModified = latestDate([...skuModified.values()]);
+  const articlesModified = latestDate(articles.map((a) => a.updated_at));
+  const siteModified = latestDate([catalogModified, articlesModified]);
 
   return [
-    ...STATIC_ROUTES.map((r) => ({
-      url: absoluteUrl(r.path),
-      lastModified: now,
-      changeFrequency: r.changeFrequency,
-      priority: r.priority,
-    })),
-    ...LAUNCH_TASKS.map((t) => ({
-      url: absoluteUrl(`/products/${t.slug}`),
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    })),
+    ...STATIC_ROUTES.map((r) => {
+      const modified = staticModifiedAt(r.path, { catalogModified, articlesModified, siteModified });
+      return {
+        url: absoluteUrl(r.path),
+        ...(modified && { lastModified: new Date(modified) }),
+        changeFrequency: r.changeFrequency,
+        priority: r.priority,
+      };
+    }),
+    ...LAUNCH_TASKS.map((t) => {
+      const modified = taskModifiedAt(t, skuModified);
+      return {
+        url: absoluteUrl(`/products/${t.slug}`),
+        ...(modified && { lastModified: new Date(modified) }),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      };
+    }),
     ...PUBLISHED_SKUS.map((sku) => ({
       url: absoluteUrl(`/products/${sku}`),
-      lastModified: now,
+      ...(skuModified.get(sku) && { lastModified: new Date(skuModified.get(sku)!) }),
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
     ...articles.map((a) => ({
       url: absoluteUrl(`/articles/${a.slug}`),
-      lastModified: a.updated_at ? new Date(a.updated_at) : now,
+      ...(a.updated_at && { lastModified: new Date(a.updated_at) }),
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
   ];
+}
+
+function productModifiedAt(sku: string): string | undefined {
+  const hit = volBySku(sku);
+  return hit?.vol.revisions?.[0]?.date ?? publishedSet(sku)?.publishedAt;
+}
+
+function taskModifiedAt(task: ProductTask, skuModified: Map<string, string | undefined>): string | undefined {
+  return latestDate(task.vols.map((vol) => skuModified.get(vol.sku)));
+}
+
+function latestDate(values: Array<string | undefined>): string | undefined {
+  return values.filter((value): value is string => Boolean(value)).sort().at(-1);
+}
+
+function staticModifiedAt(
+  path: string,
+  dates: { catalogModified?: string; articlesModified?: string; siteModified?: string },
+): string | undefined {
+  if (path === "/") return dates.siteModified;
+  if (path === "/products" || path === "/products/design") return dates.catalogModified;
+  if (path === "/articles") return dates.articlesModified;
+  return undefined;
 }
