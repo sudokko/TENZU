@@ -945,7 +945,7 @@ function SolidPrintPreview({
       </div>
 
       {purchased && (
-        <button type="button" className="spv-download" disabled={downloading} onClick={doDownload}>
+        <button type="button" id={`spv-download-${sku}`} className="spv-download" disabled={downloading} onClick={doDownload}>
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
             strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M12 3v12m0 0 4-4m-4 4-4-4" /><path d="M5 21h14" />
@@ -1165,7 +1165,7 @@ function SquarePrintPreview({
       {/* 購入後 DL ボタン。spv 直下に出し、サンクスでは CSS order で
           プレビュー→設定→DL の順に並べ替える（商品ページは非表示で無影響） */}
       {purchased && (
-        <button type="button" className="spv-download" disabled={downloading}
+        <button type="button" id={`spv-download-${sku}`} className="spv-download" disabled={downloading}
           onClick={async () => {
             setDownloading(true);
             try {

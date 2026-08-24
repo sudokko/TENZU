@@ -10,6 +10,7 @@ import SiteHeader from "../../SiteHeader";
 import SkuPrintPreview, { type SolidRenderProblem } from "../../products/SkuPrintPreview";
 import { toRenderProblems, type RenderProblem } from "../../products/problems/render";
 import ClearCartOnSuccess from "./ClearCartOnSuccess";
+import QuickDownload from "./QuickDownload";
 import TrackPurchase from "../../TrackPurchase";
 import { volBySku, volTitle, PRICE } from "../../products/data";
 import { publishedSet } from "../../products/problems/published";
@@ -115,6 +116,10 @@ export default async function CheckoutSuccessPage({
           <p>用紙・問題数・並びを選んで、PDF をダウンロードしてください。</p>
           <p className="success-revisit">このページのリンクはご購入確認メールにも届いています。ブックマークすれば、いつでも・別の端末からでも再ダウンロードできます。</p>
         </div>
+
+        <QuickDownload
+          items={purchased.map(({ sku, resolved }) => ({ sku, title: volTitle(resolved!.task, resolved!.vol) }))}
+        />
 
         {purchased.map(({ sku, resolved }) => {
           const { vol } = resolved!;

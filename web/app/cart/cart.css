@@ -99,6 +99,34 @@
   padding: var(--s-10); color: var(--fg-2);
 }
 
+/* ヒーロー直下のクイックDL。実処理は下の spv-download を id 経由でクリックするだけ
+   （生成ロジックの重複を避けるため）。複数巻購入時にまとめて見つけやすくする。 */
+.success-quickdl {
+  max-width: 480px; margin: 0 auto var(--s-12);
+  border: 1px solid var(--line-mid); border-radius: var(--radius-soft);
+  background: var(--bg); box-shadow: var(--shadow-paper);
+  padding: var(--s-6) var(--s-7);
+}
+.success-quickdl-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+.success-quickdl-item {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+  border: 1px solid var(--line-mid); border-radius: var(--radius-soft);
+  padding: var(--s-4) var(--s-5); background: var(--bg-3);
+}
+.success-quickdl-name { font-family: var(--font-tier1-klee); font-weight: 600; font-size: 15px; color: var(--fg); }
+.success-quickdl-btn {
+  display: inline-flex; align-items: center; gap: var(--s-2); flex-shrink: 0;
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius-soft); font-family: var(--font-heading); font-weight: 600;
+  font-size: 14px; padding: var(--s-3) var(--s-5); cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-line);
+}
+.success-quickdl-btn:hover { background: var(--accent-ink); }
+.success-quickdl-note {
+  font-family: var(--font-tier2-pencil); font-size: 13px; color: var(--fg-3);
+  text-align: center; margin: var(--s-5) 0 0;
+}
+
 /* 各巻 = 紙のカード。ヘッダーは accent 地の帯でカード幅いっぱいに張る */
 .success-sku {
   margin-bottom: var(--s-10);
