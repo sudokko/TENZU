@@ -251,6 +251,21 @@ async function readError(r: Response): Promise<string> {
   return j?.error ?? `エラー（${r.status}）`;
 }
 
+async function blobToBase64(blob: Blob): Promise<string> {
+  const dataUrl = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () =>
+      typeof reader.result === "string"
+        ? resolve(reader.result)
+        : reject(new Error("画像データを読み取れません"));
+    reader.onerror = () => reject(new Error("画像データを読み取れません"));
+    reader.readAsDataURL(blob);
+  });
+  const comma = dataUrl.indexOf(",");
+  if (comma < 0) throw new Error("画像データを変換できません");
+  return dataUrl.slice(comma + 1);
+}
+
 /* ========================================================================= */
 
 export default function OnsiteAdminApp() {
@@ -413,10 +428,12 @@ export default function OnsiteAdminApp() {
     setErr("");
     try {
       const blob = await resizeImage(file);
-      const ext = blob.type === "image/webp" ? "webp" : "jpg";
-      const form = new FormData();
-      form.append("file", new File([blob], `onsite.${ext}`, { type: blob.type }));
-      const r = await fetch("/api/admin/onsite/image", { method: "POST", body: form });
+      const data = await blobToBase64(blob);
+      const r = await fetch("/api/admin/onsite/image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mime: blob.type, data }),
+      });
       if (!r.ok) throw new Error(await readError(r));
       const j = (await r.json()) as { src: string };
       setDraft((d) => (d ? { ...d, imageSrc: j.src } : d));
