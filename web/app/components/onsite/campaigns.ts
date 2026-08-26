@@ -83,6 +83,30 @@ export const SEED_CAMPAIGNS: Campaign[] = [
     active: true,
   },
   {
+    // 模写メーカー（無料の入口）へ初めて来た人へ＝無料の範囲を最初に伝える。
+    // 対象は /maker だけ（前方一致なので有料 9 メーカー /maker-* と /makers は除外）。
+    // G4 の scroll 条件は付けない: 道具のページでは読み進めではなく操作が進行なので、
+    // スクロールしない人にこそ届ける必要がある（delaySec を 12 秒に伸ばして代替）。
+    // スマホは中央寄せではなく下部: 中央は作図キャンバスの真上になり V3「邪魔しない」に反する
+    //（PDF バーとの重なりは onsite.css の .mobile-export-bar 退避ルールが処理する）。
+    id: "maker-welcome",
+    trigger: "first_visit",
+    pages: ["/maker"],
+    excludePages: ["/maker-", "/makers"],
+    headline: "4×4 までは無料でつくれます",
+    message:
+      "まずは 4×4 で作って、PDF にして印刷してみてください。5×5〜8×8 は、サイズを選ぶと ¥980 の買い切りで解放できます。",
+    image: {
+      src: "/assets/articles/how-to-choose-and-use/02-screen-to-paper.webp",
+      alt: "画面で作った問題を紙で練習する流れ",
+    },
+    layout: { mobile: "bottom", desktop: "corner", imageVariant: "side" },
+    frequency: { maxImpressions: 1, stopOnClick: true },
+    priority: 25,
+    delaySec: 12,
+    active: true,
+  },
+  {
     // 工房で固まっている人へ（お知らせのみ・CTA なし）
     id: "maker-hint",
     trigger: "idle",

@@ -14,7 +14,7 @@ TENZU の **認知を取って CV へ渡す** 動きを扱う。市場の読み�
 | [sns-operations-guide.md](sns-operations-guide.md) | SNS 運用 方針書（平易版・自己完結の読み物・運用の考え方を最初から平易に説明） |
 | [funnel.md](funnel.md) | CV 導線（レベル選びガイド・LP・クーポン・購入導線） |
 | [monitor-recruit.md](monitor-recruit.md) | 退役スタブ（公募廃止・公開後モニターは [../launch/monitor.md](../launch/monitor.md)・[decisions.md §3.76](../decisions.md)） |
-| [onsite-messaging.md](onsite-messaging.md) | オンサイトメッセージ（自前 Web 接客・スマホは中央寄せ/下部/文脈内のシナリオ別配置・5画像テンプレート・DynamoDB＋管理画面 /admin/onsite・first-party計測） |
+| [onsite-messaging.md](onsite-messaging.md) | オンサイトメッセージ（自前 Web 接客・スマホは中央寄せ/下部/文脈内のシナリオ別配置・画像つきテンプレート・DynamoDB＋管理画面 /admin/onsite・first-party計測） |
 
 ## 読む順序
 
