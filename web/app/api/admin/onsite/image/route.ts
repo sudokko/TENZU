@@ -1,16 +1,18 @@
 /* 画像アップロード（管理用）。クライアント縮小済みの webp/jpeg/png を S3 へ置き、
    公開 URL を返す（バケットポリシーで onsite/* のみ公開読み取り）。
-   - Amplify compute で multipart が 500 になる経路を避けるため、管理画面は
-     application/json（base64）で送る。旧 multipart も後方互換として受ける
+   - S3 への PUT は app/lib/s3-put.ts（自前 SigV4）。@aws-sdk/client-s3 は Next の既定
+     serverExternalPackages に入っていて Amplify の本番へ運ばれず、import しただけで
+     このルートが丸ごと 500 になっていた（理由の詳細は s3-put.ts の冒頭）
+   - 管理画面は application/json（base64）で送る。旧 multipart も後方互換として受ける
    - 500KB 上限（Amplify SSR のリクエストボディ上限 ~1MB の内側。超えるようなら
      presigned URL 方式への切替を検討）
    - MIME allowlist ＋ マジックバイト検査
    - キーは onsite/{uuid}.{ext}（immutable・上書きなし・旧画像は放置でよい） */
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { requireAdmin } from "../../guard";
 import { awsClientConfig } from "../../../../lib/aws";
+import { s3PutObject, S3PutError } from "../../../../lib/s3-put";
 
 export const dynamic = "force-dynamic";
 
@@ -22,12 +24,6 @@ const EXT: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",
 };
-
-let cachedS3: S3Client | null = null;
-function s3(): S3Client {
-  if (!cachedS3) cachedS3 = new S3Client(awsClientConfig());
-  return cachedS3;
-}
 
 function magicOk(mime: string, buf: Buffer): boolean {
   if (mime === "image/png") {
@@ -100,38 +96,6 @@ async function readImage(req: NextRequest): Promise<
   }
 }
 
-function s3ErrorMessage(e: unknown): { message: string; code: string } {
-  const err = e as { name?: string; Code?: string; code?: string };
-  const name = err.name ?? err.Code ?? err.code ?? "";
-  if (name === "AccessDenied" || name === "Forbidden") {
-    return {
-      message: "S3への書き込み権限がありません。IAMの s3:PutObject を確認してください",
-      code: "S3_ACCESS_DENIED",
-    };
-  }
-  if (name === "NoSuchBucket") {
-    return {
-      message: "画像保存先のS3バケットが見つかりません。ONSITE_IMAGE_BUCKETを確認してください",
-      code: "S3_BUCKET_NOT_FOUND",
-    };
-  }
-  if (
-    name === "CredentialsProviderError" ||
-    name === "InvalidAccessKeyId" ||
-    name === "SignatureDoesNotMatch" ||
-    name === "UnrecognizedClientException"
-  ) {
-    return {
-      message: "S3の認証に失敗しました。APP_AWS_ACCESS_KEY_ID / APP_AWS_SECRET_ACCESS_KEYを確認してください",
-      code: "S3_CREDENTIALS_ERROR",
-    };
-  }
-  return {
-    message: "S3への画像保存に失敗しました。時間を置いて再度お試しください",
-    code: "S3_UPLOAD_FAILED",
-  };
-}
-
 export async function POST(req: NextRequest) {
   try {
     return await handleUpload(req);
@@ -180,25 +144,39 @@ async function handleUpload(req: NextRequest) {
   const ext = EXT[mime];
   const key = `onsite/${randomUUID()}.${ext}`;
   const config = awsClientConfig();
-  try {
-    await s3().send(
-      new PutObjectCommand({
-        Bucket: bucket,
-        Key: key,
-        Body: buf,
-        ContentType: mime,
-        CacheControl: "public, max-age=31536000, immutable",
-      }),
+  if (!config.credentials) {
+    // SDK を使わないため既定の認証チェーンへは落ちられない（s3-put.ts 冒頭）
+    return jsonError(
+      "S3の認証情報が未設定です。APP_AWS_ACCESS_KEY_ID / APP_AWS_SECRET_ACCESS_KEYを確認してください",
+      503,
+      "S3_CREDENTIALS_MISSING",
     );
-  } catch (e) {
-    const detail = s3ErrorMessage(e);
-    console.error("[onsite-image] S3 PutObject failed", {
-      errorName: (e as { name?: string }).name ?? "UnknownError",
-      region: config.region,
-      code: detail.code,
-    });
-    return jsonError(detail.message, 503, detail.code);
   }
 
-  return NextResponse.json({ src: `https://${bucket}.s3.${config.region}.amazonaws.com/${key}` });
+  try {
+    const src = await s3PutObject({
+      region: config.region,
+      bucket,
+      key,
+      body: buf,
+      contentType: mime,
+      cacheControl: "public, max-age=31536000, immutable",
+      accessKeyId: config.credentials.accessKeyId,
+      secretAccessKey: config.credentials.secretAccessKey,
+    });
+    return NextResponse.json({ src });
+  } catch (e) {
+    const err = e instanceof S3PutError ? e : null;
+    console.error("[onsite-image] S3 PUT failed", {
+      code: err?.code ?? "UNKNOWN",
+      status: err?.status,
+      region: config.region,
+      bucket,
+    });
+    return jsonError(
+      err?.message ?? "S3への画像保存に失敗しました。時間を置いて再度お試しください",
+      503,
+      err?.code ?? "S3_UPLOAD_FAILED",
+    );
+  }
 }

@@ -164,6 +164,8 @@ type Campaign = {
 - **一覧**: active トグル（即時停止/再開）・直近 7 日の表示/クリック小計・プレビューリンク（`{対象ページ}?om_preview={id}`・別タブ）・編集
 - **編集フォーム**: 見出し・本文・CTA・画像、スマホ/PC配置、画像表示、行動条件、最大表示回数/休止日数を編集。390px実寸プレビューへ即時反映。画像はalt必須
 - **画像アップロード**: クライアント縮小（長辺512px webp/jpeg）→ `POST /api/admin/onsite/image` → S3。**成否は画像欄の直下にも表示する**（フォームが長く、画面最上部のバナーだけでは視界に入らないため）。サーバー側は想定外の例外も JSON（`code: UNEXPECTED`）で返し、`[onsite-image]` 付きでログへ残す＝素の 500 で手掛かりが消えるのを防ぐ
+- **S3 への PUT は `@aws-sdk/client-s3` を使わず自前 SigV4**（`web/app/lib/s3-put.ts`）。理由: 同 SDK は Next.js の既定 `serverExternalPackages` に入っていてバンドルされず生の `node_modules` 参照として残るが、Amplify は `artifacts: .next` しか本番へ運ばないためランタイムで解決できず、**import しただけでこのルートが全リクエスト 500 になる**（`client-ses` / `client-dynamodb` は既定リスト外なのでバンドルされ、同じ構成で動く）。`transpilePackages` では戻せない。署名の正しさは `npm run check:sigv4`（`scripts/verify-sigv4.mjs`）で AWS 公式実装 `@smithy/signature-v4` とのバイト一致を確認する（AWS 通信なし）
+- ⚠️ 上記の結果、**画像アップロードは `APP_AWS_ACCESS_KEY_ID` / `APP_AWS_SECRET_ACCESS_KEY` の明示指定が必須**。SDK を外したため既定の認証チェーン（Amplify コンピュートロール等）へはフォールバックせず、未設定なら `S3_CREDENTIALS_MISSING` を返す。DynamoDB / SES 側の挙動は従来どおり
 - **NG 語彙警告**: [voice-tone.md](../foundation/voice-tone.md) §1／§7.6 の grep パターンを移植した配列（`web/app/admin/onsite/ng-words.ts`）で本文・CTA ラベルを検査。**警告のみ・保存はブロックしない**。voice-tone.md 側を更新したら ng-words.ts も同期する
 - **統計タブ**: 期間指定（既定 直近 14 日）の日別・キャンペーン別 show / click / dismiss と click 率。判断指標は §8.3 のとおり（show は母数であって成果ではない）
 - **推奨テンプレート反映**: `campaigns.ts` の `SEED_CAMPAIGNS` で同じidを明示確認後にupsert。既存の個別編集を上書きするため確認ダイアログ必須
