@@ -133,6 +133,24 @@ function s3ErrorMessage(e: unknown): { message: string; code: string } {
 }
 
 export async function POST(req: NextRequest) {
+  try {
+    return await handleUpload(req);
+  } catch (e) {
+    // ここに来る＝想定外の例外。素の 500（HTML）だと管理画面に手掛かりが残らないため、
+    // 必ず JSON にしてログへ名前を残す（acquisition/onsite-messaging.md §9）。
+    console.error("[onsite-image] unexpected failure", {
+      errorName: (e as { name?: string }).name ?? "UnknownError",
+      message: (e as Error).message,
+    });
+    return jsonError(
+      "画像アップロードが想定外のエラーで止まりました。Amplify のログで [onsite-image] を確認してください",
+      500,
+      "UNEXPECTED",
+    );
+  }
+}
+
+async function handleUpload(req: NextRequest) {
   const g = requireAdmin(req);
   if (g) return g;
 

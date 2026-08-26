@@ -163,6 +163,7 @@ type Campaign = {
 - **認証**: 合言葉方式。`ADMIN_SECRET`（env）をタイミングセーフ比較 → HMAC 署名 cookie `tenzu_admin`（30 日・実装は `web/app/lib/auth.ts`）。レート制限は持たず**十分長いランダム合言葉のエントロピーで守る**（失敗時 400ms 待ち）。atelier と違い NODE_ENV ガードは付けない＝本番で使う画面
 - **一覧**: active トグル（即時停止/再開）・直近 7 日の表示/クリック小計・プレビューリンク（`{対象ページ}?om_preview={id}`・別タブ）・編集
 - **編集フォーム**: 見出し・本文・CTA・画像、スマホ/PC配置、画像表示、行動条件、最大表示回数/休止日数を編集。390px実寸プレビューへ即時反映。画像はalt必須
+- **画像アップロード**: クライアント縮小（長辺512px webp/jpeg）→ `POST /api/admin/onsite/image` → S3。**成否は画像欄の直下にも表示する**（フォームが長く、画面最上部のバナーだけでは視界に入らないため）。サーバー側は想定外の例外も JSON（`code: UNEXPECTED`）で返し、`[onsite-image]` 付きでログへ残す＝素の 500 で手掛かりが消えるのを防ぐ
 - **NG 語彙警告**: [voice-tone.md](../foundation/voice-tone.md) §1／§7.6 の grep パターンを移植した配列（`web/app/admin/onsite/ng-words.ts`）で本文・CTA ラベルを検査。**警告のみ・保存はブロックしない**。voice-tone.md 側を更新したら ng-words.ts も同期する
 - **統計タブ**: 期間指定（既定 直近 14 日）の日別・キャンペーン別 show / click / dismiss と click 率。判断指標は §8.3 のとおり（show は母数であって成果ではない）
 - **推奨テンプレート反映**: `campaigns.ts` の `SEED_CAMPAIGNS` で同じidを明示確認後にupsert。既存の個別編集を上書きするため確認ダイアログ必須

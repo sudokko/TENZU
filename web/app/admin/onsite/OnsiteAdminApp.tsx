@@ -10,7 +10,7 @@
    ========================================================================= */
 
 import { useEffect, useMemo, useState } from "react";
-import type { Campaign } from "../../components/onsite/campaigns";
+import { SEED_CAMPAIGNS, type Campaign } from "../../components/onsite/campaigns";
 import type { CampaignRecord, StatRow } from "../../lib/onsite-store";
 import { checkNgWords } from "./ng-words";
 import { resizeImage } from "./resize";
@@ -247,8 +247,15 @@ function daysAgoStr(n: number): string {
 }
 
 async function readError(r: Response): Promise<string> {
-  const j = (await r.json().catch(() => null)) as { error?: string } | null;
-  return j?.error ?? `エラー（${r.status}）`;
+  const j = (await r.json().catch(() => null)) as { error?: string; code?: string } | null;
+  if (j?.error) return j.code ? `${j.error}（${j.code}）` : j.error;
+  // JSON を返せていない＝ルートに届く前後で落ちている（Amplify 側の素の 5xx など）。
+  // 原因を切り分けられるよう、状態行とサーバーログの見どころを添える。
+  if (r.status >= 500) {
+    return `サーバー側で処理できませんでした（HTTP ${r.status} ${r.statusText}）。`
+      + " Amplify のコンピュートログで [onsite-image] を検索してください";
+  }
+  return `エラー（HTTP ${r.status} ${r.statusText}）`;
 }
 
 async function blobToBase64(blob: Blob): Promise<string> {
@@ -277,6 +284,9 @@ export default function OnsiteAdminApp() {
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  // 画像欄は保存ボタンから遠いので、成否をフィールドの隣にも出す（上部バナーだけだと画面外）
+  const [imageNote, setImageNote] = useState<{ kind: "ok" | "ng"; text: string } | null>(null);
+  const [uploading, setUploading] = useState(false); // busy は保存等でも立つので画像専用に分ける
 
   async function loadCampaigns() {
     try {
@@ -405,7 +415,7 @@ export default function OnsiteAdminApp() {
   async function syncTemplates() {
     if (busy) return;
     if (campaigns && campaigns.length > 0 && !window.confirm(
-      "推奨5テンプレートの見出し・本文・画像・表示条件で、同じidの設定を更新します。\n現在の個別編集内容は上書きされます。反映しますか？",
+      `推奨${SEED_CAMPAIGNS.length}テンプレートの見出し・本文・画像・表示条件で、同じidの設定を更新します。\n現在の個別編集内容は上書きされます。反映しますか？`,
     )) return;
     setBusy(true);
     setErr("");
@@ -425,7 +435,9 @@ export default function OnsiteAdminApp() {
   async function uploadImage(file: File) {
     if (!draft) return;
     setBusy(true);
+    setUploading(true);
     setErr("");
+    setImageNote(null);
     try {
       const blob = await resizeImage(file);
       const data = await blobToBase64(blob);
@@ -437,10 +449,17 @@ export default function OnsiteAdminApp() {
       if (!r.ok) throw new Error(await readError(r));
       const j = (await r.json()) as { src: string };
       setDraft((d) => (d ? { ...d, imageSrc: j.src } : d));
-      setMsg("画像をアップロードしました（保存を押すまでカードには反映されません）");
+      setImageNote({
+        kind: "ok",
+        text: "アップロードしました。下の alt を入れて「保存」を押すとカードに反映されます。",
+      });
     } catch (e) {
-      setErr((e as Error).message);
+      // 上部バナーにも従来どおり出す（画面上部を見ている場合のため）
+      const text = (e as Error).message;
+      setErr(text);
+      setImageNote({ kind: "ng", text });
     } finally {
+      setUploading(false);
       setBusy(false);
     }
   }
@@ -485,7 +504,7 @@ export default function OnsiteAdminApp() {
               <h2 className="adm-h2">キャンペーン一覧</h2>
               <div className="adm-list-actions">
                 <button type="button" className="adm-btn" onClick={syncTemplates} disabled={busy}>
-                  推奨5テンプレートを反映
+                  推奨{SEED_CAMPAIGNS.length}テンプレートを反映
                 </button>
                 <button
                   type="button"
@@ -506,7 +525,7 @@ export default function OnsiteAdminApp() {
               <p className="adm-hint">読み込み中…</p>
             ) : campaigns.length === 0 ? (
               <p className="adm-hint">
-                キャンペーンがまだありません。「推奨5テンプレートを反映」で初期設定を投入できます。
+                キャンペーンがまだありません。「推奨{SEED_CAMPAIGNS.length}テンプレートを反映」で初期設定を投入できます。
               </p>
             ) : (
               <div className="adm-table-scroll">
@@ -873,7 +892,10 @@ export default function OnsiteAdminApp() {
                       <button
                         type="button"
                         className="adm-btn"
-                        onClick={() => setDraft({ ...draft, imageSrc: "", imageAlt: "" })}
+                        onClick={() => {
+                          setDraft({ ...draft, imageSrc: "", imageAlt: "" });
+                          setImageNote(null);
+                        }}
                       >
                         画像を外す
                       </button>
@@ -899,6 +921,15 @@ export default function OnsiteAdminApp() {
                     onChange={(e) => setDraft({ ...draft, imageAlt: e.target.value })}
                     placeholder="alt（代替テキスト・必須）例: 秋の特集ページのイメージ"
                   />
+                )}
+                {uploading && <p className="adm-hint">アップロード中…</p>}
+                {imageNote && (
+                  <p
+                    className={imageNote.kind === "ok" ? "adm-msg" : "adm-error"}
+                    role={imageNote.kind === "ok" ? "status" : "alert"}
+                  >
+                    {imageNote.text}
+                  </p>
                 )}
               </div>
 
