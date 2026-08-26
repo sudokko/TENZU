@@ -1,6 +1,8 @@
-/* Amazon SES 経由のトランザクションメール送信（購入完了→DLリンク配送）。
-   @aws-sdk/client-ses は既定の認証チェーンで AWS_* env / IAM ロールを自動解決する。
-   サンドボックス時は SES_FROM_EMAIL と受信者の双方が検証済みである必要がある。 */
+/* トランザクションメール送信（購入完了→DLリンク配送・復元マジックリンク・問い合わせ通知）。
+   配送業者は MAIL_PROVIDER で差し替える＝1 業者に人質を取られない構造:
+     - "resend" … Resend REST API（RESEND_API_KEY・依存パッケージ不要）
+     - "ses"    … Amazon SES（既定・サンドボックス中は宛先も検証済みである必要がある）
+   MAIL_PROVIDER 未設定なら RESEND_API_KEY の有無で自動判定し、無ければ SES へ落ちる。 */
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
 /* Amplify Hosting は "AWS" 接頭辞の環境変数を予約済みで設定できないため、SES 認証情報は
@@ -21,14 +23,70 @@ const ses = new SESClient({
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+type Mail = {
+  to: string[];
+  subject: string;
+  text: string;
+  html: string;
+  replyTo?: string[];
+};
+
+/* 送信元。MAIL_FROM_EMAIL が正・未設定なら従来の SES_FROM_EMAIL を流用する。
+   "TENZU <no-reply@tenzu.jp>" の表示名つき形式も両業者でそのまま通る。 */
+function fromAddress(): string {
+  const from = process.env.MAIL_FROM_EMAIL ?? process.env.SES_FROM_EMAIL;
+  if (!from) throw new Error("送信元メール未設定（MAIL_FROM_EMAIL / SES_FROM_EMAIL）");
+  return from;
+}
+
+async function deliverResend(from: string, m: Mail): Promise<void> {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error("RESEND_API_KEY 未設定");
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from,
+      to: m.to,
+      subject: m.subject,
+      text: m.text,
+      html: m.html,
+      ...(m.replyTo?.length ? { reply_to: m.replyTo } : {}),
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`Resend 送信失敗 ${res.status}: ${await res.text()}`);
+  }
+}
+
+async function deliverSes(from: string, m: Mail): Promise<void> {
+  await ses.send(new SendEmailCommand({
+    Source: from,
+    Destination: { ToAddresses: m.to },
+    ...(m.replyTo?.length ? { ReplyToAddresses: m.replyTo } : {}),
+    Message: {
+      Subject: { Data: m.subject, Charset: "UTF-8" },
+      Body: {
+        Text: { Data: m.text, Charset: "UTF-8" },
+        Html: { Data: m.html, Charset: "UTF-8" },
+      },
+    },
+  }));
+}
+
+async function deliver(m: Mail): Promise<void> {
+  const from = fromAddress();
+  const provider =
+    process.env.MAIL_PROVIDER ?? (process.env.RESEND_API_KEY ? "resend" : "ses");
+  if (provider === "resend") return deliverResend(from, m);
+  return deliverSes(from, m);
+}
+
 export async function sendPurchaseEmail(opts: {
   to: string;
   downloadUrl: string;
   items: string[]; // 巻名（volTitle）の配列
 }): Promise<void> {
-  const from = process.env.SES_FROM_EMAIL;
-  if (!from) throw new Error("SES_FROM_EMAIL 未設定");
-
   const list = opts.items.length ? opts.items : ["ご購入の商品"];
   const textBody = [
     "TENZU をご利用いただきありがとうございます。",
@@ -58,17 +116,12 @@ export async function sendPurchaseEmail(opts: {
       <p style="font-size:12px;color:#9AA0AA">— 点図形（点描写）プリントの専門店 TENZU</p>
     </div>`;
 
-  await ses.send(new SendEmailCommand({
-    Source: from,
-    Destination: { ToAddresses: [opts.to] },
-    Message: {
-      Subject: { Data: "【TENZU】ご購入ありがとうございます — ダウンロードリンク", Charset: "UTF-8" },
-      Body: {
-        Text: { Data: textBody, Charset: "UTF-8" },
-        Html: { Data: htmlBody, Charset: "UTF-8" },
-      },
-    },
-  }));
+  await deliver({
+    to: [opts.to],
+    subject: "【TENZU】ご購入ありがとうございます — ダウンロードリンク",
+    text: textBody,
+    html: htmlBody,
+  });
 }
 
 /* 問い合わせフォーム（/contact）の内容をオーナーへ通知する。
@@ -82,8 +135,6 @@ export async function sendContactMail(opts: {
   phone?: string;
   message?: string;
 }): Promise<void> {
-  const from = process.env.SES_FROM_EMAIL;
-  if (!from) throw new Error("SES_FROM_EMAIL 未設定");
   const to = (process.env.CONTACT_NOTIFY_EMAILS ?? "tenzu.info@gmail.com,k-sudou@hotmail.co.jp")
     .split(",")
     .map((s) => s.trim())
@@ -123,18 +174,13 @@ export async function sendContactMail(opts: {
       <p style="font-size:12px;color:#9AA0AA">— TENZU 問い合わせフォーム（/contact）</p>
     </div>`;
 
-  await ses.send(new SendEmailCommand({
-    Source: from,
-    Destination: { ToAddresses: to },
-    ...(opts.email && opts.email.includes("@") ? { ReplyToAddresses: [opts.email] } : {}),
-    Message: {
-      Subject: { Data: "【TENZU】問い合わせフォームから新着", Charset: "UTF-8" },
-      Body: {
-        Text: { Data: textBody, Charset: "UTF-8" },
-        Html: { Data: htmlBody, Charset: "UTF-8" },
-      },
-    },
-  }));
+  await deliver({
+    to,
+    subject: "【TENZU】問い合わせフォームから新着",
+    text: textBody,
+    html: htmlBody,
+    ...(opts.email && opts.email.includes("@") ? { replyTo: [opts.email] } : {}),
+  });
 }
 
 /* 購入したメーカーの別端末復元リンク（マジックリンク）。
@@ -145,9 +191,6 @@ export async function sendRestoreLink(opts: {
   restoreUrl: string;
   items: string[]; // 購入メーカー名の配列（空でも可）
 }): Promise<void> {
-  const from = process.env.SES_FROM_EMAIL;
-  if (!from) throw new Error("SES_FROM_EMAIL 未設定");
-
   const list = opts.items.length ? opts.items : ["ご購入のメーカー"];
   const textBody = [
     "TENZU メーカーのご購入ありがとうございます。",
@@ -177,15 +220,10 @@ export async function sendRestoreLink(opts: {
       <p style="font-size:12px;color:#9AA0AA">— 点図形（点描写）プリントの専門店 TENZU</p>
     </div>`;
 
-  await ses.send(new SendEmailCommand({
-    Source: from,
-    Destination: { ToAddresses: [opts.to] },
-    Message: {
-      Subject: { Data: "【TENZU】ご購入ありがとうございます — 別端末での復元リンク", Charset: "UTF-8" },
-      Body: {
-        Text: { Data: textBody, Charset: "UTF-8" },
-        Html: { Data: htmlBody, Charset: "UTF-8" },
-      },
-    },
-  }));
+  await deliver({
+    to: [opts.to],
+    subject: "【TENZU】ご購入ありがとうございます — 別端末での復元リンク",
+    text: textBody,
+    html: htmlBody,
+  });
 }

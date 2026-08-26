@@ -35,12 +35,12 @@
 
 ### §3. ローンチまでの残作業（着手順）
 
-1. **★SES サンドボックス脱出申請**（[phase-1-todo §1](../engineering/phase-1-todo.md)）— AWS 側の待ち時間が最長のクリティカルパス。**W1 初日に申請だけ先に出す**
+1. **★メール配送の開通**（[phase-1-todo §1](../engineering/phase-1-todo.md)）— SES 本番アクセスは却下されたため **Resend へ移行**（[decisions.md §3.111](../decisions.md)）。DNS 検証と疎通確認は完了。残＝Amplify main への env 投入と再デプロイ
 2. **模写問題つくりきり**: 検品基準＝合格点方式（D スコア窓内＋目視破綻なし＝採用・迷ったら採用）で 1 日 3-4 巻・W3 で完了→publish
 3. 送客導線(A): 商品ページ→工房（クロスセル MVP の残りピース・W1）
 4. **計測配線**: GA4＋GTM 導入・UTM 命名規則確定・イベントは **`tool_start` / `generated_pdf` / `purchase` の3つだけ先に**（[funnel §11](../acquisition/funnel.md) の10イベント全部を最初からやらない）＋アタッチ率計測(B)（W2）
 5. 記事 20 本の修正レビュー: **3 日 1 本ペース**（W1 の C3-1・P1 まとめから着手→開店分 10 本を 8/11 目安で完了・温存 10 本は開店後も継続）→ W3 で公開 10／温存 10 の振り分け確定（[phases §3.4](phases.md)）
-6. 本番 env 残り: Stripe live 化・AUTH_SECRET・SITE_URL・tenzu.jp を Amplify 接続＋SES DKIM/SPF/DMARC（**8/16 ドメイン取得後すぐ・W5**）
+6. 本番 env 残り: Stripe live 化・AUTH_SECRET・SITE_URL・tenzu.jp を Amplify 接続＋Resend の DKIM/SPF/MX と DMARC（**8/16 ドメイン取得後すぐ・W5**）
 7. テスト: [release-testing.md](../engineering/release-testing.md) P0→P3 を W6 で一巡・W7 で P0 本番再走（実カード ¥200→返金まで）
 8. SNS 開店在庫（[sns-operations §3](../acquisition/sns-operations.md)）: `/atelier/pins` で初期ピン20-30本・IG カルーセル2-3本・X/note 固定・**1ヶ月分予約投入**（W4-W7）
 9. Web接客（オンサイトメッセージ）: **実装済み（2026-07-11、スマホ改訂2026-08-24）**。シードテンプレート6本の画像・文言・シナリオ別配置は確定済み。デプロイ後に管理画面の「推奨テンプレートを反映」→ `?om_preview` 実機確認 → GTMタグ接続（9月）。運用計画は [onsite-messaging.md §8](../acquisition/onsite-messaging.md)
