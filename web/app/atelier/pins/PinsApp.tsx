@@ -10,7 +10,7 @@ import { useMemo, useState } from "react";
 import { PUBLISHED } from "../../products/problems/published";
 import { volBySku } from "../../products/data";
 import {
-  PIN_W, PIN_H, pinP1, pinP2, pinP3, pinRow, buildCsv,
+  PIN_W, PIN_H, PIN_CAMPAIGNS, pinP1, pinP2, pinP3, pinRow, buildCsv, buildP2Ladder,
   type PinTemplate, type PinRow,
 } from "./pin-render";
 import "./pins.css";
@@ -69,6 +69,8 @@ export default function PinsApp() {
   );
   const [sku, setSku] = useState(publishedSkus[0] ?? "");
   const [template, setTemplate] = useState<PinTemplate>("p1");
+  // utm_campaign（施策・シーズン）。季節ピンは 2-3 ヶ月前出しで焼く（sns-operations.md §5）。
+  const [campaign, setCampaign] = useState<string>(PIN_CAMPAIGNS[0]);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
 
@@ -81,17 +83,30 @@ export default function PinsApp() {
 
     if (template === "p1") {
       return set.problems.map((p, i) => {
-        const filename = fname(`_${String(i + 1).padStart(2, "0")}`);
-        return { filename, svg: pinP1(task, vol, p), row: pinRow("p1", task, vol, filename, p) };
+        const seq = i + 1;
+        const filename = fname(`_${String(seq).padStart(2, "0")}`);
+        return {
+          filename,
+          svg: pinP1(task, vol, p),
+          row: pinRow("p1", task, vol, filename, { campaign, p, seq }),
+        };
       });
     }
     if (template === "p2") {
       const filename = fname("");
-      return [{ filename, svg: pinP2(task, vol, set.problems), row: pinRow("p2", task, vol, filename) }];
+      return [{
+        filename,
+        svg: pinP2(task, buildP2Ladder(sku)),
+        row: pinRow("p2", task, vol, filename, { campaign }),
+      }];
     }
     const filename = fname("");
-    return [{ filename, svg: pinP3(task, vol, set.problems), row: pinRow("p3", task, vol, filename) }];
-  }, [sku, template]);
+    return [{
+      filename,
+      svg: pinP3(task, vol, set.problems),
+      row: pinRow("p3", task, vol, filename, { campaign }),
+    }];
+  }, [sku, template, campaign]);
 
   async function exportOne(pin: Pin) {
     setBusy(true);
@@ -119,7 +134,7 @@ export default function PinsApp() {
 
   function exportCsv() {
     const csv = buildCsv(pins.map((p) => p.row));
-    downloadBlob(new Blob([csv], { type: "text/csv;charset=utf-8" }), `captions_${sku}_${template}.csv`);
+    downloadBlob(new Blob([csv], { type: "text/csv;charset=utf-8" }), `captions_${sku}_${template}_${campaign}.csv`);
   }
 
   return (
@@ -138,6 +153,15 @@ export default function PinsApp() {
           <select value={sku} onChange={(e) => setSku(e.target.value)}>
             {publishedSkus.map((s) => (
               <option key={s} value={s}>{s}</option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          施策・シーズン（utm_campaign）
+          <select value={campaign} onChange={(e) => setCampaign(e.target.value)}>
+            {PIN_CAMPAIGNS.map((c) => (
+              <option key={c} value={c}>{c}</option>
             ))}
           </select>
         </label>

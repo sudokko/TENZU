@@ -3,12 +3,13 @@
    Pinterest 用の縦長(2:3 = 1000×1500)ピンを SVG 文字列で組み立てる。
    素材は published 済みの実問題（メーカー出力そのもの）— AI 画像は使わない。
    - 3 テンプレ: P1 一問プレビュー / P2 難度ちがい / P3 まとめ表紙
-   - キャプション（煽り語ゼロ）＋ハッシュタグ5個＋UTM 付きメーカー URL
+   - キャプション（煽り語ゼロ・CTA はピン直リンク）＋ハッシュタグ 3-4 個＋UTM 付きメーカー URL
    描画と書き出し（canvas→PNG）は PinsApp.tsx 側。ここは文字列を作るだけ。
    ========================================================================= */
 import type { Problem } from "../../products/problems/schema";
 import { metricsLabel } from "../../products/problems/schema";
-import { LEVEL_NAMES, type ProductTask, type Vol } from "../../products/data";
+import { LEVEL_NAMES, volBySku, type ProductTask, type Vol } from "../../products/data";
+import { PUBLISHED } from "../../products/problems/published";
 
 export const PIN_W = 1000;
 export const PIN_H = 1500;
@@ -115,20 +116,53 @@ export function pinP1(task: ProductTask, vol: Vol, p: Problem): string {
 }
 
 /* ---- P2: 難度ちがい（保存狙い・易→難の3問） ---- */
-export function pinP2(task: ProductTask, vol: Vol, problems: Problem[]): string {
+export type P2Step = { vol: Vol; p: Problem };
+
+/* P2 の「難度ちがい」は 1 巻の中では作れない（同一巻＝同一盤面）。
+   同じタスクの published 巻から**盤面が大きくなる順に 3 巻**を拾い、
+   各巻の中位問題を 1 問ずつ並べることで、はじめて易→難の階段になる。 */
+export function buildP2Ladder(sku: string): P2Step[] {
+  const base = PUBLISHED[sku];
+  if (!base) return [];
+  const mid = (set: typeof base) => set.problems[Math.floor(set.problems.length / 2)];
+  const sameTask = Object.keys(PUBLISHED)
+    .filter((s) => PUBLISHED[s].task === base.task)
+    .map((s) => ({ s, hit: volBySku(s), set: PUBLISHED[s] }))
+    .filter((x): x is { s: string; hit: NonNullable<ReturnType<typeof volBySku>>; set: typeof base } => !!x.hit)
+    .sort((a, b) => a.hit.vol.lv - b.hit.vol.lv || a.hit.vol.volNo - b.hit.vol.volNo);
+
+  const steps: P2Step[] = [];
+  const start = Math.max(0, sameTask.findIndex((x) => x.s === sku));
+  let lastN = 0;
+  for (let i = start; i < sameTask.length && steps.length < 3; i++) {
+    const p = mid(sameTask[i].set);
+    if (gn(p) > lastN) { steps.push({ vol: sameTask[i].hit.vol, p }); lastN = gn(p); }
+  }
+  for (let i = start - 1; i >= 0 && steps.length < 3; i--) {   // 上が足りなければ下から補う
+    const p = mid(sameTask[i].set);
+    if (!steps.some((st) => gn(st.p) === gn(p))) steps.unshift({ vol: sameTask[i].hit.vol, p });
+  }
+  return steps.slice(0, 3);
+}
+
+/* ---- P2: 難度ちがい（易→難の3段・巻をまたぐ） ----
+   年齢は**段ごとに**その巻のラベルを出す。ピン全体で 1 本の年齢レンジを名乗ると、
+   いちばん易しい盤面のままいちばん上の学年まで含んでしまい、上の学年を軽く見せる。 */
+export function pinP2(task: ProductTask, steps: P2Step[]): string {
   const head =
-    text(PIN_W / 2, 150, "年中さん〜小2で、ここまで。", 52, INK, "middle", 700) +
+    text(PIN_W / 2, 150, "レベルが上がると、こう変わる。", 50, INK, "middle", 700) +
     text(PIN_W / 2, 215, `${task.name}・むずかしさは自由に調整`, 34, MUTED);
   const ys = [360, 650, 940];
   const S = 220;
   let rows = "";
-  problems.slice(0, 3).forEach((p, i) => {
+  steps.slice(0, 3).forEach((st, i) => {
     const oy = ys[i];
-    const pn = gn(p);
+    const pn = gn(st.p);
     rows +=
-      gridGroup(pn, p.edges, 90, oy, S) +
-      text(360, oy + S / 2 - 18, `${pn}×${pn}`, 44, INK, "start", 700) +
-      text(360, oy + S / 2 + 34, metricsLabel(p.metrics, p.grid), 32, MUTED, "start");
+      gridGroup(pn, st.p.edges, 90, oy, S) +
+      text(360, oy + S / 2 - 44, `${pn}×${pn}　${levelOf(st.vol)}`, 42, INK, "start", 700) +
+      text(360, oy + S / 2 + 8, st.vol.ageLabel, 32, MUTED, "start", 700) +
+      text(360, oy + S / 2 + 58, metricsLabel(st.p.metrics, st.p.grid), 26, MUTED, "start");
   });
   return wrap(head + rows + footer());
 }
@@ -159,15 +193,31 @@ function sample<T>(arr: T[], k: number): T[] {
 /* =========================================================================
    キャプション・ハッシュタグ・UTM（煽り語ゼロのテンプレ）
    ========================================================================= */
-export function pinUrl(sku: string, template: PinTemplate, content = ""): string {
-  const c = content ? `${template}-${content}` : template;
-  return `${MAKER_URL}?utm_source=pinterest&utm_medium=pin&utm_campaign=${sku}&utm_content=${c}`;
+/* 施策・シーズン（utm_campaign の値・analytics.md §3）。
+   季節ピンは季節トラック（sns-operations.md §5）に合わせ 2-3 ヶ月前出しで焼く。 */
+export const PIN_CAMPAIGNS = ["launch", "nyugaku-2027", "tsuyu-2027", "natsuyasumi-2027"] as const;
+
+/* UTM（SSOT = engineering/analytics.md §3）
+   campaign ＝ 施策・シーズン／content ＝ 個別クリエイティブ識別。
+   sku は content 側へ入れる（campaign を sku で潰すとシーズン比較ができなくなる）。 */
+export function pinUrl(
+  sku: string, template: PinTemplate, campaign: string, seq?: number,
+): string {
+  const content =
+    seq == null
+      ? `pin-${template}-${sku}`
+      : `pin-${template}-${sku}-${String(seq).padStart(3, "0")}`;
+  return `${MAKER_URL}?utm_source=pinterest&utm_medium=pin&utm_campaign=${campaign}&utm_content=${content}`;
 }
 
+/* ハッシュタグ（SSOT = acquisition/sns-accounts.md §4.1）
+   Pinterest はタグより説明文のキーワードで拾われるため 3-4 個へ絞る。
+   先頭 2 つ＝ #点描写 #点図形 固定（表記階層化をタグでも保持）。
+   「#空間認識」は名義・媒体を問わず使わない（voice-tone.md §1）。 */
 const TAGS: Record<PinTemplate, string[]> = {
-  p1: ["#点描写", "#知育プリント", "#おうち学習", "#幼児教育", "#知育"],
-  p2: ["#点描写", "#知育プリント", "#おうち学習", "#年長", "#小1"],
-  p3: ["#点描写", "#点つなぎ", "#知育プリント", "#おうち学習", "#幼児教育"],
+  p1: ["#点描写", "#点図形", "#知育プリント", "#おうち学習"],
+  p2: ["#点描写", "#点図形", "#知育プリント", "#年長"],
+  p3: ["#点描写", "#点図形", "#点つなぎ", "#知育プリント"],
 };
 
 export function pinCaption(
@@ -175,18 +225,19 @@ export function pinCaption(
 ): string {
   const age = ageOf(vol);
   if (template === "p1" && p) {
-    return `${age}向けの点描写を1枚。${gn(p)}×${gn(p)}・${metricsLabel(p.metrics, p.grid)}。\n親が画面で作って、子どもは紙で解けます。おうちで無料・印刷してすぐ使えます。\n作り方はプロフィールのリンクから。`;
+    return `${age}向けの点描写を1枚。${metricsLabel(p.metrics, p.grid)}。\n親が画面で作って、子どもは紙で解けます。おうちで無料・印刷してすぐ使えます。\nこのピンから、同じ問題をその場で作れます。`;
   }
   if (template === "p2") {
-    return `${task.name}は、${age}ごろから。今日の手ごたえに合わせて、やさしくも、むずかしくもできます。\n親が画面で作って、子どもは紙で解く点描写。無料で印刷できます。\nプロフィールのリンクから。`;
+    return `${task.name}は、${age}から。今日の手ごたえに合わせて、やさしくも、むずかしくもできます。\n親が画面で作って、子どもは紙で解く点描写。無料で印刷できます。\nこのピンから、むずかしさを選んで作れます。`;
   }
-  return `おうちで使える点描写を、まとめました。${age}ごろ向け。\n親が画面で作って、子どもは紙で解けます。無料・登録不要・印刷してすぐ。\nプロフィールのリンクから試せます。`;
+  return `おうちで使える点描写を、まとめました。${age}向け。\n親が画面で作って、子どもは紙で解けます。無料・登録不要・印刷してすぐ。\nこのピンから、そのまま試せます。`;
 }
 
 export type PinRow = {
   filename: string;
   sku: string;
   template: PinTemplate;
+  campaign: string;
   age: string;
   difficulty: string;
   motif: string;
@@ -196,27 +247,30 @@ export type PinRow = {
 };
 
 export function pinRow(
-  template: PinTemplate, task: ProductTask, vol: Vol, filename: string, p?: Problem,
+  template: PinTemplate, task: ProductTask, vol: Vol, filename: string,
+  opts: { campaign: string; p?: Problem; seq?: number },
 ): PinRow {
+  const { campaign, p, seq } = opts;
   return {
     filename,
     sku: vol.sku,
     template,
+    campaign,
     age: ageOf(vol),
     difficulty: p ? metricsLabel(p.metrics, p.grid) : "—",
     motif: p?.gen.motif ?? "—",
     caption: pinCaption(template, task, vol, p),
     hashtags: TAGS[template].join(" "),
-    url: pinUrl(vol.sku, template, p?.id),
+    url: pinUrl(vol.sku, template, campaign, seq),
   };
 }
 
 /* CSV（全フィールド二重引用符クォート・改行はセル内に保持） */
 export function buildCsv(rows: PinRow[]): string {
-  const head = ["filename", "sku", "template", "age", "difficulty", "motif", "caption", "hashtags", "url"];
+  const head = ["filename", "sku", "template", "campaign", "age", "difficulty", "motif", "caption", "hashtags", "url"];
   const q = (s: string) => `"${String(s).replace(/"/g, '""')}"`;
   const lines = [head.join(",")];
   for (const r of rows)
-    lines.push([r.filename, r.sku, r.template, r.age, r.difficulty, r.motif, r.caption, r.hashtags, r.url].map(q).join(","));
+    lines.push([r.filename, r.sku, r.template, r.campaign, r.age, r.difficulty, r.motif, r.caption, r.hashtags, r.url].map(q).join(","));
   return "﻿" + lines.join("\r\n"); // BOM 付き（Excel 日本語対策）
 }
