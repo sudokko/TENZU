@@ -30,3 +30,11 @@ docs/html-index.html
 
 # 使い捨ての検証スクリプト・作業データ（ローカル専用・_ プレフィクス規約）
 web/scripts/_*
+
+# SNS 素材生成用フォント（Google Fonts から取得・リポジトリには入れない）
+.fonts/
+
+# ピン素材の候補プール（export-pins.ts でいつでも再生成できる）。
+# 実際に投稿した分だけ selected/ に残してコミットする。
+docs/drafts/sns/pinterest/*/*.png
+docs/drafts/sns/pinterest/*/captions.csv
