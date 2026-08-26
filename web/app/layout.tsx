@@ -43,6 +43,10 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
+  // Pinterest ビジネスアカウントのドメイン認証（sns-accounts.md §7 ③）
+  verification: {
+    other: { "p:domain_verify": "c9b8ffaccc51b483a3841773797ec076" },
+  },
   // プレビューは検索結果に出さない。robots.txt でクロールを止めないのは、noindex を
   // 読んでもらえないと既にインデックスされた URL が消えないため（robots.ts 参照）。
   robots: IS_PREVIEW
