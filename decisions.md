@@ -94,6 +94,7 @@ SES の本番アクセス申請が**却下**された（理由は非開示）。
 - **送信は送信専用サブドメイン `send.tenzu.jp` から**（apex の評判を汚さないため）。From は `TENZU <no-reply@send.tenzu.jp>`
 - **⚠️Return-Path は `send.send.tenzu.jp` になる**。Resend は Return-Path を「送信ドメインの前に `send.` を被せて」作るため、最初からサブドメインを登録すると 2 段重なる。**MX と SPF はこの `send.send` に付ける**（DKIM だけが送信ドメイン `send.tenzu.jp` 側）。ここを 1 段間違えて DKIM だけ Verified・SPF が Pending で 1 時間止まった。顧客に見えるのは From だけで、`send.send` は封筒裏の機械用アドレス＝ブランド上の実害なし
 - **リージョンは Tokyo (ap-northeast-1)**＝MX は `feedback-smtp.ap-northeast-1.amazonses.com`
+- **⚠️2 つめの罠＝[amplify.yml](amplify.yml) の env whitelist**。Amplify コンソールに登録した env は**ビルドシェルには入るが SSR ランタイムには自動で渡らない**ため、`amplify.yml` の grep で `.env.production` へ書き出している。この許可リストに新しい変数を足し忘れると、コンソールの設定が正しくても実行時は undefined＝**黙って SES にフォールバックする**（Resend にログすら出ないので「送信先が悪いのか」と誤診しやすい）。**env を増やしたら必ず whitelist も同時に更新すること**
 - **副産物: DMARC を新設**（`_dmarc.tenzu.jp` = `v=DMARC1; p=none; rua=mailto:tenzu.info@gmail.com`）。調べたところ tenzu.jp には **SPF も DMARC も無かった**＝SES が通っていたとしても Gmail・docomo への到達は危なかった（§1973 のキャリアメール対策が未了だった）。まずは監視モード `p=none` から
 - **Resend の中身は Amazon SES**（MX が `amazonses.com` を指す）。皮肉だが到達率は SES と同じ経路を通る＝「SES が通らなかったから配送品質が落ちる」不安は無い
 - **検証済み**: [check-mail.mjs](web/scripts/check-mail.mjs)（新設・業者非依存の疎通テスト）で Gmail の**受信トレイ直行**を確認（迷惑メール落ちなし）
