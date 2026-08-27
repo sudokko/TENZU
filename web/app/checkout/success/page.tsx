@@ -14,6 +14,7 @@ import QuickDownload from "./QuickDownload";
 import TrackPurchase from "../../TrackPurchase";
 import { volBySku, volTitle, PRICE } from "../../products/data";
 import { publishedSet } from "../../products/problems/published";
+import SiteFooterMini from "../../components/SiteFooterMini";
 import "../../products/product.css"; // SkuPrintPreview の spv-* スタイル（チップ/設定/レイアウト）
 import "../../cart/cart.css"; // ↑の後に読み、success の上書きを優先させる
 
@@ -29,6 +30,7 @@ function FailShell({ message }: { message: string }) {
           <a className="btn-cart-link" href="/cart">カートに戻る →</a>
         </div>
       </main>
+      <SiteFooterMini />
     </>
   );
 }
@@ -49,6 +51,7 @@ function ProcessingShell() {
           <p className="success-revisit">このページを開いたままお待ちください（確認でき次第、自動でダウンロード画面に切り替わります）。ブックマークして後で開き直しても大丈夫です。ご購入確認メールも届きます。</p>
         </div>
       </main>
+      <SiteFooterMini />
     </>
   );
 }
@@ -151,11 +154,7 @@ export default async function CheckoutSuccessPage({
         })}
       </main>
 
-      <footer className="site footer-mini">
-        <div className="wrap">
-          <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
-        </div>
-      </footer>
+      <SiteFooterMini />
     </>
   );
 }

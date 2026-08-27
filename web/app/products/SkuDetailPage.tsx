@@ -27,6 +27,7 @@ import {
   volHref, volTitle, type ProductTask, type Vol,
 } from "./data";
 import "./product.css";
+import SiteFooterMini from "../components/SiteFooterMini";
 
 export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: Vol }) {
   const cat = catalogTaskBySlug(task.slug);
@@ -283,11 +284,7 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
 
       </main>
 
-      <footer className="site footer-mini">
-        <div className="wrap">
-          <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
-        </div>
-      </footer>
+      <SiteFooterMini />
     </>
   );
 }

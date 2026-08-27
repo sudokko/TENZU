@@ -7,6 +7,8 @@ import { VISIBLE_MAKERS } from "./products/makers";
 import { QUESTIONS_PER_VOL } from "./products/data";
 import { QUESTION_COUNT } from "./level-guide/questions";
 import type { Metadata } from "next";
+import { SITE_NAME, absoluteUrl } from "./site";
+import { SNS_SAME_AS } from "./sns";
 
 /* canonical は root layout から継承させない方針（layout.tsx 参照）。TOP は自分で持つ */
 export const metadata: Metadata = { alternates: { canonical: "/" } };
@@ -569,9 +571,28 @@ function WhyIllus() {
   );
 }
 
+/* サイト全体の Organization。sameAs で各 SNS を「同じ運営主体」として申告する。
+   表示側は名義 2 層で出し分けるが（app/sns.ts）、検索エンジンへの申告は 1 主体で
+   まとめる — 分けて申告すると別エンティティ扱いになり、紐づけの意味がなくなるため。
+   実装形は Next 16 の JSON-LD ガイド（node_modules/next/dist/docs/01-app/02-guides/
+   json-ld.md）どおり page 内の native <script>。 */
+const ORG_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  alternateName: "点図形（点描写）プリントの専門店 TENZU",
+  url: absoluteUrl("/"),
+  logo: absoluteUrl("/assets/logo-horizontal.png"),
+  sameAs: SNS_SAME_AS,
+};
+
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD).replace(/</g, "\\u003c") }}
+      />
       <SiteHeader />
 
       <main>

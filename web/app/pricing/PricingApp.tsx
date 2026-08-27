@@ -13,6 +13,7 @@ import {
 } from "../products/capabilities";
 import { MAKER_GROUPS, makersInGroup } from "../products/makers";
 import { buyMaker } from "../maker/buyMaker";
+import SiteFooterMini from "../components/SiteFooterMini";
 
 export default function PricingApp() {
   const { owned } = useAuth();
@@ -95,11 +96,7 @@ export default function PricingApp() {
         </p>
       </main>
 
-      <footer className="site footer-mini">
-        <div className="wrap">
-          <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
-        </div>
-      </footer>
+      <SiteFooterMini />
     </>
   );
 }

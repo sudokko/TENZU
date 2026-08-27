@@ -11,6 +11,7 @@ import { MAKER_FIG, FigSolid } from "./products/maker-figs";
 /* タスクの 1 行説明は products/task-desc.ts が SSOT（メーカー面と共用・
    直接文字列を書かないこと。2026-08-08 に二重管理を解消）。 */
 import { TASK_DESC } from "./products/task-desc";
+import SnsLinks from "./components/SnsLinks";
 
 /* 設問サンプル図は maker-figs.tsx を SSOT として共用（メーカー一覧と完全同一の凡例）。
    solid のみメーカー非対応のため maker-figs 側の FigSolid を流用する。 */
@@ -318,6 +319,9 @@ export function SiteFooter() {
               点図形（点描写）プリントの専門店 TENZU<br />
               見て、考えて、書く力を、点描写から。
             </p>
+            {/* 5 つ全部を出し、名義が 2 つに割れていることは但し書き 1 行で説明する
+                （decisions §5.19）。SiteFooterMini 側も同じ SnsLinks を使う。 */}
+            <SnsLinks heading="フォローする" className="sns-foot" />
           </div>
           {/* 見出しは日本語（2026-08-08）。旧 SHOP / ABOUT は、リンクが全部日本語なのに
               見出しだけ英字という状態で、全ページのフッターに出ていた。 */}

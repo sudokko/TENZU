@@ -4,6 +4,7 @@ import AccountActions from "./AccountActions";
 import { readOwned } from "../lib/auth";
 import { makerByKey } from "../products/makers";
 import "../membership.css";
+import SiteFooterMini from "../components/SiteFooterMini";
 
 export const metadata: Metadata = {
   title: "マイページ",
@@ -61,11 +62,7 @@ export default async function AccountPage() {
         </p>
       </main>
 
-      <footer className="site footer-mini">
-        <div className="wrap">
-          <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
-        </div>
-      </footer>
+      <SiteFooterMini />
     </>
   );
 }

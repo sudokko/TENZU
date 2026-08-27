@@ -17,6 +17,7 @@ import {
   type ProductTask,
 } from "./data";
 import "./product.css";
+import SiteFooterMini from "../components/SiteFooterMini";
 
 export default function TaskListPage({ task }: { task: ProductTask }) {
   const cat = catalogTaskBySlug(task.slug);
@@ -195,11 +196,7 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
         </section>
       </main>
 
-      <footer className="site footer-mini">
-        <div className="wrap">
-          <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
-        </div>
-      </footer>
+      <SiteFooterMini />
     </>
   );
 }

@@ -13,6 +13,7 @@ import {
 import { trackBeginCheckout } from "../analytics";
 import "../products/product.css";
 import "./cart.css";
+import SiteFooterMini from "../components/SiteFooterMini";
 
 export default function CartPage() {
   const { items, remove, ready } = useCart();
@@ -139,11 +140,7 @@ export default function CartPage() {
         )}
       </main>
 
-      <footer className="site footer-mini">
-        <div className="wrap">
-          <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
-        </div>
-      </footer>
+      <SiteFooterMini />
     </>
   );
 }

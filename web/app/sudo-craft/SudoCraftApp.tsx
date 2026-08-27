@@ -6,6 +6,7 @@
 import { useEffect, useState } from "react";
 import SiteHeader from "../SiteHeader";
 import { SiteFooter } from "../catalog";
+import SnsLinks from "../components/SnsLinks";
 
 /** 現在 URL の utm_* パラメータだけを取り出したクエリ文字列（無ければ空） */
 function useUtmQuery(): string {
@@ -72,6 +73,15 @@ export default function SudoCraftApp() {
             点描写の教材を一から研究・設計しました。作っているものと設計の理由は
             すべてサイト上に公開しています。
           </p>
+        </section>
+
+        <section className="legal-sec">
+          <h2>発信しているところ</h2>
+          <p>
+            お店（TENZU）と屋号（SUDO CRAFT）の両方で発信しています。
+            設計の理由や作っている途中のことは、屋号名義のほうに書いています。
+          </p>
+          <SnsLinks variant="rows" showNamingNote={false} />
         </section>
 
         <section className="legal-sec">

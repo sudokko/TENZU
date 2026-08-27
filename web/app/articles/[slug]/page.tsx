@@ -11,6 +11,8 @@ import SiteHeader from "../../SiteHeader";
 import { SITE_NAME, absoluteUrl } from "../../site";
 import { isListedSlug, isLiveSlug, listSlugs, loadArticle, type ArticleFrontmatter } from "../articles-data";
 import "../article.css";
+import { SNS_SAME_AS } from "../../sns";
+import SiteFooterMini from "../../components/SiteFooterMini";
 
 export const dynamicParams = false;
 
@@ -68,6 +70,9 @@ function buildJsonLd(slug: string, fm: ArticleFrontmatter) {
       "@type": "Organization",
       name: SITE_NAME,
       logo: { "@type": "ImageObject", url: absoluteUrl("/assets/logo-horizontal.png") },
+      /* 運営主体と各 SNS を同一エンティティとして申告する。表示上は名義を
+         2 層に分けているが（app/sns.ts）、検索エンジンに対しては 1 主体。 */
+      sameAs: SNS_SAME_AS,
     },
     datePublished: fm.published_at ?? fm.updated_at,
     dateModified: fm.updated_at ?? fm.published_at,
@@ -179,9 +184,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         </section>
       ) : null}
 
-      <footer className="site footer-article">
-        <div className="wrap">© 2026 TENZU · 点図形（点描写）プリントの専門店</div>
-      </footer>
+      <SiteFooterMini variant="article" />
     </>
   );
 }

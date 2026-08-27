@@ -15,6 +15,7 @@
 - **プロフィールリンク**: TENZU 系は模写メーカー直行／SUDO CRAFT 系は tenzu.jp 内の屋号ページ。いずれも `utm_medium=profile` を焼く（§3.3）
 - 素材はメーカー出力＋幾何グラフィックのみ（実写・AI 画像は使わない）。アイコン/ヘッダーはロゴ Lockup D-2
 - 返信・DM の送信は 100% 人間。自動フォロー・自動いいね・AI 自動応答はしない（[voice-tone.md §7](../foundation/voice-tone.md)）
+- **サイト → SNS は全ページのフッターに 4 つ並べる**（§9）: 名義の分離を置き場所に持ち込まず但し書き 1 行で説明する。**Pinterest だけ載せない**＝ピンの中身がサイトそのもので、フォローが配信に効かない媒体だから（太らせるなら逆向きの「保存」ボタン）。**アイコンは各社の公式マークを公式カラーのまま**。JSON-LD `sameAs` には Pinterest 含む 5 つを 1 主体として申告
 - **何を投稿するかは §5 コンテンツカタログ**（製造ライン全体図・チャネル別メニュー実例・1 記事からの展開例・ツール対応表）。開設の一度きり作業は §7 チェックリスト
 
 ## 詳細
@@ -90,6 +91,7 @@ SNS 立ち上げの成否はアカウントコンセプトでほぼ決まる。�
 - **TENZU 系 取得順位**（Pinterest・Instagram）: `@tenzu` → **`@tenzu.jp`** → `@tenzu_jp` → `@tenzu_print` → `@tenzu_official`（「main」はサブアカウントの存在を連想させるため使わない）。**ドット区切りの `@tenzu.jp` をアンダースコア版より上位に置く**——屋号ドメインと完全一致し、プロフィールを見た瞬間に site を想起させるため（媒体がドットを許さない場合のみ `@tenzu_jp` へ落とす）
 - **確定（2026-08-26）**: Instagram ＝ **`@tenzu.jp`**／Pinterest ＝ **`@tenzuinfo`**。**同名義でハンドルが割れている**（本節の「名義ごとに 1 つ」に反する状態）。Instagram は表示名・ユーザーネームとも変更に 14 日の待機があるため、**2026-09-09 以降に Pinterest 側を寄せるか、両者を別の 1 つへ統一するかを判断する**
 - **SUDO CRAFT 系 取得順位**（X・note・Ameba）: `@sudo_craft` → `@sudocraft` → `@sudocraft_jp`
+- **確定（2026-08-26）**: note ＝ **`@sudo_craft`**／X ＝ **`@sudocraft_jp`**／Ameba ＝ **`sudo-craft`**（Ameba はアンダースコア不可＝媒体仕様によるハイフン）。**こちらも 3 媒体で割れている**。X の繰り下げは先行取得によるもので戻せないため、**表示名（§3.2）と bio で名乗りを揃えることで同一主体だと分かる状態を担保する**（ハンドル統一は追わない）
 - いずれも上位が取得不能なら次へ繰り下げ、確定した 1 つを**同名義の全媒体で同時に押さえる**（§7 ①）
 - **大文字小文字**: 屋号の表記は全大文字 `SUDO CRAFT` で固定（TENZU・TSUMIZU・DANZU と視覚的に揃える）。**ハンドルだけは媒体慣例に従い小文字**。表示名が大文字・@ が小文字で食い違って見えるのは全媒体で普通の運用
 - **防衛取得**: 採用しなかった候補と、不採用チャネル（TikTok・Threads 等）の同名ハンドルを、両名義ともなりすまし予防に確保だけしておく。**TSUMIZU・DANZU の同名ハンドルも同時に押さえる**（開店は先でも、取られてからでは戻せない・[decisions.md §5.16](../decisions.md)）
@@ -432,6 +434,47 @@ note は 1 アカウント（SUDO CRAFT）だが、**アカウントを分けな
 - **YouTube**: チャンネルは IG リール同投稿（Shorts）の受け皿のみ。単独運用しない
 - その他の不採用チャネル（TikTok・Threads 単独・LINE OpenChat 等）: [channels.md §8](channels.md)
 
+### §9. サイト側からの導線（サイト → SNS）
+
+SNS → サイトの導線は §3.3（プロフィールリンク）と §7 ⑦（UTM）が持つ。ここは**逆向き**＝サイトの各ページから SNS へ渡す側。判断ログ: [../decisions.md §5.19](../decisions.md)。実装 SSOT は [web/app/sns.ts](../web/app/sns.ts)（実ハンドル）・`web/app/components/SnsLinks.tsx`（見せ方）・`web/app/components/sns-icon-paths.ts`（アイコン）。
+
+#### §9.1 全ページに 4 つ並べる（Pinterest は出さない）
+
+名義が 2 層に分かれていても（§1.4）、**サイト上は名義で出し分けない**。面ごとに名義を分ける案は検討したうえで撤回した——出し分けの意図は読み手に伝わらず、触れられるアカウントを自分で減らすことになるため。**割れていることは隠さず、但し書き 1 行で説明する**。
+
+**ただし Pinterest だけは載せない。** 判定基準は「**その媒体に、サイトに無いものがあるか**」と「**フォローが配信に効く媒体か**」の 2 つ。
+
+| | サイトに無いものがあるか | フォローが配信に効くか | サイト掲載 |
+|---|---|---|---|
+| Pinterest | ✗ ピンの中身＝商品プレビュー＝サイトそのもの | ✗ 検索・discovery 駆動 | **載せない** |
+| Instagram | △ 記事・ガイドの再パッケージだが可 | ○ フィード型・フォロワー＝配信先 | 載せる |
+| note | ○ 開発実録・設計の理由（有料回含む） | ○ | 載せる |
+| X | ○ 日々の制作ログ・店主メモ | ○ | 載せる |
+| Ameba | ○ 月1エッセイ（再掲混じり） | ○ | 載せる |
+
+Pinterest の仕事は「Pinterest → サイト」の送客（§1.3）。すでにサイトへ来た人に見せるのは通ってきた道を指すだけになる。**サイトから Pinterest を太らせたいなら逆向き**＝商品・記事の画像へ「Pinterest に保存」（`pinterest.com/pin/create/button/` の素のリンク・外部スクリプト不要）を置き、訪問者に自分のボードへピンを押し込んでもらう（未実装）。**JSON-LD の `sameAs` とドメイン認証 meta には Pinterest を残す**（§9.3）。
+
+- **但し書きの実文言**（`SnsLinks` の `SNS_NAMING_NOTE` が SSOT）: 「Instagram はお店（TENZU）、note・X・Ameba は店主の屋号（SUDO CRAFT）で発信しています。」
+- **並び順**: Instagram → note → X → Ameba。検索で見つかる面を先、人格面を後に置き、但し書きがその境目を説明する
+- **置き場はフッター 1 か所**。フル版フッターと軽量フッター（`SiteFooterMini`）の両方に同じ部品を置く。記事末尾・メーカー完了・購入完了に独自ブロックは置かない（フッターと同じリンクが 2 度並ぶだけになる）
+- **`/sudo-craft` だけ本文にも置く**（一言つきの行形式）。屋号ページは SNS プロフィールの飛び先で、何を書いている人かを説明する面だから
+- **除外**: メーカー本体（`/maker*`＝全画面のツール UI・作業中の面）と管理画面（`/admin` `/atelier`＝オーナー専用）。メーカーは完了画面 `/maker-thanks` が受ける
+- **出さない置き方**: ヘッダー（グローバルナビは購買導線）・追従フローティングバー（オンサイトメッセージと画面を取り合う）
+
+#### §9.2 アイコンは公式マークを、公式のカラーのまま使う
+
+- **自作しない**。代用グリフ（枠＋頭文字）は却下（2026-08-26）。公式マークの path を `sns-icon-paths.ts` に持ち、**出典 URL をファイル先頭に明記**する
+- **TENZU のトーンへ寄せた単色化もしない**。マークは各社の資産で、**note のように色変更・変形・装飾を明示的に禁じている社がある**ため、原色のまま置くのが最も安全
+- 実装色: Instagram＝公式グラデーション（暖色 radial ＋ 左上の青かぶり）／note＝公式 square（白地・枠 `#EBEBEB`・n は `#040000`）／X＝`#000000`／Ameba＝`#2D8C3C`
+- **note は公式 square を使う**（[ガイドライン](https://www.help-note.com/hc/ja/articles/360000235582)＝「他の SNS アイコンと並列に並ぶ場合は square 版を使い、『n』だけを切り抜く改変はしない」）。シンボル単体は `noteSymbol` として温存（単独掲出用・並列では使わない）
+- 各社のブランドリソース: [Meta（Instagram）](https://about.meta.com/brand/resources/instagram)／[Pinterest](https://business.pinterest.com/en/brand-guidelines)／[note](https://www.help-note.com/hc/ja/articles/360000235582)／Ameba は [Spindle](https://spindle.ameba.design/brand/ameba-brand/brand-guidelines/)（一般向けの公開配布ページなし）
+
+#### §9.3 検索エンジンへは 1 主体として申告する
+
+- TOP に `Organization` の JSON-LD、記事の `publisher` に同じ配列を置き、**表示から外した Pinterest を含む 5 アカウントすべてを `sameAs` に列挙**する（エンティティの紐づけは、フッターに出すかどうかと無関係に効く）
+- 分けて申告すると別エンティティ扱いになり、紐づけの意味が消える
+- 外部リンクのクリックは GA4 拡張計測（outbound click）が自動で拾う。**自前イベントは足さない**（[../engineering/analytics.md](../engineering/analytics.md) の Phase 1 = 3 イベント方針を崩さない）
+
 ## 附録
 
 - 旧識別子設計（SNS 表示名「TENZU店主」・旧プロフィール文・旧ハンドル一覧）は [../content/research.md §1.6-1.7](../content/research.md)（2026-04-30 時点の記録）から本ファイルへ更改。判断ログ: [../decisions.md §5.10](../decisions.md)
@@ -439,4 +482,5 @@ note は 1 アカウント（SUDO CRAFT）だが、**アカウントを分けな
 - 外部レビュー合議（ChatGPT・Gemini）の反映＝店主メモ枠・リール試行・Ameba ダイジェスト化ほか: [../decisions.md §5.12](../decisions.md)（依頼文: docs/drafts/memos/2026-07-10-sns-accounts-external-review-prompt.md）
 - 店主枠の話題を教育・受験の親視点へ拡張・Ameba を店主エッセイ化・bio「サンプル」→「問題の中身」: [../decisions.md §5.13](../decisions.md)
 - 屋号 SUDO CRAFT 取得（2026-07-27）に伴う名義の 2 層化（検索面＝TENZU／人格面＝SUDO CRAFT）・note 2 アカウント→1 アカウント＋マガジン 2 本への統合・棄却 2 案: [../decisions.md §5.16](../decisions.md)
+- サイト側からの導線（名義 2 層 × 面の配置・JSON-LD sameAs）と実ハンドル確定: [../decisions.md §5.19](../decisions.md)
 - 戦略・配分: [channels.md](channels.md)／実務オペ: [sns-operations.md](sns-operations.md)／運用 NG: [../foundation/voice-tone.md §7](../foundation/voice-tone.md)／ロゴ・ビジュアル: [../design/visual-identity.md §5-§6](../design/visual-identity.md)／UTM 規則: [../engineering/analytics.md §3](../engineering/analytics.md)

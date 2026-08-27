@@ -8,6 +8,7 @@
 
 import { useState } from "react";
 import SiteHeader from "../SiteHeader";
+import SiteFooterMini from "../components/SiteFooterMini";
 
 const ERR: Record<string, string> = {
   expired: "復元リンクの有効期限が切れました。もう一度お送りします。",
@@ -92,11 +93,7 @@ export default function LoginApp({ errorCode }: { errorCode?: string }) {
         </p>
       </main>
 
-      <footer className="site footer-mini">
-        <div className="wrap">
-          <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
-        </div>
-      </footer>
+      <SiteFooterMini />
     </>
   );
 }

@@ -6,6 +6,7 @@ import { makerByKey } from "../products/makers";
 import { MAKER_PRICE, PURCHASABLE_MAKERS, type MakerKey } from "../products/capabilities";
 import "../membership.css";
 import "./maker-thanks.css";
+import SiteFooterMini from "../components/SiteFooterMini";
 
 /* メーカー買い切りの決済完了画面（/api/auth/verify が success 時にここへ送る）。
    - ?m=mirror,fold … 今回購入したメーカー（CTA を大きく出す対象）。
@@ -108,11 +109,7 @@ export default async function MakerThanksPage({
         </p>
       </main>
 
-      <footer className="site footer-mini">
-        <div className="wrap">
-          <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
-        </div>
-      </footer>
+      <SiteFooterMini />
     </>
   );
 }

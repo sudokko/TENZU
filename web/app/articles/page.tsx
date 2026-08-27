@@ -11,6 +11,7 @@ import SiteHeader from "../SiteHeader";
 import { listArticles, type ArticleFrontmatter } from "./articles-data";
 import { GENRES, POPULAR_SLUGS, EXCLUDED_FROM_INDEX } from "./genres";
 import "./article.css";
+import SiteFooterMini from "../components/SiteFooterMini";
 
 export const metadata: Metadata = {
   title: "記事",
@@ -137,9 +138,7 @@ export default async function ArticlesIndex() {
         </div>
       </section>
 
-      <footer className="site footer-article">
-        <div className="wrap">© 2026 TENZU · 点図形（点描写）プリントの専門店</div>
-      </footer>
+      <SiteFooterMini variant="article" />
     </>
   );
 }

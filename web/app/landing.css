@@ -1498,3 +1498,109 @@ footer.site .foot-bottom .copyright {
   color: var(--fg-3);
   letter-spacing: 0.04em;
 }
+
+/* ====================================================
+   SNS 導線（components/SnsLinks.tsx）
+   layout.tsx で landing.css が全ページに読み込まれるため、フル版フッターでも
+   SiteFooterMini でもこの 1 か所で効く。
+   ==================================================== */
+.sns-head {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+.sns-lede {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--fg);
+  margin: 0 0 14px;
+}
+/* 名義が 2 つに割れる理由の但し書き。読み飛ばせる重さに留める（decisions §5.19）。 */
+.sns-note {
+  font-family: var(--font-tier3-sans);
+  font-size: 11px;
+  line-height: 1.65;
+  color: var(--fg-3);
+  margin: 10px 0 0;
+  max-width: 46em;
+}
+.sns-chips, .sns-rows { list-style: none; padding: 0; margin: 0; }
+.sns-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.sns-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px 7px 11px;
+  border: 1px solid var(--line-thin);
+  border-radius: 999px;
+  background: var(--bg);
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.sns-chip:hover { border-color: var(--accent); color: var(--accent); }
+/* アイコンは各社のブランドカラー固定（currentColor ではない）。hover で色が動くのは
+   ラベル側だけ＝マークの色を勝手に変えないブランドガイドラインへの配慮でもある。 */
+.sns-icon { flex: none; }
+/* note の square は白地。白背景のフッターでは枠線だけが手がかりになるので、
+   他マークと視覚的な重さを揃えるため気持ち大きく出す。 */
+.sns-icon-note { transform: scale(1.08); }
+
+/* rows = 一言つき。押す理由まで見せたい面（/sudo-craft）で使う。 */
+.sns-block {
+  background: var(--bg-3);
+  border: 1px dashed var(--line-thin);
+  border-radius: var(--radius-soft);
+  padding: 22px 24px;
+}
+.sns-rows { display: flex; flex-direction: column; gap: 2px; }
+.sns-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 4px;
+  font-family: var(--font-tier3-sans);
+  font-size: 14px;
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--line-thin);
+  transition: color 0.15s ease;
+}
+.sns-rows li:last-child .sns-row { border-bottom: none; }
+.sns-row:hover { color: var(--accent); }
+.sns-row .sns-label { min-width: 5.5em; }
+.sns-blurb {
+  font-size: 12px;
+  color: var(--fg-3);
+  letter-spacing: 0.01em;
+}
+@media (max-width: 480px) {
+  .sns-block { padding: 18px 16px; }
+  .sns-row { flex-wrap: wrap; gap: 4px 10px; }
+  .sns-row .sns-label { min-width: 0; }
+  .sns-blurb { flex-basis: 100%; padding-left: 28px; }
+}
+
+/* --- フル版フッター内（ブランド列） --- */
+footer.site .foot-col .sns, footer.site .foot-brand .sns { margin-top: 22px; }
+footer.site .foot-brand .sns-chip { background: transparent; }
+
+/* --- 軽量フッター（SiteFooterMini）--- copyright の上に置く。
+   footer-mini / footer-article は元が 1 行だけの想定なので、縦積みへ組み替える。 */
+footer.site.footer-mini .wrap,
+footer.site.footer-article .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+footer.site.footer-mini .sns-chip,
+footer.site.footer-article .sns-chip { background: transparent; }
