@@ -12,6 +12,7 @@ import {
   type PaperKey, type LayoutPerPage, type PairLayout,
 } from "../../products/print";
 import { makerFromPath, trackToolStart } from "../../analytics";
+import SnsLinks from "../../components/SnsLinks";
 
 // 有料機能の鍵アイコン（「奪う」でなく「発見」: ロック要素はプレビューしつつ購入へ誘導）
 export function Lock() {
@@ -381,6 +382,20 @@ export function NoteBox() {
     <div className="warning" data-system="warning" role="note">
       <strong>NOTE</strong>
       画面で解かせる機能はありません。<br />必ず印刷して、紙の上で練習してください。
+    </div>
+  );
+}
+
+/* メーカー画面の足元に置く SNS 導線（2026-08-26・案A）。
+   ここが「PDF ボタンより下」であることが置く条件——道具の本業（作る→刷る）を
+   横切らせない。NoteBox の直後に置く前提。
+   完了画面（DoneScreen）は /maker にしか無く、実測では PDF 到達前に離脱する
+   訪問のほうが多いため、11 本すべてに効くこの位置を先に取っている。
+   見せ方は chips（一言なし）。一言つきの rows は面積に余裕のある面だけで使う。 */
+export function MakerFootSns() {
+  return (
+    <div className="maker-foot-sns">
+      <SnsLinks heading="新しい問題や、作り方のヒント" className="sns-foot" />
     </div>
   );
 }

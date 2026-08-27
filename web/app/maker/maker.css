@@ -1359,3 +1359,16 @@ a.sf-upsell:hover .sf-upsell-go { text-decoration: underline; }
   margin: 0 0 10px; font-family: var(--font-tier2-zen, var(--font-tier3-sans));
   font-size: 13.5px; line-height: 1.85; color: var(--fg);
 }
+
+/* ── メーカー足元の SNS 導線（案A・2026-08-26）────────────────────────
+   NoteBox の下＝画面の最下端。作業の視線を横切らせないため、
+   破線 1 本で仕切るだけに留め、面や色は敷かない。               */
+.maker-foot-sns {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line-thin);
+}
+.maker-foot-sns .sns-head { margin-bottom: 10px; }
+@media (max-width: 480px) {
+  .maker-foot-sns { margin-top: 18px; padding-top: 14px; }
+}

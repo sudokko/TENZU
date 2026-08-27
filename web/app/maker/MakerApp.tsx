@@ -34,7 +34,7 @@ import {
 } from "./core/useMakerEditor";
 import { usePaperLayout } from "./core/usePaperLayout";
 import {
-  DotSizeSeg, EditActions, MakerHeader, NameFieldGroup, NoteBox, OneStrokeSeg,
+  DotSizeSeg, EditActions, MakerHeader, NameFieldGroup, MakerFootSns, NoteBox, OneStrokeSeg,
   PaperGroup, PerPageGroup, PreviewShell, SavedPanel, SettingsFold,
 } from "./core/chrome";
 import { DoneScreen, hasDiagonal, recommendVols } from "./DoneScreen";
@@ -618,6 +618,7 @@ export default function MakerApp({ initialOwned = [] }: { initialOwned?: MakerKe
           </PreviewShell>
 
           <NoteBox />
+          <MakerFootSns />
 
         </aside>
       </div>

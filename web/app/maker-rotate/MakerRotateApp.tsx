@@ -37,7 +37,7 @@ import {
 } from "../maker/core/useMakerEditor";
 import { usePaperLayout } from "../maker/core/usePaperLayout";
 import {
-  DotSizeSeg, EditActions, MakerHeader, NameFieldGroup, NoteBox, OneStrokeSeg,
+  DotSizeSeg, EditActions, MakerHeader, NameFieldGroup, MakerFootSns, NoteBox, OneStrokeSeg,
   PaperGroup, PerPageGroup, PreviewShell, SavedPanel, SettingsFold,
 } from "../maker/core/chrome";
 
@@ -625,6 +625,7 @@ export default function MakerRotateApp() {
           </PreviewShell>
 
           <NoteBox />
+          <MakerFootSns />
 
         </aside>
       </div>

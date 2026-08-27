@@ -41,7 +41,7 @@ import {
 } from "../maker/core/useMakerEditor";
 import { usePaperLayout } from "../maker/core/usePaperLayout";
 import {
-  DotSizeSeg, EditActions, MakerHeader, NameFieldGroup, NoteBox, OneStrokeSeg,
+  DotSizeSeg, EditActions, MakerHeader, NameFieldGroup, MakerFootSns, NoteBox, OneStrokeSeg,
   PaperGroup, PerPageGroup, PreviewShell, SettingsFold,
 } from "../maker/core/chrome";
 
@@ -774,6 +774,7 @@ export default function MakerTranslateApp() {
           </PreviewShell>
 
           <NoteBox />
+          <MakerFootSns />
 
         </aside>
       </div>
