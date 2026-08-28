@@ -39,6 +39,17 @@ function fromAddress(): string {
   return from;
 }
 
+/* 顧客向けメールの返信先。送信元は no-reply@send.tenzu.jp（MX を持たない送信専用
+   サブドメイン）なので、そのままだと返信が宛先不明で消える。実在の窓口を Reply-To に
+   置いて「返信できる差出人」にする＝ユーザー体験と、迷惑メール判定の両方に効く
+   （[decisions.md §3.113](../../../decisions.md)）。宛先は問い合わせ通知の先頭を流用。 */
+function replyToAddress(): string {
+  const first = (process.env.CONTACT_NOTIFY_EMAILS ?? "tenzu.info@gmail.com")
+    .split(",")[0]
+    .trim();
+  return first || "tenzu.info@gmail.com";
+}
+
 async function deliverResend(from: string, m: Mail): Promise<void> {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error("RESEND_API_KEY 未設定");
@@ -112,8 +123,10 @@ export async function sendPurchaseEmail(opts: {
       <p><a href="${esc(opts.downloadUrl)}"
         style="display:inline-block;background:#2C6E7F;color:#fff;text-decoration:none;
         padding:12px 24px;border-radius:4px;font-weight:600">ダウンロードページを開く</a></p>
-      <p style="font-size:12px;color:#9AA0AA">${esc(opts.downloadUrl)}</p>
-      <p style="font-size:12px;color:#9AA0AA">— 点図形（点描写）プリントの専門店 TENZU</p>
+      <p style="font-size:12px;color:#9AA0AA">ボタンが開けないときは、こちらのリンクから：<br>
+      <a href="${esc(opts.downloadUrl)}" style="color:#9AA0AA">${esc(opts.downloadUrl)}</a></p>
+      <p style="font-size:12px;color:#9AA0AA">このメールにはそのままご返信いただけます。<br>
+      — 点図形（点描写）プリントの専門店 TENZU</p>
     </div>`;
 
   await deliver({
@@ -121,6 +134,7 @@ export async function sendPurchaseEmail(opts: {
     subject: "【TENZU】ご購入ありがとうございます — ダウンロードリンク",
     text: textBody,
     html: htmlBody,
+    replyTo: [replyToAddress()],
   });
 }
 
@@ -216,8 +230,10 @@ export async function sendRestoreLink(opts: {
       <p><a href="${esc(opts.restoreUrl)}"
         style="display:inline-block;background:#2C6E7F;color:#fff;text-decoration:none;
         padding:12px 24px;border-radius:4px;font-weight:600">購入を復元する</a></p>
-      <p style="font-size:12px;color:#9AA0AA">${esc(opts.restoreUrl)}</p>
-      <p style="font-size:12px;color:#9AA0AA">— 点図形（点描写）プリントの専門店 TENZU</p>
+      <p style="font-size:12px;color:#9AA0AA">ボタンが開けないときは、こちらのリンクから：<br>
+      <a href="${esc(opts.restoreUrl)}" style="color:#9AA0AA">${esc(opts.restoreUrl)}</a></p>
+      <p style="font-size:12px;color:#9AA0AA">このメールにはそのままご返信いただけます。<br>
+      — 点図形（点描写）プリントの専門店 TENZU</p>
     </div>`;
 
   await deliver({
@@ -225,5 +241,6 @@ export async function sendRestoreLink(opts: {
     subject: "【TENZU】ご購入ありがとうございます — 別端末での復元リンク",
     text: textBody,
     html: htmlBody,
+    replyTo: [replyToAddress()],
   });
 }

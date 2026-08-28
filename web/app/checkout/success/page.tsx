@@ -117,7 +117,8 @@ export default async function CheckoutSuccessPage({
           </span>
           <h1>ご購入ありがとうございます</h1>
           <p>用紙・問題数・並びを選んで、PDF をダウンロードしてください。</p>
-          <p className="success-revisit">このページのリンクはご購入確認メールにも届いています。ブックマークすれば、いつでも・別の端末からでも再ダウンロードできます。</p>
+          <p className="success-revisit">このページのリンクはご購入確認メールにも届いています。ブックマークすれば、いつでも・別の端末からでも再ダウンロードできます。<br />
+          メールが見当たらないときは、迷惑メールフォルダもご確認ください（届かない場合もこのページから何度でもダウンロードできます）。</p>
         </div>
 
         <QuickDownload
