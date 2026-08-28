@@ -31,7 +31,11 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   const key = process.env.STRIPE_SECRET_KEY;
-  const whSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  /* 署名シークレットは 2 つの名前を見る。Amplify のコンソールに正しく登録されていても
+     STRIPE_WEBHOOK_SECRET だけがビルドシェルへ渡らない事象に当たったため、別名の
+     APP_STRIPE_WH_SECRET を予備の入口として用意した（[decisions.md §3.112](../../../../decisions.md)）。
+     どちらか入っていれば動く。 */
+  const whSecret = process.env.STRIPE_WEBHOOK_SECRET || process.env.APP_STRIPE_WH_SECRET;
   if (!key || !whSecret) {
     return Response.json({ error: "Stripe の環境変数が未設定です" }, { status: 500 });
   }
