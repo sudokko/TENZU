@@ -43,6 +43,11 @@ function fromAddress(): string {
    サブドメイン）なので、そのままだと返信が宛先不明で消える。実在の窓口を Reply-To に
    置いて「返信できる差出人」にする＝ユーザー体験と、迷惑メール判定の両方に効く
    （[decisions.md §3.113](../../../decisions.md)）。宛先は問い合わせ通知の先頭を流用。 */
+/* 本文中の案内リンク（再送ページ等）用のサイト URL。SITE_URL 未設定でも文面は壊さない。 */
+function siteUrl(): string {
+  return (process.env.SITE_URL ?? "https://tenzu.jp").replace(/\/$/, "");
+}
+
 function replyToAddress(): string {
   const first = (process.env.CONTACT_NOTIFY_EMAILS ?? "tenzu.info@gmail.com")
     .split(",")[0]
@@ -199,7 +204,9 @@ export async function sendContactMail(opts: {
 
 /* 購入したメーカーの別端末復元リンク（マジックリンク）。
    買い切り（payment mode）完了時・別端末からの復元時に送る。
-   リンク先 = /api/auth/verify?token=...（署名トークンを検証し、Stripe 履歴から所有を再 mint）。 */
+   リンク先 = /restore?t=...（説明ページ → ボタンで POST /api/auth/verify → 所有を再 mint）。
+   ⚠ メールの読み手はまず「買った端末ではもう使える」を知る必要がある。リンクは
+   「別の端末でも使いたいとき"だけ"の道具」だと本文で先に言い切ること（decisions §3.114）。 */
 export async function sendRestoreLink(opts: {
   to: string;
   restoreUrl: string;
@@ -212,10 +219,21 @@ export async function sendRestoreLink(opts: {
     "ご購入いただいたメーカー：",
     ...list.map((t) => `・${t}`),
     "",
-    "別の端末（スマホ↔パソコン）で使うときや、ブラウザのデータを消したときは、",
-    "下記のリンクを開くと購入済みのメーカーを復元できます（このリンクは 30 分間有効です）。",
+    "■ ご購入いただいた端末では、もうお使いいただけます",
+    "メーカーは「作る道具を使う権利」の買い切り商品です（月額はありません）。",
+    "権利はお使いのブラウザに記録されるので、購入された端末では、このメールを",
+    "開かなくてもそのまま PDF を書き出せます。ログインもパスワードも不要です。",
+    "",
+    "■ 別の端末でも使いたいときだけ、下のリンクを",
+    "スマホとパソコンの両方で使いたいときや、ブラウザのデータを消したときは、",
+    "下記を開いてボタンを押すと、その端末でも使えるようになります。",
+    "何台でも、何度でも大丈夫です（追加のお支払いはありません）。",
     "",
     opts.restoreUrl,
+    "",
+    "※ このリンクは安全のため 30 分で切れます。切れていても、下記のページから",
+    "　 新しいリンクをいつでもお送りできます。",
+    `${siteUrl()}/login`,
     "",
     "— 点図形（点描写）プリントの専門店 TENZU",
   ].join("\n");
@@ -225,13 +243,25 @@ export async function sendRestoreLink(opts: {
       <p>TENZU メーカーのご購入ありがとうございます。</p>
       <p>ご購入いただいたメーカー：</p>
       <ul>${list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
-      <p>別の端末（スマホ↔パソコン）で使うときや、ブラウザのデータを消したときは、<br>
-      下記のボタンから購入済みのメーカーを復元できます（このリンクは 30 分間有効です）。</p>
+
+      <p style="margin-top:24px"><b>ご購入いただいた端末では、もうお使いいただけます。</b><br>
+      メーカーは「作る道具を使う権利」の買い切り商品です（月額はありません）。
+      権利はお使いのブラウザに記録されるので、購入された端末では、このメールを開かなくても
+      そのまま PDF を書き出せます。ログインもパスワードも必要ありません。</p>
+
+      <p style="margin-top:24px"><b>別の端末でも使いたいときだけ、下のボタンを。</b><br>
+      スマホとパソコンの両方で使いたいときや、ブラウザのデータを消したときは、
+      ボタンを開いて「この端末で使えるようにする」を押してください。
+      何台でも、何度でも大丈夫です（追加のお支払いはありません）。</p>
       <p><a href="${esc(opts.restoreUrl)}"
         style="display:inline-block;background:#2C6E7F;color:#fff;text-decoration:none;
-        padding:12px 24px;border-radius:4px;font-weight:600">購入を復元する</a></p>
+        padding:12px 24px;border-radius:4px;font-weight:600">別の端末でも使えるようにする</a></p>
       <p style="font-size:12px;color:#9AA0AA">ボタンが開けないときは、こちらのリンクから：<br>
       <a href="${esc(opts.restoreUrl)}" style="color:#9AA0AA">${esc(opts.restoreUrl)}</a></p>
+      <p style="font-size:12px;color:#9AA0AA">
+      ※ このリンクは安全のため 30 分で切れます。切れていても、
+      <a href="${esc(siteUrl())}/login" style="color:#9AA0AA">${esc(siteUrl())}/login</a>
+      から新しいリンクをいつでもお送りできます。</p>
       <p style="font-size:12px;color:#9AA0AA">このメールにはそのままご返信いただけます。<br>
       — 点図形（点描写）プリントの専門店 TENZU</p>
     </div>`;

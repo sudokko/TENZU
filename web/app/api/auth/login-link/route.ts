@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     const owned = await resolveOwnedByEmail(stripe, email);
     if (owned.length > 0) {
       const base = process.env.SITE_URL ?? req.nextUrl.origin;
-      const restoreUrl = `${base}/api/auth/verify?token=${signMagic(email)}`;
+      const restoreUrl = `${base}/restore?t=${signMagic(email)}`;
       const items = owned.map((k) => makerByKey(k)?.name).filter((n): n is string => Boolean(n));
       await sendRestoreLink({ to: email, restoreUrl, items });
     }

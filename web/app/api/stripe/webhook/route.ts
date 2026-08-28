@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
         const items = makers
           .map((k) => makerByKey(k)?.name)
           .filter((n): n is string => Boolean(n));
-        const restoreUrl = `${base}/api/auth/verify?token=${signMagic(email)}`;
+        const restoreUrl = `${base}/restore?t=${signMagic(email)}`;
         await sendRestoreLink({ to: email, restoreUrl, items });
       }
     } catch (e) {

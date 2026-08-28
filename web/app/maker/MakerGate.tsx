@@ -64,6 +64,17 @@ export default function MakerGate({
           )}
         </span>
       </div>
+      {/* 買う前に「何を買うのか」を明示する（買い切り・端末に紐づく・別端末は復元できる）。
+          ¥980 は道具を使う権利の買い切りで、所有はブラウザに記録される＝この説明が無いと
+          「別の端末で開いたら使えない」が事故に見える（decisions §3.114）。 */}
+      {!isOwned && (
+        <p className="maker-buynote">
+          <b>¥{MAKER_PRICE} の買い切り</b>（月額なし）。<b>このブラウザ</b>で PDF 書き出しが解放されます。
+          <span className="bn-more">次からはログインなしでそのまま使えます。</span>
+          別の端末でも使うときは、購入時のメールから
+          <a href="/login">追加</a>できます（何台でも無料）。
+        </p>
+      )}
       {children}
     </>
   );

@@ -176,3 +176,21 @@
   margin-top: 4px;
 }
 .maker-gate .mg-more:hover { text-decoration: underline; }
+
+/* 未購入者向けの一行説明（introbar の直下・買う前に「何を買うのか」を伝える） */
+.maker-buynote {
+  margin: 0;
+  padding: 8px 16px;
+  background: #FFFDF7;
+  border-bottom: 1px solid #E6E3DB;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #4A4F58;
+}
+.maker-buynote b { color: #1A1F2A; font-weight: 700; }
+.maker-buynote a { color: #2C6E7F; }
+@media (max-width: 640px) {
+  .maker-buynote { padding: 6px 12px; font-size: 11px; line-height: 1.6; }
+  /* 狭幅は本筋（買い切り・このブラウザ・別端末は追加できる）だけ残す */
+  .maker-buynote .bn-more { display: none; }
+}

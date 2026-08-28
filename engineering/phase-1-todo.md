@@ -21,6 +21,7 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 | ★ | **Stripe 本番モード化** | 本番アカウント `acct_1Si2zlEtIrDOgxDR`（SUDO CRAFT）審査通過。残＝①ダッシュボードで**決済手段を有効化**（**カードのみ**。コンビニ払いは固定電話番号が要るため不採用＝[decisions.md §3.110](../decisions.md)）②`sk_live_` を Amplify の **main オーバーライド**へ追加 → **main を再デプロイ**（env はビルド時に焼き出すため保存だけでは届かない）③本番 Webhook `tenzu-prod-checkout` の配信履歴が成功になることを確認 |
 | ★ | **AUTH_SECRET 生成** | 強ランダム値（例: `openssl rand -base64 48`）。ローテーション＝全所有 cookie 無効化のため安定運用 |
 | ★ | **開店当日に `PREOPEN=0`** | 開店まで全ページ最上部に出しているプレオープン告知帯（[decisions.md §3.109](../decisions.md)）を消す。Amplify の **main オーバーライド**へ `PREOPEN=0` を追加 → **main を再デプロイ**（env はビルド時に `.env.production` へ焼き出すため保存だけでは消えない）。**未設定＝帯が出る**が既定なので、開店前は何もしなくてよい |
+| ★ | **Safe Browsing の審査リクエスト** | メーカー復元リンクが Chrome の「危険なサイト」（ソーシャルエンジニアリング判定）でブロックされた（[decisions.md §3.114](../decisions.md)）。URL の形はコード側で是正済み＝残＝**Search Console →「セキュリティと手動による対策」→ セキュリティの問題**で対象範囲（ホスト全体か当該 URL か）を確認 →「**審査をリクエスト**」を送る。⚠️**是正を本番へデプロイしてから出す**（旧 URL のまま出すと再度落ちる）。審査は通常 数日 |
 | P1 | **GA4 運用仕上げ** | 本番受信と `generated_pdf`／`purchase` のキーイベント指定まで完了。残＝①自宅・開発環境の内部トラフィック定義と除外フィルタ ②Stripe Checkout への遷移で `begin_checkout` を確認 ③最初の実購入時に `purchase` の transaction_id・金額・items を Stripe と突合 ④Search Console 連携（[analytics.md §5](analytics.md)） |
 | ★ | **オンサイトメッセージ用 AWS リソース** | DynamoDB `tenzu-onsite`（＋dev 用）・S3 `tenzu-onsite-assets`・IAM 権限追加・Amplify env 5 件（手順＝§1.1・約 30 分）。未設定でもサイト自体は動く（カード非表示へ degrade）が、開店あいさつ `welcome-2026` を出すには必須＝W5 の文言確認までに |
 

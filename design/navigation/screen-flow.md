@@ -222,8 +222,8 @@ flowchart TB
   subgraph B["② 復元（別端末・cookie 消失・買い替え）"]
     direction TB
     B1["/login メアド入力"] --> B2["POST /api/auth/login-link<br/>Stripe 購入履歴 → 復元リンク<br/>列挙対策で常に ok"]
-    B2 --> B3["SES 復元メール<br/>（マジックリンク・TTL 30 分）"]
-    B3 --> B4["GET /api/auth/verify?token<br/>購入履歴から owned 再構成<br/>→ 署名cookie → /account?restored=1"]
+    B2 --> B3["復元メール（Resend）<br/>（マジックリンク・TTL 30 分）"]
+    B3 --> B4["/restore?t= 説明ページ<br/>ボタン → POST /api/auth/verify<br/>購入履歴から owned 再構成<br/>→ 署名cookie → /account?restored=1"]
   end
 
   COOKIE["署名cookie tenzu_session<br/>{owned: MakerKey[]}・HMAC（node:crypto）<br/>maxAge 400日＝実質永続・DBなし"]
@@ -244,8 +244,8 @@ flowchart TB
   C2 -.->|🔒 5×5 以上を選択| A1
   A5 --> C1
 
-  WH["webhook checkout.session.completed<br/>→ SES 復元リンク送付（別端末用・予備）"]
-  A3 -.->|webhook| WH -.->|GET /api/auth/verify?token| COOKIE
+  WH["webhook checkout.session.completed<br/>→ 復元リンク送付（別端末用・予備）"]
+  A3 -.->|webhook| WH -.->|/restore?t= → POST verify| COOKIE
 
   ACC["/account マイページ<br/>購入済み一覧・各メーカーへ"]
   COOKIE --> ACC

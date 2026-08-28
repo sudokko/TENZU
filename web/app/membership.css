@@ -160,3 +160,17 @@
 .owned-list { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-direction: column; gap: 6px; }
 .owned-list li a { color: var(--accent-ink); text-decoration: none; font-weight: 600; }
 .owned-list li a:hover { text-decoration: underline; }
+
+/* ---- restore（別端末での購入復元・/restore） ---- */
+.rst-points { list-style: none; padding: 0; margin: 0 0 22px; }
+.rst-points li {
+  font-family: var(--font-tier3-sans); font-size: 13px; line-height: 1.8; color: var(--fg-2);
+  padding: 10px 0 10px 20px; position: relative; border-top: 1px dashed var(--line-thin);
+}
+.rst-points li:first-child { border-top: none; padding-top: 0; }
+.rst-points li::before {
+  content: ""; position: absolute; left: 4px; top: 18px; width: 7px; height: 7px;
+  border-radius: 50%; background: var(--accent); opacity: 0.85;
+}
+.rst-points li:first-child::before { top: 8px; }
+.rst-points li b { font-weight: 600; color: var(--fg); }
