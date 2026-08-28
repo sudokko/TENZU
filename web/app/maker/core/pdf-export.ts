@@ -8,6 +8,7 @@
 import { PAPER, type PaperKey } from "../../products/print";
 import { loadLogo, svgToPng, type LogoInfo } from "./page-svg";
 import { makerFromPath, trackGeneratedPdf } from "../../analytics";
+import { saveFile } from "../../lib/save-file";
 
 export async function exportPdf(opts: {
   paper: typeof PAPER[PaperKey];
@@ -30,6 +31,8 @@ export async function exportPdf(opts: {
   const d = new Date();
   const p2 = (n: number) => String(n).padStart(2, "0");
   const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
-  doc.save(opts.filename(stamp));
+  // doc.save() は内部で <a download> を使うため iOS では保存にならない。
+  // blob を取り出して共通の saveFile（共有シート優先）へ渡す。
+  await saveFile(doc.output("blob"), opts.filename(stamp));
   trackGeneratedPdf(makerFromPath(), opts.pageCount);
 }

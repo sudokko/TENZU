@@ -10,7 +10,7 @@
      未入稿 SKU は SKU slug から決定的に生成するサンプルへフォールバック
    ========================================================================= */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
   KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
@@ -21,6 +21,7 @@ import {
 import { edgeKey, mirrorEdges, type EdgeT, type Pt, type SolidEdge } from "./problems/schema";
 import { composeKindOf, composeTriple, type RenderProblem } from "./problems/render";
 import { buildSolidPageSvg, svgToPng, loadLogo } from "../maker-solid/solid-print";
+import { saveFile, isIOS } from "../lib/save-file";
 
 /* 型は problems/render.ts（SSOT）。既存 import 先の互換のため再輸出 */
 export type { ComposeKind, MirrorAxis, RenderProblem } from "./problems/render";
@@ -630,16 +631,11 @@ export async function downloadPdf(
   const ab = new ArrayBuffer(bytes.byteLength);
   new Uint8Array(ab).set(bytes);
   const blob = new Blob([ab], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
   // {sku}[_answer]_{紙}_{N}q_{yyyymmddhhmm}.pdf — 再生成の上書き事故を防ぐタイムスタンプ付き
   const d = new Date();
   const p2 = (x: number) => String(x).padStart(2, "0");
   const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
-  a.download = `${sku}${answer ? "_answer" : ""}_${paperKey}_${perPage}q_${stamp}.pdf`;
-  a.click();
-  URL.revokeObjectURL(url);
+  await saveFile(blob, `${sku}${answer ? "_answer" : ""}_${paperKey}_${perPage}q_${stamp}.pdf`);
 }
 
 /* ===================== 解答 PDF（鏡タスク・1問=1ページ） =====================
@@ -769,15 +765,10 @@ export async function downloadAnswerPdf(
   const ab = new ArrayBuffer(bytes.byteLength);
   new Uint8Array(ab).set(bytes);
   const blob = new Blob([ab], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
   const d = new Date();
   const p2 = (x: number) => String(x).padStart(2, "0");
   const stamp = `${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}${p2(d.getHours())}${p2(d.getMinutes())}`;
-  a.download = `${sku}_answer_${paperKey}_${stamp}.pdf`;
-  a.click();
-  URL.revokeObjectURL(url);
+  await saveFile(blob, `${sku}_answer_${paperKey}_${stamp}.pdf`);
 }
 
 /* ===================== 立体（solid）プレビュー＋PDF =====================
@@ -786,6 +777,20 @@ export async function downloadAnswerPdf(
 const SOLID_DOT_SCALE: Record<DotSize, number> = { s: 0.6, m: 1.0, l: 1.3 };
 
 export type SolidRenderProblem = { cols: number; rows: number; edges: SolidEdge[] };
+
+/* iOS は <a download> が効かず共有シート経由の保存になるため、DL ボタンの下に一言添える。
+   navigator の参照は client でのみ有効＝マウント後に判定して hydration 差分を避ける。 */
+function IosSaveHint() {
+  const [show, setShow] = useState(false);
+  useEffect(() => { setShow(isIOS()); }, []);
+  if (!show) return null;
+  return (
+    <p className="spv-note">
+      iPhone・iPad では共有シートが開きます。「<b>ファイルに保存</b>」を選ぶと端末に保存できます
+      （そのまま「プリント」やコンビニ印刷アプリへ渡すこともできます）。
+    </p>
+  );
+}
 
 function SolidPrintPreview({
   sku, problems, buySlot, purchased = false, meate,
@@ -953,6 +958,7 @@ function SolidPrintPreview({
           {downloading ? "PDF を作成中…" : "PDF をダウンロード"}
         </button>
       )}
+      {purchased && <IosSaveHint />}
 
       {buySlot && <div className="spv-buyslot">{buySlot}</div>}
     </div>
@@ -1203,6 +1209,7 @@ function SquarePrintPreview({
           {downloading ? "PDF を作成中…" : "解答 PDF をダウンロード"}
         </button>
       )}
+      {purchased && <IosSaveHint />}
 
       {buySlot && <div className="spv-buyslot">{buySlot}</div>}
     </div>
