@@ -10,7 +10,7 @@
 - **素材の4源泉**: ①記事（→IGカルーセル・X切り出し・note）②メーカー出力（→Pinterestピン・IGリール週1試行・X画像）③制作裏側/思想（→X専門家ポジ・note月1・IGストーリーズ）④店主の思索（→X店主メモ週〜4・Amebaエッセイ月1）
 - **媒体の役割**: Pinterest＝送客主戦場（ストック型・パイロット中・§3）／IG＝認知（保存版カルーセル＋リール週1試行）／X＝専門家ポジ＋店主メモ＋リプ欄リンク／note＝設計ノート月1＋開発実録連載（1アカウント2マガジン）／Ameba＝店主エッセイ月1
 - **名義**: Pinterest・IG＝ブランド `TENZU`／X・note・Ameba＝屋号 `SUDO CRAFT`（[sns-accounts.md §1.4](sns-accounts.md)）。草稿の一人称／三人称は名義で決まるので、`/weekly-ops` の出力もこの区分に従う
-- **週次実働**: ~4-5h ＋ Pinterest 1-2h（§4 カレンダー）
+- **週次実働**: ~4-5h ＋ Pinterest 1-2h。**曜日固定ルーチン**（§4・2026-08-31 運転開始・[../decisions.md §5.21](../decisions.md)）で回す
 - **季節トラック**: Pinterest は遅効性ゆえ 2-3 ヶ月前出し（入学準備=1月／梅雨=5月／夏休み=6-7月）
 - **Pinterest 90日ゲート**: 月1=インプ／月2=CTR／月3=tool_start転換で継続判定（§5）
 - 平易版の読み物 = [sns-operations-guide.md](sns-operations-guide.md)（方針書）
@@ -64,11 +64,11 @@
 
 週次実働 ~4-5h ＋ Pinterest 1-2h ＋ IG リール週 1 試行分（負荷次第で月 1 へ縮退・[decisions §5.12](../decisions.md)）。
 
-> 実運転は本表を素材とした**週3ブロック制**（[../launch/operations.md §4](../launch/operations.md)）で行う。曜日は固定しない。
+> **2026-08-31 からこの曜日どおりに運転する**（[../decisions.md §5.21](../decisions.md)）。B1/B2/B3（[../launch/operations.md §4](../launch/operations.md)）は曜日を束ねた「振替の単位」＝B1＝月・水・土／B2＝木／B3＝火・金。1日飛んだら同じブロック内の別の日へ寄せ、ブロックごと落ちる週だけ縮退表を使う。
 
 | 曜日 | タスク | 時間 | 源泉 |
 |---|---|---|---|
-| 月 | 数値確認（保存・CTR・流入元別 generated_pdf）＋NG grep＋今週テーマ決定 | 20分 | — |
+| 月 | 数値確認（保存・CTR・流入元別 generated_pdf）＋NG grep＋今週テーマ決定＋**温存記事1本を公開** | 30-35分 | — |
 | 火 | IG カルーセル1-2本（Canva Bulk） | 40分 | ① |
 | 水 | X 7投稿草稿＋Buffer予約（**リンクはリプ欄**） | 30分 | ③ |
 | 木 | 記事/note 草稿（隔週） | 50分 | ①③ |

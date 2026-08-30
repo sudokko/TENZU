@@ -12,7 +12,7 @@ TENZU のローンチ運用全般。**単一ローンチ＋宣伝2段化（T=0=2
 | [phases.md](phases.md) | 期別詳細（準備期／静かな開店期／本格化／春スパイク期・公開物・施策・DM 運用・KPI） |
 | [monitor.md](monitor.md) | TENZU モニター制度（公開後モニター・声かけ・提供・謝礼） |
 | [measurement.md](measurement.md) | 6ヶ月 KPI 計画（3シナリオ・T=0=8/30 起点）・計測ツール・判断基準 |
-| [operations.md](operations.md) | ソロ運転計画（週3ブロック制・チャネル優先順位・縮退設計・ツール整備ロードマップ） |
+| [operations.md](operations.md) | ソロ運転計画（曜日固定ルーチン・チャネル優先順位・縮退設計・ツール整備ロードマップ） |
 | [ops-log.md](ops-log.md) | 週次運転ログ（追記専用・`/weekly-ops` skill が記帳） |
 
 ## 読む順序

@@ -5,11 +5,11 @@ description: TENZU の週次運転ブロック B1（運転席）を対話1回で
 
 # /weekly-ops — 週次コックピット（B1 運転席）
 
-週3ブロック制（[launch/operations.md §4](../../../launch/operations.md)）の **B1 を対話1回で完了**させる。目標: オーナーの実働 15 分以内（数値貼り付け＋X 草稿の最終チェックだけ）。
+曜日固定ルーチン（[launch/operations.md §4](../../../launch/operations.md)）の **B1（月・水・土）を対話1回で完了**させる。目標: オーナーの実働 15 分以内（数値貼り付け＋X 草稿の最終チェックだけ）。
 
 ## SSOT（必ず参照・複製しない）
 
-- ブロック制・チャネル優先順位・縮退設計: [launch/operations.md §4-§7](../../../launch/operations.md)
+- 曜日固定ルーチン・チャネル優先順位・縮退設計: [launch/operations.md §4-§7](../../../launch/operations.md)
 - 北極星指標・UTM 規則: [engineering/analytics.md](../../../engineering/analytics.md)
 - 月次判断基準（右肩上がりルール）: [launch/measurement.md §5](../../../launch/measurement.md)
 - NG 語彙・SEO 例外・acquisition 運用 NG: [foundation/voice-tone.md §1・§7](../../../foundation/voice-tone.md)
