@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="TENZU">
+  <!-- TENZU シンボル（4-dot floating）極小用リドロー。SSOT は web/app/icon.svg。
+       32 単位・全座標が偶数＝16/32/48px すべて整数ピクセル境界に落ちる。
+       座標を触るときは偶数を維持すること。点：線 = 3:1（鉛筆原本の 20:6 と同比）。
+       地＝純白基板 #FFFFFF。既定。 -->
+  <rect width="32" height="32" fill="#FFFFFF"/>
+  <g fill="#1A1F2A">
+    <circle cx="7" cy="7" r="3"/><circle cx="25" cy="7" r="3"/>
+    <circle cx="7" cy="25" r="3"/><circle cx="25" cy="25" r="3"/>
+    <rect x="12" y="6" width="8" height="2"/><rect x="12" y="24" width="8" height="2"/>
+    <rect x="6" y="12" width="2" height="8"/><rect x="24" y="12" width="2" height="8"/>
+  </g>
+</svg>
