@@ -212,7 +212,7 @@ GPT-5 DR で「FAQ には『空間認知と空間認識の違い』を入れて�
 
 | 対策 | 該当ページ |
 |---|---|
-| 1. 正規カテゴリ資産先置き | 上記 16 記事＋カテゴリLP群を開店時 10 本＋週 1 段階公開で先置き（[../launch/phases.md §3.4](../launch/phases.md)） |
+| 1. 正規カテゴリ資産先置き | 上記 16 記事＋カテゴリLP群を**開店時 14 本＋温存 6 本の週 1 段階公開**で先置き（[../launch/phases.md §3.4](../launch/phases.md)） |
 | 2. AI 検索入口（OAI-SearchBot 許可＋構造化データ） | Pillar に HowTo Schema・FAQ＋LLMO に FAQPage Schema・カテゴリLP に ItemList/Product Schema・実装は [engineering/](../engineering/) |
 | 3. ブルーオーシャン一点突破 | **C3-1「見取り図 描き方」（競合 0）最優先実装**＋ C4-2「空間認識能力 鍛える」（1,300）＋ C5-1「点描写 教え方」（10／競合 16）。年齢別・空間認知プリントのお宝はカテゴリLP（競合 1-3）で取る |
 | 4. 学術エビデンス近接配置 | C3-4「視覚空間能力と学び」を P3 配下に配置・[evidence.md](evidence.md) SSOT 連携・C4-1 旗艦「効果」記事内でも引用 |

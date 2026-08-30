@@ -63,7 +63,7 @@
 - **記事構成・引用方針**: [../content/pillars.md](../content/pillars.md) SSOT
 - **AI 自動化**: Claude で草稿 70% → 人間が NG ワード grep＋拡張語彙チェック＋論文事実チェック
 - **死の谷対策 4 戦術**:
-  1. 正規カテゴリ資産先置き（開店時 10 本＋温存 10 本の週 1 段階公開・[../launch/phases.md §3.4](../launch/phases.md)）
+  1. 正規カテゴリ資産先置き（**開店時 14 本＋温存 6 本**の週 1 段階公開・[../launch/phases.md §3.4](../launch/phases.md)）
   2. OAI-SearchBot 許可＋構造化データ（HowTo / FAQPage Schema）
   3. ブルーオーシャン一点突破（C3-1「見取り図 描き方」140/月競合性 0）
   4. 学術エビデンス近接配置（[../content/evidence.md](../content/evidence.md) RAG 対策）
