@@ -55,12 +55,13 @@
 |---|---|---|
 | `utm_source` | 媒体名 | `pinterest` / `instagram` / `x` / `note` / `ameba` / `newsletter` / `google` / `meta` |
 | `utm_medium` | 枠の種類 | `pin` / `carousel` / `reel` / `story` / `post` / `profile` / `dm` / `cpc` / `email` |
-| `utm_campaign` | 施策・シーズン | `launch` / `nyugaku-2027`（春 LP）／`tsuyu-2027` / `monitor-recruit` |
-| `utm_content` | 個別クリエイティブ識別 | `copy-lv2-snake` / `pin-p1-005` |
+| `utm_campaign` | 施策・シーズン | `launch` / `nyugaku-2027`（春 LP）／`tsuyu-2027` / `natsuyasumi-2027` / `monitor-recruit` |
+| `utm_content` | 個別クリエイティブ識別 | `copy-lv2-snake` / `pin-p1-copy-lv2-vol1-003` |
 
-- 例: `https://tenzu.jp/maker?utm_source=pinterest&utm_medium=pin&utm_campaign=nyugaku-2027&utm_content=pin-p2-012`
+- 例: `https://tenzu.jp/maker?utm_source=pinterest&utm_medium=pin&utm_campaign=nyugaku-2027&utm_content=pin-p1-copy-lv2-vol1-003`
 - プロフィール経由とストーリーズ経由は **medium を分ける**（[sns-operations §3.4](../acquisition/sns-operations.md)）
-- `/atelier/pins` のキャプション CSV は本規則で UTM を焼くこと
+- `/atelier/pins` のキャプション CSV は本規則で UTM を焼く。campaign はツール上部のセレクタで選び、content は `pin-{テンプレ}-{sku}-{連番}`（連番は PNG ファイル名と一致するので GA4 とピン実物を突き合わせられる）
+- **SKU を `utm_campaign` に入れない**。campaign は季節トラック（[../acquisition/sns-operations.md §5](../acquisition/sns-operations.md)）の比較軸であり、SKU で潰すと入学準備・梅雨・夏休みの効き目が測れなくなる。SKU は content 側に持たせる
 
 ### §4. アタッチ率の読み方（GA4）
 

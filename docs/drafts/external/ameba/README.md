@@ -1,6 +1,9 @@
-# アメブロ出力（貼付用 HTML）
+# アメブロ出力（貼付用 HTML）＋店主エッセイの下書き
 
-このディレクトリには Ameba 向けの貼付用 HTML を `<slug>.html` で置く。
+このディレクトリには 2 種類を置く。
+
+1. **店主エッセイの企画・下書き**（`00-launch-plan.md` と `01`〜`04`）＝オリジナル記事。設計は [acquisition/sns-accounts.md §4.5](../../../../acquisition/sns-accounts.md)
+2. **Ameba 向けの貼付用 HTML** を `<slug>.html` で置く（以下は 2 のルール）
 
 - 整形規約（SSOT）: [content/external-output.md §3](../../../../content/external-output.md)
 - 生成: [/article-export](../../../../.claude/skills/article-export/SKILL.md)（target=ameba）

@@ -2258,6 +2258,7 @@ sns-accounts.md（§5.10/§5.11）に対し ChatGPT・Gemini の 2 AI 添削を�
 - **決定タイミングの根拠**: SNS は 5 アカウントとも**未開設**（sns-accounts §7 が未着手）＝フォロワー 0・ピン 0・被リンク 0 で付け替えコストがゼロ。開店（8/30）後の変更は Pinterest のハンドル変更で URL ごと壊れるため、今が唯一の無償の分岐点
 - **棄却案**: ①**全て TENZU 名義のまま**（屋号は口座・請求・法務の器に徹する）＝手数は最小で開店に集中できるが、TSUMIZU 開店時にフォロワーを引き継げない痛みが確実に来る。受託を当面やらない前提なら合理的だった ②**全て SUDO CRAFT 名義**＝人格資産は最大化するが、Pinterest/Instagram の SNS 内検索（表示名の業態識別句）と tenzu.jp との名義一致が犠牲になる
 - **法務・決済への波及**（W4 = 8/3-8/9 で確定させる）: 特商法表記の販売業者名義・銀行口座名義を SUDO CRAFT へ揃える。ただし **Stripe の明細表示名は購入者が「TENZU で買った」と分かる形を維持する**（カード明細に見慣れない屋号だけが出ると不審請求の問い合わせ・チャージバック要因になる。設定可否は実装時に確認）
+- **決着（2026-08-23）＝Stripe の名義は 2 層に分かれる**。①**アカウント名（設定→ビジネス→アカウントの詳細）＝`TENZU`**。Checkout の「〇〇に支払う」・領収書・請求書に出る**顧客向けの名前**で、API から上書きできない（`checkout.sessions.create` に該当フィールドなし）ためダッシュボードで設定する。②**ビジネスの詳細（法的名義）＝`SUDO CRAFT`＋実名**は不変＝特商法表記・銀行口座と一致させる。旧 UI の「公開ビジネス名」は現行ダッシュボードで「アカウント名」に統合済み。**姉妹店（TSUMIZU・DANZU）を売るときは同一 Stripe アカウントだと決済画面が全て「TENZU に支払う」になるため、アカウントを分ける**
 - 反映先: [acquisition/sns-accounts.md](./acquisition/sns-accounts.md)（§1.3・§2・§3・§4.3-4.5・§6・§7）／[acquisition/channels.md](./acquisition/channels.md)（§1.3・§2.4・§2.5・§5）／[acquisition/sns-operations.md](./acquisition/sns-operations.md)／[content/note-devlog-craft.md](./content/note-devlog-craft.md)（§1）／[launch/operations.md](./launch/operations.md)（§5・§7）／[foundation/brand.md](./foundation/brand.md)（語源コラムの「屋号 TENZU」表記）／[design/visual-identity.md §5.4](./design/visual-identity.md)（屋号ロゴ規定 新設）／[engineering/phase-1-todo.md](./engineering/phase-1-todo.md)（屋号ページ `/sudo-craft` 実装・法務名義）
 
 ### 5.17 店主枠の線引きを改定＋屋号ビジュアルを TENZU と別系統化（2026-08-01）
@@ -2282,6 +2283,22 @@ sns-accounts.md（§5.10/§5.11）に対し ChatGPT・Gemini の 2 AI 添削を�
 - **頻度を結果別に保存**: 原則1回、guideは30日休止・cartは7日休止で最大2回、CTAクリック後は終了。localStorageの旧ISO形式は表示済み1回として後方互換を保つ
 - **管理画面**: スマホ/PC配置・見出し・行動条件・頻度・画像表示を編集し、390px実寸プレビューへ即時反映。「推奨5テンプレートを反映」で同じidを確認後upsertできる
 - 詳細SSOT・調査ソース: [acquisition/onsite-messaging.md](./acquisition/onsite-messaging.md)。検討用HTML: [design/onsite-messaging-mobile-proposal.html](./design/onsite-messaging-mobile-proposal.html)
+
+### 5.19 サイト側 SNS 導線＝全ページのフッターに 5 つ並べる＋公式マークを使う（2026-08-26）
+
+5 アカウントを開設したので、サイトから SNS へ渡す導線を決める。当初は §5.16 の名義 2 層（TENZU＝Pinterest・Instagram／屋号＝note・X・Ameba）を置き場所の分離にも持ち込み、面ごとに出し分ける案で実装した。**オーナー判断でこれを撤回**し、全ページに 5 つ並べる方式へ改める。
+
+- **全ページ・出す 4 つは全部出す**: 名義が割れていることは**隠さず、但し書き 1 行で説明する**（「Instagram はお店（TENZU）、note・X・Ameba は店主の屋号（SUDO CRAFT）で発信しています。」）。名義で面を分ける出し分けは、実装の意図が読み手に伝わらないうえ、触れられるアカウントを自分で減らすことになるので採らない
+- **Pinterest だけは表示から外す**（オーナー判断）。理由は 2 つ。① **フォローの見返りがゼロ**＝ピンの中身は商品プレビューでサイトそのもの。すでにサイトへ来た人に見せるのは通ってきた道を指すだけで、「ここにしかないもの」が無い（この基準で 5 つを並べると note・X・Ameba は独自コンテンツあり、Instagram は薄いが可、Pinterest だけ無し）② **Pinterest は検索・discovery 駆動でフォロワーが増えても配信が増えにくい**＝こちら側の見返りも薄い。フィード型の Instagram はフォロワー 1 人＝配信先 1 人なので、開店直後にサイト訪問者（いちばん濃い見込み層）から供給する意味がある。ここが両者の分かれ目
+- **Pinterest を太らせるなら逆向き**: 商品・記事の画像へ「Pinterest に保存」（`pinterest.com/pin/create/button/`・外部スクリプト不要の素のリンク）を置き、訪問者が自分のボードへピンを押し込む形にする。送客主戦場を育てるのはこちら（未実装）
+- **置き場はフッター 1 か所**: フル版フッター（10 ページ）・`SiteFooterMini`（それ以外の公開ページ）の両方に同じ `SnsLinks` を置く。**記事末尾・メーカー完了・購入完了の独自ブロックは撤去**＝フッターが 5 つ持つので同じリンクが 2 度並ぶだけになる
+- **10 ページに散っていた軽量フッターを `SiteFooterMini` へ集約**した（footer-mini 8＋footer-article 2 が同一 markup のコピーだった）。SNS を全ページへ出す変更を 10 箇所へ撒かずに済ませるため
+- **除外はメーカー本体（`/maker*`）と管理画面（`/admin` `/atelier`）のみ**。前者は全画面のツール UI で作業中の面／後者はオーナー専用。メーカーは完了画面 `/maker-thanks` が受ける
+- **アイコンは自作せず各社の公式ブランドマークを、公式のカラーのまま使う**: 当初の自作代用グリフ（枠＋頭文字）も、TENZU のトーンへ寄せた単色化も却下。`web/app/components/sns-icon-paths.ts` に path を持ち、出典 URL をファイル先頭に明記。Instagram＝公式グラデーション／note＝公式 square（白地＋`#040000`）／X＝`#000000`／Ameba＝`#2D8C3C`。**マークの色を変えないのは、note のように色変更・変形・装飾を明示的に禁じている社があるため**
+- **note は公式 square で解決**: note のブランドガイドラインは「他の SNS アイコンと並列に並ぶ場合は **square 版**を使い、『n』だけを切り抜く改変はしない」と定める。オーナーが公式配布物（note Visual Identity・`app/icon.svg`）を入手し、square をそのまま使用。シンボル単体は `noteSymbol` として温存（単独掲出用・並列では使わない）
+- **JSON-LD `sameAs`**: TOP に Organization、記事の `publisher` に同じ配列。**表示から外した Pinterest を含む 5 つ**をまとめて 1 主体として申告する＝エンティティの紐づけは、フッターに出すかどうかと無関係に効く。ドメイン認証の meta タグも同様（分けて申告すると別エンティティになり紐づけの意味が消える）
+- **自前クリックイベントは足さない**: 外部リンクは GA4 拡張計測の outbound click が自動で拾う（[analytics.md](./engineering/analytics.md) の Phase 1 = 3 イベント方針を崩さない）
+- **実ハンドルは §3.1 の「名義内で 1 つ」に揃わなかった**（Pinterest `tenzuinfo`／X `sudocraft_jp`／Ameba `sudo-craft`）。媒体仕様と先行取得の結果なので**実物を正とする**。コード側 SSOT は [web/app/sns.ts](./web/app/sns.ts)、設計側は [sns-accounts.md §9](./acquisition/sns-accounts.md)
 
 ---
 
