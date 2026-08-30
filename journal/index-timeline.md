@@ -304,9 +304,50 @@
 - **EP-125** ★★★ Amplify ビルド8連続失敗＝33時間停止の解剖（手元で通り CI で落ちる・noindex の賭け金） — [episodes/EP-125-amplify-stall-anatomy.md](episodes/EP-125-amplify-stall-anatomy.md)
 - **EP-126** ★★ 第3サイト DANZU（断図）の起動と姉妹店4店構想 — `episodes/EP-126-danzu-third-site.md`
 
+## 2026-08-01 名義・環境・法務の三点整備（開店ブロッカー解消）
+
+- **EP-129** ★★★ 屋号 SUDO CRAFT の取得と SNS 名義の 2 層化（フォロワー 0 が唯一の無償の分岐点） — [episodes/EP-129-sudo-craft-naming-two-layers.md](episodes/EP-129-sudo-craft-naming-two-layers.md)
+- **EP-130** ★★★ 実質の trunk が枝だった問題の解消（article-drafts 退役とブランチ・環境体制の確定） — [episodes/EP-130-branch-env-consolidation.md](episodes/EP-130-branch-env-consolidation.md)
+- **EP-131** ★★ 開店ブロッカーだった法務 3 ページ（特商法・プライバシーポリシー・屋号ページ） — [episodes/EP-131-legal-pages-and-real-name.md](episodes/EP-131-legal-pages-and-real-name.md)
+
+## 2026-08-02〜05 難易度の是正・紙面の修正・開店前監査
+
+- **EP-133** ★★ 書き上がった 20 本を一斉公開しない（段階公開機構と RSS の新設） — [episodes/EP-133-staged-article-publishing.md](episodes/EP-133-staged-article-publishing.md)
+- **EP-134** ★★★ 体感と D の逆転を 2 日で 3 回直す（ばらけ・幻交差・共有点） — [episodes/EP-134-overlay-difficulty-corrections.md](episodes/EP-134-overlay-difficulty-corrections.md)
+- **EP-135** ★★ 完成図が見えていた紙面（かさね系 3 ペイン化と写像の SSOT 化） — [episodes/EP-135-three-pane-print-format.md](episodes/EP-135-three-pane-print-format.md)
+- **EP-136** ★★ 割引を単価へ落とす（まとめ買い割引と、値付けを持たないプリセット） — [episodes/EP-136-bulk-discount.md](episodes/EP-136-bulk-discount.md)
+- **EP-132** ★★ 数値ゲート全通過でも採用は 3 割（モチーフ投入の作法が craft になるまで） — [episodes/EP-132-motif-adoption-craft.md](episodes/EP-132-motif-adoption-craft.md)
+- **EP-137** ★★★ 商品 43 ページがインデックス不能だった（開店前フル整合監査と canonical 継承バグ） — [episodes/EP-137-launch-audit-canonical.md](episodes/EP-137-launch-audit-canonical.md)
+
+## 2026-08-06〜14 D 式の完成と立体の再構成（G2 通過）
+
+- **EP-138** ★★★ 「難しくない」ではなく「出題として失敗している」を見つける（折り係数ともつれの項） — [episodes/EP-138-fold-factor-and-tangle.md](episodes/EP-138-fold-factor-and-tangle.md)
+- **EP-139** ★★ 一度捨てた項が、盤面が広がって効きはじめる（交差の項の復活） — [episodes/EP-139-crossing-term-revival.md](episodes/EP-139-crossing-term-revival.md)
+- **EP-140** ★★★ 隠れ辺で難易度を積むと、形の多様性が死ぬ（立体 Lv.5 の再構成と G2 通過） — [episodes/EP-140-solid-lv5-restructure.md](episodes/EP-140-solid-lv5-restructure.md)
+- **EP-141** ★★ 達成できない期日は設計書に居座って判断を歪める（姉妹店の固定日程を撤回） — [episodes/EP-141-sister-shops-undated.md](episodes/EP-141-sister-shops-undated.md)
+
+## 2026-08-22〜23 本番稼働・G4 通過・決済確定
+
+- **EP-142** ★★★ 閉じると検証が全部止まる（プレオープン告知帯という第三の選択肢） — [episodes/EP-142-preopen-banner.md](episodes/EP-142-preopen-banner.md)
+- **EP-143** ★★ 固定電話を持たないので決済手段が決まった（カードのみ開店と GA4 ファネル配線） — [episodes/EP-143-card-only-and-ga4-funnel.md](episodes/EP-143-card-only-and-ga4-funnel.md)
+
 ## 2026-08-24 公開後点検・Search Console登録（特別編）
 
 - **EP-127** ★★ GoogleにTENZUを見つけてもらうための公開後点検（SEO修正・所有権確認・サイトマップ送信・主要3URLの登録依頼） — [episodes/EP-127-search-console-first-registration.md](episodes/EP-127-search-console-first-registration.md)
+- **EP-128** ★★ 特別編・Web接客をスマホ中心へ組み直す（下部固定からシナリオ別配置へ） — [episodes/EP-128-onsite-mobile-special.md](episodes/EP-128-onsite-mobile-special.md)
+
+## 2026-08-26〜29 SNS 開設と、開店直前の障害 3 連発
+
+- **EP-144** ★★ SNS 素材をブラウザに触らせず作る（5 アカウント開設と Pinterest / IG 初回投稿） — [episodes/EP-144-sns-launch-offline-assets.md](episodes/EP-144-sns-launch-offline-assets.md)
+- **EP-145** ★★★ 開店 4 日前に SES が却下された（配送業者を env で差し替え可能にする） — [episodes/EP-145-ses-rejected-resend-migration.md](episodes/EP-145-ses-rejected-resend-migration.md)
+- **EP-146** ★★ 名義が割れていることを隠さない（全ページの SNS 導線と公式マーク） — [episodes/EP-146-sns-links-everywhere.md](episodes/EP-146-sns-links-everywhere.md)
+- **EP-147** ★★★ コンソールにあるのに実行時に無い（Amplify が env を 1 変数だけ渡さなかった 4 日間） — [episodes/EP-147-amplify-env-missing-one.md](episodes/EP-147-amplify-env-missing-one.md)
+- **EP-148** ★★ 認証は全部通っているのに Outlook だけ弾く（到達率を「時間で解く」と決める） — [episodes/EP-148-deliverability-by-track-record.md](episodes/EP-148-deliverability-by-track-record.md)
+- **EP-149** ★★★ Chrome が赤い全画面を出した（フィッシング判定と、権限を渡す経路の再設計） — [episodes/EP-149-phishing-flag-restore-redesign.md](episodes/EP-149-phishing-flag-restore-redesign.md)
+
+## 2026-08-30 開店（T=0）
+
+- **EP-150** ★★★ 開店（T=0）——7 週間の準備期を、日付を動かさずに終える — [episodes/EP-150-launch-day.md](episodes/EP-150-launch-day.md)
 
 ## 期間横断（特定日付に紐付かないもの）
 
