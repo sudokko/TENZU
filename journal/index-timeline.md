@@ -304,6 +304,10 @@
 - **EP-125** ★★★ Amplify ビルド8連続失敗＝33時間停止の解剖（手元で通り CI で落ちる・noindex の賭け金） — [episodes/EP-125-amplify-stall-anatomy.md](episodes/EP-125-amplify-stall-anatomy.md)
 - **EP-126** ★★ 第3サイト DANZU（断図）の起動と姉妹店4店構想 — `episodes/EP-126-danzu-third-site.md`
 
+## 2026-08-24 公開後点検・Search Console登録（特別編）
+
+- **EP-127** ★★ GoogleにTENZUを見つけてもらうための公開後点検（SEO修正・所有権確認・サイトマップ送信・主要3URLの登録依頼） — [episodes/EP-127-search-console-first-registration.md](episodes/EP-127-search-console-first-registration.md)
+
 ## 期間横断（特定日付に紐付かないもの）
 
 - **EP-004** ★★ グローバル CLAUDE.md にキャラクター指定を入れた理由（惣流アスカ） — `episodes/EP-004-asuka-character-config.md`
