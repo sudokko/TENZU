@@ -386,16 +386,42 @@ export function NoteBox() {
   );
 }
 
-/* メーカー画面の足元に置く SNS 導線（2026-08-26・案A）。
+/* メーカー画面の足元（2026-08-26・案A / 2026-08-30 に店紹介を追加）。
    ここが「PDF ボタンより下」であることが置く条件——道具の本業（作る→刷る）を
    横切らせない。NoteBox の直後に置く前提。
    完了画面（DoneScreen）は /maker にしか無く、実測では PDF 到達前に離脱する
    訪問のほうが多いため、11 本すべてに効くこの位置を先に取っている。
-   見せ方は chips（一言なし）。一言つきの rows は面積に余裕のある面だけで使う。 */
+
+   構成は 2 段（上＝店紹介 → 下＝SNS）。SNS チップは「もう知っている人」向けの
+   導線で、メーカーから入った初見の人は素通りする。その手前に「誰が作った道具か」
+   を置いて、素通りする前に一度は目へ入れる。
+
+   SNS の見出しは実態に合わせて書く。かつての「新しい問題や、作り方のヒント」は
+   そういう発信を実際にしておらず（Instagram＝プリント紹介／note＝設計の裏側／
+   X・Ameba＝店主の書きもの）、見出しのほうが嘘になっていた。 */
 export function MakerFootSns() {
   return (
     <div className="maker-foot-sns">
-      <SnsLinks heading="新しい問題や、作り方のヒント" className="sns-foot" />
+      <div className="maker-foot-shop">
+        <h5 className="shop-head">この道具をつくっているお店</h5>
+        {/* 文字列は {" "} を挟まず 1 つの式で持つ＝JSX の改行が全角文の途中へ
+            半角スペースを差し込むのを避ける。 */}
+        <p className="shop-body">
+          {"点図形（点描写）プリントの専門店 TENZU が、無料で公開しています。" +
+            "レベル別のプリントを作って売っている、ひとりのお店です。"}
+        </p>
+        {/* 遷移先は「TENZUについて」（/articles/tenzu-concept）＝店と店主の自己紹介。
+            商品一覧ではない——道具の足元で売りに行くと、無料の道具という前提が濁る。 */}
+        <a className="shop-link" href="/articles/tenzu-concept">
+          <span>どんな店で、誰が、なぜ始めたのか</span>
+          <span className="shop-arw" aria-hidden="true">▸</span>
+        </a>
+      </div>
+      <SnsLinks
+        heading="よければ、こちらでも"
+        lede="お店の様子や、店主が日々考えていることを流しています。"
+        className="sns-foot"
+      />
     </div>
   );
 }

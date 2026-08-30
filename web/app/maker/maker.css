@@ -1372,3 +1372,43 @@ a.sf-upsell:hover .sf-upsell-go { text-decoration: underline; }
 @media (max-width: 480px) {
   .maker-foot-sns { margin-top: 18px; padding-top: 14px; }
 }
+
+/* 足元の上段＝店紹介（2026-08-30）。SNS チップの手前に「誰が作った道具か」を置く。
+   見出しは .sns-head と同じ重さ（12px・meta 色）で揃える＝上下で段が並んで見えるように。 */
+.maker-foot-shop .shop-head {
+  font-family: var(--font-tier3-sans);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+  font-weight: 500;
+  margin: 0 0 10px;
+}
+.maker-foot-shop .shop-body {
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--fg);
+  margin: 0 0 12px;
+}
+.maker-foot-shop .shop-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-tier3-sans);
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  /* 下線は控えめに——チップ群と competing しないよう、リンクだと分かる最小限で。 */
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  padding-bottom: 1px;
+  transition: border-color 0.15s ease;
+}
+.maker-foot-shop .shop-link:hover { border-bottom-color: var(--accent); }
+.maker-foot-shop .shop-arw { font-size: 11px; }
+/* 上段と SNS 段の仕切り。maker-foot-sns 自身の上罫（実線的な区切り）と重ならないよう
+   点線 1 本だけ。 */
+.maker-foot-sns .sns {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line-thin);
+}
