@@ -23,44 +23,12 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 | ★ | **開店当日に `PREOPEN=0`** | 開店まで全ページ最上部に出しているプレオープン告知帯（[decisions.md §3.109](../decisions.md)）を消す。Amplify の **main オーバーライド**へ `PREOPEN=0` を追加 → **main を再デプロイ**（env はビルド時に `.env.production` へ焼き出すため保存だけでは消えない）。**未設定＝帯が出る**が既定なので、開店前は何もしなくてよい |
 | ★ | **Safe Browsing の審査リクエスト** | メーカー復元リンクが Chrome の「危険なサイト」（ソーシャルエンジニアリング判定）でブロックされた（[decisions.md §3.114](../decisions.md)）。URL の形はコード側で是正済み＝残＝**Search Console →「セキュリティと手動による対策」→ セキュリティの問題**で対象範囲（ホスト全体か当該 URL か）を確認 →「**審査をリクエスト**」を送る。⚠️**是正を本番へデプロイしてから出す**（旧 URL のまま出すと再度落ちる）。審査は通常 数日 |
 | P1 | **GA4 運用仕上げ** | 本番受信と `generated_pdf`／`purchase` のキーイベント指定まで完了。残＝①自宅・開発環境の内部トラフィック定義と除外フィルタ ②Stripe Checkout への遷移で `begin_checkout` を確認 ③最初の実購入時に `purchase` の transaction_id・金額・items を Stripe と突合 ④Search Console 連携（[analytics.md §5](analytics.md)） |
-| ★ | **オンサイトメッセージ用 AWS リソース** | DynamoDB `tenzu-onsite`（＋dev 用）・S3 `tenzu-onsite-assets`・IAM 権限追加・Amplify env 5 件（手順＝§1.1・約 30 分）。未設定でもサイト自体は動く（カード非表示へ degrade）が、開店あいさつ `welcome-2026` を出すには必須＝W5 の文言確認までに |
-
-#### §1.1 オンサイトメッセージ用 AWS リソース作成手順（人間作業・約 30 分）
-
-判断ログ＝[decisions.md §5.15](../decisions.md)／設計＝[acquisition/onsite-messaging.md §4/§9](../acquisition/onsite-messaging.md)。リージョンはすべて `ap-northeast-1`。
-
-1. **DynamoDB**: テーブル `tenzu-onsite` を作成 — パーティションキー `PK`（文字列）・ソートキー `SK`（文字列）・キャパシティ「オンデマンド」。dev 用に `tenzu-onsite-dev` も同構成で作成
-2. **S3**: バケット `tenzu-onsite-assets` を作成（名前が取られていたらサフィックスを足し env も合わせる）→「ブロックパブリックアクセス」のうち**ポリシー系 2 項**（新しいパブリックバケットポリシー／パブリックポリシー経由のアクセス）だけ解除 → バケットポリシー:
-
-   ```json
-   { "Version": "2012-10-17", "Statement": [{
-     "Sid": "PublicReadOnsite", "Effect": "Allow", "Principal": "*",
-     "Action": "s3:GetObject",
-     "Resource": "arn:aws:s3:::tenzu-onsite-assets/onsite/*" }] }
-   ```
-
-3. **IAM**: SES 用 IAM ユーザーにインラインポリシーを追加:
-
-   ```json
-   { "Version": "2012-10-17", "Statement": [
-     { "Effect": "Allow",
-       "Action": ["dynamodb:Query", "dynamodb:GetItem", "dynamodb:PutItem",
-                  "dynamodb:UpdateItem", "dynamodb:DeleteItem"],
-       "Resource": ["arn:aws:dynamodb:ap-northeast-1:*:table/tenzu-onsite",
-                    "arn:aws:dynamodb:ap-northeast-1:*:table/tenzu-onsite-dev"] },
-     { "Effect": "Allow", "Action": "s3:PutObject",
-       "Resource": "arn:aws:s3:::tenzu-onsite-assets/onsite/*" } ] }
-   ```
-
-4. **Amplify env 5 件**: `ADMIN_SECRET`（`openssl rand -base64 32` 級）・`ONSITE_TABLE=tenzu-onsite`・`ONSITE_IMAGE_BUCKET=tenzu-onsite-assets`・`APP_AWS_ACCESS_KEY_ID` / `APP_AWS_SECRET_ACCESS_KEY`（SES と同一 IAM ユーザーのキーを別名で再掲）→ 再デプロイ
-5. **初期投入**: デプロイ後 `/admin/onsite` に合言葉でログイン →「既存 5 本を取り込む（シード）」→ 一覧のプレビューリンクで表示確認
-6. **ローカル開発**: `web/.env.local` に `ADMIN_SECRET`（dev 用の適当な値で可）・`ONSITE_TABLE=tenzu-onsite-dev`・`ONSITE_IMAGE_BUCKET=tenzu-onsite-assets`・`APP_AWS_*` を設定（未設定でも他機能の開発は阻害しない）
 
 ### §2. 残実装（コード）
 
 | 優先 | 項目 | 詳細 |
 |---|---|---|
-| ★ | **法務・決済の名義統一** | 特商法の販売業者＝SUDO CRAFT＋実名・Stripe 明細表記＝`TENZU`／カナ`テンズ`（購入者が「TENZU で買った」と分かる形を維持＝不審請求の問い合わせとチャージバックを避けるため）・銀行口座（8/9 開設）まで反映済み。残＝**領収書・請求書の発行名義**を同じ形に揃える（[decisions.md §5.16](../decisions.md)） |
+| ★ | **法務・決済の名義統一** | 特商法の販売業者＝SUDO CRAFT＋実名・Stripe 明細表記＝`TENZU`／カナ`テンズ`・**Stripe アカウント名（設定→ビジネス→アカウントの詳細）＝`TENZU`**（Checkout の「〇〇に支払う」・領収書・請求書に出る顧客向けの名前。API 側に上書きフィールドは無くダッシュボード設定のみ／**ビジネスの詳細＝法的名義は `SUDO CRAFT`＋実名のまま触らない**）・銀行口座（8/9 開設）まで反映済み。いずれも購入者が「TENZU で買った」と分かる形を維持＝不審請求の問い合わせとチャージバックを避けるため。残＝**領収書・請求書の発行名義**を同じ形に揃える（[decisions.md §5.16](../decisions.md)） |
 
 ### §3. 運用開始後（P2）
 
