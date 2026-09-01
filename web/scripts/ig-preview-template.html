@@ -1,0 +1,341 @@
+<title>TENZU 開店グリッド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=IBM+Plex+Sans+JP:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#E6E3DC; --card:#FFFFFF; --ink:#1A1F2A; --ink2:#4A515D; --ink3:#7C838F;
+  --rule:#D6D2C8; --accent:#2C6E7F; --accent-soft:#E4EDEF; --shadow:rgba(26,31,42,.10);
+  --chip:#F0EDE6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#15171B; --card:#1E2126; --ink:#E9E7E2; --ink2:#B0B5BD; --ink3:#848B95;
+    --rule:#2F343B; --accent:#6FB3C4; --accent-soft:#1B2E33; --shadow:rgba(0,0,0,.5);
+    --chip:#262A30;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#15171B; --card:#1E2126; --ink:#E9E7E2; --ink2:#B0B5BD; --ink3:#848B95;
+  --rule:#2F343B; --accent:#6FB3C4; --accent-soft:#1B2E33; --shadow:rgba(0,0,0,.5);
+  --chip:#262A30;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  font-size:15px; line-height:1.7; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:32px 20px 80px}
+
+/* ── プロフィール見出し ── */
+.prof{display:flex; gap:26px; align-items:center; margin-bottom:30px}
+.avatar{
+  width:104px; height:104px; flex:none; border-radius:50%; background:#F6F4EE;
+  display:grid; place-items:center; border:1px solid var(--rule);
+}
+.avatar svg{width:52px; height:52px}
+.handle{
+  font-family:"Klee One",serif; font-size:26px; font-weight:600;
+  margin:0 0 4px; letter-spacing:.02em;
+}
+.counts{display:flex; gap:22px; margin:6px 0 10px; color:var(--ink2); font-size:14px}
+.counts b{color:var(--ink); font-weight:600; font-variant-numeric:tabular-nums}
+.bio{color:var(--ink2); font-size:13.5px; line-height:1.6; max-width:52ch}
+.bio .name{color:var(--ink); font-weight:600}
+
+/* ── コントロール ── */
+.bar{
+  display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;
+  padding:14px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  margin-bottom:22px;
+}
+.seg{display:flex; background:var(--chip); border-radius:8px; padding:3px}
+.seg button{
+  font:inherit; font-size:13px; padding:6px 14px; border:0; border-radius:6px;
+  background:transparent; color:var(--ink2); cursor:pointer; transition:background .15s,color .15s;
+}
+.seg button[aria-pressed="true"]{background:var(--card); color:var(--ink); box-shadow:0 1px 3px var(--shadow)}
+.seg button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.hint{font-size:12.5px; color:var(--ink3); margin:0; flex:1 1 260px; min-width:0; text-align:right}
+
+/* ── グリッド ── */
+/* minmax(0,1fr) にしないと画像の固有幅（720px）が min-content として効き、
+   3 列で 2160px に広がってページが横スクロールする。 */
+.grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px}
+/* トラックを minmax(0,1fr) にしても、グリッドアイテム自身の min-width:auto は
+   中身の min-content（画像の固有幅 720px）で突っ張る。アイテム側にも 0 が要る。 */
+.cell{
+  position:relative; padding:0; border:0; background:var(--card); cursor:pointer;
+  aspect-ratio:4/5; overflow:hidden; display:block; min-width:0;
+}
+.cell img{width:100%; height:100%; max-width:100%; object-fit:cover; display:block}
+.cell:focus-visible{outline:3px solid var(--accent); outline-offset:-3px}
+.cell::after{
+  content:""; position:absolute; inset:0; background:var(--ink);
+  opacity:0; transition:opacity .18s;
+}
+.cell:hover::after{opacity:.06}
+.tag{
+  position:absolute; left:8px; top:8px; z-index:2; font-size:10.5px; letter-spacing:.06em;
+  background:var(--card); color:var(--ink2); border:1px solid var(--rule);
+  padding:2px 7px; border-radius:4px;
+}
+.tag.pin{background:var(--accent); color:#fff; border-color:transparent}
+.ord{
+  position:absolute; right:8px; top:8px; z-index:2; font-size:11px; font-weight:600;
+  color:var(--ink3); font-variant-numeric:tabular-nums;
+}
+.multi{position:absolute; right:8px; bottom:8px; z-index:2; opacity:.55}
+.multi svg{width:15px; height:15px; display:block}
+
+/* ── 詳細 ── */
+dialog{
+  border:0; padding:0; background:transparent; max-width:none; max-height:none;
+  width:100%; height:100%; margin:0;
+}
+dialog::backdrop{background:rgba(10,12,15,.72)}
+/* 高さを決めないと grid の行が内容（縦長の紙面）で伸び、ステージ下端の
+   ドットが sheet の overflow:hidden に飲まれる。行を 1fr で明示して収める。 */
+.sheet{
+  background:var(--card); color:var(--ink); width:min(980px,94vw); height:92vh;
+  margin:4vh auto; border-radius:12px; overflow:hidden;
+  display:grid; grid-template-columns:minmax(0,1fr) 360px; grid-template-rows:minmax(0,1fr);
+  box-shadow:0 24px 60px rgba(0,0,0,.35);
+}
+/* img に width/height:100% を渡すと縦長の紙面がステージからはみ出し、
+   下端のドットが隠れる。max-* だけ与えて中身側で収める。 */
+.stage{position:relative; background:#FFFFFF; display:grid; place-items:center; min-height:0; overflow:hidden}
+.stage img{max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; display:block}
+.nav{
+  position:absolute; top:50%; translate:0 -50%; width:36px; height:36px; border-radius:50%;
+  border:0; background:rgba(26,31,42,.55); color:#fff; cursor:pointer; font-size:17px;
+  display:grid; place-items:center; transition:background .15s;
+}
+.nav:hover{background:rgba(26,31,42,.8)}
+.nav:focus-visible{outline:2px solid #fff; outline-offset:2px}
+.nav[disabled]{opacity:0; pointer-events:none}
+.nav.prev{left:12px} .nav.next{right:12px}
+.dots{
+  position:absolute; bottom:12px; left:50%; translate:-50% 0; display:flex; gap:6px;
+  background:rgba(255,255,255,.85); padding:6px 10px; border-radius:20px;
+}
+.dot{width:6px; height:6px; border-radius:50%; background:#B9BCC2}
+.dot[data-on="1"]{background:#1A1F2A}
+.side{
+  padding:22px 24px; overflow-y:auto; border-left:1px solid var(--rule);
+  display:flex; flex-direction:column; gap:16px;
+}
+.side header{display:flex; flex-direction:column; gap:6px}
+.eyebrow{
+  font-size:11px; letter-spacing:.14em; color:var(--accent); text-transform:none;
+  display:flex; gap:8px; align-items:center;
+}
+.eyebrow .n{
+  background:var(--accent-soft); color:var(--accent); border-radius:4px;
+  padding:1px 7px; font-variant-numeric:tabular-nums; font-weight:600;
+}
+.side h2{font-family:"Klee One",serif; font-size:23px; font-weight:600; margin:0; line-height:1.4}
+.meta{font-size:12.5px; color:var(--ink3); display:flex; flex-wrap:wrap; gap:4px 12px}
+.cap{
+  white-space:pre-wrap; font-size:13.5px; line-height:1.85; color:var(--ink2);
+  background:var(--chip); border-radius:8px; padding:14px 15px; margin:0;
+  font-family:inherit;
+}
+.tags{font-size:13px; color:var(--accent); word-break:break-all}
+.alt{font-size:12.5px; color:var(--ink3); line-height:1.65}
+.alt b{color:var(--ink2); font-weight:500; display:block; margin-bottom:2px; font-size:11px; letter-spacing:.08em}
+.copy{
+  font:inherit; font-size:13px; padding:9px 14px; border-radius:7px; cursor:pointer;
+  border:1px solid var(--rule); background:transparent; color:var(--ink); align-self:flex-start;
+  transition:background .15s;
+}
+.copy:hover{background:var(--chip)}
+.copy:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.close{
+  position:absolute; right:14px; top:14px; z-index:5; width:32px; height:32px; border-radius:50%;
+  border:0; background:rgba(26,31,42,.55); color:#fff; font-size:17px; cursor:pointer;
+}
+.close:hover{background:rgba(26,31,42,.85)}
+.close:focus-visible{outline:2px solid #fff; outline-offset:2px}
+
+@media (max-width:760px){
+  .prof{gap:16px}
+  .avatar{width:74px; height:74px}
+  .avatar svg{width:36px; height:36px}
+  .handle{font-size:21px}
+  .sheet{grid-template-columns:1fr; grid-template-rows:minmax(0,48vh) minmax(0,1fr); margin:2vh auto; height:96vh}
+  .side{border-left:0; border-top:1px solid var(--rule)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+
+<div class="wrap">
+  <div class="prof">
+    <div class="avatar" aria-hidden="true">
+      <svg viewBox="0 0 100 100" fill="none" stroke="#1A1F2A" stroke-width="5" stroke-linecap="round">
+        <circle cx="18" cy="18" r="8" fill="#1A1F2A" stroke="none"/>
+        <circle cx="82" cy="18" r="8" fill="#1A1F2A" stroke="none"/>
+        <circle cx="18" cy="82" r="8" fill="#1A1F2A" stroke="none"/>
+        <circle cx="82" cy="82" r="8" fill="#1A1F2A" stroke="none"/>
+        <path d="M18 32v36M32 82h36M82 68V32M68 18H32"/>
+      </svg>
+    </div>
+    <div>
+      <h1 class="handle">tenzu.jp</h1>
+      <div class="counts">
+        <span><b id="cPosts">0</b> 投稿</span>
+        <span><b id="cSlides">0</b> 枚</span>
+        <span><b>0</b> フォロワー</span>
+      </div>
+      <p class="bio"><span class="name">TENZU</span>／点描写プリント専門店 TENZU（てんず）<br>見て、考えて、書く力を、点描写から。年長〜小1のレベル選びと制作の裏側を保存版で発信。</p>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="並び順">
+      <button id="bLive" aria-pressed="true">公開後の並び</button>
+      <button id="bMake" aria-pressed="false">制作順</button>
+    </div>
+    <p class="hint" id="hint">ピン留めが左上、以降は新しい投稿から。マスを選ぶと6枚とキャプションが開きます。</p>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<dialog id="dlg">
+  <div class="sheet">
+    <div class="stage">
+      <button class="close" id="x" aria-label="閉じる">✕</button>
+      <img id="shot" alt="">
+      <button class="nav prev" id="prev" aria-label="前の枚">‹</button>
+      <button class="nav next" id="next" aria-label="次の枚">›</button>
+      <div class="dots" id="dots"></div>
+    </div>
+    <div class="side">
+      <header>
+        <div class="eyebrow"><span class="n" id="dOrd">1</span><span id="dCat">カテゴリ</span></div>
+        <h2 id="dTitle">タイトル</h2>
+        <div class="meta"><span id="dCount">6枚</span><span id="dDir"></span></div>
+      </header>
+      <pre class="cap" id="dCap"></pre>
+      <button class="copy" id="dCopy">キャプションをコピー</button>
+      <p class="tags" id="dTags"></p>
+      <p class="alt"><b>代替テキスト（alt）</b><span id="dAlt"></span></p>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const DATA = /*__DATA__*/ null;
+
+const grid = document.getElementById("grid");
+const dlg = document.getElementById("dlg");
+const shot = document.getElementById("shot");
+const dots = document.getElementById("dots");
+let cur = null, idx = 0, mode = "live";
+
+document.getElementById("cPosts").textContent = DATA.posts.length;
+document.getElementById("cSlides").textContent =
+  DATA.posts.reduce((n, p) => n + p.slides.length, 0);
+
+/* 公開後の並び = ピン留めが先頭、続いて投稿順の逆（新しいものが上）。
+   制作順 = 固定投稿 → G1..G9 の作った順。 */
+function ordered() {
+  const pin = DATA.posts.filter(p => p.pinned);
+  const rest = DATA.posts.filter(p => !p.pinned);
+  if (mode === "make") return [...pin, ...rest];
+  return [...pin, ...[...rest].sort((a, b) => b.order - a.order)];
+}
+
+function render() {
+  grid.replaceChildren(...ordered().map(p => {
+    const b = document.createElement("button");
+    b.className = "cell";
+    b.type = "button";
+    b.innerHTML =
+      '<span class="tag' + (p.pinned ? " pin" : "") + '">' + p.category + "</span>" +
+      (p.pinned ? "" : '<span class="ord">' + p.order + "</span>") +
+      '<span class="multi"><svg viewBox="0 0 20 20" fill="none" stroke="#1A1F2A" stroke-width="1.6">' +
+      '<rect x="6.5" y="2.5" width="11" height="11" rx="1.5"/>' +
+      '<path d="M13.5 17.5h-9a2 2 0 0 1-2-2v-9"/></svg></span>' +
+      '<img src="' + p.slides[0] + '" alt="' + p.title + ' の1枚目">';
+    b.addEventListener("click", () => open(p));
+    return b;
+  }));
+}
+
+function open(p) {
+  cur = p; idx = 0;
+  document.getElementById("dOrd").textContent = p.pinned ? "固定" : p.order;
+  document.getElementById("dCat").textContent = p.category;
+  document.getElementById("dTitle").textContent = p.title;
+  document.getElementById("dCount").textContent = p.slides.length + " 枚";
+  document.getElementById("dDir").textContent = p.dir;
+  document.getElementById("dCap").textContent = p.caption;
+  document.getElementById("dTags").textContent = p.tags || "";
+  document.getElementById("dAlt").textContent = p.alt || "（未設定）";
+  dots.replaceChildren(...p.slides.map(() => {
+    const d = document.createElement("span"); d.className = "dot"; return d;
+  }));
+  paint();
+  dlg.showModal();
+}
+
+function paint() {
+  shot.src = cur.slides[idx];
+  shot.alt = cur.title + " " + (idx + 1) + "枚目";
+  document.getElementById("prev").disabled = idx === 0;
+  document.getElementById("next").disabled = idx === cur.slides.length - 1;
+  [...dots.children].forEach((d, i) => d.dataset.on = i === idx ? "1" : "0");
+}
+
+document.getElementById("prev").addEventListener("click", () => { if (idx > 0) { idx--; paint(); } });
+document.getElementById("next").addEventListener("click", () => { if (idx < cur.slides.length - 1) { idx++; paint(); } });
+document.getElementById("x").addEventListener("click", () => dlg.close());
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+document.addEventListener("keydown", e => {
+  if (!dlg.open) return;
+  if (e.key === "ArrowRight" && idx < cur.slides.length - 1) { idx++; paint(); }
+  if (e.key === "ArrowLeft" && idx > 0) { idx--; paint(); }
+});
+
+/* スワイプ（モバイル） */
+let sx = 0;
+document.querySelector(".stage").addEventListener("touchstart", e => { sx = e.touches[0].clientX; }, {passive:true});
+document.querySelector(".stage").addEventListener("touchend", e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (dx < -40 && idx < cur.slides.length - 1) { idx++; paint(); }
+  if (dx > 40 && idx > 0) { idx--; paint(); }
+}, {passive:true});
+
+document.getElementById("dCopy").addEventListener("click", async e => {
+  const text = cur.caption + "\n\n" + (cur.tags || "");
+  try {
+    await navigator.clipboard.writeText(text);
+    e.target.textContent = "コピーしました";
+  } catch {
+    e.target.textContent = "コピーできません（手動で選択してください）";
+  }
+  setTimeout(() => { e.target.textContent = "キャプションをコピー"; }, 1800);
+});
+
+const bLive = document.getElementById("bLive"), bMake = document.getElementById("bMake");
+const hint = document.getElementById("hint");
+function setMode(m) {
+  mode = m;
+  bLive.setAttribute("aria-pressed", String(m === "live"));
+  bMake.setAttribute("aria-pressed", String(m === "make"));
+  hint.textContent = m === "live"
+    ? "ピン留めが左上、以降は新しい投稿から。マスを選ぶと6枚とキャプションが開きます。"
+    : "作った順（G1→G9）。数字は上げる順番で、投稿は裏側→選び方→タスク紹介の順です。";
+  try { localStorage.setItem("tenzu-ig-mode", m); } catch {}
+  render();
+}
+bLive.addEventListener("click", () => setMode("live"));
+bMake.addEventListener("click", () => setMode("make"));
+
+let saved = null;
+try { saved = localStorage.getItem("tenzu-ig-mode"); } catch {}
+setMode(saved === "make" ? "make" : "live");
+</script>

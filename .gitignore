@@ -17,6 +17,7 @@ tools/build-html/package-lock.json
 *.html
 docs/html-index.html
 # 手作りのモック・設計物・デザインバンドル原本は追跡対象に残す
+!web/scripts/ig-preview-template.html
 !design/handoff/maker-complete-a.html
 !design/handoff/maker-complete-candidates.html
 !design/handoff/maker-import/tenzu-design-system-rev-5/project/mockups/*.html
