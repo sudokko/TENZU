@@ -45,12 +45,12 @@ function wrapJa(s: string, max: number): string[] {
 }
 
 function text(x: number, y: number, s: string, size: number, fill = FG, weight = 400,
-              anchor: "start" | "middle" = "start", ls = 0) {
+              anchor: "start" | "middle" | "end" = "start", ls = 0) {
   return `<text x="${x}" y="${y}" font-family="${KLEE}" font-size="${size}" font-weight="${weight}"`
        + ` fill="${fill}" text-anchor="${anchor}" letter-spacing="${ls}">${esc(s)}</text>`;
 }
 function block(x: number, y: number, lines: string[], size: number, lh: number,
-               fill = FG, weight = 400, anchor: "start" | "middle" = "start") {
+               fill = FG, weight = 400, anchor: "start" | "middle" | "end" = "start") {
   return lines.map((l, i) => text(x, y + i * lh, l, size, fill, weight, anchor)).join("");
 }
 
