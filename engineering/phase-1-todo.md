@@ -3,7 +3,7 @@
 ## サマリ
 
 - ローンチ（本番公開）までに必要な残作業の SSOT。**未了項目のみを載せ、完了した項目は行ごと削除する**（済欄は作らない）
-- **最優先＝Stripe 本番決済の開通**（審査通過済み・残＝決済手段の有効化と `sk_live_` の main オーバーライド投入→再デプロイ）。GTM/GA4 は公開コンテナ・主要イベントの本番受信・キーイベント指定まで完了。残る計測作業は Search Console 連携・内部トラフィック除外・`begin_checkout` と最初の実購入確認。**メール配送は SES 却下（2026-08-26）を受けて Resend へ移行済み**（[decisions.md §3.111](../decisions.md)）＝残は Amplify main への env 投入と再デプロイ
+- **最優先＝Safe Browsing の審査結果の確認**（§1）。GTM/GA4 は公開コンテナ・主要イベントの本番受信・キーイベント指定まで完了。残る計測作業は Search Console 連携・内部トラフィック除外・`begin_checkout` と最初の実購入確認
 - 本番に必要な env は **STRIPE_SECRET_KEY（live）・STRIPE_WEBHOOK_SECRET・AUTH_SECRET（強ランダム）・MAIL_PROVIDER／RESEND_API_KEY／MAIL_FROM_EMAIL・SITE_URL・NEXT_PUBLIC_GTM_ID・ADMIN_SECRET・ONSITE_TABLE・ONSITE_IMAGE_BUCKET・APP_AWS_\***（`SES_\*` は予備経路として残置）。チェックリスト＝[web/.env.production.example](../web/.env.production.example)
 - **残実装（コード）はゼロ**＝特商法/PP（`/tokushoho`・`/privacy`・外部送信記載含む）と屋号ページ `/sudo-craft` は実装済み・販売責任者も実名化済み。残＝領収書/請求書の発行名義の統一（§2・人間作業）。送客導線(A) 商品→工房は実装済み・開店ゲート G6 はコード側完了。計測（GA4+GTM・`page_view`＋主要 7 イベント・アタッチ率）も**コード実装・本番受信確認済み**（[analytics.md §5](analytics.md)）
 - Upstash・Stripe Price ID・サブスク・OTP・ログイン・billing-portal は**使わない**（§4）。認証＝所有モデル（署名 cookie）・購入復元＝マジックリンクのみ
@@ -17,11 +17,7 @@ env のキー集合と各値の注意書きは [web/.env.production.example](../
 
 | 優先 | 項目 | 詳細 |
 |---|---|---|
-| ★ | **Resend の env を main へ投入** | SES 本番アクセスは**却下**（2026-08-26・理由非開示）→ Resend へ移行（[decisions.md §3.111](../decisions.md)）。DNS（DKIM／SPF／MX／DMARC）は Verified 済み・ローカル疎通も Gmail 受信トレイ直行を確認済み。残＝Amplify の **main オーバーライド**へ `MAIL_PROVIDER=resend`・`RESEND_API_KEY`・`MAIL_FROM_EMAIL=TENZU <no-reply@send.tenzu.jp>` を追加 → **main を再デプロイ**（env はビルド時に焼き出すため保存だけでは届かない）→ P0 の「メール到達」項目を再走 |
-| ★ | **Stripe 本番モード化** | 本番アカウント `acct_1Si2zlEtIrDOgxDR`（SUDO CRAFT）審査通過。残＝①ダッシュボードで**決済手段を有効化**（**カードのみ**。コンビニ払いは固定電話番号が要るため不採用＝[decisions.md §3.110](../decisions.md)）②`sk_live_` を Amplify の **main オーバーライド**へ追加 → **main を再デプロイ**（env はビルド時に焼き出すため保存だけでは届かない）③本番 Webhook `tenzu-prod-checkout` の配信履歴が成功になることを確認 |
-| ★ | **AUTH_SECRET 生成** | 強ランダム値（例: `openssl rand -base64 48`）。ローテーション＝全所有 cookie 無効化のため安定運用 |
-| ★ | **開店当日に `PREOPEN=0`** | 開店まで全ページ最上部に出しているプレオープン告知帯（[decisions.md §3.109](../decisions.md)）を消す。Amplify の **main オーバーライド**へ `PREOPEN=0` を追加 → **main を再デプロイ**（env はビルド時に `.env.production` へ焼き出すため保存だけでは消えない）。**未設定＝帯が出る**が既定なので、開店前は何もしなくてよい |
-| ★ | **Safe Browsing の審査リクエスト** | メーカー復元リンクが Chrome の「危険なサイト」（ソーシャルエンジニアリング判定）でブロックされた（[decisions.md §3.114](../decisions.md)）。URL の形はコード側で是正済み＝残＝**Search Console →「セキュリティと手動による対策」→ セキュリティの問題**で対象範囲（ホスト全体か当該 URL か）を確認 →「**審査をリクエスト**」を送る。⚠️**是正を本番へデプロイしてから出す**（旧 URL のまま出すと再度落ちる）。審査は通常 数日 |
+| ★ | **Safe Browsing の審査結果の確認** | メーカー復元リンクが Chrome の「危険なサイト」（ソーシャルエンジニアリング判定）でブロックされた（[decisions.md §3.114](../decisions.md)）。URL の形の是正は本番反映済み。残＝**Search Console →「セキュリティと手動による対策」→ セキュリティの問題**で、①審査リクエストが送付履歴に残っているか ②問題が解決済みになっているか、の 2 点を確認する。履歴に無ければ「**審査をリクエスト**」を送る（審査は通常 数日）。「送ったはず」の記憶ではなく画面の履歴で判定する |
 | P1 | **GA4 運用仕上げ** | 本番受信と `generated_pdf`／`purchase` のキーイベント指定まで完了。残＝①自宅・開発環境の内部トラフィック定義と除外フィルタ ②Stripe Checkout への遷移で `begin_checkout` を確認 ③最初の実購入時に `purchase` の transaction_id・金額・items を Stripe と突合 ④Search Console 連携（[analytics.md §5](analytics.md)） |
 
 ### §2. 残実装（コード）
