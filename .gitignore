@@ -39,3 +39,7 @@ web/scripts/_*
 # 実際に投稿した分だけ selected/ に残してコミットする。
 docs/drafts/sns/pinterest/*/*.png
 docs/drafts/sns/pinterest/*/captions.csv
+
+# 外部講座の教材（有償コンテンツ・再配布不可のため取り込まない）
+SNS/Meta広告udemy口座/
+SNS/【セクション*
