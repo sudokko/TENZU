@@ -60,6 +60,7 @@ export const GENRES: Genre[] = [
       "how-to-train-spatial-recognition",
       "family-shape-spatial-qa",
       "how-to-draw-isometric",
+      "kumon-math-shape",
     ],
   },
   {
@@ -70,7 +71,6 @@ export const GENRES: Genre[] = [
       "from-copying-shapes",
       "weak-at-shapes",
       "grade-4-math-stuck",
-      "kumon-math-shape",
     ],
   },
   {
