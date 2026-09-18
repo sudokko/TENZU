@@ -1,0 +1,155 @@
+/* SNS ダッシュボード（dev 限定）。atelier.css の上に載せる。
+   色は役割で持つ: ティール＝運用中の 5 SNS の強調／グレー＝それ以外。文字は常に文字色（データ色で塗らない）。 */
+
+.snsd {
+  --snsd-ink: #1f252d;
+  --snsd-ink-2: #4b535e;
+  --snsd-muted: #6f7782;
+  --snsd-line: #e6e9ee;
+  --snsd-surface: #ffffff;
+  --snsd-plane: #f6f7f5;
+  --snsd-accent: #2c6e7f;
+  --snsd-accent-wash: #eef5f6;
+  --snsd-gray-bar: #c3c8ce;
+  --snsd-up: #1d6b33;
+  --snsd-down: #b3261e;
+  color: var(--snsd-ink);
+}
+
+.snsd code { font-size: 12px; background: var(--snsd-plane); padding: 1px 5px; border-radius: 4px; }
+.snsd a { color: var(--snsd-accent); }
+
+/* ---------- 見出しまわり ---------- */
+.snsd-head {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  margin: 6px 0 12px;
+}
+.snsd-head h1 { font-size: 22px; margin: 0 0 6px; }
+.snsd-head p { color: var(--snsd-muted); font-size: 13px; margin: 0; max-width: 640px; line-height: 1.6; }
+
+.snsd-picker { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--snsd-ink-2); }
+.snsd-picker select {
+  font: inherit; padding: 5px 8px; border: 1px solid var(--snsd-line); border-radius: 6px; background: var(--snsd-surface);
+}
+
+.snsd-chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0 0 8px; }
+.snsd-chips li {
+  font-size: 12px; padding: 3px 10px; border-radius: 999px;
+  border: 1px solid var(--snsd-line); color: var(--snsd-muted); background: var(--snsd-surface);
+}
+.snsd-chips li.is-ok { color: var(--snsd-ink-2); border-color: #cfe0e4; background: var(--snsd-accent-wash); }
+
+.snsd-section { margin-top: 28px; }
+.snsd-section h2 { font-size: 16px; margin: 0 0 2px; }
+.snsd-note { color: var(--snsd-muted); font-size: 12px; margin: 0 0 10px; }
+.snsd-muted { color: var(--snsd-muted); font-size: 12px; }
+.snsd-empty-inline { margin-top: 20px; font-size: 13px; color: var(--snsd-ink-2); }
+
+/* ---------- KPI タイル ---------- */
+.snsd-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.snsd-kpi {
+  background: var(--snsd-surface); border: 1px solid var(--snsd-line); border-radius: 8px; padding: 12px 14px;
+}
+.snsd-kpi.is-north { border-top: 3px solid var(--snsd-accent); padding-top: 10px; }
+.snsd-kpi-label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--snsd-ink-2); }
+.snsd-kpi-value { font-size: 32px; font-weight: 600; line-height: 1.2; margin: 4px 0 2px; }
+.snsd-kpi-foot { display: flex; gap: 8px; align-items: baseline; font-size: 12px; color: var(--snsd-muted); }
+.snsd-kpi-sub { font-size: 12px; color: var(--snsd-muted); margin-top: 2px; }
+.snsd-badge {
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em; color: var(--snsd-accent);
+  border: 1px solid #cfe0e4; background: var(--snsd-accent-wash); border-radius: 4px; padding: 0 5px;
+}
+.snsd-delta { font-weight: 600; font-variant-numeric: tabular-nums; }
+.snsd-delta.is-up { color: var(--snsd-up); }
+.snsd-delta.is-down { color: var(--snsd-down); }
+.snsd-delta.is-flat { color: var(--snsd-muted); }
+
+/* ---------- 表 ---------- */
+.snsd-scroll { overflow-x: auto; }
+.snsd-table { border-collapse: collapse; width: 100%; font-size: 13px; background: var(--snsd-surface); }
+.snsd-table th, .snsd-table td { padding: 7px 10px; border-bottom: 1px solid var(--snsd-line); text-align: left; white-space: nowrap; }
+.snsd-table thead th { font-size: 12px; font-weight: 600; color: var(--snsd-ink-2); background: var(--snsd-plane); }
+.snsd-table tbody th { font-weight: 500; }
+.snsd-table tfoot th, .snsd-table tfoot td { font-weight: 600; border-bottom: none; border-top: 1px solid #cfd4da; }
+.snsd-table .snsd-num { text-align: right; font-variant-numeric: tabular-nums; }
+.snsd-table.is-compact { font-size: 12px; }
+.snsd-table.is-compact th, .snsd-table.is-compact td { padding: 5px 9px; }
+.snsd-table tr.is-noise th, .snsd-table tr.is-noise td { color: var(--snsd-muted); }
+.snsd-prev { color: var(--snsd-muted); font-size: 11.5px; margin-left: 2px; }
+.snsd-src { display: inline-flex; align-items: center; gap: 6px; }
+.snsd-rownote { display: block; font-size: 11px; font-weight: 400; color: var(--snsd-muted); white-space: normal; max-width: 280px; }
+.snsd-mono { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: 11.5px; }
+
+/* 訪問の棒（表の数字に添える。数字が主・棒は目安） */
+.snsd-barcell { min-width: 210px; }
+.snsd-barcell-inner { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+.snsd-bartrack { flex: none; width: 110px; height: 8px; }
+.snsd-barnum { min-width: 5.5em; text-align: right; }
+.snsd-bar {
+  display: block; height: 8px; min-width: 0; background: var(--snsd-gray-bar);
+  border-radius: 0 4px 4px 0;
+}
+.snsd-bar.is-sns { background: var(--snsd-accent); }
+
+/* ---------- SNS 別カード ---------- */
+.snsd-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.snsd-card {
+  background: var(--snsd-surface); border: 1px solid var(--snsd-line); border-radius: 8px; padding: 14px 16px 12px;
+  display: flex; flex-direction: column;
+}
+.snsd-card-head { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; }
+.snsd-card-head h3 { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; margin: 0; }
+.snsd-handle { font-size: 12px; color: var(--snsd-muted); }
+.snsd-role {
+  margin-left: auto; font-size: 11px; color: var(--snsd-ink-2);
+  background: var(--snsd-plane); border-radius: 4px; padding: 1px 6px;
+}
+.snsd-card-meta { font-size: 12px; color: var(--snsd-muted); margin: 6px 0 0; }
+.snsd-card-meta.is-missing { color: var(--snsd-ink-2); }
+.snsd-h4 { font-size: 12px; font-weight: 600; color: var(--snsd-ink-2); margin: 12px 0 6px; letter-spacing: 0.02em; }
+
+.snsd-metrics { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px 12px; margin: 0; }
+.snsd-metric dt { font-size: 11.5px; color: var(--snsd-muted); }
+.snsd-metric dd { margin: 0; font-size: 18px; font-weight: 600; }
+
+.snsd-ctr { font-size: 12.5px; margin: 8px 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.snsd-band { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 600; }
+.snsd-band.is-low { color: var(--snsd-down); }
+.snsd-band.is-good, .snsd-band.is-great { color: var(--snsd-up); }
+
+/* 訪問 → 起動 → PDF → 購入 の 4 段。左から右へ読む順番そのものを列に置く */
+.snsd-steps {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 14px;
+  list-style: none; padding: 0; margin: 0;
+}
+.snsd-steps li { position: relative; display: flex; flex-direction: column; min-width: 0; }
+.snsd-steps li + li::before {
+  content: "›"; position: absolute; left: -11px; top: 15px; color: #b6bcc4; font-size: 14px;
+}
+.snsd-step-label { font-size: 11.5px; color: var(--snsd-muted); white-space: nowrap; }
+.snsd-step-value { font-size: 18px; font-weight: 600; color: var(--snsd-ink); line-height: 1.3; }
+.snsd-steps .snsd-prev { margin-left: 0; }
+.snsd-steps li.is-north .snsd-step-label { color: var(--snsd-accent); font-weight: 600; }
+
+.snsd-trend { display: flex; align-items: center; gap: 10px; margin-top: 10px; min-height: 36px; }
+.snsd-trend-label { font-size: 12px; color: var(--snsd-muted); }
+.snsd-spark-base { stroke: var(--snsd-line); stroke-width: 1; }
+.snsd-spark-line { fill: none; stroke: #9aa2ab; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.snsd-spark-dot { fill: var(--snsd-accent); stroke: var(--snsd-surface); stroke-width: 2; }
+.snsd-spark-hit { fill: transparent; }
+.snsd-spark-hit:hover { fill: rgba(44, 110, 127, 0.08); }
+
+.snsd-vanity { margin-top: 10px; border-top: 1px dashed transparent; }
+.snsd-vanity summary, .snsd-detail summary { cursor: pointer; font-size: 12px; color: var(--snsd-muted); }
+.snsd-vanity[open] summary { margin-bottom: 6px; }
+.snsd-vanity .snsd-metric dd { font-size: 14px; font-weight: 500; color: var(--snsd-ink-2); }
+.snsd-detail { margin-top: 10px; }
+.snsd-detail[open] summary { margin-bottom: 8px; }
+
+.snsd-notes { font-size: 13px; color: var(--snsd-ink-2); line-height: 1.7; padding-left: 20px; margin: 6px 0 0; }
+
+@media (max-width: 560px) {
+  .snsd-kpi-value { font-size: 26px; }
+  .snsd-bartrack { width: 64px; }
+  .snsd-barcell { min-width: 150px; }
+}
