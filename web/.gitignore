@@ -36,6 +36,9 @@ yarn-error.log*
 # recovery tool audit log (contains customer emails / session ids — never commit)
 /scripts/recover-audit.log.jsonl
 
+# SNS ダッシュボードの数字（GA4・各 SNS の実数。公開リポジトリに入れない・engineering/analytics.md §7）
+/.local/
+
 # vercel
 .vercel
 

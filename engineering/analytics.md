@@ -10,7 +10,7 @@
 - **ON/OFF は env 1 本**: `NEXT_PUBLIC_GTM_ID`（未設定＝GTM 計測 no-op。dev はこれで良い。オンサイト first-party 計測 §8 だけは GTM_ID と無関係に動く）。Amplify 登録キーは [web/.env.production.example](../web/.env.production.example)
 - 流入元識別は **UTM ＋ GA4 自動収集**（コード実装不要）。命名規則は §3 が SSOT
 - Google 側コンソール設定（GA4 プロパティ・GTM コンテナ・タグ/トリガー・Search Console 連携）は §5 の手順書どおり（人間作業・約 1 時間）
-- **週次レポート自動化（運用ツール⑥）は §7 に方針のみ確定**（GA4 Data API＋Stripe 読み取り専用キー → md 出力 → `/weekly-ops` が読む。実装は静かな開店期以降・データが溜まってから）
+- **SNS ダッシュボード（運用ツール⑥）は §7**: dev 限定 `/atelier/sns` に、5 SNS（Instagram・X・note・Pinterest・Ameba）の画面の数字と、流入元別の訪問・`tool_start`・`generated_pdf`・`purchase`（GA4 Data API）を並べる。GA4 はサービスアカウントでスクリプトが取り、SNS はブラウザで画面を読む（`/sns-dashboard`）。**数字は `web/.local/` に置き、公開リポジトリには入れない**
 
 ## 詳細
 
@@ -105,35 +105,54 @@
 - 特商法・プライバシーポリシーページに**外部送信（Google アナリティクス / Google タグマネージャー）の記載**を追加する（電気通信事業法の外部送信規律対応。利用目的＝アクセス解析・送信先＝Google LLC・オプトアウト手段を明記）
 - クッキーバナーは現状不要の判断（日本法・GA4 のみ）。EU 向け配信を始める場合は再検討
 
-### §7. 週次レポート自動化（運用ツール⑥・方針のみ・実装は静かな開店期以降）
+### §7. SNS ダッシュボード（運用ツール⑥）
 
-**目的**: `/weekly-ops` 手順 1（数値チェック）の手動貼り付けを自動化し、B1 の数値確認を 15 分 → 5 分にする。
+**目的**: 運用中の 5 SNS の画面の数字と、そこから tenzu.jp で起きたこと（流入元別の訪問・`tool_start`・`generated_pdf`・`purchase`）を 1 枚で見る。`/weekly-ops` 手順 1（数値チェック）で、オーナーの手動貼り付けの代わりに使う。
 
-**構成（実装時の設計図）**:
+**構成**:
 
 ```
-web/scripts/weekly-report.mjs（Node・週 1 手動実行から始める）
- ├─ GA4 Data API（runReport）
- │    generated_pdf × utm_source（直近 7 日 vs 前 7 日）／tool_start × maker
- │    purchase × purchase_kind（paper/maker）／流入チャネル別セッション
- ├─ Stripe API（読み取り専用 restricted key）
- │    paid の Checkout Sessions（7 日）→ 件数・金額・paper/maker 内訳（GA4 の検算用）
- └─ Search Console API：クリック・表示・上位クエリ（直近 7 日）
- → 出力: docs/ops/weekly-report-<date>.md（ops-log.md の行形式と互換の表＋前週比）
- → /weekly-ops 手順 1 が「オーナーの貼り付け」の代わりにこのファイルを読む
+① GA4 …… web/scripts/sns-dashboard.ts ga4（Node・追加パッケージなし）
+           サービスアカウントの鍵 → JWT → アクセストークン → Data API runReport
+           取得日の前日までの 7 日と、その前の 7 日。sessionSource / sessionMedium を流入元へ名寄せ
+② 5 SNS … /sns-dashboard スキル（Claude in Chrome がオーナーのログイン済みの分析画面を読む）
+           → web/scripts/sns-dashboard.ts set <sns> key=値 …
+③ 保存 …… web/.local/sns-dashboard/<取得日>.json（1 取得日 1 ファイル・.gitignore 済み）
+④ 表示 …… dev 限定 /atelier/sns（保存データを読むだけ・本番は 404）
 ```
 
-**認証・env（実装時に追加するもの）**:
+| ファイル | 役割 |
+|---|---|
+| `web/app/atelier/sns/defs.ts` | 5 SNS の定義・各 SNS で読む数字（見る／見ない）・流入元の名寄せ・保存データの型 |
+| `web/app/atelier/sns/store.ts` | 保存データの読み書き（保存先は `SNS_DASHBOARD_DIR` で差し替え可） |
+| `web/app/atelier/sns/page.tsx`・`parts.tsx` | ダッシュボード本体（5 SNS 経由のファネル・流入元別の表・SNS 別カード・取得ごとの推移） |
+| `web/scripts/sns-dashboard.ts` | 収集 CLI（`ga4`／`set`／`show`／`list`） |
+| `.claude/skills/sns-dashboard/SKILL.md` | 週 1 回の取得手順（各 SNS の画面の読み方） |
+
+**名寄せ**（`defs.ts` の `classifySource` が正）:
+
+| 流入元 | 含めるもの |
+|---|---|
+| Instagram | `instagram`（プロフィールリンクの UTM）・`ig`（Instagram 側が付ける値）・instagram.com |
+| X | `x`・`t.co`・x.com・twitter.com |
+| note／Pinterest／Ameba | §3 の UTM 値と各ドメイン（pin.it・ameblo.jp を含む） |
+| AI アシスタント | chatgpt.com・openai・perplexity・gemini など。GA4 既定のチャネルでは自然検索に混ざるため分ける |
+| 広告 | `utm_medium` が cpc などの有料枠 |
+| 計測ノイズ | Stripe の決済画面からの戻り（checkout.stripe.com）と、取引先の CRM（*.lightning.force.com）から開かれた訪問。客の流入に数えない |
+
+**認証と保存**:
 
 | 項目 | 方針 |
 |---|---|
-| GA4 / Search Console | Google Cloud のサービスアカウント 1 本を GA4 プロパティと SC プロパティに「閲覧者」で追加。`GA4_PROPERTY_ID`＋キー JSON（**ローカルのみ・コミット禁止・Amplify には置かない**） |
-| Stripe | **読み取り専用 restricted key**（Checkout Sessions read のみ許可）。本番 secret key をスクリプトに使い回さない |
-| 実行 | まず手動 `npm run weekly-report`。運用が安定したら Claude Code の scheduled task で週 1 自動化を検討 |
+| GA4 | Google Cloud プロジェクト `tenzu-analytics` のサービスアカウント（Google Cloud 側のロールなし）を、GA4 プロパティに「閲覧者」で追加。`web/.env.local` に `GA4_PROPERTY_ID` と `GA4_KEY_FILE`（鍵 JSON のパス。**鍵はリポジトリの外に置く**・Amplify には置かない） |
+| 各 SNS | API は使わない（X は有料・Instagram と Pinterest はアプリ登録と審査が要る）。オーナーの Chrome のログインで分析画面を読むだけで、書き込み系の操作はしない |
+| 数字 | `web/.local/sns-dashboard/`。**リポジトリは公開なので、実数を追跡対象にしない** |
 
-**実装の前提条件（これを満たすまで着手しない）**: ①GA4 に 2 週間以上のデータ ②主要イベントが安定して記録されている ③`/weekly-ops` の手動運用を 2-3 回回して「見たい数字」が固まっている。
+**見る数字／見ない数字**: [sns-operations.md §7](../acquisition/sns-operations.md)・[channels.md §7.4](../acquisition/channels.md) の区分に従う。見ない数字（フォロワー・いいね・インプレッション単独）は、カードの中に畳んで参考として置く。note（ビュー・コメントを見る）と Ameba（アクセス数を見る）は両設計書に行が無いため、`defs.ts` の区分は暫定。Pinterest のアウトバウンド CTR は [sns-operations.md §6](../acquisition/sns-operations.md) の 90 日ゲートの帯（1% 未満＝低め／3% 以上＝優秀）で表示する。
 
-**やらないこと**: Looker Studio 等のダッシュボード構築（見るのは北極星 3 つだけ・時系列は [ops-log.md](../launch/ops-log.md) が SSOT）／リアルタイム監視／日次実行。
+**対象外（必要になったら足す）**: Search Console API（ops-log の SC クリック列）／Stripe の読み取り専用キーによる購入の検算。
+
+**やらないこと**: 保存データのコミット／日次の取得（週 1 回・月曜の数値チェックに合わせる）／Looker Studio など外部のダッシュボード／SNS の API 契約。
 
 ### §8. オンサイトメッセージの first-party 計測
 

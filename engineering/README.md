@@ -8,7 +8,7 @@
 - オーナー専用の管理画面 **`/admin/onsite`**（合言葉＋署名 cookie・本番稼働）でオンサイトメッセージを即時編集・表示数/クリック数を閲覧
 - engineering/ 領域は**ローンチ準備チェックリストとインフラ手順の置き場**。設計や経緯は持たない
 - 残作業の SSOT は [phase-1-todo.md](phase-1-todo.md)（ローンチ準備 TODO・未了項目のみ）
-- 計測実装の SSOT は [analytics.md](analytics.md)（GA4/GTM・主要 7 イベント・UTM 命名規則・本番コンソール状態と設定手順）
+- 計測実装の SSOT は [analytics.md](analytics.md)（GA4/GTM・主要 7 イベント・UTM 命名規則・本番コンソール状態と設定手順・**SNS ダッシュボード `/atelier/sns`**＝§7）
 - リリース前テストの観点・優先順（P0〜P3）・AI 委任範囲は [release-testing.md](release-testing.md)
 - 本番 env チェックリストは [../web/.env.production.example](../web/.env.production.example)（キー集合の SSOT・値はコミットしない）
 - 認証はログインなしの**所有モデル**（署名 cookie ＋マジックリンク復元・[../decisions.md §4.7](../decisions.md)）。決済は Stripe Checkout（`price_data` 直書き・Price ID 不使用）
@@ -19,7 +19,7 @@
 | ファイル | 責務 |
 |---|---|
 | [phase-1-todo.md](phase-1-todo.md) | **ローンチ準備 TODO の SSOT**（本番 env・残実装・使わないものの明示） |
-| [analytics.md](analytics.md) | **計測実装の SSOT**（GA4/GTM・イベント定義・UTM 命名規則・コンソール設定手順） |
+| [analytics.md](analytics.md) | **計測実装の SSOT**（GA4/GTM・イベント定義・UTM 命名規則・コンソール設定手順・SNS ダッシュボード） |
 | [release-testing.md](release-testing.md) | **リリース前テスト計画の SSOT**（P0〜P3 の観点・AI 委任範囲・2段階の進め方） |
 
 ## 詳細
@@ -33,7 +33,7 @@ web/
 │   ├── products/                 # 商品（一覧まとめ・タスク別・SKU 詳細）
 │   ├── articles/                 # 記事（MDX・JSON-LD・OG 画像）
 │   ├── maker* / makers/          # 点描写メーカー各種＋公開まとめ
-│   ├── atelier/                  # 問題パイプライン検品（オーナー用・dev 専用）
+│   ├── atelier/                  # 問題パイプライン検品・SNS ダッシュボード（オーナー用・dev 専用）
 │   ├── admin/onsite/             # オンサイトメッセージ管理（オーナー用・本番稼働・合言葉認証）
 │   ├── level-guide/              # レベル選びガイド
 │   ├── cart/ · checkout/         # カート・購入
