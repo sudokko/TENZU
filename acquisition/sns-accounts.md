@@ -264,7 +264,7 @@ SUDO CRAFT 系の飛び先 `/sudo-craft` は **tenzu.jp 内の屋号ページ**�
   - **話題がそのまま検索語のとき**（専門家ポジで点描写・点図形そのものを論じる回）: `#点描写` `#点図形`。並び順は `#点描写` を先頭固定（他媒体と同じ・§3.2 の descriptor と同じ理由）
   - **受動拾いセグメントの実在タグに乗せるとき**（店主メモで中受まわりを書く回）: `#中学受験` ＋学年タグ `#中受2029` などの年次タグ。**中受コミュニティが実際に追っているタグなので、TENZU 側の都合で作った造語タグは使わない**（[../content/research.md](../content/research.md) の KW 調査）
   - **`#空間認識` は使わない**（`空間認知` が正・[voice-tone.md §1](../foundation/voice-tone.md)）。商品タグ（`#知育プリント` `#おうち学習` 等の親向けプール）は Pinterest・IG の担当で、X では使わない——専門家ポジの信用が物販アカウントの見え方に寄って崩れるため
-- **ツール**: `/weekly-ops`（週 7 本草稿＋NG grep＋Buffer 貼り付け形式）
+- **ツール**: `/weekly-ops`（週 7 本草稿＋NG grep）。予約は Buffer か、オーナーの指示によるブラウザ操作の代行（[decisions.md §5.22](../decisions.md)）
 
 #### §4.4 note
 
@@ -405,7 +405,7 @@ SUDO CRAFT 系の飛び先 `/sudo-craft` は **tenzu.jp 内の屋号ページ**�
 
 | 投稿・作業 | ツール／スキル | 出力先 | 予約・投稿先 |
 |---|---|---|---|
-| X 週 7 本（専門 3＋店主メモ 4）の週分草稿 | `/weekly-ops` | `docs/drafts/sns/x/` | Buffer（リンクはリプ欄） |
+| X 週 7 本（専門 3＋店主メモ 4）の週分草稿 | `/weekly-ops` | `docs/drafts/sns/x/` | Buffer かブラウザ代行（リンクはリプ欄） |
 | IG カルーセル | `/ig-carousel`（Canva Bulk CSV） | `docs/drafts/sns/ig/` | Meta Business Suite |
 | IG ストーリーズ | 手動（メーカー画面・制作中素材） | — | ネイティブ |
 | IG リール（プロセス動画・週 1 試行）＝YouTube Shorts 同投稿 | 手動（画面録画＋CapCut） | — | ネイティブ |

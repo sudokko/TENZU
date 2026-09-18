@@ -2322,6 +2322,16 @@ sns-accounts.md（§5.10/§5.11）に対し ChatGPT・Gemini の 2 AI 添削を�
 - **縮退表も曜日語へ書き換え**: 縮退1＝火の IG・note・金の DM を落とす／縮退2＝＋水の X 草稿／最後まで残すのは**月の15分と金の Pinterest 予約**。「絶対に守る3つ＝記事・Pinterest 予約・計測」は不変
 - **Notion への反映**: [運転リファレンス](https://app.notion.com/p/3cc93b733ffc81c694eaf26e42c06e6f) とスケジュール DB の「X週7・ピン週4-8・IG週1-2 の定常運転」行に同じ表を掲載。`/weekly-ops`（B1）は月・水・土で使う想定
 
+### 5.22 X の通常投稿の予約は、オーナーの指示でブラウザ操作による代行を認める（2026-09-15）
+
+オーナー判断により、`/weekly-ops` で作った X の週分草稿を、Claude がオーナーの Chrome（ログイン済みの X）を操作して予約・投稿してよいことにした。Buffer などの API 経由のツールは使わない。
+
+- **決めたこと**: 代行してよいのは、`/weekly-ops` の草稿のうち**オーナーが本文と日時を確認した通常投稿と、その自己リプライ（リンク）だけ**。予約・投稿のボタンを押す前に、アカウント名・日時・本文の一覧をオーナーに見せて承認を取る
+- **リスクの了承**: X の自動化ルールは、API を使わない自動化（サイトをスクリプトで操作すること）を禁止しており、アカウントが凍結される可能性がある。オーナーはこれを承知のうえで選んだ
+- **引き続き禁止**: 他人への返信・DM・フォロー・いいねの自動化（[voice-tone.md §7.3・§7.4](./foundation/voice-tone.md)）。コメントと DM の返信は 100% 人間のまま
+- **止める条件**: CAPTCHA・ボット判定・警告の画面が出たら、その場で操作をやめてオーナーに渡す（突破しない）
+- **反映**: `/weekly-ops` の「やらないこと」、曜日ルーチンの表（[acquisition/sns-operations.md §4](./acquisition/sns-operations.md)・[launch/operations.md §4](./launch/operations.md)）、[acquisition/sns-accounts.md §4.3](./acquisition/sns-accounts.md) のツール欄
+
 ---
 
 ## §6. 計測・KPI

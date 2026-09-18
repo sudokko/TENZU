@@ -338,7 +338,7 @@ ChatGPT Plus は不採用（無料版で壁打ち十分）。
 |---|---|---:|---|
 | 月 | 先週数値確認＋ NG ワード grep ＋次週テーマ決定 | 20 分 | Gemini |
 | 火 | IG カルーセル 2 本（Canva Bulk Create）＋週次予約投入 | 40 分 | Claude+Canva |
-| 水 | X 投稿 7 本草稿＋ Buffer 予約 | 30 分 | Claude |
+| 水 | X 投稿 7 本草稿＋予約（Buffer かブラウザ代行・[decisions §5.22](../decisions.md)） | 30 分 | Claude |
 | 木 | 記事/note 草稿（隔週） | 50 分 | Claude |
 | 金 | ブロガー DM 5 件＋**Pinterest 週分ピン 4-8 本まとめ作成・予約**＋月次 IG リール 1 本（隔週） | 60-80 分 | Gemini+Canva+CapCut |
 | 土 | コメント/DM 返信＋モニター対応＋ハッシュタグ目視 | 25 分 | **0%** |
