@@ -1,0 +1,171 @@
+/* 記事の編集モード（dev 限定・/atelier/articles）。atelier と同じ rev.5 トークン準拠の最小スタイル */
+
+/* ---- 一覧 ---- */
+.aed-list { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 14px; }
+.aed-list th {
+  padding: 8px 10px; border-bottom: 1px solid #d7e4e7;
+  color: #6b7280; font-size: 12px; font-weight: 600; text-align: left;
+}
+.aed-list td { padding: 10px; border-bottom: 1px solid #eef2f3; vertical-align: top; }
+.aed-list-title { color: #2a2f36; font-weight: 600; text-decoration: none; }
+.aed-list-title:hover { color: #2c6e7f; text-decoration: underline; }
+.aed-list-slug { margin-top: 2px; color: #9aa3ad; font-family: ui-monospace, monospace; font-size: 12px; }
+.aed-list-date { color: #6b7280; white-space: nowrap; }
+.aed-list-actions { text-align: right; white-space: nowrap; }
+.aed-list-actions a { margin-left: 14px; color: #2c6e7f; font-size: 13px; }
+
+/* ---- 状態チップ ---- */
+.aed-chip {
+  display: inline-block; padding: 2px 8px; border: 1px solid; border-radius: 999px;
+  font-size: 11px; font-weight: 600; line-height: 1.6; white-space: nowrap;
+}
+.aed-chip--published { border-color: #b9d3d9; background: #eef6f7; color: #2c6e7f; }
+.aed-chip--draft { border-color: #ecd9a8; background: #fdf6e3; color: #8a5a00; }
+.aed-chip--unlisted { border-color: #d9dde2; background: #f5f6f7; color: #6b7280; }
+
+/* ---- 編集画面 ---- */
+body:has(.aed-app) { overflow: hidden; }
+body:has(.aed-app) .preopen { display: none; }
+
+.aed-app {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; flex-direction: column;
+  background: #eef2f3; color: #2a2f36;
+  font-family: var(--font-ui, "IBM Plex Sans JP", sans-serif); font-size: 13px;
+}
+
+.aed-bar {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px;
+  padding: 8px 12px; background: #fff; border-bottom: 1px solid #d7e4e7;
+}
+.aed-back { color: #2c6e7f; text-decoration: none; white-space: nowrap; }
+.aed-title { display: flex; flex: 1 1 200px; flex-direction: column; min-width: 0; }
+.aed-title strong { overflow: hidden; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
+.aed-file {
+  overflow: hidden; color: #9aa3ad; font-family: ui-monospace, monospace; font-size: 11px;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.aed-switch {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;
+  border: 1px solid #d7e4e7; border-radius: 999px; color: #6b7280;
+  cursor: pointer; user-select: none; white-space: nowrap;
+}
+.aed-switch.is-on { border-color: #2c6e7f; background: #eef6f7; color: #2c6e7f; font-weight: 600; }
+.aed-switch input { margin: 0; accent-color: #2c6e7f; }
+.aed-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.aed-actions button, .aed-actions a,
+.aed-banner button, .aed-help button,
+.aed-meta-row button, .aed-foot-actions button {
+  display: inline-flex; align-items: center; padding: 5px 10px;
+  border: 1px solid #d7e4e7; border-radius: 6px; background: #fafdfd; color: #2c6e7f;
+  font: inherit; font-size: 12px; line-height: 1.2; text-decoration: none; white-space: nowrap;
+  cursor: pointer;
+}
+.aed-actions button:hover:not(:disabled), .aed-actions a:hover,
+.aed-banner button:hover, .aed-help button:hover,
+.aed-meta-row button:hover, .aed-foot-actions button:hover:not(:disabled) {
+  border-color: #2c6e7f; background: #eef6f7;
+}
+.aed-actions button:disabled, .aed-foot-actions button:disabled {
+  border-color: #e5e7eb; background: #f5f6f7; color: #b8c0c8; cursor: default;
+}
+
+.aed-state { display: flex; gap: 10px; margin-left: auto; color: #6b7280; font-size: 12px; white-space: nowrap; }
+.aed-state .is-warn { color: #b45309; font-weight: 600; }
+
+.aed-help {
+  display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px;
+  background: #fafdfd; border-bottom: 1px solid #d7e4e7;
+}
+.aed-help ul { flex: 1; margin: 0; padding-left: 18px; color: #3a424e; line-height: 1.75; }
+
+.aed-banner {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 14px;
+  background: #fdf6e3; border-bottom: 1px solid #ecd9a8; color: #6b4b00;
+}
+.aed-banner.is-error { background: #fdecec; border-color: #f3c4c4; color: #9b1c1c; }
+
+.aed-main { position: relative; display: flex; flex: 1; min-height: 0; }
+.aed-frame { flex: 1; min-width: 0; border: 0; background: #fff; }
+
+.aed-drawer {
+  display: flex; flex-direction: column; gap: 10px;
+  width: 460px; max-width: 48vw; padding: 14px 16px; overflow-y: auto;
+  background: #fff; border-left: 1px solid #d7e4e7; box-shadow: -8px 0 20px rgba(20, 40, 50, 0.06);
+}
+.aed-drawer--full { width: min(760px, 56vw); max-width: none; }
+.aed-drawer-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.aed-drawer-title { font-size: 15px; font-weight: 700; }
+.aed-drawer-sub { margin-top: 2px; color: #9aa3ad; font-size: 12px; }
+.aed-close {
+  padding: 0 4px; border: 0; background: transparent; color: #6b7280;
+  font-size: 22px; line-height: 1; cursor: pointer;
+}
+
+.aed-text {
+  box-sizing: border-box; width: 100%; min-height: 160px; max-height: 62vh; padding: 12px;
+  border: 1px solid #c9d9dd; border-radius: 6px; color: #2a2f36; resize: vertical;
+  font: 15px/1.9 var(--font-ui, "IBM Plex Sans JP", sans-serif);
+  field-sizing: content;
+}
+.aed-text:focus { border-color: #2c6e7f; outline: 2px solid #2c6e7f; outline-offset: 1px; }
+.aed-drawer--field .aed-text { min-height: 96px; }
+.aed-drawer--full .aed-text {
+  flex: 1; min-height: 50vh; max-height: none;
+  font: 13px/1.7 ui-monospace, "Cascadia Mono", Consolas, monospace;
+  field-sizing: fixed;
+}
+
+.aed-hint { margin: 0; color: #6b7280; font-size: 12px; line-height: 1.6; }
+.aed-error, .aed-warn { margin: 0; padding: 8px 10px; border-radius: 6px; font-size: 12px; line-height: 1.6; }
+.aed-error { background: #fdecec; color: #9b1c1c; }
+.aed-warn { background: #fdf6e3; color: #6b4b00; }
+.aed-error-detail {
+  display: block; margin-top: 4px; color: #b86a6a; font-family: ui-monospace, monospace;
+  font-size: 11px; word-break: break-word;
+}
+
+.aed-drawer-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.aed-count { color: #6b7280; font-size: 12px; }
+.aed-count.is-warn { color: #b45309; font-weight: 600; }
+.aed-foot-actions { display: flex; gap: 6px; }
+.aed-foot-actions .is-primary { border-color: #2c6e7f; background: #2c6e7f; color: #fff; font-weight: 600; }
+.aed-foot-actions .is-primary:hover:not(:disabled) { background: #245c6a; }
+
+.aed-meta { display: flex; flex-direction: column; gap: 12px; }
+.aed-meta-row { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid #e3ecee; border-radius: 6px; }
+.aed-meta-label { display: flex; justify-content: space-between; gap: 8px; color: #3a424e; font-size: 12px; font-weight: 600; }
+.aed-meta-label span { color: #9aa3ad; font-weight: 400; white-space: nowrap; }
+.aed-meta-value { color: #2a2f36; font-size: 14px; line-height: 1.7; }
+.aed-meta-row button { justify-self: start; }
+.aed-meta-note { color: #9aa3ad; font-size: 12px; }
+
+.aed-toast {
+  position: fixed; bottom: 24px; left: 50%; z-index: 60; max-width: calc(100vw - 32px);
+  padding: 10px 16px; border-radius: 999px; background: #2a2f36; color: #fff;
+  font-size: 13px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); transform: translateX(-50%);
+}
+
+.aed-confirm {
+  position: fixed; inset: 0; z-index: 70;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+  background: rgba(20, 30, 36, 0.35);
+}
+.aed-confirm-box {
+  width: min(420px, 100%); padding: 18px 18px 14px; border-radius: 10px;
+  background: #fff; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+.aed-confirm-box p { margin: 0 0 14px; color: #2a2f36; font-size: 14px; line-height: 1.7; }
+.aed-confirm-box .aed-foot-actions { justify-content: flex-end; }
+
+/* 狭い画面（Claude の Browser ペインなど）ではドロワーを下から出す */
+@media (max-width: 1099px) {
+  .aed-drawer, .aed-drawer--full {
+    position: absolute; right: 0; bottom: 0; left: 0;
+    width: auto; max-width: none; height: 62%;
+    border-top: 1px solid #d7e4e7; border-left: 0; box-shadow: 0 -10px 24px rgba(20, 40, 50, 0.1);
+  }
+  .aed-text { max-height: none; }
+  .aed-drawer--full .aed-text { min-height: 0; }
+}

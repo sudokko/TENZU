@@ -31,8 +31,15 @@
 - LLMO ルールの正本は上記ファイルとし、Codex 用の複製スキルは作らない。検査本体は `web/scripts/llmo-check.mjs` を対象記事だけに実行する。
 - このチェックは構造化データ用 frontmatter に限定する。本文レビューや他の article 系スキルまで自動で広げない。
 
+## TENZU 記事の編集モード（記事編集の既定の入口）
+
+- オーナーが記事を自分で直したいとき（「○○の記事を編集したい」「記事を直したい」「編集モードを開いて」）は、既定で dev の編集モード `/atelier/articles/<slug>` を開いて渡す。Claude は [`.claude/skills/article-edit/SKILL.md`](.claude/skills/article-edit/SKILL.md) を使う。Browser ペインの無い環境では dev サーバーを起動して URL を伝える。
+- オーナーが編集モードで直している間は、Claude / Codex とも同じ記事ファイルを書き換えない。
+- 使い方・保存と公開の関係の SSOT は [`content/article-revision-publish.md`](content/article-revision-publish.md) §3.5。スキル側へ同じ仕様を重複記載しない。
+
 ## TENZU 記事の改訂・プレビュー・公開
 
 - 「タイトル○の記事を改訂して」など、既存記事の改訂から公開までを依頼されたときは、Claude / Codex ともに [`.claude/skills/article-revise-publish/SKILL.md`](.claude/skills/article-revise-publish/SKILL.md) を完全に読んで使う。
 - ローカルプレビューをオーナーへ見せるまでは、LLMO 検査・コミット・push を行わない。オーナーの明示承認後に LLMO 検査を実行し、現在のブランチだけへ push する。
+- ローカルプレビューは編集モードで見せ、オーナーがその場で手直しできるようにする。
 - 詳細フローの SSOT は [`content/article-revision-publish.md`](content/article-revision-publish.md)。スキル側へ同じ仕様を重複記載しない。
