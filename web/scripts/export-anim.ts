@@ -6,6 +6,7 @@
      ladder <タスクslug>        A-2 難易度ラダー（Lv.1→Lv.5 を 1 段ずつ）
      tasks                      A-3 9タスク早回し（「写すだけじゃない」）
      format <sku>               A-4 刷り分け（A4 大きく1問 ↔ A3 ぎっしり12問）
+     rot    <sku>:<問題index>   変換アニメ・回転（かくマスの中で像が回って答えが出る）
 
    縦型 1080×1920。MP4（IG リール）と GIF（Pinterest アイデアピン）。
    素材は published の実問題そのもの＝AI 生成映像は使わない（ピンと同じ原則）。
@@ -24,7 +25,7 @@ import type { Problem, SolidGrid, SquareGrid } from "../app/products/problems/sc
 import { TASK_DESC } from "../app/products/task-desc";
 import type { MakerKey } from "../app/products/capabilities";
 import { toRenderProblems, composeTriple } from "../app/products/problems/render";
-import { opSegs } from "../app/products/print";
+import { opSegs, rotPtPrint, rotArcSegs } from "../app/products/print";
 import { lattice, text, INK, MUTED, ACCENT } from "../app/atelier/pins/pin-render";
 
 const W = 1080, H = 1920;
@@ -286,6 +287,79 @@ function framesLadder(slug: string): { name: string; frames: string[] } {
   return { name: `anim_ladder_${slug}`, frames };
 }
 
+/* ---------- 変換アニメ（回転） ----------
+   ラダーが効くのは「盤面が育つ」模写系だけ。回転・鏡・移動は**何をする問題か**が
+   伝わらないと意味がないので、変換そのものを動かす。
+   ただし紙は回さない（TASK_DESC 回転＝「紙を回さずに、頭の中で回して書きます」）。
+   みほんのペインは最後まで静止させ、かくマスの中でだけ像が回って答えが現れる。 */
+function framesTransform(spec: string): { name: string; frames: string[] } {
+  const [sku, idxs] = (spec ?? "").split(":");
+  const set = PUBLISHED[sku], hit = volBySku(sku);
+  if (!set || !hit) throw new Error(`published / data.ts にない SKU: ${sku}`);
+  const idx = Number(idxs);
+  const p = set.problems[idx];
+  if (!p) throw new Error(`${sku} に問題 index ${idx} がない（0〜${set.problems.length - 1}）`);
+  const rp = toRenderProblems(set)[idx];
+  const deg = rp.rotateDeg;
+  if (!deg) throw new Error(`${sku}:${idx} は回転の問題ではない（transform が rotate でない）`);
+
+  const { task, vol } = hit;
+  const { n, segs } = figureOf(p);
+  const S = 520, ox = (W - S) / 2, oyM = 320, oyD = 1010;
+
+  /* 中心まわりの連続回転（画面座標＝y 下向き・時計回りが正）。
+     t=1 では print.ts の rotPtPrint と一致するが、丸め差を残さないよう
+     最終フレームだけ厳密値へスナップする。 */
+  const spin = (t: number): Seg[] => {
+    if (t >= 1) {
+      const R = (q: [number, number]): [number, number] => {
+        const v = rotPtPrint([q[0], q[1]], n, deg);
+        return [v[0], v[1]];
+      };
+      return segs.map((e) => ({ ...e, a: R(e.a), b: R(e.b) }));
+    }
+    const c = (n - 1) / 2, th = ((deg * Math.PI) / 180) * t;
+    const co = Math.cos(th), si = Math.sin(th);
+    const R = (q: [number, number]): [number, number] =>
+      [c + (q[0] - c) * co - (q[1] - c) * si, c + (q[0] - c) * si + (q[1] - c) * co];
+    return segs.map((e) => ({ ...e, a: R(e.a), b: R(e.b) }));
+  };
+
+  /* 変換の指示子（弧の矢印）は紙面と同じ print.ts の描画を使う。 */
+  const arc = (() => {
+    const cx = W / 2, cy = (oyM + S + oyD) / 2, r = 58;
+    const lines = rotArcSegs(cx, cy, r, deg)
+      .map((s) => `<line x1="${s[0].toFixed(1)}" y1="${s[1].toFixed(1)}" x2="${s[2].toFixed(1)}" y2="${s[3].toFixed(1)}" stroke="${ACCENT}" stroke-width="6" stroke-linecap="round"/>`)
+      .join("");
+    return lines + text(cx + r + 78, cy + 14, `${Math.abs(deg)}°`, 44, ACCENT, "middle", 700);
+  })();
+
+  const frame = (t: number, shown: boolean) =>
+    svg(
+      text(W / 2, 148, "頭の中で、回す。", 62, INK, "middle", 700) +
+      text(W / 2, 214, `${task.name}・紙は回しません`, 34, MUTED) +
+      text(W / 2, 292, "みほん", 32, MUTED) +
+      drawFigure(n, segs, ox, oyM, S) +
+      arc +
+      text(W / 2, 982, "かく", 32, MUTED) +
+      (shown
+        ? drawFigure(n, spin(t), ox, oyD, S, { opacity: 0.35 + 0.65 * t })
+        : drawFigure(n, [], ox, oyD, S)) +
+      text(W / 2, 1604, metricsLabel(p.metrics, p.grid), 28, MUTED) +
+      footer(`${LEVEL_NAMES[vol.lv - 1]}・${vol.grid}・${vol.ageLabel}`),
+    );
+
+  const frames: string[] = [];
+  const HOLD_IN = 26, TURN = 46, HOLD_OUT = 58;
+  for (let i = 0; i < HOLD_IN; i++) frames.push(frame(0, false));
+  for (let i = 1; i <= TURN; i++) {
+    const t = i / TURN;
+    frames.push(frame(t < 1 ? t * t * (3 - 2 * t) : 1, true)); // smoothstep
+  }
+  for (let i = 0; i < HOLD_OUT; i++) frames.push(frame(1, true));
+  return { name: `anim_rot_${sku}_${String(idx).padStart(2, "0")}`, frames };
+}
+
 /* ---------- A-3 9タスク早回し ---------- */
 
 const GROUP_NAMES = ["見て写す", "かたちを動かす", "重ねる・分ける"];
@@ -432,10 +506,12 @@ async function render(name: string, frames: string[]): Promise<void> {
     built = framesLadder(positional[0]);
   } else if (type === "tasks") {
     built = framesTasks();
+  } else if (type === "rot") {
+    built = framesTransform(positional[0]);
   } else if (type === "format") {
     built = framesFormat(positional[0]);
   } else {
-    console.error("使い方: npx tsx scripts/export-anim.ts <stroke|ladder|tasks|format> [引数] [--out <dir>] [--fps 30] [--gif]");
+    console.error("使い方: npx tsx scripts/export-anim.ts <stroke|ladder|tasks|format|rot> [引数] [--out <dir>] [--fps 30] [--gif]");
     process.exit(1);
   }
   await render(built.name, built.frames);
