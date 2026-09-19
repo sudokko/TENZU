@@ -16,10 +16,10 @@ import type { MakerKey } from "../../products/capabilities";
 export const PIN_W = 1000;
 export const PIN_H = 1500;
 
-const INK = "#3A424E";       // 画面表示の濃色（atelier と同系）
-const MUTED = "#6B7480";     // ラベル等のグレー
-const ACCENT = "#2C6E7F";    // 「到達・うつす」のみに使う差し色（design rev.5 規則）
-const JP = "'Yu Gothic','Hiragino Sans','Meiryo',sans-serif"; // ラスタライズ確実な系統フォント
+export const INK = "#3A424E";       // 画面表示の濃色（atelier と同系）
+export const MUTED = "#6B7480";     // ラベル等のグレー
+export const ACCENT = "#2C6E7F";    // 「到達・うつす」のみに使う差し色（design rev.5 規則）
+export const JP = "'Yu Gothic','Hiragino Sans','Meiryo',sans-serif"; // ラスタライズ確実な系統フォント
 
 export type PinTemplate = "p1" | "p2" | "p3";
 
@@ -38,7 +38,7 @@ function esc(s: string): string {
 
 /* ---- 1 問の格子（点＋辺）を任意の箱に描く ----
    blank=true は「うつす」側の空欄（点だけ）。 */
-function gridGroup(
+export function gridGroup(
   n: number, edges: Problem["edges"], ox: number, oy: number, size: number,
   blank = false,
 ): string {
@@ -72,7 +72,7 @@ function arrow(x1: number, x2: number, cy: number): string {
   );
 }
 
-function text(
+export function text(
   x: number, y: number, s: string, size: number, fill: string,
   anchor: "start" | "middle" | "end" = "middle", weight = 400,
 ): string {
