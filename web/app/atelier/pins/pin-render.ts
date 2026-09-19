@@ -36,18 +36,26 @@ function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+/* 格子の座標系（点の位置・点半径・線幅）。正方格子でない solid も同じ枠に
+   載せられるよう、gridGroup から切り出して export している。 */
+export function lattice(n: number, ox: number, oy: number, size: number) {
+  const pad = size * 0.1;
+  const span = size - pad * 2;
+  return {
+    X: (c: number) => ox + pad + (n > 1 ? (span * c) / (n - 1) : span / 2),
+    Y: (r: number) => oy + pad + (n > 1 ? (span * r) / (n - 1) : span / 2),
+    dotR: Math.max(2, size * 0.013),
+    ew: Math.max(2, size * 0.016),
+  };
+}
+
 /* ---- 1 問の格子（点＋辺）を任意の箱に描く ----
    blank=true は「うつす」側の空欄（点だけ）。 */
 export function gridGroup(
   n: number, edges: Problem["edges"], ox: number, oy: number, size: number,
   blank = false,
 ): string {
-  const pad = size * 0.1;
-  const span = size - pad * 2;
-  const X = (c: number) => ox + pad + (n > 1 ? (span * c) / (n - 1) : span / 2);
-  const Y = (r: number) => oy + pad + (n > 1 ? (span * r) / (n - 1) : span / 2);
-  const dotR = Math.max(2, size * 0.013);
-  const ew = Math.max(2, size * 0.016);
+  const { X, Y, dotR, ew } = lattice(n, ox, oy, size);
 
   let dots = "";
   for (let r = 0; r < n; r++)
