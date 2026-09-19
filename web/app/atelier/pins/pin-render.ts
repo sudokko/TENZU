@@ -10,6 +10,8 @@ import type { Problem } from "../../products/problems/schema";
 import { metricsLabel } from "../../products/problems/schema";
 import { LEVEL_NAMES, volBySku, type ProductTask, type Vol } from "../../products/data";
 import { PUBLISHED } from "../../products/problems/published";
+import { TASK_DESC } from "../../products/task-desc";
+import type { MakerKey } from "../../products/capabilities";
 
 export const PIN_W = 1000;
 export const PIN_H = 1500;
@@ -230,7 +232,9 @@ export function pinCaption(
   if (template === "p2") {
     return `${task.name}は、${age}から。今日の手ごたえに合わせて、やさしくも、むずかしくもできます。\n親が画面で作って、子どもは紙で解く点描写。無料で印刷できます。\nこのピンから、むずかしさを選んで作れます。`;
   }
-  return `おうちで使える点描写を、まとめました。${age}向け。\n親が画面で作って、子どもは紙で解けます。無料・登録不要・印刷してすぐ。\nこのピンから、そのまま試せます。`;
+  // p3 はタスクごとに 1 枚出る。タスク名と 1 行説明（TASK_DESC が SSOT）を
+  // 入れないと、全タスクのキャプションが同一文になり重複ピン扱いを招く。
+  return `「${task.name}」の点描写を、まとめました。${age}向け。\n${TASK_DESC[task.slug as MakerKey]}\n親が画面で作って、子どもは紙で解く。無料・登録不要・印刷してすぐ。\nこのピンから、そのまま作れます。`;
 }
 
 export type PinRow = {
