@@ -23,6 +23,8 @@ import { metricsLabel } from "../app/products/problems/schema";
 import type { Problem, SolidGrid, SquareGrid } from "../app/products/problems/schema";
 import { TASK_DESC } from "../app/products/task-desc";
 import type { MakerKey } from "../app/products/capabilities";
+import { toRenderProblems, composeTriple } from "../app/products/problems/render";
+import { opSegs } from "../app/products/print";
 import { lattice, text, INK, MUTED, ACCENT } from "../app/atelier/pins/pin-render";
 
 const W = 1080, H = 1920;
@@ -179,8 +181,10 @@ const diffOf = (p: Problem) => (p.difficulty as { value?: number } | undefined)?
    「レベルが上がると変わる」が絵に出ない（pin-render の buildP2Ladder が
    同じ罠を回避している）。最後の巻なら 3,3,5,5,8 で、同じ盤面のまま
    難易度だけ上がる段（Lv.3→Lv.4）も含めて正しく見える。 */
-function ladderSteps(slug: string): { vol: Vol; p: Problem }[] {
-  const byLv = new Map<number, { vol: Vol; p: Problem }>();
+type Step = { vol: Vol; p: Problem; sku: string; idx: number };
+
+function ladderSteps(slug: string): Step[] {
+  const byLv = new Map<number, Step>();
   Object.keys(PUBLISHED)
     .filter((s) => s.startsWith(slug + "-"))
     .map((s) => ({ s, hit: volBySku(s), set: PUBLISHED[s] }))
@@ -188,9 +192,43 @@ function ladderSteps(slug: string): { vol: Vol; p: Problem }[] {
     .sort((a, b) => a.hit!.vol.lv - b.hit!.vol.lv || a.hit!.vol.volNo - b.hit!.vol.volNo)
     .forEach((x) => {
       const sorted = [...x.set.problems].sort((a, b) => diffOf(a) - diffOf(b));
-      byLv.set(x.hit!.vol.lv, { vol: x.hit!.vol, p: sorted[Math.floor(sorted.length / 2)] });
+      const p = sorted[Math.floor(sorted.length / 2)];
+      byLv.set(x.hit!.vol.lv, { vol: x.hit!.vol, p, sku: x.s, idx: x.set.problems.indexOf(p) });
     });
   return [...byLv.values()];
+}
+
+/* ---- かさね系の 3 ペイン「A op B ＝ □」 ----
+   紙面の作りは products/problems/render.ts が SSOT。生の edges は完成図なので、
+   composeTriple を通さずに 1 図で描くと答えの塊になる（2026-09-19 の作り直し）。 */
+function drawCompose(st: Step, ox: number, oy: number, pane: number, gap: number, opacity = 1): string | null {
+  const rp = toRenderProblems(PUBLISHED[st.sku])[st.idx];
+  const triple = composeTriple(rp, "horizontal");
+  if (!triple) return null;
+  const n = rp.n;
+  const at = (k: 0 | 1 | 2) => ox + k * (pane + gap);
+
+  const opGlyph = (kind: "plus" | "minus" | "eq" | "fold", k: 0 | 1) => {
+    const x = at(k) + pane + gap / 2, y = oy + pane / 2;
+    const size = gap * 0.46, w = Math.max(3, pane * 0.018);
+    return opSegs(kind, x, y, size)
+      .map((s) => `<line x1="${s[0].toFixed(1)}" y1="${s[1].toFixed(1)}" x2="${s[2].toFixed(1)}" y2="${s[3].toFixed(1)}" stroke="${INK}" stroke-width="${w}" stroke-linecap="round"/>`)
+      .join("");
+  };
+  const asSegs = (es: typeof triple.a): Seg[] => es.map((e) => ({ a: [e[0][0], e[0][1]], b: [e[1][0], e[1][1]] }));
+
+  // こたえのペインは空欄（点＋うすい枠）。答えは見せない。
+  const blank =
+    drawFigure(n, [], at(2), oy, pane) +
+    `<rect x="${(at(2) + pane * 0.02).toFixed(1)}" y="${(oy + pane * 0.02).toFixed(1)}" width="${(pane * 0.96).toFixed(1)}" height="${(pane * 0.96).toFixed(1)}" fill="none" stroke="${PAPER_EDGE}" stroke-width="3"/>`;
+
+  const inner =
+    drawFigure(n, asSegs(triple.a), at(0), oy, pane) +
+    opGlyph(triple.op, 0) +
+    drawFigure(n, asSegs(triple.b), at(1), oy, pane) +
+    opGlyph("eq", 1) +
+    blank;
+  return opacity >= 1 ? inner : `<g opacity="${opacity.toFixed(3)}">${inner}</g>`;
 }
 
 function framesLadder(slug: string): { name: string; frames: string[] } {
@@ -200,15 +238,29 @@ function framesLadder(slug: string): { name: string; frames: string[] } {
   if (steps.length < 2) throw new Error(`${slug} は published の Lv が足りない`);
 
   const S = 720, ox = (W - S) / 2, oy = 320;
+  /* かさね系は 1 図では問題にならないので、紙面と同じ 3 ペインの帯で描く。
+     帯は横並びなので高さが 1 図より低い。1 図と同じ視覚中心（y=680）に合わせる。 */
+  const PANE = 281, PGAP = 79, POX = 40, POY = 680 - PANE / 2;
+  const isCompose = ["overlay", "decompose", "fold"].includes(slug);
+
   const frame = (i: number, fade: number) => {
     const st = steps[i], prev = steps[i - 1];
-    const f = figureOf(st.p);
     let fig = "";
-    if (prev && fade < 1) {
-      const pf = figureOf(prev.p);
-      fig += drawFigure(pf.n, pf.segs, ox, oy, S, { opacity: 1 - fade });
+    if (isCompose) {
+      if (prev && fade < 1) fig += drawCompose(prev, POX, POY, PANE, PGAP, 1 - fade) ?? "";
+      fig += drawCompose(st, POX, POY, PANE, PGAP, fade) ?? "";
+      fig +=
+        text(POX + PANE / 2, POY + PANE + 54, "みほん", 30, MUTED) +
+        text(POX + (PANE + PGAP) + PANE / 2, POY + PANE + 54, "みほん", 30, MUTED) +
+        text(POX + 2 * (PANE + PGAP) + PANE / 2, POY + PANE + 54, "かく", 30, MUTED);
+    } else {
+      const f = figureOf(st.p);
+      if (prev && fade < 1) {
+        const pf = figureOf(prev.p);
+        fig += drawFigure(pf.n, pf.segs, ox, oy, S, { opacity: 1 - fade });
+      }
+      fig += drawFigure(f.n, f.segs, ox, oy, S, { opacity: fade });
     }
-    fig += drawFigure(f.n, f.segs, ox, oy, S, { opacity: fade });
     return svg(
       text(W / 2, 148, "レベルが上がると、こう変わる。", 56, INK, "middle", 700) +
       text(W / 2, 214, `${task.name}・むずかしさは自由に調整`, 34, MUTED) +
