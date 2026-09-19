@@ -7,6 +7,7 @@
      tasks                      A-3 9タスク早回し（「写すだけじゃない」）
      format <sku>               A-4 刷り分け（A4 大きく1問 ↔ A3 ぎっしり12問）
      rot    <sku>:<問題index>   変換アニメ・回転（かくマスの中で像が回って答えが出る）
+     mir    <sku>:<問題index>   変換アニメ・鏡（横並び・鏡面の点線・像が裏返る）
 
    縦型 1080×1920。MP4（IG リール）と GIF（Pinterest アイデアピン）。
    素材は published の実問題そのもの＝AI 生成映像は使わない（ピンと同じ原則）。
@@ -360,6 +361,71 @@ function framesTransform(spec: string): { name: string; frames: string[] } {
   return { name: `anim_rot_${sku}_${String(idx).padStart(2, "0")}`, frames };
 }
 
+/* ---------- 変換アニメ（鏡） ----------
+   published の鏡は全巻 axis="v"（左右反転）なので、紙面と同じ**横並び**にする。
+   みほん左・かく右で、境界は矢印ではなく鏡面の点線（SkuPrintPreview と同じ扱い）。
+   かくマスの中で像が裏返って答えになる。横倍率 s を 1→−1 へ動かすと、
+   s=0 でいったん線に潰れ（裏返る瞬間）、s=−1 で mirrorEdges と厳密に一致する。 */
+function framesMirror(spec: string): { name: string; frames: string[] } {
+  const [sku, idxs] = (spec ?? "").split(":");
+  const set = PUBLISHED[sku], hit = volBySku(sku);
+  if (!set || !hit) throw new Error(`published / data.ts にない SKU: ${sku}`);
+  const idx = Number(idxs);
+  const p = set.problems[idx];
+  if (!p) throw new Error(`${sku} に問題 index ${idx} がない（0〜${set.problems.length - 1}）`);
+  const rp = toRenderProblems(set)[idx];
+  const axis = rp.mirrorAxis;
+  if (axis !== "v") throw new Error(`${sku}:${idx} は左右反転の鏡ではない（axis=${axis ?? "なし"}）`);
+
+  const { task, vol } = hit;
+  const { n, segs } = figureOf(p);
+  const PANE = 459, PGAP = 82, OXL = 40, OXR = OXL + PANE + PGAP, OY = 620;
+
+  const flip = (s: number): Seg[] => {
+    if (s <= -1) {
+      const R = (q: [number, number]): [number, number] => [n - 1 - q[0], q[1]];
+      return segs.map((e) => ({ ...e, a: R(e.a), b: R(e.b) }));
+    }
+    const c = (n - 1) / 2;
+    const R = (q: [number, number]): [number, number] => [c + (q[0] - c) * s, q[1]];
+    return segs.map((e) => ({ ...e, a: R(e.a), b: R(e.b) }));
+  };
+
+  /* 鏡面（うすい点線）。紙面では矢印の代わりにこれが 2 ペインの境界に立つ。 */
+  const plane = (() => {
+    const mx = OXL + PANE + PGAP / 2, y0 = OY - PANE * 0.05, y1 = OY + PANE * 1.05;
+    let s = "";
+    for (let y = y0; y < y1; y += 22) s += `<line x1="${mx}" y1="${y.toFixed(1)}" x2="${mx}" y2="${Math.min(y + 12, y1).toFixed(1)}" stroke="#9AA0AA" stroke-width="3" stroke-linecap="round"/>`;
+    return s + text(mx, y1 + 46, "かがみ", 28, MUTED);
+  })();
+
+  const frame = (s: number, shown: boolean) =>
+    svg(
+      text(W / 2, 148, "頭の中で、裏返す。", 62, INK, "middle", 700) +
+      text(W / 2, 214, `${task.name}・左右がひっくり返ります`, 34, MUTED) +
+      text(OXL + PANE / 2, OY - 40, "みほん", 32, MUTED) +
+      text(OXR + PANE / 2, OY - 40, "かく", 32, MUTED) +
+      drawFigure(n, segs, OXL, OY, PANE) +
+      plane +
+      (shown
+        ? drawFigure(n, flip(s), OXR, OY, PANE, { opacity: 0.35 + 0.65 * ((1 - s) / 2) })
+        : drawFigure(n, [], OXR, OY, PANE)) +
+      text(W / 2, 1604, metricsLabel(p.metrics, p.grid), 28, MUTED) +
+      footer(`${LEVEL_NAMES[vol.lv - 1]}・${vol.grid}・${vol.ageLabel}`),
+    );
+
+  const frames: string[] = [];
+  const HOLD_IN = 26, TURN = 46, HOLD_OUT = 58;
+  for (let i = 0; i < HOLD_IN; i++) frames.push(frame(1, false));
+  for (let i = 1; i <= TURN; i++) {
+    const t = i / TURN;
+    const e = t * t * (3 - 2 * t);                 // smoothstep
+    frames.push(frame(i === TURN ? -1 : 1 - 2 * e, true));
+  }
+  for (let i = 0; i < HOLD_OUT; i++) frames.push(frame(-1, true));
+  return { name: `anim_mir_${sku}_${String(idx).padStart(2, "0")}`, frames };
+}
+
 /* ---------- A-3 9タスク早回し ---------- */
 
 const GROUP_NAMES = ["見て写す", "かたちを動かす", "重ねる・分ける"];
@@ -508,10 +574,12 @@ async function render(name: string, frames: string[]): Promise<void> {
     built = framesTasks();
   } else if (type === "rot") {
     built = framesTransform(positional[0]);
+  } else if (type === "mir") {
+    built = framesMirror(positional[0]);
   } else if (type === "format") {
     built = framesFormat(positional[0]);
   } else {
-    console.error("使い方: npx tsx scripts/export-anim.ts <stroke|ladder|tasks|format|rot> [引数] [--out <dir>] [--fps 30] [--gif]");
+    console.error("使い方: npx tsx scripts/export-anim.ts <stroke|ladder|tasks|format|rot|mir> [引数] [--out <dir>] [--fps 30] [--gif]");
     process.exit(1);
   }
   await render(built.name, built.frames);
