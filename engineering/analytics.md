@@ -145,7 +145,7 @@
 | 項目 | 方針 |
 |---|---|
 | GA4 | Google Cloud プロジェクト `tenzu-analytics` のサービスアカウント（Google Cloud 側のロールなし）を、GA4 プロパティに「閲覧者」で追加。`web/.env.local` に `GA4_PROPERTY_ID` と `GA4_KEY_FILE`（鍵 JSON のパス。**鍵はリポジトリの外に置く**・Amplify には置かない） |
-| 各 SNS | API は使わない（X は有料・Instagram と Pinterest はアプリ登録と審査が要る）。オーナーの Chrome のログインで分析画面を読むだけで、書き込み系の操作はしない |
+| 各 SNS | API は使わない（X は有料・Instagram と Pinterest はアプリ登録と審査が要る）。オーナーの Chrome のログインで分析画面を読むだけで、書き込み系の操作はしない。X の分析画面は有料プラン限定のため読まず、X は GA4 の流入だけで見る |
 | 数字 | `web/.local/sns-dashboard/`。**リポジトリは公開なので、実数を追跡対象にしない** |
 
 **見る数字／見ない数字**: [sns-operations.md §7](../acquisition/sns-operations.md)・[channels.md §7.4](../acquisition/channels.md) の区分に従う。見ない数字（フォロワー・いいね・インプレッション単独）は、カードの中に畳んで参考として置く。note（ビュー・コメントを見る）と Ameba（アクセス数を見る）は両設計書に行が無いため、`defs.ts` の区分は暫定。Pinterest のアウトバウンド CTR は [sns-operations.md §6](../acquisition/sns-operations.md) の 90 日ゲートの帯（1% 未満＝低め／3% 以上＝優秀）で表示する。

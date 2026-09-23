@@ -26,7 +26,7 @@ npx tsx scripts/sns-dashboard.ts ga4
 
 ### 2. 各 SNS の画面
 
-Instagram・note・Ameba は Claude in Chrome で読む。**X と Pinterest はオーナーに分析画面のスクリーンショットを貼ってもらい、画像から読む**。
+Instagram・note・Ameba は Claude in Chrome で読む。**Pinterest はオーナーに分析画面のスクリーンショットを貼ってもらい、画像から読む**。X は画面の数字を取らない（下記）。
 
 - Claude in Chrome が開くタブは、オーナーから見えない大きさ 0 のウィンドウに入る（どちらの Chrome でも同じ）。X と Pinterest は画面を描かないと本文が空のままなので、そのタブでは読めない。オーナーが自分で開いたタブは拡張から触れない
 - 拡張につながった Chrome が複数あるときは、TENZU でログインしている方を選んでもらう
@@ -50,9 +50,8 @@ Instagram・note・Ameba は Claude in Chrome で読む。**X と Pinterest は�
 
 #### X（@sudocraft_jp）
 
-- オーナーに頼む: 「X のアナリティクス（`https://x.com/i/account_analytics`）を過去 7 日にして、スクショを貼って」
-- 対応する key: `profileVisits`・`linkClicks`・`bookmarks`（見る）／`impressions`・`engagements`・`likes`・`followers`（見ない）
-- 画像に出ていない項目は `-`。期間は画像の表記どおりに `--period` へ書く
+- アカウントの分析画面（`/i/account_analytics`）は有料プラン限定で、無料アカウントでは開けない。**画面の数字は取らず、毎週すべて `-` で保存する**。X の判断は GA4 の「X」行（リプ欄リンクからの訪問）だけで行う
+- 保存例: `set x --period "無料アカウントは分析画面なし" profileVisits=- linkClicks=- bookmarks=- impressions=- engagements=- likes=- followers=-`
 
 #### note（sudo_craft）
 
