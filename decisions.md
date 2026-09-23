@@ -2332,6 +2332,15 @@ sns-accounts.md（§5.10/§5.11）に対し ChatGPT・Gemini の 2 AI 添削を�
 - **止める条件**: CAPTCHA・ボット判定・警告の画面が出たら、その場で操作をやめてオーナーに渡す（突破しない）
 - **反映**: `/weekly-ops` の「やらないこと」、曜日ルーチンの表（[acquisition/sns-operations.md §4](./acquisition/sns-operations.md)・[launch/operations.md §4](./launch/operations.md)）、[acquisition/sns-accounts.md §4.3](./acquisition/sns-accounts.md) のツール欄
 
+### 5.23 X の通常投稿を「画像・動画付きの問題形式」へ寄せる（2026-09-23・10/20 まで試行）
+
+開店から 3 週、X 経由の訪問は 1・PDF 書き出しと購入は 0。先週の 7 本は全部文字だけで、うち 4 本は制作の裏話（店主メモ）だった。フォロワー 0 の面で、年長の子の親が手を止める理由がなかった。
+
+- **決めたこと**: 週 7 本を **すべて画像か動画付き**にする。中心は「みほん → かく」の 1 問を見せる問題形式（`web/scripts/export-x.ts`）と、在庫の変換アニメ・ラダー動画。**店主メモ（制作の裏話）は試行期間中は X に出さず**、note の開発実録へ回す
+- **変えないこと**: 名義（SUDO CRAFT）・リンクはリプ欄・ハッシュタグ 0〜2 個・返信は 100% 人間・店主枠の線引き
+- **見直し**: 10/20（4 週後）に GA4 の X 行（訪問・メーカー起動）で判断する。訪問が週 3 未満のままなら、中身ではなく届く量（返信での接点づくり・広告）の問題として扱う
+- **反映**: [acquisition/sns-accounts.md §4.3](./acquisition/sns-accounts.md) の通常投稿、`/weekly-ops` 手順 4、[launch/operations.md §4](./launch/operations.md) の水曜の行
+
 ---
 
 ## §6. 計測・KPI

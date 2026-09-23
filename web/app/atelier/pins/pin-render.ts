@@ -98,7 +98,7 @@ export function figureGroup(
 }
 
 /* みほん → うつす の間に置く細い矢印（差し色） */
-function arrow(x1: number, x2: number, cy: number): string {
+export function arrow(x1: number, x2: number, cy: number): string {
   const headW = 26, headH = 22;
   const tip = x2, base = x2 - headW;
   return (
