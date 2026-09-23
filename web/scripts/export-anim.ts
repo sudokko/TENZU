@@ -27,7 +27,7 @@ import { TASK_DESC } from "../app/products/task-desc";
 import type { MakerKey } from "../app/products/capabilities";
 import { toRenderProblems, composeTriple } from "../app/products/problems/render";
 import { opSegs, rotPtPrint, rotArcSegs } from "../app/products/print";
-import { lattice, text, INK, MUTED, ACCENT } from "../app/atelier/pins/pin-render";
+import { lattice, text, figureOf, drawFigure, INK, MUTED, ACCENT, type Seg } from "../app/atelier/pins/pin-render";
 
 const W = 1080, H = 1920;
 const PAPER_EDGE = "#E5E8EC";
@@ -44,43 +44,8 @@ const fps = Number(opt("fps", "30"));
 const outDir = path.resolve(process.cwd(), opt("out", "../docs/drafts/sns/video"));
 const positional = rest.filter((a) => !a.startsWith("--") && rest[rest.indexOf(a) - 1] !== "--out" && rest[rest.indexOf(a) - 1] !== "--fps");
 
-/* ---------- 図形の共通表現（square と solid を 1 本にそろえる） ---------- */
-
-type Seg = { a: [number, number]; b: [number, number]; dashed?: boolean };
-
-/* 問題を「n×n 格子 ＋ 線分の列」に開く。solid は solidEdges（隠れ線 style 付き）が実体。 */
-function figureOf(p: Problem): { n: number; segs: Seg[] } {
-  if (p.grid.type === "square") {
-    const n = (p.grid as SquareGrid).n;
-    return { n, segs: p.edges.map((e) => ({ a: [e[0][0], e[0][1]], b: [e[1][0], e[1][1]] })) };
-  }
-  const g = p.grid as SolidGrid;
-  const segs = (p.solidEdges ?? []).map((e) => ({
-    a: [e.a.c, e.a.r] as [number, number],
-    b: [e.b.c, e.b.r] as [number, number],
-    dashed: e.style === "dashed",
-  }));
-  return { n: Math.max(g.cols, g.rows), segs };
-}
-
-/* 格子の点と線分を描く。座標系は pin-render の lattice を共有（重複実装を作らない）。 */
-function drawFigure(
-  n: number, segs: Seg[], ox: number, oy: number, size: number,
-  o: { opacity?: number; dots?: boolean } = {},
-): string {
-  const { X, Y, dotR, ew } = lattice(n, ox, oy, size);
-  let s = "";
-  if (o.dots !== false)
-    for (let r = 0; r < n; r++)
-      for (let c = 0; c < n; c++)
-        s += `<circle cx="${X(c).toFixed(1)}" cy="${Y(r).toFixed(1)}" r="${dotR.toFixed(1)}" fill="${INK}"/>`;
-  for (const e of segs) {
-    const dash = e.dashed ? ` stroke-dasharray="${(ew * 2.2).toFixed(1)} ${(ew * 1.8).toFixed(1)}"` : "";
-    s += `<line x1="${X(e.a[0]).toFixed(1)}" y1="${Y(e.a[1]).toFixed(1)}" x2="${X(e.b[0]).toFixed(1)}" y2="${Y(e.b[1]).toFixed(1)}" stroke="${INK}" stroke-width="${ew.toFixed(1)}" stroke-linecap="round"${dash}/>`;
-  }
-  const op = o.opacity ?? 1;
-  return op >= 1 ? s : `<g opacity="${op.toFixed(3)}">${s}</g>`;
-}
+/* 図形の共通表現（square と solid を 1 本にそろえる）と描画は pin-render と共有。
+   ピン・動画で図の見え方がずれないよう、ここには実装を置かない。 */
 
 /* 1 行に収まらない説明文を素朴に折る（句点優先・なければ字数）。 */
 function wrapJa(s: string, perLine: number): string[] {

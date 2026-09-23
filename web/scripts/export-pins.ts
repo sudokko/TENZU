@@ -11,9 +11,10 @@ import { promises as fs } from "fs";
 import path from "path";
 import sharp from "sharp";
 import { PUBLISHED } from "../app/products/problems/published";
+import type { Problem } from "../app/products/problems/schema";
 import { volBySku } from "../app/products/data";
 import {
-  PIN_W, PIN_H, pinP1, pinP2, pinP3, pinRow, buildCsv, buildP2Ladder,
+  PIN_W, PIN_H, pinP1, pinP2, pinP3, pinRow, buildCsv, buildP2Ladder, figureOf,
   type PinTemplate, type PinRow,
 } from "../app/atelier/pins/pin-render";
 
@@ -24,11 +25,23 @@ const opt = (name: string, dflt: string) => {
 };
 const campaign = opt("campaign", "launch");
 const outDir = path.resolve(process.cwd(), opt("out", "../docs/drafts/sns/pinterest"));
-const specs = args.filter((a) => a.includes(":") && !a.startsWith("--"));
+/* Windows の絶対パス（C:\...）も ":" を含むため、--out 等の「フラグの値」は spec から外す。 */
+const specs = args.filter(
+  (a, i) => a.includes(":") && !a.startsWith("--") && !(i > 0 && args[i - 1].startsWith("--")),
+);
 
 if (specs.length === 0) {
   console.error("使い方: npx tsx scripts/export-pins.ts <sku>:<p1|p2|p3> [...] [--campaign launch] [--out <dir>]");
   process.exit(1);
+}
+
+/* 図が 1 本も入っていないピンは、見た目が「枠だけの白紙」になる。
+   気づかず投稿してしまうので、書き出す前にここで落とす。 */
+function assertDrawable(spec: string, problems: Problem[]): void {
+  if (problems.length === 0) throw new Error(`${spec}: 図が 0 問。ピンを組めない`);
+  const empty = problems.filter((p) => figureOf(p).segs.length === 0);
+  if (empty.length > 0)
+    throw new Error(`${spec}: 線が 1 本も無い問題が ${empty.length}/${problems.length} 問ある（白紙ピンになる）`);
 }
 
 function buildPins(sku: string, template: PinTemplate) {
@@ -39,7 +52,10 @@ function buildPins(sku: string, template: PinTemplate) {
   const { task, vol } = hit;
   const fname = (suffix: string) => `pin_${sku}_${template}${suffix}.png`;
 
+  const spec = `${sku}:${template}`;
+
   if (template === "p1") {
+    assertDrawable(spec, set.problems);
     return set.problems.map((p, i) => {
       const seq = i + 1;
       const filename = fname(`_${String(seq).padStart(2, "0")}`);
@@ -47,9 +63,12 @@ function buildPins(sku: string, template: PinTemplate) {
     });
   }
   if (template === "p2") {
+    const steps = buildP2Ladder(sku);
+    assertDrawable(spec, steps.map((st) => st.p));
     const filename = fname("");
-    return [{ filename, svg: pinP2(task, buildP2Ladder(sku)), row: pinRow("p2", task, vol, filename, { campaign }) }];
+    return [{ filename, svg: pinP2(task, steps), row: pinRow("p2", task, vol, filename, { campaign }) }];
   }
+  assertDrawable(spec, set.problems);
   const filename = fname("");
   return [{ filename, svg: pinP3(task, vol, set.problems), row: pinRow("p3", task, vol, filename, { campaign }) }];
 }

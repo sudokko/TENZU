@@ -23,9 +23,29 @@ export const JP = "'Yu Gothic','Hiragino Sans','Meiryo',sans-serif"; // ラス�
 
 export type PinTemplate = "p1" | "p2" | "p3";
 
-/* 正方格子の n（ピンは square タスク専用・solid は PinsApp で除外済み）。 */
+/* 正方格子の n（P2 の「n×n」ラベル用。solid は 0 を返すので P2 の対象外になる）。 */
 function gn(p: Problem): number {
   return p.grid.type === "square" ? p.grid.n : 0;
+}
+
+/* ---- 図形の共通表現（square と solid を 1 本にそろえる）----
+   solid は edges が [] で実体が solidEdges（隠れ線 style 付き）にあるため、
+   edges をそのまま描くと何も出ない。両方をここで Seg に開いてから描く。 */
+export type Seg = { a: [number, number]; b: [number, number]; dashed?: boolean };
+
+/* 問題を「n×n 格子 ＋ 線分の列」に開く。 */
+export function figureOf(p: Problem): { n: number; segs: Seg[] } {
+  if (p.grid.type === "square") {
+    const n = p.grid.n;
+    return { n, segs: p.edges.map((e) => ({ a: [e[0][0], e[0][1]], b: [e[1][0], e[1][1]] })) };
+  }
+  const { cols, rows } = p.grid;
+  const segs = (p.solidEdges ?? []).map((e) => ({
+    a: [e.a.c, e.a.r] as [number, number],
+    b: [e.b.c, e.b.r] as [number, number],
+    dashed: e.style === "dashed",
+  }));
+  return { n: Math.max(cols, rows), segs };
 }
 
 /* 本番メーカー URL（送客直行先・decisions §5.6/§5.8）。
@@ -37,7 +57,7 @@ function esc(s: string): string {
 }
 
 /* 格子の座標系（点の位置・点半径・線幅）。正方格子でない solid も同じ枠に
-   載せられるよう、gridGroup から切り出して export している。 */
+   載せられるよう、drawFigure から切り出して export している。 */
 export function lattice(n: number, ox: number, oy: number, size: number) {
   const pad = size * 0.1;
   const span = size - pad * 2;
@@ -49,25 +69,32 @@ export function lattice(n: number, ox: number, oy: number, size: number) {
   };
 }
 
-/* ---- 1 問の格子（点＋辺）を任意の箱に描く ----
-   blank=true は「うつす」側の空欄（点だけ）。 */
-export function gridGroup(
-  n: number, edges: Problem["edges"], ox: number, oy: number, size: number,
-  blank = false,
+/* ---- 格子の点と線分を任意の箱に描く ----
+   segs を空にすれば「うつす」側の空欄（点だけ）になる。隠れ線は dashed で出す。 */
+export function drawFigure(
+  n: number, segs: Seg[], ox: number, oy: number, size: number,
+  o: { opacity?: number; dots?: boolean } = {},
 ): string {
   const { X, Y, dotR, ew } = lattice(n, ox, oy, size);
+  let s = "";
+  if (o.dots !== false)
+    for (let r = 0; r < n; r++)
+      for (let c = 0; c < n; c++)
+        s += `<circle cx="${X(c).toFixed(1)}" cy="${Y(r).toFixed(1)}" r="${dotR.toFixed(1)}" fill="${INK}"/>`;
+  for (const e of segs) {
+    const dash = e.dashed ? ` stroke-dasharray="${(ew * 2.2).toFixed(1)} ${(ew * 1.8).toFixed(1)}"` : "";
+    s += `<line x1="${X(e.a[0]).toFixed(1)}" y1="${Y(e.a[1]).toFixed(1)}" x2="${X(e.b[0]).toFixed(1)}" y2="${Y(e.b[1]).toFixed(1)}" stroke="${INK}" stroke-width="${ew.toFixed(1)}" stroke-linecap="round"${dash}/>`;
+  }
+  const op = o.opacity ?? 1;
+  return op >= 1 ? s : `<g opacity="${op.toFixed(3)}">${s}</g>`;
+}
 
-  let dots = "";
-  for (let r = 0; r < n; r++)
-    for (let c = 0; c < n; c++)
-      dots += `<circle cx="${X(c).toFixed(1)}" cy="${Y(r).toFixed(1)}" r="${dotR.toFixed(1)}" fill="${INK}"/>`;
-
-  let lines = "";
-  if (!blank)
-    for (const e of edges)
-      lines += `<line x1="${X(e[0][0]).toFixed(1)}" y1="${Y(e[0][1]).toFixed(1)}" x2="${X(e[1][0]).toFixed(1)}" y2="${Y(e[1][1]).toFixed(1)}" stroke="${INK}" stroke-width="${ew.toFixed(1)}" stroke-linecap="round"/>`;
-
-  return dots + lines;
+/* 1 問をそのまま描く（square / solid を問わない）。blank は点だけの空欄。 */
+export function figureGroup(
+  p: Problem, ox: number, oy: number, size: number, blank = false,
+): string {
+  const { n, segs } = figureOf(p);
+  return drawFigure(n, blank ? [] : segs, ox, oy, size);
 }
 
 /* みほん → うつす の間に置く細い矢印（差し色） */
@@ -111,7 +138,6 @@ function levelOf(vol: Vol): string { return LEVEL_NAMES[vol.lv - 1]; }
 
 /* ---- P1: 一問プレビュー（発見用の主力ピン） ---- */
 export function pinP1(task: ProductTask, vol: Vol, p: Problem): string {
-  const n = gn(p);
   const S = 400, oxL = 70, oxR = 530, oy = 470;
   const cy = oy + S / 2;
   const head =
@@ -119,8 +145,8 @@ export function pinP1(task: ProductTask, vol: Vol, p: Problem): string {
     text(PIN_W / 2, 250, ageOf(vol), 66, INK, "middle", 700) +
     text(PIN_W / 2, 320, `${levelOf(vol)}・${metricsLabel(p.metrics, p.grid)}`, 36, MUTED);
   const pair =
-    gridGroup(n, p.edges, oxL, oy, S) +
-    gridGroup(n, p.edges, oxR, oy, S, true) +
+    figureGroup(p, oxL, oy, S) +
+    figureGroup(p, oxR, oy, S, true) +
     arrow(oxL + S + 8, oxR - 8, cy);
   return wrap(head + pair + footer());
 }
@@ -135,8 +161,10 @@ export function buildP2Ladder(sku: string): P2Step[] {
   const base = PUBLISHED[sku];
   if (!base) return [];
   const mid = (set: typeof base) => set.problems[Math.floor(set.problems.length / 2)];
+  /* P2 は「n×n が大きくなる順」で段を組むので正方格子の巻だけを対象にする。
+     solid は盤面が cols×rows で n×n ラベルが成立しない（solid のラダーは動画側で出す）。 */
   const sameTask = Object.keys(PUBLISHED)
-    .filter((s) => PUBLISHED[s].task === base.task)
+    .filter((s) => PUBLISHED[s].task === base.task && gn(mid(PUBLISHED[s])) > 0)
     .map((s) => ({ s, hit: volBySku(s), set: PUBLISHED[s] }))
     .filter((x): x is { s: string; hit: NonNullable<ReturnType<typeof volBySku>>; set: typeof base } => !!x.hit)
     .sort((a, b) => a.hit.vol.lv - b.hit.vol.lv || a.hit.vol.volNo - b.hit.vol.volNo);
@@ -169,7 +197,7 @@ export function pinP2(task: ProductTask, steps: P2Step[]): string {
     const oy = ys[i];
     const pn = gn(st.p);
     rows +=
-      gridGroup(pn, st.p.edges, 90, oy, S) +
+      figureGroup(st.p, 90, oy, S) +
       text(360, oy + S / 2 - 44, `${pn}×${pn}　${levelOf(st.vol)}`, 42, INK, "start", 700) +
       text(360, oy + S / 2 + 8, st.vol.ageLabel, 32, MUTED, "start", 700) +
       text(360, oy + S / 2 + 58, metricsLabel(st.p.metrics, st.p.grid), 26, MUTED, "start");
@@ -187,7 +215,7 @@ export function pinP3(task: ProductTask, vol: Vol, problems: Problem[]): string 
   let cells = "";
   picks.forEach((p, i) => {
     const ox = xs[i % 3], oy = ys[Math.floor(i / 3)];
-    cells += gridGroup(gn(p), p.edges, ox, oy, S);
+    cells += figureGroup(p, ox, oy, S);
   });
   return wrap(head + cells + footer());
 }
