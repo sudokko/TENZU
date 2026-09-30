@@ -4,6 +4,7 @@
 
 - **単一ローンチ＋宣伝2段化**（[decisions.md §3.76](../decisions.md)）の期別詳細。期定義の一次ソースは [plan.md §2](plan.md)
 - **準備期（〜8/30・7 週）**: 検品→publish 42 巻／記事レビュー 3 日 1 本（開店分 10 本を 8/11 目安で完了）／本番 env・テスト（[release-testing.md](../engineering/release-testing.md) P0 全緑）／SNS 開店在庫＋1 ヶ月分予約
+- **広告・DM（2026-10-01〜）**: Google 検索広告に一本化・Meta／RTG／個別 DM は停止・SNS は生存共有のみ・**PR TIMES も当面やらない**。以下の期別の広告額・DM・PR TIMES 記述より [ads.md](../acquisition/ads.md) を優先（[decisions.md §5.24](../decisions.md)）
 - **静かな開店期（8/30〜11 月末）**: 全公開・宣伝抑制。温存記事の週 1 公開／DM 1 通目／広告 ¥10,000／公開後モニター・UGC 確保
 - **本格化（12 月第 1 週〜）**: PR TIMES＋広告 ¥30,000＋DM 3 通目（クーポン）の 3 点着火。Go トリガーは [plan.md §1.3](plan.md)
 - **春スパイク期（1-3 月）**: 春 LP（毎年 1 月公開）・広告 ¥50,000-80,000・2 月末 6 ヶ月チェック・3/31 春総括

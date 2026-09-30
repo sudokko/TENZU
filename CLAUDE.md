@@ -62,6 +62,7 @@ Foundation は「ステップ」ではなく**全ステップが参照する基�
 | ターゲット中核3／受動拾い4 | `market/targeting.md` |
 | ポジショニング市場展開 | `market/positioning.md` |
 | 認知獲得チャネル（DM・インフル・広告） | `acquisition/channels.md` |
+| 広告運用（Google 検索広告の原資・構成・判定）／広告キーワード設計 | `acquisition/ads.md`／`acquisition/ads-keywords.md` |
 | SNS アカウント設計（名義の 2 層・表示名・ハンドル・プロフィール実文言・固定要素） | `acquisition/sns-accounts.md` |
 | CV 導線（レベル選びガイド・LP・クーポン） | `acquisition/funnel.md` |
 | 先行モニター公募導線 | `acquisition/monitor-recruit.md` |

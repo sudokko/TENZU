@@ -2341,6 +2341,19 @@ sns-accounts.md（§5.10/§5.11）に対し ChatGPT・Gemini の 2 AI 添削を�
 - **見直し**: 10/20（4 週後）に GA4 の X 行（訪問・メーカー起動）で判断する。訪問が週 3 未満のままなら、中身ではなく届く量（返信での接点づくり・広告）の問題として扱う
 - **反映**: [acquisition/sns-accounts.md §4.3](./acquisition/sns-accounts.md) の通常投稿、`/weekly-ops` 手順 4、[launch/operations.md §4](./launch/operations.md) の水曜の行
 
+
+### 5.24 当面の集客を Google 検索広告に一本化し、Meta・RTG・個別 DM を止める（2026-10-01）
+
+9 月は体調不良で広告・DM・SNS の施策を出せないまま終わった（9/1 逐次案は未実施）。一方、別事業 hitomeru で Google の新規広告主向けキャンペーン（自費 ¥60,000／60 日の出稿で ¥120,000 分のクレジット付与）に乗ることが決まり、hitomeru 単独では使い切れないため TENZU でも同じアカウントで出す。
+
+- **決めたこと**: 当面の集客は **Google 検索広告に集中**する。**Meta 広告・リターゲティング・ブロガー個別 DM は止める**。SNS は営業中であることを示す生存共有に留める。検索（LLMO/SEO・記事）は継続
+- **原資**: TENZU は前半＝自費 ¥40,000／60 日、後半＝付与クレジット 約 ¥80,000／60 日（按分見込み）。前半＝10〜11 月、後半＝12〜1 月、2 月は状況により月 ¥10,000 程度の自費運用。付与条件・期限の起算は規約で確認済みの想定（問題なし）
+- **やること**: キーワード設計（[acquisition/ads-keywords.md](./acquisition/ads-keywords.md)・ラッコ調査）／広告文／着地ページ／計測（Google Ads×GA4）を出稿前に磨く
+- **上書き**: 旧「Meta＋Google ハイブリッド・期別予算 ¥10,000→¥30,000→¥50-80,000→¥100,000+」（§3.76 の広告予算の部分）、9/1 の逐次テスト案、`launch/` 配下の広告予算・DM 3 通目・PR TIMES の記述は、本項と [acquisition/ads.md](./acquisition/ads.md) に従う。期の区切り（静かな開店期・本格化・春スパイク期）そのものは変えない
+- **再開**: Meta・RTG・DM は、Google 検索広告の結果（ads.md §9）を見てから再設計する
+- **PR TIMES**: 当面やらない（12 月の本格化着火から外す）。再開は広告の結果を見てから
+- **反映**: [acquisition/ads.md](./acquisition/ads.md)（全面改訂）／[acquisition/ads-keywords.md](./acquisition/ads-keywords.md)（新設）／[acquisition/README.md](./acquisition/README.md)／[acquisition/channels.md](./acquisition/channels.md)／[launch/plan.md](./launch/plan.md) ほか期別サマリ
+- 撤回した設計: [archive/retired-designs/2026-10-01-ads-meta-google-hybrid.md](./archive/retired-designs/2026-10-01-ads-meta-google-hybrid.md)
 ---
 
 ## §6. 計測・KPI
