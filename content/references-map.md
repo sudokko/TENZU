@@ -398,5 +398,8 @@ Luquet (1927)【暗黙的基盤・記事には直接引用なし】
 | 45 | E4-3 | LITALICO 発達ナビ コグトレ解説 | [解説サイト](https://h-navi.jp/column/article/35028591) |
 | 46 | M2 | 『天才ドリル 点描写』（認知工学）累計 20 万部超 | プレスリリース（市場文脈） |
 | 47 | M3 | ピグマリオン能力育成問題集 点描写①〜④ | [PYGLI](https://www.pygli.com/products/detail/49)（市場文脈） |
+| 48 | E2-4 | Carlson, Rowe & Curby (2013) Disentangling Fine Motor Skills' Relations to Academic Achievement. Journal of Genetic Psychology 174(5):514-533 | [ERIC](https://eric.ed.gov/?id=EJ1035187) |
+| 49 | E2-5 | Cameron et al. (2012) Fine Motor Skills and Executive Function Both Contribute to Kindergarten Achievement. Child Development 83(4):1229-1244 | [Wiley](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-8624.2012.01768.x) |
+| 50 | E2-6 | Khatib, Li, Geary & Popov (2021) Meta-analysis on the relation between visuomotor integration and academic achievement. Educational Research Review | [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S1747938X2100035X) |
 
 E3-2（幼児期発達の通説・弱）は一次資料が辿りにくいため登録しない（記事で使う場合は evidence.md 注記どおりクッション表現のみ・frontmatter には載せない）。

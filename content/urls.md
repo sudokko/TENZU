@@ -36,7 +36,7 @@
 |---|---|---|
 | Pillar | `/point-drawing-{purpose}/` ／ `/from-{action}/` ／ `/{ref}-math-shape/` ／ `/teaching-{topic}/` | `/point-drawing-guide/` ／ `/kumon-math-shape/` |
 | P1 配下 Cluster | `/point-drawing-{topic}/` | `/point-drawing-3d/` |
-| P2 配下 Cluster | `/from-{prev}/`（内部誘導のみ・P2 本体は `/{ref}-math-shape/` でまとめ兼任） | `/from-dot-connecting/`（予約） |
+| P2 配下 Cluster | `/from-{prev}/`（P2 本体は `/{ref}-math-shape/` でまとめ兼任） | `/from-dot-connecting/` |
 | P3 配下 Cluster | `/{symptom}-{solution}/` ／ `/how-to-{action}/` | `/how-to-draw-isometric/` |
 | P4 配下 Cluster | `/vs-{brand}/` ／ `/{brand}-support/` ／ `/{topic}-comparison/` ／ `/point-drawing-{effect-topic}/` ／ `/how-to-train-{ability}/` | `/vs-pygmalion/` ／ `/point-drawing-effects/` |
 | P5 配下 Cluster | `/teaching-{topic}/`（P5 まとめ兼任） | `/teaching-point-drawing/` |
@@ -86,7 +86,7 @@ C1-2〜C1-5 の記事スラッグは発行しない。下記は移譲先。
 | # | KW | スラッグ |
 |---|---|---|
 | C2-1 | 公文 図形 | **`/kumon-math-shape/`**（P2 まとめ兼任・本体後半の実務パートで受ける） |
-| C2-2 | 点つなぎ 次（CEP 内部誘導） | `/from-dot-connecting/`（予約・独立記事化しない） |
+| C2-2 | 点つなぎ 次 | **`/from-dot-connecting/`**（独立記事・Google 広告の点つなぎ系検索の着地を兼ねる） |
 | C2-3 | 公文 算数 図形 | **`/kumon-math-shape/`**（P2 まとめ兼任・本体前半の理由パートで受ける） |
 
 #### 3.4 P3 配下 Cluster（記事 5 本）

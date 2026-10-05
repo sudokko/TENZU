@@ -35,6 +35,9 @@
 | **E2-1** | 視覚空間スキルと算数能力の関連を 45 本の論文から統合したメタ分析。両者には実質的な関連がある | [Examining the relations between spatial skills and mathematical performance: A meta-analysis (Psychonomic Bulletin & Review 2021)](https://link.springer.com/article/10.3758/s13423-021-02012-w) | 最強（メタ分析） | 「視覚空間スキルは算数達成と関連する」は可。因果は断定不可 |
 | **E2-2** | 小学校期の視覚空間記憶の伸びは 5 年生以降の算数達成を予測する縦断研究 | [Developmental Gains in Visuospatial Memory Predict Gains in Mathematics Achievement (PMC3729464)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3729464/) | 強（縦断研究） | 「小学校期に視覚空間記憶を伸ばすことは算数の伸びと関係する」までは可 |
 | **E2-3** | 6-7 歳児では特に視覚空間推論（Block Design）が算数パフォーマンスを説明する | [Mathematical achievement: the role of spatial and motor skills in 6–8 year-old children (PMC7546220)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7546220/) | 強（査読付き） | 「低学年期の視覚空間スキルは算数と特に関連が深い」までは可 |
+| **E2-4** | 手先の課題を「なぞる（視覚運動協応）」と「図形を写す（視覚空間統合）」に分けて比べると、性別・家庭の経済状況・IQ・なぞる力をそろえても、写す力が算数と作文の成績の差を説明した（5〜18 歳） | [Carlson, Rowe & Curby (2013) Journal of Genetic Psychology 174(5):514-533（ERIC EJ1035187）](https://eric.ed.gov/?id=EJ1035187) | 強（査読付き） | 「なぞる課題より、図形を写す課題のほうが算数・作文の成績と結びついていた」までは可。点つなぎ・点描写の効果を調べた研究ではないので、点描写の効果としては書かない |
+| **E2-5** | 就学前（3〜4 歳）に測った図形を写す力（design copy）が、幼稚園入園時の複数の学力テストの成績と、その年度の伸びを予測した | [Cameron et al. (2012) Child Development 83(4):1229-1244](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-8624.2012.01768.x) | 強（査読付き・縦断） | 「就学前の図形を写す力が、入学時の学力と関係していた」までは可。因果・練習効果は不可 |
+| **E2-6** | 視覚運動統合（見た形を手で再現する力）と学力の関係を 96 本・266 の効果量で統合したメタ分析。算数 r=0.39、読み r=0.34 の中程度の相関。読みとの関係は学年が上がると弱まり、算数ではその弱まりが小さい | [Khatib, Li, Geary & Popov (2021) Educational Research Review](https://www.sciencedirect.com/science/article/pii/S1747938X2100035X) | 最強（メタ分析） | 相関の値と「中程度の関連」までは可。因果は不可 |
 
 #### 引用テンプレ（記事用）
 
