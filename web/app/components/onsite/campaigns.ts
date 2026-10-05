@@ -31,6 +31,7 @@ export type Campaign = {
   conditions?: {
     minScrollPct?: number;               // first_visit: delaySec と AND で評価
     minProductViews?: number;            // idle: 到達したら idleSec を待たず早期表示
+    fromAds?: boolean;                   // 広告クリックで来たセッションだけに出す（着地 URL の gclid 等で判定）
   };
   frequency?: {
     maxImpressions: 1 | 2;               // 表示上限。既定は 1
@@ -43,25 +44,28 @@ export type Campaign = {
   active: boolean;
 };
 
+// 既定は全キャンペーン停止（active: false）。必要なときだけ管理画面で 1 本ずつ動かす
+//（acquisition/onsite-messaging.md §8）。「推奨テンプレートを反映」は active も上書きするため、
+// ここを true にすると反映した瞬間に配信が始まる。
 export const SEED_CAMPAIGNS: Campaign[] = [
   {
-    // 開店あいさつ＝クリティカルコア「設計図ごと全部公開」の 1 行告知
+    // 初めて来た人へ、無料の模写メーカーを知らせる（1 枚目の体験が最初の商品）
     id: "welcome-2026",
     trigger: "first_visit",
     pages: ["/", "/articles"],
-    headline: "中身を見てから選べます",
-    message: "TENZU のプリントは、全問を購入前にご覧いただけます。",
-    cta: { label: "プリントの中身を見る", href: "/products" },
+    headline: "1 枚、無料で作れます",
+    message: "模写メーカーは登録なしで使えます（4×4 まで）。",
+    cta: { label: "模写メーカーを開く", href: "/maker" },
     image: {
-      src: "/assets/articles/point-drawing-complete-guide/02-learning-order.webp",
-      alt: "段階別に並んだ点描写プリント",
+      src: "/assets/onsite/free-maker-v1.webp",
+      alt: "4×4 の点をつないで描いた船の図形",
     },
     layout: { mobile: "floating", desktop: "corner", imageVariant: "side" },
-    conditions: { minScrollPct: 35 },
+    conditions: { minScrollPct: 15 },
     frequency: { maxImpressions: 1, stopOnClick: true },
     priority: 10,
     delaySec: 10,
-    active: true,
+    active: false,
   },
   {
     // 商品ページで迷っている人へ（診断語彙 NG — 「目安」の提案トーン）
@@ -80,7 +84,7 @@ export const SEED_CAMPAIGNS: Campaign[] = [
     frequency: { maxImpressions: 2, cooldownDays: 30, stopOnClick: true },
     priority: 20,
     idleSec: 30,
-    active: true,
+    active: false,
   },
   {
     // 模写メーカー（無料の入口）へ初めて来た人へ＝無料の範囲を最初に伝える。
@@ -89,22 +93,23 @@ export const SEED_CAMPAIGNS: Campaign[] = [
     // スクロールしない人にこそ届ける必要がある（delaySec を 12 秒に伸ばして代替）。
     // スマホは中央寄せではなく下部: 中央は作図キャンバスの真上になり V3「邪魔しない」に反する
     //（PDF バーとの重なりは onsite.css の .mobile-export-bar 退避ルールが処理する）。
+    // 画像は welcome-2026 と同じ: TOP のカードから来た人に「さっきの続き」と分かるようにする。
     id: "maker-welcome",
     trigger: "first_visit",
     pages: ["/maker"],
     excludePages: ["/maker-", "/makers"],
     headline: "4×4 までは無料でつくれます",
     message:
-      "まずは 4×4 で作って、PDF にして印刷してみてください。5×5〜8×8 は、サイズを選ぶと ¥980 の買い切りで解放できます。",
+      "登録なしで、4×4 まではそのまま PDF にして印刷できます。5×5〜8×8 は ¥980 の買い切りで解放できます。",
     image: {
-      src: "/assets/articles/how-to-choose-and-use/02-screen-to-paper.webp",
-      alt: "画面で作った問題を紙で練習する流れ",
+      src: "/assets/onsite/free-maker-v1.webp",
+      alt: "4×4 の点をつないで描いた船の図形",
     },
     layout: { mobile: "bottom", desktop: "corner", imageVariant: "side" },
     frequency: { maxImpressions: 1, stopOnClick: true },
     priority: 25,
-    delaySec: 12,
-    active: true,
+    delaySec: 10,
+    active: false,
   },
   {
     // 工房で固まっている人へ（お知らせのみ・CTA なし）
@@ -127,7 +132,7 @@ export const SEED_CAMPAIGNS: Campaign[] = [
     frequency: { maxImpressions: 1, stopOnClick: true },
     priority: 30,
     idleSec: 30,
-    active: true,
+    active: false,
   },
   {
     // カート放置＝事実通知のみ・急かさない（G6）
@@ -145,7 +150,7 @@ export const SEED_CAMPAIGNS: Campaign[] = [
     layout: { mobile: "bottom", desktop: "corner", imageVariant: "side" },
     frequency: { maxImpressions: 2, cooldownDays: 7, stopOnClick: true },
     priority: 5,
-    active: true,
+    active: false,
   },
   {
     // 春 LP 案内（1-3 月限定運用）: 1 月第 1 週に active: true・4 月に false

@@ -94,9 +94,11 @@ export function parseCampaign(input: unknown): Campaign | string {
     if (minProductViews !== undefined && (!Number.isInteger(minProductViews) || minProductViews < 1)) {
       return "minProductViews は 1 以上の整数にしてください";
     }
+    if (c.fromAds != null && typeof c.fromAds !== "boolean") return "fromAds は true/false にしてください";
     conditions = {
       ...(minScrollPct !== undefined ? { minScrollPct } : {}),
       ...(minProductViews !== undefined ? { minProductViews } : {}),
+      ...(c.fromAds === true ? { fromAds: true } : {}),
     };
   }
 

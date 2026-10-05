@@ -22,6 +22,9 @@ import "./onsite.css";
 
 const READ_PREFIX = "tenzu_om_";
 const PRODUCT_VIEWS_KEY = "tenzu_om_product_views";
+const FROM_ADS_KEY = "tenzu_om_from_ads";
+// Google 広告の自動タグ（gbraid/wbraid は iOS 向けの代替）。手動 UTM の cpc も広告扱い
+const AD_CLICK_PARAMS = ["gclid", "gbraid", "wbraid"];
 
 function storageOk(): boolean {
   try {
@@ -113,6 +116,31 @@ function productViewCount(): number {
   }
 }
 
+/* 広告クリックの印は着地 URL にしか付かないので、フルロード時に見てセッションへ写す。
+   以後の SPA 遷移・別ページでも同じセッション（タブ）の間は広告経由として扱う */
+function markAdSession(): void {
+  try {
+    const q = new URLSearchParams(window.location.search);
+    if (AD_CLICK_PARAMS.some((p) => q.has(p)) || q.get("utm_medium") === "cpc") {
+      window.sessionStorage.setItem(FROM_ADS_KEY, "1");
+    }
+  } catch {
+    /* 判定できない環境では fromAds のキャンペーンが出ないだけ */
+  }
+}
+
+function isAdSession(): boolean {
+  try {
+    return window.sessionStorage.getItem(FROM_ADS_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function audienceMatches(c: Campaign): boolean {
+  return !c.conditions?.fromAds || isAdSession();
+}
+
 /* pages は前方一致（"/" のみ完全一致・"" は全ページ）。excludePages が優先 */
 function pageMatches(c: Campaign, path: string): boolean {
   if (c.excludePages?.some((p) => path.startsWith(p))) return false;
@@ -141,6 +169,7 @@ export default function OnsiteMessenger() {
   /* キャンペーン定義の取得（フルページロード毎に 1 回・SPA 遷移では再取得しない）。
      preview 指定時は該当 1 件を active 無視で取る */
   useEffect(() => {
+    markAdSession();
     const previewId = new URLSearchParams(window.location.search).get("om_preview");
     const url = previewId
       ? `/api/onsite/campaigns?id=${encodeURIComponent(previewId)}`
@@ -190,7 +219,7 @@ export default function OnsiteMessenger() {
     if (new URLSearchParams(window.location.search).has("om_preview")) return;
 
     const candidates = campaigns
-      .filter((c) => c.active && pageMatches(c, pathname) && canShow(c))
+      .filter((c) => c.active && pageMatches(c, pathname) && audienceMatches(c) && canShow(c))
       .sort((a, b) => a.priority - b.priority);
     if (candidates.length === 0) return;
 

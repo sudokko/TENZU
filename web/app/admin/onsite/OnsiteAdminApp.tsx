@@ -40,6 +40,7 @@ type Draft = {
   inlineAnchor: string;
   minScrollPct: string;
   minProductViews: string;
+  fromAds: boolean;
   maxImpressions: "1" | "2";
   cooldownDays: string;
   priority: string;
@@ -66,6 +67,7 @@ function newDraft(): Draft {
     inlineAnchor: "",
     minScrollPct: "",
     minProductViews: "",
+    fromAds: false,
     maxImpressions: "1",
     cooldownDays: "",
     priority: "50",
@@ -93,6 +95,7 @@ function toDraft(c: Campaign): Draft {
     inlineAnchor: c.layout?.inlineAnchor ?? "",
     minScrollPct: c.conditions?.minScrollPct != null ? String(c.conditions.minScrollPct) : "",
     minProductViews: c.conditions?.minProductViews != null ? String(c.conditions.minProductViews) : "",
+    fromAds: c.conditions?.fromAds === true,
     maxImpressions: String(c.frequency?.maxImpressions ?? 1) as "1" | "2",
     cooldownDays: c.frequency?.cooldownDays != null ? String(c.frequency.cooldownDays) : "",
     priority: String(c.priority),
@@ -172,10 +175,11 @@ function fromDraft(d: Draft): Campaign | string {
       imageVariant: d.imageVariant,
       ...(inlineAnchor ? { inlineAnchor } : {}),
     },
-    ...((minScrollPct !== undefined || minProductViews !== undefined) ? {
+    ...((minScrollPct !== undefined || minProductViews !== undefined || d.fromAds) ? {
       conditions: {
         ...(minScrollPct !== undefined ? { minScrollPct } : {}),
         ...(minProductViews !== undefined ? { minProductViews } : {}),
+        ...(d.fromAds ? { fromAds: true } : {}),
       },
     } : {}),
     frequency: {
@@ -598,8 +602,8 @@ export default function OnsiteAdminApp() {
               </div>
             )}
             <p className="adm-hint">
-              生涯 1 回制約のため常時 5 本以内に厳選（onsite-messaging.md §8）。停止は「削除」ではなく
-              トグルで（既読キー履歴を残す）。
+              既定は全停止。必要なときだけ 1 本ずつ動かし、同時に動かすのは 5 本まで（onsite-messaging.md §8）。
+              停止は「削除」ではなくトグルで（既読キー履歴を残す）。
             </p>
           </section>
 
@@ -794,6 +798,20 @@ export default function OnsiteAdminApp() {
                     />
                   </div>
                 )}
+              </div>
+
+              <div className="adm-field">
+                <label className="adm-check">
+                  <input
+                    type="checkbox"
+                    checked={draft.fromAds}
+                    onChange={(e) => setDraft({ ...draft, fromAds: e.target.checked })}
+                  />
+                  広告から来た人だけに出す
+                </label>
+                <p className="adm-hint">
+                  広告をクリックして来たセッション（同じタブの間）だけが対象です。対象ページと組み合わせると、広告の着地ごとに出し分けられます。
+                </p>
               </div>
 
               <div className="adm-row">
