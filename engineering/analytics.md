@@ -83,8 +83,9 @@
 | GTM | 公開コンテナ `GTM-K7KNR7CH`。Google タグだけを Initialization - All Pages で発火。同名の GA4 イベントタグは置かない |
 | 本番受信確認 | `page_view`／`tool_start`／`generated_pdf`／`product_recommend_click`／`view_item`／`add_to_cart` を GA4 リアルタイムまたは標準イベントレポートで確認済み |
 | キーイベント | `generated_pdf` と `purchase` を有効化済み。`purchase` は実購入データ待ち |
-| 未確認・未設定 | Stripe 遷移を伴う `begin_checkout`、最初の実購入と Stripe の突合、Search Console 連携、内部トラフィック除外 |
-| 通常レポート用の追加設定 | `maker`・`purchase_kind` 等を軸に常設集計する場合は、GA4 管理のカスタム定義へイベントスコープのカスタムディメンションとして登録する。`pages` はカスタム指標候補 |
+| 未確認・未設定 | Stripe 遷移を伴う `begin_checkout`、最初の実購入と Stripe の突合、Search Console 連携（Search Console 側は API で取得できる状態） |
+| 内部トラフィック除外 | 設定済み。ルール「自宅アクセス」（`traffic_type = internal`・自宅の IP 3 件）とデータフィルタ「Internal Traffic」（除外・有効）。回線が変わったら、ルールの IP を更新する |
+| 通常レポート用の追加設定 | イベントスコープのカスタムディメンション `maker`・`purchase_kind` は登録済み（登録した日以降のデータから集計できる）。`pages` はカスタム指標候補 |
 
 本番実装と初回検証の経緯・検証値は [2026-08-23 GA4 本番導入セッション](../archive/sessions/2026-08/2026-08-23-ga4-production-setup.md) を参照。
 
