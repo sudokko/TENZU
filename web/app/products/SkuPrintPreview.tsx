@@ -795,10 +795,10 @@ function IosSaveHint() {
 function SolidPrintPreview({
   sku, problems, buySlot, purchased = false, meate,
 }: { sku: string; problems: SolidRenderProblem[]; buySlot?: React.ReactNode; purchased?: boolean; meate?: string }) {
-  // 立体は横長が自然（既定 A4 横・2 問/ページ）。
-  const [paperKey, setPaperKey] = useState<PaperKey>("A4-L");
-  const [perPage, setPerPage] = useState<LayoutPerPage>(2);
-  const [pair, setPair] = useState<PairLayout>("horizontal");
+  // 既定 A4 縦・1 問/ページ・下に並べる（スマホのプレビューで見やすい形）。
+  const [paperKey, setPaperKey] = useState<PaperKey>("A4-P");
+  const [perPage, setPerPage] = useState<LayoutPerPage>(1);
+  const [pair, setPair] = useState<PairLayout>("vertical");
   const [dotSize, setDotSize] = useState<DotSize>("m");
   const [nameField, setNameField] = useState(false);
   const [noDots, setNoDots] = useState(false); // 背景の点をとる（白紙模写形式）
