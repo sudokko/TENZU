@@ -1,6 +1,6 @@
 /* =========================================================================
    /products — 商品一覧まとめ（標準＝リスト一枚型）
-   構成: 一行リード → レベル帯グラフ（5段階×年齢めやす）→ 3群×タスク行。
+   構成: 一行リード → 最初の 1 冊（値段・紙面・直行ボタン）→ まとめ買い割引 → レベル帯グラフ（5段階×年齢めやす）→ 3群×タスク行。
    タスク行＝アイコン＋名前＋一言解説＋レベルチップ（一歩〜発展・存在する
    レベルだけクリッカブル・巻数は出さない）。チップは /products/{slug}#lv{n} へ。
    ========================================================================= */
@@ -10,6 +10,7 @@ import SiteHeader from "../SiteHeader";
 import { GROUPS, LEVELS, LevelGraph, SiteFooter, TOTAL_KINDS, TOTAL_VOL } from "../catalog";
 import { TIERS } from "./data";
 import { TASK_MINIFIG } from "./task-minifigs";
+import ShelfStarter from "./ShelfStarter";
 /* 設問数はレベル選びガイドの SSOT から引く（数字を直書きしないこと）。 */
 import { QUESTION_COUNT } from "../level-guide/questions";
 import "./product.css";
@@ -37,6 +38,8 @@ export default function ProductsHub() {
             <h1 className="plp-hub-lead">
               3 つの力 × 各 3 タイプ × 5 レベル。今の手ごたえに合う一冊から。
             </h1>
+            {/* 1 画面目に値段・紙面・最初の 1 冊（広告の着地。¥200 を見て来た人へ、中身と入口を先に） */}
+            <ShelfStarter />
             {/* まとめ買い割引＝料金ルール（オファーではない）。¥200 一律と同格の情報として置く。
                 「合計の冊数で決まります」が無いと縦串でそろえる買い方だと誤解される。 */}
             <p className="rate-line">

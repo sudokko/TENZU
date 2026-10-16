@@ -117,6 +117,13 @@ export function trackAddToCart(item: CommerceItem): void {
   trackCommerceEvent("add_to_cart", [item], item.price);
 }
 
+/* 種類ページの「◯ 冊まとめてカートへ」。1 回の操作＝1 イベントで items[] に新しく入った巻を並べる。
+   value は定価の合計（割引率はカート全体の冊数で決まり、この時点では確定しないため）。 */
+export function trackAddToCartItems(items: CommerceItem[]): void {
+  if (items.length === 0) return;
+  trackCommerceEvent("add_to_cart", items, items.reduce((sum, i) => sum + i.price, 0));
+}
+
 export function trackBeginCheckout(items: CommerceItem[], value: number): void {
   if (items.length === 0) return;
   trackCommerceEvent("begin_checkout", items, value);

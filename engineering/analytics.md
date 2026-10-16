@@ -41,7 +41,7 @@
 | `generated_pdf` | メーカー共通 `exportPdf` の保存直後（全メーカー） | `maker`・`pages` | **北極星指標**。UTM と掛けて「流入元別 generated_pdf」 |
 | `product_recommend_click` | PDF 完了画面の商品レコメンドクリック | `currency`・`value`・`item_list_name`・`item_id`・`item_name`・`item_category`（GTM 用 `ecommerce.items[]` も併送） | メーカーから紙商品への送客 |
 | `view_item` | 商品詳細ページの表示 | GA4 eコマース標準（`currency`・`value`・`items[]`） | 商品閲覧 |
-| `add_to_cart` | 商品詳細で「カートに追加」 | GA4 eコマース標準（`currency`・`value`・`items[]`） | カート追加成功後 |
+| `add_to_cart` | 商品詳細で「カートに追加」／種類ページの「◯ 冊まとめてカートへ」 | GA4 eコマース標準（`currency`・`value`・`items[]`） | カート追加成功後。まとめて投入は 1 イベントで、新しく入った巻だけを `items[]` に並べ、`value` は定価の合計 |
 | `begin_checkout` | Stripe Checkout URL の生成成功後、遷移直前 | GA4 eコマース標準（`currency`・`value`・`items[]`） | 決済開始 |
 | `purchase` | `/checkout/success`（紙）・`/maker-thanks`（メーカー）※いずれも paid 確認後 | GA4 eコマース標準（`transaction_id`・`value`・`currency: JPY`・`items[]`）＋独自 `purchase_kind`: paper / maker | `items[].item_category` に paper/maker。再訪・リロードは transaction_id の localStorage ガード＋GA4 側重複排除の二段 |
 

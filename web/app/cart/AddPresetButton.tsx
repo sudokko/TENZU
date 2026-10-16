@@ -4,9 +4,12 @@
    価格は持たない＝カート側のまとめ買い割引（data.ts tierRate）が唯一の値付け。
    variant: "bar"  … 種類ページのヘッド内（弱・白地に黒罫）
             "card" … 種類ページ末のカード内（強・既存 .btn-cart を流用）
-   全巻が既にカートにある場合はカートへの導線へ表示替えする。 */
+   全巻が既にカートにある場合はカートへの導線へ表示替えする。
+   計測: 押したときにカートへ新しく入った巻だけを add_to_cart（items[]）で送る。 */
 
 import { useCart } from "./CartContext";
+import { trackAddToCartItems } from "../analytics";
+import { PRICE } from "../products/data";
 
 const CartIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
@@ -18,17 +21,22 @@ const CartIcon = () => (
 );
 
 export default function AddPresetButton({
-  skus, variant,
-}: { skus: string[]; variant: "bar" | "card" }) {
+  skus, names, variant,
+}: { skus: string[]; names: Record<string, string>; variant: "bar" | "card" }) {
   const { addMany, items, ready } = useCart();
   const allIn = ready && skus.length > 0 && skus.every((s) => items.includes(s));
   const label = `${skus.length} 冊まとめてカートへ`;
+  const addAll = () => {
+    const added = skus.filter((s) => !items.includes(s));
+    addMany(skus);
+    trackAddToCartItems(added.map((s) => ({ id: s, name: names[s] ?? s, price: PRICE, category: "paper" })));
+  };
 
   if (variant === "bar") {
     return allIn ? (
       <a className="preset-add is-incart" href="/cart">カートに入っています →</a>
     ) : (
-      <button type="button" className="preset-add" onClick={() => addMany(skus)}>
+      <button type="button" className="preset-add" onClick={addAll}>
         {label}
       </button>
     );
@@ -46,7 +54,7 @@ export default function AddPresetButton({
       <span className="btn-cart-sub">カートを見る →</span>
     </a>
   ) : (
-    <button type="button" className="btn-cart" onClick={() => addMany(skus)}>
+    <button type="button" className="btn-cart" onClick={addAll}>
       <span className="btn-cart-main"><CartIcon />{label}</span>
       <span className="btn-cart-sub">1 冊ずつでも買えます</span>
     </button>

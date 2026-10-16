@@ -13,7 +13,7 @@ import { catalogTaskBySlug } from "../catalog";
 import VolThumb from "./VolThumb";
 import {
   LEVEL_NAMES, PRICE, QUESTIONS_PER_VOL, firstVol,
-  cartTotal, currentTier, isTaskComplete, taskPresetSkus, volBySku,
+  cartTotal, currentTier, isTaskComplete, taskPresetSkus, volBySku, volTitle,
   type ProductTask,
 } from "./data";
 import "./product.css";
@@ -36,6 +36,8 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
   const presetSkus = isTaskComplete(task) ? taskPresetSkus(task) : [];
   const presetN = presetSkus.length;
   const presetList = presetSkus.map((s) => volBySku(s)!.vol);
+  /* add_to_cart の item_name 用（商品詳細の AddToCartButton と同じ外向け商品名） */
+  const presetNames = Object.fromEntries(presetList.map((v) => [v.sku, volTitle(task, v)]));
   const presetList0 = presetList[0];
   const presetListZ = presetList[presetList.length - 1];
   const presetGross = presetN * PRICE;
@@ -79,7 +81,7 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
               {presetTier && (
                 <>
                   <div className="preset-bar">
-                    <AddPresetButton skus={presetSkus} variant="bar" />
+                    <AddPresetButton skus={presetSkus} names={presetNames} variant="bar" />
                     <span className="preset-spec">
                       Lv.{presetList0.lv} → Lv.{presetListZ.lv} ・ {presetN * QUESTIONS_PER_VOL} 問 ・{" "}
                       <b>¥{presetTotal.toLocaleString()}</b>
@@ -180,7 +182,7 @@ export default function TaskListPage({ task }: { task: ProductTask }) {
                       <span>¥{presetTotal.toLocaleString()}</span>
                     </div>
                   </div>
-                  <AddPresetButton skus={presetSkus} variant="card" />
+                  <AddPresetButton skus={presetSkus} names={presetNames} variant="card" />
                   <p className="preset-note">ちがう種類をまぜても、合計の冊数で決まります。</p>
                 </div>
               )}

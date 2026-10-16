@@ -683,6 +683,58 @@ a.lv-link:hover { text-decoration: underline; }
   margin: 0;
 }
 
+/* ---- 最初の 1 冊（/products 1 画面目・ShelfStarter）: 縮小紙面＋値段＋直行ボタン ---- */
+.shelf-start {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin: 18px 0 16px;
+}
+.shelf-start-fig { margin: 0; display: grid; gap: 6px; }
+.shelf-start-sheet {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 1px 0 var(--line-thin), 2px 3px 0 var(--bg-2);
+}
+.shelf-start-fig figcaption {
+  font-family: var(--font-tier3-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  color: var(--fg-3);
+}
+.shelf-start-body { display: grid; gap: 8px; justify-items: start; }
+.shelf-start-price {
+  margin: 0;
+  font-family: var(--font-tier3-mono);
+  font-size: 13px;
+  color: var(--fg-2);
+  line-height: 1.4;
+}
+.shelf-start-price b {
+  font-family: var(--font-tier1-klee);
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--fg);
+  letter-spacing: 0.02em;
+  margin-right: 8px;
+}
+.shelf-start-price span { white-space: nowrap; }
+.shelf-start-how {
+  margin: 0;
+  font-family: var(--font-tier3-sans);
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--fg-2);
+}
+.shelf-start-cta { font-size: 14px; padding: 11px 16px; line-height: 1.5; }
+@media (min-width: 720px) {
+  .shelf-start { grid-template-columns: 150px minmax(0, 1fr); gap: 28px; }
+  .shelf-start-how { font-size: 14px; }
+}
+
 /* ==== 一覧リスト（標準 /products）: 一行リード → 帯グラフ → 3群×タスク行 ==== */
 /* 帯グラフ枠は landing.css .level-guide を共用し、位置だけ hero 直下用に上書き */
 .plpc-levelband { margin: 26px 0 0; }
