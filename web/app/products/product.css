@@ -36,6 +36,31 @@
 .sku-intro { display: flex; flex-direction: column; gap: 14px; }
 .sku-buy { display: flex; flex-direction: column; gap: 22px; }
 
+/* スマホだけの値段＋カート 1 行（見出し直下）。ボタンは AddToCartButton をそのまま使い、小さく見せる */
+.sku-quickbuy { display: none; }
+@media (max-width: 800px) {
+  .sku-quickbuy {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px 10px 10px 14px;
+    border: 1px solid var(--line-mid);
+    border-radius: var(--radius-soft);
+  }
+  .sku-quickbuy-meta {
+    font-family: var(--font-tier3-sans);
+    font-size: 13px; color: var(--fg-2); letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .sku-quickbuy-yen {
+    font-family: var(--font-tier3-mono);
+    font-size: 20px; color: var(--fg);
+    font-feature-settings: "tnum" 1;
+  }
+  .sku-quickbuy .cta-row { padding-top: 0; flex: none; }
+  .sku-quickbuy .btn-cart { width: auto; padding: 9px 18px; }
+  .sku-quickbuy .btn-cart-main { font-size: 14px; }
+  .sku-quickbuy .btn-cart-sub { display: none; }
+}
+
 .sku-visual {
   background: #FFFFFF;
   border: 1px solid var(--line-thin);
@@ -482,6 +507,16 @@ section.s .lead {
   letter-spacing: 0.04em;
 }
 .spv-fold[open] .spv-fold-chevron::after { content: "とじる ▴"; }
+/* 商品詳細（購入前）だけ「買ったあとも変えられます」を添える。購入後ページ（.success-sku）には出さない。
+   ラベル本体は SkuPrintPreview 側にあるので、ここでは疑似要素で足し、ピルを右端へ寄せる */
+.sku-head .spv-fold-label { justify-content: flex-start; }
+.sku-head .spv-fold-label::after {
+  content: "買ったあとも変えられます";
+  order: 1;
+  font-size: 12px; font-weight: 400; letter-spacing: 0.02em;
+  color: var(--fg-3);
+}
+.sku-head .spv-fold-chevron { order: 2; margin-left: auto; }
 .spv-fold-current {
   font-family: var(--font-tier3-sans);
   font-size: 12px; line-height: 1.6;

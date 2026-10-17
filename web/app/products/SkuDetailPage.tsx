@@ -141,6 +141,14 @@ export default function SkuDetailPage({ task, vol }: { task: ProductTask; vol: V
             <header className="sku-intro">
               <h1 className="sku-name">{task.name} {lvName} Vol.{vol.volNo}・{vol.grid}</h1>
               <p className="sku-blurb sku-blurb--oneline">{vol.blurb}</p>
+              {/* スマホだけ：見出しの下に値段とカートを 1 行で（下の買い物ボックスは 2 画面目より下になるため）。
+                  PC は右カラムの買い物ボックスが 1 画面目に入るので出さない（product.css .sku-quickbuy） */}
+              <div className="sku-quickbuy">
+                <span className="sku-quickbuy-meta">
+                  <span className="sku-quickbuy-yen">¥{PRICE}</span> · {qCount} 問
+                </span>
+                <AddToCartButton sku={vol.sku} name={volTitle(task, vol)} price={PRICE} />
+              </div>
             </header>
 
             <SkuPrintPreview sku={vol.sku} grid={vol.grid} problems={renderProblems}
