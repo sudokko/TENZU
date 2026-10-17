@@ -615,6 +615,11 @@ export default function Home() {
                     広告は一切入れていません。どうぞ、ゆっくり見ていってください。
                   </p>
                 </div>
+                {/* 紹介文の直下に次の一歩（⑤ tr-close と同じ 2 ボタン）。メーカーへのボタンは置かない */}
+                <div className="tr-cta-row tr-hero-cta">
+                  <a className="tr-btn-primary" href="/level-guide">レベル選びガイドへ →</a>
+                  <a className="tr-btn-ghost" href="/products">全 {TOTAL_VOL} 巻の棚を見る</a>
+                </div>
               </div>
               <div>
                 <SignatureDraw />

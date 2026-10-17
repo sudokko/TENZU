@@ -90,6 +90,8 @@
 }
 
 .tr-cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.tr-hero-cta { margin-top: 22px; }
+@media (max-width: 880px) { .tr-hero-cta { margin-top: 18px; } }
 
 .tr-btn-primary {
   font-family: var(--font-tier3-sans);
