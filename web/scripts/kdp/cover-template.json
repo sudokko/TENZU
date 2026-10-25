@@ -1,0 +1,15 @@
+{
+  "source": "https://kdp.amazon.co.jp/cover-calculator",
+  "checkedAt": "2026-10-18",
+  "binding": "paperback",
+  "ink": "black-and-white",
+  "paper": "white",
+  "direction": "left-to-right",
+  "inputTrimMm": [182, 257],
+  "pages": 106,
+  "displayedCoverMm": [376.65, 263.4],
+  "displayedFrontMm": [182.12, 257.05],
+  "displayedSpineMm": 6.06,
+  "displayedBarcodeMarginMm": 6.35,
+  "note": "公式計算フォームの表示値。インチ丸めによりmm式から幅が約0.19mm変わる。ZIPダウンロードの完了とKDP Previewerの実配置は別途確認。"
+}

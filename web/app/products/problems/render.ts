@@ -9,7 +9,7 @@
    ========================================================================= */
 
 import { edgeKey, mirrorEdges, type EdgeT, type SkuProblemSet } from "./schema";
-import type { PairLayout } from "../print";
+import { rotPtPrint, type PairLayout } from "../print";
 
 /* 鏡タスクの軸種（schema.ts の TransformSpec.axis と同じ語彙） */
 export type MirrorAxis = "v" | "h" | "d1" | "d2";
@@ -91,4 +91,23 @@ export function composeTriple(pb: RenderProblem, pair: PairLayout): ComposeTripl
     ? pb.edges
     : mirrorEdges(minusEdges(R, B), pb.n, "h");
   return { a, b: B, result: R, op: "fold" };
+}
+
+/** Completed answer pane; explicit compose answers are interpreted by composeTriple. */
+export function resultEdgesOf(pb: RenderProblem, pair: PairLayout = "horizontal"): EdgeT[] {
+  const triple = composeTriple(pb, pair);
+  if (triple) return triple.result;
+  if (pb.mirrorAxis) return mirrorEdges(pb.edges, pb.n, pb.mirrorAxis);
+  if (pb.rotateDeg) return pb.edges.map(([a, b]) => [rotPtPrint(a, pb.n, pb.rotateDeg!), rotPtPrint(b, pb.n, pb.rotateDeg!)]);
+  if (pb.translateVec) {
+    const { dc, dr } = pb.translateVec;
+    return pb.edges.map(([a, b]) => [[a[0] + dc, a[1] + dr], [b[0] + dc, b[1] + dr]]);
+  }
+  return pb.edges; // copy and fill: the full reference is the completed answer
+}
+
+export function gapEdgesOf(pb: RenderProblem): EdgeT[] | null {
+  if (pb.compose || !pb.answerEdges || pb.answerEdges.length === 0) return null;
+  const rSet = new Set(pb.answerEdges.map(edgeKey));
+  return pb.edges.filter((e) => !rSet.has(edgeKey(e)));
 }

@@ -12,14 +12,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor,
+  PAPER, PAPER_KEYS, COUNT_OPTIONS, paperMax, paneSize, gridFor, pairGeom, arrowProps,
   KGAP, CELL_PAD, PRINT_INK, DOT_SCALE, NAME_BAND_MM, nameBandSvgString, dotRadius, edgeWidth,
   rotMarkPts, translateMarkPts, markRingSegs, rotArcSegs, rotArcRadius, rotArcWidth,
   opSegs, opWidth,
   type PaperKey, type LayoutPerPage, type PairLayout, type DotSize,
 } from "./print";
-import { edgeKey, mirrorEdges, type EdgeT, type Pt, type SolidEdge } from "./problems/schema";
-import { composeKindOf, composeTriple, type RenderProblem } from "./problems/render";
+import { mirrorEdges, type EdgeT, type Pt, type SolidEdge } from "./problems/schema";
+import { composeKindOf, composeTriple, gapEdgesOf, type RenderProblem } from "./problems/render";
 import { buildSolidPageSvg, svgToPng, loadLogo } from "../maker-solid/solid-print";
 import { saveFile, isIOS } from "../lib/save-file";
 
@@ -30,14 +30,6 @@ const INK = "#3A424E";
 const AXIS_INK = "#9AA0AA"; // 軸線（鏡タスク・薄い点線）
 const QUESTIONS = 12;
 const MARGIN_MM = 14;
-
-/* fill 用: F から R を除いた G（欠け図）を返す。R 未指定なら null。
-   かさね系（compose）は answerEdges を持つが 3 ペイン式で描くため対象外 */
-function gapEdgesOf(pb: RenderProblem): EdgeT[] | null {
-  if (pb.compose || !pb.answerEdges || pb.answerEdges.length === 0) return null;
-  const rSet = new Set(pb.answerEdges.map(edgeKey));
-  return pb.edges.filter((e) => !rSet.has(edgeKey(e)));
-}
 
 /* ---- SKU slug から決定的にサンプル 12 問を生成（seeded LCG） ---- */
 function seededRng(seed: string) {
@@ -88,36 +80,6 @@ function sampleProblems(sku: string, n: number): RenderProblem[] {
   return out;
 }
 
-/* ---- ペア（みほん→うつす）の幾何（mm）。プレビュー SVG と PDF が共用。
-   pair=horizontal は右隣・vertical は真下にうつす欄（maker と同じ二択）。
-   panes=3（かさね系「A op B ＝ □」）はペイン i を (ox+i·dx, oy+i·dy) に置く ---- */
-type PairGeom = {
-  pane: number; gap: number;
-  ox: number; oy: number;          // 先頭ペイン左上（セル内中央寄せ済み）
-  dx: number; dy: number;          // 次ペインへのオフセット（1 ペインぶんの歩幅）
-  dot: (pane: number, i: number, n: number) => number; // ペイン内ドット位置
-};
-
-function pairGeom(cellW: number, cellH: number, pair: PairLayout, panes: 2 | 3 = 2): PairGeom {
-  const pane = paneSize(cellW, cellH, pair, panes);
-  const gap = pane * KGAP;
-  const dot = (p: number, i: number, n: number) => p * (0.1 + (0.8 * i) / Math.max(1, n - 1));
-  if (pair === "horizontal") {
-    const blockW = pane * panes + gap * (panes - 1);
-    return {
-      pane, gap, dot,
-      ox: (cellW - blockW) / 2, oy: (cellH - pane) / 2,
-      dx: pane + gap, dy: 0,
-    };
-  }
-  const blockH = pane * panes + gap * (panes - 1);
-  return {
-    pane, gap, dot,
-    ox: (cellW - pane) / 2, oy: (cellH - blockH) / 2,
-    dx: 0, dy: pane + gap,
-  };
-}
-
 /* ならび選択チップのピクト（みほん■ → かくマス□）。文章より図で伝える。
    おためし点描写メーカーの同チップとも共用（export） */
 export function PairChipIcon({ pair }: { pair: PairLayout }) {
@@ -152,21 +114,6 @@ export function PairChipIcon({ pair }: { pair: PairLayout }) {
       {pane(1, 31, false)}
     </svg>
   );
-}
-
-/* 矢印（みほん→うつす・細線＋小さな矢じり）。(x,y)=線の始点・size=線長・向きは pair に追従 */
-function arrowProps(g: PairGeom, cx: number, cy: number, pair: PairLayout) {
-  const aSize = g.gap * 0.9;
-  if (pair === "horizontal") {
-    return {
-      x: cx + g.pane + (g.gap - aSize) / 2, y: cy + g.pane / 2,
-      size: aSize, dir: "right" as const,
-    };
-  }
-  return {
-    x: cx + g.pane / 2, y: cy + g.pane + (g.gap - aSize) / 2,
-    size: aSize, dir: "down" as const,
-  };
 }
 
 /* 細線矢印の SVG path（mm 座標・maker buildPageSvg と同形） */
@@ -380,12 +327,11 @@ export async function downloadPdf(
   nameField = false, dotScale: number = DOT_SCALE.m, noDots = false, answer = false,
 ) {
   const { PDFDocument, rgb, StandardFonts } = await import("pdf-lib");
+  const { paintProblemPdf } = await import("./problems/pdf-render");
   const paper = PAPER[paperKey];
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Courier);
-  const ink = rgb(0x77 / 255, 0x77 / 255, 0x77 / 255); // PRINT_INK
   const gray = rgb(0.6, 0.63, 0.67);
-  const frameInk = rgb(0x9a / 255, 0xa0 / 255, 0xaa / 255); // AXIS_INK（枠）
 
   // フッターロゴ（取得失敗時はテキストのみで続行）
   let logo: Awaited<ReturnType<typeof doc.embedPng>> | null = null;
@@ -417,11 +363,6 @@ export async function downloadPdf(
     const { cols, rows } = gridFor(Math.min(perPage, batch.length) || 1, pair, paper.w, paper.h - nameH, MARGIN_MM, panes);
     const cellW = (W - margin * 2) / cols;
     const cellH = (H - margin * 2 - nameHpt) / rows;
-    const pad = Math.min(cellW, cellH) * CELL_PAD;
-    const g = pairGeom(cellW - pad * 2, cellH - pad * 2, pair, panes);
-    // 共通式は mm 基準なので pt⇄mm を介して同じ比率に揃える
-    const dotR = dotRadius(g.pane / MM2PT, dotScale) * MM2PT;
-    const lw = edgeWidth(g.pane / MM2PT) * MM2PT;
 
     if (band) {
       const stripPt = (MARGIN_MM + NAME_BAND_MM) * MM2PT;
@@ -429,180 +370,10 @@ export async function downloadPdf(
     }
 
     batch.forEach((pb, i) => {
-      const n = pb.n;
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      const cx = margin + col * cellW + pad + g.ox;
-      const cyTop = margin + nameHpt + row * cellH + pad + g.oy; // 上起点（mm 系と同じ向き）
-      const Y = (yTop: number) => H - yTop;                      // PDF は y 上向き → 反転
-
-      if (!noDots) {
-        for (let side = 0; side < panes; side++) {
-          const sx = cx + side * g.dx;
-          const syTop = cyTop + side * g.dy;
-          for (let r = 0; r < n; r++)
-            for (let c = 0; c < n; c++)
-              page.drawCircle({
-                x: sx + g.dot(g.pane, c, n), y: Y(syTop + g.dot(g.pane, r, n)), size: dotR, color: ink,
-              });
-        }
-      }
-      /* かさね系: 3 ペイン式「A op B ＝ □」（プレビューと同じ導出）。
-         出題＝ペイン3 空欄／解答（answer=true）＝ペイン3 に結果を描き込み */
-      const triple = composeTriple(pb, pair);
-      if (triple) {
-        const drawEdges = (edges: EdgeT[], ox: number, oyTop: number) => {
-          for (const e of edges) {
-            page.drawLine({
-              start: { x: ox + g.dot(g.pane, e[0][0], n), y: Y(oyTop + g.dot(g.pane, e[0][1], n)) },
-              end: { x: ox + g.dot(g.pane, e[1][0], n), y: Y(oyTop + g.dot(g.pane, e[1][1], n)) },
-              thickness: lw, color: ink, lineCap: 1,
-            });
-          }
-        };
-        drawEdges(triple.a, cx, cyTop);
-        drawEdges(triple.b, cx + g.dx, cyTop + g.dy);
-        if (answer) {
-          drawEdges(triple.result, cx + g.dx * 2, cyTop + g.dy * 2);
-        } else if (noDots) {
-          // 点をとったとき、空欄のこたえペインにだけ薄い枠（解答は線で埋まるため不要）
-          const fx = cx + g.dx * 2 + g.pane * 0.02;
-          const fyTop = cyTop + g.dy * 2 + g.pane * 0.02;
-          const fs2 = g.pane * 0.96;
-          const fsw = Math.max(0.25 * MM2PT, lw * 0.55);
-          page.drawLine({ start: { x: fx, y: Y(fyTop) }, end: { x: fx + fs2, y: Y(fyTop) }, thickness: fsw, color: frameInk });
-          page.drawLine({ start: { x: fx, y: Y(fyTop + fs2) }, end: { x: fx + fs2, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
-          page.drawLine({ start: { x: fx, y: Y(fyTop) }, end: { x: fx, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
-          page.drawLine({ start: { x: fx + fs2, y: Y(fyTop) }, end: { x: fx + fs2, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
-        }
-        const opSize = g.gap * 0.5;
-        const ow = Math.max(0.4 * MM2PT, opSize * 0.1);
-        const opAt = (k: 1 | 2) => pair === "horizontal"
-          ? { x: cx + (k - 1) * g.dx + g.pane + g.gap / 2, y: cyTop + g.pane / 2 }
-          : { x: cx + g.pane / 2, y: cyTop + (k - 1) * g.dy + g.pane + g.gap / 2 };
-        const drawOp = (kind: "plus" | "minus" | "eq" | "fold", at: { x: number; y: number }) => {
-          for (const s of opSegs(kind, at.x, at.y, opSize, pair === "vertical")) {
-            page.drawLine({
-              start: { x: s[0], y: Y(s[1]) }, end: { x: s[2], y: Y(s[3]) },
-              thickness: ow, color: ink, lineCap: 1,
-            });
-          }
-        };
-        drawOp(triple.op, opAt(1));
-        drawOp("eq", opAt(2));
-        return;
-      }
-      // 点をとったとき、かくマスが空欄の設問（模写・鏡・回転・移動）にだけ薄い枠を添える。
-      // 欠け補完（gapEdgesOf ≠ null）には付けない。
-      if (noDots && !gapEdgesOf(pb)) {
-        const fx = cx + g.dx + g.pane * 0.02;
-        const fyTop = cyTop + g.dy + g.pane * 0.02;
-        const fs2 = g.pane * 0.96;
-        const fsw = Math.max(0.25 * MM2PT, lw * 0.55);
-        // 4 辺を線分で（drawRectangle は塗り前提のため線分で枠を描く）
-        page.drawLine({ start: { x: fx, y: Y(fyTop) }, end: { x: fx + fs2, y: Y(fyTop) }, thickness: fsw, color: frameInk });
-        page.drawLine({ start: { x: fx, y: Y(fyTop + fs2) }, end: { x: fx + fs2, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
-        page.drawLine({ start: { x: fx, y: Y(fyTop) }, end: { x: fx, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
-        page.drawLine({ start: { x: fx + fs2, y: Y(fyTop) }, end: { x: fx + fs2, y: Y(fyTop + fs2) }, thickness: fsw, color: frameInk });
-      }
-      for (const e of pb.edges) {
-        page.drawLine({
-          start: { x: cx + g.dot(g.pane, e[0][0], n), y: Y(cyTop + g.dot(g.pane, e[0][1], n)) },
-          end: { x: cx + g.dot(g.pane, e[1][0], n), y: Y(cyTop + g.dot(g.pane, e[1][1], n)) },
-          thickness: lw, color: ink, lineCap: 1,
-        });
-      }
-      // 欠け補完: かくマスペインに G=F∖R を事前印字
-      const gap = gapEdgesOf(pb);
-      if (gap) for (const e of gap) {
-        page.drawLine({
-          start: { x: cx + g.dx + g.dot(g.pane, e[0][0], n), y: Y(cyTop + g.dy + g.dot(g.pane, e[0][1], n)) },
-          end:   { x: cx + g.dx + g.dot(g.pane, e[1][0], n), y: Y(cyTop + g.dy + g.dot(g.pane, e[1][1], n)) },
-          thickness: lw, color: ink, lineCap: 1,
-        });
-      }
-      /* 変換の指示子（プレビューと同じ数式）: 回転＝弧の矢印／移動＝★●の目じるし□ */
-      {
-        const marks = pb.rotateDeg
-          ? rotMarkPts(n, pb.rotateDeg)
-          : pb.translateVec ? translateMarkPts(pb.edges, pb.translateVec) : null;
-        if (marks) {
-          const half = g.pane * 0.055;
-          const msw = Math.max(0.3 * MM2PT, lw * 0.85);
-          const ring = (p: Pt, ox: number, oyTop: number) => {
-            for (const s of markRingSegs(
-              ox + g.dot(g.pane, p[0], n), oyTop + g.dot(g.pane, p[1], n), half,
-            )) {
-              page.drawLine({
-                start: { x: s[0], y: Y(s[1]) }, end: { x: s[2], y: Y(s[3]) },
-                thickness: msw, color: ink, lineCap: 1,
-              });
-            }
-          };
-          ring(marks.from, cx, cyTop);
-          ring(marks.to, cx + g.dx, cyTop + g.dy);
-        }
-        if (pb.rotateDeg) {
-          const aw = rotArcWidth(g.pane, g.gap);
-          for (const s of rotArcSegs(
-            cx + g.dx / 2 + (pair === "horizontal" ? g.pane / 2 : 0),
-            cyTop + g.dy / 2 + (pair === "horizontal" ? 0 : g.pane / 2),
-            rotArcRadius(g.pane, g.gap), pb.rotateDeg,
-          )) {
-            page.drawLine({
-              start: { x: s[0], y: Y(s[1]) }, end: { x: s[2], y: Y(s[3]) },
-              thickness: aw, color: ink, lineCap: 1,
-            });
-          }
-        }
-      }
-      if (pb.mirrorAxis) {
-        // 鏡 SKU: みほん→解答 の境界は矢印じゃなく薄い点線（鏡面）
-        const planeColor = rgb(0x9a / 255, 0xa0 / 255, 0xaa / 255);
-        const planeDashStep = Math.max(0.4 * MM2PT, g.pane * 0.025);
-        const planeW = Math.max(0.2 * MM2PT, lw * 0.7);
-        const drawDashedPlane = (x1: number, y1Top: number, x2: number, y2Top: number) => {
-          const dx = x2 - x1, dy = y2Top - y1Top;
-          const len = Math.hypot(dx, dy);
-          const ux = dx / len, uy = dy / len;
-          let t = 0;
-          while (t < len) {
-            const t2 = Math.min(t + planeDashStep, len);
-            page.drawLine({
-              start: { x: x1 + ux * t, y: Y(y1Top + uy * t) },
-              end:   { x: x1 + ux * t2, y: Y(y1Top + uy * t2) },
-              thickness: planeW, color: planeColor, lineCap: 1,
-            });
-            t = t2 + planeDashStep * 0.7;
-          }
-        };
-        if (pair === "horizontal") {
-          const mx = cx + g.pane + g.gap / 2;
-          drawDashedPlane(mx, cyTop - g.pane * 0.05, mx, cyTop + g.pane * 1.05);
-        } else {
-          const my = cyTop + g.pane + g.gap / 2;
-          drawDashedPlane(cx - g.pane * 0.05, my, cx + g.pane * 1.05, my);
-        }
-      } else if (!pb.rotateDeg) {
-        // 矢印（みほん→うつす・細線＋小さな矢じり・向きは pair に追従）
-        const arr = arrowProps(g, cx, cyTop, pair);
-        const hd = arr.size * 0.3;
-        const aw = Math.max(0.35 * MM2PT, arr.size * 0.04);
-        const seg = (x1: number, y1: number, x2: number, y2: number) =>
-          page.drawLine({
-            start: { x: x1, y: Y(y1) }, end: { x: x2, y: Y(y2) },
-            thickness: aw, color: ink, lineCap: 1,
-          });
-        if (arr.dir === "right") {
-          seg(arr.x, arr.y, arr.x + arr.size, arr.y);
-          seg(arr.x + arr.size - hd, arr.y - hd, arr.x + arr.size, arr.y);
-          seg(arr.x + arr.size - hd, arr.y + hd, arr.x + arr.size, arr.y);
-        } else {
-          seg(arr.x, arr.y, arr.x, arr.y + arr.size);
-          seg(arr.x - hd, arr.y + arr.size - hd, arr.x, arr.y + arr.size);
-          seg(arr.x + hd, arr.y + arr.size - hd, arr.x, arr.y + arr.size);
-        }
-      }
+      paintProblemPdf(page, pb, {
+        x: margin + (i % cols) * cellW, y: margin + nameHpt + Math.floor(i / cols) * cellH,
+        width: cellW, height: cellH,
+      }, pair, { dotScale, noDots, answer });
     });
 
     // 解答ページ群の目印（欧文のみ・上余白の左端＝記名欄と重ならない位置）

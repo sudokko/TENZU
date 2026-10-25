@@ -4,6 +4,12 @@ import createMDX from "@next/mdx";
 const nextConfig: NextConfig = {
   // dev サーバーへの LAN アクセス許可（スマホ実機確認用・本番には無関係）
   allowedDevOrigins: ["192.168.10.113", "192.168.10.107", "192.168.10.*", "192.168.137.1"],
+  // 特典は公開ディレクトリへ置かず、認証後のRoute Handlerだけから配信。
+  outputFileTracingIncludes: {
+    "/api/book/hajimete/files/*": ["./private/book-hajimete/*.pdf"],
+    "/api/book/hajimete/unlock": ["./private/book-hajimete/*.pdf"],
+    "/book/hajimete": ["./private/book-hajimete/*.pdf"],
+  },
   // 正規ホストは apex（tenzu.jp）。www 版を 200 の重複ページとして配信せず、
   // パスとクエリを保ったまま恒久転送して canonical シグナルを一本化する。
   async redirects() {

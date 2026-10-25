@@ -10,6 +10,7 @@ export default function SiteFooterMini({ variant = "mini" }: { variant?: "mini" 
     <footer className={`site footer-${variant}`}>
       <div className="wrap">
         <SnsLinks heading="フォローする" className="sns-foot" />
+        <p><a href="/book/hajimete">本をお持ちの方へ · PDF受け取り</a></p>
         <span className="copyright">© 2026 TENZU · 点図形（点描写）プリントの専門店</span>
       </div>
     </footer>

@@ -8,7 +8,7 @@
    ========================================================================= */
 import {
   PAPER, KGAP, KPAD, CELL_PAD, PRINT_INK, NAME_BAND_MM, nameBandSvgString,
-  dotRadius, edgeWidth,
+  dotRadius, edgeWidth, gridGeometry,
   type PaperKey, type PairLayout,
 } from "../products/print";
 import { AXIS_INK } from "../maker/core/geometry";
@@ -67,14 +67,7 @@ export function solidPaneSvgString(
   cols: number, rows: number, edges: SEdge[], showLines: boolean, dotScale: number,
   showDots: boolean = true, frame: boolean = false,
 ): string {
-  const inset = Math.min(paneW, paneH) * 0.10;
-  const step = Math.min(
-    (paneW - inset * 2) / Math.max(1, cols - 1),
-    (paneH - inset * 2) / Math.max(1, rows - 1),
-  );
-  const gw = step * (cols - 1), gh = step * (rows - 1);
-  const ox = x + (paneW - gw) / 2, oy = y + (paneH - gh) / 2;
-  const P = (c: number, r: number) => ({ x: ox + c * step, y: oy + r * step });
+  const { step, gw, gh, ox, oy, point: P } = gridGeometry(x, y, paneW, paneH, cols, rows);
   const paneMin = Math.min(paneW, paneH);
   const dotR = dotRadius(paneMin, dotScale);
   const lineW = edgeWidth(paneMin);

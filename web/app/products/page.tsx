@@ -11,6 +11,7 @@ import { GROUPS, LEVELS, LevelGraph, SiteFooter, TOTAL_KINDS, TOTAL_VOL } from "
 import { TIERS } from "./data";
 import { TASK_MINIFIG } from "./task-minifigs";
 import ShelfStarter from "./ShelfStarter";
+import BookNotice from "../components/BookNotice";
 /* 設問数はレベル選びガイドの SSOT から引く（数字を直書きしないこと）。 */
 import { QUESTION_COUNT } from "../level-guide/questions";
 import "./product.css";
@@ -108,6 +109,7 @@ export default function ProductsHub() {
             <span className="level-guide-cta-sub">{QUESTION_COUNT} つの質問に答えると、はじめる位置の目安とおすすめの一冊が出ます →</span>
           </a>
         </div>
+        <BookNotice />
       </main>
       <SiteFooter />
     </>

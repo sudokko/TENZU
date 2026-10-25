@@ -2,6 +2,7 @@ import "./top-rich.css";
 import SiteHeader from "./SiteHeader";
 import { SiteFooter, TOTAL_KINDS, TOTAL_VOL, GROUPS, LEVELS, LevelGraph } from "./catalog";
 import ArticlesSection from "./ArticlesSection";
+import BookNotice from "./components/BookNotice";
 import CoverageStudio from "./CoverageStudio";
 import { VISIBLE_MAKERS } from "./products/makers";
 import { QUESTIONS_PER_VOL } from "./products/data";
@@ -814,6 +815,7 @@ export default function Home() {
         </section>
 
         {/* ===================== ⑦ 記事 ===================== */}
+        <BookNotice />
         <ArticlesSection />
       </main>
 

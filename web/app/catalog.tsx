@@ -332,6 +332,7 @@ export function SiteFooter() {
               <li><a href="/level-guide">レベルで選ぶ</a></li>
               <li><a href="/makers">自分でつくる</a></li>
               <li><a href="/products/design">設計台帳</a></li>
+              <li><a href="/book/hajimete">本をお持ちの方へ · PDF受け取り</a></li>
             </ul>
           </div>
           <div className="foot-col">

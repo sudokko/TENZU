@@ -43,6 +43,11 @@ function trackEvent(eventName: string, params: Record<string, unknown>): void {
   sendGaEvent(eventName, params);
 }
 
+/** 書籍特典。コード・端末情報・個人情報をイベント値へ含めない。 */
+export function trackBookEvent(event: "book_unlock" | "book_pdf_download" | "book_next_level" | "book_amazon_click", file?: string, group?: "tasks" | "more"): void {
+  trackEvent(event, { book: "hajimete", ...(file ? { file } : {}), ...(group ? { group } : {}) });
+}
+
 /* 現在ページのメーカー識別子（/maker → copy、/maker-mirror → mirror …） */
 export function makerFromPath(): string {
   if (typeof window === "undefined") return "unknown";

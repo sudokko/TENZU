@@ -9,6 +9,18 @@
 
 import type { EdgeT, Pt } from "./problems/schema";
 
+/** Bound paperback dimensions; independent of the loose-leaf UI's PAPER_KEYS. */
+export const KDP_B5 = { w: 182, h: 257 } as const;
+
+/** Square cells, centered in rectangular panes. Shared by solid SVG and PDF. */
+export function gridGeometry(x: number, y: number, w: number, h: number, cols: number, rows: number) {
+  const inset = Math.min(w, h) * 0.1;
+  const step = Math.min((w - inset * 2) / Math.max(1, cols - 1), (h - inset * 2) / Math.max(1, rows - 1));
+  const gw = step * (cols - 1), gh = step * (rows - 1);
+  const ox = x + (w - gw) / 2, oy = y + (h - gh) / 2;
+  return { step, gw, gh, ox, oy, point: (c: number, r: number) => ({ x: ox + c * step, y: oy + r * step }) };
+}
+
 export type PaperKey =
   | "A4-P" | "A4-L"
   | "B4-P" | "B4-L"
@@ -52,11 +64,12 @@ export const CELL_PAD = 0.08;
 // Horizontal: panes 枚 + (panes-1)gap 幅, 1 pane + pad 高さ。
 // Vertical:   1 pane 幅, panes 枚 + (panes-1)gap + 2pad 高さ。
 // panes=3（重ねメーカー /maker-overlay の「A ＋ B ＝ □」）でも同式で成立。
-export function paneSize(cellW: number, cellH: number, pair: PairLayout, panes = 2): number {
+export function paneSize(cellW: number, cellH: number, pair: PairLayout, panes = 2, gapScale = 1): number {
+  const gapRatio = KGAP * gapScale;
   if (pair === "horizontal") {
-    return Math.min(cellW / (panes + (panes - 1) * KGAP), cellH / (1 + KPAD));
+    return Math.min(cellW / (panes + (panes - 1) * gapRatio), cellH / (1 + KPAD));
   }
-  return Math.min(cellW, cellH / (panes + (panes - 1) * KGAP + 2 * KPAD));
+  return Math.min(cellW, cellH / (panes + (panes - 1) * gapRatio + 2 * KPAD));
 }
 
 // Pick cols×rows for `count` pair-cells on a W×H page (mm) maximizing pane size.
@@ -265,4 +278,45 @@ export function rotArcSegs(
   const rad = ((tan + 180 + off) * Math.PI) / 180;
   segs.push([prev[0], prev[1], prev[0] + hd * Math.cos(rad), prev[1] + hd * Math.sin(rad)]);
   return segs;
+}
+
+export type PairGeom = {
+  pane: number; gap: number;
+  ox: number; oy: number;          // 先頭ペイン左上（セル内中央寄せ済み）
+  dx: number; dy: number;          // 次ペインへのオフセット（1 ペインぶんの歩幅）
+  dot: (pane: number, i: number, n: number) => number; // ペイン内ドット位置
+};
+
+export function pairGeom(cellW: number, cellH: number, pair: PairLayout, panes: 2 | 3 = 2, gapScale = 1): PairGeom {
+  const pane = paneSize(cellW, cellH, pair, panes, gapScale);
+  const gap = pane * KGAP * gapScale;
+  const dot = (p: number, i: number, n: number) => p * (0.1 + (0.8 * i) / Math.max(1, n - 1));
+  if (pair === "horizontal") {
+    const blockW = pane * panes + gap * (panes - 1);
+    return {
+      pane, gap, dot,
+      ox: (cellW - blockW) / 2, oy: (cellH - pane) / 2,
+      dx: pane + gap, dy: 0,
+    };
+  }
+  const blockH = pane * panes + gap * (panes - 1);
+  return {
+    pane, gap, dot,
+    ox: (cellW - pane) / 2, oy: (cellH - blockH) / 2,
+    dx: 0, dy: pane + gap,
+  };
+}
+
+export function arrowProps(g: PairGeom, cx: number, cy: number, pair: PairLayout) {
+  const aSize = g.gap * 0.9;
+  if (pair === "horizontal") {
+    return {
+      x: cx + g.pane + (g.gap - aSize) / 2, y: cy + g.pane / 2,
+      size: aSize, dir: "right" as const,
+    };
+  }
+  return {
+    x: cx + g.pane / 2, y: cy + g.pane + (g.gap - aSize) / 2,
+    size: aSize, dir: "down" as const,
+  };
 }
