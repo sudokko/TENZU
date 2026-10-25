@@ -29,15 +29,6 @@
       ]
     },
     "copy-lv3-vol2": {
-      "grid": 5,
-      "slopes": "ortho45",
-      "fullGrid": true,
-      "D": [
-        12.8,
-        27.1
-      ]
-    },
-    "copy-lv4-vol1": {
       "grid": 4,
       "slopes": "any",
       "fullGrid": true,
@@ -45,6 +36,15 @@
       "D": [
         12.4,
         32.2
+      ]
+    },
+    "copy-lv4-vol1": {
+      "grid": 5,
+      "slopes": "ortho45",
+      "fullGrid": true,
+      "D": [
+        12.8,
+        27.1
       ]
     },
     "copy-lv4-vol2": {
@@ -86,6 +86,32 @@
     }
   },
   "fill": {
+    "fill-lv1-vol1": {
+      "grid": 3,
+      "lines": [
+        3,
+        6
+      ],
+      "slopes": "ortho",
+      "diagonals": [
+        0,
+        0
+      ],
+      "crossings": [
+        0,
+        1
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 2,
+      "closedBias": 0.8,
+      "missing": [
+        1,
+        1
+      ]
+    },
     "fill-lv2-vol1": {
       "grid": 3,
       "lines": [
@@ -138,7 +164,59 @@
         3
       ]
     },
+    "fill-lv3-vol2": {
+      "grid": 4,
+      "lines": [
+        5,
+        10
+      ],
+      "slopes": "any",
+      "diagonals": [
+        1,
+        4
+      ],
+      "crossings": [
+        0,
+        2
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 3,
+      "closedBias": 0.65,
+      "missing": [
+        2,
+        3
+      ]
+    },
     "fill-lv4-vol1": {
+      "grid": 5,
+      "lines": [
+        7,
+        13
+      ],
+      "slopes": "ortho45",
+      "diagonals": [
+        1,
+        6
+      ],
+      "crossings": [
+        0,
+        4
+      ],
+      "components": [
+        1,
+        1
+      ],
+      "bbox": 4,
+      "closedBias": 0.55,
+      "missing": [
+        3,
+        4
+      ]
+    },
+    "fill-lv4-vol2": {
       "grid": 5,
       "lines": [
         7,
@@ -188,6 +266,32 @@
       "missing": [
         4,
         6
+      ]
+    },
+    "fill-lv5-vol2": {
+      "grid": 7,
+      "lines": [
+        11,
+        20
+      ],
+      "slopes": "any",
+      "diagonals": [
+        2,
+        10
+      ],
+      "crossings": [
+        0,
+        7
+      ],
+      "components": [
+        1,
+        2
+      ],
+      "bbox": 6,
+      "closedBias": 0.45,
+      "missing": [
+        5,
+        7
       ]
     }
   },

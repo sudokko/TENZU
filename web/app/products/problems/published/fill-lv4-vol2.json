@@ -1,0 +1,3043 @@
+{
+ "schemaVersion": 1,
+ "sku": "fill-lv4-vol2",
+ "task": "fill",
+ "answerMode": "explicit",
+ "problems": [
+  {
+   "id": "fill-lv4-vol2-motif-s1-21",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 1,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 1,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "h",
+    "symMiss": 5
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "motif": "いぬ",
+    "variant": "dog5~m+0"
+   },
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       1
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       4
+      ],
+      [
+       4,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    ]
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 22.7,
+    "value": 22.7,
+    "parts": {
+     "E": 10,
+     "G": 5,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0,
+     "交差": 1,
+     "gap": 6
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "dog5~m+0",
+    "label": "いぬ"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-motif-s1-30",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 7,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "motif": "するどいロケット",
+    "variant": "rocketsharp5+0"
+   },
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       4,
+       4
+      ]
+     ]
+    ]
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 21.5,
+    "value": 21.5,
+    "parts": {
+     "E": 14,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 0,
+     "gap": 6
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "rocketsharp5+0",
+    "label": "するどいロケット"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-motif-s1-37",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      4,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 9,
+    "diagonals": 6,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 15,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "motif": "ねこ",
+    "variant": "cat5+0"
+   },
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       3,
+       0
+      ],
+      [
+       4,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       4,
+       2
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ]
+    ]
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 24.9,
+    "value": 24.9,
+    "parts": {
+     "E": 17,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
+     "gap": 8
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "cat5+0",
+    "label": "ねこ"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-motif-s1-24",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ]
+    ],
+    [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 9,
+    "diagonals": 1,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 1,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 10,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 5
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "motif": "きりん",
+    "variant": "giraffe5+0"
+   },
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       1
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       3,
+       0
+      ],
+      [
+       4,
+       0
+      ]
+     ],
+     [
+      [
+       0,
+       3
+      ],
+      [
+       0,
+       4
+      ]
+     ]
+    ]
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 25,
+    "value": 25,
+    "parts": {
+     "E": 12,
+     "G": 5,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0,
+     "gap": 8
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "giraffe5+0",
+    "label": "きりん"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-s1-38",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       2,
+       0
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       0,
+       3
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 7,
+    "diagonals": 4,
+    "non45": 1,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "d",
+    "symMiss": 2
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-553"
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 25.3,
+    "value": 25.3,
+    "parts": {
+     "E": 12.5,
+     "G": 5,
+     "k": 0.85,
+     "strokes": 0,
+     "brk": 6,
+     "gap": 6
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "fill",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-553"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-motif-s1-29",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 5,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 0,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 5,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": [
+     "v"
+    ],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 0
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "motif": "ほし",
+    "variant": "star5+0"
+   },
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ]
+    ]
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 25.8,
+    "value": 25.8,
+    "parts": {
+     "E": 14,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 0,
+     "brk": 0,
+     "交差": 5,
+     "gap": 6
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "star5+0",
+    "label": "ほし"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-motif-s1-28",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 9,
+    "diagonals": 2,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 17,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 3
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "motif": "かたつむり",
+    "variant": "snail5~m+1"
+   },
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       4,
+       2
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     [
+      [
+       4,
+       3
+      ],
+      [
+       4,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ]
+     ]
+    ]
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 26.2,
+    "value": 26.2,
+    "parts": {
+     "E": 12.5,
+     "G": 5,
+     "k": 1,
+     "strokes": 0.7,
+     "brk": 0,
+     "gap": 8
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "snail5~m+1",
+    "label": "かたつむり"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-motif-s1-34",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 10,
+    "diagonals": 6,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 1,
+    "components": 1,
+    "pointsUsed": 11,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 4,
+    "strokes": 1,
+    "symAxis": "none",
+    "symMiss": 10
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "motif": "さかな",
+    "variant": "fish5~m+2"
+   },
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       1
+      ]
+     ],
+     [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       3,
+       1
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       3,
+       3
+      ]
+     ]
+    ]
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 29.3,
+    "value": 29.3,
+    "parts": {
+     "E": 15.5,
+     "G": 4.75,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0,
+     "交差": 1,
+     "gap": 8
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "fish5~m+2",
+    "label": "さかな"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-s1-43",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       3,
+       0
+      ],
+      [
+       4,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       0
+      ]
+     ],
+     [
+      [
+       3,
+       4
+      ],
+      [
+       4,
+       2
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 7,
+    "diagonals": 4,
+    "non45": 3,
+    "non45Gentle": 3,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 3
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "2",
+    "seed": 1,
+    "variant": "hept#1/1"
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 29.5,
+    "value": 29.5,
+    "parts": {
+     "E": 16.5,
+     "G": 5,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0,
+     "gap": 8
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "fill",
+    "version": "2",
+    "seed": 1,
+    "variant": "hept#1/1"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-motif-s1-31",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      2
+     ]
+    ]
+   ],
+   "metrics": {
+    "lines": 8,
+    "diagonals": 4,
+    "non45": 2,
+    "non45Gentle": 2,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 12,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 2,
+    "symAxis": "v",
+    "symMiss": 2
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "motif": "かさ",
+    "variant": "umbrella5+1"
+   },
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       0
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       4,
+       2
+      ]
+     ]
+    ]
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 30.2,
+    "value": 30.2,
+    "parts": {
+     "E": 15,
+     "G": 5,
+     "k": 0.7,
+     "strokes": 0.7,
+     "brk": 6,
+     "gap": 8
+    }
+   },
+   "provenance": {
+    "source": "ai-edited",
+    "generator": "motif",
+    "version": "1",
+    "seed": 1,
+    "variant": "umbrella5+1",
+    "label": "かさ"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-s1-49",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    [
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    [
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ]
+    ],
+    [
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    [
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       3,
+       0
+      ],
+      [
+       3,
+       1
+      ]
+     ],
+     [
+      [
+       3,
+       1
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       3,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       0
+      ]
+     ],
+     [
+      [
+       4,
+       1
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       4,
+       2
+      ],
+      [
+       4,
+       3
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       3
+      ]
+     ],
+     [
+      [
+       2,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 13,
+    "diagonals": 6,
+    "non45": 1,
+    "non45Gentle": 1,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 2,
+    "components": 1,
+    "pointsUsed": 14,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 4,
+    "symAxis": "h",
+    "symMiss": 7
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-86"
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 35.6,
+    "value": 35.6,
+    "parts": {
+     "E": 18.5,
+     "G": 5,
+     "k": 1,
+     "strokes": 2.0999999999999996,
+     "brk": 0,
+     "交差": 2,
+     "gap": 8
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "fill",
+    "version": "2",
+    "seed": 1,
+    "variant": "hybrid#5#1-86"
+   }
+  },
+  {
+   "id": "fill-lv4-vol2-s1-50",
+   "grid": {
+    "type": "square",
+    "n": 5
+   },
+   "edges": [
+    [
+     [
+      1,
+      0
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    [
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    [
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ]
+    ]
+   ],
+   "answer": {
+    "mode": "explicit",
+    "edges": [
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       3,
+       2
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       3,
+       4
+      ]
+     ]
+    ]
+   },
+   "metrics": {
+    "lines": 7,
+    "diagonals": 5,
+    "non45": 5,
+    "non45Gentle": 3,
+    "diagonalAngleKinds": 2,
+    "hasNon45": true,
+    "crossings": 0,
+    "components": 1,
+    "pointsUsed": 9,
+    "symmetry": [],
+    "boardN": 5,
+    "bboxW": 5,
+    "bboxH": 5,
+    "strokes": 1,
+    "symAxis": "v",
+    "symMiss": 3
+   },
+   "gen": {
+    "kind": "auto",
+    "generator": "fill",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-53"
+   },
+   "difficulty": {
+    "task": "fill",
+    "auto": 37,
+    "value": 37,
+    "parts": {
+     "E": 24,
+     "G": 5,
+     "k": 1,
+     "strokes": 0,
+     "brk": 0,
+     "gap": 8
+    }
+   },
+   "provenance": {
+    "source": "ai",
+    "generator": "fill",
+    "version": "2",
+    "seed": 1,
+    "variant": "rand#5#1-53"
+   }
+  }
+ ],
+ "publishedAt": "2026-08-09"
+}
