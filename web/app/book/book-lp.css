@@ -47,24 +47,43 @@
 .booklp-fact-big small { margin-left: 2px; font-family: var(--font-tier3-sans); font-size: 15px; }
 .booklp-fact-note { font-size: 14px; font-weight: 600; line-height: 1.5; }
 
-.booklp-levels { padding: 8px 0 28px; }
-.booklp-levels-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 20px; }
-.booklp-levels-head h2 { margin: 0; font-size: 22px; }
-.booklp-levels-head span { font-size: 13px; color: var(--fg-2, #424955); white-space: nowrap; }
-.booklp-swipe {
-  display: flex; gap: 12px; margin: 0; padding: 14px 20px 6px; list-style: none;
-  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-}
-.booklp-swipe::-webkit-scrollbar { display: none; }
-.booklp-card {
-  flex: 0 0 78%; max-width: 360px; scroll-snap-align: center;
-  display: flex; flex-direction: column; gap: 8px; padding: 18px;
-  border-radius: 16px; background: var(--bg-2, #f4f2ed);
-}
-.booklp-card-fig { padding: 10px; border-radius: 10px; background: var(--bg, #fff); color: var(--fg, #1a1f2a); }
+/* 共通の見出し（裏表紙の中身を分けた各セクション） */
+.booklp-head { padding: 0 20px; }
+.booklp-eyebrow { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--book-coral); }
+.booklp-head h2 { margin: 0; font-size: 22px; line-height: 1.45; }
+.booklp-lead { margin: 8px 0 0; font-size: 15px; color: var(--fg-2, #424955); }
 .booklp-figure { display: block; width: 100%; height: auto; }
-.booklp-card-lv { font-family: var(--font-tier3-mono); font-size: 15px; color: var(--book-coral); }
-.booklp-card-fresh { font-size: 18px; font-weight: 600; line-height: 1.4; }
+
+/* 6段階を縦に畳みかける（番号＋図＋変えたもの）→ 6 × 24 = 144 で締める */
+.booklp-levels { padding: 12px 0 32px; }
+.booklp-steps { position: relative; margin: 18px 20px 0; padding: 0; list-style: none; }
+.booklp-steps::before { content: ""; position: absolute; left: 13px; top: 24px; bottom: 24px; width: 2px; background: var(--book-line); }
+.booklp-step { position: relative; display: grid; grid-template-columns: 28px 76px minmax(0, 1fr); align-items: center; gap: 12px; padding: 8px 0; }
+.booklp-step-no { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--book-coral); color: #fff; font-family: var(--font-tier3-mono); font-size: 14px; z-index: 1; }
+.booklp-step-fig { padding: 6px; border-radius: 10px; background: var(--bg-2, #f4f2ed); color: var(--fg, #1a1f2a); }
+.booklp-step-text { display: flex; flex-direction: column; gap: 2px; }
+.booklp-step-lv { font-family: var(--font-tier3-mono); font-size: 13px; color: var(--book-coral); }
+.booklp-step-line { font-size: 17px; font-weight: 600; line-height: 1.45; }
+.booklp-step-line b { font-weight: 600; background: linear-gradient(transparent 58%, var(--book-tint) 58%); }
+.booklp-sum { margin: 22px 20px 0; padding: 22px 18px; border-radius: 16px; background: var(--fg, #1a1f2a); color: #fff; text-align: center; }
+.booklp-sum p { margin: 0; }
+.booklp-sum-flow { margin-top: 4px !important; font-size: 24px; font-weight: 600; }
+.booklp-sum-flow b { color: #FFB8AE; font-weight: 600; }
+.booklp-sum-flow span { margin: 0 8px; color: #FFB8AE; }
+.booklp-sum-note { margin-top: 6px !important; font-size: 14px; opacity: .85; }
+.booklp-sum-eq { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin-top: 14px !important; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .2); font-family: var(--font-tier3-mono); font-size: 18px; }
+.booklp-sum-eq b { font-size: 34px; font-weight: 500; color: #FFB8AE; }
+
+/* 特典PDFでできること（2列のタイルで一気に見せる） */
+.booklp-pdf { padding: 28px 0 32px; background: var(--book-tint); }
+.booklp-can { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 18px 20px 0; padding: 0; list-style: none; }
+.booklp-can li { display: flex; flex-direction: column; gap: 4px; padding: 14px; border-radius: 12px; background: var(--bg, #fff); }
+.booklp-art { display: block; width: 108px; height: auto; margin-bottom: 6px; }
+.booklp-art--wide { width: 126px; }   /* 見本の並び：横と下を並べるぶん横長（同じ縮尺） */
+.booklp-can-title { font-size: 15px; font-weight: 600; line-height: 1.4; }
+.booklp-can-note { font-size: 13px; line-height: 1.55; color: var(--fg-2, #424955); }
+.booklp-pdf-foot { margin: 16px 20px 14px; font-size: 14px; font-weight: 600; line-height: 1.6; }
+.booklp-pdf > .booklp-buy { width: auto; margin: 0 20px; }
 
 .booklp-fits { padding: 24px 20px; background: var(--bg-2, #f4f2ed); }
 .booklp-fits h2, .booklp-faq h2 { margin: 0 0 12px; font-size: 22px; }
@@ -78,5 +97,13 @@
 .booklp-faq details p { margin: 8px 0 0; font-size: 15px; color: var(--fg-2, #424955); }
 
 .booklp-bottom { padding: 12px 20px 40px; }
+/* 本を買わない人の控えめな出口（CTA 中・visual-identity §7.1） */
+.booklp-try {
+  display: flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 10px; padding: 0 12px;
+  border: 1px solid var(--fg, #1a1f2a); border-radius: 12px; background: var(--bg-3, #faf8f3);
+  color: var(--fg, #1a1f2a); font-size: 14px; text-align: center; text-decoration: none;
+}
+.booklp-bottom a.booklp-try { color: var(--fg, #1a1f2a); }
+.booklp-try:hover { background: var(--bg-2, #f4f2ed); }
 .booklp-bottom .booklp-note { margin: 12px 0 0; text-align: center; }
 .booklp-bottom a { color: var(--book-coral-ink); text-underline-offset: 4px; }

@@ -4,13 +4,15 @@
 
 - TENZU の**計測実装 SSOT**（イベント定義・UTM 命名規則・GTM/GA4 コンソール設定の運用手順）。KPI と判断基準は [../launch/measurement.md](../launch/measurement.md)、10 イベントの上位設計は [../acquisition/funnel.md §11](../acquisition/funnel.md)
 - **構成**: GTM で Google タグを全ページに読み込み、コードはイベントごとに① GTM 用オブジェクト、② Google タグ用 `gtag('event', ...)` コマンドを dataLayer へ送る（[web/app/analytics.ts](../web/app/analytics.ts)）。これにより、GTM に同名の GA4 イベントタグを追加しなくても GA4 へ届き、将来の広告タグはオブジェクト形式をトリガーにできる。**唯一の別経路＝オンサイトメッセージの first-party 計測**（自前 API → DynamoDB 日次カウンタ・§8）
-- **実装済みイベントは 7 つ**: `tool_start`／`generated_pdf`／`product_recommend_click`／`view_item`／`add_to_cart`／`begin_checkout`／`purchase`。通常の `page_view` は Google タグの自動送信
+- **主要イベントは 7 つ**: `tool_start`／`generated_pdf`／`product_recommend_click`／`view_item`／`add_to_cart`／`begin_checkout`／`purchase`。通常の `page_view` は Google タグの自動送信
 - **本番接続済み**: GTM `GTM-K7KNR7CH` → GA4 `G-KH1BKQLSLH`。主要イベントの本番受信と `generated_pdf`／`purchase` のキーイベント指定を確認済み。残る確認は Search Console 連携・内部トラフィック除外・`begin_checkout` と最初の実購入（§5）
 - **アタッチ率**: `purchase` の `item_category`（`paper`/`maker`）と `purchase_kind` で紙→工房転換を GA4 上で集計（§4）
 - **ON/OFF は env 1 本**: `NEXT_PUBLIC_GTM_ID`（未設定＝GTM 計測 no-op。dev はこれで良い。オンサイト first-party 計測 §8 だけは GTM_ID と無関係に動く）。Amplify 登録キーは [web/.env.production.example](../web/.env.production.example)
 - 流入元識別は **UTM ＋ GA4 自動収集**（コード実装不要）。命名規則は §3 が SSOT
 - Google 側コンソール設定（GA4 プロパティ・GTM コンテナ・タグ/トリガー・Search Console 連携）は §5 の手順書どおり（人間作業・約 1 時間）
 - **SNS ダッシュボード（運用ツール⑥）は §7**: dev 限定 `/atelier/sns` に、5 SNS（Instagram・X・note・Pinterest・Ameba）の画面の数字と、流入元別の訪問・`tool_start`・`generated_pdf`・`purchase`（GA4 Data API）を並べる。GA4 はサービスアカウントでスクリプトが取り、SNS はブラウザで画面を読む（`/sns-dashboard`）。**数字は `web/.local/` に置き、公開リポジトリには入れない**
+
+- **書籍購入者特典のイベント**: コード確認・PDF取得・次レベル選択と、紹介ページからAmazonへのクリックの4種は§9。コードや注文情報は送信しない。
 
 ## 詳細
 
@@ -165,6 +167,19 @@
 - 閲覧: 管理画面 `/admin/onsite` の統計タブ（期間指定・日別・click 率）
 - 設計 SSOT: [../acquisition/onsite-messaging.md §6/§9](../acquisition/onsite-messaging.md)／判断ログ: [../decisions.md §5.15](../decisions.md)
 - GTM 側タグ（`onsite_msg_*`）は従来計画どおり静かな開店期に追加してよい（二重経路は意図的）
+
+### §9. 書籍購入者特典の計測
+
+書籍216問の受取ページでは `trackBookEvent` を使う。既存イベントと同じdataLayer／Googleタグの経路へ送信し、GTM未設定時は送信しない。
+
+| イベント | 発火条件 | パラメータ |
+|---|---|---|
+| book_unlock | サーバーでコード確認が成功した後 | book=hajimete |
+| book_pdf_download | 設定済み配布PDFの全バイトを取得し、保存操作へ渡した後 | book=hajimete、file=配布ファイルID（all・fill・copy・sheets） |
+| book_next_level | 受取ページから本の先の商品リンクをクリック | book=hajimete、file=SKU、group=tasks（7課題の入口）・more（うつす・たすのLv.5） |
+| book_amazon_click | 紹介ページ `/book` の購入ボタン（Amazonへの外部リンク）をクリック | book=hajimete、file=ボタンの位置（hero＝1画面目・middle＝特典PDFでできることの直後・bottom＝最後） |
+
+設定して作るPDFは既存の商品用保存処理を共用し、この書籍固有イベントの対象外。PDF取得は端末への保存完了を保証する計測ではない。コード原文・メール・注文番号・cookieは送らない。書籍のQRはUTMを付けず `tenzu.jp/book/hajimete` を指す（受取ページに来るのは本の読者だけのため、ページの閲覧そのものが本からの流入になる）。
 
 ## 附録
 

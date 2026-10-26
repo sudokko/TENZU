@@ -41,6 +41,7 @@
 - **モノクロ完全機能**: `#1A1F2A` 単色だけで全 UI が成立すること（印刷適性・色覚配慮）。accent だけで意味伝達しない（形・線種で同時表現）
 - **accent は before/after の "after" のみ**: 正解線・到達チップ・購入確定 CTA・完了画面。装飾・「楽しさ」表現には使わない
 - **多色化しない**。warning のみ別系統（朱）を最小限
+- **例外＝本の紹介ページ（`/book`）**: 表紙のコーラルをそのページの中だけで使う（ボタン・数字・見出しの差し色。白文字が AA になる `#C93A2F`／淡色面 `#FDEFEB`）。表紙と同じ色で「この本の売り場」と分かるようにするため。トークン化せず [book-lp.css](../web/app/book/book-lp.css) に閉じる。書体はサイトと同じ Plex
 - ダークモードは持たない（`color-scheme: light` 固定。`prefers-color-scheme: dark` に反応しない）
 - **PDF と画面の同一性**: 印刷時と画面表示で印象が崩れないこと
 - コントラスト実測: fg/白 16.93・fg-2/白 9.45・fg-3/白 4.45（18px 以上限定）・accent/白 5.42（[rev-5 bundle specs/phase-a-decisions.md](handoff/maker-import/tenzu-design-system-rev-5/project/specs/phase-a-decisions.md)）
