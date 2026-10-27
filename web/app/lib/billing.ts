@@ -16,14 +16,6 @@ export function parseMakers(metadata: Stripe.Metadata | null | undefined): Maker
   return raw.filter((k): k is MakerKey => PAID_SET.has(k));
 }
 
-// メールから Stripe 顧客 ID を引く（無ければ null）。
-export async function findCustomerIdByEmail(
-  stripe: Stripe, email: string,
-): Promise<string | null> {
-  const res = await stripe.customers.list({ email, limit: 1 });
-  return res.data[0]?.id ?? null;
-}
-
 // 顧客の支払い済み Checkout から所有メーカー集合を再構成する（買い切り＝無期限）。
 export async function resolveOwnedMakers(
   stripe: Stripe, customerId: string,
@@ -38,9 +30,12 @@ export async function resolveOwnedMakers(
 }
 
 // メールから所有メーカー集合を解決（マジックリンク復元用・顧客が無ければ空）。
+// Checkout ごとに Customer ができる（customer_creation: "always"）ので、同じメールの全員を見る。
 export async function resolveOwnedByEmail(
   stripe: Stripe, email: string,
 ): Promise<MakerKey[]> {
-  const cid = await findCustomerIdByEmail(stripe, email);
-  return cid ? resolveOwnedMakers(stripe, cid) : [];
+  const customers = await stripe.customers.list({ email, limit: 100 });
+  const owned = new Set<MakerKey>();
+  for (const c of customers.data) for (const k of await resolveOwnedMakers(stripe, c.id)) owned.add(k);
+  return [...owned];
 }

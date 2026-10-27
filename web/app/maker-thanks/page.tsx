@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Stripe from "stripe";
 import SiteHeader from "../SiteHeader";
 import TrackPurchase from "../TrackPurchase";
+import MarkPurchased from "../checkout/success/MarkPurchased";
 import { makerByKey } from "../products/makers";
 import { MAKER_PRICE, PURCHASABLE_MAKERS, type MakerKey } from "../products/capabilities";
 import "../membership.css";
@@ -54,6 +55,7 @@ export default async function MakerThanksPage({
           items={makers.map((mk) => ({ id: `maker-${mk.key}`, name: mk.name, price: MAKER_PRICE }))}
         />
       )}
+      {purchaseValue !== null && sid && <MarkPurchased sessionId={sid} />}
       <SiteHeader />
       <main className="mem-wrap thanks-wrap">
         <div className="thanks-hero">

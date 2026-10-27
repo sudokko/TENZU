@@ -1,0 +1,37 @@
+/** npx tsx scripts/create-first-coupon.ts [--code HAJIMETE100] [--live]
+ * 初回限定クーポン（¥100 OFF・JPY・まとめ買い割引と併用可）を Stripe に作る（pack-commerce §14.7.2）。
+ * クーポン本体は1つ（metadata.tenzu=first-100）で、配る場所ごとにプロモーションコードを足す。
+ * 何度流しても同じ物を作り直さない。鍵は STRIPE_SECRET_KEY（無ければ web/.env.local）。本番鍵は --live のときだけ使う。 */
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import Stripe from "stripe";
+import { findFirstCoupon, normalizeCode } from "../app/lib/coupon";
+
+const argOf = (name: string) => { const i = process.argv.indexOf(name); return i < 0 ? undefined : process.argv[i + 1]; };
+const code = normalizeCode(argOf("--code") ?? "HAJIMETE100");
+if (!code) throw new Error("--code は英数とハイフン 3〜32 文字");
+const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "../.env.local");
+const key = process.env.STRIPE_SECRET_KEY?.trim()
+  || (fs.existsSync(envFile) ? fs.readFileSync(envFile, "utf8").match(/^STRIPE_SECRET_KEY=(.+)$/m)?.[1]?.trim() : undefined);
+if (!key) throw new Error("STRIPE_SECRET_KEY がありません");
+const live = key.startsWith("sk_live_") || key.startsWith("rk_live_");
+if (live && !process.argv.includes("--live")) throw new Error("本番の鍵です。本番に作るときは --live をつけてください");
+
+const AMOUNT = 100, TAG = "first-100";
+const stripe = new Stripe(key);
+
+async function main() {
+  const existing = await findFirstCoupon(stripe, code!);
+  if (existing) return console.log(`${live ? "本番" : "テスト"}: ${code} はもうあります（${existing.label}・${existing.id}）`);
+  let coupon = (await stripe.coupons.list({ limit: 100 })).data.find((c) => c.metadata?.tenzu === TAG && c.valid);
+  coupon ??= await stripe.coupons.create({
+    amount_off: AMOUNT, currency: "jpy", duration: "once", name: `初回限定 ¥${AMOUNT} OFF`, metadata: { tenzu: TAG },
+  });
+  const pc = await stripe.promotionCodes.create({
+    promotion: { type: "coupon", coupon: coupon.id }, code: code!,
+    restrictions: { first_time_transaction: true }, metadata: { tenzu: TAG },
+  });
+  console.log(`${live ? "本番" : "テスト"}: ${pc.code} を作りました（クーポン ${coupon.id}・コード ${pc.id}）`);
+}
+main().catch((e) => { console.error(e); process.exitCode = 1; });

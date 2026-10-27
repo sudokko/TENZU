@@ -4,11 +4,15 @@
    - 購入メーカーは metadata.makers に CSV で載せ、success（/api/auth/verify）で所有 cookie を mint
    - 成功 = /api/auth/verify?session_id=... がその場で所有 cookie を発行（＝ログインの代替）
    - 別端末用には webhook(checkout.session.completed) が復元リンクをメール送信
+   - 購入確認ページ /maker-buy から呼ぶ。body.coupon・body.email があれば初回限定クーポン
+     （lib/coupon.ts・プリントのカートと同じ確認）。Stripe 側のコード欄は出さない。
+     クーポンなしは customer_creation: "always" で Customer を残す（初回の照合・復元リンク用）
    - base は SITE_URL 優先（Amplify SSR では req.nextUrl.origin が内部ホストに化けるため） */
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { MAKER_PRICE, PURCHASABLE_MAKERS, type MakerKey } from "../../products/capabilities";
 import { makerByKey } from "../../products/makers";
+import { PURCHASED_COOKIE, resolveCoupon } from "../../lib/coupon";
 
 export const dynamic = "force-dynamic";
 
@@ -20,9 +24,9 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: "STRIPE_SECRET_KEY が未設定です（web/.env.local）" }, { status: 500 });
   }
 
-  let body: { makers?: unknown; email?: unknown };
+  let body: { makers?: unknown; email?: unknown; coupon?: unknown };
   try {
-    body = (await req.json()) as { makers?: unknown; email?: unknown };
+    body = (await req.json()) as { makers?: unknown; email?: unknown; coupon?: unknown };
   } catch {
     return Response.json({ error: "不正なリクエストです" }, { status: 400 });
   }
@@ -43,6 +47,9 @@ export async function POST(req: NextRequest) {
   const base = process.env.SITE_URL ?? req.nextUrl.origin;
   const makerCsv = makers.join(",");
 
+  const coupon = await resolveCoupon(stripe, body.coupon, body.email, req.cookies.has(PURCHASED_COOKIE));
+  if (!coupon.ok) return Response.json({ error: coupon.error }, { status: coupon.status });
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -54,8 +61,7 @@ export async function POST(req: NextRequest) {
         },
         quantity: 1,
       })),
-      ...(email ? { customer_email: email } : {}),
-      allow_promotion_codes: true,
+      ...(coupon.params ?? { customer_creation: "always" as const, ...(email ? { customer_email: email } : {}) }),
       metadata: { makers: makerCsv },
       success_url: `${base}/api/auth/verify?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}/makers`,

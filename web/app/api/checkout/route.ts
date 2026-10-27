@@ -2,12 +2,17 @@
    - body: { skus: string[] } を検証（live SKU のみ・全 ¥200 一律）
    - 各 SKU を price_data でその場定義（Stripe 側に商品事前登録は不要）
    - 購入 SKU は metadata.skus に CSV で載せ、サンクスページで復元する
+   - body.coupon・body.email があれば初回限定クーポン（lib/coupon.ts）。同じメールに支払い済みが
+     あれば 409 で断り、無ければその Customer を渡して割引つきで作る（Stripe も初回を確かめる）。
+     購入済みの cookie があるブラウザも 409（/api/checkout/purchased が立てる）。
+     クーポンなしは customer_creation: "always" で Customer を残し、次回の照合に使う
    - success/cancel の base は SITE_URL 優先（Amplify SSR では req.nextUrl.origin が
      CloudFront/Lambda 裏の内部ホスト localhost:3000 に化けるため）。ローカルは
      SITE_URL=http://localhost:3001 が効き、未設定環境では origin にフォールバック */
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { volBySku, volTitle, unitPrice } from "../../products/data";
+import { PURCHASED_COOKIE, resolveCoupon } from "../../lib/coupon";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +22,9 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: "STRIPE_SECRET_KEY が未設定です（web/.env.local）" }, { status: 500 });
   }
 
-  let body: { skus?: unknown };
+  let body: { skus?: unknown; coupon?: unknown; email?: unknown };
   try {
-    body = (await req.json()) as { skus?: unknown };
+    body = (await req.json()) as { skus?: unknown; coupon?: unknown; email?: unknown };
   } catch {
     return Response.json({ error: "不正なリクエストです" }, { status: 400 });
   }
@@ -47,6 +52,11 @@ export async function POST(req: NextRequest) {
   // 整数なので、行単価 × 冊数がカート画面の合計と 1 円もズレない。
   const unit = unitPrice(resolved.length);
 
+  // 初回限定クーポン。コードが入っていればメールも要る（ゲスト決済では Stripe が初回を判定できないため）。
+  const coupon = await resolveCoupon(stripe, body.coupon, body.email, req.cookies.has(PURCHASED_COOKIE));
+  if (!coupon.ok) return Response.json({ error: coupon.error }, { status: coupon.status });
+  const discount = coupon.params;
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -60,6 +70,7 @@ export async function POST(req: NextRequest) {
         },
         quantity: 1,
       })),
+      ...(discount ?? { customer_creation: "always" as const }),
       metadata: { skus: skuCsv },
       success_url: `${base}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}/cart`,

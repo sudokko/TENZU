@@ -10,6 +10,7 @@ import SiteHeader from "../../SiteHeader";
 import SkuPrintPreview, { type SolidRenderProblem } from "../../products/SkuPrintPreview";
 import { toRenderProblems, type RenderProblem } from "../../products/problems/render";
 import ClearCartOnSuccess from "./ClearCartOnSuccess";
+import MarkPurchased from "./MarkPurchased";
 import QuickDownload from "./QuickDownload";
 import TrackPurchase from "../../TrackPurchase";
 import { volBySku, volTitle, PRICE } from "../../products/data";
@@ -96,6 +97,7 @@ export default async function CheckoutSuccessPage({
   return (
     <>
       <ClearCartOnSuccess />
+      <MarkPurchased sessionId={session_id} />
       <TrackPurchase
         transactionId={session_id}
         value={amountTotal ?? purchased.length * PRICE}

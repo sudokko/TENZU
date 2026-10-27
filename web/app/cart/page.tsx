@@ -1,7 +1,9 @@
 "use client";
 
 /* カートページ（複数巻まとめ買い）。
-   items を data.ts の volBySku で解決して一覧表示 → /api/checkout で Stripe へ。 */
+   items を data.ts の volBySku で解決して一覧表示 → /api/checkout で Stripe へ。
+   初回限定クーポンはここで入れる（CouponField・Stripe の入力欄は使わない・lib/coupon.ts）。
+   確かめたコードを合計に反映し、メールと一緒に /api/checkout へ渡す。 */
 
 import { useState } from "react";
 import SiteHeader from "../SiteHeader";
@@ -11,6 +13,7 @@ import {
   TIERS, cartTotal, currentTier,
 } from "../products/data";
 import { trackBeginCheckout } from "../analytics";
+import CouponField, { type AppliedCoupon } from "../components/CouponField";
 import "../products/product.css";
 import "./cart.css";
 import SiteFooterMini from "../components/SiteFooterMini";
@@ -19,6 +22,8 @@ export default function CartPage() {
   const { items, remove, ready } = useCart();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [coupon, setCoupon] = useState<AppliedCoupon | null>(null);
+  const [email, setEmail] = useState("");
 
   const rows = items
     .map((sku) => ({ sku, resolved: volBySku(sku) }))
@@ -27,6 +32,7 @@ export default function CartPage() {
   const gross = rows.length * PRICE;
   const total = cartTotal(rows.length);
   const tier = currentTier(rows.length);
+  const pay = coupon ? Math.max(0, total - coupon.amountOff) : total;
 
   const checkout = async () => {
     setBusy(true);
@@ -35,7 +41,7 @@ export default function CartPage() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ skus: rows.map((r) => r.sku) }),
+        body: JSON.stringify({ skus: rows.map((r) => r.sku), ...(coupon ? { coupon: coupon.code, email } : {}) }),
       });
       const data = await res.json();
       if (!res.ok || !data.url) throw new Error(data.error ?? "決済の開始に失敗しました");
@@ -44,7 +50,7 @@ export default function CartPage() {
         name: volTitle(resolved!.task, resolved!.vol),
         price: PRICE,
         category: "paper",
-      })), total);
+      })), pay);
       window.location.href = data.url;
     } catch (e) {
       setError(e instanceof Error ? e.message : "決済の開始に失敗しました");
@@ -113,25 +119,34 @@ export default function CartPage() {
                 <p className="cart-tier-any">ちがう種類をまぜても、合計の冊数で決まります。</p>
               </div>
 
+              {/* 初回限定クーポン（まとめ買い割引と併用できる）。開くまでは1行だけ。 */}
+              <CouponField onChange={(c) => { setCoupon(c.coupon); setEmail(c.email); }} />
+
+              {(tier || coupon) && (
+                <div className="cart-sub">
+                  <span>小計（{rows.length} 冊）</span>
+                  <span className="mono">¥{gross.toLocaleString()}</span>
+                </div>
+              )}
               {tier && (
-                <>
-                  <div className="cart-sub">
-                    <span>小計（{rows.length} 冊）</span>
-                    <span className="mono">¥{gross.toLocaleString()}</span>
-                  </div>
-                  <div className="cart-sub off">
-                    <span>まとめ買い {tier.min} 冊から {Math.round(tier.rate * 100)}%</span>
-                    <span className="mono">−¥{(gross - total).toLocaleString()}</span>
-                  </div>
-                </>
+                <div className="cart-sub off">
+                  <span>まとめ買い {tier.min} 冊から {Math.round(tier.rate * 100)}%</span>
+                  <span className="mono">−¥{(gross - total).toLocaleString()}</span>
+                </div>
+              )}
+              {coupon && (
+                <div className="cart-sub off">
+                  <span>{coupon.label}</span>
+                  <span className="mono">−¥{(total - pay).toLocaleString()}</span>
+                </div>
               )}
               <div className="cart-total">
                 <span>合計（税込）</span>
-                <span className="cart-total-yen mono">¥{total.toLocaleString()}</span>
+                <span className="cart-total-yen mono">¥{pay.toLocaleString()}</span>
               </div>
               <p className="cart-total-note">{rows.length} 冊 · ダウンロード後、用紙・問題数・並びはいつでも変更できます</p>
               {error && <p className="cart-error" role="alert">{error}</p>}
-              <button type="button" className="cart-checkout" onClick={checkout} disabled={busy}>
+              <button type="button" className="cart-checkout" onClick={checkout} disabled={busy || (coupon != null && !email.includes("@"))}>
                 {busy ? "決済画面へ移動中…" : "購入手続きへ"}
               </button>
               <p className="cart-secure">決済は Stripe の安全な画面で行われます</p>
