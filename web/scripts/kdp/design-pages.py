@@ -3,7 +3,7 @@
 python scripts/kdp/design-pages.py swap <book page> <pdf> [--from <page in pdf>]   replace one designed page
 python scripts/kdp/design-pages.py https                                            prefix printed tenzu.jp URLs with https://
 python scripts/kdp/design-pages.py check                                            fonts, broken entries, URLs
-python scripts/kdp/design-pages.py renumber                                         rebuild the kept pages from owner-102p.pdf for the 96-page plan
+python scripts/kdp/design-pages.py renumber                                         rebuild the kept pages from owner-102p.pdf for the 98-page plan
 python scripts/kdp/design-pages.py move <old>:<new> ...                             give designed pages new book page numbers
 python scripts/kdp/design-pages.py retext <book page> <old text> <new text>          replace a line's text in the same font and size
 python scripts/kdp/design-pages.py folios                                           reprint every page number as P<n> in the exporter's place
@@ -173,17 +173,17 @@ def add_https():
 # The owner's design as delivered for the 102-page book; renumber() derives the kept pages from it.
 SOURCE = BOOK / 'design/owner-102p.pdf'
 SOURCE_PAGES = list(range(1, 9)) + [61] + list(range(88, 103))
-# 96-page plan (2026-10-25, the explanation page of every volume after the first carries its first two problems): new page, page in the 102-page design, text changes. A changed footer line is reset whole,
+# 98-page plan (2026-10-25, the explanation page of every volume after the first carries its first two problems; 2026-10-27, 料金とクーポン added at 83): new page, page in the 102-page design, text changes. A changed footer line is reset whole,
 # so every item on it shares one weight (the repo has Plex Sans JP Bold, not the design's SemiBold).
-# The owner's first page (この本の使い方) is not used: page 1 is drawn by the exporter (この本のしかけ).
+# The owner's first page (この本の使い方) is not used: page 1 is drawn by the exporter (この本の特徴).
 RENUMBER = [
     (4, 2, [('欠け模写', '欠け補完'), ('点描写がむずかしくなるのは', '点図形（点描写）がむずかしくなるのは'), ('レベルの地図　8ページ', '点図形とは　2ページ'), ('戻り道　101ページ', 'もくじ　3ページ')]),
     (6, 4, []),
     (57, 61, [('特典PDF  4ページ', '特典PDF  6ページ'), ('紙面を変える  5ページ', '紙面を変える  7ページ'), ('困ったとき  100ページ', 'もくじ  3ページ')]),
     # じぶんでつくろう: the 4th page (maker bridge) is dropped; the child's line drops こうたい (2026-10-25).
-    (92, 89, [('/ 1 / 4', '/ 1 / 3')]),
-    (93, 90, [('/ 2 / 4', '/ 2 / 3'), ('もんだいを つくって、こうたいしよう。', 'もんだいを つくってみよう。')]),
-    (94, 91, [('/ 3 / 4', '/ 3 / 3'), ('もんだいを つくって、こうたいしよう。', 'もんだいを つくってみよう。')]),
+    (93, 89, [('/ 1 / 4', '/ 1 / 3')]),
+    (94, 90, [('/ 2 / 4', '/ 2 / 3'), ('もんだいを つくって、こうたいしよう。', 'もんだいを つくってみよう。')]),
+    (95, 91, [('/ 3 / 4', '/ 3 / 3'), ('もんだいを つくって、こうたいしよう。', 'もんだいを つくってみよう。')]),
     # The afterword and colophon (102 in the design) are drawn by the exporter: the owner's new afterword is longer.
 ]
 
@@ -197,7 +197,7 @@ def font_file(name):
 
 
 def renumber():
-    """Rebuild explain-pages.pdf for the 96-page plan: retext page references, move page numbers, and shift a page
+    """Rebuild explain-pages.pdf for the 98-page plan: retext page references, move page numbers, and shift a page
     whose side changes (odd pages have the 18mm inside margin on the left, even pages on the right)."""
     src = fitz.open(SOURCE)
     out = fitz.open()

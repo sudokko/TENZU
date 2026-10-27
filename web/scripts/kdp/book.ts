@@ -129,17 +129,17 @@ const extra = (id: string, title: string, note: string, pages = 1, spread = fals
 export const SERIES: Record<"first" | "second", SeriesBook> = {
   first: {
     id: "series-1-hajimete", title: "はじめての点図形（点描写）", subtitle: "4才ごろからの　図形を写す練習 144問",
-    slug: "hajimete", total: 96, omitAnswerTasks: ["copy", "fill"], stageIntro: "volume", introProblems: 2,
+    slug: "hajimete", total: 98, omitAnswerTasks: ["copy", "fill"], stageIntro: "volume", introProblems: 2,
     explanation: {
       copy: "左の図と同じ位置の点を探し、右に写します。盤面は3×3から5×5まで広がります。線の始まりと終わりを、一つずつ確かめましょう。",
     },
     // Pages the owner designed and still uses; the rest are drawn by the exporter in the same frame (2026-10-23).
     // The afterword and colophon (96) moved to the exporter when the owner's afterword grew past the page (2026-10-25).
-    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages.pdf", pages: [4, 6, 57, 92, 93, 94],
+    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages.pdf", pages: [4, 6, 57, 93, 94, 95],
       qr: [{ page: 6, url: "https://tenzu.jp/book/hajimete", box: [135.06, 210.24, 160.5, 235.67] }] },
     slots: [
       // Page 1 is also what a buyer sees first: what the book does for a first-timer and how it differs from other books.
-      extra("features", "この本のしかけ", "はじめての子と親が迷いやすいところへの工夫・たすを先に置く順番・特典PDF・Webの続き"),
+      extra("features", "この本の特徴", "6段階・たすが先・やさしい順（独自の計算式）・特典PDFでくり返し・刷り分け"),
       extra("about", "点図形（点描写）とは", "はじめに：点つなぎとの違い・見る→考える→書く・何の練習になるか"),
       extra("contents", "もくじ", "本の頭から終わりまで。問題の部はレベルごとの番号とページ"),
       { kind: "route" },
@@ -161,6 +161,8 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
       { kind: "stage", sku: "fill-lv4-vol2", perPage: 2 },
       { kind: "stage", sku: "copy-lv4-vol2", perPage: 2 },
       extra("more-levels", "もっと難しい問題に取り組みたい場合", "うつす・たすのLv.5を縮小の紙面見本で"),
+      // Facing the Lv.5 page: what those volumes cost, the bulk discount and the book's first-purchase coupon.
+      extra("prices", "料金とクーポン", "1巻¥200・まとめ買い割引の表・初回限定クーポン（コードと使い方）・前のページの巻での計算例"),
       extra("more-tasks", "うつす・たす以外の問題", "7つの課題の入口の巻を縮小の紙面見本で"),
       // One writable problem from each of the 7 tasks' first volume, with what it asks and what it trains; answers follow.
       extra("samples", "ためしの1問", "7課題の入口の巻の最もやさしい1問・おうちの方へ・めあて・その課題の棚へのQR", 7),
@@ -168,6 +170,8 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
       extra("make", "じぶんでつくろう", "空いた盤面3×3〜5×5。親子で出し合う", 3),
       extra("maker", "自分で問題を作る", "点図形（点描写）メーカーを1ページで。模写4×4はPDF保存まで無料"),
       { kind: "colophon" },
+      // The back of the colophon is left white: 料金とクーポン (83) made the count odd and KDP prints an even number of pages.
+      extra("blank", "白ページ", "奥付の裏"),
     ],
   },
   second: {

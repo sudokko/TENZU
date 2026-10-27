@@ -8,7 +8,7 @@ import { createRequire } from "node:module";
 import { PDFDocument, PDFDict, PDFName, PDFRef, grayscale, type Color, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
 import { PUBLISHED } from "../app/products/problems/published";
-import { volBySku, LAUNCH_TASKS, LEVEL_NAMES } from "../app/products/data";
+import { volBySku, LAUNCH_TASKS, LEVEL_NAMES, PRICE, TIERS, unitPrice } from "../app/products/data";
 import { KDP_B5, pairGeom, CELL_PAD } from "../app/products/print";
 import { toRenderProblems, resultEdgesOf } from "../app/products/problems/render";
 import { paintProblemPdf, paintGridPdf, paintGuideGridPdf } from "../app/products/problems/pdf-render";
@@ -1088,7 +1088,13 @@ function featuresPage() {
   let y = paragraph(page, c.lead, x, 56, w, 9.5, 5.6) + 4;
   line(page, x, y, x + w, y, grayscale(0.14));
   y += 7;
-  c.points.forEach((pt, i) => {
+  c.points.forEach((pt, i, all) => {
+    // Points may be gathered under a few headings; each heading opens where its group starts.
+    if (pt.group && pt.group !== all[i - 1]?.group) {
+      if (i) y += 1;
+      text(page, pt.group, x, y - 2, 9, "bold", grayscale(0.4));
+      y += 6.5;
+    }
     text(page, `0${i + 1}`, x, y - 0.6, 15, "mono", grayscale(0.4));
     text(page, pt.title, x + 15, y, 11.5, "bold");
     y = paragraph(page, fillRefs(pt.body), x + 15, y + 7.6, w - 15, 9.5, 5.5) + 9;
@@ -1321,14 +1327,87 @@ function previewGrid(page: PDFPage, x: number, y: number, w: number, skus: reado
   qr(page, shelf.url, sx + cw - 27, sy + 4, 24);
   return sy + ch;
 }
+/** The volumes after this book, in the book's order: fill before copy, then the boards grow. */
+const moreLevelSkus = () => ["fill-lv5-vol1", ...(PUBLISHED["fill-lv5-vol2"] ? ["fill-lv5-vol2"] : []), "copy-lv5-vol1", "copy-lv5-vol2", "copy-lv5-vol3"];
+/** The child's name for a volume, as on the sample pages: task, level and board in full-width digits. */
+const levelTag = (sku: string) => `${short(PUBLISHED[sku].task)}　レベル${fw(volBySku(sku)!.vol.lv)}・${fw(gridLabel(sku))}`;
+/** A numbered badge for a step the child takes in order. */
+function stepBadge(page: PDFPage, n: number, x: number, y: number, r = 3.6) {
+  page.drawCircle({ x: (x + r) * MM, y: page.getHeight() - (y + r) * MM, size: r * MM, color: grayscale(0.14) });
+  text(page, String(n), x + r - widthMm(String(n), 11, "bold") / 2, y + r - 2.3, 11, "bold", white);
+}
+/** Book 1: the child's page for what comes after the book; each volume is a row with its QR beside it for a grown-up to read. */
 function moreLevelsPage() {
   const c = DC.moreLevels, { page, pn, x, w } = designFrame(c.label);
   expect("extra", pn);
-  const y = designTitle(page, x, w, c.heading, c.lead);
-  const skus = [...NEXT_WEB.first, ...(PUBLISHED["fill-lv5-vol2"] ? ["fill-lv5-vol2"] : [])];
-  const rows = Math.ceil((skus.length + 1) / 2), ch = Math.min(52, (BOTTOM - y - 4) / rows - 4);
-  const end = previewGrid(page, x, y + 2, w, skus, { title: c.shelfTitle, body: c.shelfBody, url: "https://tenzu.jp/products" }, ch);
-  if (end > BOTTOM) throw new Error(`More-levels page overflows: ${end.toFixed(1)}`);
+  let y = 22;
+  for (const l of wrap(c.heading, f.heading, 18, w)) { text(page, l, x, y, 18, "heading"); y += 9.4; }
+  y = paragraph(page, c.lead, x, y + 3, w, 11, 6.4, "heading") + 2;
+  y = paragraph(page, c.qr, x, y, w, 11, 6.4, "heading") + 4;
+  const parents = fillRefs(c.parents), skus = moreLevelSkus(), foot = wrap(parents, f.body, 8.2, w).length * 4.4, bottom = BOTTOM - foot - 3;
+  paragraph(page, parents, x, bottom + 3, w, 8.2, 4.4);
+  const gap = 4, rh = (bottom - y - gap * (skus.length - 1)) / skus.length, qs = Math.min(30, rh - 4);
+  skus.forEach((sku, i) => {
+    const ry = y + i * (rh + gap);
+    framedRect(page, x, ry, w, rh, grayscale(0.97));
+    stepBadge(page, i + 1, x + 3, ry + 2.5);
+    text(page, levelTag(sku), x + 12, ry + 3.2, 11, "heading");
+    preview(page, sku, x + 3, ry + 11, w - qs - 12, rh - 13);
+    qr(page, `https://tenzu.jp/products/${sku}`, x + w - qs - 3, ry + (rh - qs) / 2, qs);
+  });
+}
+/** Book 1, facing the Lv.5 page: the price of a volume, the bulk discount and the book's first-purchase coupon.
+ * Prices come from the site's own tiers so the page and the cart cannot disagree. */
+function pricesPage() {
+  const c = DC.prices, { page, pn, x, w } = designFrame(c.label);
+  expect("extra", pn);
+  let y = designTitle(page, x, w, c.heading, c.lead) + 1;
+  // Left: the tiers. Right: the volumes on the facing page, priced step by step.
+  const cw = (w - 8) / 2, rx = x + cw + 8, yen = (n: number) => `¥${n.toLocaleString("ja-JP")}`;
+  text(page, c.tiersTitle, x, y, 11, "bold");
+  const tiers = [{ min: 1, rate: 0 }, ...[...TIERS].reverse()];
+  const rows = [c.tiersHead, ...tiers.map((t, i) => [
+    t.min === 1 ? `1〜${tiers[i + 1].min - 1}冊` : `${t.min}冊から`, t.rate ? `${Math.round(t.rate * 100)}% OFF` : "—", yen(unitPrice(t.min))])];
+  const cols = [0, cw * 0.36, cw * 0.66];
+  let ty = y + 8;
+  rows.forEach((row, ri) => {
+    row.forEach((cell, ci) => text(page, cell, x + cols[ci], ty + 1.4, ri ? 9.5 : 8, ri ? (ci === 2 ? "mono" : "body") : "bold", ri ? ink : grayscale(0.4)));
+    ty += 7;
+    line(page, x, ty, x + cw, ty, ri ? hair : grayscale(0.14));
+  });
+  const n = moreLevelSkus().length, unit = unitPrice(n), gross = n * PRICE, coupon = 100;
+  const exampleTitle = c.exampleTitle.replace("{n}", String(n));
+  if (widthMm(exampleTitle, 11, "bold") > cw) throw new Error(`Prices page: example title too wide: ${exampleTitle}`);
+  text(page, exampleTitle, rx, y, 11, "bold");
+  let ey = y + 8;
+  ([[`${n}巻 × ${yen(PRICE)}`, yen(gross)], [`まとめ買い ${Math.round((1 - unit / PRICE) * 100)}% OFF`, `−${yen(gross - n * unit)}`],
+    [c.couponTitle, `−${yen(coupon)}`], ["お支払い（税込）", yen(n * unit - coupon)]] as const).forEach(([k, v], i, all) => {
+    const last = i === all.length - 1, size = last ? 11 : 9.5;
+    text(page, k, rx, ey + 1.4, size, last ? "bold" : "body");
+    text(page, v, rx + cw - widthMm(v, size, "mono"), ey + 1.4, size, "mono");
+    ey += 7;
+    line(page, rx, ey, rx + cw, ey, i === all.length - 2 ? grayscale(0.14) : hair);
+  });
+  y = Math.max(ty, ey) + 7;
+  // The coupon, set apart like the book's own section headers.
+  const bh = 34;
+  fillRect(page, x, y, w, bh, grayscale(0.14));
+  text(page, c.couponFor, x + 5, y + 4, 8.5, "bold", white);
+  text(page, c.couponTitle, x + 5, y + 10.5, 15, "bold", white);
+  const kw = widthMm(c.code, 17, "mono") + 12, kx = x + w - kw - 5, ky = y + 9;
+  wrap(c.couponBody, f.body, 8.6, kx - x - 10).forEach((l, i) => text(page, l, x + 5, y + 21 + i * 4.8, 8.6, "body", white));
+  fillRect(page, kx, ky, kw, 16, white);
+  text(page, c.code, kx + 6, ky + 4.6, 17, "mono");
+  y += bh + 7;
+  text(page, c.stepsTitle, x, y, 11, "bold");
+  y += 8;
+  c.steps.forEach((st, i) => {
+    stepBadge(page, i + 1, x, y - 0.6, 3);
+    y = paragraph(page, st, x + 9, y, w - 9, 9.2, 5.2) + 2.4;
+  });
+  y = paragraph(page, c.note, x, y + 1.5, w, 7.8, 4.2);
+  if (y > 203) throw new Error(`Prices page overflows: ${y.toFixed(1)}`);
+  qrBox(page, x, 207, w, 27, c.shelfTitle, c.shelfBody, "https://tenzu.jp/products");
 }
 function moreTasksPage() {
   const c = DC.moreTasks, { page, pn, x, w } = designFrame(c.label);
@@ -1461,7 +1540,7 @@ function extraPages(slot: Extract<SeriesSlot, { kind: "extra" }>) {
     parents: parentsPage, progress: progressPage, certificate: certificatePage, make: () => makePages(slot.pages),
     sibling: siblingPages, "web-tasks": webTasksPages, "next-web": nextWebPages, "next-maker": nextMakerPages, trouble: troublePage,
     "way-back": wayBackPage, "print-options": which === "first" && SB.design ? printFeaturesPage : printOptionsPage, levels: levelsPage, afterword: afterwordPage, map: mapPage, isometric: isometricPage, exam: examPage,
-    "after-book": afterBookPage, features: featuresPage, about: aboutPage, contents: contentsPage, lineup: lineupPage, "more-levels": moreLevelsPage,
+    "after-book": afterBookPage, features: featuresPage, about: aboutPage, contents: contentsPage, lineup: lineupPage, "more-levels": moreLevelsPage, prices: pricesPage,
     samples: samplePages, "sample-answers": sampleAnswersPage, blank: () => { doc.addPage([KDP_B5.w * MM, KDP_B5.h * MM]); },
     "more-tasks": moreTasksPage, maker: makerOnePage,
     habit: () => boxesPage(PAGE_COPY.first.habit),
