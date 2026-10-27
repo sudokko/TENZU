@@ -202,6 +202,37 @@ export async function sendContactMail(opts: {
   });
 }
 
+/* 本のアンケート（/book/hajimete/survey）の回答をオーナーへ知らせる。宛先は問い合わせと同じ CONTACT_NOTIFY_EMAILS。
+   rows は設問と答え（表示用の文字に直したもの）。回答者のメールは聞いていないので Reply-To はない。 */
+export async function sendSurveyMail(rows: [string, string][]): Promise<void> {
+  const to = (process.env.CONTACT_NOTIFY_EMAILS ?? "tenzu.info@gmail.com,k-sudou@hotmail.co.jp")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (to.length === 0) throw new Error("CONTACT_NOTIFY_EMAILS 未設定");
+  const textBody = [
+    "『はじめての点図形（点描写）』のアンケートに回答が届きました。",
+    "",
+    ...rows.map(([k, v]) => `${k}: ${v}`),
+    "",
+    "— TENZU 本のアンケート（/book/hajimete/survey・一覧は /admin/book-survey）",
+  ].join("\n");
+  const htmlBody = `
+    <div style="font-family:sans-serif;line-height:1.7;color:#3A424E">
+      <p>『はじめての点図形（点描写）』のアンケートに回答が届きました。</p>
+      <table style="border-collapse:collapse">
+        ${rows
+          .map(
+            ([k, v]) =>
+              `<tr><td style="padding:4px 16px 4px 0;color:#9AA0AA;vertical-align:top;white-space:nowrap">${esc(k)}</td><td style="padding:4px 0;white-space:pre-wrap">${esc(v)}</td></tr>`,
+          )
+          .join("")}
+      </table>
+      <p style="font-size:12px;color:#9AA0AA">— TENZU 本のアンケート（/book/hajimete/survey・一覧は /admin/book-survey）</p>
+    </div>`;
+  await deliver({ to, subject: "【TENZU】本のアンケートに回答", text: textBody, html: htmlBody });
+}
+
 /* 購入したメーカーの別端末復元リンク（マジックリンク）。
    買い切り（payment mode）完了時・別端末からの復元時に送る。
    リンク先 = /restore?t=...（説明ページ → ボタンで POST /api/auth/verify → 所有を再 mint）。

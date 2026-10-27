@@ -1,8 +1,8 @@
 /* カートのクーポン欄の確認（コードだけ見る・メールの照合は /api/checkout で行う）。
-   - body: { code } → { code, amountOff, label }。使えないコードは 404、購入済みのブラウザは 409。 */
+   - body: { code } → { code, amountOff, label, rule }。使えないコードは 404、初回限定のコードで購入済みのブラウザは 409。 */
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
-import { ALREADY_PURCHASED, PURCHASED_COOKIE, findFirstCoupon, normalizeCode } from "../../lib/coupon";
+import { ALREADY_PURCHASED, PURCHASED_COOKIE, findCoupon, normalizeCode } from "../../lib/coupon";
 
 export const dynamic = "force-dynamic";
 
@@ -15,9 +15,9 @@ export async function POST(req: NextRequest) {
   } catch {
     return Response.json({ error: "不正なリクエストです" }, { status: 400 });
   }
-  if (req.cookies.has(PURCHASED_COOKIE)) return Response.json({ error: ALREADY_PURCHASED }, { status: 409 });
   const code = normalizeCode(body.code);
-  const coupon = code ? await findFirstCoupon(new Stripe(key), code).catch(() => null) : null;
+  const coupon = code ? await findCoupon(new Stripe(key), code).catch(() => null) : null;
   if (!coupon) return Response.json({ error: "このクーポンコードは使えません。入力をお確かめください。" }, { status: 404 });
-  return Response.json({ code: coupon.code, amountOff: coupon.amountOff, label: coupon.label });
+  if (coupon.rule === "first" && req.cookies.has(PURCHASED_COOKIE)) return Response.json({ error: ALREADY_PURCHASED }, { status: 409 });
+  return Response.json({ code: coupon.code, amountOff: coupon.amountOff, label: coupon.label, rule: coupon.rule });
 }

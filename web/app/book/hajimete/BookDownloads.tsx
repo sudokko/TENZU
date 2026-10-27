@@ -5,6 +5,7 @@ import { trackBookEvent } from "../../analytics";
 import { saveFile } from "../../lib/save-file";
 import BookPrintCustomizer from "./BookPrintCustomizer";
 import BookPattern from "./BookPattern";
+import { noteBookSave } from "./BookSurveyBand";
 import { BOOK } from "./catalog";
 
 type FileItem = { id: string; label: string; detail: string; bytes: number; ready: boolean };
@@ -69,6 +70,7 @@ export default function BookDownloads({ authorized, files }: { authorized: boole
       const filename = res.headers.get("Content-Disposition")?.match(/filename="([^"]+)"/)?.[1] ?? "tenzu-hajimete.pdf";
       await saveFile(blob, filename);
       trackBookEvent("book_pdf_download", file.id);
+      noteBookSave();
     } catch { setError("PDFを取得できませんでした。通信状態を確認して再度お試しください。"); }
     finally { setBusy(null); }
   }

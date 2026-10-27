@@ -44,7 +44,7 @@ function trackEvent(eventName: string, params: Record<string, unknown>): void {
 }
 
 /** 書籍特典。コード・端末情報・個人情報をイベント値へ含めない。 */
-export function trackBookEvent(event: "book_unlock" | "book_pdf_download" | "book_next_level" | "book_amazon_click", file?: string, group?: "tasks" | "more"): void {
+export function trackBookEvent(event: "book_unlock" | "book_pdf_download" | "book_next_level" | "book_amazon_click" | "book_survey_open" | "book_survey_submit", file?: string, group?: "tasks" | "more"): void {
   trackEvent(event, { book: "hajimete", ...(file ? { file } : {}), ...(group ? { group } : {}) });
 }
 

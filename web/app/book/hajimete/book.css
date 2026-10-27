@@ -139,3 +139,9 @@
 }
 .book-next-guide { margin-top: 14px; }
 .book-volume-list { margin: 0 0 16px; padding-left: 1.2em; font-size: 13px; line-height: 1.9; }
+
+.book-survey-band { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; padding: 16px 20px; margin: 24px 0 0; border-left: 3px solid var(--accent, #2c6e7f); border-radius: 4px; background: #eaf2f3; }
+.book-survey-band p { margin: 0; font-size: 14px; line-height: 1.7; }
+.book-survey-band strong { margin-right: 8px; font-weight: 500; }
+.book-survey-band-actions { display: flex; gap: 16px; align-items: center; font-size: 14px; }
+.book-survey-band-actions button { padding: 0; border: 0; background: none; color: var(--fg-2, #424955); font: inherit; font-size: 12px; text-decoration: underline; cursor: pointer; }

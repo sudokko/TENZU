@@ -169,9 +169,10 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
       extra("sample-answers", "ためしの1問のこたえ", "7問の答え"),
       extra("make", "じぶんでつくろう", "空いた盤面3×3〜5×5。親子で出し合う", 3),
       extra("maker", "自分で問題を作る", "点図形（点描写）メーカーを1ページで。模写4×4はPDF保存まで無料"),
+      // The page that was left white behind the colophon now asks for the reader's answers (2026-10-27), so the
+      // afterword and colophon close the book on its last, left-hand page.
+      extra("survey", "アンケート", "手が止まったところ・感想を Web で（7問・お礼の¥100 OFF クーポン）・QR"),
       { kind: "colophon" },
-      // The back of the colophon is left white: 料金とクーポン (83) made the count odd and KDP prints an even number of pages.
-      extra("blank", "白ページ", "奥付の裏"),
     ],
   },
   second: {

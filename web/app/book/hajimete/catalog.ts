@@ -53,7 +53,7 @@ export const BOOK_FILES = [
   { id: "all", filename: "tenzu-hajimete-144-a4.pdf", label: "144問の問題PDF", detail: "本と同じ順番・問題番号。1枚3問。" },
   { id: "fill", filename: "tenzu-hajimete-tasu-a4.pdf", label: "たす（欠け補完）", detail: "72問。Lv.1〜Lv.4の「たす」だけ。" },
   { id: "copy", filename: "tenzu-hajimete-utsusu-a4.pdf", label: "うつす（模写）", detail: "72問。Lv.1〜Lv.4の「うつす」だけ。" },
-  { id: "sheets", filename: "tenzu-hajimete-sheets-a4.pdf", label: "じぶんでつくろう", detail: "親子で問題を出し合う、空いた盤面。本の103〜105ページと同じ紙面。" },
+  { id: "sheets", filename: "tenzu-hajimete-sheets-a4.pdf", label: "じぶんでつくろう", detail: "親子で問題を出し合う、空いた盤面。本の93〜95ページと同じ紙面。" },
 ] as const;
 
 /** 本を終えたあとの案内（kdp-paperback §6）。どれも本に入っていない巻。 */

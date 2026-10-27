@@ -1,0 +1,35 @@
+.survey-wrap { max-width: 720px; }
+.survey-form fieldset { border: 0; margin: 0 0 28px; padding: 0; min-width: 0; }
+.survey-form legend { padding: 0; margin-bottom: 10px; font-size: 16px; font-weight: 500; line-height: 1.6; }
+.survey-hint, .survey-required { margin-left: 6px; font-size: 11px; font-weight: 400; color: var(--fg-2, #424955); }
+.survey-required { padding: 1px 6px; border-radius: 3px; background: var(--fg, #1a1f2a); color: #fff; }
+.survey-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.survey-choice { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border: 1px solid #d8dbe0; border-radius: 4px; font-size: 14px; line-height: 1.6; cursor: pointer; }
+.survey-choice:has(input:checked) { border-color: var(--accent, #2c6e7f); background: #eaf2f3; }
+.survey-choice input { margin-top: 5px; accent-color: var(--accent, #2c6e7f); }
+.survey-form select, .survey-form textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--fg-2, #424955); border-radius: 4px; background: var(--bg, #fff); color: inherit; font: inherit; font-size: 16px; }
+.survey-form textarea { line-height: 1.7; resize: vertical; }
+.survey-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.survey-row > select { flex: 1 1 260px; width: auto; }
+.survey-no { display: inline-flex; align-items: center; gap: 2px; font-size: 15px; white-space: nowrap; }
+.survey-no select { width: auto; min-width: 64px; }
+.survey-scale { display: grid; grid-template-columns: repeat(11, minmax(0, 1fr)); gap: 4px; }
+.survey-scale-item { position: relative; }
+.survey-scale-item input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.survey-scale-item span { display: flex; justify-content: center; align-items: center; height: 40px; border: 1px solid #d8dbe0; border-radius: 4px; font-family: var(--font-mono, monospace); font-size: 14px; }
+.survey-scale-item input:checked + span { border-color: var(--fg, #1a1f2a); background: var(--fg, #1a1f2a); color: #fff; }
+.survey-scale-item input:focus-visible + span { outline: 3px solid var(--accent, #2c6e7f); outline-offset: 2px; }
+.survey-scale-ends { display: flex; justify-content: space-between; margin: 6px 0 0; }
+.survey-submit { width: 100%; padding: 16px; border: 0; border-radius: 4px; background: var(--fg, #1a1f2a); color: #fff; font: inherit; font-size: 16px; cursor: pointer; }
+.survey-thanks h2 { margin-top: 8px; }
+.survey-coupon { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 20px 22px; margin: 20px 0; border-radius: 4px; background: var(--fg, #1a1f2a); color: #fff; }
+.survey-coupon-label { margin: 0; width: 100%; font-size: 13px; }
+.survey-coupon-code { margin: 0; padding: 8px 16px; border-radius: 3px; background: #fff; color: var(--fg, #1a1f2a); font-family: var(--font-mono, monospace); font-size: 22px; letter-spacing: .06em; }
+.survey-coupon button { padding: 10px 14px; border: 1px solid #fff; border-radius: 4px; background: transparent; color: #fff; font: inherit; font-size: 13px; cursor: pointer; }
+.survey-steps { padding-left: 1.4em; line-height: 1.9; }
+.survey-thanks-next { margin-top: 20px; }
+.survey-back { margin-top: 28px; }
+@media (max-width: 640px) {
+  .survey-choices { grid-template-columns: minmax(0, 1fr); }
+  .survey-scale { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}

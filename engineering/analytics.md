@@ -178,6 +178,8 @@
 | book_pdf_download | 設定済み配布PDFの全バイトを取得し、保存操作へ渡した後 | book=hajimete、file=配布ファイルID（all・fill・copy・sheets） |
 | book_next_level | 受取ページから本の先の商品リンクをクリック | book=hajimete、file=SKU、group=tasks（7課題の入口）・more（うつす・たすのLv.5） |
 | book_amazon_click | 紹介ページ `/book` の購入ボタン（Amazonへの外部リンク）をクリック | book=hajimete、file=ボタンの位置（hero＝1画面目・middle＝特典PDFでできることの直後・bottom＝最後） |
+| book_survey_open | 受取ページのアンケートの帯から、アンケートへのリンクをクリック | book=hajimete、file=band |
+| book_survey_submit | アンケートの回答をサーバーが受け付けた後 | book=hajimete、file=来たところ（p97＝本の97ページのQR・band＝受取ページの帯・無ければ省略） |
 
 設定して作るPDFは既存の商品用保存処理を共用し、この書籍固有イベントの対象外。PDF取得は端末への保存完了を保証する計測ではない。コード原文・メール・注文番号・cookieは送らない。書籍のQRはUTMを付けず `tenzu.jp/book/hajimete` を指す（受取ページに来るのは本の読者だけのため、ページの閲覧そのものが本からの流入になる）。
 

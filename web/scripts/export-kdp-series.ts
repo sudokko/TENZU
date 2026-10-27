@@ -1207,10 +1207,11 @@ function contentsPage() {
       text(page, `${vq[0].number}〜${vq[11].number}ばん`, cx, ry + 0.6, 8.8);
       text(page, `${introPage.get(introKey(j))}〜${vq[11].page}ページ`, cx, ry + 6.6, 9, "bold");
     });
-    y += 16;
+    // 15.6 mm rows and a 4 mm gap leave room for a fifth row of back-matter pages (アンケート, 2026-10-27).
+    y += 15.6;
     line(page, x, y, x + w, y, hair);
   });
-  y += 6;
+  y += 4;
   list(c.backTitle, c.back);
   if (y - 4 > BOTTOM) throw new Error(`Contents overflow: ${(y - 4).toFixed(1)}`);
 }
@@ -1409,6 +1410,30 @@ function pricesPage() {
   if (y > 203) throw new Error(`Prices page overflows: ${y.toFixed(1)}`);
   qrBox(page, x, 207, w, 27, c.shelfTitle, c.shelfBody, "https://tenzu.jp/products");
 }
+/** Book 1, 97: the reader's answers, on the Web. What will be asked is listed so the reader can mark the stuck problem
+ * first; the thank-you coupon's amount is printed but its code is shown only after answering (pack-commerce §14.7.2). */
+function surveyPage() {
+  const c = DC.survey, { page, pn, x, w } = designFrame(c.label);
+  expect("extra", pn);
+  let y = designTitle(page, x, w, c.heading, c.lead) + 1;
+  text(page, c.questionsTitle, x, y, 11, "bold");
+  y += 8;
+  c.questions.forEach((q, i) => {
+    stepBadge(page, i + 1, x, y - 0.6, 3);
+    text(page, q, x + 9, y + 0.4, 9.5);
+    y += 7.4;
+  });
+  y = paragraph(page, c.memo, x, y + 1.5, w, 8.8, 5) + 6;
+  // The coupon, set apart the same way as the first-purchase coupon on the prices page.
+  const body = wrap(fillRefs(c.couponBody), f.body, 8.6, w - 10), bh = 21 + body.length * 4.8 + 3;
+  fillRect(page, x, y, w, bh, grayscale(0.14));
+  text(page, c.couponFor, x + 5, y + 4, 8.5, "bold", white);
+  text(page, c.couponTitle, x + 5, y + 10.5, 15, "bold", white);
+  body.forEach((l, i) => text(page, l, x + 5, y + 21 + i * 4.8, 8.6, "body", white));
+  y = paragraph(page, c.note, x, y + bh + 4, w, 7.8, 4.2);
+  if (y > 200) throw new Error(`Survey page overflows: ${y.toFixed(1)}`);
+  qrBox(page, x, 204, w, 30, c.qrTitle, c.qrBody, "https://tenzu.jp/book/hajimete/survey");
+}
 function moreTasksPage() {
   const c = DC.moreTasks, { page, pn, x, w } = designFrame(c.label);
   expect("extra", pn);
@@ -1542,7 +1567,7 @@ function extraPages(slot: Extract<SeriesSlot, { kind: "extra" }>) {
     "way-back": wayBackPage, "print-options": which === "first" && SB.design ? printFeaturesPage : printOptionsPage, levels: levelsPage, afterword: afterwordPage, map: mapPage, isometric: isometricPage, exam: examPage,
     "after-book": afterBookPage, features: featuresPage, about: aboutPage, contents: contentsPage, lineup: lineupPage, "more-levels": moreLevelsPage, prices: pricesPage,
     samples: samplePages, "sample-answers": sampleAnswersPage, blank: () => { doc.addPage([KDP_B5.w * MM, KDP_B5.h * MM]); },
-    "more-tasks": moreTasksPage, maker: makerOnePage,
+    "more-tasks": moreTasksPage, maker: makerOnePage, survey: surveyPage,
     habit: () => boxesPage(PAGE_COPY.first.habit),
     hands: () => boxesPage(PAGE_COPY.second.hands, "おうちの方へ", 8.8),
   };

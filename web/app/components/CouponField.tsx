@@ -1,13 +1,13 @@
 "use client";
 
-/* 初回限定クーポンの入力欄（プリントのカート・メーカーの購入確認ページで共通・lib/coupon.ts）。
+/* クーポンの入力欄（初回限定・メールごとに1回のどちらも。プリントのカート・メーカーの購入確認ページで共通・lib/coupon.ts）。
    コードを /api/coupon で確かめ、使えるならメール欄を出す。確定した値は onChange で親へ渡し、
    親は決済の作成（/api/checkout・/api/maker-checkout）に coupon と email を添える。 */
 
 import { useState } from "react";
 import "./coupon-field.css";
 
-export type AppliedCoupon = { code: string; amountOff: number; label: string };
+export type AppliedCoupon = { code: string; amountOff: number; label: string; rule: "first" | "once" };
 
 export default function CouponField({ onChange }: {
   onChange: (state: { coupon: AppliedCoupon | null; email: string }) => void;
@@ -58,7 +58,7 @@ export default function CouponField({ onChange }: {
       {coupon && (
         <>
           <label className="coupon-field-email">
-            <span>メールアドレス（はじめてのお買い物かを確かめます）</span>
+            <span>メールアドレス（{coupon.rule === "first" ? "はじめてのお買い物かを確かめます" : "このクーポンを使ったことがあるかを確かめます"}）</span>
             <input type="email" autoComplete="email" value={email}
               onChange={(e) => { setEmail(e.target.value); onChange({ coupon, email: e.target.value }); }} />
           </label>

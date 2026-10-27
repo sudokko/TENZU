@@ -9,6 +9,7 @@
 - コードは本の6ページ（特典案内）に印刷する `HJ<刷>-XXXX-XXXX`（第1刷は `HJ1-`）。原文はGit除外の `web/.local/book-hajimete-print<刷>.json` だけに置き、本番には SHA-256 だけを `BOOK_HAJIMETE_CODE_SHA256` に設定して `AUTH_SECRET` と合わせて使う。値をコミット・メッセージに貼らない。
 - cookie・署名・コードは本ごとに分ける。凍結した7課題の本を出すときも、この本の受取は開かない。
 - 書籍コードは既存Stripe商品の所有権を発行しない。共通コードは厳密な購入証明ではない。
+- 読者アンケートは `/book/hajimete/survey`（本の97ページのQRと受取ページの帯から）。回答は DynamoDB に置いて `/admin/book-survey` で見る。答えた人にお礼の `ENQUETE100` を出す（§読者アンケート）。
 
 ## 詳細
 
@@ -40,6 +41,14 @@ npm run build
 - 認証後：問題PDF（144問）とじぶんでつくろうの2つを大きく出し、「たす」「うつす」だけのPDFは折りたたむ。「自分に合う紙面にする」で、12巻を本と同じLv・Vol・番号で選び、購入後画面の [SkuPrintPreview](../web/app/products/SkuPrintPreview.tsx) と同じ詳細設定で印刷できる。巻の中の並びは本と同じく難易度の低い順。
 - 認証前後とも：本の先にある7つの課題（各課題の入口の巻）、うつす・たすのLv.5、メーカーを案内する。どれも本に入っていない巻で、本の12巻は折りたたみの一覧で「買い直す必要はない」と示す。
 - 問題データは `/api/book/hajimete/volumes/[sku]` が書籍cookieを確かめてから返す。収録12巻にない巻は404、未認証と改ざんは401。応答は `private, no-store` と `noindex`。
+
+### 読者アンケート
+
+- 入口は本の97ページのQR（`/book/hajimete/survey`・書き出しが utm_content=p97 を付ける）と、受取ページの帯（[BookSurveyBand](../web/app/book/hajimete/BookSurveyBand.tsx)）。帯は認証後だけで、初めてPDFを保存した日（端末の localStorage `tenzu_book_first_save`）より後に来たときに出す。閉じた端末・答えたブラウザには出さない。
+- 設問の定義は [survey.ts](../web/app/book/hajimete/survey.ts)（画面・受け口・管理画面で共通）。受取コードなしで答えられ、ページは `noindex`。
+- 受け口 `/api/book/hajimete/survey` が DynamoDB（`ONSITE_TABLE`・PK `BOOK_SURVEY#hajimete`・[survey-store.ts](../web/app/lib/survey-store.ts)）に保存し、問い合わせと同じ宛先（`CONTACT_NOTIFY_EMAILS`）へ通知する。片方が失敗しても受け付け、両方失敗したときだけ500。ハニーポットつき。
+- 答えた人には、お礼のコード `ENQUETE100` を返して画面に出し、回答済みのcookie（`tenzu_book_survey`・400日）を立てる。同じブラウザでまた開くと、保存し直さずにコードだけ出す。クーポンの決まりは [pack-commerce.md §14.7.2](../product/pack-commerce.md)。
+- 回答の一覧と設問ごとの数は `/admin/book-survey`（`/admin/contact` と同じ合言葉ログイン）。
 
 ### 本に印刷するコード
 

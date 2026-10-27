@@ -10,6 +10,8 @@ import { volBySku } from "../../products/data";
 import BookDownloads from "./BookDownloads";
 import BookNextLink from "./BookNextLink";
 import BookPattern from "./BookPattern";
+import BookSurveyBand from "./BookSurveyBand";
+import { SURVEY_COOKIE } from "../../lib/survey-store";
 import "../../products/product.css";
 import "./book.css";
 
@@ -32,7 +34,8 @@ function NextItem({ sku, child, name, group }: { sku: string; child: string; nam
 }
 
 export default async function BookPage() {
-  const authorized = readBookSession((await cookies()).get(BOOK_COOKIE)?.value);
+  const jar = await cookies();
+  const authorized = readBookSession(jar.get(BOOK_COOKIE)?.value);
   const files = await bookFiles();
   return <><SiteHeader /><main className="book-wrap">
     <section className="book-usage-intro" id="usage" aria-labelledby="book-page-title">
@@ -42,6 +45,7 @@ export default async function BookPage() {
       <p className="book-small">追加料金なし・期限なし・メール登録不要</p>
     </section>
     <BookDownloads authorized={authorized} files={files} />
+    {authorized && <BookSurveyBand answered={jar.has(SURVEY_COOKIE)} />}
     <section className="book-section book-next" id="next" aria-labelledby="book-next-title">
       <p className="book-eyebrow">本の先にある7つの課題</p>
       <h2 id="book-next-title">写せたら、<br className="book-mobile-break" />次は形を変えて描く。</h2>
