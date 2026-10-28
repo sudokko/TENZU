@@ -14,8 +14,6 @@ const nextConfig: NextConfig = {
   // パスとクエリを保ったまま恒久転送して canonical シグナルを一本化する。
   async redirects() {
     return [
-      // 本のアンケートの旧パス。97ページの QR・受取ページの帯とも /bookenq へ（クエリは保たれる）。
-      { source: "/book/hajimete/survey", destination: "/book/hajimete/bookenq", permanent: true },
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.tenzu.jp" }],

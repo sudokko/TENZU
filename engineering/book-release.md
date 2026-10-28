@@ -44,9 +44,9 @@ npm run build
 
 ### 読者アンケート
 
-- 入口は本の97ページのQR（`/book/hajimete/bookenq`・旧 `/survey` は転送・書き出しが utm_content=p97 を付ける）と、受取ページの帯（[BookSurveyBand](../web/app/book/hajimete/BookSurveyBand.tsx)）。帯は認証後だけで、初めてPDFを保存した日（端末の localStorage `tenzu_book_first_save`）より後に来たときに出す。閉じた端末・答えたブラウザには出さない。
+- 入口は本の97ページのQR（`/book/hajimete/bookenq`・書き出しが utm_content=p97 を付ける）と、受取ページの帯（[BookSurveyBand](../web/app/book/hajimete/BookSurveyBand.tsx)）。帯は認証後だけで、初めてPDFを保存した日（端末の localStorage `tenzu_book_first_save`）より後に来たときに出す。閉じた端末・答えたブラウザには出さない。
 - 設問の定義は [survey.ts](../web/app/book/hajimete/survey.ts)（画面・受け口・管理画面で共通）。受取コードなしで答えられ、ページは `noindex`。
-- 受け口 `/api/book/hajimete/survey` が DynamoDB（`ONSITE_TABLE`・PK `BOOK_SURVEY#hajimete`・[survey-store.ts](../web/app/lib/survey-store.ts)）に保存し、問い合わせと同じ宛先（`CONTACT_NOTIFY_EMAILS`）へ通知する。片方が失敗しても受け付け、両方失敗したときだけ500。ハニーポットつき。
+- 受け口 `/api/book/hajimete/bookenq` が DynamoDB（`ONSITE_TABLE`・PK `BOOK_SURVEY#hajimete`・[survey-store.ts](../web/app/lib/survey-store.ts)）に保存し、問い合わせと同じ宛先（`CONTACT_NOTIFY_EMAILS`）へ通知する。片方が失敗しても受け付け、両方失敗したときだけ500。ハニーポットつき。
 - 答えた人には、お礼のコード `ENQUETE100` を返して画面に出し、回答済みのcookie（`tenzu_book_survey`・400日）を立てる。同じブラウザでまた開くと、保存し直さずにコードだけ出す。クーポンの決まりは [pack-commerce.md §14.7.2](../product/pack-commerce.md)。
 - 回答の一覧と設問ごとの数は `/admin/book-survey`（`/admin/contact` と同じ合言葉ログイン）。
 

@@ -1,6 +1,6 @@
 "use client";
 
-/* 本のアンケートの入力フォーム（設問は ../survey.ts）。送ると /api/book/hajimete/survey が保存し、お礼のクーポンコードを返す。
+/* 本のアンケートの入力フォーム（設問は ../survey.ts）。送ると /api/book/hajimete/bookenq が保存し、お礼のクーポンコードを返す。
    答え終わったら、同じ場所にコードと使い方を出す（回答済みのブラウザは最初からこの表示）。 */
 
 import Link from "next/link";
@@ -40,7 +40,7 @@ export default function SurveyForm({ from, answeredCoupon }: { from: string; ans
     if (recommend == null) { setError("「7. すすめたいと思いますか」を0〜10から選んでください。"); return; }
     setBusy(true);
     try {
-      const res = await fetch("/api/book/hajimete/survey", {
+      const res = await fetch("/api/book/hajimete/bookenq", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ages, progress, stuck, stuckNo: stuckSomewhere && stuckNo ? Number(stuckNo) : undefined,
           stuckWhy: stuckSomewhere ? stuckWhy : [], comment, reasons, recommend, from: from || undefined, website }),
