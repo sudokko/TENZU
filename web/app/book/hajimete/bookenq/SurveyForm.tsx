@@ -41,7 +41,7 @@ export default function SurveyForm({ from, answeredCoupon }: { from: string; ans
   async function submit(e: FormEvent) {
     e.preventDefault();
     setError("");
-    if (!age) { setError("「1. 使ったお子さんの学年」を選んでください。"); return; }
+    if (!age) { setError("「1. 使ったお子さんの年齢」を選んでください。"); return; }
     if (reasons.length === 0) { setError("「2. この本を選んだ決め手」を1つ以上選んでください。"); return; }
     if (!good.trim()) { setError("「3. 使ってみての感想（よかったところ）」を書いてください。"); return; }
     if (!improve.trim()) { setError("「4. 使ってみての感想（改善点）」を書いてください。"); return; }
@@ -84,7 +84,7 @@ export default function SurveyForm({ from, answeredCoupon }: { from: string; ans
 
   return <form className="book-panel survey-form" onSubmit={submit} noValidate>
     <fieldset>
-      <legend>1. 使ったお子さんの学年 <span className="survey-required">必須</span></legend>
+      <legend>1. 使ったお子さんの年齢 <span className="survey-required">必須</span></legend>
       <Radios name="age" choices={AGES} value={age} onChange={setAge} />
     </fieldset>
     <fieldset>

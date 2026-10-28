@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   let mailed = false;
   try {
     await sendSurveyMail([
-      ["子どもの学年", labelOf(AGES, answer.age)],
+      ["子どもの年齢", labelOf(AGES, answer.age)],
       ["買った決め手", answer.reasons.map((v) => labelOf(REASONS, v)).join("、")],
       ...(answer.reasonOther ? [["決め手（そのほか）", answer.reasonOther] as [string, string]] : []),
       ["感想（よかったところ）", answer.good],

@@ -3,8 +3,13 @@
 
 export type Choice = { value: string; label: string };
 
-/** 1. 使ったお子さんの学年（ラジオ・必須）。 */
+/** 1. 使ったお子さんの年齢（ラジオ・必須）。6才は小学校の入学前と後で分ける。 */
 export const AGES: Choice[] = [
+  { value: "a3", label: "3才以下" }, { value: "a4", label: "4才" }, { value: "a5", label: "5才" },
+  { value: "a6pre", label: "6才（小学校入学前）" }, { value: "a6post", label: "6才（小学校入学後）" }, { value: "a7", label: "7才以上" },
+];
+/** 設問が「学年」だったころ（2026-10-27〜28）の選択肢。管理画面で古い答えを読むためだけに残す。 */
+export const AGES_LEGACY: Choice[] = [
   { value: "pre", label: "年少より前" }, { value: "k1", label: "年少" }, { value: "k2", label: "年中" },
   { value: "k3", label: "年長" }, { value: "g1", label: "小1" }, { value: "g2", label: "小2以上" },
 ];
@@ -12,7 +17,7 @@ export const AGES: Choice[] = [
 export const REASONS: Choice[] = [
   { value: "steps", label: "6段階で少しずつ難しくなる" }, { value: "order", label: "「たす」から「うつす」へ進む順番" },
   { value: "pdf", label: "特典PDFでくり返し印刷できる" }, { value: "genre", label: "点図形（点描写）の問題集を探していた" },
-  { value: "preview", label: "中身の見本を見て" }, { value: "price", label: "値段" },
+  { value: "preview", label: "中身の見本を見て" }, { value: "value", label: "コスパがよかった（質問数が多く収録されていた）" },
   { value: "word", label: "人にすすめられて" }, { value: "other", label: "そのほか" },
 ];
 export const REASON_OTHER = "other";
@@ -46,7 +51,7 @@ const text = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slic
 /** 受け口の検査。5問とも必須（決め手は1つ以上。「そのほか」の自由記述だけは空でもよい）。 */
 export function parseSurvey(body: Record<string, unknown>): SurveyAnswer | string {
   const age = pick(body.age, AGES);
-  if (!age) return "「1. 使ったお子さんの学年」を選んでください。";
+  if (!age) return "「1. 使ったお子さんの年齢」を選んでください。";
   const reasons = pickMany(body.reasons, REASONS);
   if (reasons.length === 0) return "「2. この本を選んだ決め手」を1つ以上選んでください。";
   const reasonOther = reasons.includes(REASON_OTHER) ? text(body.reasonOther, REASON_OTHER_MAX) : "";

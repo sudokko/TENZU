@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import { currentAdmin } from "../../lib/auth";
 import { listSurveys } from "../../lib/survey-store";
-import { AGES, REASONS, labelOf, type Choice } from "../../book/hajimete/survey";
+import { AGES, AGES_LEGACY, REASONS, labelOf, type Choice } from "../../book/hajimete/survey";
 import AdminLogin from "../onsite/AdminLogin";
 import "../onsite/admin.css";
 
@@ -13,6 +13,8 @@ export const dynamic = "force-dynamic";
 function jst(iso: string): string {
   return new Date(new Date(iso).getTime() + 9 * 3600_000).toISOString().slice(0, 16).replace("T", " ");
 }
+/** 決め手の「値段」は「コスパがよかった」に変えた（2026-10-28）。変える前の答えも読める。 */
+const REASONS_ALL: Choice[] = [...REASONS, { value: "price", label: "値段（旧）" }];
 const many = (choices: Choice[], values: string[]) => values.map((v) => labelOf(choices, v)).join("、") || "—";
 
 function Counts({ title, choices, values }: { title: string; choices: Choice[]; values: string[] }) {
@@ -41,14 +43,14 @@ export default async function AdminBookSurveyPage() {
     {hasTable && rows.length === 0 && <p className="adm-msg">回答はまだありません。</p>}
     {rows.length > 0 && <>
       <p className="adm-msg">回答 {rows.length} 件・すすめたいか（NPS）{nps}</p>
-      <Counts title="子どもの学年" choices={AGES} values={rows.flatMap(agesOf)} />
-      <Counts title="買った決め手" choices={REASONS} values={rows.flatMap((r) => r.reasons ?? [])} />
+      <Counts title="子どもの年齢" choices={[...AGES, ...AGES_LEGACY]} values={rows.flatMap(agesOf)} />
+      <Counts title="買った決め手" choices={REASONS_ALL} values={rows.flatMap((r) => r.reasons ?? [])} />
       <div className="adm-table-scroll"><table className="adm-table">
-        <thead><tr><th>日時（JST）</th><th>学年</th><th>決め手</th><th>推奨</th><th>来た所</th><th>よかったところ</th><th>改善点</th></tr></thead>
+        <thead><tr><th>日時（JST）</th><th>年齢</th><th>決め手</th><th>推奨</th><th>来た所</th><th>よかったところ</th><th>改善点</th></tr></thead>
         <tbody>{rows.map((r) => <tr key={`${r.createdAt}#${r.id}`}>
           <td className="adm-td-id">{jst(r.createdAt)}</td>
-          <td>{many(AGES, agesOf(r))}</td>
-          <td>{many(REASONS, r.reasons ?? [])}{r.reasonOther ? `（${r.reasonOther}）` : ""}</td>
+          <td>{many([...AGES, ...AGES_LEGACY], agesOf(r))}</td>
+          <td>{many(REASONS_ALL, r.reasons ?? [])}{r.reasonOther ? `（${r.reasonOther}）` : ""}</td>
           <td className="adm-td-id">{r.recommend}</td>
           <td>{r.from ?? "—"}</td>
           <td style={{ whiteSpace: "pre-wrap", maxWidth: 320 }}>{r.good ?? r.comment ?? "—"}</td>
