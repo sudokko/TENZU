@@ -1,17 +1,19 @@
 """採用表紙（案1・A）を KDP 入稿用の1枚の PDF に組む。
 cover-plan1-redraw.py を K=3 で書き出した画像から裏・表を切り出し、B5（182×257mm）の仕上がりへ合わせて
-300dpi に置く。背（108ページ・白い紙＝6.1776mm）は元画像の背が太すぎるため、ここで描き直す。
-使い方: python cover-plan1-kdp.py <redraw の K=3 出力 cover-A.png> <outdir>"""
+300dpi に置く。背（98ページ・白い紙＝5.6056mm）は元画像の背が太すぎるため、ここで描き直す。
+表表紙は cover-plan1-front8.py の K=3 出力（表表紙の範囲だけ）を渡すと、そちらを使う。
+使い方: python cover-plan1-kdp.py <redraw の K=3 出力 cover-A.png> <outdir> [front8 の K=3 出力]"""
 import io, sys
 import fitz
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 SRC, OUT = sys.argv[1:3]
+FRONT_SRC = sys.argv[3] if len(sys.argv) > 3 else None
 K = 3
 DPI = 300
 TRIM_W, TRIM_H, BLEED = 182.0, 257.0, 3.2
-SPINE = 108 * 0.0572
+SPINE = 98 * 0.0572
 MM = 72 / 25.4
 px = lambda mm: round(mm / 25.4 * DPI)
 
@@ -32,16 +34,22 @@ assert hi.size == (1536 * K, 1024 * K), hi.size
 ImageDraw.Draw(hi).rectangle([v * K for v in BARCODE_BOX], fill=PAGE)
 
 
-def panel(x0, x1, outer):
-    """切り出し → 仕上がり寸法へ → 外側・上下に塗り足し（端の折り返し）。"""
-    art = hi.crop((x0 * K, 0, x1 * K, hi.height)).resize((px(TRIM_W), px(TRIM_H)), Image.LANCZOS)
+def panel(art, outer):
+    """仕上がり寸法へ → 外側・上下に塗り足し（端の折り返し）。"""
+    art = art.resize((px(TRIM_W), px(TRIM_H)), Image.LANCZOS)
     b = px(BLEED)
     side = (b, 0) if outer == "left" else (0, b)
     return Image.fromarray(np.pad(np.asarray(art), ((b, b), side, (0, 0)), mode="reflect"))
 
 
-back = panel(*BACK_X, "left")
-front = panel(*FRONT_X, "right")
+back = panel(hi.crop((BACK_X[0] * K, 0, BACK_X[1] * K, hi.height)), "left")
+if FRONT_SRC:
+    # front.py の出力は右の塗り足しまで元画像の続きで持っている（折り返すと端の鉛筆が「く」の字に見える）。上下だけ折り返す。
+    art = Image.open(FRONT_SRC).convert("RGB").resize((px(TRIM_W) + px(BLEED), px(TRIM_H)), Image.LANCZOS)  # 裏と同じ画素数（300dpi を割らない）
+    b = px(BLEED)
+    front = Image.fromarray(np.pad(np.asarray(art), ((b, b), (0, 0), (0, 0)), mode="reflect"))
+else:
+    front = panel(hi.crop((FRONT_X[0] * K, 0, FRONT_X[1] * K, hi.height)), "right")
 
 
 def font(size, w):
@@ -72,7 +80,7 @@ def spine():
     d.line([cx, y, cx, y + px(6) * SS], fill=CAP, width=round(px(0.35) * SS))
     y += px(6) * SS + px(5) * SS
 
-    em = px(2.9) * SS  # 文字幅 2.9mm（背 6.18mm − 左右 1.6mm）
+    em = px(SPINE - 3.2) * SS  # 文字幅 2.4mm（背 5.61mm − 左右 1.6mm）
     f = font(round(em * 0.94), 900)
     for ch in "はじめての点図形（点描写）":
         paren = ch in "（）"

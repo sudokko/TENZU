@@ -22,7 +22,7 @@ export const PURCHASED_COOKIE = "tenzu_purchased";
 /** ブラウザが受け付ける最長（400日）。買い物のたびに延びる。 */
 export const PURCHASED_TTL = 60 * 60 * 24 * 400;
 export const ALREADY_PURCHASED = "このクーポンは、TENZUではじめてのお買い物のときだけ使えます。";
-export const ALREADY_USED = "このクーポンは、1つのメールアドレスにつき1回だけ使えます。";
+export const ALREADY_USED = "このクーポンは、このメールアドレスではご利用済みです。";
 /** Promotion Code の metadata `tenzu_rule` で「メールごとに1回」を示す値。 */
 export const ONCE_PER_EMAIL = "once-per-email";
 

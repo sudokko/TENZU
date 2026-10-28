@@ -62,7 +62,7 @@ export default function CouponField({ onChange }: {
             <input type="email" autoComplete="email" value={email}
               onChange={(e) => { setEmail(e.target.value); onChange({ coupon, email: e.target.value }); }} />
           </label>
-          <p className="coupon-field-note">決済画面でも、このメールアドレスを使います。1つのメールアドレスにつき1回です。</p>
+          <p className="coupon-field-note">決済画面でも、このメールアドレスを使います。</p>
         </>
       )}
     </details>

@@ -1,4 +1,4 @@
-"""表紙案（cover-plan1-v2-source.webp）を直す。図形＝公開済みの実問題・背の題名・裏の2パネル（案A/案B）。
+"""表紙案（cover-plan1-v2-source.webp）を直す。図形＝公開済みの実問題・背の題名・裏の3パネル（下段を外して大きく）。
 座標はすべて元画像（1536×1024）の px。K 倍で書き出すと、元画像は拡大し、描き直す部分は K 倍の解像度で描く。
 使い方: python cover-plan1-redraw.py <src> <published_dir> <outdir> [K]"""
 import json, math, sys
@@ -170,8 +170,12 @@ class Panel:
 
 
 HOUSE = problem("copy-lv2-vol1", 4)
-PX0, PY0, PX1, PY1 = 269, 655, 712, 816  # 青と緑の2枚が占める範囲
-BX1, GX0 = 500, 510
+# 裏の3枚（用紙サイズ・問題数・点なし）。下段を外した分だけ下へ伸ばし、文字と絵を大きくする。
+# 下端 858 は KDP が右下に置くバーコード（元画像の y 877 あたりから下）にかからない高さ。
+PY0, PY1 = 655, 858
+PINK_X, BLUE_X, GREEN_X = (36, 262), (269, 500), (510, 712)
+PINK_BG = (254, 235, 231)
+RED_T = (218, 38, 48)
 
 
 def sheet(p, x, y, w, h, rows, cols, stacked=False):
@@ -198,84 +202,71 @@ def sheet(p, x, y, w, h, rows, cols, stacked=False):
                              max(0.35, pane * 0.035) * SS, max(0.45, pane * 0.05) * SS)
 
 
-def variant_a(base):
-    """案A：仕上がりの紙面を見せる（2枚のまま、中身を実物に近い図へ）。"""
-    b = Panel(PX0, PY0, BX1, PY1, BLUE_BG)
-    W = BX1 - PX0
-    b.text(W / 2, 19, "1枚の問題数を選べる", 15.5, BLUE_T, 800)
-    sw, sh, top = 46, 65, 36
-    xs = [W / 2 - 72, W / 2, W / 2 + 72]
+def panels(base):
+    p = Panel(PINK_X[0], PY0, PINK_X[1], PY1, PINK_BG)
+    W = PINK_X[1] - PINK_X[0]
+    p.text(W / 2, 24, "選べる用紙サイズ", 17, RED_T, 800)
+    s_ = 0.18  # mm → px
+    papers = [("A4", 210, 297), ("B4", 257, 364), ("A3", 297, 420), ("A4よこ", 297, 210)]
+    gap = 6
+    total = sum(w * s_ for _, w, _ in papers) + gap * (len(papers) - 1)
+    x = W / 2 - total / 2
+    base_y = 168
+    for label, w, h in papers:
+        w, h = w * s_, h * s_
+        p.rect(x, base_y - h, x + w, base_y, fill=(255, 255, 255, 255), outline=(60, 62, 66), width=1.1)
+        p.text(x + w / 2, base_y - h / 2, label, 13 if len(label) > 2 else 15, TXT, 800)
+        x += w + gap
+    p.paste(base)
+
+    b = Panel(BLUE_X[0], PY0, BLUE_X[1], PY1, BLUE_BG)
+    W = BLUE_X[1] - BLUE_X[0]
+    b.text(W / 2, 24, "1枚の問題数を選べる", 17, BLUE_T, 800)
+    sw, sh, top = 60, 85, 44
+    xs = [W / 2 - 76, W / 2, W / 2 + 76]
     for x, (rows, cols), num, sub in zip(xs, [(1, 1), (3, 1), (3, 2)], ["1問", "3問", "6問"], ["大きく", "ふつう", "たくさん"]):
         sheet(b, x - sw / 2, top, sw, sh, rows, cols, stacked=rows == 1)
-        b.text(x, top + sh + 13, num, 13.5, TXT, 800)
-        b.text(x, top + sh + 28, sub, 9.5, SUB, 500)
+        b.text(x, top + sh + 17, num, 16, TXT, 800)
+        b.text(x, top + sh + 37, sub, 12, SUB, 600)
     b.paste(base)
 
-    g = Panel(GX0, PY0, PX1, PY1, GREEN_BG)
-    W = PX1 - GX0
-    g.text(W / 2, 19, "点なしでも印刷できる", 15.5, GREEN_T, 800)
-    pane, rowy = 38, [37, 84]
+    g = Panel(GREEN_X[0], PY0, GREEN_X[1], PY1, GREEN_BG)
+    W = GREEN_X[1] - GREEN_X[0]
+    g.text(W / 2, 24, "点なしでも印刷できる", 17, GREEN_T, 800)
+    pane, rowy = 48, [44, 106]
     for (y, label, dots) in zip(rowy, ["点あり", "点なし"], [True, False]):
-        g.text(44, y + pane / 2, label, 11, GREEN_T if not dots else SUB, 800)
-        x1 = 70
-        g.rect(x1, y, x1 + pane, y + pane, fill=(255, 255, 255, 255), outline=LINE, width=0.7, r=2)
-        g.problem(x1 + 7, y + 7, pane - 14, HOUSE, dots=dots, line_w=1.6, dot_r=1.3)
+        g.text(34, y + pane / 2, label, 13.5, GREEN_T if not dots else SUB, 800)
+        x1 = 62
+        g.rect(x1, y, x1 + pane, y + pane, fill=(255, 255, 255, 255), outline=LINE, width=0.8, r=2.5)
+        g.problem(x1 + 9, y + 9, pane - 18, HOUSE, dots=dots, line_w=1.9, dot_r=1.55)
         g.arrow(x1 + pane + 12, y + pane / 2)
         x2 = x1 + pane + 24
-        g.rect(x2, y, x2 + pane, y + pane, fill=(255, 255, 255, 255), outline=LINE, width=0.7, r=2)
+        g.rect(x2, y, x2 + pane, y + pane, fill=(255, 255, 255, 255), outline=LINE, width=0.8, r=2.5)
         if dots:
-            g.problem(x2 + 7, y + 7, pane - 14, HOUSE, dots=True, lines=False, dot_r=1.3)
-    g.text(W / 2, 140, "形だけを見て、白紙に写す練習に。", 10.5, TXT, 700)
+            g.problem(x2 + 9, y + 9, pane - 18, HOUSE, dots=True, lines=False, dot_r=1.55)
+    g.text(W / 2, 182, "形だけを見て、白紙に写す練習に。", 11.5, TXT, 700)
     g.paste(base)
 
 
-def chip(p, x, y, label, sel, color, h=17, px=10.5, minw=0):
-    w = max(minw, len(label) * px + 12)
-    if sel:
-        p.rect(x, y, x + w, y + h, fill=color + (255,), r=h / 2)
-        p.text(x + w / 2, y + h / 2, label, px, (255, 255, 255), 800)
-    else:
-        p.rect(x, y, x + w, y + h, fill=(255, 255, 255, 255), outline=(190, 205, 222), width=0.8, r=h / 2)
-        p.text(x + w / 2, y + h / 2, label, px, TXT, 600)
-    return x + w + 4
+# ---- 裏の下段（巻末のおためし・この本の先）は外す：KDP のバーコードが右下にかかるため ----
+ROW = (30, 818, 716, 898)  # 消す範囲（端を含む）
+ROW_PAGE = (254, 253, 249)
+BIGPINK = (253, 200, 188)  # 左下の大きい円
+BIG_CIRCLE = (-15.11, 936.09, 87.96)  # 縁から当てはめた中心と半径
 
 
-def variant_b(base):
-    """案B：設定を Web の画面と同じ言葉で並べる（2枚を1枚にまとめる）。"""
-    ImageDraw.Draw(base).rectangle([(BX1 - 2) * K, (PY0 - 3) * K, (PX1 + 5) * K, (PY1 + 3) * K], fill=PAGE)
-    p = Panel(PX0, PY0, PX1, PY1, BLUE_BG)
-    W = PX1 - PX0
-    p.text(14, 19, "問題数も点も、自分で選べる。", 15.5, BLUE_T, 800, anchor="lm")
-    col = [14, W / 2 + 6]
-    rows = [38, 86]
-    items = [
-        (col[0], rows[0], "1枚の問題数", [("1問", True), ("2問", False), ("3問", False), ("4問", False), ("6問", False)]),
-        (col[1], rows[0], "背景の点", [("つける", False), ("とる（白紙）", True)]),
-        (col[0], rows[1], "点の大きさ", None),
-        (col[1], rows[1], "名前・日付の欄", [("つける", True), ("つけない", False)]),
-    ]
-    for x, y, label, chips in items:
-        p.text(x, y + 6, label, 10.5, SUB, 700, anchor="lm")
-        cx = x
-        if chips is None:  # 点の大きさは点そのもので見せる
-            for i, (lab, r) in enumerate([("小", 1.6), ("中", 2.4), ("大", 3.3)]):
-                sel = i == 1
-                w = 40
-                p.rect(cx, y + 15, cx + w, y + 32, fill=(BLUE_T + (255,)) if sel else (255, 255, 255, 255),
-                       outline=None if sel else (190, 205, 222), width=0.8, r=8.5)
-                dc = (255, 255, 255) if sel else INK
-                p.d.ellipse([(cx + 11 - r) * SS, (y + 23.5 - r) * SS, (cx + 11 + r) * SS, (y + 23.5 + r) * SS], fill=dc)
-                p.text(cx + 26, y + 23.5, lab, 10.5, (255, 255, 255) if sel else TXT, 800 if sel else 600)
-                cx += w + 4
-        else:
-            for lab, sel in chips:
-                cx = chip(p, cx, y + 15, lab, sel, BLUE_T, minw=30)
-    p.d.line([W / 2 * SS, 34 * SS, W / 2 * SS, 124 * SS], fill=(205, 220, 236), width=SS)
-    p.text(W / 2, 143, "選んだとおりの紙面で、PDFを何度でも印刷できます。", 10.5, TXT, 700)
-    p.paste(base)
+def clear_row(im):
+    x0, y0, x1, y1 = ROW
+    W, H = (x1 - x0 + 1) * K, (y1 - y0 + 1) * K
+    ImageDraw.Draw(im).rectangle([x0 * K, y0 * K, x0 * K + W - 1, y0 * K + H - 1], fill=ROW_PAGE)
+    big = Image.new("L", (W * SS, H * SS), 0)
+    bx, by, br = BIG_CIRCLE
+    cx, cy, r = (bx + 0.5 - x0) * K * SS, (by + 0.5 - y0) * K * SS, br * K * SS
+    ImageDraw.Draw(big).ellipse([cx - r, cy - r, cx + r, cy + r], fill=255)
+    im.paste(BIGPINK, (x0 * K, y0 * K), big.resize((W, H), Image.LANCZOS))
 
 
-for name, fn in (("A", variant_a), ("B", variant_b)):
-    img = Image.open(f"{OUT}/base.png").convert("RGB")
-    fn(img)
-    img.save(f"{OUT}/cover-{name}.png")
+img = Image.open(f"{OUT}/base.png").convert("RGB")
+clear_row(img)
+panels(img)
+img.save(f"{OUT}/cover-A.png")
