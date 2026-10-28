@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SURVEY_COOKIE, SURVEY_COUPON, putSurvey } from "../../../../lib/survey-store";
 import { sendSurveyMail } from "../../../../lib/email";
-import { AGES, PROGRESS, REASONS, STUCK, STUCK_WHY, labelOf, parseSurvey } from "../../../../book/hajimete/survey";
+import { AGES, REASONS, labelOf, parseSurvey } from "../../../../book/hajimete/survey";
 
 export const dynamic = "force-dynamic";
 
@@ -39,16 +39,14 @@ export async function POST(req: NextRequest) {
   }
   let mailed = false;
   try {
-    const many = (choices: typeof AGES, values: string[]) => values.map((v) => labelOf(choices, v)).join("、") || "（未回答）";
     await sendSurveyMail([
-      ["子どもの学年", many(AGES, answer.ages)],
-      ["どこまで進んだか", labelOf(PROGRESS, answer.progress)],
-      ["手が止まった巻", answer.stuck ? `${labelOf(STUCK, answer.stuck)}${answer.stuckNo ? `（${answer.stuckNo}／12）` : ""}` : "（未回答）"],
-      ["そのとき", many(STUCK_WHY, answer.stuckWhy)],
-      ["買った決め手", many(REASONS, answer.reasons)],
+      ["子どもの学年", labelOf(AGES, answer.age)],
+      ["買った決め手", answer.reasons.map((v) => labelOf(REASONS, v)).join("、")],
+      ...(answer.reasonOther ? [["決め手（そのほか）", answer.reasonOther] as [string, string]] : []),
+      ["感想（よかったところ）", answer.good],
+      ["感想（改善点）", answer.improve],
       ["すすめたいか（0〜10）", String(answer.recommend)],
       ["来たところ", answer.from ?? "（不明）"],
-      ["自由記述", answer.comment ?? "（なし）"],
     ]);
     mailed = true;
   } catch (e) {

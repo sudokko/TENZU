@@ -38,7 +38,7 @@ export default function BookSurveyBand({ answered }: { answered: boolean }) {
   const show = useSyncExternalStore(subscribe, due, () => false);
   if (answered || !show) return null;
   return <aside className="book-survey-band" aria-label="アンケートのお願い">
-    <p><strong>使ってみて、いかがですか。</strong>7つの質問・2分ほど。答えてくださった方に ¥100 OFF クーポンをお渡しします。</p>
+    <p><strong>使ってみて、いかがですか。</strong>5つの質問・1分ほど。答えてくださった方に ¥100 OFF クーポンをお渡しします。</p>
     <div className="book-survey-band-actions">
       <Link href={`${BOOK.href}/bookenq?from=band`} onClick={() => trackBookEvent("book_survey_open", "band")}>アンケートに答える →</Link>
       <button type="button" onClick={close}>閉じる</button>

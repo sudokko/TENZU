@@ -6,9 +6,16 @@
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { trackBookEvent } from "../../../analytics";
-import { AGES, COMMENT_MAX, PROGRESS, REASONS, STUCK, STUCK_WHY, type Choice } from "../survey";
+import { AGES, COMMENT_MAX, REASONS, REASON_OTHER, REASON_OTHER_MAX, type Choice } from "../survey";
 
 const toggle = (list: string[], value: string) => (list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
+
+function Radios({ name, choices, value, onChange }: { name: string; choices: Choice[]; value: string; onChange: (v: string) => void }) {
+  return <div className="survey-choices" role="radiogroup">{choices.map((c) => <label key={c.value} className="survey-choice">
+    <input type="radio" name={name} value={c.value} checked={value === c.value} onChange={() => onChange(c.value)} />
+    <span>{c.label}</span>
+  </label>)}</div>;
+}
 
 function Checks({ name, choices, values, onChange }: { name: string; choices: Choice[]; values: string[]; onChange: (v: string[]) => void }) {
   return <div className="survey-choices">{choices.map((c) => <label key={c.value} className="survey-choice">
@@ -18,32 +25,33 @@ function Checks({ name, choices, values, onChange }: { name: string; choices: Ch
 }
 
 export default function SurveyForm({ from, answeredCoupon }: { from: string; answeredCoupon: string | null }) {
-  const [ages, setAges] = useState<string[]>([]);
-  const [progress, setProgress] = useState("");
-  const [stuck, setStuck] = useState("");
-  const [stuckNo, setStuckNo] = useState("");
-  const [stuckWhy, setStuckWhy] = useState<string[]>([]);
-  const [comment, setComment] = useState("");
+  const [age, setAge] = useState("");
   const [reasons, setReasons] = useState<string[]>([]);
+  const [reasonOther, setReasonOther] = useState("");
+  const [good, setGood] = useState("");
+  const [improve, setImprove] = useState("");
   const [recommend, setRecommend] = useState<number | null>(null);
   const [website, setWebsite] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [coupon, setCoupon] = useState<string | null>(answeredCoupon);
   const [copied, setCopied] = useState(false);
-  const stuckSomewhere = stuck !== "" && stuck !== "none";
+  const otherChosen = reasons.includes(REASON_OTHER);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
     setError("");
-    if (!progress) { setError("「2. どこまで進みましたか」を選んでください。"); return; }
-    if (recommend == null) { setError("「7. すすめたいと思いますか」を0〜10から選んでください。"); return; }
+    if (!age) { setError("「1. 使ったお子さんの学年」を選んでください。"); return; }
+    if (reasons.length === 0) { setError("「2. この本を選んだ決め手」を1つ以上選んでください。"); return; }
+    if (!good.trim()) { setError("「3. 使ってみての感想（よかったところ）」を書いてください。"); return; }
+    if (!improve.trim()) { setError("「4. 使ってみての感想（改善点）」を書いてください。"); return; }
+    if (recommend == null) { setError("「5. すすめたいと思いますか」を0〜10から選んでください。"); return; }
     setBusy(true);
     try {
       const res = await fetch("/api/book/hajimete/bookenq", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ages, progress, stuck, stuckNo: stuckSomewhere && stuckNo ? Number(stuckNo) : undefined,
-          stuckWhy: stuckSomewhere ? stuckWhy : [], comment, reasons, recommend, from: from || undefined, website }),
+        body: JSON.stringify({ age, reasons, reasonOther: otherChosen ? reasonOther : undefined, good, improve, recommend,
+          from: from || undefined, website }),
       });
       const data = await res.json();
       if (!res.ok) { setError(data.error ?? "送信できませんでした。"); return; }
@@ -76,46 +84,24 @@ export default function SurveyForm({ from, answeredCoupon }: { from: string; ans
 
   return <form className="book-panel survey-form" onSubmit={submit} noValidate>
     <fieldset>
-      <legend>1. 使ったお子さんの学年 <span className="survey-hint">きょうだいで使ったときは、すべて</span></legend>
-      <Checks name="ages" choices={AGES} values={ages} onChange={setAges} />
+      <legend>1. 使ったお子さんの学年 <span className="survey-required">必須</span></legend>
+      <Radios name="age" choices={AGES} value={age} onChange={setAge} />
     </fieldset>
     <fieldset>
-      <legend>2. どこまで進みましたか <span className="survey-required">必須</span></legend>
-      <select value={progress} onChange={(e) => setProgress(e.target.value)} aria-label="どこまで進んだか">
-        <option value="">選んでください</option>
-        {PROGRESS.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
-      </select>
-      <p className="book-small">いま取り組んでいる巻、または最後に取り組んだ巻を選んでください。</p>
-    </fieldset>
-    <fieldset>
-      <legend>3. 手が止まった問題</legend>
-      <p className="book-small">問題番号の横の「（5／12）」の、左の数字を選んでください。覚えていなければ、巻だけでかまいません。</p>
-      <div className="survey-row">
-        <select value={stuck} onChange={(e) => setStuck(e.target.value)} aria-label="手が止まった巻">
-          <option value="">選んでください</option>
-          {STUCK.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
-        </select>
-        {stuckSomewhere && <label className="survey-no">（
-          <select value={stuckNo} onChange={(e) => setStuckNo(e.target.value)} aria-label="巻の中の番号">
-            <option value="">?</option>
-            {Array.from({ length: 12 }, (_, i) => <option key={i} value={i + 1}>{i + 1}</option>)}
-          </select>／12）</label>}
-      </div>
-    </fieldset>
-    {stuckSomewhere && <fieldset>
-      <legend>4. そのとき、どんな様子でしたか <span className="survey-hint">いくつでも</span></legend>
-      <Checks name="stuckWhy" choices={STUCK_WHY} values={stuckWhy} onChange={setStuckWhy} />
-    </fieldset>}
-    <fieldset>
-      <legend>5. 使ってみての感想・こうだったらいいのに</legend>
-      <textarea value={comment} maxLength={COMMENT_MAX} rows={5} onChange={(e) => setComment(e.target.value)} aria-label="感想" placeholder="例：Lv.3 Vol.2 のななめで、点を数えるところから一緒にやりました。" />
-    </fieldset>
-    <fieldset>
-      <legend>6. この本を選んだ決め手 <span className="survey-hint">いくつでも</span></legend>
+      <legend>2. この本を選んだ決め手 <span className="survey-required">必須</span> <span className="survey-hint">いくつでも</span></legend>
       <Checks name="reasons" choices={REASONS} values={reasons} onChange={setReasons} />
+      {otherChosen && <input type="text" className="survey-other" value={reasonOther} maxLength={REASON_OTHER_MAX} onChange={(e) => setReasonOther(e.target.value)} aria-label="決め手（そのほか）" placeholder="「そのほか」の内容を教えてください" />}
     </fieldset>
     <fieldset>
-      <legend>7. この本を、知り合いのご家庭にすすめたいと思いますか <span className="survey-required">必須</span></legend>
+      <legend>3. 使ってみての感想（よかったところ） <span className="survey-required">必須</span></legend>
+      <textarea value={good} maxLength={COMMENT_MAX} rows={4} onChange={(e) => setGood(e.target.value)} aria-label="感想（よかったところ）" placeholder="例：点を数えるところから、子どもと一緒にできました。" />
+    </fieldset>
+    <fieldset>
+      <legend>4. 使ってみての感想（改善点） <span className="survey-required">必須</span></legend>
+      <textarea value={improve} maxLength={COMMENT_MAX} rows={4} onChange={(e) => setImprove(e.target.value)} aria-label="感想（改善点）" placeholder="例：問題132番がとても難しかった。" />
+    </fieldset>
+    <fieldset>
+      <legend>5. この本を、知り合いのご家庭にすすめたいと思いますか <span className="survey-required">必須</span></legend>
       <div className="survey-scale" role="radiogroup" aria-label="0＝思わない、10＝とても思う">
         {Array.from({ length: 11 }, (_, n) => <label key={n} className="survey-scale-item">
           <input type="radio" name="recommend" value={n} checked={recommend === n} onChange={() => setRecommend(n)} />

@@ -7,9 +7,10 @@ import { randomBytes } from "crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { awsClientConfig } from "./aws";
-import type { SurveyAnswer } from "../book/hajimete/survey";
+import type { LegacySurveyAnswer, SurveyAnswer } from "../book/hajimete/survey";
 
-export type SurveyRecord = SurveyAnswer & { id: string; createdAt: string };
+/** 読むときは、設問を変える前の答え（ages・comment）が混ざることがある。 */
+export type SurveyRecord = Partial<SurveyAnswer> & LegacySurveyAnswer & Pick<SurveyAnswer, "recommend"> & { id: string; createdAt: string };
 
 /** 答えた人へのお礼のクーポン（Stripe の Promotion Code・メールごとに1回・pack-commerce §14.7.2）。画面には回答後にだけ出す。 */
 export const SURVEY_COUPON = "ENQUETE100";
@@ -32,7 +33,7 @@ export async function putSurvey(answer: SurveyAnswer): Promise<SurveyRecord | fa
   if (!table()) return false;
   const createdAt = new Date().toISOString();
   const id = randomBytes(4).toString("hex");
-  const rec: SurveyRecord = { ...answer, id, createdAt };
+  const rec = { ...answer, id, createdAt };
   await doc().send(new PutCommand({ TableName: table(), Item: { ...rec, PK, SK: `${createdAt}#${id}` } }));
   return rec;
 }

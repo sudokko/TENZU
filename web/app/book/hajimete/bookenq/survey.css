@@ -7,8 +7,9 @@
 .survey-choice { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border: 1px solid #d8dbe0; border-radius: 4px; font-size: 14px; line-height: 1.6; cursor: pointer; }
 .survey-choice:has(input:checked) { border-color: var(--accent, #2c6e7f); background: #eaf2f3; }
 .survey-choice input { margin-top: 5px; accent-color: var(--accent, #2c6e7f); }
-.survey-form select, .survey-form textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--fg-2, #424955); border-radius: 4px; background: var(--bg, #fff); color: inherit; font: inherit; font-size: 16px; }
+.survey-form select, .survey-form textarea, .survey-form .survey-other { width: 100%; padding: 10px 12px; border: 1px solid var(--fg-2, #424955); border-radius: 4px; background: var(--bg, #fff); color: inherit; font: inherit; font-size: 16px; }
 .survey-form textarea { line-height: 1.7; resize: vertical; }
+.survey-form .survey-other { margin-top: 10px; }
 .survey-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .survey-row > select { flex: 1 1 260px; width: auto; }
 .survey-no { display: inline-flex; align-items: center; gap: 2px; font-size: 15px; white-space: nowrap; }

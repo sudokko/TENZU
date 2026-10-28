@@ -1,9 +1,9 @@
 /* 本のアンケートの回答一覧（オーナー専用・読み取りのみ）。/admin/contact と同じ保護方式: tenzu_admin cookie＋noindex。
-   上に設問ごとの数、下に回答そのもの。手が止まった巻は「巻（番号／12）」で数える。 */
+   上に設問ごとの数、下に回答そのもの。設問を変える前の答え（学年の複数選択・感想ひとつ）も読める。 */
 import type { Metadata } from "next";
 import { currentAdmin } from "../../lib/auth";
 import { listSurveys } from "../../lib/survey-store";
-import { AGES, PROGRESS, REASONS, STUCK, STUCK_WHY, labelOf, type Choice } from "../../book/hajimete/survey";
+import { AGES, REASONS, labelOf, type Choice } from "../../book/hajimete/survey";
 import AdminLogin from "../onsite/AdminLogin";
 import "../onsite/admin.css";
 
@@ -33,8 +33,7 @@ export default async function AdminBookSurveyPage() {
   const rows = hasTable ? await listSurveys() : [];
   // NPS = すすめたい（9〜10）の割合 − すすめない（0〜6）の割合
   const nps = rows.length ? Math.round(((rows.filter((r) => r.recommend >= 9).length - rows.filter((r) => r.recommend <= 6).length) / rows.length) * 100) : null;
-  const stuckAt = rows.filter((r) => r.stuck && r.stuck !== "none").map((r) => `${labelOf(STUCK, r.stuck)}${r.stuckNo ? `（${r.stuckNo}／12）` : ""}`);
-  const stuckAtChoices = [...new Set(stuckAt)].sort().map((v) => ({ value: v, label: v }));
+  const agesOf = (r: (typeof rows)[number]) => (r.age ? [r.age] : r.ages ?? []);
 
   return <div className="adm-wrap">
     <header className="adm-header"><h1 className="adm-title">本のアンケート（はじめての点図形）</h1></header>
@@ -42,24 +41,18 @@ export default async function AdminBookSurveyPage() {
     {hasTable && rows.length === 0 && <p className="adm-msg">回答はまだありません。</p>}
     {rows.length > 0 && <>
       <p className="adm-msg">回答 {rows.length} 件・すすめたいか（NPS）{nps}</p>
-      <Counts title="どこまで進んだか" choices={PROGRESS} values={rows.map((r) => r.progress)} />
-      <Counts title="手が止まった巻（番号）" choices={[{ value: "none", label: "なかった" }, ...stuckAtChoices]}
-        values={[...rows.filter((r) => r.stuck === "none").map(() => "none"), ...stuckAt]} />
-      <Counts title="そのとき" choices={STUCK_WHY} values={rows.flatMap((r) => r.stuckWhy)} />
-      <Counts title="子どもの学年" choices={AGES} values={rows.flatMap((r) => r.ages)} />
-      <Counts title="買った決め手" choices={REASONS} values={rows.flatMap((r) => r.reasons)} />
+      <Counts title="子どもの学年" choices={AGES} values={rows.flatMap(agesOf)} />
+      <Counts title="買った決め手" choices={REASONS} values={rows.flatMap((r) => r.reasons ?? [])} />
       <div className="adm-table-scroll"><table className="adm-table">
-        <thead><tr><th>日時（JST）</th><th>学年</th><th>進んだところ</th><th>止まった</th><th>そのとき</th><th>決め手</th><th>推奨</th><th>来た所</th><th>感想</th></tr></thead>
+        <thead><tr><th>日時（JST）</th><th>学年</th><th>決め手</th><th>推奨</th><th>来た所</th><th>よかったところ</th><th>改善点</th></tr></thead>
         <tbody>{rows.map((r) => <tr key={`${r.createdAt}#${r.id}`}>
           <td className="adm-td-id">{jst(r.createdAt)}</td>
-          <td>{many(AGES, r.ages)}</td>
-          <td>{labelOf(PROGRESS, r.progress)}</td>
-          <td>{r.stuck ? `${labelOf(STUCK, r.stuck)}${r.stuckNo ? `（${r.stuckNo}／12）` : ""}` : "—"}</td>
-          <td>{many(STUCK_WHY, r.stuckWhy)}</td>
-          <td>{many(REASONS, r.reasons)}</td>
+          <td>{many(AGES, agesOf(r))}</td>
+          <td>{many(REASONS, r.reasons ?? [])}{r.reasonOther ? `（${r.reasonOther}）` : ""}</td>
           <td className="adm-td-id">{r.recommend}</td>
           <td>{r.from ?? "—"}</td>
-          <td style={{ whiteSpace: "pre-wrap", maxWidth: 360 }}>{r.comment ?? "—"}</td>
+          <td style={{ whiteSpace: "pre-wrap", maxWidth: 320 }}>{r.good ?? r.comment ?? "—"}</td>
+          <td style={{ whiteSpace: "pre-wrap", maxWidth: 320 }}>{r.improve ?? "—"}</td>
         </tr>)}</tbody>
       </table></div>
     </>}

@@ -25,7 +25,7 @@ export default async function BookSurveyPage({ searchParams }: { searchParams: P
     <section className="book-usage-intro" aria-labelledby="survey-title">
       <p className="book-eyebrow">『{BOOK.title}』アンケート</p>
       <h1 id="survey-title">この本を、<br className="book-mobile-break" />もっとよくするために。</h1>
-      <p className="book-intro-lead">手が止まったところ、使ってみての感想を聞かせてください。7つの質問、2分ほどです。</p>
+      <p className="book-intro-lead">使ってみての感想を聞かせてください。5つの質問、1分ほどです。</p>
       <p className="book-small">お名前・メールアドレスは聞きません。答えてくださった方には、TENZUのプリントとメーカーで使える ¥100 OFF のクーポンコードをこの画面でお渡しします。</p>
     </section>
     <SurveyForm from={(utm_content ?? from ?? "").slice(0, 16)} answeredCoupon={answered ? SURVEY_COUPON : null} />
