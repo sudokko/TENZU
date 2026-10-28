@@ -1,4 +1,4 @@
-/** 本のアンケート（/book/hajimete/survey・kdp-paperback §2.4）の設問。画面・受け口・管理画面で同じ定義を使う。
+/** 本のアンケート（/book/hajimete/bookenq・kdp-paperback §2.4）の設問。画面・受け口・管理画面で同じ定義を使う。
  * 巻の並びは catalog.ts の BOOK_VOLUMES（本と同じ順）。答えは選択肢の value で保存し、表示のときに label へ戻す。 */
 import { BOOK_TASKS, BOOK_VOLUMES } from "./catalog";
 

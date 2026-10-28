@@ -135,13 +135,14 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
     },
     // Pages the owner designed and still uses; the rest are drawn by the exporter in the same frame (2026-10-23).
     // The afterword and colophon (96) moved to the exporter when the owner's afterword grew past the page (2026-10-25).
-    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages.pdf", pages: [4, 6, 57, 93, 94, 95],
+    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages.pdf", pages: [6, 57, 93, 94, 95],
       qr: [{ page: 6, url: "https://tenzu.jp/book/hajimete", box: [135.06, 210.24, 160.5, 235.67] }] },
     slots: [
-      // Page 1 is also what a buyer sees first: what the book does for a first-timer and how it differs from other books.
-      extra("features", "この本の特徴", "6段階・たすが先・やさしい順（独自の計算式）・特典PDFでくり返し・刷り分け"),
-      extra("about", "点図形（点描写）とは", "はじめに：点つなぎとの違い・見る→考える→書く・何の練習になるか"),
-      extra("contents", "もくじ", "本の頭から終わりまで。問題の部はレベルごとの番号とページ"),
+      // Page 1 is what a buyer sees first: what a dot figure is, set against the dot-to-dot they already know.
+      // The contents and the level list are one spread (2 and 3); the route (drawn by the exporter) and the shop's page are the next (4 and 5).
+      extra("about", "点図形（点描写）とは", "点つなぎとの比較・点図形で伸びる力"),
+      extra("contents", "目次", "本の頭から終わりまで（はじめに・問題・この本を終えたら）", 1, true),
+      extra("problem-levels", "問題の中身", "レベルごとの盤面・新しく出るもの・たす／うつすの番号とページ"),
       { kind: "route" },
       extra("lineup", "この本の問題は、TENZUから", "TENZU（Webサイト）の紹介と、TENZUで用意している問題・この本の範囲・もっと難しい問題へのQR"),
       { kind: "benefit" },

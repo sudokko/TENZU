@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: `${BOOK.title} アンケート`,
   description: `TENZUの書籍『${BOOK.title}』を使ったご家庭へ。手が止まったところや感想を聞かせてください。`,
-  alternates: { canonical: `${BOOK.href}/survey` },
+  alternates: { canonical: `${BOOK.href}/bookenq` },
   robots: { index: false, follow: false },
 };
 

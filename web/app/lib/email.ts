@@ -202,7 +202,7 @@ export async function sendContactMail(opts: {
   });
 }
 
-/* 本のアンケート（/book/hajimete/survey）の回答をオーナーへ知らせる。宛先は問い合わせと同じ CONTACT_NOTIFY_EMAILS。
+/* 本のアンケート（/book/hajimete/bookenq）の回答をオーナーへ知らせる。宛先は問い合わせと同じ CONTACT_NOTIFY_EMAILS。
    rows は設問と答え（表示用の文字に直したもの）。回答者のメールは聞いていないので Reply-To はない。 */
 export async function sendSurveyMail(rows: [string, string][]): Promise<void> {
   const to = (process.env.CONTACT_NOTIFY_EMAILS ?? "tenzu.info@gmail.com,k-sudou@hotmail.co.jp")
@@ -215,7 +215,7 @@ export async function sendSurveyMail(rows: [string, string][]): Promise<void> {
     "",
     ...rows.map(([k, v]) => `${k}: ${v}`),
     "",
-    "— TENZU 本のアンケート（/book/hajimete/survey・一覧は /admin/book-survey）",
+    "— TENZU 本のアンケート（/book/hajimete/bookenq・一覧は /admin/book-survey）",
   ].join("\n");
   const htmlBody = `
     <div style="font-family:sans-serif;line-height:1.7;color:#3A424E">
@@ -228,7 +228,7 @@ export async function sendSurveyMail(rows: [string, string][]): Promise<void> {
           )
           .join("")}
       </table>
-      <p style="font-size:12px;color:#9AA0AA">— TENZU 本のアンケート（/book/hajimete/survey・一覧は /admin/book-survey）</p>
+      <p style="font-size:12px;color:#9AA0AA">— TENZU 本のアンケート（/book/hajimete/bookenq・一覧は /admin/book-survey）</p>
     </div>`;
   await deliver({ to, subject: "【TENZU】本のアンケートに回答", text: textBody, html: htmlBody });
 }

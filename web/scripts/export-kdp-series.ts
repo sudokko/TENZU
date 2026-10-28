@@ -1054,8 +1054,8 @@ function examPage() {
 /* ---- Book 1 pages drawn in the owner's frame (designFrame): Plex Sans JP Bold headings and hairline rules, as on the designed pages. */
 const DC = DESIGN_COPY;
 const white = grayscale(1), hair = grayscale(0.78);
-function designTitle(page: PDFPage, x: number, w: number, heading: string, lead?: string) {
-  let y = 22;
+function designTitle(page: PDFPage, x: number, w: number, heading: string, lead?: string, top = 22) {
+  let y = top;
   for (const l of wrap(heading, f.bold, 19, w)) { text(page, l, x, y, 19, "bold"); y += 9.6; }
   return lead ? paragraph(page, fillRefs(lead), x, y + 3.5, w, 9.2, 5.4) + 4 : y + 3;
 }
@@ -1072,150 +1072,316 @@ function qrBox(page: PDFPage, x: number, y: number, w: number, h: number, title:
   urlText(page, url, x, y + h - 6.5);
   qr(page, url, x + w - h + 3, y + 3, h - 4);
 }
-/** Book 1, page 1: what the book does for a first-timer, in the place a buyer looks first. */
-function featuresPage() {
-  const c = DC.features, { page, pn, x, w } = designFrame(c.label);
-  expect("extra", pn);
-  text(page, c.title, x, 22, 25, "bold");
-  text(page, c.titleSub, x - 2, 33.5, 19, "bold");
-  // The mark of the owner's first page: a 3×3 board with one shape drawn, a few lines short of a square.
-  const mx = x + w - 22, my = 23, step = 9, gray = grayscale(0.3);
-  for (let r = 0; r < 3; r++) for (let k = 0; k < 3; k++)
-    page.drawCircle({ x: (mx + k * step) * MM, y: page.getHeight() - (my + r * step) * MM, size: 0.55 * MM, color: gray });
-  ([[0, 0, 0, 2], [0, 0, 2, 0], [2, 0, 2, 2]] as const).forEach(([x1, y1, x2, y2]) =>
-    line(page, mx + x1 * step, my + y1 * step, mx + x2 * step, my + y2 * step, gray));
-  text(page, c.tagline, x, 47, 10.5, "bold");
-  let y = paragraph(page, c.lead, x, 56, w, 9.5, 5.6) + 4;
-  line(page, x, y, x + w, y, grayscale(0.14));
-  y += 7;
-  c.points.forEach((pt, i, all) => {
-    // Points may be gathered under a few headings; each heading opens where its group starts.
-    if (pt.group && pt.group !== all[i - 1]?.group) {
-      if (i) y += 1;
-      text(page, pt.group, x, y - 2, 9, "bold", grayscale(0.4));
-      y += 6.5;
-    }
-    text(page, `0${i + 1}`, x, y - 0.6, 15, "mono", grayscale(0.4));
-    text(page, pt.title, x + 15, y, 11.5, "bold");
-    y = paragraph(page, fillRefs(pt.body), x + 15, y + 7.6, w - 15, 9.5, 5.5) + 9;
-  });
-  if (y > 222) throw new Error(`Features page overflows: ${y.toFixed(1)}`);
-  line(page, x, 226, x + w, 226, hair);
-  let nx = x;
-  for (const [label, ref] of c.nav) {
-    const s = `${label}  ${fillRefs(ref)}ページ`;
-    text(page, s, nx, 230, 8.5, "bold");
-    nx += widthMm(s, 8.5, "bold") + 9;
-  }
-  if (nx > x + w - 27 - 6) throw new Error("Page links run into the logo");
-  logo(page, x + w, 228.5);
-}
-/** Book 1, page 2: what a dot figure is, set against the dot-to-dot a first-timer already knows. */
+/** Book 1, page 1: what a dot figure is, set against the dot-to-dot a first-timer already knows. */
 function aboutPage() {
   const c = DC.about, { page, pn, x, w } = designFrame(c.label);
   expect("extra", pn);
-  let y = designTitle(page, x, w, c.heading, c.lead) + 1;
-  // Side by side: a numbered dot-to-dot half drawn, and a dot figure with its model.
-  const cw = (w - 6) / 2, ch = 56, gray = grayscale(0.35);
+  // The heading and its smaller sub-line share one line.
+  let y = designTitle(page, x, w, c.heading, c.lead);
+  text(page, c.headingSub, x + widthMm(c.heading, 19, "bold") + 3, 24.6, 10.5, "bold", grayscale(0.4));
+  y += 1;
+  // Side by side, the same house twice: a numbered dot-to-dot half drawn, and a dot figure with its model and a board to draw on.
+  // The dot figure's card is a little wider; the house has the same size in both.
+  const gw = w - 6, cw1 = gw * 0.42, cw2 = gw - cw1, ch = 56, gray = grayscale(0.35), S = 13, pane = 32, cards = [[x, cw1], [x + cw1 + 6, cw2]] as const;
   [c.dotsTitle, c.figureTitle].forEach((t, i) => {
-    const cx = x + i * (cw + 6);
-    fillRect(page, cx, y, cw, ch, grayscale(0.95));
+    const [cx, cwi] = cards[i];
+    fillRect(page, cx, y, cwi, ch, grayscale(0.95));
     text(page, t, cx + 4, y + 3, 10.5, "bold");
-    paragraph(page, i ? c.figureCaption : c.dotsCaption, cx + 4, y + ch - 8, cw - 8, 8.2, 4.5);
+    paragraph(page, i ? c.figureCaption : c.dotsCaption, cx + 4, y + ch - 8, cwi - 8, 8.2, 4.5);
   });
-  const hx = x + cw / 2, pts = [[0, 13], [14, 24], [14, 42], [-14, 42], [-14, 24]].map(([dx, dy]) => [hx + dx, y + dy] as const);
-  [[0, 1], [1, 2]].forEach(([a, b]) => line(page, pts[a][0], pts[a][1], pts[b][0], pts[b][1], gray));
-  pts.forEach(([px, py], i) => {
-    page.drawCircle({ x: px * MM, y: page.getHeight() - py * MM, size: 0.7 * MM, color: grayscale(0.15) });
-    text(page, String(i + 1), px + (px < hx ? -4 : 1.6), py - 4.2, 8.5, "mono", grayscale(0.3));
-  });
-  const vi = volumes.findIndex((v) => v.sku === "copy-lv1-vol1");
-  if (vi < 0) throw new Error("about: copy-lv1-vol1 missing");
-  question(page, vi, 5, x + cw + 8, y + 9, cw - 4, 36, false, true);
+  const house = [[1, 0], [2, 1], [2, 2], [0, 2], [0, 1]];
+  const at = (px0: number, py0: number, [gx, gy]: number[]) => [px0 + gx * S, py0 + gy * S] as const;
+  const dot = (px: number, py: number, r = 0.7) => page.drawCircle({ x: px * MM, y: page.getHeight() - py * MM, size: r * MM, color: grayscale(0.15) });
+  const paneTop = y + 10;
+  // Dot-to-dot: the five corners numbered, the first two lines drawn.
+  {
+    const bx = cards[0][0] + (cw1 - pane) / 2, ox = bx + (pane - 2 * S) / 2, oy = paneTop + (pane - 2 * S) / 2;
+    fillRect(page, bx, paneTop, pane, pane, white);
+    const pts = house.map((g) => at(ox, oy, g));
+    [[0, 1], [1, 2]].forEach(([a, b]) => line(page, pts[a][0], pts[a][1], pts[b][0], pts[b][1], gray));
+    pts.forEach(([px, py], i) => {
+      dot(px, py);
+      text(page, String(i + 1), px + (px < ox + S ? -4 : 1.6), py - 4.2, 8.5, "mono", grayscale(0.3));
+    });
+  }
+  // Dot figure: the model on a 3x3 board, then an empty 3x3 board to draw on.
+  {
+    const [cx, cwi] = cards[1], gap = 12, bx0 = cx + (cwi - (pane * 2 + gap)) / 2;
+    [0, 1].forEach((k) => {
+      const bx = bx0 + k * (pane + gap), ox = bx + (pane - 2 * S) / 2, oy = paneTop + (pane - 2 * S) / 2;
+      fillRect(page, bx, paneTop, pane, pane, white);
+      const tag = k ? "書く" : "見本";
+      text(page, tag, bx + pane / 2 - widthMm(tag, 7.5, "body") / 2, paneTop + pane + 1.4, 7.5, "body", grayscale(0.4));
+      if (!k) for (let a = 0; a < 5; a++) {
+        const p = at(ox, oy, house[a]), q = at(ox, oy, house[(a + 1) % 5]);
+        line(page, p[0], p[1], q[0], q[1], gray);
+      }
+      for (let gy = 0; gy < 3; gy++) for (let gx = 0; gx < 3; gx++) { const [px, py] = at(ox, oy, [gx, gy]); dot(px, py, 0.55); }
+    });
+    const ax = bx0 + pane + 1.5, ay = paneTop + pane / 2;
+    line(page, ax, ay, ax + gap - 3, ay, grayscale(0.4));
+    line(page, ax + gap - 5, ay - 1.6, ax + gap - 3, ay, grayscale(0.4));
+    line(page, ax + gap - 5, ay + 1.6, ax + gap - 3, ay, grayscale(0.4));
+  }
   y += ch + 6;
-  // What differs, row by row.
-  const cols = [0, 34, 34 + (w - 34) / 2];
+  // What differs, row by row: set large, the page's main comparison.
+  const cols = [0, 38, 38 + (w - 38) / 2], rowH = 9.4;
   c.compare.forEach((row, ri) => {
-    row.forEach((cell, ci) => text(page, cell, x + cols[ci], y + 1.6, ri === 0 ? 8.5 : 9, ri === 0 || ci === 0 ? "bold" : "body",
+    row.forEach((cell, ci) => text(page, cell, x + cols[ci], y + 2.4, ri === 0 ? 10 : 11, ri === 0 || ci === 0 ? "bold" : "body",
       ri === 0 || ci === 0 ? grayscale(0.4) : ink));
-    y += 7.2;
+    y += rowH;
     line(page, x, y, x + w, y, ri === 0 ? grayscale(0.14) : hair);
   });
-  y += 6;
-  text(page, c.bridgeTitle, x, y, 11, "bold");
-  y = paragraph(page, c.bridge, x, y + 7.5, w, 9, 5.1) + 6;
-  const sw = (w - 8) / 3;
-  c.steps.forEach((st, i) => {
-    const sx = x + i * (sw + 4);
-    line(page, sx, y, sx + sw, y, grayscale(0.14));
-    text(page, `0${i + 1}`, sx, y + 3.5, 12, "mono");
-    text(page, st.title, sx + 10, y + 3.6, 11, "bold");
-    paragraph(page, st.body, sx, y + 11, sw, 8.6, 4.7);
+  y += 8;
+  text(page, c.abilityTitle, x, y, 12.5, "bold");
+  y += 10;
+  const aw = (w - 8) / 3, ah = 36;
+  c.abilities.forEach((a, i) => {
+    const ax = x + i * (aw + 4);
+    fillRect(page, ax, y, aw, ah, grayscale(0.95));
+    text(page, `0${i + 1}`, ax + 4, y + 4, 9, "mono", grayscale(0.4));
+    text(page, a.title, ax + 4, y + 11, 11, "bold");
+    paragraph(page, a.body, ax + 4, y + 19.5, aw - 8, 9, 5);
   });
-  y += 28;
-  line(page, x, y, x + w, y, grayscale(0.14));
-  text(page, c.aimTitle, x, y + 4, 11, "bold");
-  y = paragraph(page, c.aim, x, y + 11.5, w, 9, 5.1);
+  y += ah + 8;
+  for (const l of c.closing) y = paragraph(page, l, x, y, w, 11, 6.4, "bold");
   if (y > BOTTOM) throw new Error(`About page overflows: ${y.toFixed(1)}`);
 }
 const LINEUP_GROUPS = ["見て写す", "かたちを動かす", "重ねる・分ける"];
-/** Book 1, page 3: the whole book in order; the problem part, the reason to buy, carries the level rows. */
+
+/* ---- Page 4 figures: the house boards, the stage map, the scoring picture and the two kinds of diagonal. */
+const dashLn = (page: PDFPage, x1: number, y1: number, x2: number, y2: number, color: Color = grayscale(0.5)) =>
+  page.drawLine({ start: { x: x1 * MM, y: page.getHeight() - y1 * MM }, end: { x: x2 * MM, y: page.getHeight() - y2 * MM },
+    thickness: LINE * MM * 1.3, color, dashArray: [1.3 * MM, 1.1 * MM] });
+function arrowLn(page: PDFPage, x1: number, y1: number, x2: number, y2: number, color: Color = grayscale(0.3), head = 1.6) {
+  line(page, x1, y1, x2, y2, color);
+  const ang = Math.atan2(y2 - y1, x2 - x1), d = Math.PI / 7;
+  line(page, x2, y2, x2 - head * 1.6 * Math.cos(ang - d), y2 - head * 1.6 * Math.sin(ang - d), color);
+  line(page, x2, y2, x2 - head * 1.6 * Math.cos(ang + d), y2 - head * 1.6 * Math.sin(ang + d), color);
+}
+type Edge = [number, number, number, number, "s" | "d"];
+const HOUSE_PTS = [[1, 0], [2, 1], [2, 2], [0, 2], [0, 1]];
+const houseEdges = (dashed: number[]): Edge[] => HOUSE_PTS.map((p, i) => {
+  const q = HOUSE_PTS[(i + 1) % 5];
+  return [p[0], p[1], q[0], q[1], dashed.includes(i) ? "d" : "s"] as Edge;
+});
+/** A white square board of n x n dots with some lines on it: solid = given, dashed = to be drawn. */
+function pane(page: PDFPage, bx: number, by: number, size: number, n: number, edges: Edge[]) {
+  fillRect(page, bx, by, size, size, white);
+  const pad = size * 0.17, step = (size - 2 * pad) / (n - 1);
+  const P = (gx: number, gy: number) => [bx + pad + gx * step, by + pad + gy * step] as const;
+  edges.forEach(([a, b, c, d, st]) => {
+    const p = P(a, b), q = P(c, d);
+    if (st === "d") dashLn(page, p[0], p[1], q[0], q[1]); else line(page, p[0], p[1], q[0], q[1], grayscale(0.2));
+  });
+  for (let gy = 0; gy < n; gy++) for (let gx = 0; gx < n; gx++) {
+    const p = P(gx, gy);
+    page.drawCircle({ x: p[0] * MM, y: page.getHeight() - p[1] * MM, size: Math.max(0.3, size * 0.022) * MM, color: grayscale(0.15) });
+  }
+}
+const centered = (page: PDFPage, s: string, cx: number, top: number, size: number, face: keyof Fonts = "body", color: Color = ink) =>
+  text(page, s, cx - widthMm(s, size, face) / 2, top, size, face, color);
+/** たす 1 line → たす several lines → うつす all lines: the lines to draw grow, the board stays the same. */
+function tasuToUtsu(page: PDFPage, x: number, y: number, size: number, gap: number, tags = true, tagSize = 8) {
+  const sets: [number[], string, string][] = [[[2], "たす", "描くのは1本"], [[0, 2, 3], "たす", "描くのは数本"], [[0, 1, 2, 3, 4], "うつす", "まるごと"]];
+  sets.forEach(([dashed, name, sub], i) => {
+    const bx = x + i * (size + gap);
+    pane(page, bx, y, size, 3, houseEdges(dashed));
+    if (tags) {
+      centered(page, name, bx + size / 2, y + size + 1.4, tagSize + 1, "bold");
+      centered(page, sub, bx + size / 2, y + size + 1.4 + tagSize * 0.52 + 1.6, tagSize, "body", grayscale(0.4));
+    }
+    if (i < 2) arrowLn(page, bx + size + gap * 0.2, y + size / 2, bx + size + gap * 0.8, y + size / 2, grayscale(0.4));
+  });
+}
+const barValues = () => questions.filter((q) => q.sku === "copy-lv3-vol1").map((q) => q.difficulty);
+function bars(page: PDFPage, x: number, y: number, w: number, h: number, vals = barValues()) {
+  const top = Math.max(...vals), bw = w / vals.length;
+  vals.forEach((v, i) => fillRect(page, x + i * bw + bw * 0.14, y + h - h * v / top, bw * 0.72, h * v / top, grayscale(0.18)));
+  line(page, x, y + h, x + w, y + h, grayscale(0.14));
+}
+const DIR_HEADS = ["たて・よこ", "45°のななめ", "45°でない ななめ"], BOARD_HEADS = ["3×3", "4×4", "5×5"];
+const STAIR = [[0, 0], [0, 1], [1, 1], [1, 2], [2, 1], [2, 2]];
+/** Board (rows) by line direction (columns): where the six stages sit, and the way the book walks through them. */
+function stairMatrix(page: PDFPage, x: number, y: number, w: number, rowH: number, hdrW: number, hdrH: number, icons: boolean, labelSize = 8) {
+  const labels = levelRows().map((r) => r.label), cw = (w - hdrW) / 3, bh = rowH - 5;
+  DIR_HEADS.forEach((t, c) => centered(page, t, x + hdrW + c * cw + cw / 2, y, labelSize + 0.3, "bold", grayscale(0.4)));
+  BOARD_HEADS.forEach((t, r) => text(page, t, x, y + hdrH + r * rowH + bh / 2 - 1.5, labelSize + 1.5, "bold", grayscale(0.4)));
+  const box = (r: number, c: number) => ({ bx: x + hdrW + c * cw + 1, by: y + hdrH + r * rowH, bw: cw - 2, bh });
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) {
+    const { bx, by, bw } = box(r, c), k = STAIR.findIndex(([sr, sc]) => sr === r && sc === c);
+    fillRect(page, bx, by, bw, bh, k < 0 ? grayscale(0.975) : grayscale(0.9));
+    if (k < 0) continue;
+    fillRect(page, bx, by, 1.1, bh, grayscale(0.14));
+    text(page, labels[k], bx + 3, by + 2, labelSize, "bold");
+    if (icons) {
+      const sz = Math.min(bh - 4, 24), n = r + 3, ix = bx + bw - sz - 2, iy = by + (bh - sz) / 2;
+      const kind = c, edges: Edge[] = kind === 0 ? [[0, n - 1, 0, 0, "s"], [0, 0, n - 2, 0, "s"]] : kind === 1 ? [[0, n - 1, Math.min(2, n - 1), n - 1 - Math.min(2, n - 1), "s"]]
+        : [[0, 0, 1, 2, "s"], [1, 2, 3, 3, "s"]];
+      pane(page, ix, iy, sz, n, edges);
+    }
+  }
+  for (let k = 0; k < STAIR.length - 1; k++) {
+    const a = box(STAIR[k][0], STAIR[k][1]), b = box(STAIR[k + 1][0], STAIR[k + 1][1]), col = grayscale(0.14);
+    if (a.by === b.by) arrowLn(page, a.bx + a.bw + 0.2, a.by + a.bh / 2, b.bx - 0.2, b.by + b.bh / 2, col);
+    else if (a.bx === b.bx) arrowLn(page, a.bx + a.bw / 2, a.by + a.bh + 0.2, b.bx + b.bw / 2, b.by - 0.2, col);
+    else {
+      const gy = a.by + a.bh + 2.5, ax = a.bx + a.bw * 0.5, bxm = b.bx + b.bw * 0.5;
+      line(page, ax, a.by + a.bh, ax, gy, col);
+      line(page, ax, gy, bxm, gy, col);
+      arrowLn(page, bxm, gy, bxm, b.by - 0.2, col);
+    }
+  }
+  return y + hdrH + 3 * rowH - 5;
+}
+function chip(page: PDFPage, x: number, y: number, w: number, h: number, label: string, size = 8, dark = false) {
+  fillRect(page, x, y, w, h, dark ? grayscale(0.14) : grayscale(0.88));
+  centered(page, label, x + w / 2, y + (h - size * 0.3528) / 2 - 0.5, size, "bold", dark ? white : ink);
+}
+const ELEMENTS = ["線の数", "交わり", "ななめの向き", "盤面の広さ"];
+/** The scoring formula as a picture: what is counted, then the 12 problems of one volume in order of score. */
+function formulaFigure(page: PDFPage, x: number, y: number, w: number, barH: number) {
+  const cw = (w - 3 * 2) / 4;
+  ELEMENTS.forEach((t, i) => chip(page, x + i * (cw + 2), y, cw, 6.6, t, 7.4));
+  arrowLn(page, x + w / 2, y + 7.4, x + w / 2, y + 11.6, grayscale(0.4));
+  chip(page, x + w / 2 - 14, y + 12, 28, 6.2, "独自の難易度式", 7.6, true);
+  bars(page, x, y + 22, w, barH);
+  text(page, "1問目", x, y + 22 + barH + 1.4, 7.4, "body", grayscale(0.4));
+  const r = "12問目";
+  text(page, r, x + w - widthMm(r, 7.4), y + 22 + barH + 1.4, 7.4, "body", grayscale(0.4));
+  centered(page, "Lv.3 Vol.1「うつす」の12問", x + w / 2, y + 22 + barH + 1.4, 7.4, "body", grayscale(0.4));
+  return y + 22 + barH + 6;
+}
+function p4Nav(page: PDFPage, x: number) {
+  text(page, fillRefs("点図形とは　{about}ページ　　目次　{contents}ページ"), x, 232, 8.5, "bold");
+}
+const RULE = grayscale(0.14);
+const bodyAt = (page: PDFPage, s: string, x: number, y: number, w: number, size = 8.8) => paragraph(page, s, x, y, w, size, size * 0.56);
+
+
+/** A 3x3 board with one line and the steps that make it: across 1, down `rise` (1 = 45 degrees). */
+function slopePane(page: PDFPage, bx: number, by: number, size: number, rise: number) {
+  pane(page, bx, by, size, 3, [[0, 0, 1, rise, "s"], [0, 0, 1, 0, "d"], [1, 0, 1, rise, "d"]]);
+  const pad = size * 0.17, step = (size - 2 * pad) / 2, px = (g: number) => bx + pad + g * step, py = (g: number) => by + pad + g * step;
+  text(page, "1", px(0.5) - 0.8, py(0) - 4.2, 7.4, "bold", grayscale(0.3));
+  text(page, String(rise), px(1) + 1.5, py(rise / 2) - 1.9, 7.4, "bold", grayscale(0.3));
+}
+/** Book 1, page 4: why the book is ordered the way it is. Each band has its words at the left and a figure at the right:
+ * the stage map (board by direction) with the two kinds of diagonal under it, the scoring formula as a picture, and たす before うつす. */
+function routeIntroPage() {
+  const c = DC.route, { page, pn, x, w } = designFrame(c.label);
+  expect("route", pn);
+  const fx = x + 56, fw = w - 56, tw = 50;
+  const band = (y: number, i: number) => {
+    line(page, x, y, x + w, y, RULE);
+    text(page, `0${i + 1}`, x, y + 4, 11, "mono", grayscale(0.4));
+    const lines = wrap(c.bands[i].title, f.bold, 10.5, tw - 9);
+    lines.forEach((l, li) => text(page, l, x + 9, y + 4 + li * 5.6, 10.5, "bold"));
+    bodyAt(page, c.bands[i].body, x, y + 4 + lines.length * 5.6 + 2, tw, 8.6);
+  };
+  let y = designTitle(page, x, w, c.heading, c.lead) + 1;
+  band(y, 0);
+  y = stairMatrix(page, fx, y + 4, fw, 11.5, 10, 5.5, false, 7.2) + 4;
+  const sh = 32, half = (w - 8) / 2;
+  fillRect(page, x, y, w, sh, grayscale(0.95));
+  text(page, c.slopeTitle, x + 4, y + 3.2, 9.6, "bold");
+  c.slopes.forEach((sl, k) => {
+    const ix = x + 4 + k * half;
+    slopePane(page, ix, y + 10, 19, k + 1);
+    text(page, sl.title, ix + 22, y + 12, 8.6, "bold");
+    text(page, sl.body, ix + 22, y + 18.2, 7.8);
+    text(page, sl.note, ix + 22, y + 23, 7.8, "body", grayscale(0.4));
+  });
+  y += sh + 4;
+  band(y, 1);
+  formulaFigure(page, fx, y + 4, fw, 15);
+  y += 47;
+  band(y, 2);
+  tasuToUtsu(page, fx, y + 4, 24, 10, true, 7.2);
+  const end = bodyAt(page, c.tasuNote, fx, y + 4 + 24 + 13.5, fw, 8);
+  p4Nav(page, x);
+  if (end > 230) throw new Error(`Route page overflows: ${end.toFixed(1)}`);
+}
+/** Rows of the level list: one per level pair, with the たす and うつす volumes' problem numbers and pages. */
+type LevelRow = { label: string; grid: string; fresh: string; fill: { nums: string; pages: string }; copy: { nums: string; pages: string }; habitBefore: boolean };
+function levelRows(): LevelRow[] {
+  const habit = extraPage.get("habit")!, rows: LevelRow[] = [];
+  volumes.forEach((v, i) => {
+    if (!pairStart(i)) return;
+    const rec = { label: lvLabel(i), grid: v.grid, fresh: STAGE_COPY[pairKey(i)].fresh,
+      habitBefore: i > 0 && introPage.get(introKey(i))! > habit && introPage.get(introKey(i - 1))! < habit } as LevelRow;
+    volumes.forEach((item, j) => {
+      if (pairKey(j) !== pairKey(i)) return;
+      const vq = questions.filter((q) => q.volumeIndex === j);
+      rec[item.set.task === "fill" ? "fill" : "copy"] = { nums: `${vq[0].number}〜${vq[11].number}ばん`, pages: `${introPage.get(introKey(j))}〜${vq[11].page}ページ` };
+    });
+    rows.push(rec);
+  });
+  return rows;
+}
+/** One titled list of "name … page" rows between hairlines. */
+function tocList(page: PDFPage, x: number, w: number, y: number, title: string, items: readonly (readonly [string, string])[]) {
+  text(page, title, x, y, 11.5, "bold");
+  y += 8;
+  line(page, x, y, x + w, y, grayscale(0.14));
+  items.forEach(([t, p]) => {
+    const face = /^[0-9 ]+$/.test(p) ? "mono" : "bold";
+    text(page, t, x, y + 2.5, 11);
+    text(page, p, x + w - widthMm(p, 11, face), y + 2.5, 11, face);
+    y += 9.2;
+    line(page, x, y, x + w, y, hair);
+  });
+  return y;
+}
+/** Book 1, page 2 (left of the spread): the whole book in order, as plain lists. The level list is the page beside it. */
 function contentsPage() {
   const c = DC.contents, { page, pn, x, w } = designFrame(c.label);
   expect("extra", pn);
-  let y = designTitle(page, x, w, c.heading) + 1;
-  const list = (title: string, items: readonly (readonly [string, string])[]) => {
-    text(page, title, x, y, 10, "bold", grayscale(0.4));
-    y += 6.5;
-    const half = Math.ceil(items.length / 2);
-    items.forEach(([t, ref], i) => {
-      const cx = x + (i < half ? 0 : w / 2 + 3), cy = y + (i % half) * 6.3, p = fillRefs(ref);
-      text(page, t, cx, cy, 9);
-      text(page, p, cx + w / 2 - 6 - widthMm(p, 9, "mono"), cy, 9, "mono");
-    });
-    y += half * 6.3 + 4;
-  };
-  list(c.frontTitle, c.front);
-  const qs = questions;
-  line(page, x, y, x + w, y, grayscale(0.14));
-  const head = `${c.problemsTitle}　${qs[0].number}〜${qs[qs.length - 1].number}ばん`, range = `${pageOf("explanations")}〜${qs[qs.length - 1].page}ページ`;
-  text(page, head, x, y + 4, 13, "bold");
-  text(page, range, x + widthMm(head, 13, "bold") + 5, y + 5.4, 10, "bold");
-  text(page, fillRefs(c.problemsNote), x, y + 12.5, 8.5, "body", grayscale(0.4));
-  y += 20;
-  const cols = [0, 30, 78, 114], labels = ["レベル", "新しく出るもの", "たす（欠け補完）", "うつす（模写）"];
-  labels.forEach((l, i) => text(page, l, x + cols[i], y, 8.5, "bold", grayscale(0.4)));
-  y += 6;
-  line(page, x, y, x + w, y, grayscale(0.14));
-  const habit = extraPage.get("habit")!;
-  volumes.forEach((v, i) => {
-    if (!pairStart(i)) return;
-    // The habit page sits between two levels; it gets its own thin row where it falls.
-    if (introPage.get(introKey(i))! > habit && introPage.get(introKey(i - 1))! < habit) {
-      text(page, c.habit, x + cols[1], y + 2.2, 8.8);
-      text(page, `${habit}ページ`, x + cols[2], y + 2.2, 9, "bold");
-      y += 7.5;
-      line(page, x, y, x + w, y, hair);
+  let y = designTitle(page, x, w, c.heading) + 2;
+  const refs = (items: readonly (readonly [string, string])[]) => items.map(([t, r]) => [t, fillRefs(r)] as const);
+  y = tocList(page, x, w, y, c.frontTitle, refs(c.front)) + 8;
+  const last = questions[questions.length - 1];
+  y = tocList(page, x, w, y, c.problemsTitle, [[`${questions[0].number}〜${last.number}ばん（${fillRefs(c.problemsRef)}）`, `${pageOf("explanations")}〜${last.page}ページ`]]) + 8;
+  y = tocList(page, x, w, y, c.backTitle, refs(c.back));
+  if (y > BOTTOM) throw new Error(`Contents overflow: ${y.toFixed(1)}`);
+}
+/** Book 1, page 3 (right of the spread): every level as a card — board drawn as dots, what is new, and where the たす and うつす volumes are. */
+function problemLevelsPage() {
+  const c = DC.contents, tint = grayscale(0.95), { page, pn, x, w } = designFrame(c.label);
+  expect("extra", pn);
+  let y = designTitle(page, x, w, c.levelsHeading);
+  y = paragraph(page, fillRefs(c.problemsNote), x, y - 1, w, 8.2, 4.6) + 3;
+  const ch = 26, icon = 20, chipW = 58;
+  levelRows().forEach((r) => {
+    if (r.habitBefore) {
+      fillRect(page, x, y, w, 9, tint);
+      text(page, c.habit, x + 4, y + 2.4, 9.5, "bold");
+      const hp = `${extraPage.get("habit")}ページ`;
+      text(page, hp, x + w - 4 - widthMm(hp, 9.5, "bold"), y + 2.4, 9.5, "bold");
+      y += 12;
     }
-    const ry = y + 3.2;
-    text(page, lvLabel(i), x, ry, 11, "bold");
-    text(page, v.grid, x, ry + 7, 8, "body", grayscale(0.4));
-    paragraph(page, STAGE_COPY[pairKey(i)].fresh, x + cols[1], ry + 0.6, 44, 8.8, 4.8);
-    volumes.forEach((item, j) => {
-      if (pairKey(j) !== pairKey(i)) return;
-      const vq = qs.filter((q) => q.volumeIndex === j), cx = x + cols[item.set.task === "fill" ? 2 : 3];
-      text(page, `${vq[0].number}〜${vq[11].number}ばん`, cx, ry + 0.6, 8.8);
-      text(page, `${introPage.get(introKey(j))}〜${vq[11].page}ページ`, cx, ry + 6.6, 9, "bold");
+    fillRect(page, x, y, w, ch, tint);
+    const n = parseInt(r.grid, 10), pad = 3.6, step = (icon - pad * 2) / (n - 1), ix = x + 3, iy = y + 3;
+    fillRect(page, ix, iy, icon, icon, white);
+    for (let a = 0; a < n; a++) for (let b = 0; b < n; b++)
+      page.drawCircle({ x: (ix + pad + b * step) * MM, y: page.getHeight() - (iy + pad + a * step) * MM, size: 0.5 * MM, color: grayscale(0.3) });
+    text(page, r.label, x + 27, y + 4, 13, "bold");
+    text(page, `盤面 ${r.grid}`, x + 27 + widthMm(r.label, 13, "bold") + 3, y + 5.8, 9, "body", grayscale(0.4));
+    paragraph(page, r.fresh, x + 27, y + 13, w - 27 - chipW - 8, 9.6, 5.4);
+    ([["たす（欠け補完）", r.fill], ["うつす（模写）", r.copy]] as const).forEach(([name, q], k) => {
+      const cx = x + w - chipW - 3, cy = y + 2 + k * 11.5;
+      fillRect(page, cx, cy, chipW, 10.5, white);
+      text(page, name, cx + 2.5, cy + 0.9, 7, "body", grayscale(0.4));
+      text(page, `${q.nums}　`, cx + 2.5, cy + 5, 8.6);
+      text(page, q.pages, cx + 2.5 + widthMm(`${q.nums}　`, 8.6), cy + 5, 8.6, "bold");
     });
-    // 15.6 mm rows and a 4 mm gap leave room for a fifth row of back-matter pages (アンケート, 2026-10-27).
-    y += 15.6;
-    line(page, x, y, x + w, y, hair);
+    y += ch + 3;
   });
-  y += 4;
-  list(c.backTitle, c.back);
-  if (y - 4 > BOTTOM) throw new Error(`Contents overflow: ${(y - 4).toFixed(1)}`);
+  if (y - 3 > BOTTOM) throw new Error(`Level list overflows: ${y.toFixed(1)}`);
 }
 /** Book 1, page 5: the nine tasks by level, with this book's part in black. */
+const LINEUP_NAME: Record<string, string> = { fill: "たす（欠け補完）", copy: "うつす（模写）", solid: "うつす（立体）" };
+const LINEUP_ORDER = ["fill", "copy", "solid"]; // anything else keeps its place after these
 function lineupPage() {
   const c = DC.contents, { page, pn, x, w } = designFrame(c.lineupLabel);
   expect("extra", pn);
@@ -1246,9 +1412,11 @@ function lineupPage() {
     if (gi) y += 1.8;
     text(page, group, x, y + 0.6, 7.5, "bold", grayscale(0.4));
     y += 4.6;
-    for (const task of LAUNCH_TASKS.filter((t) => t.groupIdx === gi)) {
+    // This page names the book's two tasks as the book does, and lists たす first, then うつす, then うつす（立体）.
+    const rows = LAUNCH_TASKS.filter((t) => t.groupIdx === gi).sort((a, b) => LINEUP_ORDER.indexOf(a.slug) - LINEUP_ORDER.indexOf(b.slug));
+    for (const task of rows) {
       line(page, x, y, x + w, y, hair);
-      text(page, task.name, x, y + 1.6, 9, "bold");
+      text(page, LINEUP_NAME[task.slug] ?? task.name, x, y + 1.6, 9, "bold");
       for (let lv = 1; lv <= 5; lv++) {
         const vols = task.vols.filter((v) => v.lv === lv && v.status === "live"), cx = x + nameW + (lv - 1) * colW;
         if (!vols.length) { text(page, "—", cx + colW / 2 - 1.5, y + 1.6, 8.2, "body", grayscale(0.6)); continue; }
@@ -1432,7 +1600,7 @@ function surveyPage() {
   body.forEach((l, i) => text(page, l, x + 5, y + 21 + i * 4.8, 8.6, "body", white));
   y = paragraph(page, c.note, x, y + bh + 4, w, 7.8, 4.2);
   if (y > 200) throw new Error(`Survey page overflows: ${y.toFixed(1)}`);
-  qrBox(page, x, 204, w, 30, c.qrTitle, c.qrBody, "https://tenzu.jp/book/hajimete/survey");
+  qrBox(page, x, 204, w, 30, c.qrTitle, c.qrBody, "https://tenzu.jp/book/hajimete/bookenq");
 }
 function moreTasksPage() {
   const c = DC.moreTasks, { page, pn, x, w } = designFrame(c.label);
@@ -1469,24 +1637,33 @@ function samplePages() {
     text(page, childTask(task), x + 5, 24.4, 18, "heading", white);
     const right = `レベル${fw(hit.vol.lv)}　${fw(gridLabel(sku))}`;
     text(page, right, x + w - 4 - widthMm(right, 13), 25.6, 13, "heading", white);
-    // A new task needs to be seen solved first: the easiest problem is a worked example, the next one is the child's.
-    // Solid keeps a single problem; its stacked boards fill the page.
-    let y = 44;
+    // What the task grows, for the parent, before the child's part of the page starts.
+    fillRect(page, x, 42, w, 15, grayscale(0.95));
+    fillRect(page, x, 42, 1.4, 15, grayscale(0.14));
+    text(page, c.aimTitle, x + 5, 45, 8.5, "bold", grayscale(0.4));
+    paragraph(page, TASK_AIM[task], x + 5, 50, w - 10, 9.8, 5.2, "bold");
+    // A new task needs to be seen solved first: the easiest problem is a worked example, the next one is the child's,
+    // drawn at the same size. Solid keeps a single problem; its stacked boards fill the page.
+    // Under "ためしの1もん" the instruction is left out where a worked example already says it; solid has none, so it keeps its line.
+    const gap = task === "solid" ? 19 : 11;
+    let y = 62, tryH = 203 - (y + gap);
     if (task !== "solid") {
       text(page, c.example, x, y, 15, "heading");
       const labelY = Math.max(y + 17, paragraph(page, GUIDE_COPY[task], x, y + 9, w, 11, 6.2, "heading") + 2);
-      exampleLabels(page, x, labelY, w, 44, sampleOf(sku).rendered.compose ? 3 : 2);
-      sampleQuestion(page, sku, 0, x, labelY + 9.5, w, 44, true);
-      y = labelY + 9.5 + 44 + 4;
+      // Both problems get the same height: as large as the page allows (a two-line caption takes some of it).
+      tryH = Math.min(48, (203 - gap - 6 - 4 - 9.5 - labelY) / 2);
+      exampleLabels(page, x, labelY, w, tryH, sampleOf(sku).rendered.compose ? 3 : 2);
+      sampleQuestion(page, sku, 0, x, labelY + 9.5, w, tryH, true);
+      y = labelY + 9.5 + tryH + 4;
       rule(page, x, y, w);
       y += 6;
     }
     text(page, c.tryIt, x, y, 15, "heading");
     const at = fillRefs(c.answerAt);
     text(page, at, x + w - widthMm(at, 9), y + 2, 9);
-    text(page, TASK_COPY[task].instruction, x, y + 11, 11.5, "heading");
-    if (203 - (y + 19) < 50) throw new Error(`Sample problem too small: ${sku}: ${(203 - y - 19).toFixed(1)} mm`);
-    sampleQuestion(page, sku, sampleRank(sku), x, y + 19, w, 203 - (y + 19));
+    if (task === "solid") text(page, TASK_COPY[task].instruction, x, y + 11, 11.5, "heading");
+    if (tryH < 34) throw new Error(`Sample problem too small: ${sku}: ${tryH.toFixed(1)} mm`);
+    sampleQuestion(page, sku, sampleRank(sku), x, y + gap, w, tryH);
     const t = LAUNCH_TASKS.find((t) => t.slug === task)!, live = t.vols.filter((v) => v.status === "live");
     const lvs = live.map((v) => v.lv), body = `${childTask(task)}は、Lv.${Math.min(...lvs)}〜Lv.${Math.max(...lvs)}の${live.length}巻（1巻12問）。この${task === "solid" ? "1問" : "2問"}は、Lv.${hit.vol.lv}の最初の巻から選びました。`;
     qrBox(page, x, 207, w, 27, c.webTitle, body, `https://tenzu.jp/products/${task}`);
@@ -1565,7 +1742,7 @@ function extraPages(slot: Extract<SeriesSlot, { kind: "extra" }>) {
     parents: parentsPage, progress: progressPage, certificate: certificatePage, make: () => makePages(slot.pages),
     sibling: siblingPages, "web-tasks": webTasksPages, "next-web": nextWebPages, "next-maker": nextMakerPages, trouble: troublePage,
     "way-back": wayBackPage, "print-options": which === "first" && SB.design ? printFeaturesPage : printOptionsPage, levels: levelsPage, afterword: afterwordPage, map: mapPage, isometric: isometricPage, exam: examPage,
-    "after-book": afterBookPage, features: featuresPage, about: aboutPage, contents: contentsPage, lineup: lineupPage, "more-levels": moreLevelsPage, prices: pricesPage,
+    "after-book": afterBookPage, about: aboutPage, contents: contentsPage, "problem-levels": problemLevelsPage, lineup: lineupPage, "more-levels": moreLevelsPage, prices: pricesPage,
     samples: samplePages, "sample-answers": sampleAnswersPage, blank: () => { doc.addPage([KDP_B5.w * MM, KDP_B5.h * MM]); },
     "more-tasks": moreTasksPage, maker: makerOnePage, survey: surveyPage,
     habit: () => boxesPage(PAGE_COPY.first.habit),
@@ -1594,23 +1771,38 @@ function answerPages() {
 function afterwordColophon() {
   const c = DC.afterword, { page, pn, x, w } = designFrame(c.label);
   expect("colophon", pn);
+  // The page's headline is the shop's line (it used to sit in the colophon); the logo stays in the colophon, a little lower.
   let y = designTitle(page, x, w, c.heading) + 1;
-  // A little under the designed page's 10.5 pt: the owner's afterword is longer than the one designed for.
-  for (const p of COPY.afterword) y = paragraph(page, p, x, y, w, 10, 5.7) + 3;
-  text(page, c.sign, x + w - widthMm(c.sign, 10, "bold"), y, 10, "bold");
-  const top = 179; // the colophon block is 56 mm tall and ends at the frame's foot
-  if (y + 9 > top) throw new Error(`Afterword runs into the colophon: ${(y + 9).toFixed(1)} mm`);
+  // Well under the designed page's 10.5 pt: the owner's afterword (2026-10-28 version) is about twice as long as the one designed for.
+  // The two turning points (the realisation, the closing wish) are set apart in the heading face behind a short bar, so the page
+  // reads as story → realisation → what the shop did → wish.
+  const last = COPY.afterword.length - 1;
+  COPY.afterword.forEach((p, i) => {
+    if (i !== 3 && i !== last) {
+      // 9 pt, eased by up to 0.3 pt when that keeps any of its lines from being a stray one or two characters.
+      const size = [9, 8.9, 8.8, 8.7].find((z) => wrap(p, f.body, z, w).every((l) => l.length > 2)) ?? 9;
+      y = paragraph(page, p, x, y, w, size, 5.0) + 2.4;
+      return;
+    }
+    const size = i === 3 ? 9.6 : 8.2, lead = i === 3 ? 5.4 : 4.8, indent = 3.6;
+    y += 0.8;
+    const lines = wrap(p, f.heading, size, w - indent).length;
+    fillRect(page, x, y - 0.2, 0.9, (lines - 1) * lead + size * 0.3528 + 0.8, grayscale(0.14));
+    y = paragraph(page, p, x + indent, y, w - indent, size, lead, "heading") + 3.2;
+  });
+  text(page, c.sign, x + w - widthMm(c.sign, 10, "bold"), y - 1.6, 10, "bold");
+  const top = 189; // the colophon block is 46 mm tall and ends at the frame's foot
+  if (y + 7 > top) throw new Error(`Afterword runs into the colophon: ${(y + 7).toFixed(1)} mm (limit ${top})`);
   line(page, x, top, x + w, top, grayscale(0.14));
-  text(page, "見て、考えて、書く力を、点描写から。", x, top + 6, 11, "bold");
-  text(page, SB.title, x, top + 16.4, 12, "bold");
-  text(page, SB.subtitle, x, top + 23.7, 9.2);
-  text(page, "著者・編集・発行 TENZU / 初版 / 2026年", x, top + 32.5, 8.8);
-  text(page, "© 2026 TENZU. All rights reserved.", x, top + 38.8, 8, "body", grayscale(0.4));
+  text(page, SB.title, x, top + 6.4, 12, "bold");
+  text(page, SB.subtitle, x, top + 13.7, 9.2);
+  text(page, "著者・編集・発行 TENZU / 初版 / 2026年", x, top + 22.5, 8.8);
+  text(page, "© 2026 TENZU. All rights reserved.", x, top + 28.8, 8, "body", grayscale(0.4));
   const contact = "https://tenzu.jp/contact";
-  urlText(page, contact, x + w - widthMm(contact, 8, "mono"), top + 38.4, 8);
-  const end = paragraph(page, c.notice, x, top + 47.6, w, 8.2, 4.4);
+  urlText(page, contact, x + w - widthMm(contact, 8, "mono"), top + 28.4, 8);
+  const end = paragraph(page, c.notice, x, top + 37.6, w, 8.2, 4.4);
   if (end > BOTTOM) throw new Error(`Colophon overflows: ${end.toFixed(1)}`);
-  const logoEnd = logo(page, x + w, top + 5.7);
+  const logoEnd = logo(page, x + w, top + 8.5);
   text(page, SHOP_PHRASE, x + w - widthMm(SHOP_PHRASE, 7.5, "body"), logoEnd + 2, 7.5, "body", grayscale(0.4));
 }
 function colophon() {
@@ -1674,7 +1866,7 @@ async function main() {
       vi++;
     } else if (design && SB.design!.pages.includes(doc.getPageCount() + 1)) await copyDesign(slot.kind === "extra" ? slot.pages : 1);
     else if (slot.kind === "extra") extraPages(slot);
-    else ({ opening: openingPage, route: routePage, index: indexPage, benefit: benefitPage,
+    else ({ opening: openingPage, route: which === "first" ? routeIntroPage : routePage, index: indexPage, benefit: benefitPage,
       answers: answerPages, colophon })[slot.kind]();
   }
   if (doc.getPageCount() !== pages.length) throw new Error(`Drew ${doc.getPageCount()} pages, planned ${pages.length}`);

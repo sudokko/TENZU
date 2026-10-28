@@ -70,7 +70,7 @@ export default function SurveyForm({ from, answeredCoupon }: { from: string; ans
       <li>「クーポンコードをお持ちの方」にコードを入れ、「使う」を押します。</li>
       <li>メールアドレスを入れて、購入手続きへ。</li>
     </ol>
-    <p className="book-small">何回目のお買い物でも使えます。1つのメールアドレスにつき1回です。1回のお買い物で使えるクーポンは1つなので、本の83ページの初回限定クーポン（HAJIMETE100）とは別のお買い物でお使いください。まとめ買い割引とは一緒に使えます。</p>
+    <p className="book-small">何回目のお買い物でも使えます。1回のお買い物で使えるクーポンは1つなので、本の83ページの初回限定クーポン（HAJIMETE100）とは別のお買い物でお使いください。まとめ買い割引とは一緒に使えます。</p>
     <p className="survey-thanks-next"><Link href="/products">TENZUのプリントを見る →</Link></p>
   </section>;
 

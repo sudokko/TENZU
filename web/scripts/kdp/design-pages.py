@@ -6,6 +6,7 @@ python scripts/kdp/design-pages.py check                                        
 python scripts/kdp/design-pages.py renumber                                         rebuild the kept pages from owner-102p.pdf for the 98-page plan
 python scripts/kdp/design-pages.py move <old>:<new> ...                             give designed pages new book page numbers
 python scripts/kdp/design-pages.py retext <book page> <old text> <new text>          replace a line's text in the same font and size
+python scripts/kdp/design-pages.py addtext <book page> <text> <x mm> <baseline mm> [size pt] [bold] [right]   add a line (x is the right edge with `right`)
 python scripts/kdp/design-pages.py folios                                           reprint every page number as P<n> in the exporter's place
 
 Run `npx tsx scripts/export-kdp-series.ts --book first` afterwards; the exporter copies these pages into the book.
@@ -175,11 +176,11 @@ SOURCE = BOOK / 'design/owner-102p.pdf'
 SOURCE_PAGES = list(range(1, 9)) + [61] + list(range(88, 103))
 # 98-page plan (2026-10-25, the explanation page of every volume after the first carries its first two problems; 2026-10-27, 料金とクーポン added at 83): new page, page in the 102-page design, text changes. A changed footer line is reset whole,
 # so every item on it shares one weight (the repo has Plex Sans JP Bold, not the design's SemiBold).
-# The owner's first page (この本の使い方) is not used: page 1 is drawn by the exporter (この本の特徴).
+# The owner's first page (この本の使い方) is not used: page 1 is drawn by the exporter (点図形とは). 2026-10-27: the 目次 spread is 2–3, so the route page (design 2) moves to 5.
 RENUMBER = [
-    (4, 2, [('欠け模写', '欠け補完'), ('点描写がむずかしくなるのは', '点図形（点描写）がむずかしくなるのは'), ('レベルの地図　8ページ', '点図形とは　2ページ'), ('戻り道　101ページ', 'もくじ　3ページ')]),
+    # The route page (design 2) is drawn by the exporter since 2026-10-27 (to add how difficulty is measured), so it is not rebuilt here.
     (6, 4, []),
-    (57, 61, [('特典PDF  4ページ', '特典PDF  6ページ'), ('紙面を変える  5ページ', '紙面を変える  7ページ'), ('困ったとき  100ページ', 'もくじ  3ページ')]),
+    (57, 61, [('特典PDF  4ページ', '特典PDF  6ページ'), ('紙面を変える  5ページ', '紙面を変える  7ページ'), ('困ったとき  100ページ', '目次  2ページ')]),
     # じぶんでつくろう: the 4th page (maker bridge) is dropped; the child's line drops こうたい (2026-10-25).
     (93, 89, [('/ 1 / 4', '/ 1 / 3')]),
     (94, 90, [('/ 2 / 4', '/ 2 / 3'), ('もんだいを つくって、こうたいしよう。', 'もんだいを つくってみよう。')]),
@@ -292,6 +293,22 @@ def retext(book_page, old, new):
     print(f'Page {book_page}: {len(spans)} line(s) now read {new}')
 
 
+def addtext(book_page, label, x_mm, y_mm, size=9.3, bold=False, right=False):
+    """Add a line of text to a designed page, in the book's Plex Sans JP (x from the left edge, or the right edge of the text with `right`)."""
+    pages = design_pages()
+    if book_page not in pages:
+        sys.exit(f'Book page {book_page} is not a designed page: {pages}')
+    doc = fitz.open(DESIGN)
+    page = doc[pages.index(book_page)]
+    mm = 72 / 25.4
+    fontfile = str(FONTS / ('IBMPlexSansJP-Bold.ttf' if bold else 'IBMPlexSansJP-Regular.ttf'))
+    x = x_mm * mm - (fitz.Font(fontfile=fontfile).text_length(label, fontsize=size) if right else 0)
+    page.insert_text((x, y_mm * mm), label, fontname=unused_font_name(page, 'Addtext'), fontfile=fontfile, fontsize=size,
+                     color=(0.1, 0.1, 0.1) if bold else (0.25, 0.25, 0.25))
+    save(doc, DESIGN)
+    print(f'Page {book_page}: added "{label}"')
+
+
 def move(pairs):
     """Give designed pages new book page numbers without going back to owner-102p.pdf, so pages swapped in since
     renumber() are kept. The folio is reprinted and a page whose side changes shifts by the margin difference."""
@@ -341,6 +358,10 @@ if __name__ == '__main__':
         check()
     elif args[:1] == ['retext'] and len(args) == 4:
         retext(int(args[1]), args[2], args[3])
+        check()
+    elif args[:1] == ['addtext'] and len(args) >= 5:
+        addtext(int(args[1]), args[2], float(args[3]), float(args[4]), float(args[5]) if len(args) > 5 and args[5][0].isdigit() else 9.3,
+                'bold' in args[5:], 'right' in args[5:])
         check()
     elif args[:1] == ['check']:
         sys.exit(1 if check() else 0)
