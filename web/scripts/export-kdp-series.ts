@@ -272,9 +272,9 @@ function problemPage(vi: number, pi: number) {
   problemRows(page, pn, vi, pi, perPage, x, PROBLEM_TOP, (PROBLEM_BOTTOM - PROBLEM_TOP) / perPage);
   if (pi + perPage === 12) {
     const next = volumes[vi + 1];
-    const copy = !next ? "さいごまで できたね！ おつかれさま＾＾"
-      : next.set.task !== v.set.task && which === "second" ? `${short(v.set.task)}は ここまで、おつかれさま＾＾`
-      : `おつかれさま＾＾ つぎは「${which === "first" ? `${short(next.set.task)} ` : ""}レベル${fw(next.vol.lv)}」だよ！`;
+    const copy = !next ? "さいごまで できたね！ がんばったね♪"
+      : next.set.task !== v.set.task && which === "second" ? `${short(v.set.task)}は ここまで、がんばったね♪`
+      : `がんばったね♪ つぎは「${which === "first" ? `${short(next.set.task)} ` : ""}レベル${fw(next.vol.lv)}」だよ！`;
     const w = widthMm(copy, 12);
     if (w > 152) throw new Error(`Farewell exceeds page: ${copy}`);
     text(page, copy, x + (152 - w) / 2, 238.5, 12, "heading");

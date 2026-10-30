@@ -135,7 +135,7 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
     },
     // Pages the owner designed and still uses; the rest are drawn by the exporter in the same frame (2026-10-23).
     // The afterword and colophon (96) moved to the exporter when the owner's afterword grew past the page (2026-10-25).
-    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages.pdf", pages: [6, 57, 93, 94, 95],
+    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages.pdf", pages: [6, 33, 93, 94, 95],
       qr: [{ page: 6, url: "https://tenzu.jp/book/hajimete", box: [135.06, 210.24, 160.5, 235.67] }] },
     slots: [
       // Page 1 is what a buyer sees first: what a dot figure is, set against the dot-to-dot they already know.
@@ -152,11 +152,12 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
       { kind: "stage", sku: "copy-lv1-vol1", perPage: 2 },
       { kind: "stage", sku: "fill-lv2-vol1", perPage: 2 },
       { kind: "stage", sku: "copy-lv2-vol1", perPage: 2 },
+      // Before the 3×3 → 4×4 step, the biggest one in the book (2026-10-28; it stood before Lv.4).
+      extra("habit", "続けるコツ", "4×4へ進む前に・その日の量・始めやすいタイミング・見守り方・45°でないななめを飛ばしてもよい（how-to-train-spatial-recognition・teaching-point-drawing）"),
       { kind: "stage", sku: "fill-lv3-vol1", perPage: 2 },
       { kind: "stage", sku: "copy-lv3-vol1", perPage: 2 },
       fillPlanned("fill-lv3-vol2", 3, 2, "fill-lv3-vol1"),
       { kind: "stage", sku: "copy-lv3-vol2", perPage: 2 },
-      extra("habit", "続けるコツ", "その日の量・始めやすいタイミング・見守り方（how-to-train-spatial-recognition・teaching-point-drawing）"),
       fillPlanned("fill-lv4-vol1", 4, 1, "fill-lv4-vol2"),
       { kind: "stage", sku: "copy-lv4-vol1", perPage: 2 },
       { kind: "stage", sku: "fill-lv4-vol2", perPage: 2 },
