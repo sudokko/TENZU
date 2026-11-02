@@ -1340,6 +1340,7 @@ function slopePane(page: PDFPage, bx: number, by: number, size: number, rise: nu
 /** Book 1, page 4: why the book is ordered the way it is. Each band has its words at the left and a figure at the right:
  * the stage map (board by direction) with the two kinds of diagonal under it, the scoring formula as a picture, and たす before うつす. */
 function routeIntroPage() {
+  if (SB.a4BlankBacks) return routeGrowthPage();
   const c = DC.route, { page, pn, x, w } = designFrame(c.label);
   expect("route", pn);
   const fx = x + 56, fw = w - 56, tw = 50;
@@ -1372,6 +1373,54 @@ function routeIntroPage() {
   const end = bodyAt(page, c.tasuNote, fx, y + 4 + 24 + 13.5, fw, 8);
   p4Nav(page, x);
   if (end > 230) throw new Error(`Route page overflows: ${end.toFixed(1)}`);
+}
+/** A4 experiment, left of the route spread: the three things that make a dot figure harder, one row each across the
+ * page — three boards per row, with what each step adds written under its board (owner's choice, 2026-11-02). */
+function routeGrowthPage() {
+  const c = DC.route, g = DC.routeA4, { page, pn, x, w } = designFrame(c.label);
+  expect("route", pn);
+  let y = designTitle(page, x, w, c.heading, g.lead) + 2;
+  const S = 30, gap = (w - 3 * S) / 2, rowH = (232 - 10 - y) / 3;
+  const boards: ((bx: number, by: number) => void)[][] = [
+    [3, 4, 5].map((n) => (bx: number, by: number) => pane(page, bx, by, S, n, [])),
+    [(bx: number, by: number) => pane(page, bx, by, S, 3, [[0, 1, 2, 1, "s"], [1, 0, 1, 2, "s"]]),
+      (bx: number, by: number) => slopePane(page, bx, by, S, 1), (bx: number, by: number) => slopePane(page, bx, by, S, 2)],
+    [[2], [0, 2, 3], [0, 1, 2, 3, 4]].map((d) => (bx: number, by: number) => pane(page, bx, by, S, 3, houseEdges(d))),
+  ];
+  g.rows.forEach((row, r) => {
+    const top = y + r * rowH;
+    line(page, x, top, x + w, top, RULE);
+    text(page, row.title, x, top + 3.5, 12.5, "bold");
+    text(page, row.sub, x + widthMm(row.title, 12.5, "bold") + 4, top + 5, 8.8, "body", grayscale(0.4));
+    row.steps.forEach((s, i) => {
+      const bx = x + i * (S + gap), by = top + 11;
+      boards[r][i](bx, by);
+      if (i < 2) arrowLn(page, bx + S + gap * 0.3, by + S / 2, bx + S + gap * 0.7, by + S / 2, grayscale(0.4));
+      centered(page, s.name, bx + S / 2, by + S + 1.2, 9.8, "bold");
+      const lines = wrap(s.note, f.body, 8.2, S + gap * 0.8);
+      lines.forEach((l, li) => centered(page, l, bx + S / 2, by + S + 6.4 + li * 4.4, 8.2, "body", grayscale(0.4)));
+      if (by + S + 6.4 + lines.length * 4.4 > top + rowH) throw new Error(`Route row ${r} overflows`);
+    });
+  });
+  const end = paragraph(page, c.tasuNote, x, y + 3 * rowH + 1, w, 8.6, 4.8);
+  if (end > 232) throw new Error(`Route page overflows: ${end.toFixed(1)}`);
+}
+/** A4 experiment, right of the route spread: how the book walks through it — the stage map and the scoring picture. */
+function routeOrderPage() {
+  const c = DC.route, { page, pn, x, w } = designFrame(c.label);
+  expect("extra", pn);
+  const band = (y: number, i: number) => {
+    line(page, x, y, x + w, y, RULE);
+    text(page, `0${i + 1}`, x, y + 4, 11, "mono", grayscale(0.4));
+    text(page, c.bands[i].title, x + 9, y + 4, 12, "bold");
+    return bodyAt(page, c.bands[i].body, x, y + 12, w, 9.4) + 4;
+  };
+  let y = band(22, 0);
+  y = stairMatrix(page, x, y, w, 21, 14, 7, true, 9) + 10;
+  y = band(y, 1);
+  const end = formulaFigure(page, x, y + 1, w, 50);
+  p4Nav(page, x);
+  if (end > 228) throw new Error(`Route order page overflows: ${end.toFixed(1)}`);
 }
 /** Rows of the level list: one per level pair, with the たす and うつす volumes' problem numbers and pages. */
 type LevelRow = { label: string; grid: string; fresh: string; fill: { nums: string; pages: string }; copy: { nums: string; pages: string }; habitBefore: boolean };
@@ -1453,7 +1502,111 @@ function problemLevelsPage() {
 /** Book 1, page 5: the nine tasks by level, with this book's part in black. */
 const LINEUP_NAME: Record<string, string> = { fill: "たす（欠け補完）", copy: "うつす（模写）", solid: "うつす（立体）" };
 const LINEUP_ORDER = ["fill", "copy", "solid"]; // anything else keeps its place after these
+function strokeRect(page: PDFPage, x: number, y: number, w: number, h: number, color: Color = grayscale(0.2), fill?: Color) {
+  page.drawRectangle({ x: x * MM, y: page.getHeight() - (y + h) * MM, width: w * MM, height: h * MM, color: fill,
+    borderColor: color, borderWidth: LINE * MM });
+}
+/** Line pictures for the four points of the A4 lineup page, drawn inside the white box (x, y, w, h) in mm. */
+function featurePicture(page: PDFPage, i: number, x: number, y: number, w: number, h: number) {
+  const cx = x + w / 2, gray = grayscale(0.4), dark = grayscale(0.2);
+  if (i === 0) { // the shelf: tasks by level, one volume picked
+    const cw = 7, rh = 4.6, g = 1.8, gw = 5 * cw + 4 * g, ox = cx - gw / 2, oy = y + 4;
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 5; c++)
+      strokeRect(page, ox + c * (cw + g), oy + r * (rh + g), cw, rh, dark, r === 1 && c === 2 ? dark : undefined);
+    centered(page, "Lv.1　→　Lv.5", cx, oy + 3 * (rh + g) + 1.5, 7.6, "body", gray);
+  } else if (i === 1) { // this book and the Web volume carry the same number
+    const bw = 15, bh = 19, oy = y + 3.5, lx = cx - 24 - bw / 2, rx = cx + 24 - bw / 2;
+    strokeRect(page, lx, oy, bw, bh); line(page, lx + 2, oy, lx + 2, oy + bh, dark);
+    strokeRect(page, rx, oy, bw, bh);
+    centered(page, "Lv.3", lx + bw / 2 + 1, oy + 7, 9, "bold"); centered(page, "Lv.3", rx + bw / 2, oy + 7, 9, "bold");
+    centered(page, "=", cx, oy + 5.5, 16, "bold");
+    centered(page, "この本", lx + bw / 2, oy + bh + 1.2, 7.6, "body", gray); centered(page, "Webの巻", rx + bw / 2, oy + bh + 1.2, 7.6, "body", gray);
+  } else if (i === 2) { // a sample page under a magnifier
+    const pw = 17, ph = 23, px = cx - pw / 2 - 6, py = y + 3.5;
+    strokeRect(page, px, py, pw, ph);
+    line(page, px + 3, py + 4, px + pw - 3, py + 4, dark); line(page, px + 3, py + 7, px + pw - 7, py + 7, dark);
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++)
+      page.drawCircle({ x: (px + 4.5 + c * 4) * MM, y: page.getHeight() - (py + 13 + r * 4.5) * MM, size: 0.45 * MM, color: dark });
+    const mx = px + pw + 3, my = py + ph - 7;
+    page.drawCircle({ x: mx * MM, y: page.getHeight() - my * MM, size: 5.5 * MM, borderColor: dark, borderWidth: LINE * MM * 1.4 });
+    page.drawLine({ start: { x: (mx + 4) * MM, y: page.getHeight() - (my + 4) * MM }, end: { x: (mx + 8.5) * MM, y: page.getHeight() - (my + 8.5) * MM },
+      thickness: 1.1 * MM, color: dark });
+  } else { // a printer, and the same page as 1, 3 or 6 problems
+    const ox = x + (w - 62) / 2, oy = y + 6; // printer 22 + gap 7 + three sheets 9 + 12 + 12
+    strokeRect(page, ox + 4, oy, 14, 5); strokeRect(page, ox, oy + 5, 22, 10); strokeRect(page, ox + 4, oy + 12, 14, 9, dark, white);
+    const sx = ox + 29;
+    [1, 3, 6].forEach((n, k) => {
+      const bx = sx + k * 12, by = oy;
+      strokeRect(page, bx, by, 9, 13);
+      const cols = n === 6 ? 2 : 1, rows = n === 1 ? 1 : 3, cw = (9 - 2 - (cols - 1)) / cols, ch = (13 - 2 - (rows - 1)) / rows;
+      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) strokeRect(page, bx + 1 + c * (cw + 1), by + 1 + r * (ch + 1), cw, ch, gray);
+      centered(page, `${n}問`, bx + 4.5, by + 14.5, 7.4, "body", gray);
+    });
+  }
+}
+/** A4 experiment: the lineup page as a spread — the shop's four points as picture cards, then the shelf of volumes. */
+function lineupA4Pages() {
+  const c = DC.contents, a = DC.lineupA4;
+  {
+    const { page, pn, x, w } = designFrame(a.aboutLabel);
+    expect("extra", pn);
+    if (widthMm(c.aboutHeading, 19, "bold") > w - 27 - 6) throw new Error("Heading runs into the logo");
+    logo(page, x + w, 20.5);
+    let y = designTitle(page, x, w, c.aboutHeading);
+    y = paragraph(page, a.lead, x, y + 1, w, 10, 6) + 6;
+    const gap = 6, cw = (w - gap) / 2, ch = (234 - y - gap) / 2, ih = 30;
+    a.points.forEach((p, i) => {
+      const cx = x + (i % 2) * (cw + gap), cy = y + Math.floor(i / 2) * (ch + gap), ix = cx + 4, iw = cw - 8;
+      fillRect(page, cx, cy, cw, ch, grayscale(0.95));
+      fillRect(page, ix, cy + 4, iw, ih, white);
+      featurePicture(page, i, ix, cy + 4, iw, ih);
+      const ty = cy + 4 + ih + 4.5, tl = wrap(p.title, f.bold, 11.5, iw - 9);
+      text(page, `0${i + 1}`, ix, ty + 0.4, 11, "mono", grayscale(0.4));
+      tl.forEach((l, li) => text(page, l, ix + 9, ty + li * 6, 11.5, "bold"));
+      const end = paragraph(page, fillRefs(p.body), ix, ty + tl.length * 6 + 2.5, iw, 10, 5.9);
+      if (end > cy + ch - 2) throw new Error(`Feature card ${i + 1} overflows by ${(end - cy - ch + 2).toFixed(1)} mm`);
+    });
+  }
+  const { page, pn, x, w } = designFrame(a.rangeLabel);
+  expect("extra", pn);
+  let y = designTitle(page, x, w, c.lineupHeading, a.shelfLead);
+  const nameW = 30, colW = (w - nameW) / 5, cellH = 11.5;
+  for (let lv = 1; lv <= 5; lv++) {
+    const mx = x + nameW + (lv - 1) * colW + colW / 2;
+    centered(page, `Lv.${lv}`, mx, y, 9.4, "mono");
+    centered(page, LEVEL_NAMES[lv - 1], mx, y + 4.8, 7.4, "body", grayscale(0.4));
+  }
+  y += 11;
+  LINEUP_GROUPS.forEach((group, gi) => {
+    text(page, group, x, y, 8, "bold", grayscale(0.4));
+    y += 5.2;
+    const rows = LAUNCH_TASKS.filter((t) => t.groupIdx === gi).sort((p, q) => LINEUP_ORDER.indexOf(p.slug) - LINEUP_ORDER.indexOf(q.slug));
+    for (const task of rows) {
+      text(page, LINEUP_NAME[task.slug] ?? task.name, x, y + cellH / 2 - 2, 9.2, "bold");
+      for (let lv = 1; lv <= 5; lv++) {
+        const bx = x + nameW + (lv - 1) * colW + 0.8, bw = colW - 1.6, mx = bx + bw / 2;
+        const inBook = volumes.map((v, i) => ({ v, i })).filter(({ v }) => v.set.task === task.slug && v.vol.lv === lv);
+        const live = task.vols.filter((v) => v.lv === lv && v.status === "live");
+        if (inBook.length) {
+          fillRect(page, bx, y, bw, cellH, grayscale(0.14));
+          centered(page, c.legendBook, mx, y + 1.4, 8.4, "bold", white);
+          centered(page, inBook.map(({ i }) => `P${introPage.get(introKey(i))}`).join(" "), mx, y + 6.2, 7.6, "mono", white);
+        } else if (live.length) {
+          strokeRect(page, bx, y, bw, cellH, grayscale(0.6));
+          centered(page, `${live.length}巻`, mx, y + cellH / 2 - 1.6, 8.6);
+        } else centered(page, "—", mx, y + cellH / 2 - 1.6, 8.6, "body", grayscale(0.6));
+      }
+      y += cellH + 1.6;
+    }
+    y += 2;
+  });
+  fillRect(page, x, y + 0.5, 6, 4, grayscale(0.14)); text(page, c.legendBook, x + 8, y, 8.4);
+  strokeRect(page, x + 30, y + 0.5, 6, 4, grayscale(0.6)); text(page, c.legendWeb, x + 38, y, 8.4);
+  if (y + 8 > 210) throw new Error(`Shelf overflows: ${(y + 8).toFixed(1)}`);
+  qrBox(page, x, 212, w, 22, c.moreTitle, c.moreBody, "https://tenzu.jp/products");
+}
 function lineupPage() {
+  if (SB.a4BlankBacks) return lineupA4Pages();
   const c = DC.contents, { page, pn, x, w } = designFrame(c.lineupLabel);
   expect("extra", pn);
   // The reader meets the name TENZU here first: the shop comes before the table of its tasks, under its logo.
@@ -1813,7 +1966,7 @@ function extraPages(slot: Extract<SeriesSlot, { kind: "extra" }>) {
     parents: parentsPage, progress: progressPage, certificate: certificatePage, make: () => makePages(slot.pages),
     sibling: siblingPages, "web-tasks": webTasksPages, "next-web": nextWebPages, "next-maker": nextMakerPages, trouble: troublePage,
     "way-back": wayBackPage, "print-options": which === "first" && SB.design ? printFeaturesPage : printOptionsPage, levels: levelsPage, afterword: afterwordPage, map: mapPage, isometric: isometricPage, exam: examPage,
-    "after-book": afterBookPage, about: aboutPage, contents: contentsPage, "problem-levels": problemLevelsPage, lineup: lineupPage, "more-levels": moreLevelsPage, prices: pricesPage,
+    "after-book": afterBookPage, about: aboutPage, contents: contentsPage, "problem-levels": problemLevelsPage, "route-order": routeOrderPage, lineup: lineupPage, "more-levels": moreLevelsPage, prices: pricesPage,
     samples: samplePages, "sample-answers": sampleAnswersPage, blank: () => { doc.addPage([KDP_B5.w * MM, KDP_B5.h * MM]); },
     "more-tasks": moreTasksPage, maker: makerOnePage, survey: surveyPage,
     habit: () => boxesPage(PAGE_COPY.first.habit),

@@ -12,9 +12,9 @@ SRC, OUT = sys.argv[1:3]
 FRONT_SRC = sys.argv[3] if len(sys.argv) > 3 else None
 K = 3
 DPI = 300
-# A4 experiment (kdp-a4-experiment): A4・104ページ・白い紙。B5 は 182.0, 257.0 と 98 ページ。
+# A4 experiment (kdp-a4-experiment): A4・106ページ・白い紙。B5 は 182.0, 257.0 と 98 ページ。
 TRIM_W, TRIM_H, BLEED = 210.0, 297.0, 3.2
-SPINE = 104 * 0.0572
+SPINE = 106 * 0.0572
 MM = 72 / 25.4
 px = lambda mm: round(mm / 25.4 * DPI)
 

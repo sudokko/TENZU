@@ -370,6 +370,33 @@ export const DESIGN_COPY = {
     ] as (Box & { note: string })[],
     tasuNote: "※「たす（欠け補完）」が苦手なお子さんには、先に「うつす」からでも大丈夫です。",
   },
+  /** A4 experiment (2026-11-02): the route page becomes a spread. Left: the three things that grow, one row of boards each. */
+  routeA4: {
+    lead: "点図形（点描写）がむずかしくなるのは、次の3つが重なるときです。この本は、これを一度に重ねないように並べています。",
+    rows: [
+      { title: "点が増える", sub: "盤面 3×3 → 4×4 → 5×5",
+        steps: [{ name: "3×3", note: "点は9個" }, { name: "4×4", note: "点は16個" }, { name: "5×5", note: "点は25個" }] },
+      { title: "ななめが加わる", sub: "たて・よこ → 45°のななめ → 45°でない ななめ",
+        steps: [{ name: "たて・よこ", note: "点から点へ、まっすぐ" }, { name: "45°のななめ", note: "1つ右へ、1つ下。同じ数だけ進む線" },
+          { name: "45°でない ななめ", note: "1つ右へ、2つ下。点を数えて決める線" }] },
+      { title: "描く線が増える", sub: "たす（足りない線だけ）→ うつす（まるごと）",
+        steps: [{ name: "たす", note: "描くのは1本" }, { name: "たす", note: "描くのは数本" }, { name: "うつす", note: "まるごと描きます" }] },
+    ],
+  },
+  /** A4 experiment (2026-11-02): the lineup page becomes a spread. Left: the shop's four points as cards with a line
+   * picture each, in fuller, politer sentences (owner's request). Right: the shelf of volumes with this book's pages. */
+  lineupA4: {
+    aboutLabel: "TENZUについて",
+    rangeLabel: "この本の範囲",
+    lead: "TENZU（てんず）は、点図形（点描写）のプリントだけを扱う専門店です。Webサイトで、1巻12問のPDFプリントをご用意しています。この本の144問も、TENZUのプリントから選んでまとめました。",
+    points: [
+      { title: "課題とレベルで選べます", body: "9種類の課題を、Lv.1〜Lv.5のレベルに分けてご用意しています。1巻12問で、1巻からお求めいただけます。定期購入ではありません。" },
+      { title: "この本と同じ番号です", body: "この本のLv.1〜Lv.4は、Webの巻と同じ番号です。この本を終えたら、同じ順番のまま続きの巻を選べます。" },
+      { title: "買う前に中身が見られます", body: "どの巻も、紙面の見本と、その巻で何が新しく難しくなるかを、お買い求めの前にご覧いただけます。" },
+      { title: "何度でも印刷できます", body: "PDFなので、ご家庭のプリンターやコンビニで何度でも印刷できます。用紙の大きさや1枚の問題数も選べます（{print-options}ページ）。" },
+    ],
+    shelfLead: "黒いカードが、この本に入っている巻と、その巻が始まるページです。白いカードは、Webで続きを選べる巻です。",
+  },
   contents: {
     label: "知りたいページを探す",
     heading: "目次",
