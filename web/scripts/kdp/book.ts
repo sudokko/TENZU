@@ -93,7 +93,7 @@ export const LEVEL_COPY: Record<string, string> = {
 /** Pages that are not problems. Copy is drafted later from the articles named in kdp-paperback §2.4. */
 export type SeriesSlot =
   | { kind: "opening" | "route" | "index" | "benefit" | "answers" | "colophon" }
-  | { kind: "stage"; sku: string; perPage: 1 | 2 | 3; lv?: 1 | 2 | 3 | 4 | 5; volNo?: number;
+  | { kind: "stage"; sku: string; perPage: 1 | 2 | 3 | 4; lv?: 1 | 2 | 3 | 4 | 5; volNo?: number;
       /** null = not published yet; a published stand-in keeps the layout until the owner adopts 12 problems. */
       source?: null; standIn?: string }
   | { kind: "extra"; id: string; title: string; pages: number; spread?: boolean; note: string };
@@ -105,7 +105,10 @@ export type SeriesBook = {
   stageIntro?: boolean | "volume";
   /** Explanation pages after the first one drop the worked example and the parent note and carry the volume's first
    * problems instead (2026-10-25: the reader needs them once, at the start of the book). */
-  introProblems?: 2;
+  introProblems?: 2 | "page";
+  /** Experiment (2026-11-02): pages are drawn in B5 millimetres and scaled to A4 on output; every page with problems
+   * is printed on one side only, its back left white so nothing shows through the answer boards. */
+  a4BlankBacks?: true;
   /** Book-specific wording where the shared TASK_COPY describes the 216-problem selection. */
   explanation: Partial<Record<string, string>>;
   slots: readonly SeriesSlot[];
@@ -118,8 +121,8 @@ export type SeriesBook = {
 };
 
 /** A volume planned for the book but not generated yet; a published stand-in keeps the layout honest until then. */
-const fillPlanned = (sku: string, lv: 1 | 2 | 3 | 4 | 5, volNo: number, standIn: string): SeriesSlot =>
-  ({ kind: "stage", sku, perPage: 2, lv, volNo, source: null, standIn });
+const fillPlanned = (sku: string, lv: 1 | 2 | 3 | 4 | 5, volNo: number, standIn: string, perPage: 2 | 3 | 4 = 2): SeriesSlot =>
+  ({ kind: "stage", sku, perPage, lv, volNo, source: null, standIn });
 
 const extra = (id: string, title: string, note: string, pages = 1, spread = false): SeriesSlot =>
   ({ kind: "extra", id, title, pages, spread, note });
@@ -129,13 +132,15 @@ const extra = (id: string, title: string, note: string, pages = 1, spread = fals
 export const SERIES: Record<"first" | "second", SeriesBook> = {
   first: {
     id: "series-1-hajimete", title: "はじめての点図形（点描写）", subtitle: "4才ごろからの　図形を写す練習 144問",
-    slug: "hajimete", total: 98, omitAnswerTasks: ["copy", "fill"], stageIntro: "volume", introProblems: 2,
+    // A4 experiment: 4 problems a page (3 on 5×5), a volume's first page carries a full page of problems under its heading.
+    slug: "hajimete", total: 104, omitAnswerTasks: ["copy", "fill"], stageIntro: "volume", introProblems: "page", a4BlankBacks: true,
     explanation: {
       copy: "左の図と同じ位置の点を探し、右に写します。盤面は3×3から5×5まで広がります。線の始まりと終わりを、一つずつ確かめましょう。",
     },
     // Pages the owner designed and still uses; the rest are drawn by the exporter in the same frame (2026-10-23).
     // The afterword and colophon (96) moved to the exporter when the owner's afterword grew past the page (2026-10-25).
-    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages.pdf", pages: [6, 33, 93, 94, 95],
+    // じぶんでつくろう (93–95) is cut in the A4 experiment, so only the first two designed pages are used.
+    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages-a4.pdf", pages: [6, 33],
       qr: [{ page: 6, url: "https://tenzu.jp/book/hajimete", box: [135.06, 210.24, 160.5, 235.67] }] },
     slots: [
       // Page 1 is what a buyer sees first: what a dot figure is, set against the dot-to-dot they already know.
@@ -148,20 +153,20 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
       { kind: "benefit" },
       extra("print-options", "印刷でできること", "並び・背景の点・用紙・名前欄を図で（print-settings-guide）"),
       // Each level pairs たす (draw a few lines) with うつす (draw all); each volume has its own explanation page.
-      fillPlanned("fill-lv1-vol1", 1, 1, "fill-lv2-vol1"),
-      { kind: "stage", sku: "copy-lv1-vol1", perPage: 2 },
-      { kind: "stage", sku: "fill-lv2-vol1", perPage: 2 },
-      { kind: "stage", sku: "copy-lv2-vol1", perPage: 2 },
+      fillPlanned("fill-lv1-vol1", 1, 1, "fill-lv2-vol1", 4),
+      { kind: "stage", sku: "copy-lv1-vol1", perPage: 4 },
+      { kind: "stage", sku: "fill-lv2-vol1", perPage: 4 },
+      { kind: "stage", sku: "copy-lv2-vol1", perPage: 4 },
       // Before the 3×3 → 4×4 step, the biggest one in the book (2026-10-28; it stood before Lv.4).
       extra("habit", "続けるコツ", "4×4へ進む前に・その日の量・始めやすいタイミング・見守り方・45°でないななめを飛ばしてもよい（how-to-train-spatial-recognition・teaching-point-drawing）"),
-      { kind: "stage", sku: "fill-lv3-vol1", perPage: 2 },
-      { kind: "stage", sku: "copy-lv3-vol1", perPage: 2 },
-      fillPlanned("fill-lv3-vol2", 3, 2, "fill-lv3-vol1"),
-      { kind: "stage", sku: "copy-lv3-vol2", perPage: 2 },
-      fillPlanned("fill-lv4-vol1", 4, 1, "fill-lv4-vol2"),
-      { kind: "stage", sku: "copy-lv4-vol1", perPage: 2 },
-      { kind: "stage", sku: "fill-lv4-vol2", perPage: 2 },
-      { kind: "stage", sku: "copy-lv4-vol2", perPage: 2 },
+      { kind: "stage", sku: "fill-lv3-vol1", perPage: 4 },
+      { kind: "stage", sku: "copy-lv3-vol1", perPage: 4 },
+      fillPlanned("fill-lv3-vol2", 3, 2, "fill-lv3-vol1", 4),
+      { kind: "stage", sku: "copy-lv3-vol2", perPage: 4 },
+      fillPlanned("fill-lv4-vol1", 4, 1, "fill-lv4-vol2", 3),
+      { kind: "stage", sku: "copy-lv4-vol1", perPage: 3 },
+      { kind: "stage", sku: "fill-lv4-vol2", perPage: 3 },
+      { kind: "stage", sku: "copy-lv4-vol2", perPage: 3 },
       extra("more-levels", "もっと難しい問題に取り組みたい場合", "うつす・たすのLv.5を縮小の紙面見本で"),
       // Facing the Lv.5 page: what those volumes cost, the bulk discount and the book's first-purchase coupon.
       extra("prices", "料金とクーポン", "1巻¥200・まとめ買い割引の表・初回限定クーポン（コードと使い方）・前のページの巻での計算例"),
@@ -169,7 +174,6 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
       // One writable problem from each of the 7 tasks' first volume, with what it asks and what it trains; answers follow.
       extra("samples", "ためしの1問", "7課題の入口の巻の最もやさしい1問・おうちの方へ・めあて・その課題の棚へのQR", 7),
       extra("sample-answers", "ためしの1問のこたえ", "7問の答え"),
-      extra("make", "じぶんでつくろう", "空いた盤面3×3〜5×5。親子で出し合う", 3),
       extra("maker", "自分で問題を作る", "点図形（点描写）メーカーを1ページで。模写4×4はPDF保存まで無料"),
       // The page that was left white behind the colophon now asks for the reader's answers (2026-10-27), so the
       // afterword and colophon close the book on its last, left-hand page.

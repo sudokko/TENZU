@@ -1,4 +1,4 @@
-/** npx tsx scripts/export-kdp-series.ts --book first|second [--out PATH]
+/** npx tsx scripts/export-kdp-series.ts --book first|second [--out PATH] [--ink 40]
  * Interior of the two-book series (kdp-paperback §1–§2). The 216-problem book stays in export-kdp-book.ts. */
 import { promises as fs } from "node:fs";
 import path from "node:path";
@@ -23,6 +23,11 @@ const which: "first" | "second" = bookArg;
 const SB = SERIES[which], OTHER = SERIES[which === "first" ? "second" : "first"];
 const OUT = argOf("--out") ? path.resolve(argOf("--out")!) : path.join(ROOT, "docs/drafts/kdp", SB.id);
 const MM = 72 / 25.4, LINE = BOOK.minLineMm;
+/** Problem dots, lines and arrows as % black. 40 is the adopted value; --ink 30 or 20 writes a trial copy for the proof. */
+const INK = 1 - Number(argOf("--ink") ?? 40) / 100;
+if (!(INK > 0 && INK < 1)) throw new Error("Pass --ink as % black, e.g. 30");
+/** A4 in mm, the output size of a4BlankBacks books. */
+const A4 = { w: 210, h: 297 };
 const sha = (b: Uint8Array) => createHash("sha256").update(b).digest("hex");
 const fw = (s: string | number) => String(s).replace(/[0-9]/g, (d) => String.fromCharCode(d.charCodeAt(0) + 0xfee0));
 type Fonts = Record<"heading" | "body" | "mono" | "bold", PDFFont>;
@@ -71,7 +76,8 @@ const introKey = (vi: number) => SB.stageIntro === "volume" ? volumes[vi].sku : 
 const introStart = (vi: number) => SB.stageIntro === "volume" || (SB.stageIntro ? pairStart(vi) : volumes.findIndex((v) => v.set.task === volumes[vi].set.task) === vi);
 
 /** Problems drawn on the volume's explanation page: every explanation after the book's first one carries them. */
-const leadProblems = (vi: number) => SB.introProblems && vi > 0 && introStart(vi) ? SB.introProblems : 0;
+const leadProblems = (vi: number) => !SB.introProblems || vi === 0 || !introStart(vi) ? 0
+  : SB.introProblems === "page" ? volumes[vi].perPage : SB.introProblems;
 
 /* ---- Pagination: every page number is fixed before drawing so cross references can be printed. */
 type PageKind = { kind: string; ref?: string };
@@ -86,9 +92,17 @@ let vi = 0, answerStart = 0;
 for (const slot of SB.slots) {
   if (slot.kind === "stage") {
     const v = volumes[vi], lead = leadProblems(vi);
-    if (introStart(vi)) introPage.set(introKey(vi), at("explanations", v.sku));
+    // With white backs, a page with problems opens on a right-hand page and the left-hand page behind it stays white.
+    let cur = 0;
+    const open = (kind: string) => {
+      if (SB.a4BlankBacks && (pages.length + 1) % 2 === 0) at("blank");
+      cur = at(kind, v.sku);
+      if (SB.a4BlankBacks) at("blank");
+      return cur;
+    };
+    if (introStart(vi)) introPage.set(introKey(vi), lead ? open("explanations") : at("explanations", v.sku));
     v.set.problems.forEach((p, i) => {
-      const pn = i < lead ? pages.length : (i - lead) % slot.perPage === 0 ? at("problems", v.sku) : pages.length;
+      const pn = i < lead ? cur : (i - lead) % slot.perPage === 0 ? open("problems") : cur;
       questions.push({ number: questions.length + 1, sku: v.sku, sourceId: p.id, sourceIndex: v.sourceIndex[i], volumeIndex: vi,
         position: i, task: v.set.task, level: v.vol.lv, volNo: v.vol.volNo, grid: v.grid, difficulty: p.difficulty!.value, page: pn,
         answerPage: null, planned: v.planned });
@@ -218,6 +232,14 @@ function newPage(heading: string, compact = false) {
   folio(page, pn);
   return { page, pn, x };
 }
+/** A4 experiment: the white backs planned after the pages drawn so far. A line at the foot says the page is white on purpose. */
+function blankPages() {
+  while (pages[doc.getPageCount()]?.kind === "blank") {
+    const { page } = newPage("");
+    const s = "うらうつりを ふせぐため、このページは 白紙です";
+    text(page, s, (KDP_B5.w - widthMm(s, 7.5, "body")) / 2, 238, 7.5, "body", grayscale(0.5));
+  }
+}
 function expect(kind: string, pn: number) {
   if (pages[pn - 1]?.kind !== kind) throw new Error(`Page ${pn} drawn as ${kind}, planned ${pages[pn - 1]?.kind}`);
 }
@@ -229,14 +251,14 @@ function question(page: PDFPage, vi: number, pi: number, x: number, y: number, w
     const g = pairGeom(w * MM, h * MM, "vertical");
     for (let side = 0; side < 2; side++) {
       const cell = { x: x * MM + g.ox, y: y * MM + g.oy + side * g.dy, width: g.pane, height: g.pane };
-      paintGridPdf(page, cell, p.grid.cols, p.grid.rows, side ? [] : p.solidEdges ?? [], { minLineMm: LINE, inkGray: 0.6 });
+      paintGridPdf(page, cell, p.grid.cols, p.grid.rows, side ? [] : p.solidEdges ?? [], { minLineMm: LINE, inkGray: INK });
       if (side && answerGuide) paintGuideGridPdf(page, cell, p.grid.cols, p.grid.rows, p.solidEdges ?? [], LINE);
     }
     return;
   }
   const compose = Boolean(v.rendered[pi].compose);
   paintProblemPdf(page, v.rendered[pi], { x: x * MM, y: y * MM, width: w * MM, height: h * MM }, vertical ? "vertical" : "horizontal",
-    { minLineMm: LINE, monochrome: true, dotScale: 1, inkGray: 0.6, gapScale: compose ? 1 : vertical ? 1.6 : 3.1,
+    { minLineMm: LINE, monochrome: true, dotScale: 1, inkGray: INK, gapScale: compose ? 1 : vertical ? 1.6 : 3.1,
       markerMaxPaneRatio: 0.23, answerGuide });
 }
 /** Planar pane size in mm for the manifest, from the same geometry the renderer uses. */
@@ -248,6 +270,8 @@ function paneMm(vi: number, w: number, h: number, vertical: boolean) {
     compose ? 1 : vertical ? 1.6 : 3.1).pane / MM;
 }
 const PROBLEM_TOP = 32, PROBLEM_BOTTOM = 236, BOTTOM = 236;
+/** A4 experiment: 3–4 problems a page put the number beside the board, so the rows start higher and the boards stay tall. */
+const A4_PROBLEM_TOP = 27, A4_LABEL_W = 16;
 const paneSizes: Record<string, number> = {};
 function transition(page: PDFPage, x: number, from: string, to: string) {
   const gray = grayscale(0.55), right = x + 151.7, toW = widthMm(to, 12.5), fromW = widthMm(from, 9.5);
@@ -269,7 +293,8 @@ function problemPage(vi: number, pi: number) {
   expect("problems", pn);
   if (continues) transition(page, x, stageLabel(vi - 1), stageLabel(vi));
   text(page, TASK_COPY[v.set.task].instruction, x, 19, 11, "heading");
-  problemRows(page, pn, vi, pi, perPage, x, PROBLEM_TOP, (PROBLEM_BOTTOM - PROBLEM_TOP) / perPage);
+  const top = SB.a4BlankBacks ? A4_PROBLEM_TOP : PROBLEM_TOP;
+  problemRows(page, pn, vi, pi, perPage, x, top, (PROBLEM_BOTTOM - top) / perPage);
   if (pi + perPage === 12) {
     const next = volumes[vi + 1];
     const copy = !next ? "さいごまで できたね！ がんばったね♪"
@@ -285,11 +310,20 @@ function problemPage(vi: number, pi: number) {
 function problemRows(page: PDFPage, pn: number, vi: number, pi: number, count: number, x: number, top: number, step: number, ruleW = 152) {
   const v = volumes[vi], vertical = v.perPage === 1;
   // Every problem of a volume is drawn in the problem pages' cell, centred in its band, so the panes match in size.
-  const cellH = (PROBLEM_BOTTOM - PROBLEM_TOP) / v.perPage - 11;
+  // The A4 experiment fills each band instead: a volume's first page, under its heading, gets smaller boards.
+  const cellH = SB.a4BlankBacks ? step - 4 : (PROBLEM_BOTTOM - PROBLEM_TOP) / v.perPage - 11;
   for (let j = 0; j < count; j++) {
     const q = questions.find((q) => q.volumeIndex === vi && q.position === pi + j)!;
     if (q.page !== pn) throw new Error(`Wrong page: ${q.number}`);
     const y = top + j * step, number = `${q.number}ばん`;
+    if (SB.a4BlankBacks) {
+      text(page, number, x, y + 2 + cellH / 2 - 5, 12, "heading");
+      text(page, `（${q.position + 1}／12）`, x, y + 2 + cellH / 2 + 1, 8.5, "heading");
+      question(page, vi, pi + j, x + A4_LABEL_W, y + 2, ruleW - A4_LABEL_W, cellH, vertical);
+      if (top === A4_PROBLEM_TOP) paneSizes[v.sku] ??= Math.round(paneMm(vi, ruleW - A4_LABEL_W, cellH, vertical) * 10) / 10;
+      if (j < count - 1) rule(page, x, y + step - 1, ruleW);
+      continue;
+    }
     text(page, number, x, y, 12, "heading");
     text(page, `（${q.position + 1}／12）`, x + widthMm(number, 12) + 2.5, y + 1, 10.5, "heading");
     if (q.answerPage !== null) text(page, `こたえ ${q.answerPage}ページ`, x + 109, y + 1, 8.5);
@@ -665,11 +699,11 @@ function preview(page: PDFPage, sku: string, x: number, y: number, w: number, h:
     const g = pairGeom(w * MM, h * MM, "horizontal");
     for (let side = 0; side < 2; side++)
       paintGridPdf(page, { x: x * MM + g.ox + side * g.dx, y: y * MM + g.oy, width: g.pane, height: g.pane },
-        p.grid.cols, p.grid.rows, side ? [] : p.solidEdges ?? [], { minLineMm: LINE, inkGray: 0.6 });
+        p.grid.cols, p.grid.rows, side ? [] : p.solidEdges ?? [], { minLineMm: LINE, inkGray: INK });
     return;
   }
   paintProblemPdf(page, rendered, { x: x * MM, y: y * MM, width: w * MM, height: h * MM }, "horizontal",
-    { minLineMm: LINE, monochrome: true, dotScale: 1, inkGray: 0.6, gapScale: rendered.compose ? 1 : 2.2, markerMaxPaneRatio: 0.23 });
+    { minLineMm: LINE, monochrome: true, dotScale: 1, inkGray: INK, gapScale: rendered.compose ? 1 : 2.2, markerMaxPaneRatio: 0.23 });
 }
 const gridLabel = (sku: string) => { const g = PUBLISHED[sku].problems[0].grid; return g.type === "square" ? `${g.n}×${g.n}` : `${g.cols}×${g.rows}`; };
 const childTask = (task: string) => `${short(task)}（${task === "solid" ? "立体模写" : PRODUCT_NAME[task]}）`;
@@ -749,7 +783,7 @@ function makePages(count: number) {
       text(page, "もんだい", x + 4, py, 9.5, "heading");
       text(page, "こたえ", x + 88, py, 9.5, "heading");
       if (which === "second") text(page, "かがみ ・ ずらす ・ まわす", x + 36, py, 8.5, "body", grayscale(0.4));
-      for (let s = 0; s < 2; s++) paintGridPdf(page, { x: (x + 4 + s * 84) * MM, y: (py + 7) * MM, width: side * MM, height: side * MM }, n, n, [], { minLineMm: LINE, inkGray: 0.6 });
+      for (let s = 0; s < 2; s++) paintGridPdf(page, { x: (x + 4 + s * 84) * MM, y: (py + 7) * MM, width: side * MM, height: side * MM }, n, n, [], { minLineMm: LINE, inkGray: INK });
       if (j < pairs - 1) rule(page, x, py + pairH - 4, 152);
     }
     if (last) makerBridge(page, x, BOTTOM - 48);
@@ -1618,12 +1652,12 @@ function sampleQuestion(page: PDFPage, sku: string, rank: number, x: number, y: 
     const g = pairGeom(w * MM, h * MM, "vertical");
     for (let side = 0; side < 2; side++)
       paintGridPdf(page, { x: x * MM + g.ox, y: y * MM + g.oy + side * g.dy, width: g.pane, height: g.pane },
-        p.grid.cols, p.grid.rows, side ? [] : p.solidEdges ?? [], { minLineMm: LINE, inkGray: 0.6 });
+        p.grid.cols, p.grid.rows, side ? [] : p.solidEdges ?? [], { minLineMm: LINE, inkGray: INK });
     return;
   }
   const compose = Boolean(rendered.compose);
   paintProblemPdf(page, rendered, { x: x * MM, y: y * MM, width: w * MM, height: h * MM }, "horizontal",
-    { minLineMm: LINE, monochrome: true, dotScale: 1, inkGray: 0.6, gapScale: compose ? 1 : 3.1, markerMaxPaneRatio: 0.23, answerGuide });
+    { minLineMm: LINE, monochrome: true, dotScale: 1, inkGray: INK, gapScale: compose ? 1 : 3.1, markerMaxPaneRatio: 0.23, answerGuide });
 }
 /** The sampled problem the reader solves: solid has one, the others a worked example (the easiest) and the next one. */
 const sampleRank = (sku: string) => PUBLISHED[sku].task === "solid" ? 0 : 1;
@@ -1682,7 +1716,7 @@ function sampleAnswersPage() {
     framedRect(page, cx, cy + 6, cw, ch - 6, grayscale(0.97));
     const n = p.grid.type === "square" ? p.grid.n : p.grid.cols, rows = p.grid.type === "square" ? p.grid.n : p.grid.rows;
     paintGridPdf(page, { x: (cx + 3) * MM, y: (cy + 9) * MM, width: (cw - 6) * MM, height: (ch - 12) * MM }, n, rows,
-      p.grid.type === "solid" ? p.solidEdges ?? [] : resultEdgesOf(rendered), { minLineMm: LINE, inkGray: 0.6 });
+      p.grid.type === "solid" ? p.solidEdges ?? [] : resultEdgesOf(rendered), { minLineMm: LINE, inkGray: INK });
   });
   if (y + 3 * (ch + 5) > BOTTOM) throw new Error("Sample answers overflow");
 }
@@ -1763,7 +1797,7 @@ function answerPages() {
       text(page, `${q.number}ばん / ${q.page}ページ`, xx, yy, 8.5);
       const p = v.set.problems[pi], n = p.grid.type === "square" ? p.grid.n : p.grid.cols, rows = p.grid.type === "square" ? p.grid.n : p.grid.rows;
       paintGridPdf(page, { x: xx * MM, y: (yy + 7) * MM, width: 47 * MM, height: 35 * MM }, n, rows,
-        p.grid.type === "solid" ? p.solidEdges ?? [] : resultEdgesOf(v.rendered[pi]), { minLineMm: LINE, inkGray: 0.6 });
+        p.grid.type === "solid" ? p.solidEdges ?? [] : resultEdgesOf(v.rendered[pi]), { minLineMm: LINE, inkGray: INK });
     }
   }
 }
@@ -1858,18 +1892,29 @@ async function main() {
   let vi = 0;
   const drawn = new Set<string>();
   for (const slot of SB.slots) {
+    blankPages();
     if (slot.kind === "stage") {
       const task = volumes[vi].set.task;
       if (SB.stageIntro) { if (introStart(vi)) stageIntroduction(vi); }
       else if (!drawn.has(task)) { taskIntroduction(vi); drawn.add(task); }
-      for (let pi = leadProblems(vi); pi < 12; pi += slot.perPage) problemPage(vi, pi);
+      for (let pi = leadProblems(vi); pi < 12; pi += slot.perPage) { blankPages(); problemPage(vi, pi); }
       vi++;
     } else if (design && SB.design!.pages.includes(doc.getPageCount() + 1)) await copyDesign(slot.kind === "extra" ? slot.pages : 1);
     else if (slot.kind === "extra") extraPages(slot);
     else ({ opening: openingPage, route: which === "first" ? routeIntroPage : routePage, index: indexPage, benefit: benefitPage,
       answers: answerPages, colophon })[slot.kind]();
   }
+  blankPages();
   if (doc.getPageCount() !== pages.length) throw new Error(`Drew ${doc.getPageCount()} pages, planned ${pages.length}`);
+  if (SB.a4BlankBacks) {
+    // Every page was laid out in B5 millimetres; B5 and A4 share their proportions, so the whole page is scaled up.
+    const s = A4.w / KDP_B5.w;
+    for (const page of doc.getPages()) {
+      page.scale(s, s);
+      page.setSize(A4.w * MM, A4.h * MM);
+      page.translateContent(0, (A4.h - KDP_B5.h * s) / 2 * MM);
+    }
+  }
   doc.context.trailerInfo.Info = undefined;
   const bytes = await doc.save({ useObjectStreams: false });
   await fs.writeFile(path.join(OUT, "interior.pdf"), bytes);
@@ -1880,7 +1925,7 @@ async function main() {
   await fs.writeFile(path.join(OUT, "manifest.json"), JSON.stringify({
     book: { ...SB, slots: undefined }, provisional: { slug: SB.slug, subtitle: SB.subtitle, readerCode: "placeholder" },
     pageCount: pages.length, pages: pages.map((p, i) => ({ page: i + 1, ...p })), questions, answerStart: answerStart || null,
-    paneMm: paneSizes, qrCodes, sources, pdfs: { interior: sha(bytes) }, interiorMm: KDP_B5,
+    paneMm: paneSizes, qrCodes, sources, pdfs: { interior: sha(bytes) }, interiorMm: SB.a4BlankBacks ? A4 : KDP_B5,
     spineMm: Math.round(pages.length * BOOK.whitePaperSpineMmPerPage * 100) / 100,
   }, null, 2) + "\n");
   console.log(`Wrote ${OUT}: ${pages.length} pages, ${questions.length} questions`);
