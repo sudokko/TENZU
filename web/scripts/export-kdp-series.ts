@@ -23,8 +23,9 @@ const which: "first" | "second" = bookArg;
 const SB = SERIES[which], OTHER = SERIES[which === "first" ? "second" : "first"];
 const OUT = argOf("--out") ? path.resolve(argOf("--out")!) : path.join(ROOT, "docs/drafts/kdp", SB.id);
 const MM = 72 / 25.4, LINE = BOOK.minLineMm;
-/** Problem dots, lines and arrows as % black. 40 is the adopted value; --ink 30 or 20 writes a trial copy for the proof. */
-const INK = 1 - Number(argOf("--ink") ?? 40) / 100;
+/** Problem dots, lines and arrows as % black; --ink 30 or 20 writes a trial copy for the proof. 40 was adopted because
+ * the back of each page showed through; the A4 experiment leaves those backs white, so it goes back to 88 (2026-11-03). */
+const INK = 1 - Number(argOf("--ink") ?? (SB.a4BlankBacks ? 88 : 40)) / 100;
 if (!(INK > 0 && INK < 1)) throw new Error("Pass --ink as % black, e.g. 30");
 /** A4 in mm, the output size of a4BlankBacks books. */
 const A4 = { w: 210, h: 297 };
@@ -1397,7 +1398,9 @@ function routeGrowthPage() {
       boards[r][i](bx, by);
       if (i < 2) arrowLn(page, bx + S + gap * 0.3, by + S / 2, bx + S + gap * 0.7, by + S / 2, grayscale(0.4));
       centered(page, s.name, bx + S / 2, by + S + 1.2, 9.8, "bold");
-      const lines = wrap(s.note, f.body, 8.2, S + gap * 0.8);
+      // The outer boards sit on the frame's edge, so their notes wrap within it (KDP's inside margin is 12.7 mm on A4).
+      const half = Math.min((S + gap * 0.8) / 2, bx + S / 2 - x, x + w - bx - S / 2);
+      const lines = wrap(s.note, f.body, 8.2, half * 2);
       lines.forEach((l, li) => centered(page, l, bx + S / 2, by + S + 6.4 + li * 4.4, 8.2, "body", grayscale(0.4)));
       if (by + S + 6.4 + lines.length * 4.4 > top + rowH) throw new Error(`Route row ${r} overflows`);
     });
