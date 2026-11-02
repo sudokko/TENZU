@@ -235,8 +235,10 @@ function newPage(heading: string, compact = false) {
 /** A4 experiment: the white backs planned after the pages drawn so far. A line at the foot says the page is white on purpose. */
 function blankPages() {
   while (pages[doc.getPageCount()]?.kind === "blank") {
-    const { page } = newPage("");
-    const s = "うらうつりを ふせぐため、このページは 白紙です";
+    const { page, pn } = newPage("");
+    const next = pages[pn], vi = next?.kind === "explanations" ? volumes.findIndex((v) => v.sku === next.ref) : -1;
+    if (vi > 0) { doorPage(page, vi); continue; }
+    const s ="うらうつりを ふせぐため、このページは 白紙です";
     text(page, s, (KDP_B5.w - widthMm(s, 7.5, "body")) / 2, 238, 7.5, "body", grayscale(0.5));
   }
 }
@@ -272,6 +274,40 @@ function paneMm(vi: number, w: number, h: number, vertical: boolean) {
 const PROBLEM_TOP = 32, PROBLEM_BOTTOM = 236, BOTTOM = 236;
 /** A4 experiment: 3–4 problems a page put the number beside the board, so the rows start higher and the boards stay tall. */
 const A4_PROBLEM_TOP = 27, A4_LABEL_W = 16;
+const stageCopyOf = (vi: number) =>
+  (SB.stageIntro === "volume" && volumes[vi].set.task === "copy" ? STAGE_COPY_UTSUSU : STAGE_COPY)[pairKey(vi)];
+const volumeName = (vi: number) => `${short(volumes[vi].set.task)}（${taskName(vi)}）`;
+const levelName = (vi: number) => `レベル${fw(volumes[vi].vol.lv)}${volSuffix(volumes[vi].vol.lv, volumes[vi].vol.volNo)}　${fw(volumes[vi].grid)}`;
+/** Gutter half of a left-hand page, in mm: the outer half backs the answer boards of the right-hand page before it. */
+const DOOR_X = 76, DOOR_W = 88;
+/** A4 experiment (2026-11-02, owner chose this over a heading line or thumb tabs): the white page facing a volume's first
+ * page announces it, with what is new and the parent note, so that first page keeps the same boards as every other. */
+function doorPage(page: PDFPage, vi: number) {
+  const c = stageCopyOf(vi), zx = DOOR_X, zw = DOOR_W;
+  text(page, "つぎの ページから", zx, 62, 11, "heading", grayscale(0.45));
+  text(page, volumeName(vi), zx, 71, 24, "heading");
+  text(page, levelName(vi), zx, 84, 14, "heading");
+  line(page, zx, 95, zx + zw, 95);
+  text(page, "あたらしく でてくるもの", zx, 100, 8.5, "heading", grayscale(0.45));
+  const freshEnd = paragraph(page, c.fresh, zx, 106, zw, 13, 6.5, "heading");
+  const ay = freshEnd + 6, ax = zx + zw;
+  line(page, ax - 16, ay, ax, ay); line(page, ax - 3, ay - 2.5, ax, ay); line(page, ax - 3, ay + 2.5, ax, ay);
+  const parentY = ay + 12;
+  fillRect(page, zx, parentY, 31, 8, grayscale(0.18));
+  text(page, "おうちの方へ", zx + 3.5, parentY + 1.5, 10, "heading", grayscale(1));
+  const end = paragraph(page, c.why, zx, parentY + 12, zw, 9.5, 5.4);
+  if (end > BOTTOM) throw new Error(`Door page overflows: ${pairKey(vi)} ${volumes[vi].set.task}: ${end.toFixed(1)} mm`);
+}
+/** A volume's first page in the A4 experiment: no band, the same rows as every problem page; the door faces it. */
+function a4Opener(vi: number) {
+  const v = volumes[vi], lead = leadProblems(vi);
+  const { page, pn, x } = newPage(`${taskName(vi)} / ${lvLabel(vi)}・${v.grid}`, true);
+  expect("explanations", pn);
+  const mark = `ここから ${volumeName(vi)}`;
+  text(page, mark, x + 152 - widthMm(mark, 11), 6.6, 11, "heading");
+  text(page, TASK_COPY[v.set.task].instruction, x, 19, 11, "heading");
+  problemRows(page, pn, vi, 0, lead, x, A4_PROBLEM_TOP, (PROBLEM_BOTTOM - A4_PROBLEM_TOP) / lead);
+}
 const paneSizes: Record<string, number> = {};
 function transition(page: PDFPage, x: number, from: string, to: string) {
   const gray = grayscale(0.55), right = x + 151.7, toW = widthMm(to, 12.5), fromW = widthMm(from, 9.5);
@@ -380,6 +416,7 @@ function stageIntroduction(vi: number) {
   // Per-volume pages: the たす page explains the level, the うつす page what changes when the whole shape is drawn.
   const c = perVolume && v.set.task === "copy" ? STAGE_COPY_UTSUSU[pairKey(vi)] : STAGE_COPY[pairKey(vi)];
   if (!c) throw new Error(`Level copy missing: ${v.set.task} ${pairKey(vi)}`);
+  if (SB.a4BlankBacks && leadProblems(vi)) return a4Opener(vi);
   const framed = SB.design ? designFrame(`あたらしくでてくるもの / ${short(v.set.task)} ${lvLabel(vi)}`) : null;
   const { page, pn, x } = framed ?? newPage("");
   const W = framed?.w ?? 152, dy = framed ? 3 : 0; // the design header sits where the band used to start
