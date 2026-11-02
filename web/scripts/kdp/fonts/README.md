@@ -8,7 +8,11 @@
 | IBMPlexSansJP-Regular.ttf | 日本語の本文・一覧 | [ibmplexsansjp](https://github.com/google/fonts/tree/main/ofl/ibmplexsansjp) / [OFL](ibmplexsansjp-OFL.txt) |
 | IBMPlexSansJP-Bold.ttf | 表紙タイトル・数量・年齢・特典の強調 | [ibmplexsansjp](https://github.com/google/fonts/tree/main/ofl/ibmplexsansjp) / [OFL](ibmplexsansjp-OFL.txt) |
 | IBMPlexMono-Regular.ttf | 数字・URL | [ibmplexmono](https://github.com/google/fonts/tree/main/ofl/ibmplexmono) / [OFL](ibmplexmono-OFL.txt) |
+| MPLUSRounded1c-Black.ttf | A4版の表紙：題名・見出し・札の文字（cover-a4-vector.py） | [mplusrounded1c](https://github.com/google/fonts/tree/main/ofl/mplusrounded1c) / [OFL](mplusrounded1c-OFL.txt) |
+| MPLUSRounded1c-Medium.ttf | A4版の表紙：説明文 | [mplusrounded1c](https://github.com/google/fonts/tree/main/ofl/mplusrounded1c) / [OFL](mplusrounded1c-OFL.txt) |
 
 SIL Open Font License 1.1に従いライセンス本文を同梱。PDFにはフォント全体を埋め込む。各ファイルのSHA-256は書き出し時のmanifest.jsonに保存する。
 
 IBM Plex Sans JP Boldは2026-10-18に公式配布元から取得。未改変のまま使用する。
+
+M PLUS Rounded 1c（Black・Medium）は2026-11-03に公式配布元から取得。未改変のまま使用する。配布元のフォルダにライセンス本文がないため、フォントの name テーブルにある著作権表示（Copyright 2016 The Rounded M+ Project Authors.）と OFL 1.1 の本文を mplusrounded1c-OFL.txt にまとめた。
