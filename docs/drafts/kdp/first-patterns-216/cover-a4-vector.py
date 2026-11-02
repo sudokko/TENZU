@@ -57,7 +57,8 @@ def clean(img, boxes):
     return Image.fromarray(a.clip(0, 255).astype(np.uint8))
 
 FRONT_BOXES = [(270, 44, 400, 74, 'k'), (85, 108, 604, 160, 'k'), (64, 176, 664, 306, 'k'), (4, 304, 712, 458, 'k'),
-               (42, 488, 524, 564, 'k'), (556, 448, 724, 618, 'fill'), (172, 844, 692, 928, 'k')]
+               # The original circle spans view x 550–705, y 460–610: erase a little wider, filling from the background around it
+               (42, 488, 524, 564, 'k'), (540, 448, 724, 622, 'k'), (172, 844, 692, 928, 'k')]
 PILLS = [(64, 293, 143, 318), (170, 293, 250, 318), (279, 293, 355, 318), (389, 293, 468, 318), (492, 293, 576, 318), (602, 293, 688, 318)]
 BACK_BOXES = [(64, 44, 674, 158, 'k'), (64, 154, 714, 216, 'k'), (54, 230, 704, 292, 'k')] + \
     [(x0 - 6, 288, x1 + 6, 323, 'fill') for (x0, _, x1, _) in PILLS] + \
@@ -148,7 +149,8 @@ draw([{'t': 'はじめての', 's': fs(15.2), 'c': INK}], fx(10.4), top=fy(25.2)
 draw([{'t': '点図形(点描写)', 's': fs(13.4), 'c': RED, 'sy': 1.2, 'tr': -0.02, 'trch': {'(': -0.12, ')': -0.12}}], fx(1.6), top=fy(42.6))
 draw([{'t': 'たす', 's': fs(6.4), 'c': INK}, {'t': '→', 's': fs(6.4), 'c': RED}, {'t': 'うつす', 's': fs(6.4), 'c': INK},
       {'t': '144', 's': fs(8.6), 'c': RED}, {'t': '問', 's': fs(6.4), 'c': INK}], fx(6.4), top=fy(67.4), gap=fs(6.4) * 0.12)
-ccx, ccy, cr = fx(76 + 10.7), fy(61.5 + 10.7), fs(10.7)
+# Same center and size as the original circle (view x 627.5, y 535, radius 77.5 → cqw = view / 7.38)
+ccx, ccy, cr = fx(627.5 / 7.38), fy(535 / 7.38), fs(77.5 / 7.38)
 page.draw_circle(fitz.Point(ccx * MM, ccy * MM), cr * MM, color=None, fill=CORAL)
 line1, line2 = [{'t': '4', 's': fs(7.4), 'c': WHITE}, {'t': '才', 's': fs(5.4), 'c': WHITE}], [{'t': 'ごろから', 's': fs(3.4), 'c': WHITE}]
 stack_top = ccy - (fs(7.4) + fs(0.9) + fs(3.4)) / 2
