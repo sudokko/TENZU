@@ -2070,8 +2070,8 @@ async function main() {
       for (const [name, value] of fonts?.entries() ?? [])
         if (!(value instanceof PDFRef || value instanceof PDFDict)) throw new Error(`Design page ${SB.design!.pages[i]}: font ${name} is not a font object`);
     });
-    f.bold = await doc.embedFont(await fs.readFile(path.join(ROOT, "web/scripts/kdp/fonts/IBMPlexSansJP-Bold.ttf")), { subset: false });
   }
+  f.bold = await doc.embedFont(await fs.readFile(path.join(ROOT, "web/scripts/kdp/fonts/IBMPlexSansJP-Bold.ttf")), { subset: false });
   logoImage = await doc.embedPng(await fs.readFile(path.join(ROOT, "web/scripts/kdp/tenzu-logo-horizontal-gray.png")));
   const copyDesign = async (count: number) => {
     for (let i = 0; i < count; i++) {
