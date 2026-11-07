@@ -8,6 +8,7 @@ python scripts/kdp/design-pages.py move <old>:<new> ...                         
 python scripts/kdp/design-pages.py retext <book page> <old text> <new text>          replace a line's text in the same font and size
 python scripts/kdp/design-pages.py addtext <book page> <text> <x mm> <baseline mm> [size pt] [bold] [right]   add a line (x is the right edge with `right`)
 python scripts/kdp/design-pages.py folios                                           reprint every page number as P<n> in the exporter's place
+python scripts/kdp/design-pages.py restyle                                          put every span on the book's type scale, two weights and its black / grey
 
 Run `npx tsx scripts/export-kdp-series.ts --book first` afterwards; the exporter copies these pages into the book.
 """
@@ -20,6 +21,7 @@ BOOK = ROOT / 'docs/drafts/kdp/series-1-hajimete'
 DESIGN = BOOK / 'design/explain-pages.pdf'
 FONTS = ROOT / 'web/scripts/kdp/fonts'
 URL = re.compile(r'(?<![/\w])tenzu\.jp(?:/[\w\-./]*)?')
+TYPE = (24, 17.5, 11.3, 9.5, 8.2)   # the exporter's type scale (TYPE in export-kdp-series.ts), B5 points
 FOLIO = re.compile(r'^P?\d+$')   # a page number, before (4) or after (P4) the P prefix
 
 
@@ -237,10 +239,10 @@ def renumber():
 
 
 def folio_at(page, number):
-    """Print the page number as the exporter's folio() does: "P<n>", 10 pt Plex Mono, 40% gray, ending 14.1 mm from the
+    """Print the page number as the exporter's folio() does: "P<n>", 8.2 pt Plex Mono, 40% gray, ending 14.1 mm from the
     paper's right edge on odd and even pages alike, baseline 247.1 mm."""
     mm = 72 / 25.4
-    label, size, mono = f'P{number}', 10, str(FONTS / 'IBMPlexMono-Regular.ttf')
+    label, size, mono = f'P{number}', TYPE[-1], str(FONTS / 'IBMPlexMono-Regular.ttf')
     width = fitz.Font(fontfile=mono).text_length(label, fontsize=size)
     x = 167.9 * mm - width
     page.insert_text((x, 247.1 * mm), label, fontname=unused_font_name(page, 'Folio'), fontfile=mono, fontsize=size,
@@ -263,6 +265,57 @@ def folios():
     removed = drop_unused_base14(doc)
     save(doc, DESIGN)
     print(f'Reprinted page numbers on {len(pages)} pages: {pages}; removed {removed} unused font entries.')
+
+def snap_size(size):
+    """The exporter's snapSize(): five steps."""
+    return TYPE[0] if size >= 21 else TYPE[1] if size >= 15 else TYPE[2] if size >= 10.75 else TYPE[3] if size >= 8.75 else TYPE[4]
+
+
+def snap_color(rgb):
+    """Black, #666 for labels and captions, #999 for hints; white stays."""
+    g = sum(rgb) / 3
+    if g >= 0.95:
+        return rgb
+    return (0.08,) * 3 if g < 0.3 else (0.4,) * 3 if g <= 0.5 else (0.6,) * 3
+
+
+def restyle():
+    """Put every text span of the designed pages on the book's type scale and palette: five sizes, Plex Regular / Bold only
+    (no SemiBold), black #141414 and the two greys. Text is reprinted at its own baseline; shapes and images are untouched."""
+    doc = fitz.open(DESIGN)
+    changed = 0
+    for page in doc:
+        todo = []
+        for b in page.get_text('dict')['blocks']:
+            for l in b.get('lines', []):
+                for s in l['spans']:
+                    if not s['text'].strip():
+                        continue
+                    size = snap_size(s['size'])
+                    rgb = snap_color(fitz.sRGB_to_pdf(s['color']))
+                    name = s['font']
+                    new_font = font_file(name.replace('SmBld', 'Bold').replace('SemiBold', 'Bold') if 'Plex' in name and 'Mono' not in name else name)
+                    same_color = all(abs(a - b) < 0.01 for a, b in zip(rgb, fitz.sRGB_to_pdf(s['color'])))
+                    if abs(size - s['size']) < 0.05 and same_color and 'SmBld' not in name:
+                        continue
+                    todo.append((s, size, rgb, new_font))
+        for s, *_ in todo:
+            page.add_redact_annot(fitz.Rect(s['bbox'][0], s['bbox'][1] + 0.5, s['bbox'][2], s['bbox'][3] - 0.5))
+        page.apply_redactions(images=fitz.PDF_REDACT_IMAGE_NONE, graphics=fitz.PDF_REDACT_LINE_ART_NONE)
+        names = {}   # one embedded copy of each font per page, not one per line
+        for s, size, rgb, new_font in todo:
+            if new_font not in names:
+                names[new_font] = unused_font_name(page, 'Style')
+                page.insert_font(fontname=names[new_font], fontfile=new_font)
+            x, y = s['origin']
+            if s['text'].strip() == 'TENZU' or FOLIO.match(s['text'].strip()):     # flush right: keep the right edge where it was
+                x = s['bbox'][2] - fitz.Font(fontfile=new_font).text_length(s['text'], fontsize=size)
+            page.insert_text((x, y), s['text'], fontname=names[new_font], fontsize=size, color=rgb)
+            changed += 1
+    removed = drop_unused_base14(doc)
+    doc.subset_fonts()   # the reprinted lines embed whole fonts; keep only the glyphs used
+    save(doc, DESIGN)
+    print(f'Restyled {changed} spans; removed {removed} unused font entries.')
 
 
 def unused_font_name(page, stem):
@@ -353,6 +406,9 @@ if __name__ == '__main__':
         renumber()
     elif args[:1] == ['move'] and len(args) >= 2:
         move([tuple(int(n) for n in a.split(':')) for a in args[1:]])
+    elif args[:1] == ['restyle']:
+        restyle()
+        check()
     elif args[:1] == ['folios']:
         folios()
         check()

@@ -140,12 +140,24 @@ const tracked = (url: string, pn: number) =>
 
 /* ---- Drawing primitives (same conventions as export-kdp-book.ts). */
 let doc: PDFDocument, f: Fonts, logoImage: PDFImage;
+/** Type scale of the book (2026-11-03): every text size lands on one of five steps, in the exporter's B5 points (the A4 output
+ * is 1.154 times larger: 27.7 / 20.2 / 13.0 / 11.0 / 9.5 pt). Call sites keep their rough sizes; text, widthMm and wrap all snap
+ * through here, so a line is measured and drawn at the same size. */
+const TYPE = { display: 24, h1: 17.5, h2: 11.3, body: 9.5, note: 8.2 } as const;
+const snapSize = (size: number) =>
+  size >= 21 ? TYPE.display : size >= 15 ? TYPE.h1 : size >= 10.75 ? TYPE.h2 : size >= 8.75 ? TYPE.body : TYPE.note;
+/** Text colour: black, mid grey (#666) for labels and captions, light grey (#999) for what is only a hint, white on dark fills. */
+const snapColor = (c: Color): Color => {
+  const g = (c as { gray?: number }).gray;
+  return g === undefined || g >= 0.95 ? c : g < 0.3 ? ink : g <= 0.5 ? grayscale(0.4) : grayscale(0.6);
+};
 function text(page: PDFPage, s: string, x: number, top: number, size = 10, face: keyof Fonts = "body", color: Color = ink) {
   const chars = f[face].getCharacterSet();
   for (const ch of s) if (!chars.includes(ch.codePointAt(0)!)) throw new Error(`Missing ${face} glyph: ${ch}`);
-  page.drawText(s, { x: x * MM, y: page.getHeight() - top * MM - size, size, font: f[face], color });
+  size = snapSize(size);
+  page.drawText(s, { x: x * MM, y: page.getHeight() - top * MM - size, size, font: f[face], color: snapColor(color) });
 }
-const widthMm = (s: string, size: number, face: keyof Fonts = "heading") => f[face].widthOfTextAtSize(s, size) / MM;
+const widthMm = (s: string, size: number, face: keyof Fonts = "heading") => f[face].widthOfTextAtSize(s, snapSize(size)) / MM;
 function fillRect(page: PDFPage, x: number, y: number, w: number, h: number, color: Color) {
   page.drawRectangle({ x: x * MM, y: page.getHeight() - (y + h) * MM, width: w * MM, height: h * MM, color });
 }
@@ -155,6 +167,7 @@ function framedRect(page: PDFPage, x: number, y: number, w: number, h: number, f
     color: fill, borderColor: grayscale(0.42), borderWidth: LINE * MM });
 }
 function wrap(s: string, font: PDFFont, size: number, width: number) {
+  size = snapSize(size);
   const lines: string[] = [];
   for (const para of s.split("\n")) {
     let cur = "";
@@ -220,7 +233,7 @@ const left = (pn: number) => pn % 2 ? BOOK.margins.inside : BOOK.margins.outside
 /** Right end of the designed pages' header (TENZU). */
 const frameRight = (pn: number) => pn % 2 ? 167.9 : 164;
 /** Every page number ends 14.1 mm from the paper's right edge, odd or even page. design-pages.py folio_at matches it. */
-const FOLIO_RIGHT = 167.9, FOLIO_SIZE = 10, FOLIO_BASELINE = 247.1;
+const FOLIO_RIGHT = 167.9, FOLIO_SIZE = TYPE.note, FOLIO_BASELINE = 247.1;
 /** The page number, "P12", flush right at the same place on the paper on every page. */
 function folio(page: PDFPage, pn: number) {
   const n = `P${pn}`;
@@ -295,7 +308,7 @@ function doorPage(page: PDFPage, vi: number) {
   line(page, ax - 16, ay, ax, ay); line(page, ax - 3, ay - 2.5, ax, ay); line(page, ax - 3, ay + 2.5, ax, ay);
   const parentY = ay + 12;
   fillRect(page, zx, parentY, 31, 8, grayscale(0.18));
-  text(page, "おうちの方へ", zx + 3.5, parentY + 1.5, 10, "heading", grayscale(1));
+  text(page, "おうちの方へ", zx + 3.5, parentY + 1.5, 10, "bold", grayscale(1));
   const end = paragraph(page, c.why, zx, parentY + 12, zw, 9.5, 5.4);
   if (end > BOTTOM) throw new Error(`Door page overflows: ${pairKey(vi)} ${volumes[vi].set.task}: ${end.toFixed(1)} mm`);
 }
@@ -440,7 +453,7 @@ function stageIntroduction(vi: number) {
     const qs = questions.filter((q) => q.volumeIndex === i);
     return perVolume ? `${qs[0].number}〜${qs[11].number}ばん（${qs[0].page}〜${qs[11].page}ページ）` : `${short(item.set.task)} ${qs[0].page}〜${qs[11].page}ページ`;
   }).join("  →  ");
-  text(page, order, x + W - widthMm(order, 9, "body"), 49 + dy, 9);
+  text(page, order, x + W - widthMm(order, 9, "heading"), 49 + dy, 9, "heading");
   const lead = leadProblems(vi);
   if (lead) {
     // After the book's first explanation, the page goes straight to the volume's first problems.
@@ -454,19 +467,18 @@ function stageIntroduction(vi: number) {
   const ruleY = diagramEnd + 4, parentY = ruleY + 6;
   rule(page, x, ruleY, W);
   fillRect(page, x, parentY, 31, 8, grayscale(0.18));
-  text(page, "おうちの方へ", x + 3.5, parentY + 1.5, 10, "heading", grayscale(1));
+  text(page, "おうちの方へ", x + 3.5, parentY + 1.5, 10, "bold", grayscale(1));
   const whyEnd = paragraph(page, c.why, x, parentY + 12, W, 9.5, 5.4);
   const boxY = whyEnd + 5, lines = wrap(c.stuck, f.body, 9, W - 12).length, boxH = 12 + lines * 5;
   framedRect(page, x, boxY, W, boxH, grayscale(0.92));
-  fillRect(page, x, boxY, 2, boxH, grayscale(0.18));
-  text(page, "手が止まったら", x + 7, boxY + 3, 10, "heading");
+  text(page, "手が止まったら", x + 7, boxY + 3, 10, "bold");
   paragraph(page, c.stuck, x + 7, boxY + 10, W - 12, 9, 5);
   if (perVolume) {
     // The aim of the task closes the page, as on the 216-problem book's task pages.
-    const aimY = boxY + boxH + 5;
-    fillRect(page, x, aimY, 1, 13, grayscale(0.4));
-    text(page, "この課題のめあて", x + 5, aimY, 9.5, "heading");
-    const aimEnd = paragraph(page, TASK_AIM[v.set.task], x + 5, aimY + 6.5, W - 5, 9.5, 5.2, "heading");
+    const aimY = boxY + boxH + 7;
+    framedRect(page, x, aimY - 3, W, 9.5 + wrap(TASK_AIM[v.set.task], f.body, 9.5, W - 14).length * 5.2, grayscale(0.92));
+    text(page, "この課題のめあて", x + 7, aimY, 9.5, "bold");
+    const aimEnd = paragraph(page, TASK_AIM[v.set.task], x + 7, aimY + 6.5, W - 14, 9.5, 5.2) + 3;
     if (aimEnd > BOTTOM) throw new Error(`Level introduction overflows: ${v.sku}: ${aimEnd.toFixed(1)} mm`);
   }
   if (v.planned) {
@@ -487,7 +499,7 @@ function taskIntroduction(vi: number) {
   const ruleY = diagramEnd + 4, parentY = ruleY + 6;
   rule(page, x, ruleY, 152);
   fillRect(page, x, parentY, 31, 8, grayscale(0.18));
-  text(page, "おうちの方へ", x + 3.5, parentY + 1.5, 10, "heading", grayscale(1));
+  text(page, "おうちの方へ", x + 3.5, parentY + 1.5, 10, "bold", grayscale(1));
   const parentEnd = paragraph(page, explanation(task), x, parentY + 12, 152, 9.5, 5.4);
   const taskVolumes = volumes.filter((item) => item.set.task === task);
   const range = (sku: string) => { const qs = questions.filter((q) => q.sku === sku); return `${qs[0].page}〜${qs[11].page}P`; };
@@ -513,9 +525,9 @@ function taskIntroduction(vi: number) {
     }
   }
   const aimY = y + 6;
-  fillRect(page, x, aimY, 1, 16, grayscale(0.4));
-  text(page, "この課題のめあて", x + 5, aimY, 10, "heading");
-  const aimEnd = paragraph(page, TASK_AIM[task], x + 5, aimY + 7, 147, 10, 5.5, "heading");
+  framedRect(page, x, aimY - 3, 152, 10.5 + wrap(TASK_AIM[task], f.body, 10, 138).length * 5.5, grayscale(0.92));
+  text(page, "この課題のめあて", x + 7, aimY, 10, "bold");
+  const aimEnd = paragraph(page, TASK_AIM[task], x + 7, aimY + 7, 138, 10, 5.5) + 3;
   if (Math.max(aimEnd, aimY + 16) > 236) throw new Error(`Introduction exceeds content area: ${v.sku}: ${aimEnd.toFixed(1)} mm`);
 }
 
@@ -576,9 +588,8 @@ function routePage() {
   routes.forEach(([label, copy], i) => {
     const y = routeTop + i * step;
     framedRect(page, x, y, 152, boxH, i % 2 ? grayscale(1) : grayscale(0.9));
-    fillRect(page, x, y, 2, boxH, grayscale(0.18));
     text(page, `0${i + 1}`, x + 6, y + 5, 12, "mono");
-    text(page, label, x + 20, y + 4, 11, "heading");
+    text(page, label, x + 20, y + 4, 11, "bold");
     paragraph(page, copy, x + 20, y + 13, 124, 8.8, 5);
   });
   paragraph(page, which === "first"
@@ -655,8 +666,7 @@ function benefitPage() {
   const leadEnd = paragraph(page, `「もう一度やってみたい」「大きな紙面で書いてみたい」。そんなときは、TENZUの購入者特典をご利用ください。この本と同じ${total}問のPDFを、巻ごと（12問ずつ）に選んで印刷できます。大きく書きたいときは、はじめから特典PDFで1問ずつ印刷して使えます。`, x, 58, 150, 9.5, 5.8);
   const top = leadEnd + 6;
   framedRect(page, x, top, 152, 92, grayscale(0.9));
-  fillRect(page, x, top, 3, 92, grayscale(0.18));
-  text(page, "受け取り方", x + 7, top + 6, 11.5, "heading");
+  text(page, "受け取り方", x + 7, top + 6, 11.5, "bold");
   ["1　QRコードから、受け取りページを開く", "2　下の受取コードを入れる", "3　巻と印刷設定を選び、PDFを保存する"]
     .forEach((s, i) => text(page, s, x + 7, top + 17 + i * 8.5, 9.5));
   text(page, "受取コード", x + 7, top + 47, 8, "heading");
@@ -696,8 +706,7 @@ function boxes(page: PDFPage, x: number, y: number, items: readonly Box[], bodyS
     const lines = wrap(fillRefs(b.body), f.body, bodySize, 140).length;
     const h = 13 + lines * (bodySize * 0.55) + 2;
     framedRect(page, x, y, 152, h, i % 2 ? grayscale(1) : grayscale(0.92));
-    fillRect(page, x, y, 2, h, grayscale(0.18));
-    text(page, b.title, x + 7, y + 3.5, 11, "heading");
+    text(page, b.title, x + 7, y + 3.5, 11, "bold");
     paragraph(page, fillRefs(b.body), x + 7, y + 11.5, 140, bodySize, bodySize * 0.55);
     y += h + 3.5;
   });
@@ -829,8 +838,7 @@ function makePages(count: number) {
 }
 function makerBridge(page: PDFPage, x: number, y: number) {
   framedRect(page, x, y, 152, BOTTOM - y - 2, grayscale(0.92));
-  fillRect(page, x, y, 2, BOTTOM - y - 2, grayscale(0.18));
-  text(page, "もっと作りたくなったら", x + 7, y + 4, 11, "heading");
+  text(page, "もっと作りたくなったら", x + 7, y + 4, 11, "bold");
   paragraph(page, `${SHARED_COPY.maker.lead} 詳しくは${extraPage.get("next-maker")}ページへ。`, x + 7, y + 12, 108, 8.5, 4.7);
   text(page, "tenzu.jp/makers", x + 7, BOTTOM - 10, 8, "mono");
   qr(page, "https://tenzu.jp/makers", x + 123, y + 6, 24);
@@ -955,8 +963,7 @@ function nextMakerPages() {
     preview(page, sku, cx, cy + 5, 74, 34);
   });
   framedRect(page, x, 170, 152, 62, grayscale(0.92));
-  fillRect(page, x, 170, 2, 62, grayscale(0.18));
-  text(page, "無料で使える範囲", x + 7, 174, 11, "heading");
+  text(page, "無料で使える範囲", x + 7, 174, 11, "bold");
   paragraph(page, c.free, x + 7, 183, 108, 8.8, 5);
   text(page, "tenzu.jp/makers", x + 7, 224, 8, "mono");
   qr(page, "https://tenzu.jp/makers", x + 122, 180, 26);
@@ -1036,9 +1043,8 @@ function afterwordPage() {
 function taskGroups(page: PDFPage, x: number, y: number, groups: readonly { title: string; tasks: readonly string[]; body: string }[]) {
   groups.forEach((g) => {
     framedRect(page, x, y, 152, 17, grayscale(0.92));
-    fillRect(page, x, y, 2, 17, grayscale(0.18));
-    text(page, g.title, x + 6, y + 3, 10.5, "heading");
-    text(page, g.tasks.map((t) => short(t)).join("・"), x + 62, y + 3.4, 10, "heading", grayscale(0.35));
+    text(page, g.title, x + 6, y + 3, 10.5, "bold");
+    text(page, g.tasks.map((t) => short(t)).join("・"), x + 62, y + 3.4, 10, "body", grayscale(0.4));
     text(page, g.body, x + 6, y + 10.5, 8.5);
     y += 20;
   });
@@ -1866,9 +1872,8 @@ function samplePages() {
     text(page, right, x + w - 4 - widthMm(right, 13), 25.6, 13, "heading", white);
     // What the task grows, for the parent, before the child's part of the page starts.
     fillRect(page, x, 42, w, 15, grayscale(0.95));
-    fillRect(page, x, 42, 1.4, 15, grayscale(0.14));
     text(page, c.aimTitle, x + 5, 45, 8.5, "bold", grayscale(0.4));
-    paragraph(page, TASK_AIM[task], x + 5, 50, w - 10, 9.8, 5.2, "bold");
+    paragraph(page, TASK_AIM[task], x + 5, 50, w - 10, 9.8, 5.2);
     // A new task needs to be seen solved first: the easiest problem is a worked example, the next one is the child's,
     // drawn at the same size. Solid keeps a single problem; its stacked boards fill the page.
     // Under "ためしの1もん" the instruction is left out where a worked example already says it; solid has none, so it keeps its line.
@@ -1957,10 +1962,10 @@ function makerOnePage() {
   const copyLabel = "うつす（模写）：", allLabel = "全9種類：";
   let ux = x;
   text(page, copyLabel, ux, 229.2, 8); ux += widthMm(copyLabel, 8, "body") + 1;
-  urlText(page, "https://tenzu.jp/maker", ux, 229, 8); ux += widthMm("https://tenzu.jp/maker", 8, "mono") + 4.5;
+  urlText(page, "https://tenzu.jp/maker", ux, 229, 8); ux += widthMm("https://tenzu.jp/maker", 8, "mono") + 3;
   text(page, allLabel, ux, 229.2, 8); ux += widthMm(allLabel, 8, "body") + 1;
   urlText(page, "https://tenzu.jp/makers", ux, 229, 8); ux += widthMm("https://tenzu.jp/makers", 8, "mono");
-  if (ux > x + w - 31) throw new Error(`Maker links run into the QR: ${ux.toFixed(1)}`);
+  if (ux > x + w - 30) throw new Error(`Maker links run into the QR: ${ux.toFixed(1)} > ${(x + w - 30).toFixed(1)}`);
   qr(page, "https://tenzu.jp/maker", x + w - 28, 203, 28);
 }
 function extraPages(slot: Extract<SeriesSlot, { kind: "extra" }>) {
@@ -2008,7 +2013,7 @@ function afterwordColophon() {
     if (i !== 3 && i !== last) {
       // 9 pt, eased by up to 0.3 pt when that keeps any of its lines from being a stray one or two characters.
       const size = [9, 8.9, 8.8, 8.7].find((z) => wrap(p, f.body, z, w).every((l) => l.length > 2)) ?? 9;
-      y = paragraph(page, p, x, y, w, size, 5.0) + 2.4;
+      y = paragraph(page, p, x, y, w, size, 4.8) + 2.2;
       return;
     }
     const size = i === 3 ? 9.6 : 8.2, lead = i === 3 ? 5.4 : 4.8, indent = 3.6;
