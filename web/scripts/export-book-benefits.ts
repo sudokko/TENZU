@@ -97,37 +97,31 @@ async function questionsPdf(filename: string, qs: Entry[]) {
   return { ...(await save(doc, filename)), numbers: qs.map((e) => e.number), pageMap };
 }
 
-/** The progress chart, certificate and blank boards, taken from the owner's designed pages and enlarged to A4. */
-async function sheetsPdf(filename: string, manifest: Manifest) {
-  if (!SB.design) throw new Error("The book has no design PDF for the sheets");
-  // じぶんでつくろう: the blank boards parents and children set problems on, wherever the book puts them.
-  const bookPages = manifest.pages.filter((p) => p.ref === "make").map((p) => p.page);
-  if (!bookPages.length) throw new Error("No じぶんでつくろう pages in the book manifest");
-  const design = await fs.readFile(path.join(ROOT, SB.design.file));
+/** じぶんでつくろう: the blank boards parents and children set problems on, from the owner's B5 design enlarged to A4.
+ * They left the book in the A4 edition, so this PDF is the only place they appear (design-pages.py sheets). */
+async function sheetsPdf(filename: string) {
+  const design = await fs.readFile(path.join(BOOK_OUT, "design/sheets.pdf"));
   // The designed pages already carry their fonts; only the ASCII footer needs one more (Plex Mono, small).
   const doc = await PDFDocument.create();
   doc.registerFontkit(fontkit);
   const mono = await doc.embedFont(await fs.readFile(path.join(ROOT, "web/scripts/kdp/fonts/IBMPlexMono-Regular.ttf")), { subset: false });
-  const embedded = await doc.embedPdf(design, bookPages.map((pn) => {
-    const at = SB.design!.pages.indexOf(pn);
-    if (at < 0) throw new Error(`Book page ${pn} is not in the design PDF`);
-    return at;
-  }));
+  const embedded = await doc.embedPdf(design, [0, 1, 2]);
   const scale = Math.min(210 / 182, 287 / 257);
   for (const e of embedded) {
     const page = doc.addPage(A4), w = 182 * scale, h = 257 * scale;
     page.drawPage(e, { x: ((210 - w) / 2) * MM, y: (297 - h - 2) * MM, width: w * MM, height: h * MM });
     text(page, mono, `(c) 2026 TENZU  /  ${BOOK.url}  /  ${doc.getPageCount()}`, 15, 289, 7.5, grayscale(0.4));
   }
-  return { ...(await save(doc, filename)), bookPages };
+  return save(doc, filename);
 }
 
 async function main() {
   await fs.mkdir(PRIVATE, { recursive: true });
   const { entries, manifest } = await loadEntries();
+  if (manifest.pages.some((p) => p.ref === "make")) throw new Error("The book carries じぶんでつくろう again: take the sheets from its pages");
   const files: Record<string, unknown> = {};
   for (const file of BOOK_FILES) {
-    files[file.id] = file.id === "sheets" ? await sheetsPdf(file.filename, manifest)
+    files[file.id] = file.id === "sheets" ? await sheetsPdf(file.filename)
       : await questionsPdf(file.filename, file.id === "all" ? entries : entries.filter((e) => e.task === file.id));
   }
   const planned = [...new Set(entries.filter((e) => e.planned).map((e) => e.sku))];

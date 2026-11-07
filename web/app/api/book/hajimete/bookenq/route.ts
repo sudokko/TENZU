@@ -2,7 +2,7 @@
    - body: SurveyAnswer の形（survey.ts の parseSurvey で検査）＋ website（ハニーポット）。
    - DynamoDB 保存（survey-store）→ オーナーへ通知（sendSurveyMail）。片方の失敗は握りつぶし、両方失敗したときだけ 500。
    - 答えた人には、お礼のクーポンコードを返し、回答済みの cookie を立てる（同じブラウザでもう一度開くとコードを出し直す）。
-     コードはメールごとに1回（lib/coupon.ts の once）。本の97ページには金額だけを刷り、コードはここでだけ見せる。 */
+     コードはメールごとに1回（lib/coupon.ts の once）。本の105ページには金額だけを刷り、コードはここでだけ見せる。 */
 import { NextRequest, NextResponse } from "next/server";
 import { SURVEY_COOKIE, SURVEY_COUPON, putSurvey } from "../../../../lib/survey-store";
 import { sendSurveyMail } from "../../../../lib/email";

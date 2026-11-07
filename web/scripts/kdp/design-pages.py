@@ -9,6 +9,7 @@ python scripts/kdp/design-pages.py retext <book page> <old text> <new text>     
 python scripts/kdp/design-pages.py addtext <book page> <text> <x mm> <baseline mm> [size pt] [bold] [right]   add a line (x is the right edge with `right`)
 python scripts/kdp/design-pages.py folios                                           reprint every page number as P<n> in the exporter's place
 python scripts/kdp/design-pages.py restyle                                          put every span on the book's type scale, two weights and its black / grey
+python scripts/kdp/design-pages.py sheets                                           rebuild design/sheets.pdf, the blank boards of the reader PDF, from the B5 design
 
 Run `npx tsx scripts/export-kdp-series.ts --book first` afterwards; the exporter copies these pages into the book.
 """
@@ -318,6 +319,24 @@ def restyle():
     print(f'Restyled {changed} spans; removed {removed} unused font entries.')
 
 
+def sheets():
+    """じぶんでつくろう left the book in the A4 edition (kdp-paperback §8.1) and stays as a reader PDF: take its three pages from
+    the B5 design and drop their page numbers, which no longer point anywhere."""
+    src = fitz.open(BOOK / 'design/explain-pages-B5-98p.pdf')   # pages 6, 33, 93, 94, 95 of the 98-page book
+    out = fitz.open()
+    out.insert_pdf(src, from_page=2, to_page=4)
+    for number, page in zip((93, 94, 95), out):
+        spans = [s for b in page.get_text('dict')['blocks'] for l in b.get('lines', []) for s in l['spans'] if s['text'].strip() == f'P{number}']
+        if len(spans) != 1:
+            sys.exit(f'Page {number}: expected one page number, found {len(spans)}')
+        page.add_redact_annot(fitz.Rect(spans[0]['bbox']))
+        page.apply_redactions(images=fitz.PDF_REDACT_IMAGE_NONE, graphics=fitz.PDF_REDACT_LINE_ART_NONE)
+    src.close()
+    count = len(out)
+    save(out, BOOK / 'design/sheets.pdf')
+    print(f'Wrote design/sheets.pdf: {count} pages')
+
+
 def unused_font_name(page, stem):
     """A font resource name the page does not use yet: reusing one prints the wrong glyphs."""
     used = {f[4] for f in page.get_fonts(full=True)}
@@ -406,6 +425,8 @@ if __name__ == '__main__':
         renumber()
     elif args[:1] == ['move'] and len(args) >= 2:
         move([tuple(int(n) for n in a.split(':')) for a in args[1:]])
+    elif args[:1] == ['sheets']:
+        sheets()
     elif args[:1] == ['restyle']:
         restyle()
         check()

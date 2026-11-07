@@ -36,7 +36,7 @@ export type SurveyAnswer = {
   improve: string;
   /** 5. 知り合いのご家庭にすすめたいか（0〜10）。 */
   recommend: number;
-  /** どこから来たか（本の QR は utm_content=p97、受取ページの帯は band）。 */
+  /** どこから来たか（本の QR は utm_content=p105、受取ページの帯は band）。 */
   from?: string;
 };
 

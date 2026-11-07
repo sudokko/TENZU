@@ -22,7 +22,7 @@ export const LEVELS: { lv: string; grid: string; line: ReactNode; sku: string; i
 const FACTS = [
   { big: String(BOOK.total), unit: "問", note: "たす72・うつす72" },
   { big: "6", unit: "段階", note: "3×3から5×5まで" },
-  { big: "B5", unit: "", note: "1ページ2問、大きな図" },
+  { big: "A4", unit: "", note: "1ページ3〜4問" },
   { big: "PDF", unit: "", note: "全問を何度でも印刷" },
 ];
 

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-/** 本の97ページの QR（utm_content=p97）と受取ページの帯（from=band）から来る。来たところは答えと一緒に残す。 */
+/** 本の105ページの QR（utm_content=p105）と受取ページの帯（from=band）から来る。来たところは答えと一緒に残す。 */
 export default async function BookSurveyPage({ searchParams }: { searchParams: Promise<{ utm_content?: string; from?: string }> }) {
   const { utm_content, from } = await searchParams;
   const answered = (await cookies()).has(SURVEY_COOKIE);

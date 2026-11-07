@@ -9,7 +9,7 @@
 - コードは本の6ページ（特典案内）に印刷する `HJ<刷>-XXXX-XXXX`（第1刷は `HJ1-`）。原文はGit除外の `web/.local/book-hajimete-print<刷>.json` だけに置き、本番には SHA-256 だけを `BOOK_HAJIMETE_CODE_SHA256` に設定して `AUTH_SECRET` と合わせて使う。値をコミット・メッセージに貼らない。
 - cookie・署名・コードは本ごとに分ける。凍結した7課題の本を出すときも、この本の受取は開かない。
 - 書籍コードは既存Stripe商品の所有権を発行しない。共通コードは厳密な購入証明ではない。
-- 読者アンケートは `/book/hajimete/bookenq`（本の97ページのQRと受取ページの帯から）。回答は DynamoDB に置いて `/admin/book-survey` で見る。答えた人にお礼の `ENQUETE100` を出す（§読者アンケート）。
+- 読者アンケートは `/book/hajimete/bookenq`（本の105ページのQRと受取ページの帯から）。回答は DynamoDB に置いて `/admin/book-survey` で見る。答えた人にお礼の `ENQUETE100` を出す（§読者アンケート）。
 
 ## 詳細
 
@@ -28,7 +28,7 @@ npm run build
 
 - `subset-book-benefits.py` は、`export-book-benefits.ts` が日本語フォントを丸ごと埋め込んだPDF（6〜13MB）のフォントをサブセット化する。Amplify は約5.7MBを超える応答を413で落とすため、書き出したら必ず通す（描画の一致を確かめてから差し替え、manifest のハッシュも直す）。
 - `export-book-benefits.ts` は、本の manifest の問題番号・元問題IDでPDFを作る。本を書き出したあとに元のJSONが変わっていたら止まる（本を書き出し直す）。Webのカタログと `SERIES.first` の巻の並びが違っても止まる。
-- じぶんでつくろうは、オーナーがデザインした本のページ（95〜98）をA4に拡大して1ファイルにする。
+- じぶんでつくろうは本から外したので（[kdp-paperback.md §8.1](../product/kdp-paperback.md)）、B5版のデザインからページ番号を消した `design/sheets.pdf`（`design-pages.py sheets` で作る）をA4に拡大して1ファイルにする。
 - `check-book.ts` は描画コードと別に、座標変換と辺集合の関係で全144問を確かめ、コードの正規化・改ざん・失効・別の本のcookie・入力制限を確かめる。
 - `preflight-book-benefits.py` は、ハッシュ・ページ数・A4・問題番号の並び・文字の大きさと余白・フォント埋め込み（デザインページの入れ子のフォントも含む）を確かめる。Popplerがあれば全ページ画像も作る（なければ `--skip-reader-render`）。
 - 公開していない巻は、本と同じ代わりの巻で場所を取る（紙面とPDFに「準備中」）。公開したら、そのまま本物を使う。
@@ -44,7 +44,7 @@ npm run build
 
 ### 読者アンケート
 
-- 入口は本の97ページのQR（`/book/hajimete/bookenq`・書き出しが utm_content=p97 を付ける）と、受取ページの帯（[BookSurveyBand](../web/app/book/hajimete/BookSurveyBand.tsx)）。帯は認証後だけで、初めてPDFを保存した日（端末の localStorage `tenzu_book_first_save`）より後に来たときに出す。閉じた端末・答えたブラウザには出さない。
+- 入口は本の105ページのQR（`/book/hajimete/bookenq`・書き出しが utm_content=p105 を付ける）と、受取ページの帯（[BookSurveyBand](../web/app/book/hajimete/BookSurveyBand.tsx)）。帯は認証後だけで、初めてPDFを保存した日（端末の localStorage `tenzu_book_first_save`）より後に来たときに出す。閉じた端末・答えたブラウザには出さない。
 - 設問の定義は [survey.ts](../web/app/book/hajimete/survey.ts)（画面・受け口・管理画面で共通）。受取コードなしで答えられ、ページは `noindex`。
 - 受け口 `/api/book/hajimete/bookenq` が DynamoDB（`ONSITE_TABLE`・PK `BOOK_SURVEY#hajimete`・[survey-store.ts](../web/app/lib/survey-store.ts)）に保存し、問い合わせと同じ宛先（`CONTACT_NOTIFY_EMAILS`）へ通知する。片方が失敗しても受け付け、両方失敗したときだけ500。ハニーポットつき。
 - 答えた人には、お礼のコード `ENQUETE100` を返して画面に出し、回答済みのcookie（`tenzu_book_survey`・400日）を立てる。同じブラウザでまた開くと、保存し直さずにコードだけ出す。クーポンの決まりは [pack-commerce.md §14.7.2](../product/pack-commerce.md)。

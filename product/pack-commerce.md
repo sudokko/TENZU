@@ -216,7 +216,7 @@ Stripe手数料（3.6%）差引後の実収：**約¥8,483**（拡大縮小6巻�
 #### 14.7.2 初回限定クーポン
 
 - **TENZUではじめてのお買い物で ¥100 OFF**。最低金額なし。**まとめ買い割引と併用できる**（割引後の合計から引く。3冊 ¥510 → ¥410）
-- 配る先は KDP 本の83ページ（コード `HAJIMETE100`・[kdp-paperback.md §2.4](kdp-paperback.md)）。配る場所ごとにコードを足し、クーポン本体（Stripe の Coupon・metadata `tenzu=first-100`）は1つにする。作成は `web/` で `npx tsx scripts/create-first-coupon.ts --code <コード>`（本番は `--live`）
+- 配る先は KDP 本の94ページ（コード `HAJIMETE100`・[kdp-paperback.md §2.4](kdp-paperback.md)）。配る場所ごとにコードを足し、クーポン本体（Stripe の Coupon・metadata `tenzu=first-100`）は1つにする。作成は `web/` で `npx tsx scripts/create-first-coupon.ts --code <コード>`（本番は `--live`）
 - **入力はTENZUの画面**（プリントはカート、メーカーは購入確認ページの「クーポンコードをお持ちの方」）。Stripe の決済画面の入力欄は使わない
 - **初回の判定はメールアドレス**。Stripe の初回限定（Promotion Code の `first_time_transaction`）は、Checkout に Customer を渡したときしか効かず、ゲスト決済は毎回「初回」になる。そこでカートでメールを受け取り、同じメールの Customer に支払い済みの Checkout があれば断り、無ければその Customer を渡して割引つきの Checkout を作る（Stripe 側でも初回を確かめる）。クーポンを使わない決済も Customer を残す（`customer_creation: "always"`）。実装は `web/app/lib/coupon.ts`（`resolveCoupon`）・`/api/coupon`・`/api/checkout`・`/api/maker-checkout`・`app/components/CouponField.tsx`
 - **補助としてブラウザの印も見る**：プリント・メーカーの購入完了ページが Stripe で支払い済みを確かめてから、購入済みの cookie（`tenzu_purchased`・400日・httpOnly）を立てる（`/api/checkout/purchased`）。印のあるブラウザでは、カートの「使う」と決済の作成の両方で断る。別のブラウザ・シークレットウィンドウには効かないため、メールの照合が主
@@ -224,7 +224,7 @@ Stripe手数料（3.6%）差引後の実収：**約¥8,483**（拡大縮小6巻�
 - **メーカーの購入にも使える**（オーナー決定 2026-10-27）。メーカーの購入ボタンは Stripe へ直接飛ばず、購入確認ページ `/maker-buy?m=<メーカー>` を1枚はさみ、カートと同じ入力欄（`CouponField`）で同じ初回確認をかける。Stripe の決済画面のコード欄（`allow_promotion_codes`）はプリント・メーカーとも出さない
 - 同じメールに Customer が複数できる（Checkout ごとに作る）ため、メーカーの復元リンク（`resolveOwnedByEmail`）は同じメールの全 Customer を見る
 - 合計が ¥0 になるクーポンは作らない（支払い不要のセッションは購入として扱われない）
-- **本のアンケートのお礼 `ENQUETE100`（¥100 OFF）**：KDP 本のアンケート（97ページ → `/book/hajimete/survey`）に答えた人に、答え終わった画面でだけコードを見せる。**何回目のお買い物でも使え、1つのメールアドレスにつき1回**。初回限定と同じく、カート・メーカーの購入確認ページでコードとメールを受け取り、同じメールの Customer の支払い済み Checkout にこのコードの割引があれば断る（Stripe のプロモーションコードには「メールごとに1回」の制限がないため）。購入済みのブラウザの印（cookie）では断らない。まとめ買い割引と併用でき、メーカーにも使える。**初回限定（`HAJIMETE100`）とは併用できない**（Checkout の割引は1回に1つ）＝初回は `HAJIMETE100`、次の買い物で `ENQUETE100` と使い分ける
+- **本のアンケートのお礼 `ENQUETE100`（¥100 OFF）**：KDP 本のアンケート（105ページ → `/book/hajimete/survey`）に答えた人に、答え終わった画面でだけコードを見せる。**何回目のお買い物でも使え、1つのメールアドレスにつき1回**。初回限定と同じく、カート・メーカーの購入確認ページでコードとメールを受け取り、同じメールの Customer の支払い済み Checkout にこのコードの割引があれば断る（Stripe のプロモーションコードには「メールごとに1回」の制限がないため）。購入済みのブラウザの印（cookie）では断らない。まとめ買い割引と併用でき、メーカーにも使える。**初回限定（`HAJIMETE100`）とは併用できない**（Checkout の割引は1回に1つ）＝初回は `HAJIMETE100`、次の買い物で `ENQUETE100` と使い分ける
 - 決まりの見分け方：Promotion Code の `first_time_transaction` があれば初回限定、metadata `tenzu_rule=once-per-email` があればメールごとに1回。どちらでもないコードはカートでは受け付けない（`lib/coupon.ts` の `findCoupon`）。お礼のクーポン本体は初回限定と別（metadata `tenzu=enquete-100`）。作成は `npx tsx scripts/create-first-coupon.ts --code ENQUETE100 --rule once`（本番は `--live`）
 - Cookie判定・IP判定は不採用
 
