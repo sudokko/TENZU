@@ -1398,7 +1398,7 @@ function routeGrowthPage() {
       boards[r][i](bx, by);
       if (i < 2) arrowLn(page, bx + S + gap * 0.3, by + S / 2, bx + S + gap * 0.7, by + S / 2, grayscale(0.4));
       centered(page, s.name, bx + S / 2, by + S + 1.2, 9.8, "bold");
-      // The outer boards sit on the frame's edge, so their notes wrap within it (KDP's inside margin is 12.7 mm on A4).
+      // The outer boards sit on the frame's edge, so their notes wrap within it (the note ran past the frame, 9.7 mm from the paper's inner edge).
       const half = Math.min((S + gap * 0.8) / 2, bx + S / 2 - x, x + w - bx - S / 2);
       const lines = wrap(s.note, f.body, 8.2, half * 2);
       lines.forEach((l, li) => centered(page, l, bx + S / 2, by + S + 6.4 + li * 4.4, 8.2, "body", grayscale(0.4)));
