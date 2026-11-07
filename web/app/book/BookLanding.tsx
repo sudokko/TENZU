@@ -37,11 +37,10 @@ export const PRINT_CAN: { icon: IconName; title: string; note: string }[] = [
   { icon: "layout", title: "見本の並び", note: "横に並べる／下に並べる" },
   { icon: "name", title: "名前・日付の欄", note: "「がつ・にち・なまえ」を1行" },
   { icon: "volume", title: "12問ずつ刷る", note: "本の1巻ぶんずつ。まとめて144問も" },
-  { icon: "board", title: "じぶんでつくろう", note: "親子で出し合う、空の盤面も" },
   { icon: "tablet", title: "タブレットに書く", note: "A4横・1問で、画面いっぱいに" },
 ];
 
-export type IconName = "paper" | "count" | "big" | "dots" | "nodots" | "layout" | "name" | "volume" | "board" | "tablet";
+export type IconName = "paper" | "count" | "big" | "dots" | "nodots" | "layout" | "name" | "volume" | "tablet";
 
 /* 特典タイルの絵。設定の中身（紙・盤面・点）を小さく描き、言葉（A4・約10cm・小中大…）を絵の中に入れる。120×80 */
 const INK = "#1A1F2A";
@@ -103,11 +102,6 @@ const ART: Record<IconName, ReactNode> = {
   volume: <>
     {sheet(40, 18, 44, 54)}{sheet(36, 13, 44, 54)}{sheet(32, 8, 44, 54, <text {...TC} x={54} y={42} textAnchor="middle" fontSize={16}>12</text>)}
     <text {...T} x={88} y={46}>問</text>
-  </>,
-  board: <>
-    <rect x={30} y={10} width={44} height={44} rx={2} fill="#fff" stroke={LIGHT} />{dots3(38, 18, 28, 1.6)}
-    <g transform="translate(66 46) rotate(-40)"><path d="M0 0L8 -3V3Z" fill="#E9D7B9" stroke={INK} strokeWidth={0.7} /><rect x={8} y={-3} width={34} height={6} fill={CORAL} stroke={INK} strokeWidth={0.7} /></g>
-    <text {...T} x={52} y={72} textAnchor="middle">空の盤面</text>
   </>,
   tablet: <>
     <rect x={12} y={8} width={96} height={64} rx={7} fill={INK} /><rect x={17} y={13} width={86} height={54} rx={2} fill="#fff" />

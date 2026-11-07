@@ -78,6 +78,7 @@
 .booklp-pdf { padding: 28px 0 32px; background: var(--book-tint); }
 .booklp-can { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 18px 20px 0; padding: 0; list-style: none; }
 .booklp-can li { display: flex; flex-direction: column; gap: 4px; padding: 14px; border-radius: 12px; background: var(--bg, #fff); }
+.booklp-can li:last-child:nth-child(odd) { grid-column: 1 / -1; }   /* 奇数枚のとき、最後の1枚を幅いっぱいに */
 .booklp-art { display: block; width: 108px; height: auto; margin-bottom: 6px; }
 .booklp-art--wide { width: 126px; }   /* 見本の並び：横と下を並べるぶん横長（同じ縮尺） */
 .booklp-can-title { font-size: 15px; font-weight: 600; line-height: 1.4; }

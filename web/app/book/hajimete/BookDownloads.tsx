@@ -9,8 +9,8 @@ import { noteBookSave } from "./BookSurveyBand";
 import { BOOK } from "./catalog";
 
 type FileItem = { id: string; label: string; detail: string; bytes: number; ready: boolean };
-/** Shown as the two large buttons; the per-task files sit in the disclosure. */
-const PRIMARY = ["all", "sheets"];
+/** Shown as the large button; the per-task files sit in the disclosure. */
+const PRIMARY = ["all"];
 /** The printed code HJ1-XXXX-XXXX in three boxes, so nobody wonders whether to type the hyphens. */
 const CODE_PARTS = [{ size: 3, hint: "HJ1" }, { size: 4, hint: "XXXX" }, { size: 4, hint: "XXXX" }];
 /** Letters and digits only, half-width capitals: the hyphens are drawn between the boxes. */
@@ -103,12 +103,12 @@ export default function BookDownloads({ authorized, files }: { authorized: boole
   </section>;
 }
 function FileButton({ file, busy, download, primary = false }: { file: FileItem; busy: string | null; download: (file: FileItem) => void; primary?: boolean }) {
-  if (primary) return <button className={`book-download-option${file.id === "all" ? " book-download-option--questions" : ""}`} type="button" disabled={busy !== null || !file.ready} onClick={() => download(file)} aria-label={`${file.label}をダウンロード`}>
-    <BookPattern kind={file.id === "all" ? "problem" : "answer"} />
-    <span className="book-download-title">{file.id === "all" ? "問題PDF" : "じぶんでつくろう"}</span>
-    <span className="book-download-meta">{file.id === "all" ? "144問 ／ A4・白黒 ／ 本と同じ番号" : "親子で出し合う、空いた盤面"}</span>
+  if (primary) return <button className="book-download-option book-download-option--questions" type="button" disabled={busy !== null || !file.ready} onClick={() => download(file)} aria-label={`${file.label}をダウンロード`}>
+    <BookPattern kind="problem" />
+    <span className="book-download-title">問題PDF</span>
+    <span className="book-download-meta">144問 ／ A4・白黒 ／ 本と同じ番号</span>
     <span className="book-download-meta">{file.bytes ? `${(file.bytes / 1024 / 1024).toFixed(1)} MB` : "準備中"}</span>
-    <span className="book-download-action">{busy === file.id ? "取得しています…" : file.id === "all" ? "まとめて保存" : "シートを保存"}<span aria-hidden="true">↓</span></span>
+    <span className="book-download-action">{busy === file.id ? "取得しています…" : "まとめて保存"}<span aria-hidden="true">↓</span></span>
   </button>;
   return <div className="book-file"><h3>{file.label}</h3><p>{file.detail}</p><p className="book-small">PDF · A4縦 · {file.bytes ? `${(file.bytes / 1024 / 1024).toFixed(1)} MB` : "準備中"}</p><button type="button" disabled={busy !== null || !file.ready} onClick={() => download(file)}>{busy === file.id ? "取得しています…" : "PDFをダウンロード"}</button></div>;
 }

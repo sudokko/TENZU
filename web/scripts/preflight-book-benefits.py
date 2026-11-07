@@ -43,7 +43,6 @@ for id,info in manifest['files'].items():
     with pdfplumber.open(file) as pdf:
         for pn,p in enumerate(pdf.pages,1):
             check(f'{id} p{pn} A4',abs(p.width-210*PT)<.01 and abs(p.height-297*PT)<.01)
-            if expected is None:continue  # the sheets are the book's designed pages, checked with the book
             t=p.extract_text() or ''
             extracted.extend(map(int,re.findall(r'(\d+)ばん',t)))
             check(f'{id} p{pn} text',bool(t) and '�' not in t)

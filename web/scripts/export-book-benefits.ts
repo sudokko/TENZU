@@ -1,5 +1,5 @@
 /** npx tsx scripts/export-book-benefits.ts
- * Reader PDFs for「はじめての点図形（点描写）」(kdp-paperback §5): all 144, たす 72, うつす 72, and the sheets.
+ * Reader PDFs for「はじめての点図形（点描写）」(kdp-paperback §5): all 144, たす 72, うつす 72.
  * Question order and numbers come from the book's manifest, so a reprint of the book and the PDFs cannot drift apart. */
 import { promises as fs } from "node:fs";
 import path from "node:path";
@@ -97,32 +97,12 @@ async function questionsPdf(filename: string, qs: Entry[]) {
   return { ...(await save(doc, filename)), numbers: qs.map((e) => e.number), pageMap };
 }
 
-/** じぶんでつくろう: the blank boards parents and children set problems on, from the owner's B5 design enlarged to A4.
- * They left the book in the A4 edition, so this PDF is the only place they appear (design-pages.py sheets). */
-async function sheetsPdf(filename: string) {
-  const design = await fs.readFile(path.join(BOOK_OUT, "design/sheets.pdf"));
-  // The designed pages already carry their fonts; only the ASCII footer needs one more (Plex Mono, small).
-  const doc = await PDFDocument.create();
-  doc.registerFontkit(fontkit);
-  const mono = await doc.embedFont(await fs.readFile(path.join(ROOT, "web/scripts/kdp/fonts/IBMPlexMono-Regular.ttf")), { subset: false });
-  const embedded = await doc.embedPdf(design, [0, 1, 2]);
-  const scale = Math.min(210 / 182, 287 / 257);
-  for (const e of embedded) {
-    const page = doc.addPage(A4), w = 182 * scale, h = 257 * scale;
-    page.drawPage(e, { x: ((210 - w) / 2) * MM, y: (297 - h - 2) * MM, width: w * MM, height: h * MM });
-    text(page, mono, `(c) 2026 TENZU  /  ${BOOK.url}  /  ${doc.getPageCount()}`, 15, 289, 7.5, grayscale(0.4));
-  }
-  return save(doc, filename);
-}
-
 async function main() {
   await fs.mkdir(PRIVATE, { recursive: true });
   const { entries, manifest } = await loadEntries();
-  if (manifest.pages.some((p) => p.ref === "make")) throw new Error("The book carries じぶんでつくろう again: take the sheets from its pages");
   const files: Record<string, unknown> = {};
   for (const file of BOOK_FILES) {
-    files[file.id] = file.id === "sheets" ? await sheetsPdf(file.filename)
-      : await questionsPdf(file.filename, file.id === "all" ? entries : entries.filter((e) => e.task === file.id));
+    files[file.id] = await questionsPdf(file.filename, file.id === "all" ? entries : entries.filter((e) => e.task === file.id));
   }
   const planned = [...new Set(entries.filter((e) => e.planned).map((e) => e.sku))];
   await fs.writeFile(path.join(BOOK_OUT, "benefits-manifest.json"), JSON.stringify({
