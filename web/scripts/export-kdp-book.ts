@@ -782,7 +782,7 @@ async function main() {
     text(page, f, BOOK.subtitle, x, 210, 8);
     text(page, f, `著者・編集・発行 TENZU / 初版 改訂${BOOK_216.edition} / 2026年10月`, x, 218, 7.5);
     text(page, f, "© 2026 TENZU. All rights reserved. お問い合わせ：tenzu.jp/contact", x, 226, 7.5);
-    paragraph(page, f, "本書と特典PDFの転載・再配布・販売を禁じます。特典PDFは購入者の家庭内で、きょうだいと何度でも印刷して使えます。教室等での利用はお問い合わせください。", x, 233, 132, 7.5, 3.8);
+    paragraph(page, f, "本書と特典PDFの転載・再配布・販売を禁じます。特典PDFは購入者の家庭内で、何度でも印刷して使えます。教室等での利用はお問い合わせください。", x, 233, 132, 7.5, 3.8);
   }
   if (contentPageCount % 2) {
     doc.addPage([KDP_B5.w * MM, KDP_B5.h * MM]);

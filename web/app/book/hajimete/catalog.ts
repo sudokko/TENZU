@@ -12,7 +12,7 @@ export const BOOK = {
   lpHref: "/book",
   cover: "/assets/book/hajimete-cover.jpg",
   /** The page of the book that prints the receiving code (the owner's benefit page). */
-  codePage: 8,
+  codePage: 6,
   edition: "1.0",
   updatedAt: "2026-10-22",
   href: "/book/hajimete",

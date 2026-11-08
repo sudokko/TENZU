@@ -13,7 +13,7 @@ import { KDP_B5, pairGeom, CELL_PAD } from "../app/products/print";
 import { toRenderProblems, resultEdgesOf } from "../app/products/problems/render";
 import { paintProblemPdf, paintGridPdf, paintGuideGridPdf } from "../app/products/problems/pdf-render";
 import { BOOK, SERIES, TASK_COPY, TASK_AIM, GUIDE_COPY, LEVEL_COPY, FONT_FILES, type SeriesSlot } from "./kdp/book";
-import { PAGE_COPY, SHARED_COPY, STAGE_COPY, STAGE_COPY_UTSUSU, DESIGN_COPY, PRINT_OPTIONS, type Box } from "./kdp/series-pages";
+import { PAGE_COPY, SHARED_COPY, STAGE_COPY, STAGE_COPY_UTSUSU, DOOR_COPY, DESIGN_COPY, PRINT_OPTIONS, type Box } from "./kdp/series-pages";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const argOf = (name: string) => { const i = process.argv.indexOf(name); return i < 0 ? undefined : process.argv[i + 1]; };
@@ -84,6 +84,9 @@ const leadProblems = (vi: number) => !SB.introProblems || vi === 0 || !introStar
 type PageKind = { kind: string; ref?: string };
 const pages: PageKind[] = [];
 const at = (kind: string, ref?: string) => { pages.push({ kind, ref }); return pages.length; };
+/** A4 book: the levels that get their own explanation page (a right-hand page like the book's first one, its back white)
+ * in front of the volume's first problems. The white page before it replaces the door. 2 pages each. */
+const LEVEL_INTRO = new Set<string>(); // 2026-11-07: ["fill-lv2-vol1", "fill-lv3-vol1"] を試して 110 ページにしたが、106 ページ版を採用（空のまま）
 const introPage = new Map<string, number>();
 const extraPage = new Map<string, number>();
 const answerVolumes = volumes.map((v, vi) => ({ v, vi })).filter(({ v }) => !SB.omitAnswerTasks.includes(v.set.task));
@@ -101,6 +104,11 @@ for (const slot of SB.slots) {
       if (SB.a4BlankBacks) at("blank");
       return cur;
     };
+    if (SB.a4BlankBacks && LEVEL_INTRO.has(v.sku)) {
+      if ((pages.length + 1) % 2 === 0) at("blank");
+      at("intro", v.sku);
+      at("blank");
+    }
     if (introStart(vi)) introPage.set(introKey(vi), lead ? open("explanations") : at("explanations", v.sku));
     v.set.problems.forEach((p, i) => {
       const pn = i < lead ? cur : (i - lead) % slot.perPage === 0 ? open("problems") : cur;
@@ -251,7 +259,7 @@ function blankPages() {
   while (pages[doc.getPageCount()]?.kind === "blank") {
     const { page, pn } = newPage("");
     const next = pages[pn], vi = next?.kind === "explanations" ? volumes.findIndex((v) => v.sku === next.ref) : -1;
-    if (vi > 0) { doorPage(page, vi); continue; }
+    if (vi > 0 && !LEVEL_INTRO.has(volumes[vi].sku)) { doorPage(page, vi); continue; }
     const s ="うらうつりを ふせぐため、このページは 白紙です";
     text(page, s, (KDP_B5.w - widthMm(s, 7.5, "body")) / 2, 238, 7.5, "body", grayscale(0.5));
   }
@@ -297,19 +305,33 @@ const DOOR_X = 76, DOOR_W = 88;
 /** A4 experiment (2026-11-02, owner chose this over a heading line or thumb tabs): the white page facing a volume's first
  * page announces it, with what is new and the parent note, so that first page keeps the same boards as every other. */
 function doorPage(page: PDFPage, vi: number) {
-  const c = stageCopyOf(vi), zx = DOOR_X, zw = DOOR_W;
-  text(page, "つぎの ページから", zx, 62, 11, "heading", grayscale(0.45));
-  text(page, volumeName(vi), zx, 71, 24, "heading");
-  text(page, levelName(vi), zx, 84, 14, "heading");
-  line(page, zx, 95, zx + zw, 95);
-  text(page, "あたらしく でてくるもの", zx, 100, 8.5, "heading", grayscale(0.45));
-  const freshEnd = paragraph(page, c.fresh, zx, 106, zw, 13, 6.5, "heading");
-  const ay = freshEnd + 6, ax = zx + zw;
+  const zx = DOOR_X, zw = DOOR_W;
+  // 1ページ目の向かいの白いページ：レベルが上がるときは「次からレベルN」＋何が増えるか＋まず「たす」から、
+  // 同じレベルで模写に移るときは「ここから うつす」。どちらも子ども向けの説明のあと、おうちの方へワンポイント。
+  const levelUp = pairKey(vi) !== pairKey(vi - 1);
+  const c = (levelUp ? DOOR_COPY.up : DOOR_COPY.swap)[pairKey(vi)];
+  if (!c) throw new Error(`No door copy for ${pairKey(vi)} (${levelUp ? "up" : "swap"})`);
+  text(page, "つぎの ページから", zx, 52, 11, "heading", grayscale(0.45));
+  if (levelUp) {
+    const lv = `レベル${fw(volumes[vi].vol.lv)}${volSuffix(volumes[vi].vol.lv, volumes[vi].vol.volNo)}`;
+    text(page, `${lv}  だよ！`, zx, 61, 24, "heading");
+    text(page, `${volumeName(vi)}　${fw(volumes[vi].grid)}`, zx, 74, 14, "heading");
+  } else {
+    text(page, volumeName(vi), zx, 61, 24, "heading");
+    text(page, levelName(vi), zx, 74, 14, "heading");
+  }
+  line(page, zx, 86, zx + zw, 86);
+  let y = 94;
+  for (const k of c.kid) {
+    const more = k.endsWith("~");   // 「~」で終わる行は、次の行へ続く（行の途中で折り返さないための手動の改行）
+    y = paragraph(page, more ? k.slice(0, -1) : k, zx, y, zw, 13, 7.2, "heading") + (more ? 0.3 : 2.5);
+  }
+  const ay = y + 3, ax = zx + zw;
   line(page, ax - 16, ay, ax, ay); line(page, ax - 3, ay - 2.5, ax, ay); line(page, ax - 3, ay + 2.5, ax, ay);
-  const parentY = ay + 12;
-  fillRect(page, zx, parentY, 31, 8, grayscale(0.18));
-  text(page, "おうちの方へ", zx + 3.5, parentY + 1.5, 10, "bold", grayscale(1));
-  const end = paragraph(page, c.why, zx, parentY + 12, zw, 9.5, 5.4);
+  const parentY = ay + 12, label = "おうちの方へ  ワンポイント";
+  fillRect(page, zx, parentY, widthMm(label, 10, "bold") + 7, 8, grayscale(0.18));
+  text(page, label, zx + 3.5, parentY + 1.5, 10, "bold", grayscale(1));
+  const end = paragraph(page, c.parent, zx, parentY + 12, zw, 9.5, 5.4);
   if (end > BOTTOM) throw new Error(`Door page overflows: ${pairKey(vi)} ${volumes[vi].set.task}: ${end.toFixed(1)} mm`);
 }
 /** A volume's first page in the A4 experiment: no band, the same rows as every problem page; the door faces it. */
@@ -425,16 +447,16 @@ function designFrame(label: string) {
 }
 /** Book 1: an explanation before every stage, saying what is new and why the stage changes here.
  * With an owner design, the page keeps this layout and takes the design's header and footer. */
-function stageIntroduction(vi: number) {
+function stageIntroduction(vi: number, asIntro = false) {
   const v = volumes[vi], perVolume = SB.stageIntro === "volume";
   // Per-volume pages: the たす page explains the level, the うつす page what changes when the whole shape is drawn.
   const c = perVolume && v.set.task === "copy" ? STAGE_COPY_UTSUSU[pairKey(vi)] : STAGE_COPY[pairKey(vi)];
   if (!c) throw new Error(`Level copy missing: ${v.set.task} ${pairKey(vi)}`);
-  if (SB.a4BlankBacks && leadProblems(vi)) return a4Opener(vi);
+  if (SB.a4BlankBacks && leadProblems(vi) && !asIntro) return a4Opener(vi);
   const framed = SB.design ? designFrame(`あたらしくでてくるもの / ${short(v.set.task)} ${lvLabel(vi)}`) : null;
   const { page, pn, x } = framed ?? newPage("");
   const W = framed?.w ?? 152, dy = framed ? 3 : 0; // the design header sits where the band used to start
-  expect("explanations", pn);
+  expect(asIntro ? "intro" : "explanations", pn);
   fillRect(page, x, 17 + dy, W, 19, grayscale(0.14));
   const level = `レベル${fw(v.vol.lv)}`, vol = volSuffix(v.vol.lv, v.vol.volNo).trim();
   if (perVolume) {
@@ -447,14 +469,26 @@ function stageIntroduction(vi: number) {
     text(page, `Vol.${v.vol.volNo}`, x + 46, 24 + dy, 12, "mono", grayscale(1));
     text(page, fw(v.grid), x + W - 4 - widthMm(fw(v.grid), 13), 22.6 + dy, 13, "heading", grayscale(1));
   }
-  text(page, "あたらしく でてくるもの", x, 41 + dy, 9, "heading", grayscale(0.4));
-  text(page, c.fresh, x, 47.5 + dy, 15, "heading");
+  // 上がったレベルの説明ページ：帯のすぐ下に、子ども向けの「ここでは〜」を置き、そのぶん下の要素を下げる。
+  let off = 0;
+  if (asIntro) {
+    const kid = DOOR_COPY.up[pairKey(vi)]?.kid;
+    if (!kid) throw new Error(`No level-up copy for ${pairKey(vi)}`);
+    let ky = 45 + dy;
+    for (const k of kid) {
+      const more = k.endsWith("~");
+      ky = paragraph(page, more ? k.slice(0, -1) : k, x, ky, W, 13, 7.2, "heading") + (more ? 0.3 : 2);
+    }
+    off = ky - (38 + dy);
+  }
+  text(page, "あたらしく でてくるもの", x, 41 + dy + off, 9, "heading", grayscale(0.4));
+  text(page, c.fresh, x, 47.5 + dy + off, 15, "heading");
   const order = volumes.map((item, i) => ({ item, i })).filter(({ i }) => perVolume ? i === vi : pairKey(i) === pairKey(vi)).map(({ item, i }) => {
     const qs = questions.filter((q) => q.volumeIndex === i);
     return perVolume ? `${qs[0].number}〜${qs[11].number}ばん（${qs[0].page}〜${qs[11].page}ページ）` : `${short(item.set.task)} ${qs[0].page}〜${qs[11].page}ページ`;
   }).join("  →  ");
-  text(page, order, x + W - widthMm(order, 9, "heading"), 49 + dy, 9, "heading");
-  const lead = leadProblems(vi);
+  text(page, order, x + W - widthMm(order, 9, "heading"), 49 + dy + off, 9, "heading");
+  const lead = asIntro ? 0 : leadProblems(vi);
   if (lead) {
     // After the book's first explanation, the page goes straight to the volume's first problems.
     text(page, TASK_COPY[v.set.task].instruction, x, 61 + dy, 11, "heading");
@@ -463,16 +497,23 @@ function stageIntroduction(vi: number) {
     if (v.planned && framed) text(page, "準備中：仮の問題", framed.right - widthMm("準備中：仮の問題", 7.5, "body"), 5, 7.5, "body", grayscale(0.5));
     return;
   }
-  const diagramEnd = workedExample(page, vi, x, 61 + dy, W, perVolume ? 47 : 53);
+  const diagramEnd = workedExample(page, vi, x, 61 + dy + off, W, perVolume ? 47 : 53);
   const ruleY = diagramEnd + 4, parentY = ruleY + 6;
   rule(page, x, ruleY, W);
   fillRect(page, x, parentY, 31, 8, grayscale(0.18));
   text(page, "おうちの方へ", x + 3.5, parentY + 1.5, 10, "bold", grayscale(1));
   const whyEnd = paragraph(page, c.why, x, parentY + 12, W, 9.5, 5.4);
-  const boxY = whyEnd + 5, lines = wrap(c.stuck, f.body, 9, W - 12).length, boxH = 12 + lines * 5;
+  // この本（1冊目）の最初のレベル解説では、「手が止まったら」の代わりに、裏写りについての利用上の注意を載せる。
+  if (asIntro) {
+    if (whyEnd > BOTTOM) throw new Error(`Level intro overflows: ${pairKey(vi)}: ${whyEnd.toFixed(1)} mm`);
+    return;
+  }
+  const noteTitle = which === "first" ? "利用上の注意" : "手が止まったら";
+  const noteBody = which === "first" ? "次のページの線や言葉が透けて見えることがあります。お子様が気にされる場合は、下敷きをひいてご利用ください。" : c.stuck;
+  const boxY = whyEnd + 5, lines = wrap(noteBody, f.body, 9, W - 12).length, boxH = 12 + lines * 5;
   framedRect(page, x, boxY, W, boxH, grayscale(0.92));
-  text(page, "手が止まったら", x + 7, boxY + 3, 10, "bold");
-  paragraph(page, c.stuck, x + 7, boxY + 10, W - 12, 9, 5);
+  text(page, noteTitle, x + 7, boxY + 3, 10, "bold");
+  paragraph(page, noteBody, x + 7, boxY + 10, W - 12, 9, 5);
   if (perVolume) {
     // The aim of the task closes the page, as on the 216-problem book's task pages.
     const aimY = boxY + boxH + 7;
@@ -686,6 +727,8 @@ function benefitPage() {
 const COPY = PAGE_COPY[which];
 /** Resolves {page-id} references in copy to the planned page numbers: extra pages by id, fixed pages by kind. */
 const fillRefs = (s: string) => s.replace(/\{([a-z-]+)\}/g, (_, id: string) => {
+  // れいだいと解説のあるページ：本の最初の解説に、上がったレベルの説明ページ（intro）が加わる。
+  if (id === "explanations") return [pageOf("explanations"), ...pages.map((p, i) => p.kind === "intro" ? i + 1 : 0).filter(Boolean)].join("・");
   const pn = extraPage.get(id) ?? pageOf(id);
   if (!pn) throw new Error(`Unknown page reference: ${id}`);
   return String(pn);
@@ -2008,7 +2051,7 @@ function afterwordColophon() {
   // Well under the designed page's 10.5 pt: the owner's afterword (2026-10-28 version) is about twice as long as the one designed for.
   // The two turning points (the realisation, the closing wish) are set apart in the heading face behind a short bar, so the page
   // reads as story → realisation → what the shop did → wish.
-  const last = COPY.afterword.length - 1;
+  const last = -1; // 結びの願いの段は本文から外したので、引用の扱いは3番目（気づき）だけ
   COPY.afterword.forEach((p, i) => {
     if (i !== 3 && i !== last) {
       // 9 pt, eased by up to 0.3 pt when that keeps any of its lines from being a stray one or two characters.
@@ -2022,7 +2065,7 @@ function afterwordColophon() {
     fillRect(page, x, y - 0.2, 0.9, (lines - 1) * lead + size * 0.3528 + 0.8, grayscale(0.14));
     y = paragraph(page, p, x + indent, y, w - indent, size, lead, "heading") + 3.2;
   });
-  text(page, c.sign, x + w - widthMm(c.sign, 10, "bold"), y - 1.6, 10, "bold");
+  text(page, c.sign, x + w - widthMm(c.sign, 10, "bold"), y + 1, 10, "bold");
   const top = 189; // the colophon block is 46 mm tall and ends at the frame's foot
   if (y + 7 > top) throw new Error(`Afterword runs into the colophon: ${(y + 7).toFixed(1)} mm (limit ${top})`);
   line(page, x, top, x + w, top, grayscale(0.14));
@@ -2049,7 +2092,7 @@ function colophon() {
   text(page, SB.subtitle, x, 199, 8.5);
   text(page, "著者・編集・発行 TENZU / 初版 / 2026年", x, 210, 7.5);
   text(page, "© 2026 TENZU. All rights reserved. お問い合わせ：tenzu.jp/contact", x, 218, 7.5);
-  paragraph(page, "本書と特典PDFの転載・再配布・販売を禁じます。特典PDFは購入者の家庭内で、きょうだいと何度でも印刷して使えます。教室等での利用はお問い合わせください。", x, 226, 132, 7.5, 3.8);
+  paragraph(page, "本書と特典PDFの転載・再配布・販売を禁じます。特典PDFは購入者の家庭内で、何度でも印刷して使えます。教室等での利用はお問い合わせください。", x, 226, 132, 7.5, 3.8);
 }
 
 async function main() {
@@ -2093,6 +2136,7 @@ async function main() {
     blankPages();
     if (slot.kind === "stage") {
       const task = volumes[vi].set.task;
+      if (SB.a4BlankBacks && LEVEL_INTRO.has(volumes[vi].sku)) { stageIntroduction(vi, true); blankPages(); }
       if (SB.stageIntro) { if (introStart(vi)) stageIntroduction(vi); }
       else if (!drawn.has(task)) { taskIntroduction(vi); drawn.add(task); }
       for (let pi = leadProblems(vi); pi < 12; pi += slot.perPage) { blankPages(); problemPage(vi, pi); }

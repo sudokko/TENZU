@@ -11,6 +11,8 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 SRC, FRONT_SRC, OUT = sys.argv[1:4]
+import os
+LOGO = os.environ.get('LOGO', '')   # ''＝今の文字、'A'＝横ロゴ、'B'＝縦ロゴ（案の書き出し用）
 ROOT = Path(__file__).resolve().parents[4]
 FONTS = ROOT / 'web/scripts/kdp/fonts'
 K, DPI = 3, 300
@@ -39,8 +41,45 @@ def clean(img, boxes):
         if mode == 'fill':
             reg[:] = bg
             continue
-        m = (reg.sum(-1) < 330) if mode == 'dark' else (np.abs(reg - bg).sum(-1) > 20)
+        m = ((reg.max(-1) - reg.min(-1) < 45) & (reg.sum(-1) < 660)) if mode == 'darkv' else (reg.sum(-1) < 330) if mode == 'dark' else (np.abs(reg - bg).sum(-1) > 20)
         m = np.asarray(Image.fromarray((m * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(13))) > 0
+        if mode == 'edge':
+            # 丸の縁をまたぐ文字：箱の上下の行から縁の点を拾って円をあてはめ、箱の中の縁を円で引き直す（折れ線にしない）
+            def edge_x(yy):
+                g = a[yy, :X1, 1]
+                return int(np.argmax(g > 150)) if (g > 150).any() else None
+            pts = [(edge_x(yy), yy) for yy in list(range(Y0 - 30 * K, Y0, 3)) + list(range(Y1, min(Y1 + 60 * K, a.shape[0]), 3))]
+            pts = np.array([(x, y) for x, y in pts if x is not None], dtype=float)
+            A = np.c_[2 * pts[:, 0], 2 * pts[:, 1], np.ones(len(pts))]
+            cx, cy, c = np.linalg.lstsq(A, (pts ** 2).sum(1), rcond=None)[0]
+            r = np.sqrt(c + cx ** 2 + cy ** 2)
+            patch = a[Y0 - 12 * K:Y0, 10 * K:max(int(edge_x(Y0 - 12 * K)) - 6, 10 * K + 4)].reshape(-1, 3)
+            coral = np.median(patch, axis=0)
+            noise_sd = 3.0
+            rng = np.random.default_rng(3)
+            tex = np.asarray(Image.fromarray(((rng.standard_normal(reg.shape[:2]) * 40 + 128).clip(0, 255)).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2))).astype(np.float32)
+            tex = (tex - tex.mean()) / (tex.std() + 1e-6)
+            cream = np.median(a[Y0, X1 - 20:X1], axis=0)
+            xs = np.arange(reg.shape[1])
+            for rr in range(reg.shape[0]):
+                yy = Y0 + rr
+                e = (cx + np.sqrt(max(r ** 2 - (yy - cy) ** 2, 0)) - X0)
+                t = np.clip((xs - e) / 3 + 0.5, 0, 1)[:, None]
+                reg[rr] = (coral + tex[rr][:, None] * noise_sd) * (1 - t) + cream * t
+            a[Y0:Y1, X0:X1] = reg
+            continue
+        if mode == 'darkv':
+            # 丸の縁にかかる文字は、同じ列の上下の消していない画素から埋める（横に埋めると縁がにじむ）
+            for c in range(reg.shape[1]):
+                col, mk = reg[:, c], m[:, c]
+                if not mk.any():
+                    continue
+                keep = np.nonzero(~mk)[0]
+                idx = np.arange(len(col))
+                for ch in range(3):
+                    col[mk, ch] = np.interp(idx[mk], keep, col[keep, ch])
+            a[Y0:Y1, X0:X1] = reg
+            continue
         # 消した画素は、同じ行の左右の消していない画素から線形に埋める（地のグラデーションや丸の縁を残す）
         for r in range(reg.shape[0]):
             row, mk = reg[r], m[r]
@@ -56,20 +95,18 @@ def clean(img, boxes):
         a[Y0:Y1, X0:X1] = reg
     return Image.fromarray(a.clip(0, 255).astype(np.uint8))
 
-FRONT_BOXES = [(270, 44, 400, 74, 'k'), (85, 108, 604, 160, 'k'), (64, 176, 664, 306, 'k'), (4, 304, 712, 458, 'k'),
+FRONT_BOXES = [((110, 44, 565, 74, 'fill') if LOGO else (270, 44, 400, 74, 'k')), (85, 108, 604, 160, 'k'), (64, 176, 664, 306, 'k'), (4, 304, 712, 458, 'k'),
                # The original circle spans view x 550–705, y 460–610: erase a little wider, filling from the background around it
-               (42, 488, 524, 564, 'k'), (540, 448, 724, 622, 'k'), (172, 844, 692, 928, 'k')]
+               (42, 488, 524, 564, 'k'), (540, 448, 724, 622, 'k'), (178, 850, 672, 922, 'k')]
 PILLS = [(64, 293, 143, 318), (170, 293, 250, 318), (279, 293, 355, 318), (389, 293, 468, 318), (492, 293, 576, 318), (602, 293, 688, 318)]
-BACK_BOXES = [(64, 44, 674, 158, 'k'), (64, 154, 714, 216, 'k'), (54, 230, 704, 292, 'k')] + \
-    [(x0 - 6, 288, x1 + 6, 323, 'fill') for (x0, _, x1, _) in PILLS] + \
-    [(57, 322, 152, 392, 'k'), (160, 322, 259, 392, 'k'), (268, 322, 367, 392, 'k'), (378, 322, 483, 392, 'k'),
-     (488, 322, 587, 392, 'k'), (596, 322, 697, 392, 'k'), (50, 484, 155, 526, 'fill'), (588, 484, 700, 526, 'fill'),
+BACK_BOXES = [(64, 44, 674, 158, 'k'), (64, 154, 714, 216, 'k'), (54, 230, 704, 283, 'k')] + \
+    [(50, 484, 155, 526, 'fill'), (588, 484, 700, 526, 'fill'),
      (132, 552, 632, 598, 'k'), (132, 598, 704, 650, 'k'),
      (78, 664, 222, 696, 'k'), (298, 664, 470, 696, 'k'), (522, 664, 700, 696, 'k'),
      (52, 786, 75, 806, 'k'), (100, 781, 122, 801, 'k'), (157, 776, 178, 796, 'k'), (204, 795, 250, 814, 'k'),
      (292, 790, 324, 812, 'k'), (368, 790, 401, 812, 'k'), (444, 790, 476, 812, 'k'),
      (286, 814, 330, 830, 'k'), (362, 814, 408, 830, 'k'), (436, 814, 486, 830, 'k'),
-     (518, 712, 568, 735, 'k'), (518, 775, 568, 798, 'k'), (514, 826, 704, 847, 'k'), (44, 970, 218, 996, 'dark')]
+     (518, 712, 568, 735, 'k'), (518, 775, 568, 798, 'k'), (514, 826, 704, 847, 'k'), (44, 962, 232, 1004, 'edge')]
 
 hi = Image.open(SRC).convert('RGB')
 assert hi.size == (1536 * K, 1024 * K), hi.size
@@ -85,6 +122,15 @@ RED2 = sample((82, 670, 216, 690), lambda r: (r[:, 0] > 180) & (r[:, 1] < 120))
 GRAY2 = sample((286, 817, 330, 828), lambda r: r.sum(1) < 600)
 ImageDraw.Draw(hi).rectangle([v * K for v in BARCODE_BOX], fill=(254, 253, 249))
 back_art = clean(hi.crop((BACK_X[0] * K, 0, BACK_X[1] * K, hi.height)), BACK_BOXES)
+# レベルのカードの帯（ピンクの地・白いカードの上半分）は、きれいに描き直す：絵からは地の色だけを敷き、カードは PDF に角丸の白で重ねる
+CARDS_X = [(47.7, 148.3), (154.7, 256.3), (263, 366.3), (372.7, 477.3), (484, 588.7), (595.3, 700.7)]
+BAND_Y0, BAND_Y1 = 284, 384
+_sa = np.asarray(Image.open(SRC).convert('RGB')).astype(int)
+PINK = tuple(np.median(_sa[290 * K:380 * K, 150 * K:153 * K].reshape(-1, 3), axis=0))
+CARD_WHITE = tuple(np.median(_sa[386 * K:392 * K, 50 * K:53 * K].reshape(-1, 3), axis=0) / 255)
+_b = np.asarray(back_art).copy()
+_b[BAND_Y0 * K:BAND_Y1 * K, 38 * K:710 * K] = np.array(PINK, dtype=np.uint8)
+back_art = Image.fromarray(_b)
 front_art = clean(Image.open(FRONT_SRC).convert('RGB'), FRONT_BOXES)
 
 # ---- 2. 絵を塗り足しつきで並べる（cover-plan1-kdp.py と同じ）
@@ -143,12 +189,13 @@ UF, UFy = (TRIM_W + BLEED) / 100, TRIM_H / 138.75
 fx = lambda c: FX0 + c * UF
 fy = lambda c: BLEED + c * UFy
 fs = lambda c: c * UF
-centered([{'t': 'T E N Z U', 's': fs(3), 'c': INK, 'f': 'plexb', 'tr': 0.1}], fx(45.4), top=fy(6.4))
+if not LOGO:
+    centered([{'t': 'T E N Z U', 's': fs(3), 'c': INK, 'f': 'plexb', 'tr': 0.1}], fx(45.4), top=fy(6.4))
 centered([{'t': '運筆ができるようになったらこの一冊', 's': fs(3.85), 'c': INK}], fx(45.8), top=fy(15.7))
 draw([{'t': 'はじめての', 's': fs(15.2), 'c': INK}], fx(10.4), top=fy(25.2))
 draw([{'t': '点図形(点描写)', 's': fs(13.4), 'c': RED, 'sy': 1.2, 'tr': -0.02, 'trch': {'(': -0.12, ')': -0.12}}], fx(1.6), top=fy(42.6))
 draw([{'t': 'たす', 's': fs(6.4), 'c': INK}, {'t': '→', 's': fs(6.4), 'c': RED}, {'t': 'うつす', 's': fs(6.4), 'c': INK},
-      {'t': '144', 's': fs(8.6), 'c': RED}, {'t': '問', 's': fs(6.4), 'c': INK}], fx(6.4), top=fy(67.4), gap=fs(6.4) * 0.12)
+      {'t': '144', 's': fs(8.6), 'c': RED}, {'t': '問', 's': fs(6.4), 'c': INK}], fx(6.4), top=fy(67.4) - 2.5, gap=fs(6.4) * 0.12)   # 帯（view y 479.5〜567.5）の縦中央にそろえる
 # Same center and size as the original circle (view x 627.5, y 535, radius 77.5 → cqw = view / 7.38)
 ccx, ccy, cr = fx(627.5 / 7.38), fy(535 / 7.38), fs(77.5 / 7.38)
 page.draw_circle(fitz.Point(ccx * MM, ccy * MM), cr * MM, color=None, fill=CORAL)
@@ -175,6 +222,10 @@ for i, l in enumerate(['点図形がはじめてのお子さまと、はじめ�
     draw([{'t': l, 's': bs(2.7), 'c': BODY, 'f': 'medium'}], bx(10.2), top=by(21.3 + i * 2.7 * 1.36) + (1.36 - 1) / 2 * bs(2.7))
 draw([{'t': '3×3', 's': bs(5.4), 'c': RED}, {'t': 'から', 's': bs(3.6), 'c': INK}, {'t': '5×5', 's': bs(5.4), 'c': RED},
       {'t': 'まで。', 's': bs(3.6), 'c': INK}, {'t': 'むずかしさを、ひとつずつ。', 's': bs(3.75), 'c': RED}], bx(8.4), top=by(32.3), gap=bs(0.2))
+for (cx0, cx1) in CARDS_X:
+    # 上の角だけ丸く：角丸の箱を上に、まっすぐの箱を下に重ねる（下は絵のカードの白につなぐ）
+    page.draw_rect(fitz.Rect(bx(v(cx0)) * MM, by(v(BAND_Y0)) * MM, bx(v(cx1)) * MM, by(v(BAND_Y0 + 40)) * MM), color=None, fill=CARD_WHITE, radius=0.12)
+    page.draw_rect(fitz.Rect(bx(v(cx0)) * MM, by(v(BAND_Y0 + 20)) * MM, bx(v(cx1)) * MM, by(v(BAND_Y1 + 0.5)) * MM), color=None, fill=CARD_WHITE)
 PILL_FILL = ['#f45a4d', '#fdd25d', '#a2f1c6', '#8addfa', '#babafd', '#c3c0fd']
 for i, (x0, y0, x1, y1) in enumerate(PILLS):
     pill(bx(v(x0)), by(v(y0)), bs(v(x1 - x0)), bs(v(y1 - y0)), hexc(PILL_FILL[i]))
@@ -183,11 +234,13 @@ for i, (x0, y0, x1, y1) in enumerate(PILLS):
 CARDS = [(104.5, '3×3', INK, ['たて・よこ']), (209.5, '3×3', INK, ['ななめ']), (317.5, '4×4', BLUE, ['線が交わる']),
          (430.5, '4×4', BLUE, ['45°でない', 'ななめ']), (537.5, '5×5', BLUE, ['盤面が5×5']), (646.5, '5×5', BLUE, ['45°でない', 'ななめ'])]
 for cxv, g, gc, lines in CARDS:
-    t = by(44.6)
-    centered([{'t': g, 's': bs(2.45), 'c': gc}], bx(v(cxv)), top=t + (1.25 - 1) / 2 * bs(2.45))
+    t = by(43.8)
+    centered([{'t': g, 's': bs(2.3), 'c': gc}], bx(v(cxv)), top=t + (1.25 - 1) / 2 * bs(2.3))
     for li, l in enumerate(lines):
-        lt = t + bs(2.45) * 1.25 + bs(0.5) + li * bs(2.05) * 1.25
-        centered([{'t': l, 's': bs(2.05), 'c': INK}], bx(v(cxv)), top=lt + (1.25 - 1) / 2 * bs(2.05))
+        ls = 1.8 if len(lines) > 1 else 2.05     # 2行のカードは小さくして、下の図との間をあける
+        lh = 1.15 if len(lines) > 1 else 1.25
+        lt = t + bs(2.3) * 1.25 + bs(0.6) + li * bs(ls) * lh
+        centered([{'t': l, 's': bs(ls), 'c': INK}], bx(v(cxv)), top=lt + (lh - 1) / 2 * bs(ls))
 for (x0, y0, x1, y1), label, fill in [((58, 488, 153, 520), 'やさしい', hexc('#f56255')), ((592, 488, 695, 520), 'むずかしい', hexc('#6396fa'))]:
     pill(bx(v(x0)), by(v(y0)), bs(v(x1 - x0)), bs(v(y1 - y0)), fill)
     centered([{'t': label, 's': bs(2.6), 'c': WHITE}], bx(v((x0 + x1) / 2)), cy=by(v((y0 + y1) / 2)))
@@ -203,14 +256,36 @@ for t, s, top in [('本と同じ144問を、ご家庭で何度でも印刷でき
 for cxv, t, c in [(149, '選べる用紙サイズ', RED2), (384, '1枚の問題数を選べる', BLUE2), (611, '点なしでも印刷できる', GREEN)]:
     centered([{'t': t, 's': bs(v(17.5)), 'c': c}], bx(v(cxv)), cy=by(v(680)))
 for cxv, cyv, t in [(63, 796, 'A4'), (111, 791, 'B4'), (167.5, 786, 'A3'), (227, 805.5, 'A4よこ')]:
-    centered([{'t': t, 's': bs(v(16)), 'c': INK}], bx(v(cxv)), cy=by(v(cyv)))
+    centered([{'t': t, 's': bs(v(12.5)), 'c': INK}], bx(v(cxv)), cy=by(v(cyv)))
 for cxv, t, s in [(308, '1問', '大きく'), (385, '3問', 'ふつう'), (460, '6問', 'たくさん')]:
     centered([{'t': t, 's': bs(v(18)), 'c': INK}], bx(v(cxv)), cy=by(v(802)))
     centered([{'t': s, 's': bs(v(14)), 'c': GRAY2, 'f': 'medium'}], bx(v(cxv)), cy=by(v(822)))
 for cyv, t in [(723.5, '点あり'), (786, '点なし')]:
     centered([{'t': t, 's': bs(v(15)), 'c': GREEN}], bx(v(543)), cy=by(v(cyv)))
-centered([{'t': '形だけを見て、白紙に写す練習に。', 's': bs(v(12.5)), 'c': INK}], bx(v(609)), cy=by(v(836.5)))
-draw([{'t': 'TENZU / tenzu.jp', 's': bs(v(16.5)), 'c': INK, 'f': 'plex', 'tr': 0.08}], bx(v(50)), cy=by(v(983.5)))
+centered([{'t': '形だけを見て、白紙に写す練習に。', 's': bs(v(11.5)), 'c': INK}], bx(v(609)), cy=by(v(836.5)))
+if not LOGO:
+    draw([{'t': 'TENZU / tenzu.jp', 's': bs(v(16.5)), 'c': INK, 'f': 'plex', 'tr': 0.08}], bx(v(50)), cy=by(v(983.5)))
+
+# ---- 3b. ロゴ案（LOGO=A 横ロゴ／B 縦ロゴ）：表の上の TENZU と、裏の左下の TENZU / tenzu.jp をロゴに置き換える
+def logo(path, cx, top, h):
+    # 白地を焼き込んだ原本でも使えるよう、明るさをそのまま透明度にする（鉛筆の粒はそのまま・色は墨1色）
+    g = np.asarray(Image.open(ROOT / 'logodesign' / path).convert('RGBA').convert('L')).astype(np.float32)
+    alpha = np.clip((235 - g) / (235 - 60), 0, 1)
+    rgba = np.zeros(g.shape + (4,), np.uint8); rgba[..., :3] = (38, 38, 40); rgba[..., 3] = (alpha * 255).astype(np.uint8)
+    im = Image.fromarray(rgba, 'RGBA')
+    w = h * im.width / im.height
+    im = im.resize((round(im.width * 4), round(im.height * 4)), Image.LANCZOS)
+    buf = io.BytesIO(); im.save(buf, format='PNG')
+    page.insert_image(fitz.Rect((cx - w / 2) * MM, top * MM, (cx + w / 2) * MM, (top + h) * MM), stream=buf.getvalue(), keep_proportion=False)
+    return w
+if LOGO == 'A':
+    logo('HORIZONTALLOOKUP.png', fx(45.4), 13.5, 17.0)                 # 表：横ロゴ（幅 約51mm）
+    w = logo('HORIZONTALLOOKUP.png', 46 + 20, 276.5, 13.0)             # 裏：横ロゴ（幅 約39mm）＋ URL
+    draw([{'t': 'tenzu.jp', 's': 3.6, 'c': INK, 'f': 'plex', 'tr': 0.08}], 46 + 40 + 5, cy=283)
+if LOGO == 'B':
+    logo('VerticalLockup.png', fx(45.4), 11.5, 21.0)                   # 表：縦ロゴ（高さ21mm）
+    w = logo('VerticalLockup.png', 46 + 11, 273.5, 19.0)               # 裏：縦ロゴ（高さ19mm）＋ URL
+    draw([{'t': 'tenzu.jp', 's': 3.6, 'c': INK, 'f': 'plex', 'tr': 0.08}], 46 + 24, cy=287)
 
 # ---- 4. 背：白地・上下の赤い帯・TENZU・短い赤線・題名（K 1色・太さ700。かっこも同じ大きさ、縦書きの向き）
 y_mm = lambda src_y: BLEED + src_y / 1024 * TRIM_H

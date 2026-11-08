@@ -141,8 +141,8 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
     // The afterword and colophon (96) moved to the exporter when the owner's afterword grew past the page (2026-10-25).
     // A4 experiment: じぶんでつくろう (93–95) is cut, so only the first two designed pages are kept; the route and lineup
     // pages each became a spread, so they moved from 6 and 33 to 8 and 35 (design-pages.py move / retext).
-    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages.pdf", pages: [8, 35],
-      qr: [{ page: 8, url: "https://tenzu.jp/book/hajimete", box: [135.06, 210.24, 160.5, 235.67] }] },
+    design: { file: "docs/drafts/kdp/series-1-hajimete/design/explain-pages.pdf", pages: [6, 35],
+      qr: [{ page: 6, url: "https://tenzu.jp/book/hajimete", box: [135.06, 210.24, 160.5, 235.67] }] },
     slots: [
       // Page 1 is what a buyer sees first: what a dot figure is, set against the dot-to-dot they already know.
       // The contents and the level list are one spread (2 and 3); the route (drawn by the exporter) and the shop's page are the next (4 and 5).
@@ -152,9 +152,9 @@ export const SERIES: Record<"first" | "second", SeriesBook> = {
       // A4 experiment: the route (4–5) and the shop and the book's range (6–7) are spreads.
       { kind: "route" },
       extra("route-order", "本での並べ方", "レベルの表（盤面と線の向き）と、同じレベルの中の難易度のグラフ"),
-      extra("lineup", "この本の問題は、TENZUから", "TENZUの4つの特長を絵のカードで・この本の範囲を棚で・もっと難しい問題へのQR", 2),
       { kind: "benefit" },
       extra("print-options", "印刷でできること", "並び・背景の点・用紙・名前欄を図で（print-settings-guide）"),
+      extra("lineup", "この本の問題は、TENZUから", "TENZUの4つの特長を絵のカードで・この本の範囲を棚で・もっと難しい問題へのQR", 2),
       // Each level pairs たす (draw a few lines) with うつす (draw all); each volume has its own explanation page.
       fillPlanned("fill-lv1-vol1", 1, 1, "fill-lv2-vol1", 4),
       { kind: "stage", sku: "copy-lv1-vol1", perPage: 4 },
